@@ -32,14 +32,7 @@ body{
   font-family:'DM Sans',sans-serif;
   color:#fff;
   overflow-x:hidden;
-  cursor:none;
 }
-
-/* ── cursor ── */
-#cur{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--dorado);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;}
-#cur-r{position:fixed;width:32px;height:32px;border-radius:50%;border:1px solid rgba(212,168,60,.45);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
-body:has(a:hover) #cur,body:has(button:hover) #cur{width:18px;height:18px;}
-body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:54px;height:54px;}
 
 /* ── canvas ── */
 #canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
@@ -178,7 +171,7 @@ nav{
   padding:15px 36px;border-radius:14px;
   background:var(--dorado);color:var(--verde-oscuro);
   font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.3px;
-  text-decoration:none;border:none;cursor:none;
+  text-decoration:none;border:none;
   transition:all .35s cubic-bezier(.34,1.56,.64,1);
 }
 .btn-p:hover{background:var(--dorado-claro);transform:translateY(-4px) scale(1.05);box-shadow:0 20px 48px rgba(212,168,60,.35);}
@@ -187,7 +180,7 @@ nav{
   padding:15px 32px;border-radius:14px;
   border:1px solid rgba(212,168,60,.3);background:transparent;
   color:var(--dorado-claro);font-family:'Syne',sans-serif;font-size:14px;font-weight:600;
-  text-decoration:none;cursor:none;
+  text-decoration:none;
   transition:all .3s ease;
 }
 .btn-o:hover{border-color:var(--dorado);background:rgba(212,168,60,.07);transform:translateY(-3px);}
@@ -274,7 +267,6 @@ nav{
   border-radius:18px;padding:2rem;
   position:relative;overflow:hidden;
   transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .3s,border-color .3s;
-  cursor:none;
 }
 .mod:hover{transform:translateY(-8px);background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.11);}
 .mod::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:18px 18px 0 0;}
@@ -321,17 +313,17 @@ nav{
 .step-d{font-size:15px;color:rgba(255,255,255,.55);line-height:1.8;}
 
 /* ══════════ STACK ══════════ */
-.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;}
 .stack-item{
   background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);
-  border-radius:12px;padding:1.3rem 1.4rem;
-  display:flex;align-items:center;gap:14px;
-  transition:all .25s ease;cursor:none;
+  border-radius:16px;padding:2rem 2.2rem;
+  display:flex;align-items:flex-start;gap:20px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
 }
-.stack-item:hover{background:rgba(212,168,60,.06);border-color:rgba(212,168,60,.2);transform:translateX(5px);}
-.stack-icon{font-size:22px;flex-shrink:0;}
-.stack-name{font-family:'JetBrains Mono',monospace;font-size:13.5px;color:rgba(255,255,255,.8);display:block;font-weight:500;}
-.stack-role{font-size:11.5px;color:rgba(255,255,255,.32);display:block;margin-top:2px;}
+.stack-item:hover{background:rgba(212,168,60,.05);border-color:rgba(212,168,60,.25);transform:translateY(-6px);box-shadow:0 12px 32px rgba(0,0,0,.25);}
+.stack-icon{font-size:36px;flex-shrink:0;line-height:1;}
+.stack-name{font-family:'Syne',sans-serif;font-size:1.25rem;color:rgba(255,255,255,.95);display:block;font-weight:700;}
+.stack-role{font-size:13.5px;color:rgba(255,255,255,.5);display:block;margin-top:8px;line-height:1.6;}
 
 /* ══════════ FINAL CTA ══════════ */
 .section-cta{
@@ -381,16 +373,12 @@ footer a:hover{color:var(--dorado-claro);}
 @media(max-width:700px){
   .obj-wrap{grid-template-columns:1fr;}
   .nav-links{display:none;}
-  body{cursor:auto;}
-  #cur,#cur-r{display:none;}
   .year-stamp{display:none;}
 }
 </style>
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="cur-r"></div>
 <canvas id="canvas"></canvas>
 <div class="grid-bg"></div>
 
@@ -634,18 +622,31 @@ footer a:hover{color:var(--dorado-claro);}
   <div class="container">
     <div class="r">
       <p class="sec-tag">Tecnologías</p>
-      <h2 class="sec-h">Stack <span>sugerido</span></h2>
-      <p class="sec-sub">Herramientas recomendadas para construir y mantener el portal municipal.</p>
+      <h2 class="sec-h">Stack <span>oficial</span></h2>
+      <p class="sec-sub">El portal municipal se construye utilizando exclusivamente estándares web nativos para garantizar máxima velocidad, compatibilidad y mantenimiento a largo plazo.</p>
     </div>
     <div class="stack-grid r">
-      <div class="stack-item"><span class="stack-icon">🌐</span><div><span class="stack-name">HTML / CSS / JS</span><span class="stack-role">Frontend base</span></div></div>
-      <div class="stack-item"><span class="stack-icon">⚛️</span><div><span class="stack-name">React / Next.js</span><span class="stack-role">Framework frontend</span></div></div>
-      <div class="stack-item"><span class="stack-icon">🗄️</span><div><span class="stack-name">Supabase / Firebase</span><span class="stack-role">Base de datos</span></div></div>
-      <div class="stack-item"><span class="stack-icon">🗺️</span><div><span class="stack-name">Leaflet / Maps API</span><span class="stack-role">Mapa integral</span></div></div>
-      <div class="stack-item"><span class="stack-icon">☁️</span><div><span class="stack-name">Vercel / Netlify</span><span class="stack-role">Deploy & hosting</span></div></div>
-      <div class="stack-item"><span class="stack-icon">📷</span><div><span class="stack-name">Cloudinary</span><span class="stack-role">Gestión de imágenes</span></div></div>
-      <div class="stack-item"><span class="stack-icon">🔒</span><div><span class="stack-name">NextAuth</span><span class="stack-role">Panel de administración</span></div></div>
-      <div class="stack-item"><span class="stack-icon">📊</span><div><span class="stack-name">Sanity / Notion API</span><span class="stack-role">CMS de contenido</span></div></div>
+      <div class="stack-item">
+        <span class="stack-icon">🌐</span>
+        <div>
+          <span class="stack-name">HTML5</span>
+          <span class="stack-role">Estructuración web semántica, estructurada bajo estándares modernos de SEO y accesibilidad (WCAG) para todos los ciudadanos.</span>
+        </div>
+      </div>
+      <div class="stack-item">
+        <span class="stack-icon">🎨</span>
+        <div>
+          <span class="stack-name">CSS3 Vanilla</span>
+          <span class="stack-role">Diseño estético premium y ultra responsivo. Hojas de estilo personalizadas con variables nativas de la marca y animaciones de alto rendimiento.</span>
+        </div>
+      </div>
+      <div class="stack-item">
+        <span class="stack-icon">⚡</span>
+        <div>
+          <span class="stack-name">JavaScript (ES6+)</span>
+          <span class="stack-role">Lógica de interacción nativa, comunicación asíncrona ágil (Fetch API) y efectos dinámicos sin frameworks pesados ni dependencias externas.</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -676,15 +677,6 @@ footer a:hover{color:var(--dorado-claro);}
 </footer>
 
 <script>
-/* ── cursor ── */
-const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-});
-(function animR(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animR);})();
-
 /* ── particles ── */
 (function(){
   const c=document.getElementById('canvas'),ctx=c.getContext('2d');
