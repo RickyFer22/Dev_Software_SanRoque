@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Municipal San Roque — Devs 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --verde:#134e4a;
+  --verde-oscuro:#0d3937;
+  --verde-claro:#1a6b65;
+  --dorado:#d4a83c;
+  --dorado-claro:#f5d98a;
+  --gris-fondo:#f4f7f6;
+  --gris-texto:#4a5568;
+  --turismo:#22c55e;
+  --dependencia:#a78bfa;
+  --deportes:#60a5fa;
+  --servicios:#fb923c;
+  --misas:#f472b6;
+  --emprendedores:#fbbf24;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:#0a2e2b;
+  font-family:'DM Sans',sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── cursor ── */
+#cur{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--dorado);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;}
+#cur-r{position:fixed;width:32px;height:32px;border-radius:50%;border:1px solid rgba(212,168,60,.45);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:18px;height:18px;}
+body:has(a:hover) #cur-r,body:has(button:hover) #cur-r{width:54px;height:54px;}
+
+/* ── canvas ── */
+#canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+
+/* ── grid ── */
+.grid-bg{
+  position:fixed;inset:0;
+  background-image:linear-gradient(rgba(212,168,60,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,60,.03) 1px,transparent 1px);
+  background-size:72px 72px;
+  pointer-events:none;z-index:0;
+}
+
+/* ══════════ NAVBAR ══════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 3rem;
+  background:rgba(10,46,43,.75);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(212,168,60,.1);
+  opacity:0;animation:navIn .5s ease .1s forwards;
+}
+@keyframes navIn{to{opacity:1;}}
+
+.nav-brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.8);text-decoration:none;
+}
+.nav-live{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.5px;
+  text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--dorado);}
+
+/* ══════════ HERO ══════════ */
+.hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:8rem 2rem 5rem;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* ambient blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;}
+.blob-1{width:600px;height:600px;top:-200px;left:-200px;background:radial-gradient(circle,rgba(19,78,74,.55) 0%,transparent 70%);animation:blob1 10s ease-in-out infinite;}
+.blob-2{width:500px;height:500px;bottom:-150px;right:-150px;background:radial-gradient(circle,rgba(212,168,60,.13) 0%,transparent 65%);animation:blob2 13s ease-in-out infinite;}
+.blob-3{width:350px;height:350px;top:40%;left:60%;background:radial-gradient(circle,rgba(26,107,101,.2) 0%,transparent 65%);animation:blob2 8s ease-in-out 2s infinite;}
+@keyframes blob1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,30px) scale(1.08);}}
+@keyframes blob2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-30px,-20px) scale(1.05);}}
+
+.hero-inner{position:relative;z-index:2;max-width:900px;width:100%;}
+
+/* eyebrow */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:6px 18px;border-radius:999px;
+  border:1px solid rgba(212,168,60,.25);background:rgba(212,168,60,.06);
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;
+  color:var(--dorado);text-transform:uppercase;
+  margin-bottom:2.5rem;
+  opacity:0;animation:fadeUp .6s ease .4s forwards;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--dorado);animation:blink 1.5s ease-in-out infinite;}
+
+/* year stamp — floats top right */
+.year-stamp{
+  position:absolute;top:0;right:0;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;
+  color:rgba(255,255,255,.15);text-transform:uppercase;
+  writing-mode:vertical-rl;
+  opacity:0;animation:fadeUp .6s ease 1.8s forwards;
+}
+
+/* headline */
+.hero-headline{
+  margin-bottom:2rem;
+  opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) .7s forwards;
+}
+.hero-headline .l1{
+  display:block;
+  font-family:'Syne',sans-serif;font-size:clamp(1.1rem,2.8vw,1.6rem);font-weight:400;
+  color:rgba(255,255,255,.3);letter-spacing:1px;
+  margin-bottom:.5rem;
+}
+.hero-headline .l2{
+  display:block;
+  font-family:'Syne',sans-serif;font-size:clamp(3.5rem,9vw,7.5rem);font-weight:800;
+  color:var(--dorado-claro);line-height:1.1;
+  position:relative;
+}
+.hero-headline .l2 .underline-gold{
+  position:relative;display:inline-block;
+}
+.hero-headline .l2 .underline-gold::after{
+  content:'';position:absolute;bottom:-8px;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--dorado),var(--dorado-claro),var(--dorado));
+  border-radius:2px;
+  animation:lineGrow .9s cubic-bezier(.22,1,.36,1) 1.6s both;
+}
+@keyframes lineGrow{from{transform:scaleX(0);transform-origin:left;}to{transform:scaleX(1);}}
+
+.hero-headline .l3{
+  display:block;
+  font-family:'Syne',sans-serif;font-size:clamp(3.5rem,9vw,7.5rem);font-weight:800;
+  color:#fff;line-height:1.1;
+  margin-top:.3rem;
+}
+
+/* descriptor */
+.hero-desc{
+  font-size:clamp(.95rem,1.5vw,1.1rem);font-weight:300;
+  color:rgba(255,255,255,.5);line-height:1.8;
+  max-width:560px;margin:0 auto 3rem;
+  opacity:0;animation:fadeUp .6s ease 1.1s forwards;
+}
+.hero-desc strong{color:rgba(255,255,255,.75);font-weight:400;}
+
+/* CTAs */
+.hero-ctas{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .6s ease 1.3s forwards;
+  margin-bottom:4rem;
+}
+.btn-p{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 36px;border-radius:14px;
+  background:var(--dorado);color:var(--verde-oscuro);
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.3px;
+  text-decoration:none;border:none;cursor:none;
+  transition:all .35s cubic-bezier(.34,1.56,.64,1);
+}
+.btn-p:hover{background:var(--dorado-claro);transform:translateY(-4px) scale(1.05);box-shadow:0 20px 48px rgba(212,168,60,.35);}
+.btn-o{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 32px;border-radius:14px;
+  border:1px solid rgba(212,168,60,.3);background:transparent;
+  color:var(--dorado-claro);font-family:'Syne',sans-serif;font-size:14px;font-weight:600;
+  text-decoration:none;cursor:none;
+  transition:all .3s ease;
+}
+.btn-o:hover{border-color:var(--dorado);background:rgba(212,168,60,.07);transform:translateY(-3px);}
+
+/* stats strip */
+.stats-strip{
+  display:flex;gap:0;justify-content:center;
+  border:1px solid rgba(212,168,60,.1);border-radius:16px;
+  overflow:hidden;max-width:520px;margin:0 auto;
+  opacity:0;animation:fadeUp .6s ease 1.6s forwards;
+}
+.stat-item{
+  flex:1;padding:1.4rem 1rem;text-align:center;
+  border-right:1px solid rgba(212,168,60,.08);
+  background:rgba(255,255,255,.02);
+  transition:background .25s;
+}
+.stat-item:last-child{border-right:none;}
+.stat-item:hover{background:rgba(212,168,60,.05);}
+.stat-num{
+  display:block;font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;
+  color:var(--dorado-claro);line-height:1;margin-bottom:5px;
+}
+.stat-lbl{
+  display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;
+  color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase;
+}
+
+/* scroll indicator */
+.scroll-ind{
+  margin-top:4rem;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeUp .5s ease 2s forwards;
+}
+.scroll-ind span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.2);}
+.scroll-line{width:1px;height:48px;background:linear-gradient(180deg,rgba(212,168,60,.5),transparent);animation:scrollAnim 2s ease-in-out 2.5s infinite;}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top;opacity:1;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;opacity:.2;}}
+
+/* ══════════ SECTION COMMONS ══════════ */
+.section{position:relative;z-index:1;padding:8rem 2rem;}
+.container{max-width:1080px;margin:0 auto;}
+
+.sec-tag{
+  display:flex;align-items:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--dorado);margin-bottom:1.2rem;
+}
+.sec-tag::before{content:'';display:block;width:28px;height:1px;background:var(--dorado);}
+
+.sec-h{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.25;margin-bottom:1rem;}
+.sec-h span{color:var(--dorado);}
+.sec-sub{color:rgba(255,255,255,.45);font-size:1.05rem;line-height:1.7;margin-bottom:4rem;max-width:600px;}
+
+/* reveal */
+.r{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1);}
+.r.v{opacity:1;transform:none;}
+
+/* ══════════ OBJECTIVE ══════════ */
+.obj-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  border-radius:22px;overflow:hidden;border:1px solid rgba(212,168,60,.1);
+}
+.obj-text{background:var(--verde);padding:3rem;}
+.obj-text h3{
+  font-family:'Syne',sans-serif;font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:800;
+  line-height:1.2;margin-bottom:1.2rem;
+}
+.obj-text h3 em{font-style:normal;color:var(--dorado-claro);}
+.obj-text p{font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.8;}
+.obj-code{
+  background:#071f1e;padding:2rem 2rem;
+  font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:2;
+  overflow:auto;
+}
+.ck{color:#7dd3fc;} .cs{color:var(--dorado-claro);} .cn{color:#86efac;}
+.cb{color:#f9a8d4;} .cc{color:rgba(255,255,255,.22);} .cp{color:rgba(255,255,255,.35);}
+.blink{display:inline-block;width:8px;height:14px;background:var(--dorado);vertical-align:middle;animation:blink .9s step-end infinite;}
+
+/* ══════════ MODULES ══════════ */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:24px;}
+.mod{
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:18px;padding:2rem;
+  position:relative;overflow:hidden;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .3s,border-color .3s;
+  cursor:none;
+}
+.mod:hover{transform:translateY(-8px);background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.11);}
+.mod::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:18px 18px 0 0;}
+.mod[data-c="turismo"]::before{background:var(--turismo);}
+.mod[data-c="turismo"]:hover{box-shadow:0 24px 48px rgba(34,197,94,.1);}
+.mod[data-c="dependencia"]::before{background:var(--dependencia);}
+.mod[data-c="dependencia"]:hover{box-shadow:0 24px 48px rgba(167,139,250,.1);}
+.mod[data-c="deportes"]::before{background:var(--deportes);}
+.mod[data-c="deportes"]:hover{box-shadow:0 24px 48px rgba(96,165,250,.1);}
+.mod[data-c="servicios"]::before{background:var(--servicios);}
+.mod[data-c="servicios"]:hover{box-shadow:0 24px 48px rgba(251,146,60,.1);}
+.mod[data-c="misas"]::before{background:var(--misas);}
+.mod[data-c="misas"]:hover{box-shadow:0 24px 48px rgba(244,114,182,.1);}
+.mod[data-c="emprendedores"]::before{background:var(--emprendedores);}
+.mod[data-c="emprendedores"]:hover{box-shadow:0 24px 48px rgba(251,191,36,.1);}
+
+.mod-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;}
+.mod-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.mod[data-c="turismo"] .mod-icon{background:rgba(34,197,94,.12);}
+.mod[data-c="dependencia"] .mod-icon{background:rgba(167,139,250,.12);}
+.mod[data-c="deportes"] .mod-icon{background:rgba(96,165,250,.12);}
+.mod[data-c="servicios"] .mod-icon{background:rgba(251,146,60,.12);}
+.mod[data-c="misas"] .mod-icon{background:rgba(244,114,182,.12);}
+.mod[data-c="emprendedores"] .mod-icon{background:rgba(251,191,36,.12);}
+.mod-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.18);}
+.mod-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.5rem;}
+.mod-desc{font-size:14px;color:rgba(255,255,255,.45);line-height:1.75;margin-bottom:1.5rem;}
+.mod-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.mod-tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.07);}
+
+/* ══════════ PIPELINE ══════════ */
+.steps{display:flex;flex-direction:column;gap:1.5rem;}
+.step{display:grid;grid-template-columns:64px 1fr;gap:1.5rem;position:relative;}
+.step:not(:last-child)::after{content:'';position:absolute;left:31px;top:52px;bottom:-16px;width:1px;background:linear-gradient(180deg,rgba(212,168,60,.25),transparent);}
+.step-n{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(19,78,74,.8);border:1px solid rgba(212,168,60,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dorado);
+  flex-shrink:0;position:relative;z-index:1;
+}
+.step-body{padding-bottom:3rem;}
+.step-t{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:.6rem;}
+.step-d{font-size:15px;color:rgba(255,255,255,.55);line-height:1.8;}
+
+/* ══════════ STACK ══════════ */
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+.stack-item{
+  background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:1.3rem 1.4rem;
+  display:flex;align-items:center;gap:14px;
+  transition:all .25s ease;cursor:none;
+}
+.stack-item:hover{background:rgba(212,168,60,.06);border-color:rgba(212,168,60,.2);transform:translateX(5px);}
+.stack-icon{font-size:22px;flex-shrink:0;}
+.stack-name{font-family:'JetBrains Mono',monospace;font-size:13.5px;color:rgba(255,255,255,.8);display:block;font-weight:500;}
+.stack-role{font-size:11.5px;color:rgba(255,255,255,.32);display:block;margin-top:2px;}
+
+/* ══════════ FINAL CTA ══════════ */
+.section-cta{
+  position:relative;z-index:1;
+  padding:8rem 2rem 6rem;
+  text-align:center;
+  border-top:1px solid rgba(212,168,60,.07);
+  overflow:hidden;
+}
+.cta-glow{
+  position:absolute;top:-120px;left:50%;transform:translateX(-50%);
+  width:700px;height:400px;
+  background:radial-gradient(ellipse,rgba(212,168,60,.07) 0%,transparent 60%);
+  pointer-events:none;
+}
+.cta-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 16px;border-radius:999px;
+  border:1px solid rgba(212,168,60,.2);background:rgba(212,168,60,.05);
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:rgba(212,168,60,.7);text-transform:uppercase;margin-bottom:1.8rem;
+}
+.cta-title{
+  font-family:'Syne',sans-serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:800;
+  line-height:1.2;margin-bottom:1.2rem;
+}
+.cta-title span{color:var(--dorado-claro);}
+.cta-sub{font-size:1.1rem;color:rgba(255,255,255,.55);max-width:560px;margin:0 auto 3rem;line-height:1.85;}
+.cta-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin-bottom:5rem;}
+
+footer{
+  text-align:center;padding:2rem;
+  border-top:1px solid rgba(255,255,255,.05);
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.18);
+}
+footer a{color:var(--dorado);text-decoration:none;}
+footer a:hover{color:var(--dorado-claro);}
+
+/* separator */
+.sep{
+  width:100%;max-width:1080px;margin:0 auto;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,168,60,.12),transparent);
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+
+@media(max-width:700px){
+  .obj-wrap{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  body{cursor:auto;}
+  #cur,#cur-r{display:none;}
+  .year-stamp{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+<canvas id="canvas"></canvas>
+<div class="grid-bg"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-live"></div>
+    Portal Municipal · San Roque
+  </a>
+  <ul class="nav-links">
+    <li><a href="#modulos">Módulos</a></li>
+    <li><a href="#pipeline">Flujo</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="https://munisanroque.ar/" target="_blank">Portal →</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-inner">
+
+    <span class="year-stamp">San Roque · Corrientes · 2026</span>
+
+    <div class="eyebrow">
+      <div class="eyebrow-dot"></div>
+      Portal Municipal — Documentación para devs
+    </div>
+
+    <div class="hero-headline">
+      <span class="l1">Construí el futuro de</span>
+      <span class="l2"><span class="underline-gold">San Roque</span></span>
+      <span class="l3">línea&nbsp;a&nbsp;línea.</span>
+    </div>
+
+    <p class="hero-desc">
+      Bienvenido/a al ecosistema de desarrollo del Portal Municipal de San Roque.<br>
+      Un sistema <strong>abierto, modular y colaborativo</strong> para conectar a vecinos,
+      visitantes e instituciones con su municipio.
+    </p>
+
+    <div class="hero-ctas">
+      <a class="btn-p" href="https://munisanroque.ar/" target="_blank">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Ver el portal
+      </a>
+      <a class="btn-o" href="#modulos">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Explorar módulos
+      </a>
+    </div>
+
+    <div class="stats-strip">
+      <div class="stat-item">
+        <span class="stat-num" data-t="6">0</span>
+        <span class="stat-lbl">Módulos</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-t="5">0</span>
+        <span class="stat-lbl">Etapas</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-t="2026">0</span>
+        <span class="stat-lbl">Año</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-t="100" data-s="%">0</span>
+        <span class="stat-lbl">Open</span>
+      </div>
+    </div>
+
+    <div class="scroll-ind">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ OBJECTIVE ══════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="r">
+      <p class="sec-tag">Objetivo del proyecto</p>
+    </div>
+    <div class="obj-wrap r">
+      <div class="obj-text">
+        <h3>Centralizar la <em>información</em> de San Roque en un solo portal</h3>
+        <p>Turismo, cultura, deportes, servicios municipales, emprendedores y vida comunitaria — todo accesible, actualizado y construido colaborativamente por desarrolladores locales y de la región.</p>
+      </div>
+      <div class="obj-code">
+<span class="cc">// portal-municipal-san-roque</span>
+<br><span class="cp">{</span>
+<br>&nbsp;&nbsp;<span class="ck">"nombre"</span>: <span class="cs">"Portal Municipal San Roque"</span>,
+<br>&nbsp;&nbsp;<span class="ck">"version"</span>: <span class="cs">"1.0.0"</span>,
+<br>&nbsp;&nbsp;<span class="ck">"año"</span>: <span class="cn">2026</span>,
+<br>&nbsp;&nbsp;<span class="ck">"modulos"</span>: <span class="cn">6</span>,
+<br>&nbsp;&nbsp;<span class="ck">"openSource"</span>: <span class="cb">true</span>,
+<br>&nbsp;&nbsp;<span class="ck">"comunidad"</span>: <span class="cs">"San Roque, Corrientes"</span>,
+<br>&nbsp;&nbsp;<span class="ck">"url"</span>: <span class="cs">"munisanroque.ar"</span>,
+<br>&nbsp;&nbsp;<span class="ck">"estado"</span>: <span class="cs">"en desarrollo activo"</span>
+<br><span class="cp">}</span><span class="blink"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ══════════════ MODULES ══════════════ -->
+<section class="section" id="modulos">
+  <div class="container">
+    <div class="r">
+      <p class="sec-tag">Arquitectura</p>
+      <h2 class="sec-h">Los <span>6 módulos</span> del portal</h2>
+      <p class="sec-sub">Cada módulo es una entidad independiente con modelo de datos propio, vistas y flujo de carga.</p>
+    </div>
+    <div class="mod-grid">
+
+      <div class="mod r" data-c="turismo">
+        <div class="mod-top"><div class="mod-icon">🏔️</div><span class="mod-n">01</span></div>
+        <div class="mod-title">Turismo y Cultura</div>
+        <div class="mod-desc">Lugares turísticos, alojamientos, gastronomía, parques, comparsas, Fiesta Patronal y museo.</div>
+        <div class="mod-tags">
+          <span class="mod-tag">Lugares</span><span class="mod-tag">Alojamientos</span>
+          <span class="mod-tag">Gastronomía</span><span class="mod-tag">Carnaval</span><span class="mod-tag">Museo</span>
+        </div>
+      </div>
+
+      <div class="mod r" data-c="dependencia">
+        <div class="mod-top"><div class="mod-icon">🏛️</div><span class="mod-n">02</span></div>
+        <div class="mod-title">Dependencia Municipal</div>
+        <div class="mod-desc">Directorio de áreas municipales: horarios, responsables, contactos y trámites disponibles.</div>
+        <div class="mod-tags">
+          <span class="mod-tag">Áreas</span><span class="mod-tag">Trámites</span>
+          <span class="mod-tag">Contactos</span><span class="mod-tag">Horarios</span>
+        </div>
+      </div>
+
+      <div class="mod r" data-c="deportes">
+        <div class="mod-top"><div class="mod-icon">⚽</div><span class="mod-n">03</span></div>
+        <div class="mod-title">Deportes</div>
+        <div class="mod-desc">Clubes, escuelas deportivas, canchas de fútbol y futsal, torneos, reservas y espacios comunitarios.</div>
+        <div class="mod-tags">
+          <span class="mod-tag">Clubes</span><span class="mod-tag">Futsal</span>
+          <span class="mod-tag">Torneos</span><span class="mod-tag">Reservas</span>
+        </div>
+      </div>
+
+      <div class="mod r" data-c="servicios">
+        <div class="mod-top"><div class="mod-icon">♻️</div><span class="mod-n">04</span></div>
+        <div class="mod-title">Servicios</div>
+        <div class="mod-desc">Recolección de residuos, remises, terminal de ómnibus y otros servicios esenciales de la ciudad.</div>
+        <div class="mod-tags">
+          <span class="mod-tag">Residuos</span><span class="mod-tag">Remises</span>
+          <span class="mod-tag">Terminal</span><span class="mod-tag">Servicios</span>
+        </div>
+      </div>
+
+      <div class="mod r" data-c="misas">
+        <div class="mod-top"><div class="mod-icon">⛪</div><span class="mod-n">05</span></div>
+        <div class="mod-title">Misas y Religión</div>
+        <div class="mod-desc">Parroquias, capillas, horarios de misas, sacerdotes, direcciones y actividades religiosas.</div>
+        <div class="mod-tags">
+          <span class="mod-tag">Parroquias</span><span class="mod-tag">Capillas</span>
+          <span class="mod-tag">Horarios</span><span class="mod-tag">Sacerdotes</span>
+        </div>
+      </div>
+
+      <div class="mod r" data-c="emprendedores">
+        <div class="mod-top"><div class="mod-icon">🏪</div><span class="mod-n">06</span></div>
+        <div class="mod-title">Emprendedores</div>
+        <div class="mod-desc">Directorio de emprendimientos locales: rubro, productos, contacto, redes sociales y ubicación.</div>
+        <div class="mod-tags">
+          <span class="mod-tag">Rubro</span><span class="mod-tag">Productos</span>
+          <span class="mod-tag">WhatsApp</span><span class="mod-tag">Ubicación</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ══════════════ PIPELINE ══════════════ -->
+<section class="section" id="pipeline">
+  <div class="container">
+    <div class="r">
+      <p class="sec-tag">Flujo de trabajo</p>
+      <h2 class="sec-h">Método de <span>recolección</span></h2>
+      <p class="sec-sub">Así se construye y mantiene la información del portal, paso a paso.</p>
+    </div>
+    <div class="steps r">
+      <div class="step">
+        <div><div class="step-n">01</div></div>
+        <div class="step-body">
+          <div class="step-t">Investigación digital</div>
+          <div class="step-d">Búsqueda en internet, redes sociales, sitios oficiales y noticias locales. Google Maps, Facebook y medios locales como fuentes primarias.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div><div class="step-n">02</div></div>
+        <div class="step-body">
+          <div class="step-t">Relevamiento presencial</div>
+          <div class="step-d">Visita física a los lugares para verificar datos, horarios, estado actual del servicio y captura de fotos actualizadas.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div><div class="step-n">03</div></div>
+        <div class="step-body">
+          <div class="step-t">Entrevistas</div>
+          <div class="step-d">Conversaciones con responsables, vecinos y referentes de cada área para validar e incorporar datos no digitalizados.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div><div class="step-n">04</div></div>
+        <div class="step-body">
+          <div class="step-t">Organización y carga</div>
+          <div class="step-d">Clasificación por módulo, normalización del formato y carga al sistema con el modelo de datos estandarizado del portal.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div><div class="step-n">05</div></div>
+        <div class="step-body">
+          <div class="step-t">Publicación y mantenimiento</div>
+          <div class="step-d">Subida al portal municipal y actualización periódica para mantener los datos vigentes para todos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ══════════════ STACK ══════════════ -->
+<section class="section" id="stack">
+  <div class="container">
+    <div class="r">
+      <p class="sec-tag">Tecnologías</p>
+      <h2 class="sec-h">Stack <span>sugerido</span></h2>
+      <p class="sec-sub">Herramientas recomendadas para construir y mantener el portal municipal.</p>
+    </div>
+    <div class="stack-grid r">
+      <div class="stack-item"><span class="stack-icon">🌐</span><div><span class="stack-name">HTML / CSS / JS</span><span class="stack-role">Frontend base</span></div></div>
+      <div class="stack-item"><span class="stack-icon">⚛️</span><div><span class="stack-name">React / Next.js</span><span class="stack-role">Framework frontend</span></div></div>
+      <div class="stack-item"><span class="stack-icon">🗄️</span><div><span class="stack-name">Supabase / Firebase</span><span class="stack-role">Base de datos</span></div></div>
+      <div class="stack-item"><span class="stack-icon">🗺️</span><div><span class="stack-name">Leaflet / Maps API</span><span class="stack-role">Mapa integral</span></div></div>
+      <div class="stack-item"><span class="stack-icon">☁️</span><div><span class="stack-name">Vercel / Netlify</span><span class="stack-role">Deploy & hosting</span></div></div>
+      <div class="stack-item"><span class="stack-icon">📷</span><div><span class="stack-name">Cloudinary</span><span class="stack-role">Gestión de imágenes</span></div></div>
+      <div class="stack-item"><span class="stack-icon">🔒</span><div><span class="stack-name">NextAuth</span><span class="stack-role">Panel de administración</span></div></div>
+      <div class="stack-item"><span class="stack-icon">📊</span><div><span class="stack-name">Sanity / Notion API</span><span class="stack-role">CMS de contenido</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FINAL CTA ══════════════ -->
+<section class="section-cta">
+  <div class="cta-glow"></div>
+  <div class="cta-badge">¿Listo para construir?</div>
+  <h2 class="cta-title r">
+    San Roque<br>te <span>necesita.</span>
+  </h2>
+  <p class="cta-sub r">
+    Cada línea de código conecta a una persona con su municipio,
+    su cultura y su comunidad. El impacto es real.
+  </p>
+  <div class="cta-btns r">
+    <a class="btn-p" href="https://munisanroque.ar/" target="_blank">
+      Ir al portal
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a class="btn-o" href="mailto:contacto@munisanroque.ar">Contactar al equipo</a>
+  </div>
+</section>
+
+<footer>
+  Portal Municipal San Roque · Corrientes · Argentina · 2026 &nbsp;·&nbsp;
+  <a href="https://munisanroque.ar/" target="_blank">munisanroque.ar</a>
+</footer>
+
+<script>
+/* ── cursor ── */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function animR(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animR);})();
+
+/* ── particles ── */
+(function(){
+  const c=document.getElementById('canvas'),ctx=c.getContext('2d');
+  let W,H;
+  const COLS=['#d4a83c','#f5d98a','rgba(26,107,101,.8)','rgba(19,78,74,.9)','rgba(212,168,60,.4)'];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  function mk(){return{x:Math.random()*W,y:H+10,r:Math.random()*1.8+.4,dx:(Math.random()-.5)*.4,dy:-(Math.random()*.65+.2),a:Math.random()*.4+.06,col:COLS[Math.floor(Math.random()*COLS.length)],life:1,dec:Math.random()*.002+.0007,tw:Math.random()*Math.PI*2};}
+  const ps=Array.from({length:80},mk).map(p=>{p.y=Math.random()*H;p.life=Math.random();return p;});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ps.forEach(p=>{
+      p.life-=p.dec;p.x+=p.dx;p.y+=p.dy;p.tw+=.025;
+      if(p.life<=0)Object.assign(p,mk());
+      ctx.save();ctx.globalAlpha=p.a*p.life*(0.75+0.25*Math.sin(p.tw));ctx.fillStyle=p.col;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();draw();
+})();
+
+/* ── scroll reveal ── */
+(function(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');io.unobserve(e.target);}});
+  },{threshold:.1});
+  document.querySelectorAll('.r').forEach(el=>io.observe(el));
+})();
+
+/* ── count-up ── */
+(function(){
+  const DELAY=1800;
+  function count(el){
+    const t=+el.dataset.t,s=el.dataset.s||'',dur=1600,start=performance.now();
+    (function step(now){
+      const p=Math.min((now-start)/dur,1),e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(t*e)+s;
+      if(p<1)requestAnimationFrame(step);
+    })(performance.now());
+  }
+  setTimeout(()=>document.querySelectorAll('[data-t]').forEach(count),DELAY);
+})();
+</script>
+</body>
+</html>

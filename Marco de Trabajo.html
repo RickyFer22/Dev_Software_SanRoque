@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Municipal de San Roque — Pasantía Dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ════════════════════════════════════════════
+       VARIABLES OFICIALES — Identidad San Roque
+    ════════════════════════════════════════════ */
+    :root {
+      --verde:        #134e4a;   /* Verde principal */
+      --verde-oscuro: #0d3937;   /* Degradados del sidebar */
+      --verde-claro:  #1a6b65;   /* Acentos y headers */
+      --dorado:       #d4a83c;   /* Acento dorado — iconos y destacados */
+      --dorado-claro: #f5d98a;   /* Bordes decorativos */
+      --gris-fondo:   #f4f7f6;   /* Fondo general */
+      --gris-texto:   #4a5568;   /* Texto secundario */
+
+      /* Derivadas de diseño */
+      --blanco:        #ffffff;
+      --oscuro:        #1a2e2c;
+      --verde-hover:   rgba(19, 78, 74, 0.08);
+      --dorado-dim:    rgba(212, 168, 60, 0.14);
+      --dorado-glow:   rgba(212, 168, 60, 0.35);
+      --verde-glow:    rgba(19, 78, 74, 0.12);
+      --border-light:  rgba(19, 78, 74, 0.12);
+      --border-gold:   rgba(212, 168, 60, 0.30);
+      --shadow-sm:     0 2px 8px rgba(13, 57, 55, 0.08);
+      --shadow-md:     0 6px 24px rgba(13, 57, 55, 0.10);
+      --shadow-lg:     0 16px 48px rgba(13, 57, 55, 0.14);
+      --sidebar-w:     288px;
+      --radius:        14px;
+      --radius-lg:     20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--gris-fondo);
+      color: var(--oscuro);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      min-height: 100vh;
+      display: flex;
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════════════════════════
+       SIDEBAR
+    ══════════════════════════════════════════ */
+    aside {
+      width: var(--sidebar-w);
+      background: linear-gradient(180deg, var(--verde) 0%, var(--verde-oscuro) 100%);
+      position: fixed;
+      top: 0; bottom: 0; left: 0;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 4px 0 32px rgba(7, 24, 23, 0.22);
+    }
+
+    /* Línea decorativa dorada derecha */
+    aside::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(180deg,
+        transparent 0%,
+        var(--dorado-claro) 20%,
+        var(--dorado)       50%,
+        var(--dorado-claro) 80%,
+        transparent 100%);
+      opacity: 0.7;
+    }
+
+    /* ── SIDEBAR BRAND EXPANDIDA ── */
+    .sidebar-brand {
+      padding: 0 0 0;
+      border-bottom: 1px solid rgba(245, 217, 138, 0.18);
+      position: relative;
+    }
+
+    /* Fondo con patrón geométrico sutil */
+    .brand-bg {
+      position: relative;
+      padding: 32px 26px 28px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(245,217,138,0.04) 25%, transparent 25%) -10px 0,
+        linear-gradient(225deg, rgba(245,217,138,0.04) 25%, transparent 25%) -10px 0,
+        linear-gradient(315deg, rgba(245,217,138,0.04) 25%, transparent 25%),
+        linear-gradient( 45deg, rgba(245,217,138,0.04) 25%, transparent 25%);
+      background-size: 20px 20px;
+      background-color: rgba(0,0,0,0.08);
+    }
+
+    /* Resplandor radial en esquina superior */
+    .brand-bg::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(212,168,60,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Franja dorada inferior del hero brand */
+    .brand-bg::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%, var(--dorado-claro) 30%,
+        var(--dorado) 50%, var(--dorado-claro) 70%, transparent 100%);
+      opacity: 0.6;
+    }
+
+    /* Escudo / sello central */
+    .brand-emblem {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .brand-seal {
+      width: 62px; height: 62px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(245,217,138,0.18), rgba(212,168,60,0.08));
+      border: 1.5px solid rgba(245, 217, 138, 0.38);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem;
+      flex-shrink: 0;
+      box-shadow:
+        0 0 0 4px rgba(245,217,138,0.06),
+        0 8px 24px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    /* Anillo decorativo exterior del sello */
+    .brand-seal::before {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 22px;
+      border: 1px dashed rgba(245,217,138,0.22);
+    }
+
+    .brand-seal-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--dorado-claro);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-seal-text .brand-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 0.98rem;
+      color: rgba(245,217,138,0.60);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Separador ornamental con diamante central */
+    .brand-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+    }
+
+    .brand-divider::before,
+    .brand-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245,217,138,0.30));
+    }
+    .brand-divider::after {
+      background: linear-gradient(90deg, rgba(245,217,138,0.30), transparent);
+    }
+
+    .brand-divider-icon {
+      font-size: 0.55rem;
+      color: rgba(245,217,138,0.45);
+      letter-spacing: 3px;
+    }
+
+    /* Chips de metadata */
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .brand-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.74rem;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .brand-meta-row .meta-icon {
+      width: 18px;
+      text-align: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .brand-meta-row span {
+      letter-spacing: 0.04em;
+    }
+
+    .brand-meta-row .meta-badge {
+      margin-left: auto;
+      background: rgba(212,168,60,0.15);
+      border: 1px solid rgba(212,168,60,0.28);
+      border-radius: 100px;
+      padding: 2px 9px;
+      font-size: 0.65rem;
+      color: var(--dorado);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    /* Status dot */
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 0 2px rgba(74,222,128,0.2);
+      animation: pulse-green 2.5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse-green {
+      0%,100% { box-shadow: 0 0 0 2px rgba(74,222,128,0.20); }
+      50%      { box-shadow: 0 0 0 5px rgba(74,222,128,0.06); }
+    }
+
+    .sidebar-brand p {
+      margin-top: 0;
+      font-size: 0;  /* ocultar el <p> antiguo si existe */
+    }
+
+    .sidebar-nav {
+      padding: 24px 16px;
+      flex: 1;
+    }
+
+    .nav-group-label {
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(245,217,138,0.35);
+      padding: 0 14px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .nav-links { list-style: none; }
+    .nav-links li { margin-bottom: 2px; }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: rgba(255,255,255,0.62);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 400;
+      padding: 10px 14px;
+      border-radius: 10px;
+      transition: all 0.22s ease;
+      border: 1px solid transparent;
+      position: relative;
+    }
+
+    .nav-links a .nav-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      transform: translateY(-50%) scaleY(0);
+      width: 3px; height: 70%;
+      background: var(--dorado-claro);
+      border-radius: 0 3px 3px 0;
+      transition: transform 0.22s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(245, 217, 138, 0.10);
+      color: var(--dorado-claro);
+      border-color: rgba(245, 217, 138, 0.18);
+    }
+
+    .nav-links a.active::before,
+    .nav-links a:hover::before {
+      transform: translateY(-50%) scaleY(1);
+    }
+
+    .sidebar-footer {
+      padding: 18px 28px;
+      border-top: 1px solid rgba(245, 217, 138, 0.12);
+      font-size: 0.69rem;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+
+    /* ══════════════════════════════════════════
+       MAIN CONTENT
+    ══════════════════════════════════════════ */
+    main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 48px 52px 80px;
+      position: relative;
+    }
+
+    /* ── Scroll progress bar ── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--verde-claro), var(--dorado));
+      z-index: 9999;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* ══════════════════════════════════════════
+       HERO HEADER
+    ══════════════════════════════════════════ */
+    .hero {
+      background: var(--blanco);
+      border-radius: var(--radius-lg);
+      padding: 52px 56px;
+      margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-light);
+    }
+
+    /* Franja verde superior */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--verde-oscuro), var(--verde-claro), var(--dorado));
+    }
+
+    /* Mancha decorativa verde fondo */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -60px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, var(--verde-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--dorado-dim);
+      border: 1px solid var(--border-gold);
+      border-radius: 100px;
+      padding: 5px 16px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--dorado);
+      margin-bottom: 22px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--dorado);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.6); }
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.3rem);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--verde-oscuro);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--verde-claro);
+    }
+
+    .hero-sub {
+      font-size: 0.96rem;
+      color: var(--gris-texto);
+      line-height: 1.78;
+      max-width: 620px;
+      margin-bottom: 34px;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.22s ease;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-link.primary {
+      background: linear-gradient(135deg, var(--verde) 0%, var(--verde-claro) 100%);
+      color: var(--blanco);
+      box-shadow: 0 4px 16px var(--verde-glow);
+    }
+
+    .hero-link.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(19, 78, 74, 0.28);
+    }
+
+    .hero-link.gold {
+      background: linear-gradient(135deg, var(--dorado) 0%, #b8882a 100%);
+      color: var(--verde-oscuro);
+      font-weight: 600;
+    }
+
+    .hero-link.gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--dorado-glow);
+    }
+
+    .hero-link.ghost {
+      background: transparent;
+      border: 1.5px solid var(--border-light);
+      color: var(--gris-texto);
+    }
+
+    .hero-link.ghost:hover {
+      border-color: var(--verde-claro);
+      color: var(--verde);
+      background: var(--verde-hover);
+    }
+
+    /* ══════════════════════════════════════════
+       SECCIONES
+    ══════════════════════════════════════════ */
+    section {
+      background: var(--blanco);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 44px 48px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      scroll-margin-top: 40px;
+    }
+
+    /* Línea degradada superior */
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--verde-oscuro) 0%,
+        var(--verde-claro)  55%,
+        var(--dorado)       100%);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .section-icon {
+      width: 50px; height: 50px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--verde) 0%, var(--verde-claro) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px var(--verde-glow);
+    }
+
+    .section-title-block h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--verde-oscuro);
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+
+    .section-sub {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--dorado);
+      font-weight: 600;
+    }
+
+    p {
+      color: var(--gris-texto);
+      font-size: 0.94rem;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    p:last-of-type { margin-bottom: 0; }
+
+    /* ══════════════════════════════════════════
+       PALETA DE COLORES
+    ══════════════════════════════════════════ */
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .color-swatch {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      background: var(--blanco);
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+
+    .color-swatch:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--dorado);
+    }
+
+    .color-block {
+      height: 80px;
+      width: 100%;
+    }
+
+    .color-info {
+      padding: 12px 14px;
+      background: var(--gris-fondo);
+    }
+
+    .color-info strong {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--oscuro);
+      margin-bottom: 3px;
+    }
+
+    .color-info span {
+      font-size: 0.72rem;
+      color: var(--gris-texto);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+
+    /* Variable CSS badge */
+    .var-badge {
+      display: inline-block;
+      margin-top: 5px;
+      background: rgba(19,78,74,0.07);
+      border: 1px solid var(--border-light);
+      border-radius: 5px;
+      padding: 1px 7px;
+      font-size: 0.67rem;
+      color: var(--verde-claro);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.03em;
+    }
+
+    /* ══════════════════════════════════════════
+       STEP BOXES (HERRAMIENTAS)
+    ══════════════════════════════════════════ */
+    .step-box {
+      background: var(--gris-fondo);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: all 0.22s ease;
+    }
+
+    .step-box:hover {
+      border-color: var(--verde-claro);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-box::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--verde-claro), var(--dorado));
+      border-radius: 2px 0 0 2px;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: var(--dorado-dim);
+      border: 1px solid var(--border-gold);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--dorado);
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    .step-box h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: var(--verde-oscuro);
+      margin-bottom: 10px;
+    }
+
+    .step-box p {
+      margin-bottom: 0;
+      font-size: 0.88rem;
+    }
+
+    /* ══════════════════════════════════════════
+       CODE BLOCK
+    ══════════════════════════════════════════ */
+    .code-block {
+      background: var(--verde-oscuro);
+      border-radius: 12px;
+      margin-top: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(7,24,23,0.20);
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .code-dot {
+      width: 11px; height: 11px;
+      border-radius: 50%;
+    }
+
+    .code-dot:nth-child(1) { background: #ff5f57; }
+    .code-dot:nth-child(2) { background: #febc2e; }
+    .code-dot:nth-child(3) { background: #28c840; }
+
+    .code-label {
+      margin-left: auto;
+      font-size: 0.68rem;
+      color: rgba(245,217,138,0.40);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .code-block code {
+      display: block;
+      padding: 22px 24px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.83rem;
+      line-height: 1.75;
+      color: var(--dorado-claro);
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .code-block code .cm  { color: rgba(245,217,138,0.38); }
+    .code-block code .cmd { color: #5dd6b5; }
+    .code-block code .arg { color: var(--dorado-claro); }
+
+    /* inline code (dentro de texto) */
+    p code, .wf-text code {
+      display: inline;
+      background: rgba(19,78,74,0.10);
+      border: 1px solid var(--border-light);
+      border-radius: 5px;
+      padding: 1px 7px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: var(--verde-claro);
+    }
+
+    /* ══════════════════════════════════════════
+       MODULE CARDS
+    ══════════════════════════════════════════ */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .module-card {
+      background: var(--blanco);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 28px 26px;
+      transition: all 0.28s ease;
+      position: relative;
+      overflow: hidden;
+      border-top: 4px solid var(--dorado);
+    }
+
+    .module-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--verde), var(--verde-claro));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.32s ease;
+    }
+
+    .module-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+    }
+
+    .module-card:hover::after { transform: scaleX(1); }
+
+    .module-emoji {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .module-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: var(--verde);
+      margin-bottom: 10px;
+    }
+
+    .module-card p {
+      font-size: 0.86rem;
+      color: var(--gris-texto);
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════════════════
+       WORKFLOW LIST
+    ══════════════════════════════════════════ */
+    .workflow-list {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .workflow-list li {
+      display: flex;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-light);
+      align-items: flex-start;
+    }
+
+    .workflow-list li:last-child { border-bottom: none; }
+
+    .workflow-step-num {
+      flex-shrink: 0;
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--verde) 0%, var(--verde-claro) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--blanco);
+      margin-top: 2px;
+      box-shadow: 0 3px 12px var(--verde-glow);
+    }
+
+    .wf-text {
+      font-size: 0.92rem;
+      color: var(--gris-texto);
+      line-height: 1.75;
+      padding-top: 5px;
+    }
+
+    .wf-text strong {
+      color: var(--verde-oscuro);
+      font-weight: 600;
+    }
+
+    /* ══════════════════════════════════════════
+       REVEAL ANIMATION
+    ══════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      aside {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: column;
+        box-shadow: 0 4px 20px rgba(7,24,23,0.18);
+      }
+
+      aside::after { display: none; }
+
+      .sidebar-nav { padding: 12px 12px 16px; }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .nav-links li { margin-bottom: 0; }
+
+      main {
+        margin-left: 0;
+        padding: 32px 24px 60px;
+      }
+
+      body { flex-direction: column; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 36px 28px; }
+      section { padding: 32px 22px; }
+      .hero h1 { font-size: 2.1rem; }
+      .modules-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ════════════════════ SIDEBAR ════════════════════ -->
+<aside>
+  <div class="sidebar-brand">
+    <div class="brand-bg">
+      <div class="brand-emblem">
+        <div class="brand-seal">🏛️</div>
+        <div class="brand-seal-text">
+          <h2>San Roque</h2>
+          <span class="brand-tagline">Dev Portal</span>
+        </div>
+      </div>
+      <div class="brand-divider">
+        <span class="brand-divider-icon">◆ ◆ ◆</span>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-meta-row">
+          <span class="meta-icon">📍</span>
+          <span>Municipalidad de San Roque</span>
+        </div>
+        <div class="brand-meta-row">
+          <span class="meta-icon">💼</span>
+          <span>Pasantía Frontend</span>
+          <span class="meta-badge">2025</span>
+        </div>
+        <div class="brand-meta-row">
+          <span class="status-dot"></span>
+          <span>Deploy activo en Netlify</span>
+        </div>
+        <div class="brand-meta-row">
+          <span class="meta-icon">⚙️</span>
+          <span>HTML · CSS · JS Vanilla</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <p class="nav-group-label">Navegación</p>
+    <ul class="nav-links">
+      <li>
+        <a href="#inicio" class="active">
+          <span class="nav-icon">⬡</span> Inicio
+        </a>
+      </li>
+      <li>
+        <a href="#colores">
+          <span class="nav-icon">◈</span> Identidad Visual
+        </a>
+      </li>
+      <li>
+        <a href="#tutoriales">
+          <span class="nav-icon">◎</span> Herramientas
+        </a>
+      </li>
+      <li>
+        <a href="#modulos">
+          <span class="nav-icon">◫</span> Módulos
+        </a>
+      </li>
+      <li>
+        <a href="#flujo">
+          <span class="nav-icon">◷</span> Flujo Diario
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    Municipalidad de San Roque · 2025
+  </div>
+</aside>
+
+<!-- ════════════════════ MAIN ════════════════════ -->
+<main>
+
+  <!-- HERO -->
+  <header class="hero reveal" id="inicio">
+    <div class="hero-eyebrow">Pasantía Profesional · Desarrollo de Software</div>
+    <h1>Portal Municipal de<br><em>San Roque</em></h1>
+    <p class="hero-sub">
+      Repositorio centralizado de la pasantía de desarrollo frontend. Diseñado para documentar
+      de forma ágil, responsiva y moderna la arquitectura estratégica del portal institucional.
+    </p>
+    <div class="hero-links">
+      <a href="https://munisanroque.ar/" target="_blank" class="hero-link primary">🌐 Sitio Oficial</a>
+      <a href="https://devsoftwaresanroque.netlify.app/" target="_blank" class="hero-link gold">⚡ Deploy Netlify</a>
+      <a href="https://github.com/RickyFer22/Dev_Software_SanRoque" target="_blank" class="hero-link ghost">📦 GitHub</a>
+    </div>
+  </header>
+
+  <!-- SECCIÓN: PALETA -->
+  <section id="colores" class="reveal">
+    <div class="section-header">
+      <div class="section-icon">🎨</div>
+      <div class="section-title-block">
+        <div class="section-sub">Brandbook · CSS Variables</div>
+        <h2>Marco Visual e Identidad Estética</h2>
+      </div>
+    </div>
+    <p>El portal debe respetar rigurosamente la identidad corporativa e institucional de la municipalidad. Las siguientes variables nativas de CSS estructuran cada elemento de la interfaz gráfica:</p>
+
+    <div class="color-palette">
+      <div class="color-swatch">
+        <div class="color-block" style="background: var(--verde);"></div>
+        <div class="color-info">
+          <strong>Verde</strong>
+          <span>#134e4a</span>
+          <span class="var-badge">--verde</span>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-block" style="background: var(--verde-oscuro);"></div>
+        <div class="color-info">
+          <strong>Verde Oscuro</strong>
+          <span>#0d3937</span>
+          <span class="var-badge">--verde-oscuro</span>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-block" style="background: var(--verde-claro);"></div>
+        <div class="color-info">
+          <strong>Verde Claro</strong>
+          <span>#1a6b65</span>
+          <span class="var-badge">--verde-claro</span>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-block" style="background: var(--dorado);"></div>
+        <div class="color-info">
+          <strong>Dorado</strong>
+          <span>#d4a83c</span>
+          <span class="var-badge">--dorado</span>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-block" style="background: var(--dorado-claro);"></div>
+        <div class="color-info">
+          <strong>Dorado Claro</strong>
+          <span>#f5d98a</span>
+          <span class="var-badge">--dorado-claro</span>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-block" style="background: var(--gris-fondo); border-bottom: 1px solid #e0e5e3;"></div>
+        <div class="color-info">
+          <strong>Gris Fondo</strong>
+          <span>#f4f7f6</span>
+          <span class="var-badge">--gris-fondo</span>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-block" style="background: var(--gris-texto);"></div>
+        <div class="color-info">
+          <strong>Gris Texto</strong>
+          <span>#4a5568</span>
+          <span class="var-badge">--gris-texto</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: TUTORIALES -->
+  <section id="tutoriales" class="reveal">
+    <div class="section-header">
+      <div class="section-icon">🧠</div>
+      <div class="section-title-block">
+        <div class="section-sub">Onboarding</div>
+        <h2>Herramientas Desde Cero</h2>
+      </div>
+    </div>
+    <p>Si es tu primera experiencia en entornos reales de programación cooperativa, estas son las tres herramientas fundamentales que utilizaremos todos los días:</p>
+
+    <div class="step-box">
+      <div class="step-number">01</div>
+      <h4>Notion — Gestión de Objetivos</h4>
+      <p>Es nuestro tablero de control. Al iniciar tu día, revisa la columna "Por Hacer", identifica el módulo técnico asignado, lee su documentación adjunta y arrastra la tarjeta a la columna "En Progreso".</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-number">02</div>
+      <h4>GitHub — Control de Versiones</h4>
+      <p>La nube de resguardo donde consolidamos el proyecto. Permite bajar la base del código y enviar tus progresos de forma ordenada con estos comandos:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-label">bash · git workflow</span>
+        </div>
+        <code><span class="cm"># Clonar el proyecto (primera vez)</span>
+<span class="cmd">git clone</span> <span class="arg">git@github.com:RickyFer22/Dev_Software_SanRoque.git</span>
+
+<span class="cm"># Actualizar tu proyecto local cada mañana</span>
+<span class="cmd">git pull</span> <span class="arg">origin main</span>
+
+<span class="cm"># Subir tus avances listos y aprobados</span>
+<span class="cmd">git add</span> <span class="arg">.</span>
+<span class="cmd">git commit</span> <span class="arg">-m "feat: agrega estructura del modulo de turismo"</span>
+<span class="cmd">git push</span> <span class="arg">origin main</span></code>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-number">03</div>
+      <h4>Netlify — Publicación Automatizada</h4>
+      <p>El servidor que publica la web en tiempo real. Conectado inteligentemente al repositorio GitHub: en el instante en que realizas un <code>git push</code>, Netlify compila y actualiza el portal en producción automáticamente.</p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: MÓDULOS -->
+  <section id="modulos" class="reveal">
+    <div class="section-header">
+      <div class="section-icon">📂</div>
+      <div class="section-title-block">
+        <div class="section-sub">Arquitectura Frontend</div>
+        <h2>Estructura Modular del Portal</h2>
+      </div>
+    </div>
+    <p>La arquitectura funcional del frontend está dividida de forma limpia y desacoplada en seis módulos principales:</p>
+
+    <div class="modules-grid">
+      <div class="module-card">
+        <span class="module-emoji">🌲</span>
+        <h3>Turismo & Cultura</h3>
+        <p>Atractivos históricos, museos, agenda de la Fiesta Patronal, comparsas de carnaval y catálogos interactivos de hoteles y gastronomía local conectados a WhatsApp.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-emoji">🏛️</span>
+        <h3>Dependencia Municipal</h3>
+        <p>Catálogo organizativo de secretarías y áreas gubernamentales, funciones institucionales, nombres de responsables y guías estructuradas de trámites.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-emoji">⚽</span>
+        <h3>Deportes</h3>
+        <p>Fichas técnicas de clubes y ligas en curso (Futsal, etc.), disciplinas municipales y visualizador dinámico para reservas y alquileres de canchas.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-emoji">📋</span>
+        <h3>Servicios a la Comunidad</h3>
+        <p>Cronogramas interactivos de recolección de residuos clasificados por barrios, centrales de remises y tablas de frecuencias de la Terminal de Ómnibus.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-emoji">⛪</span>
+        <h3>Culto</h3>
+        <p>Guía de capillas y de la Parroquia, base informativa de sacerdotes y cuadrícula dinámica de horarios unificados de misas.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-emoji">🛍️</span>
+        <h3>Emprendedores Locales</h3>
+        <p>Vitrina comercial para impulsar y dar visibilidad a artesanos y productores locales independientes clasificados por categorías.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: FLUJO DIARIO -->
+  <section id="flujo" class="reveal">
+    <div class="section-header">
+      <div class="section-icon">🔄</div>
+      <div class="section-title-block">
+        <div class="section-sub">Protocolo Obligatorio</div>
+        <h2>Ciclo Operativo Diario</h2>
+      </div>
+    </div>
+    <p>Para asegurar que avancemos sincronizados y sin interferir en los códigos de otros pasantes, cada jornada de trabajo debe respetar esta secuencia:</p>
+
+    <ol class="workflow-list">
+      <li>
+        <div class="workflow-step-num">1</div>
+        <div class="wf-text">Actualiza el estado de tu asignación en el tablero de <strong>Notion</strong> antes de comenzar cualquier tarea.</div>
+      </li>
+      <li>
+        <div class="workflow-step-num">2</div>
+        <div class="wf-text">Sincroniza tus archivos locales ejecutando <code>git pull origin main</code> para evitar conflictos con otros pasantes.</div>
+      </li>
+      <li>
+        <div class="workflow-step-num">3</div>
+        <div class="wf-text">Desarrolla interfaces responsivas con <strong>HTML5 semántico, CSS y JavaScript Vanilla</strong>. Visualiza los cambios en tiempo real con la extensión <strong>Live Server</strong>.</div>
+      </li>
+      <li>
+        <div class="workflow-step-num">4</div>
+        <div class="wf-text">Guarda y envía tus avances a GitHub con <code>git add .</code> + <code>git commit</code> + <code>git push</code>.</div>
+      </li>
+      <li>
+        <div class="workflow-step-num">5</div>
+        <div class="wf-text">Espera ~2 minutos e ingresa al enlace de <strong>Netlify</strong> para certificar el correcto despliegue de tu sección en producción.</div>
+      </li>
+      <li>
+        <div class="workflow-step-num">6</div>
+        <div class="wf-text">Mueve la tarjeta en <strong>Notion</strong> al estado "Finalizado" y notifica al equipo sobre el avance completado.</div>
+      </li>
+    </ol>
+  </section>
+
+</main>
+
+<script>
+  /* ── Scroll progress bar ── */
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+
+  /* ── Active nav on scroll (IntersectionObserver) ── */
+  const links    = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section, .hero');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.getAttribute('id');
+        links.forEach(a => {
+          a.classList.remove('active');
+          if (a.getAttribute('href') === `#${id}`) a.classList.add('active');
+        });
+      }
+    });
+  }, { rootMargin: '-28% 0px -62% 0px' });
+
+  sections.forEach(s => io.observe(s));
+
+  /* ── Reveal on scroll ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        ro.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07 });
+
+  reveals.forEach(el => ro.observe(el));
+</script>
+
+</body>
+</html>
