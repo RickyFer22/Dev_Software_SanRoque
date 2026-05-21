@@ -1,0 +1,11 @@
+# Scripts locales de Notion (solo uso local, no subir a GitHub)
+notion_scripts/
+create_notion_workspace.py
+
+# Imágenes de trabajo/ideas locales
+futuro.jpeg
+Idea.jpeg
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
