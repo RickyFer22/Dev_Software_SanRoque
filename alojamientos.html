@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alojamientos - San Roque</title>
+<meta name="description" content="Guía de alojamientos en San Roque, Corrientes. Encontrá hospedajes, hoteles y departamentos con contacto directo por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --verde:#134e4a;
+  --verde-oscuro:#0d3937;
+  --verde-claro:#1a6b65;
+  --dorado:#d4a83c;
+  --dorado-claro:#f5d98a;
+  --gris-fondo:#f4f7f6;
+  --gris-texto:#4a5568;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--gris-fondo);
+  font-family:'DM Sans',sans-serif;
+  color:var(--gris-texto);
+  min-height:100vh;
+}
+body.light-mode{background:#f4f7f6;color:#1a202c;}
+
+/* Nav */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 3rem;
+  background:var(--verde);
+  border-bottom:1px solid rgba(212,168,60,.1);
+  position:sticky;top:0;z-index:100;
+}
+.nav-back{
+  display:flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+  color:var(--dorado-claro);text-decoration:none;
+  transition:color .3s;
+}
+.nav-back:hover{color:var(--dorado);}
+.nav-title{
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:700;
+  color:#fff;letter-spacing:.5px;
+}
+@media(max-width:600px){
+  nav{padding:.9rem 1.2rem;flex-wrap:wrap;gap:6px;}
+  .nav-title{font-size:14px;}
+}
+
+/* Hero */
+.hero-sm{
+  background:linear-gradient(135deg,var(--verde-oscuro),var(--verde));
+  padding:3rem 1.5rem;text-align:center;color:#fff;
+}
+.hero-sm h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;
+}
+.hero-sm p{
+  margin-top:.8rem;font-size:clamp(.9rem,1.2vw,1.05rem);
+  color:rgba(255,255,255,.7);max-width:600px;margin-inline:auto;
+}
+
+/* Filtros */
+.filtros{
+  display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;
+  padding:1.8rem 1.5rem;max-width:1100px;margin:0 auto;
+}
+.filtros select{
+  padding:10px 18px;border-radius:10px;
+  border:1px solid rgba(19,78,74,.2);
+  background:#fff;font-family:'DM Sans',sans-serif;
+  font-size:14px;color:var(--gris-texto);
+  cursor:pointer;min-width:180px;
+}
+.filtros select:focus{outline:2px solid var(--dorado);border-color:transparent;}
+
+/* Grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1.5rem 3rem;
+}
+
+/* Tarjeta */
+.tarjeta{
+  background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(19,78,74,.06);
+  transition:transform .3s ease,box-shadow .3s ease;
+  display:flex;flex-direction:column;
+  border:1px solid rgba(19,78,74,.06);
+}
+.tarjeta:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(19,78,74,.1);
+}
+.tarjeta-body{padding:1.5rem;flex:1;display:flex;flex-direction:column;}
+.tarjeta-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:.8rem;gap:8px;
+}
+.tarjeta-nombre{
+  font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;
+  color:var(--verde);line-height:1.3;
+}
+.tarjeta-tipo{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:1px;
+  padding:4px 10px;border-radius:999px;
+  background:rgba(19,78,74,.08);color:var(--verde-claro);
+  white-space:nowrap;flex-shrink:0;margin-top:2px;
+}
+.tarjeta-desc{
+  font-size:14px;color:var(--gris-texto);line-height:1.6;
+  margin-bottom:1rem;
+}
+.tarjeta-servicios{
+  display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;
+}
+.tarjeta-servicios span{
+  font-size:12px;padding:4px 10px;border-radius:999px;
+  background:rgba(212,168,60,.1);color:var(--verde-claro);
+}
+.tarjeta-precios{
+  margin-bottom:1rem;padding:.8rem;border-radius:10px;
+  background:rgba(19,78,74,.03);
+}
+.tarjeta-precios h4{
+  font-size:12px;font-weight:600;color:var(--verde);
+  margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;
+}
+.precio-row{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;padding:3px 0;
+  border-bottom:1px solid rgba(19,78,74,.04);
+}
+.precio-row:last-child{border:none;}
+.precio-valor{font-weight:600;color:var(--verde);white-space:nowrap;}
+.tarjeta-actions{
+  display:flex;gap:10px;margin-top:auto;flex-wrap:wrap;
+}
+.btn-wa{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 18px;border-radius:10px;
+  background:#25D366;color:#fff;font-weight:600;font-size:13px;
+  text-decoration:none;transition:all .3s ease;
+}
+.btn-wa:hover{background:#1da851;transform:translateY(-2px);}
+.btn-detalle{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 18px;border-radius:10px;
+  border:1px solid var(--verde);color:var(--verde);font-weight:600;font-size:13px;
+  background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .3s ease;
+}
+.btn-detalle:hover{background:var(--verde);color:#fff;}
+
+/* Badges */
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:.5px;
+  padding:4px 10px;border-radius:999px;margin-bottom:10px;
+}
+.badge-estimativo{background:rgba(212,168,60,.15);color:#a0852e;}
+.badge-sin-datos{background:rgba(212,168,60,.15);color:#a0852e;}
+
+/* Sin datos */
+.sin-datos-card .tarjeta-body{opacity:.7;}
+.sin-datos-card .tarjeta-nombre{color:var(--gris-texto);}
+.placeholder-msg{
+  text-align:center;padding:2rem;color:var(--gris-texto);
+  font-size:14px;font-style:italic;
+}
+
+/* Modal */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+  justify-content:center;align-items:center;padding:1.5rem;
+}
+.modal-overlay.active{display:flex;}
+.modal{
+  background:#fff;border-radius:20px;max-width:600px;width:100%;
+  max-height:90vh;overflow-y:auto;padding:2rem;
+  position:relative;box-shadow:0 24px 64px rgba(0,0,0,.15);
+  animation:modalIn .3s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px);}to{opacity:1;transform:none;}}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  width:36px;height:36px;border-radius:50%;
+  border:none;background:rgba(19,78,74,.06);
+  font-size:18px;cursor:pointer;color:var(--gris-texto);
+  display:grid;place-items:center;transition:all .3s;
+}
+.modal-close:hover{background:var(--verde);color:#fff;}
+.modal h2{
+  font-family:'Syne',sans-serif;font-size:1.5rem;color:var(--verde);
+  margin-bottom:.3rem;padding-right:2rem;
+}
+.modal .modal-tipo{
+  font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;
+  letter-spacing:1px;color:var(--verde-claro);margin-bottom:1rem;
+}
+.modal-desc{font-size:15px;line-height:1.7;margin-bottom:1.2rem;color:var(--gris-texto);}
+.modal-section{margin-bottom:1.2rem;}
+.modal-section h3{
+  font-size:13px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.5px;color:var(--verde);margin-bottom:.5rem;
+}
+.modal-precios{list-style:none;}
+.modal-precios li{
+  display:flex;justify-content:space-between;padding:6px 0;
+  border-bottom:1px solid rgba(19,78,74,.04);font-size:14px;
+}
+.modal-servicios{display:flex;flex-wrap:wrap;gap:6px;}
+.modal-servicios span{
+  font-size:13px;padding:5px 12px;border-radius:999px;
+  background:rgba(19,78,74,.05);color:var(--verde-claro);
+}
+.modal-map{
+  margin-top:1.2rem;border-radius:12px;overflow:hidden;
+  border:1px solid rgba(19,78,74,.08);
+}
+.modal-map iframe{width:100%;height:240px;border:none;display:block;}
+.modal-wa{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:1.2rem;padding:14px 28px;border-radius:12px;
+  background:#25D366;color:#fff;font-weight:600;font-size:14px;
+  text-decoration:none;transition:all .3s ease;
+}
+.modal-wa:hover{background:#1da851;transform:translateY(-2px);}
+
+/* Footer */
+footer{
+  background:var(--verde-oscuro);color:rgba(255,255,255,.5);
+  text-align:center;padding:2rem 1.5rem;font-size:13px;
+  font-family:'DM Sans',sans-serif;
+}
+
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr;padding:0 1rem 2rem;}
+  .tarjeta-actions{flex-direction:column;}
+  .filtros{padding:1rem;}
+  .modal{padding:1.2rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-back" href="index.html">&larr; Volver al portal</a>
+  <span class="nav-title">Alojamientos · San Roque</span>
+  <span></span>
+</nav>
+
+<section class="hero-sm">
+  <h1>Encontrá tu hospedaje ideal</h1>
+  <p>Departamentos, hoteles y hospedajes familiares en San Roque, Corrientes. Contactá directo por WhatsApp.</p>
+</section>
+
+<div class="filtros">
+  <select id="filtroTipo">
+    <option value="todos">Todos los tipos</option>
+    <option value="hotel">Hotel</option>
+    <option value="hospedaje">Hospedaje</option>
+    <option value="departamento">Departamento</option>
+  </select>
+  <select id="filtroCapacidad">
+    <option value="0">Cualquier capacidad</option>
+    <option value="1">1 persona</option>
+    <option value="2">2 personas</option>
+    <option value="3">3 personas</option>
+    <option value="4">4 personas</option>
+    <option value="6">6+ personas</option>
+  </select>
+  <select id="ordenPrecio">
+    <option value="ninguno">Orden predeterminado</option>
+    <option value="menor">Menor precio</option>
+    <option value="mayor">Mayor precio</option>
+  </select>
+</div>
+
+<div class="grid" id="gridAlojamientos"></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" id="modalCerrar">✕</button>
+    <h2 id="modalNombre"></h2>
+    <div class="modal-tipo" id="modalTipo"></div>
+    <p class="modal-desc" id="modalDesc"></p>
+    <div class="modal-section" id="modalPreciosSec">
+      <h3>Precios por noche</h3>
+      <ul class="modal-precios" id="modalPrecios"></ul>
+    </div>
+    <div class="modal-section" id="modalServiciosSec">
+      <h3>Servicios incluidos</h3>
+      <div class="modal-servicios" id="modalServicios"></div>
+    </div>
+    <div class="modal-map" id="modalMap"></div>
+    <a class="modal-wa" id="modalWa" target="_blank">Contactar por WhatsApp</a>
+  </div>
+</div>
+
+<footer>
+  Municipalidad de San Roque, Corrientes &mdash; Datos actualizados a enero 2026
+</footer>
+
+<script>
+const alojamientos = [];
+
+fetch('Alojamientos/alojamientos.json')
+  .then(r => r.json())
+  .then(data => {
+    alojamientos.push(...data);
+    renderizar(alojamientos);
+  })
+  .catch(() => {
+    document.getElementById('gridAlojamientos').innerHTML =
+      '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--gris-texto);">Error al cargar los datos.</p>';
+  });
+
+function waUrl(num, text) {
+  const t = encodeURIComponent(text || 'Hola, quería consultar disponibilidad para hospedarme en San Roque.');
+  return `https://wa.me/54${num}?text=${t}`;
+}
+
+function precioLabel(precio) {
+  return '$' + precio.toLocaleString('es-AR');
+}
+
+function badgeHTML(a) {
+  if (a.sin_datos) return '<span class="badge badge-sin-datos">⚠️ Sin datos disponibles</span>';
+  if (a.tarifa_estimativa) return '<span class="badge badge-estimativo">📋 Precio estimativo</span>';
+  return '';
+}
+
+function tipoLabel(tipo) {
+  const map = { hotel: 'Hotel', hospedaje: 'Hospedaje', departamento: 'Departamento' };
+  return map[tipo] || tipo;
+}
+
+function renderizar(lista) {
+  const grid = document.getElementById('gridAlojamientos');
+  if (!lista.length) {
+    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--gris-texto);">No se encontraron alojamientos con esos filtros.</p>';
+    return;
+  }
+  grid.innerHTML = lista.map(a => {
+    const mejorPrecio = a.unidades.length ? Math.min(...a.unidades.map(u => u.precio)) : null;
+    const sinDatos = a.sin_datos;
+    const cardClass = sinDatos ? 'tarjeta sin-datos-card' : 'tarjeta';
+
+    let preciosHTML = '';
+    if (!sinDatos && a.unidades.length) {
+      preciosHTML = `<div class="tarjeta-precios"><h4>Precios por noche</h4>`;
+      a.unidades.forEach(u => {
+        preciosHTML += `<div class="precio-row"><span>${u.descripcion}</span><span class="precio-valor">${precioLabel(u.precio)}</span></div>`;
+      });
+      preciosHTML += `</div>`;
+    }
+
+    const serviciosHTML = a.servicios.length
+      ? `<div class="tarjeta-servicios">${a.servicios.map(s => `<span>${s}</span>`).join('')}</div>`
+      : '';
+
+    const waBtn = a.whatsapp
+      ? `<a class="btn-wa" href="${waUrl(a.whatsapp, 'Hola, quería consultar disponibilidad para hospedarme en ' + a.nombre)}" target="_blank">📱 WhatsApp</a>`
+      : '';
+
+    const detalleBtn = sinDatos ? '' :
+      `<button class="btn-detalle" data-id="${a.id}">Ver detalle</button>`;
+
+    return `
+      <div class="${cardClass}">
+        <div class="tarjeta-body">
+          ${badgeHTML(a)}
+          <div class="tarjeta-header">
+            <div class="tarjeta-nombre">${a.nombre}</div>
+            <div class="tarjeta-tipo">${tipoLabel(a.tipo)}</div>
+          </div>
+          <p class="tarjeta-desc">${a.descripcion}</p>
+          ${serviciosHTML}
+          ${preciosHTML}
+          <div class="tarjeta-actions">
+            ${waBtn}
+            ${detalleBtn}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.querySelectorAll('.btn-detalle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = lista.find(a => a.id === btn.dataset.id);
+      if (item) abrirModal(item);
+    });
+  });
+}
+
+function abrirModal(a) {
+  document.getElementById('modalNombre').textContent = a.nombre;
+  document.getElementById('modalTipo').textContent = tipoLabel(a.tipo);
+  document.getElementById('modalDesc').textContent = a.descripcion;
+
+  const precioSec = document.getElementById('modalPreciosSec');
+  const preciosList = document.getElementById('modalPrecios');
+  if (a.unidades.length) {
+    precioSec.style.display = '';
+    preciosList.innerHTML = a.unidades.map(u =>
+      `<li><span>${u.descripcion}</span><strong>${precioLabel(u.precio)}</strong></li>`
+    ).join('');
+  } else {
+    precioSec.style.display = 'none';
+  }
+
+  const servSec = document.getElementById('modalServiciosSec');
+  const servList = document.getElementById('modalServicios');
+  if (a.servicios.length) {
+    servSec.style.display = '';
+    servList.innerHTML = a.servicios.map(s => `<span>${s}</span>`).join('');
+  } else {
+    servSec.style.display = 'none';
+  }
+
+  const mapDiv = document.getElementById('modalMap');
+  if (a.coords) {
+    mapDiv.style.display = '';
+    mapDiv.innerHTML = `<iframe loading="lazy" src="https://maps.google.com/maps?q=${a.coords.lat},${a.coords.lng}&z=15&output=embed" allowfullscreen></iframe>`;
+  } else {
+    mapDiv.style.display = 'none';
+  }
+
+  const waLink = document.getElementById('modalWa');
+  if (a.whatsapp) {
+    waLink.style.display = 'inline-flex';
+    waLink.href = waUrl(a.whatsapp, 'Hola, quería consultar disponibilidad para hospedarme en ' + a.nombre);
+  } else {
+    waLink.style.display = 'none';
+  }
+
+  document.getElementById('modal').classList.add('active');
+}
+
+document.getElementById('modalCerrar').addEventListener('click', () => {
+  document.getElementById('modal').classList.remove('active');
+});
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) document.getElementById('modal').classList.remove('active');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modal').classList.remove('active');
+});
+
+function filtrar() {
+  const tipo = document.getElementById('filtroTipo').value;
+  const cap = parseInt(document.getElementById('filtroCapacidad').value);
+  const orden = document.getElementById('ordenPrecio').value;
+
+  let filtrados = alojamientos.filter(a => {
+    if (tipo !== 'todos' && a.tipo !== tipo) return false;
+    if (cap > 0) {
+      if (!a.unidades.length) return false;
+      const maxCap = Math.max(...a.unidades.map(u => u.capacidad));
+      if (cap === 6) return maxCap >= 6;
+      return a.unidades.some(u => u.capacidad >= cap);
+    }
+    return true;
+  });
+
+  if (orden === 'menor') {
+    filtrados.sort((a, b) => {
+      const minA = a.unidades.length ? Math.min(...a.unidades.map(u => u.precio)) : Infinity;
+      const minB = b.unidades.length ? Math.min(...b.unidades.map(u => u.precio)) : Infinity;
+      return minA - minB;
+    });
+  } else if (orden === 'mayor') {
+    filtrados.sort((a, b) => {
+      const minA = a.unidades.length ? Math.min(...a.unidades.map(u => u.precio)) : 0;
+      const minB = b.unidades.length ? Math.min(...b.unidades.map(u => u.precio)) : 0;
+      return minB - minA;
+    });
+  }
+
+  renderizar(filtrados);
+}
+
+document.getElementById('filtroTipo').addEventListener('change', filtrar);
+document.getElementById('filtroCapacidad').addEventListener('change', filtrar);
+document.getElementById('ordenPrecio').addEventListener('change', filtrar);
+</script>
+</body>
+</html>
