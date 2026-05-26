@@ -62,7 +62,7 @@ El sistema web se compone de 6 núcleos aislados que estructuran la información
 * ⛪ **Culto (*Misas*):** Listado unificado de capillas y parroquias, sacerdotes a cargo y agenda horaria interactiva de celebraciones religiosas.
 * 🛍️ **Emprendedores Locales:** Vitrina virtual de la economía social para la visibilización y contacto directo con los productores locales.
 
----
+
 
 ## 🔄 Flujo Operativo de Trabajo Diario (Obligatorio)
 Para mantener la armonía del equipo, tu ciclo de desarrollo diario debe cumplir los siguientes pasos ordenados:
