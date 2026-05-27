@@ -77,4 +77,4 @@ Para mantener la armonía del equipo, tu ciclo de desarrollo diario debe cumplir
 
 ---
 
-*Desarrollado en el marco del programa integral de Modernización y Digitalización del Estado de la Municipalidad de San Roque.*
+*Desarrollado en el marco del acuerdo de pasantías entre el Instituto Superior de Formación Docente “Juan García de Cossio”, a través de la Tecnicatura Superior en Desarrollo de Software, y la Municipalidad de San Roque, como parte del proceso integral de modernización y digitalización del Estado municipal.*
