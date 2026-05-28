@@ -249,7 +249,36 @@ footer{
   .tarjeta-actions{flex-direction:column;}
   .filtros{padding:1rem;}
   .modal{padding:1.2rem;}
+  .tarjeta-redes{flex-direction:column;}
+  .btn-mapa-link{margin-left:0;}
 }
+
+/* ── Redes sociales, mapa y contacto ── */
+.tarjeta-redes{
+  display:flex;align-items:center;gap:8px;
+  flex-wrap:wrap;margin-bottom:10px;
+}
+.btn-social{
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  padding:6px 13px;border-radius:8px;
+  font-size:12px;font-weight:600;text-decoration:none;
+  transition:all .25s ease;border:1.5px solid transparent;white-space:nowrap;
+}
+.btn-social.fb{background:rgba(24,119,242,.1);color:#1877f2;border-color:rgba(24,119,242,.2);}
+.btn-social.fb:hover{background:#1877f2;color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(24,119,242,.3);}
+.btn-social.ig{background:rgba(225,48,108,.08);color:#e1306c;border-color:rgba(225,48,108,.2);}
+.btn-social.ig:hover{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;border-color:transparent;transform:translateY(-2px);box-shadow:0 4px 12px rgba(225,48,108,.3);}
+.btn-mapa-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:600;color:var(--verde-claro);
+  text-decoration:none;padding:6px 13px;border-radius:8px;
+  background:rgba(19,78,74,.06);border:1.5px solid rgba(19,78,74,.15);
+  transition:all .25s ease;margin-left:auto;white-space:nowrap;
+}
+.btn-mapa-link:hover{background:var(--verde);color:#fff;border-color:var(--verde);transform:translateY(-2px);box-shadow:0 4px 12px rgba(19,78,74,.2);}
+/* Modal redes */
+.modal-redes{display:flex;gap:10px;flex-wrap:wrap;margin-top:.5rem;}
+.modal-redes .btn-social,.modal-redes .btn-mapa-link{padding:9px 18px;font-size:13px;margin-left:0;}
 </style>
 </head>
 <body>
@@ -303,6 +332,10 @@ footer{
       <h3>Servicios incluidos</h3>
       <div class="modal-servicios" id="modalServicios"></div>
     </div>
+    <div class="modal-section" id="modalRedesSec">
+      <h3>Redes &amp; Ubicación</h3>
+      <div class="modal-redes" id="modalRedes"></div>
+    </div>
     <div class="modal-map" id="modalMap"></div>
     <a class="modal-wa" id="modalWa" target="_blank">Contactar por WhatsApp</a>
   </div>
@@ -314,6 +347,11 @@ footer{
 
 <script>
 const alojamientos = [];
+
+// ── Iconos SVG inline ──
+const SVG_FB  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`;
+const SVG_IG  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`;
+const SVG_MAP = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
 
 fetch('Alojamientos/alojamientos.json')
   .then(r => r.json())
@@ -377,6 +415,12 @@ function renderizar(lista) {
     const detalleBtn = sinDatos ? '' :
       `<button class="btn-detalle" data-id="${a.id}">Ver detalle</button>`;
 
+    const redesLinks = [];
+    if (a.facebook) redesLinks.push(`<a class="btn-social fb" href="${a.facebook}" target="_blank" rel="noopener noreferrer" title="Facebook">${SVG_FB} Facebook</a>`);
+    if (a.instagram) redesLinks.push(`<a class="btn-social ig" href="${a.instagram}" target="_blank" rel="noopener noreferrer" title="Instagram">${SVG_IG} Instagram</a>`);
+    if (a.coords)   redesLinks.push(`<a class="btn-mapa-link" href="https://maps.google.com/?q=${a.coords.lat},${a.coords.lng}" target="_blank" rel="noopener noreferrer" title="Abrir en Google Maps">${SVG_MAP} Ver mapa</a>`);
+    const redesHTML = redesLinks.length ? `<div class="tarjeta-redes">${redesLinks.join('')}</div>` : '';
+
     return `
       <div class="${cardClass}">
         <div class="tarjeta-body">
@@ -387,6 +431,7 @@ function renderizar(lista) {
           </div>
           <p class="tarjeta-desc">${a.descripcion}</p>
           ${serviciosHTML}
+          ${redesHTML}
           ${preciosHTML}
           <div class="tarjeta-actions">
             ${waBtn}
@@ -427,6 +472,19 @@ function abrirModal(a) {
     servList.innerHTML = a.servicios.map(s => `<span>${s}</span>`).join('');
   } else {
     servSec.style.display = 'none';
+  }
+
+  const redesSec = document.getElementById('modalRedesSec');
+  const redesDiv = document.getElementById('modalRedes');
+  const redesModalLinks = [];
+  if (a.facebook)  redesModalLinks.push(`<a class="btn-social fb" href="${a.facebook}" target="_blank" rel="noopener noreferrer">${SVG_FB} Facebook</a>`);
+  if (a.instagram) redesModalLinks.push(`<a class="btn-social ig" href="${a.instagram}" target="_blank" rel="noopener noreferrer">${SVG_IG} Instagram</a>`);
+  if (a.coords)    redesModalLinks.push(`<a class="btn-mapa-link" href="https://maps.google.com/?q=${a.coords.lat},${a.coords.lng}" target="_blank" rel="noopener noreferrer">${SVG_MAP} Abrir en Google Maps</a>`);
+  if (redesModalLinks.length) {
+    redesSec.style.display = '';
+    redesDiv.innerHTML = redesModalLinks.join('');
+  } else {
+    redesSec.style.display = 'none';
   }
 
   const mapDiv = document.getElementById('modalMap');

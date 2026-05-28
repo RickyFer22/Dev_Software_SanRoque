@@ -11,6 +11,8 @@
     "servicios": ["Ropa de cama", "Ropa de baño", "Aire acondicionado", "Wi-Fi", "Cochera (2 de 3 deptos.)"],
     "tarifa_estimativa": true,
     "whatsapp": "3777385281",
+    "facebook": "https://www.facebook.com/CasaBlancaSanRoque",
+    "instagram": null,
     "ubicacion": "San Roque, Corrientes",
     "coords": { "lat": -28.5702, "lng": -58.7100 }
   },
@@ -28,6 +30,8 @@
     "servicios": ["Ropa de cama", "Ropa de baño", "Aire acondicionado", "Wi-Fi"],
     "tarifa_estimativa": true,
     "whatsapp": "379498526",
+    "facebook": null,
+    "instagram": null,
     "ubicacion": "San Roque, Corrientes",
     "coords": { "lat": -28.5710, "lng": -58.7110 }
   },
@@ -44,6 +48,8 @@
     "servicios": ["Aire acondicionado", "Wi-Fi", "Ropa de cama", "Ropa de baño"],
     "tarifa_estimativa": true,
     "whatsapp": "3795139474",
+    "facebook": "https://www.facebook.com/HotelParaisoSanRoque",
+    "instagram": "https://www.instagram.com/hotelparaiso.sanroque",
     "ubicacion": "San Roque, Corrientes",
     "coords": { "lat": -28.5718, "lng": -58.7108 }
   },
@@ -57,6 +63,8 @@
     "tarifa_estimativa": false,
     "sin_datos": true,
     "whatsapp": null,
+    "facebook": null,
+    "instagram": null,
     "ubicacion": "San Roque, Corrientes",
     "coords": { "lat": -28.5705, "lng": -58.7095 }
   },
@@ -71,6 +79,8 @@
     "servicios": ["Baño privado", "Aire acondicionado", "Wi-Fi", "Cocina compartida", "Heladera", "Lavadero", "Sillones cama (2)"],
     "tarifa_estimativa": true,
     "whatsapp": "3777470019",
+    "facebook": null,
+    "instagram": null,
     "ubicacion": "San Roque, Corrientes",
     "coords": { "lat": -28.5715, "lng": -58.7103 }
   }
