@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima - Paso de los Libres</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+            color: #333; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+        .container { 
+            background: rgba(255, 255, 255, 0.95); 
+            border-radius: 20px; 
+            padding: 30px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            max-width: 600px; 
+            width: 100%; 
+            text-align: center; 
+        }
+        h1 { margin-top: 0; color: #0052D4; }
+        .current { margin-bottom: 30px; }
+        .temp { font-size: 4em; font-weight: bold; margin: 10px 0; color: #0052D4; }
+        .details { display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 20px; }
+        .detail-item { background: #f0f4f8; padding: 15px; border-radius: 10px; margin: 5px; flex: 1; min-width: 120px; }
+        .forecast { margin-top: 20px; text-align: left; }
+        .day { display: flex; justify-content: space-between; align-items: center; background: #f9fbfd; margin: 10px 0; padding: 15px; border-radius: 10px; border-left: 5px solid #0052D4; }
+        .loading { font-size: 1.5em; color: #0052D4; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌤️ Estado del Tiempo</h1>
+        <div id="content">
+            <p class="loading">Cargando datos del clima...</p>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=-28.57&longitude=-58.71&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=America/Argentina/Buenos_Aires&lang=es";
+
+        const weatherCodes = {
+            0: { desc: "Cielo despejado", icon: "☀️" },
+            1: { desc: "Principalmente despejado", icon: "🌤️" },
+            2: { desc: "Parcialmente nublado", icon: "⛅" },
+            3: { desc: "Nublado", icon: "☁️" },
+            45: { desc: "Niebla", icon: "🌫️" },
+            48: { desc: "Niebla con escarcha", icon: "🌫️" },
+            51: { desc: "Llovizna ligera", icon: "🌦️" },
+            53: { desc: "Llovizna moderada", icon: "🌦️" },
+            55: { desc: "Llovizna densa", icon: "🌧️" },
+            61: { desc: "Lluvia ligera", icon: "🌦️" },
+            63: { desc: "Lluvia moderada", icon: "🌧️" },
+            65: { desc: "Lluvia intensa", icon: "🌧️" },
+            71: { desc: "Nieve ligera", icon: "🌨️" },
+            73: { desc: "Nieve moderada", icon: "❄️" },
+            75: { desc: "Nieve intensa", icon: "❄️" },
+            80: { desc: "Chubascos ligeros", icon: "🌦️" },
+            81: { desc: "Chubascos moderados", icon: "🌧️" },
+            82: { desc: "Chubascos violentos", icon: "⛈️" },
+            95: { desc: "Tormenta", icon: "⛈️" },
+            96: { desc: "Tormenta con granizo ligero", icon: "⛈️" },
+            99: { desc: "Tormenta con granizo intenso", icon: "⛈️" }
+        };
+
+        async function fetchWeather() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                displayWeather(data);
+            } catch (error) {
+                document.getElementById('content').innerHTML = '<p class="error">Error al cargar el clima. Por favor, intenta de nuevo más tarde.</p>';
+                console.error('Error:', error);
+            }
+        }
+
+        function displayWeather(data) {
+            const current = data.current;
+            const daily = data.daily;
+            const weatherInfo = weatherCodes[current.weather_code] || { desc: "Desconocido", icon: "❓" };
+
+            let currentHtml = `
+                <div class="current">
+                    <h2>${weatherInfo.icon} ${weatherInfo.desc}</h2>
+                    <div class="temp">${current.temperature_2m}°C</div>
+                    <p>Sensación térmica: ${current.apparent_temperature}°C</p>
+                    <div class="details">
+                        <div class="detail-item">
+                            <strong>💧 Humedad</strong><br>${current.relative_humidity_2m}%
+                        </div>
+                        <div class="detail-item">
+                            <strong>💨 Viento</strong><br>${current.wind_speed_10m} km/h
+                        </div>
+                    </div>
+                </div>
+                <div class="forecast">
+                    <h3>📅 Pronóstico de los próximos días</h3>
+            `;
+
+            for (let i = 0; i < daily.time.length; i++) {
+                const date = new Date(daily.time[i] + 'T00:00:00');
+                const dayName = date.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' });
+                currentHtml += `
+                    <div class="day">
+                        <span><strong>${dayName}</strong></span>
+                        <span>🔺 ${daily.temperature_2m_max[i]}°C / 🔻 ${daily.temperature_2m_min[i]}°C</span>
+                    </div>
+                `;
+            }
+            currentHtml += `</div>`;
+            document.getElementById('content').innerHTML = currentHtml;
+        }
+
+        fetchWeather();
+    </script>
+</body>
+</html>
