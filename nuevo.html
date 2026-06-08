@@ -1,0 +1,1434 @@
+<!DOCTYPE html><html class="dark" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Alojamientos | VerdeSelva - San Roque</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary": "#20342d",
+                      "surface-variant": "#313635",
+                      "outline": "#8c928e",
+                      "on-tertiary-fixed": "#002118",
+                      "on-tertiary": "#04382b",
+                      "secondary-fixed-dim": "#e9c400",
+                      "secondary-fixed": "#ffe16d",
+                      "surface-tint": "#b5ccc1",
+                      "inverse-primary": "#4e635a",
+                      "on-surface": "#e0e3e1",
+                      "outline-variant": "#424845",
+                      "secondary-container": "#ffdb3c",
+                      "primary": "#b5ccc1",
+                      "primary-fixed": "#d1e8dc",
+                      "tertiary-fixed": "#bcedda",
+                      "tertiary-container": "#00231a",
+                      "error": "#ffb4ab",
+                      "on-secondary-container": "#725f00",
+                      "on-error-container": "#ffdad6",
+                      "primary-container": "#0d211a",
+                      "on-background": "#e0e3e1",
+                      "background": "#101413",
+                      "on-secondary-fixed-variant": "#544600",
+                      "tertiary": "#a1d1bf",
+                      "error-container": "#93000a",
+                      "on-primary-fixed": "#0b1f18",
+                      "tertiary-fixed-dim": "#a1d1bf",
+                      "surface-container-low": "#181c1b",
+                      "on-secondary-fixed": "#221b00",
+                      "inverse-on-surface": "#2d3130",
+                      "on-primary-fixed-variant": "#374b43",
+                      "on-error": "#690005",
+                      "surface": "#101413",
+                      "surface-container-high": "#272b2a",
+                      "on-tertiary-fixed-variant": "#214f41",
+                      "surface-bright": "#363a39",
+                      "surface-container-lowest": "#0b0f0e",
+                      "surface-dim": "#101413",
+                      "on-surface-variant": "#c2c8c3",
+                      "on-tertiary-container": "#618f7f",
+                      "surface-container": "#1c201f",
+                      "inverse-surface": "#e0e3e1",
+                      "on-secondary": "#3a3000",
+                      "on-primary-container": "#748a80",
+                      "secondary": "#fff9ef",
+                      "surface-container-highest": "#313635",
+                      "primary-fixed-dim": "#b5ccc1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "md": "24px",
+                      "sm": "16px",
+                      "xl": "64px",
+                      "base": "4px",
+                      "lg": "40px",
+                      "xs": "8px",
+                      "container-max": "1200px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Hanken Grotesk"],
+                      "headline-md-mobile": ["Hanken Grotesk"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "headline-sm": ["Hanken Grotesk"],
+                      "label-bold": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-md-mobile": ["20px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-bold": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .card-glass {
+            background: #162E25;
+            border: 1px solid #234336;
+        }
+        .chip-glass {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(181, 204, 193, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg text-body-lg min-h-screen pb-20 md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-background sticky top-0 z-50 h-20 flex justify-center border-b border-outline-variant/10">
+<div class="flex justify-between items-center w-full px-md md:px-lg max-w-container-max mx-auto h-full">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: &quot;FILL&quot; 1;">nature_people</span>
+<div class="flex flex-col leading-none">
+<span class="font-display-lg text-headline-sm font-extrabold text-primary">San</span>
+<span class="font-display-lg text-headline-sm font-extrabold text-primary -mt-1">Roque</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-lg" href="https://munisanroque.ar/#inicio">Inicio</a>
+<a class="text-secondary-fixed font-bold border-b-2 border-secondary-fixed pb-1 font-body-lg" href="#hospedajes">Hospedaje</a>
+<a class="text-secondary-fixed font-bold border-b-2 border-secondary-fixed pb-1 font-body-lg" href="#gastronomia">Gastronomía</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-lg" href="https://munisanroque.ar/historia.php">Nuestra Historia</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-lg" href="https://munisanroque.ar/#gobierno">Gobierno</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-body-lg" href="https://munisanroque.ar/noticias.php">Noticias</a>
+</nav>
+<div class="flex items-center gap-md">
+<div class="hidden sm:flex items-center gap-xs bg-surface-container-high px-3 py-1.5 rounded-full border border-outline-variant/20">
+    <span class="material-symbols-outlined text-primary text-[20px]">partly_cloudy_day</span>
+    <span class="font-label-bold text-on-surface">16°C</span>
+</div><a href="https://munisanroque.ar/" class="bg-secondary-container text-on-secondary-container px-sm py-2 rounded-full font-label-bold text-label-bold uppercase tracking-wider hidden sm:block">Volver al Portal</a>
+<div class="flex gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+<img alt="Pórtico de Acceso San Roque" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUQOEaZYtXhrDqYV5jXZCsQ0EHK-6EsByYg24FT_EYBgTu4Ot0b7bTzcqkS-UrEuFAvaeqzDDk61JvLyGGl3EMgrBYfF-5xAb7Ckea39YnfIGqG7uBkc9h_fxN9TCYzq8WpQcnvndAvSEIjupqkosyHJB_LYja7wvPr5cnuamep3rxYCtMG9x5L73YoOH9GlB0KqUyX9IgMshmqk8KWW4YeRYjJ_3w3IbLbkCWkHi9r9qATaDA4wIT8JqWoXZbrZk1nEGzasCYaqI">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+<div class="relative z-10 text-center px-md max-w-4xl">
+<h1 class="font-display-lg text-4xl md:text-6xl text-primary mb-sm drop-shadow-lg">Bienvenidos a San Roque</h1>
+<p class="text-white text-lg md:text-xl font-medium drop-shadow-md">Descubre el encanto histórico y la serenidad natural de un pueblo con alma correntina, donde la hospitalidad es nuestra mayor tradición.</p>
+</div>
+</section>
+
+<!-- Weather Widget -->
+<div class="max-w-container-max mx-auto px-md md:px-lg pt-lg">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+    
+    <!-- CLIMA CARD -->
+    <div class="card-glass rounded-xl p-md" id="weather-card">
+      <div class="flex items-center gap-xs mb-md">
+        <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">partly_cloudy_day</span>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">Clima en Tiempo Real</h3>
+          <p class="text-body-sm text-on-surface-variant">San Roque, Corrientes · Argentina</p>
+        </div>
+      </div>
+      
+      <div id="weather-loading" class="flex items-center gap-sm text-on-surface-variant text-body-sm py-4">
+        <span class="material-symbols-outlined animate-spin text-primary">refresh</span>
+        Cargando clima...
+      </div>
+
+      <div id="weather-data" class="hidden">
+        <!-- Current temp row -->
+        <div class="flex items-end gap-sm mb-md">
+          <span id="w-icon" class="material-symbols-outlined text-6xl text-secondary-fixed" style="font-variation-settings:'FILL' 1">sunny</span>
+          <div>
+            <div class="flex items-end gap-xs">
+              <span id="w-temp" class="text-[56px] font-extrabold text-on-surface leading-none">--</span>
+              <span class="text-2xl text-on-surface-variant mb-2">°C</span>
+            </div>
+            <span id="w-desc" class="text-body-sm text-on-surface-variant capitalize">--</span>
+          </div>
+        </div>
+
+        <!-- Detail chips -->
+        <div class="grid grid-cols-2 gap-xs mb-md">
+          <div class="chip-glass rounded-xl px-sm py-xs flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary text-[16px]">water_drop</span>
+            <div>
+              <div class="text-label-bold text-[10px] text-on-surface-variant uppercase">Humedad</div>
+              <div id="w-humidity" class="text-body-sm text-on-surface font-bold">--%</div>
+            </div>
+          </div>
+          <div class="chip-glass rounded-xl px-sm py-xs flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary text-[16px]">air</span>
+            <div>
+              <div class="text-label-bold text-[10px] text-on-surface-variant uppercase">Viento</div>
+              <div id="w-wind" class="text-body-sm text-on-surface font-bold">-- km/h</div>
+            </div>
+          </div>
+          <div class="chip-glass rounded-xl px-sm py-xs flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary text-[16px]">thermostat</span>
+            <div>
+              <div class="text-label-bold text-[10px] text-on-surface-variant uppercase">Sensación</div>
+              <div id="w-feels" class="text-body-sm text-on-surface font-bold">--°C</div>
+            </div>
+          </div>
+          <div class="chip-glass rounded-xl px-sm py-xs flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary text-[16px]">umbrella</span>
+            <div>
+              <div class="text-label-bold text-[10px] text-on-surface-variant uppercase">Lluvia hoy</div>
+              <div id="w-rain" class="text-body-sm text-on-surface font-bold">-- mm</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5-day forecast -->
+        <div class="border-t border-outline-variant/30 pt-md">
+          <p class="text-label-bold text-[10px] text-on-surface-variant uppercase mb-sm">Próximos 5 días</p>
+          <div id="w-forecast" class="flex justify-between gap-xs"></div>
+        </div>
+
+        <p class="text-label-bold text-[10px] text-on-surface-variant mt-sm opacity-50">Fuente: Open-Meteo · Actualizado: <span id="w-updated">--</span></p>
+      </div>
+
+      <div id="weather-error" class="hidden text-body-sm text-on-surface-variant py-2">
+        <span class="material-symbols-outlined text-error">error</span> No se pudo obtener el clima.
+      </div>
+    </div>
+
+    <!-- PRÓXIMO EVENTO CARD -->
+    <div class="card-glass rounded-xl p-md" id="calendar-card">
+      <div class="flex items-center gap-xs mb-md">
+        <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">event</span>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">Próximo Evento</h3>
+          <p class="text-body-sm text-on-surface-variant">San Roque, Corrientes</p>
+        </div>
+      </div>
+      <div id="next-event-display"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FECHAS IMPORTANTES — Tarjetas -->
+<div class="max-w-container-max mx-auto px-md md:px-lg pt-lg pb-xs" id="fechas">
+  <div class="flex items-center justify-between mb-md flex-wrap gap-sm">
+    <div>
+      <h2 class="font-display-lg text-4xl md:text-5xl text-primary font-extrabold">Fechas Importantes</h2>
+      <p class="text-on-surface-variant mt-xs">Eventos, fiestas y efemérides de San Roque y Argentina</p>
+    </div>
+    <!-- Filter chips -->
+    <div class="flex gap-xs flex-wrap">
+      <button onclick="filterEvents('todos')" id="filt-todos" class="event-filter-btn active chip-glass rounded-full px-sm py-1 text-label-bold text-[11px] text-on-surface border border-primary/30 transition-all">Todos</button>
+      <button onclick="filterEvents('local')" id="filt-local" class="event-filter-btn chip-glass rounded-full px-sm py-1 text-label-bold text-[11px] text-on-surface-variant border border-outline-variant/20 transition-all">🏡 Locales</button>
+      <button onclick="filterEvents('provincial')" id="filt-provincial" class="event-filter-btn chip-glass rounded-full px-sm py-1 text-label-bold text-[11px] text-on-surface-variant border border-outline-variant/20 transition-all">🌿 Provinciales</button>
+      <button onclick="filterEvents('nacional')" id="filt-nacional" class="event-filter-btn chip-glass rounded-full px-sm py-1 text-label-bold text-[11px] text-on-surface-variant border border-outline-variant/20 transition-all">🇦🇷 Nacionales</button>
+    </div>
+  </div>
+  <div id="events-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md"></div>
+</div>
+
+<!-- Main Content -->
+<main class="max-w-container-max mx-auto px-md md:px-lg py-xl">
+<header class="mb-xl text-center md:text-left" id="hospedajes">
+<h2 class="font-display-lg text-display-lg text-primary mb-xs">Nuestros Alojamientos</h2>
+<p class="text-on-surface-variant max-w-2xl">Desde hoteles boutique modernos hasta cálidos hospedajes familiares, encuentra el refugio perfecto para vivir tu experiencia en San Roque.</p>
+</header>
+<!-- Grid Layout for Accommodations -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Card 1: Leguiza Hotel -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+<img alt="Leguiza Hotel" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANO9Y_dDhYIfTaWrcTzJ2LqnCtvBlAysf8Lu03kNN8DVLE-Xup00Zx27ObS1OFH-roTNHWqZ7UFJeTFcMPTcU2W-glYq5rc-EyG8abhQqfGm5cshCrrxOoa6difdpD7O828dHQMun2Q2gCwF8czEB4bIIQcmJWexPnRSMyeytR-FY2a1T4AZkZLyd45EV_jIwXtc_gMSPhqxYmjXS_Yty0UgRiXgQI4q7hYmW90fdfPq9zoRkuML-ruomHkHXG0-UkX9J-_2_833M">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Leguiza Hotel</h2>
+<div class="flex items-center gap-1 text-secondary-fixed mt-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-[16px]">star</span>
+<span class="text-body-sm text-on-surface-variant ml-2">4.0 (28 opiniones)</span>
+</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Hotel</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Ubicación céntrica privilegiada. Cuenta con 9 habitaciones confortables y todos los servicios modernos para una estadía placentera.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi Starlink
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">directions_car</span> Cochera
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="leguiza">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777206700">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://maps.app.goo.gl/xaFQVvjd4vF5djdR6" target="_blank">
+<span class="material-symbols-outlined text-[18px]">map</span> Ver en Mapa
+                        </a>
+</div>
+</div>
+</div>
+<!-- Card 2: Hospedaje JR -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+<img alt="Hospedaje JR" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJPfch4zOahtPFUswisYiRH4AwEnSW9-tIc-iGOrLXV3kIKJBB4IIlFpP3_bgEJSL3HYElHU9Jg2tZ7Ell8HVVdVkNzpBdGlIEntU_OVh01vgrk-nXf8kODzqvEvLS5Sim0KLYE2ddZ820GTJf6hZ6OtygcdJB1Hfl8FYeFUPgRuUylk5xnvfhWGbP290kg0sY92nm9pwaU4SkE1FY3d6UvC1vnYITydFldb75srZfQUd8oS6Q7qMYpxvIy_C46dDyG0UZDhthlj0">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Hospedaje JR</h2>
+<div class="text-tertiary font-label-bold text-[10px] mt-1 uppercase">Berón de Astrada 826</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Hospedaje</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Ambiente familiar con 4 habitaciones equipadas. Ideal para viajeros que buscan comodidad y una atención personalizada.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">ac_unit</span> AC
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="hospedaje-jr">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777508296">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://maps.app.goo.gl/Awdbcg9Dn5qgLLRa8" target="_blank">
+<span class="material-symbols-outlined text-[18px]">map</span> Ver en Mapa
+                        </a>
+</div>
+</div>
+</div>
+<!-- Card 3: Hospedaje Fortune -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+<img alt="Hospedaje Fortune" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcB5bVGXDvBJrsCywCR4V1UVzrsaKuElvloDzx65PLhrJLR5qR6-odkbw49askhKWzYymNyst87ATyWOmYQZaFzscBruEJwBfm3GvvmIDx22r4k41ylm6Ue6zi-afzgUvKMwEyqClp8GzZG7DeDltuXVVu0_xaihocR1NH8jyfFocDcvulbqkz3tWdLkhS6mE3veVQ_E7i1og_Q5huTDHwjmdD3q50Wzz7SX1D8rrHilLc47nlqrEaFFleHpO3FoeCU7yMcUmJSco">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Hospedaje Fortune</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">6 Unidades disponibles</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Apartamentos</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Complejo de apartamentos totalmente equipados con servicio de blanquería y un delicioso desayuno incluido.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">coffee</span> Desayuno
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">satellite_alt</span> DirecTV
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="fortune">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777221872">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://maps.app.goo.gl/3EhKuh8LJSzvk89z7" target="_blank">
+<span class="material-symbols-outlined text-[18px]">map</span> Ver en Mapa
+                        </a>
+</div>
+</div>
+</div>
+<!-- Card 4: Hotel Esquivel -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group aloj-extra hidden">
+<img alt="Hotel Esquivel" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIilDl_9NTYambPzn_aVfgwqNsmhyVaao2BTulrVx0GdBm4blCagSQWrpq9cqpqV_0dZWgOpn7OMaHUiN3IcAPZQM_2gcCCvXjjQG2dTBnYcsgDgDGKGgcR5d1TfAkt3DArQU8rFknt7mMJl0w2X3gX22v0RyGCJeChhrl1UhpISHvqErkaNCy05PTg6j0I5ivlhvjRKrkgLfCzcV7PHJMxOoQOGnF7-3jA-peeJnosaLZm0IzK6Sm7gFog9pE_dz0bhkc__iAtyY">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Hotel Esquivel</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Capacidad: 9 personas</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Monoambiente</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Espacios amplios y funcionales en formato monoambiente. Cuenta con 3 habitaciones y excelente equipamiento.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">ac_unit</span> Aire Acond.
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">directions_car</span> Cochera
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="esquivel">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777534039">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://maps.app.goo.gl/AF4hg6RbQJHYcEDC6" target="_blank">
+<span class="material-symbols-outlined text-[18px]">map</span> Ver en Mapa
+                        </a>
+</div>
+</div>
+</div>
+<!-- Card 5: Hospedaje Don Pedro -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group aloj-extra hidden">
+<img alt="Hospedaje Don Pedro" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0-_Uw46RnzAymhMvo3RuMDk15uk6ZNvNBAkUU94jMMv4U6k41TYLOB2t805m6Cwr3-qigcifn2LOxtGR-u9LPDG7CVXssftGVt_zo8o3oTW4g73Xnn0aWkMqkUPAgYN-BlA3qqitZYAc1zE7l0_MbrWHkg2NTx2v1-jC0HXnhHw2fCgyucVan2qNfXtR64lyLfOWUclb0LEhLPzTohHttQAGmcRlhlgcvljgJXQ0pqLHD_HqBYrcbnE3DkV4DbV7tZWPOvKZ53Mc">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Don Pedro</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">4 habitaciones</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Hospedaje</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Hospitalidad correntina auténtica. Ofrece servicios completos incluyendo almuerzo y desayuno casero.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">restaurant</span> Almuerzo
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">local_parking</span> Estacionamiento
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="don-pedro">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777302498">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<button class="border border-outline-variant text-outline-variant font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">location_off</span> Mapa no disponible
+                        </button>
+</div>
+</div>
+</div>
+<!-- Card 6: Hospedaje Casa Blanca -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group aloj-extra hidden">
+<img alt="Hospedaje Casa Blanca" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBg2Czwd-CuOJkxQWlT6m-1e6qJ79qQJsYzaT19EnD_q2xTlUEcXoz_UMi8DSoO43NU9EU2eSrL3KiUeffQAOpCnsUn39GP5HhDW7o_vbGkK-rF4u_Wm-cyQ5_lUc6r5mLb5j69SiCYTtBhts1zd6cO1tECQ8j28vTG_PxYE0blFSr3LDlBtx9eXuU9HSc_69GGS1xMm0VAG_weQpe12JugfuPKuVqdPt9e62PuoXKtWeo_G3B1X5Foxit_u0FwT4c8LF7dd3mTAQ">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Casa Blanca</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">3 Departamentos</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Departamentos</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Modernos departamentos equipados para estadías cortas o prolongadas. Tranquilidad asegurada.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">ac_unit</span> AC
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="casa-blanca">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777385281">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://maps.app.goo.gl/3Dnscik5Hz5bAz997" target="_blank">
+<span class="material-symbols-outlined text-[18px]">map</span> Ver en Mapa
+                        </a>
+</div>
+</div>
+</div>
+<!-- Card 7: Hospedaje San Martín -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group aloj-extra hidden">
+<img alt="Hospedaje San Martín" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDudD45qIf5a7R9ZXCDJvtr4p0HtlfKxlnCf6sQHWPjYS1iXyk_1WfetBNTPzs6vjbTUFVlXpTCO4aqy8nmW0vc9uTRbpmnbOhDMELF3W2VYges_ZaYQvw1z8NDuPWT8ZieNE1bzg4nQAublmJ_yxpmvZmj_WP7-nkt4Hg4VzhyF6bi7qnzX-Ckrj38CMkFY7ZzyIH5KGkfECcz6ZtcpCIZMmjOes75s0X9geP-Ui3eA94DZrPIKQ8oJ2JzkwdiVZLW8Dtvh9LfM6U">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">San Martín</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">7 habitaciones</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Hospedaje</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Amplio hospedaje con distribución variada de camas, perfecto para grupos de trabajo o familias numerosas.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">groups</span> Grupos
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">king_bed</span> Variada
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="san-martin">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/379498526">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://maps.app.goo.gl/aHbS1SKjyB42ckMXA" target="_blank">
+<span class="material-symbols-outlined text-[18px]">map</span> Ver en Mapa
+                        </a>
+</div>
+</div>
+</div>
+<!-- Card 8: Hotel Paraíso -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group aloj-extra hidden">
+<img alt="Hotel Paraíso" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOEuOsnQ36BqhH54O4sc4Y58WKcrdOgEs7y9TTub1RV8O6xNUgXV2X5Vxwnd3TCJALbarE_tEL3wmw5XtF_4NnA1Bf8yFC9_u5amkJDYystH-qKb-MjjkIvPRso36Gg5AEigsR86WcTB5pNvXqUjK8GCR1hQtkr4VtSe5mwbMg3OBPQxcVGiNURHu14ouVbNvgSJLsj0GWRpSaxSqOaSntPo7jFBHgS0ydd6iV9Z-rNivloWXPmlD6lgzbkDd13DFcnP7UjZTZ23s">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Hotel Paraíso</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">3 habitaciones premium</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Hotel</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Exclusividad y confort. Pocas habitaciones para garantizar un descanso absoluto con atención personalizada.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">coffee</span> Desayuno
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">tv</span> Smart TV
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="paraiso">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3795139474">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://maps.app.goo.gl/xdS8yyXqYySfMx2d6" target="_blank">
+<span class="material-symbols-outlined text-[18px]">map</span> Ver en Mapa
+                        </a>
+</div>
+</div>
+</div>
+<!-- Card 9: Hospedaje Ariana -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group aloj-extra hidden">
+<img alt="Hospedaje Ariana" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQvFefIWVTyS7bvS9CiH5a06KcQO5O44A_HTx89qErLcuaUAjvuEuojZxT5UzNOEtmytNP1Ylwf4K0D19e3aAv0r-HjkhbguGtFjgrd7I-sxm3W99VS0YJU12BPiNmcCBOBvAakQgYzozAca9YkVtAt5_qqd-DotlcOfMjRjP8o5F5QY39hhkD2LD4YPIpxnWsB6d4ebmeA1FP4wowcaRxCZI1G-qKmBMjG2LZU28gcCjrnit58PORrvFjQzRxdNrx2Sf6Wi1D17Q">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Hospedaje Ariana</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Seguridad 24hs</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Hospedaje</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Tu tranquilidad es nuestra prioridad. Contamos con monitoreo de seguridad y garage privado para tu vehículo.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">security</span> Monitoreo
+                        </div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">garage</span> Garage
+                        </div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="ariana">
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+                        <span class="rating-count">Sin calificaciones aún</span>
+                    </div>
+                <div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777472472">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+                        </a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://maps.app.goo.gl/8kWCBdPZnNsF47KZ6" target="_blank">
+<span class="material-symbols-outlined text-[18px]">map</span> Ver en Mapa
+                        </a>
+</div>
+</div>
+</div>
+
+</div>
+<!-- Show More Button -->
+<div class="flex justify-center mt-lg">
+    <button id="btn-aloj" onclick="toggleMoreCards('aloj')" class="flex items-center gap-2 border border-tertiary text-tertiary font-label-bold px-lg py-3 rounded-xl hover:bg-tertiary/10 transition-all">
+        <span class="material-symbols-outlined text-[18px]">expand_more</span> Mostrar más alojamientos (6)
+    </button>
+</div>
+<!-- Gastronomia Section -->
+<section class="mt-xl" id="gastronomia">
+<header class="mb-xl text-center md:text-left">
+<h2 class="font-display-lg text-display-lg text-primary mb-xs">Gastronomía</h2>
+<p class="text-on-surface-variant max-w-2xl">Sabores auténticos de San Roque. Descubrí los mejores comedores y restaurantes del pueblo, con opciones para todos los gustos.</p>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+
+<!-- Comedor Ariana -->
+<!-- Card G1: Comedor Ariana -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+<img alt="Comedor Ariana" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQvFefIWVTyS7bvS9CiH5a06KcQO5O44A_HTx89qErLcuaUAjvuEuojZxT5UzNOEtmytNP1Ylwf4K0D19e3aAv0r-HjkhbguGtFjgrd7I-sxm3W99VS0YJU12BPiNmcCBOBvAakQgYzozAca9YkVtAt5_qqd-DotlcOfMjRjP8o5F5QY39hhkD2LD4YPIpxnWsB6d4ebmeA1FP4wowcaRxCZI1G-qKmBMjG2LZU28gcCjrnit58PORrvFjQzRxdNrx2Sf6Wi1D17Q">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Comedor Ariana</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Acceso a San Roque</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Comedor</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Todos los menús, incluido menú para celíacos. Recibe mascotas. Todos los medios de pago.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 10:30–16:00 / 19:00–00:00
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">security</span> Monitoreo
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">pets</span> Mascotas OK
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">gluten_free</span> Menú celíaco
+</div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="gastro-ariana">
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="rating-count">Sin calificaciones aún</span>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777700082">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+</a>
+</div>
+</div>
+</div>
+
+<!-- Comedor Nancy -->
+<!-- Card G2: Comedor Nancy -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+<img alt="Comedor Nancy" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBg2Czwd-CuOJkxQWlT6m-1e6qJ79qQJsYzaT19EnD_q2xTlUEcXoz_UMi8DSoO43NU9EU2eSrL3KiUeffQAOpCnsUn39GP5HhDW7o_vbGkK-rF4u_Wm-cyQ5_lUc6r5mLb5j69SiCYTtBhts1zd6cO1tECQ8j28vTG_PxYE0blFSr3LDlBtx9eXuU9HSc_69GGS1xMm0VAG_weQpe12JugfuPKuVqdPt9e62PuoXKtWeo_G3B1X5Foxit_u0FwT4c8LF7dd3mTAQ">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Comedor Nancy</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Acceso a San Roque</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Comedor</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Todos los menús, menú celíaco con anticipación. Recibe mascotas. Todos los medios de pago.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 07:00–14:30 / 17:00–00:00
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">pets</span> Mascotas OK
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">gluten_free</span> Menú celíaco
+</div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="gastro-nancy">
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="rating-count">Sin calificaciones aún</span>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777674450">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+</a>
+</div>
+</div>
+</div>
+
+<!-- Comidas Estela -->
+<!-- Card G3: Comidas Estela -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group">
+<img alt="Comidas Estela" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcB5bVGXDvBJrsCywCR4V1UVzrsaKuElvloDzx65PLhrJLR5qR6-odkbw49askhKWzYymNyst87ATyWOmYQZaFzscBruEJwBfm3GvvmIDx22r4k41ylm6Ue6zi-afzgUvKMwEyqClp8GzZG7DeDltuXVVu0_xaihocR1NH8jyfFocDcvulbqkz3tWdLkhS6mE3veVQ_E7i1og_Q5huTDHwjmdD3q50Wzz7SX1D8rrHilLc47nlqrEaFFleHpO3FoeCU7yMcUmJSco">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Comidas Estela</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Santiago Baibiene 525</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Comedor</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Todos los menús: desayuno, almuerzo y cena. Menú para celíacos. Recibe mascotas. Todos los medios de pago.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 07:00–23:00
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">shower</span> Baño y ducha
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">pets</span> Mascotas OK
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">gluten_free</span> Menú celíaco
+</div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="gastro-estela">
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="rating-count">Sin calificaciones aún</span>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777674962">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+</a>
+</div>
+</div>
+</div>
+
+<!-- Isidorito -->
+<!-- Card G4: Isidorito -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group gastro-extra hidden">
+<img alt="Isidorito" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIilDl_9NTYambPzn_aVfgwqNsmhyVaao2BTulrVx0GdBm4blCagSQWrpq9cqpqV_0dZWgOpn7OMaHUiN3IcAPZQM_2gcCCvXjjQG2dTBnYcsgDgDGKGgcR5d1TfAkt3DArQU8rFknt7mMJl0w2X3gX22v0RyGCJeChhrl1UhpISHvqErkaNCy05PTg6j0I5ivlhvjRKrkgLfCzcV7PHJMxOoQOGnF7-3jA-peeJnosaLZm0IzK6Sm7gFog9pE_dz0bhkc__iAtyY">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Isidorito</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Martínez de Ibarra 654</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Restaurante</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Todos los menús, pastas y menú celíaco con anticipación. Delivery sin cargo. Recibe mascotas. Todos los medios de pago.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 17:00–02:00
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span> Delivery gratis
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">pets</span> Mascotas OK
+</div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="gastro-isidorito">
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="rating-count">Sin calificaciones aún</span>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777533524">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+</a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://www.instagram.com/isidorito124" target="_blank">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span> Ver en Instagram
+</a>
+</div>
+</div>
+</div>
+
+<!-- El Tordito -->
+<!-- Card G5: El Tordito -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group gastro-extra hidden">
+<img alt="El Tordito" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0-_Uw46RnzAymhMvo3RuMDk15uk6ZNvNBAkUU94jMMv4U6k41TYLOB2t805m6Cwr3-qigcifn2LOxtGR-u9LPDG7CVXssftGVt_zo8o3oTW4g73Xnn0aWkMqkUPAgYN-BlA3qqitZYAc1zE7l0_MbrWHkg2NTx2v1-jC0HXnhHw2fCgyucVan2qNfXtR64lyLfOWUclb0LEhLPzTohHttQAGmcRlhlgcvljgJXQ0pqLHD_HqBYrcbnE3DkV4DbV7tZWPOvKZ53Mc">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">El Tordito</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Plácido Martínez 308</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Comedor</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Comidas elaboradas al mediodía. Delivery sin cargo. Recibe mascotas. Todos los medios de pago. Sin menú celíaco.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 18:00–00:00
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span> Delivery gratis
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">pets</span> Mascotas OK
+</div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="gastro-tordito">
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="rating-count">Sin calificaciones aún</span>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777221199">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+</a>
+</div>
+</div>
+</div>
+
+<!-- Costumbres Argentina -->
+<!-- Card G6: Costumbres Argentina -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group gastro-extra hidden">
+<img alt="Costumbres Argentina" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDudD45qIf5a7R9ZXCDJvtr4p0HtlfKxlnCf6sQHWPjYS1iXyk_1WfetBNTPzs6vjbTUFVlXpTCO4aqy8nmW0vc9uTRbpmnbOhDMELF3W2VYges_ZaYQvw1z8NDuPWT8ZieNE1bzg4nQAublmJ_yxpmvZmj_WP7-nkt4Hg4VzhyF6bi7qnzX-Ckrj38CMkFY7ZzyIH5KGkfECcz6ZtcpCIZMmjOes75s0X9geP-Ui3eA94DZrPIKQ8oJ2JzkwdiVZLW8Dtvh9LfM6U">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Costumbres Argentina</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Juan García de Cossio 704</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Bar & Resto</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Todos los menús y menú para celíacos. Delivery sin cargo. Recibe mascotas. Todos los medios de pago.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Lu–Ju 07:00–03:00 / Vi–Do 07:00–05:00
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">tv</span> Tele
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span> Delivery gratis
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">gluten_free</span> Menú celíaco
+</div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="gastro-costumbres">
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="rating-count">Sin calificaciones aún</span>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777672266">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+</a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://www.instagram.com/costumbresmarket" target="_blank">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span> Ver en Instagram
+</a>
+</div>
+</div>
+</div>
+
+<!-- Buffet La Terminal -->
+<!-- Card G7: Buffet La Terminal -->
+<div class="card-glass rounded-xl overflow-hidden flex flex-col h-full hover:shadow-2xl transition-all duration-300 group gastro-extra hidden">
+<img alt="Buffet La Terminal" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOEuOsnQ36BqhH54O4sc4Y58WKcrdOgEs7y9TTub1RV8O6xNUgXV2X5Vxwnd3TCJALbarE_tEL3wmw5XtF_4NnA1Bf8yFC9_u5amkJDYystH-qKb-MjjkIvPRso36Gg5AEigsR86WcTB5pNvXqUjK8GCR1hQtkr4VtSe5mwbMg3OBPQxcVGiNURHu14ouVbNvgSJLsj0GWRpSaxSqOaSntPo7jFBHgS0ydd6iV9Z-rNivloWXPmlD6lgzbkDd13DFcnP7UjZTZ23s">
+<div class="p-md flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Buffet La Terminal</h2>
+<div class="text-on-surface-variant text-body-sm mt-1">Artaza & Berón de Astrada</div>
+</div>
+<span class="bg-primary-container text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Buffet</span>
+</div>
+<p class="text-on-surface-variant text-body-sm mb-md flex-grow">Abierto todos los días. Delivery con cargo. Sin menú celíaco. No acepta mascotas. Todos los medios de pago.</p>
+<div class="flex flex-wrap gap-xs mb-md">
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 09:00–14:00 / 19:00–00:30
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">wifi</span> WiFi
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">tv</span> Tele
+</div>
+<div class="chip-glass rounded-full px-3 py-1 flex items-center gap-1 text-on-surface-variant text-label-bold">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span> Delivery con cargo
+</div>
+</div>
+<div class="star-rating flex items-center gap-1 mb-md" data-id="gastro-terminal">
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="1" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="2" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="3" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="4" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="material-symbols-outlined star-btn star-empty text-[20px]" data-value="5" onclick="ratePlace(this)" onmouseenter="hoverStars(this,true)" onmouseleave="hoverStars(this,false)">star</span>
+<span class="rating-count">Sin calificaciones aún</span>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="bg-tertiary text-on-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all" href="https://wa.me/3777391638">
+<span class="material-symbols-outlined text-[18px]">chat</span> Contactar por WhatsApp
+</a>
+<a class="border border-tertiary text-tertiary font-label-bold text-center py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-tertiary/10 transition-all" href="https://www.instagram.com/bufetlaterminal" target="_blank">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span> Ver en Instagram
+</a>
+</div>
+</div>
+</div>
+
+</div>
+<!-- Show More Gastronomia -->
+<div class="flex justify-center mt-lg">
+    <button id="btn-gastro" onclick="toggleMoreCards('gastro')" class="flex items-center gap-2 border border-tertiary text-tertiary font-label-bold px-lg py-3 rounded-xl hover:bg-tertiary/10 transition-all">
+        <span class="material-symbols-outlined text-[18px]">expand_more</span> Mostrar más restaurantes (4)
+    </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant">
+<div class="w-full py-xl px-md md:px-lg flex flex-col md:flex-row justify-between items-center gap-md max-w-container-max mx-auto">
+<div class="flex flex-col items-center md:items-start gap-xs">
+<span class="font-headline-sm text-headline-sm text-primary">VerdeSelva</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 VerdeSelva Turismo. San Roque, Corrientes.</p>
+</div>
+<div class="flex gap-lg">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="https://munisanroque.ar/politica-privacidad.html">Privacidad</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="https://munisanroque.ar/aviso-legal.html">Términos</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="https://munisanroque.ar/#contacto">Soporte</a>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-xs md:hidden bg-surface-container shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 hover:bg-surface-variant transition-all" href="https://munisanroque.ar/#inicio">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-bold text-[10px] mt-1">Explorar</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-tertiary-container text-tertiary rounded-xl px-4 py-2" href="https://munisanroque.ar/alojamientos.php">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">event_available</span>
+<span class="font-label-bold text-[10px] mt-1">Reservas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2" href="https://munisanroque.ar/noticias.php">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-bold text-[10px] mt-1">Favoritos</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2" href="https://munisanroque.ar/#contacto">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-label-bold text-[10px] mt-1">Contacto</span>
+</a>
+</nav>
+<!-- FAB for quick contact (Mobile only) -->
+<div class="md:hidden fixed bottom-24 right-4 z-40">
+<a class="bg-secondary-container text-on-secondary-container w-14 h-14 rounded-full flex items-center justify-center shadow-2xl elevation-2" href="https://wa.me/3777206700">
+<span class="material-symbols-outlined text-2xl">chat</span>
+</a>
+</div>
+<script>
+        const toggleMode = () => {
+            document.documentElement.classList.toggle('dark');
+        };
+
+        // ============================================================
+        // WEATHER — Open-Meteo (free, no API key)
+        // San Roque, Corrientes: lat -28.567, lon -58.717
+        // ============================================================
+        const WX_LAT = -28.567, WX_LON = -58.717;
+
+        const WMO_CODES = {
+            0:  {label:'Despejado',       icon:'sunny'},
+            1:  {label:'Mayormente despejado', icon:'partly_cloudy_day'},
+            2:  {label:'Parcialmente nublado', icon:'partly_cloudy_day'},
+            3:  {label:'Nublado',          icon:'cloud'},
+            45: {label:'Neblina',          icon:'foggy'},
+            48: {label:'Neblina con escarcha', icon:'foggy'},
+            51: {label:'Llovizna leve',    icon:'rainy_light'},
+            53: {label:'Llovizna',         icon:'rainy'},
+            55: {label:'Llovizna intensa', icon:'rainy'},
+            61: {label:'Lluvia leve',      icon:'rainy_light'},
+            63: {label:'Lluvia',           icon:'rainy'},
+            65: {label:'Lluvia intensa',   icon:'rainy'},
+            71: {label:'Nevada leve',      icon:'snowing'},
+            73: {label:'Nevada',           icon:'snowing'},
+            75: {label:'Nevada intensa',   icon:'snowing'},
+            80: {label:'Chaparrones',      icon:'rainy'},
+            81: {label:'Chaparrones mod.', icon:'rainy'},
+            82: {label:'Chaparrones fuertes', icon:'thunderstorm'},
+            95: {label:'Tormenta',         icon:'thunderstorm'},
+            96: {label:'Tormenta con granizo', icon:'thunderstorm'},
+            99: {label:'Tormenta fuerte',  icon:'thunderstorm'},
+        };
+
+        const DAYS_ES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+
+        async function fetchWeather() {
+            try {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${WX_LAT}&longitude=${WX_LON}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=America%2FArgentina%2FBuenos_Aires&forecast_days=6`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const d = await res.json();
+                renderWeather(d);
+            } catch(e) {
+                document.getElementById('weather-loading').classList.add('hidden');
+                document.getElementById('weather-error').classList.remove('hidden');
+                console.error('Weather error:', e);
+            }
+        }
+
+        function renderWeather(d) {
+            const cur = d.current;
+            const wmo = WMO_CODES[cur.weather_code] || {label: 'Variable', icon: 'cloud'};
+            
+            document.getElementById('w-temp').textContent = Math.round(cur.temperature_2m);
+            document.getElementById('w-desc').textContent = wmo.label;
+            document.getElementById('w-humidity').textContent = cur.relative_humidity_2m + '%';
+            document.getElementById('w-wind').textContent = Math.round(cur.wind_speed_10m) + ' km/h';
+            document.getElementById('w-feels').textContent = Math.round(cur.apparent_temperature) + '°C';
+            document.getElementById('w-rain').textContent = cur.precipitation.toFixed(1) + ' mm';
+            
+            const iconEl = document.getElementById('w-icon');
+            iconEl.textContent = wmo.icon;
+            iconEl.style.fontVariationSettings = "'FILL' 1";
+
+            // Forecast (skip today = index 0)
+            const fc = document.getElementById('w-forecast');
+            fc.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const date = new Date(d.daily.time[i] + 'T12:00:00');
+                const dayWmo = WMO_CODES[d.daily.weather_code[i]] || {icon:'cloud'};
+                fc.innerHTML += `<div class="flex flex-col items-center gap-1 flex-1">
+                    <span class="text-label-bold text-[10px] text-on-surface-variant">${DAYS_ES[date.getDay()]}</span>
+                    <span class="material-symbols-outlined text-secondary-fixed text-[20px]" style="font-variation-settings:'FILL' 1">${dayWmo.icon}</span>
+                    <span class="text-label-bold text-[11px] text-on-surface">${Math.round(d.daily.temperature_2m_max[i])}°</span>
+                    <span class="text-label-bold text-[10px] text-on-surface-variant">${Math.round(d.daily.temperature_2m_min[i])}°</span>
+                </div>`;
+            }
+
+            const now = new Date();
+            document.getElementById('w-updated').textContent = now.toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
+            document.getElementById('weather-loading').classList.add('hidden');
+            document.getElementById('weather-data').classList.remove('hidden');
+        }
+
+        // ============================================================
+        // EVENTOS — Fechas importantes de San Roque, Corrientes
+        // ============================================================
+        const EVENTOS = [
+            {
+                m:1, d:1,
+                label: 'Año Nuevo',
+                tipo: 'nacional',
+                desc: 'Celebración del inicio del nuevo año en todo el país. Las familias sanroqueñas celebran con fuegos artificiales y reuniones.',
+                icon: 'celebration',
+                img: 'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=400&q=80'
+            },
+            {
+                m:2, d:28,
+                label: 'Carnaval Correntino',
+                tipo: 'provincial',
+                desc: 'El carnaval más largo del mundo. Corrientes se viste de color, música chamamé y comparsas. San Roque tiene su propia celebración local con desfiles y bailes tradicionales.',
+                icon: 'music_note',
+                img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&q=80',
+                nota: 'Fecha aproximada · varía cada año'
+            },
+            {
+                m:3, d:24,
+                label: 'Día Nacional de la Memoria',
+                tipo: 'nacional',
+                desc: 'Conmemoración del golpe de Estado de 1976. Día de reflexión y recuerdo por los derechos humanos en Argentina.',
+                icon: 'sentiment_sad',
+                img: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=400&q=80'
+            },
+            {
+                m:4, d:2,
+                label: 'Día del Veterano de Malvinas',
+                tipo: 'nacional',
+                desc: 'Homenaje a los combatientes y caídos en la Guerra de Malvinas (1982). Actos oficiales en la plaza principal de San Roque.',
+                icon: 'military_tech',
+                img: 'https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=400&q=80'
+            },
+            {
+                m:5, d:1,
+                label: 'Día del Trabajador',
+                tipo: 'nacional',
+                desc: 'Celebración internacional de los trabajadores. Feriado nacional con actos organizados por los gremios locales.',
+                icon: 'handyman',
+                img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&q=80'
+            },
+            {
+                m:5, d:25,
+                label: 'Revolución de Mayo · 1810',
+                tipo: 'nacional',
+                desc: 'Aniversario del Primer Gobierno Patrio argentino. San Roque realiza actos cívicos en la plaza central con escolares y autoridades municipales.',
+                icon: 'flag',
+                img: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&q=80'
+            },
+            {
+                m:6, d:20,
+                label: 'Día de la Bandera · Belgrano',
+                tipo: 'nacional',
+                desc: 'Conmemoración del fallecimiento del Gral. Manuel Belgrano, creador de la Bandera Argentina. Desfiles escolares y actos patrióticos.',
+                icon: 'emoji_flags',
+                img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80'
+            },
+            {
+                m:7, d:9,
+                label: 'Día de la Independencia · 1816',
+                tipo: 'nacional',
+                desc: 'Argentina declara su independencia en el Congreso de Tucumán. Uno de los feriados más importantes del país, con actos en todo San Roque.',
+                icon: 'stars',
+                img: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=80'
+            },
+            {
+                m:8, d:16,
+                label: 'Fiesta Patronal de San Roque',
+                tipo: 'local',
+                desc: 'La celebración más importante del pueblo en honor a su Santo Patrono. Misa solemne, procesión, feria artesanal, música folclórica y gastronomía correntina típica.',
+                icon: 'church',
+                img: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=400&q=80',
+                nota: '🏡 Evento más importante del pueblo'
+            },
+            {
+                m:8, d:17,
+                label: 'Paso a la Inmortalidad · San Martín',
+                tipo: 'nacional',
+                desc: 'Conmemoración del fallecimiento del Gral. José de San Martín (1850), Padre de la Patria y Libertador de América.',
+                icon: 'military_tech',
+                img: 'https://images.unsplash.com/photo-1532153955177-f59af40d6472?w=400&q=80'
+            },
+            {
+                m:10, d:11,
+                label: 'Aniversario de San Roque · 1773',
+                tipo: 'local',
+                desc: 'El 11 de octubre de 1773, Juan García de Cossio y el cura Martínez de Ibarra fundaron San Roque sobre la margen del río Santa Lucía. Una historia de más de 250 años.',
+                icon: 'location_city',
+                img: 'https://images.unsplash.com/photo-1464817739973-0128fe77aaa1?w=400&q=80',
+                nota: '🏡 Más de 252 años de historia'
+            },
+            {
+                m:10, d:12,
+                label: 'Día de la Diversidad Cultural',
+                tipo: 'nacional',
+                desc: 'Reflexión sobre el encuentro de culturas que dio origen a la Argentina. Se celebra el legado indígena y europeo en nuestra identidad correntina.',
+                icon: 'diversity_3',
+                img: 'https://images.unsplash.com/photo-1493863641943-9b68992a8d07?w=400&q=80'
+            },
+            {
+                m:11, d:20,
+                label: 'Día de la Soberanía Nacional',
+                tipo: 'nacional',
+                desc: 'Conmemoración de la Batalla de la Vuelta de Obligado (1845), donde fuerzas argentinas defendieron la soberanía frente a flotas anglo-francesas.',
+                icon: 'anchor',
+                img: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&q=80'
+            },
+            {
+                m:12, d:8,
+                label: 'Inmaculada Concepción',
+                tipo: 'provincial',
+                desc: 'Festividad religiosa muy arraigada en Corrientes. Se celebra con misas y procesiones en honor a la Virgen María, patrona de varias localidades correntinas.',
+                icon: 'auto_awesome',
+                img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80'
+            },
+            {
+                m:12, d:25,
+                label: 'Navidad',
+                tipo: 'nacional',
+                desc: 'Celebración del nacimiento de Jesucristo. Las familias sanroqueñas se reúnen con cenas tradicionales, fuegos artificiales y el tradicional calor correntino de diciembre.',
+                icon: 'star',
+                img: 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=400&q=80'
+            },
+        ];
+
+        const TIPO_BADGE = {
+            local:      { cls: 'bg-secondary-container text-on-secondary-container', label: '🏡 Local' },
+            provincial: { cls: 'bg-tertiary-container text-on-tertiary-container',   label: '🌿 Provincial' },
+            nacional:   { cls: 'bg-primary-container text-primary',                  label: '🇦🇷 Nacional' },
+        };
+        const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+        let currentFilter = 'todos';
+
+        function getNextEvent() {
+            const now = new Date();
+            const year = now.getFullYear();
+            let upcoming = EVENTOS.map(e => {
+                let date = new Date(year, e.m - 1, e.d);
+                if (date < now) date = new Date(year + 1, e.m - 1, e.d);
+                return { ...e, date };
+            }).sort((a, b) => a.date - b.date);
+            return upcoming[0];
+        }
+
+        function renderNextEvent() {
+            const e = getNextEvent();
+            if (!e) return;
+            const daysLeft = Math.ceil((e.date - new Date()) / 86400000);
+            const badge = TIPO_BADGE[e.tipo] || TIPO_BADGE.nacional;
+            document.getElementById('next-event-display').innerHTML = `
+                <div class="relative rounded-xl overflow-hidden mb-sm" style="height:130px">
+                    <img src="${e.img}" alt="${e.label}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-sm">
+                        <span class="text-label-bold text-[9px] px-1.5 py-0.5 rounded ${badge.cls} uppercase">${badge.label}</span>
+                        <div class="font-headline-sm text-headline-sm text-on-surface mt-1">${e.label}</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-sm">
+                    <div class="flex-1">
+                        <div class="text-on-surface-variant text-body-sm">${e.d} de ${MESES[e.m-1]}</div>
+                        ${e.nota ? `<div class="text-[11px] text-tertiary mt-1">${e.nota}</div>` : ''}
+                    </div>
+                    <div class="text-right">
+                        <div class="text-[28px] font-extrabold text-secondary-fixed leading-none">${daysLeft}</div>
+                        <div class="text-label-bold text-[10px] text-on-surface-variant">días</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterEvents(tipo) {
+            currentFilter = tipo;
+            document.querySelectorAll('.event-filter-btn').forEach(btn => {
+                btn.classList.remove('active','border-primary/30','text-on-surface');
+                btn.classList.add('border-outline-variant/20','text-on-surface-variant');
+            });
+            const activeBtn = document.getElementById('filt-' + tipo);
+            if (activeBtn) {
+                activeBtn.classList.add('active','border-primary/30','text-on-surface');
+                activeBtn.classList.remove('border-outline-variant/20','text-on-surface-variant');
+            }
+            renderEventCards();
+        }
+
+        function renderEventCards() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const filtered = currentFilter === 'todos' ? EVENTOS : EVENTOS.filter(e => e.tipo === currentFilter);
+            const sorted = filtered.map(e => {
+                let date = new Date(year, e.m - 1, e.d);
+                if (date < now) date = new Date(year + 1, e.m - 1, e.d);
+                return { ...e, date };
+            }).sort((a, b) => a.date - b.date);
+
+            const grid = document.getElementById('events-grid');
+            if (!grid) return;
+            grid.innerHTML = sorted.map(e => {
+                const badge = TIPO_BADGE[e.tipo] || TIPO_BADGE.nacional;
+                const daysLeft = Math.ceil((e.date - now) / 86400000);
+                const isPast = e.date.getFullYear() > year;
+                const countdownClass = isPast ? 'text-on-surface-variant' : 'text-secondary-fixed';
+                return `
+                <div class="card-glass rounded-xl overflow-hidden flex flex-col hover:shadow-2xl transition-all duration-300 group">
+                    <div class="relative h-40 overflow-hidden">
+                        <img src="${e.img}" alt="${e.label}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+                        <div class="absolute top-sm right-sm">
+                            <span class="text-[9px] font-bold px-2 py-1 rounded ${badge.cls} uppercase">${badge.label}</span>
+                        </div>
+                        <div class="absolute bottom-sm left-sm flex items-center gap-xs">
+                            <span class="material-symbols-outlined text-secondary-fixed text-[16px]" style="font-variation-settings:'FILL' 1">${e.icon}</span>
+                            <span class="text-label-bold text-[11px] text-white">${e.d} de ${MESES[e.m-1]}</span>
+                        </div>
+                    </div>
+                    <div class="p-sm flex flex-col flex-grow">
+                        <h3 class="font-headline-sm text-[15px] font-bold text-on-surface mb-xs group-hover:text-tertiary transition-colors">${e.label}</h3>
+                        <p class="text-on-surface-variant text-[12px] leading-relaxed flex-grow mb-sm">${e.desc}</p>
+                        ${e.nota ? `<div class="chip-glass rounded-full px-sm py-1 text-[10px] text-tertiary mb-sm inline-block w-fit">${e.nota}</div>` : ''}
+                        <div class="flex items-center justify-between border-t border-outline-variant/20 pt-sm mt-auto">
+                            <span class="text-on-surface-variant text-[11px]">${isPast ? 'Próximo año' : 'Faltan'}</span>
+                            <span class="font-extrabold text-[22px] leading-none ${countdownClass}">${daysLeft} <span class="text-[11px] font-normal text-on-surface-variant">días</span></span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderCalendar() {
+            renderNextEvent();
+            renderEventCards();
+        }
+
+        function calPrevMonth() {}
+        function calNextMonth() {}
+
+        // ---- STAR RATING SYSTEM ----
+        function initRatings() {
+            document.querySelectorAll('.star-rating').forEach(container => {
+                const id = container.dataset.id;
+                let stored = {avg:0,count:0,userRating:0};
+                try { stored = JSON.parse(localStorage.getItem('rating_' + id)) || stored; } catch(e) {}
+                renderStars(container, stored);
+            });
+        }
+
+        function renderStars(container, data) {
+            const stars = container.querySelectorAll('.star-btn');
+            stars.forEach((star, i) => {
+                const filled = i < Math.round(data.avg || data.userRating);
+                star.classList.toggle('star-filled', filled);
+                star.classList.toggle('star-empty', !filled);
+                star.style.fontVariationSettings = filled ? "'FILL' 1" : "'FILL' 0";
+            });
+            const countEl = container.querySelector('.rating-count');
+            if (countEl) {
+                countEl.textContent = data.count > 0
+                    ? data.avg.toFixed(1) + ' (' + data.count + ' ' + (data.count === 1 ? 'opinión' : 'opiniones') + ')'
+                    : 'Sin calificaciones aún';
+            }
+        }
+
+        function ratePlace(starEl) {
+            const container = starEl.closest('.star-rating');
+            const id = container.dataset.id;
+            const value = parseInt(starEl.dataset.value);
+            let stored = {avg:0,count:0,userRating:0};
+            try { stored = JSON.parse(localStorage.getItem('rating_' + id)) || stored; } catch(e) {}
+
+            if (stored.userRating === value) {
+                stored.avg = stored.count > 1 ? ((stored.avg * stored.count) - value) / (stored.count - 1) : 0;
+                stored.count = Math.max(0, stored.count - 1);
+                stored.userRating = 0;
+            } else {
+                if (stored.userRating > 0) {
+                    stored.avg = ((stored.avg * stored.count) - stored.userRating + value) / stored.count;
+                } else {
+                    stored.avg = stored.count === 0 ? value : ((stored.avg * stored.count) + value) / (stored.count + 1);
+                    stored.count++;
+                }
+                stored.userRating = value;
+            }
+            stored.avg = Math.round(stored.avg * 10) / 10;
+            localStorage.setItem('rating_' + id, JSON.stringify(stored));
+            renderStars(container, stored);
+        }
+
+        function hoverStars(starEl, on) {
+            const container = starEl.closest('.star-rating');
+            const value = parseInt(starEl.dataset.value);
+            const stars = container.querySelectorAll('.star-btn');
+            if (on) {
+                stars.forEach((s, i) => {
+                    const filled = i < value;
+                    s.style.fontVariationSettings = filled ? "'FILL' 1" : "'FILL' 0";
+                    s.classList.toggle('star-filled', filled);
+                    s.classList.toggle('star-empty', !filled);
+                });
+            } else {
+                const id = container.dataset.id;
+                let stored = {avg:0,count:0,userRating:0};
+                try { stored = JSON.parse(localStorage.getItem('rating_' + id)) || stored; } catch(e) {}
+                renderStars(container, stored);
+            }
+        }
+
+        // ---- SHOW MORE / LESS ----
+        function toggleMoreCards(sectionId) {
+            const extra = document.querySelectorAll('.' + sectionId + '-extra');
+            const btn = document.getElementById('btn-' + sectionId);
+            if (!extra.length || !btn) return;
+            const isHidden = extra[0].classList.contains('hidden');
+            extra.forEach(el => el.classList.toggle('hidden', !isHidden));
+            if (sectionId === 'aloj') {
+                btn.innerHTML = isHidden
+                    ? '<span class="material-symbols-outlined text-[18px]">expand_less</span> Mostrar menos'
+                    : '<span class="material-symbols-outlined text-[18px]">expand_more</span> Mostrar más alojamientos (' + extra.length + ')';
+            } else {
+                btn.innerHTML = isHidden
+                    ? '<span class="material-symbols-outlined text-[18px]">expand_less</span> Mostrar menos'
+                    : '<span class="material-symbols-outlined text-[18px]">expand_more</span> Mostrar más restaurantes (' + extra.length + ')';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initRatings();
+            fetchWeather();
+            renderCalendar();
+        });
+    </script>
+
+
+</body></html>
