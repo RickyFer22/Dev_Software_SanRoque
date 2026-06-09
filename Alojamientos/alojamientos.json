@@ -1,0 +1,97 @@
+[
+  {
+    "id": "casa-blanca",
+    "nombre": "Hospedaje Casa Blanca",
+    "tipo": "departamento",
+    "descripcion": "Departamentos amueblados con capacidad variable. Ideal para familias o grupos.",
+    "unidades": [
+      { "capacidad": 4, "precio": 70000, "descripcion": "Departamento para 4 personas" },
+      { "capacidad": 6, "precio": 100000, "descripcion": "Departamento para 6 personas" }
+    ],
+    "servicios": ["Ropa de cama", "Ropa de baño", "Aire acondicionado", "Wi-Fi", "Cochera (2 de 3 deptos.)"],
+    "tarifa_estimativa": true,
+    "whatsapp": "3777385281",
+    "facebook": "https://www.facebook.com/CasaBlancaSanRoque",
+    "instagram": null,
+    "direccion": "Calle Plácido Martínez 450, San Roque",
+    "imagen": "https://lh3.googleusercontent.com/aida-public/AB6AXuBDwLLhqqQGSUZNAaqKmN_GunQB-nlZKt8_9OQp557wojBnXa98aWcUyBlF_FLCKyOYYfPslT4fY81mLaIAftxyF6xgPelLPYWaNPJSsZmmQ5XuIYGYcvqMZcRU32WD8ESV_KKkXyVrJ7dvp8djT-afPy8Px6RSCVubt8tA7bAsL9lo12YmdroJHsbnOuum3q5FUJ7ncbh6EBq1K1Ny2vkIA-mq81L6ce5dk82rbfmQsSVrqLGem47rPRK97yhylrhRrsKsTjZSBsM",
+    "ubicacion": "San Roque, Corrientes",
+    "coords": { "lat": -28.5702, "lng": -58.7100 }
+  },
+  {
+    "id": "san-martin",
+    "nombre": "Hospedaje San Martín",
+    "tipo": "hospedaje",
+    "descripcion": "Hospedaje céntrico con 7 habitaciones distribuidas en distintas capacidades.",
+    "unidades": [
+      { "capacidad": 1, "precio": 40000, "descripcion": "Habitación simple" },
+      { "capacidad": 2, "precio": 50000, "descripcion": "Habitación doble" },
+      { "capacidad": 3, "precio": 60000, "descripcion": "Habitación triple" },
+      { "capacidad": 4, "precio": 70000, "descripcion": "Habitación cuádruple" }
+    ],
+    "servicios": ["Ropa de cama", "Ropa de baño", "Aire acondicionado", "Wi-Fi"],
+    "tarifa_estimativa": true,
+    "whatsapp": "379498526",
+    "facebook": null,
+    "instagram": null,
+    "direccion": "Calle San Martín 820, San Roque",
+    "imagen": "https://lh3.googleusercontent.com/aida-public/AB6AXuD5pRPpL-KzdiSwjDwot3G6CWSe2aHRE6Lke5H2lQn28dk0G0ku3IRET_LH_N1JPfhHQENiYfvRQvIlCpGzXMzWIAr6J6ZvLultS9o9AjSPEXoWP6qAcpmHic7YHOCGJvtLv_7nOnddaMZSjVoX5utRiof0-DWOOtDAxdejJWOVcCxSjKq16dKvEMuVTBFPUGXZaubH_UZxVTiBYG3OD4gMlOYhY3_QO8OdxMgRgKGRl-1k8AcsILaPoYPUzGPpDETQNqPTgTM6DC0",
+    "ubicacion": "San Roque, Corrientes",
+    "coords": { "lat": -28.5710, "lng": -58.7110 }
+  },
+  {
+    "id": "paraiso",
+    "nombre": "Hotel Paraíso",
+    "tipo": "hotel",
+    "descripcion": "Hotel con 16 plazas. Ofrece habitaciones dobles y tarifa familiar.",
+    "unidades": [
+      { "capacidad": 1, "precio": 30000, "descripcion": "Precio estimado general (por persona)" },
+      { "capacidad": 2, "precio": 47000, "descripcion": "Habitación doble" },
+      { "capacidad": 4, "precio": 65000, "descripcion": "Tarifa familiar" }
+    ],
+    "servicios": ["Aire acondicionado", "Wi-Fi", "Ropa de cama", "Ropa de baño"],
+    "tarifa_estimativa": true,
+    "whatsapp": "3795139474",
+    "facebook": "https://www.facebook.com/HotelParaisoSanRoque",
+    "instagram": "https://www.instagram.com/hotelparaiso.sanroque",
+    "direccion": "Avenida Ilia 120, San Roque",
+    "imagen": "https://lh3.googleusercontent.com/aida-public/AB6AXuCaaQdHpJpsEB9k9mnFL5xelI8IHOilvouoKeWUeQJZ9BEt9E6b3QuT7fF6ySmnhpSkFJmlyJLGlIXy2Y7LQ1mM8JpVuxCTdBirfsy1w4Yv3qJOR09r9GBip3GLpGwsEiw2G9u-As_1fGu4XGPIlWcpP2MLEaX_peALJ7gqMRMzDInzjkcxxveOhBoFKhYQoPxobE2eoLgNafy-FxGeG6kOJRGBWoMVgNiAg-guu2ecaNo9bsLrsUg6zTmiK1jWweLBdvV8xwKWedk",
+    "ubicacion": "San Roque, Corrientes",
+    "coords": { "lat": -28.5718, "lng": -58.7108 }
+  },
+  {
+    "id": "fortune",
+    "nombre": "Hospedaje Fortune",
+    "tipo": "hospedaje",
+    "descripcion": "Sin información disponible. No se obtuvo respuesta al momento del relevamiento.",
+    "unidades": [],
+    "servicios": [],
+    "tarifa_estimativa": false,
+    "sin_datos": true,
+    "whatsapp": null,
+    "facebook": null,
+    "instagram": null,
+    "direccion": "Calle Belgrano 340, San Roque",
+    "imagen": null,
+    "ubicacion": "San Roque, Corrientes",
+    "coords": { "lat": -28.5705, "lng": -58.7095 }
+  },
+  {
+    "id": "jr",
+    "nombre": "Hospedaje JR",
+    "tipo": "hospedaje",
+    "descripcion": "Hospedaje familiar con 4 habitaciones, cocina compartida y lavadero.",
+    "unidades": [
+      { "capacidad": 2, "precio": 50000, "descripcion": "Habitación matrimonial" }
+    ],
+    "servicios": ["Baño privado", "Aire acondicionado", "Wi-Fi", "Cocina compartida", "Heladera", "Lavadero", "Sillones cama (2)"],
+    "tarifa_estimativa": true,
+    "whatsapp": "3777470019",
+    "facebook": null,
+    "instagram": null,
+    "direccion": "Calle Tacuarí 610, San Roque",
+    "imagen": "Alojamientos/alojamiento.jpeg",
+    "ubicacion": "San Roque, Corrientes",
+    "coords": { "lat": -28.5715, "lng": -58.7103 }
+  }
+]

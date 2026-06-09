@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>San Roque Ohana - Alojamientos</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&amp;family=Space+Grotesk:wght@600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "outline": "#87929b",
+                        "on-secondary": "#532200",
+                        "on-tertiary-container": "#572f00",
+                        "surface-container": "#1b2024",
+                        "on-secondary-fixed-variant": "#753401",
+                        "primary-fixed": "#c6e7ff",
+                        "cosmic-void": "#0F0C1D",
+                        "on-error": "#690005",
+                        "secondary": "#ffb68c",
+                        "on-surface": "#dee3e8",
+                        "tierra-colorada": "#A04523",
+                        "tertiary-fixed-dim": "#ffb876",
+                        "primary": "#82cfff",
+                        "on-primary-fixed-variant": "#004c6b",
+                        "surface-variant": "#30353a",
+                        "secondary-fixed": "#ffdbc9",
+                        "on-primary-fixed": "#001e2d",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "surface-tint": "#82cfff",
+                        "on-primary-container": "#003e58",
+                        "primary-container": "#00aeef",
+                        "outline-variant": "#3e4850",
+                        "on-primary": "#00344b",
+                        "stitch-indigo": "#3F51B5",
+                        "surface-container-high": "#252b2f",
+                        "surface-container-low": "#171c20",
+                        "tertiary": "#ffb876",
+                        "background": "#0f1418",
+                        "surface-dim": "#0f1418",
+                        "primary-fixed-dim": "#82cfff",
+                        "chaos-magenta": "#D32F2F",
+                        "on-secondary-container": "#fb9f66",
+                        "surface": "#0f1418",
+                        "secondary-container": "#753401",
+                        "error-container": "#93000a",
+                        "surface-bright": "#343a3e",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#30353a",
+                        "inverse-surface": "#dee3e8",
+                        "inverse-on-surface": "#2c3135",
+                        "jungle-vibrant": "#2E8B57",
+                        "tertiary-fixed": "#ffdcc0",
+                        "jungle-deep": "#0B3D1D",
+                        "tertiary-container": "#ea8c21",
+                        "secondary-fixed-dim": "#ffb68c",
+                        "inverse-primary": "#00658d",
+                        "on-background": "#dee3e8",
+                        "on-secondary-fixed": "#321200",
+                        "on-surface-variant": "#bdc8d1",
+                        "on-tertiary": "#4b2800",
+                        "surface-container-lowest": "#090f13",
+                        "on-tertiary-fixed": "#2d1600"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-edge": "32px",
+                        "base": "8px",
+                        "gutter-md": "24px",
+                        "safe-area": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "label-caps": ["Space Grotesk"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Bricolage Grotesque"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        body {
+            transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
+        }
+
+        .chaos-active {
+            background-color: #0F0C1D !important;
+            color: #82cfff !important;
+        }
+
+        .chaos-active .chaos-glitch {
+            filter: contrast(150%) brightness(120%) hue-rotate(280deg);
+            animation: glitch 0.2s infinite ease-in-out alternate-reverse;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0) skew(0); }
+            20% { transform: translate(-2px, 1px) skew(-1deg); }
+            40% { transform: translate(2px, -1px) skew(1deg); }
+            100% { transform: translate(0) skew(0); }
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            background: #82cfff;
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 99;
+        }
+
+        .glass-card {
+            background: rgba(10, 16, 22, 0.55);
+            backdrop-filter: blur(24px) saturate(165%);
+            -webkit-backdrop-filter: blur(24px) saturate(165%);
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.07);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(10, 16, 22, 0.68);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.11);
+        }
+
+        .chaos-glow {
+            box-shadow: 0 0 20px rgba(130, 207, 255, 0.4);
+        }
+
+        /* ── Premium Button Styles ── */
+        .btn-wa-card {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border-radius: 9999px;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                        box-shadow 0.25s ease,
+                        background 0.3s ease;
+            box-shadow: 0 4px 14px rgba(16,185,129,0.25);
+            flex: 1;
+        }
+        .btn-wa-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .btn-wa-card:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(16,185,129,0.45), 0 0 0 3px rgba(16,185,129,0.15);
+        }
+        .btn-wa-card:hover::before { opacity: 1; }
+        .btn-wa-card:active { transform: translateY(0) scale(0.98); }
+        @keyframes wa-pulse {
+            0%, 100% { box-shadow: 0 4px 14px rgba(16,185,129,0.25); }
+            50% { box-shadow: 0 4px 22px rgba(16,185,129,0.55); }
+        }
+        .btn-wa-card { animation: wa-pulse 2.8s ease-in-out infinite; }
+        .btn-wa-card:hover { animation: none; }
+
+        .btn-detalle-card {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 20px;
+            background: rgba(130,207,255,0.06);
+            color: #82cfff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border-radius: 9999px;
+            border: 1.5px solid rgba(130,207,255,0.35);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                        box-shadow 0.25s ease,
+                        background 0.3s ease,
+                        color 0.3s ease,
+                        border-color 0.3s ease;
+            flex: 1;
+        }
+        .btn-detalle-card::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 40%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.55s ease;
+        }
+        .btn-detalle-card:hover::after { left: 130%; }
+        .btn-detalle-card:hover {
+            background: rgba(130,207,255,0.18);
+            border-color: rgba(130,207,255,0.75);
+            color: #fff;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(130,207,255,0.2), 0 0 0 3px rgba(130,207,255,0.1);
+        }
+        .btn-detalle-card:active { transform: translateY(0) scale(0.98); }
+
+        /* Social icon buttons */
+        .btn-social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #bdc8d1;
+            transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1),
+                        background 0.2s ease,
+                        color 0.2s ease,
+                        border-color 0.2s ease,
+                        box-shadow 0.2s ease;
+            text-decoration: none;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .btn-social-icon:hover {
+            transform: translateY(-3px) scale(1.12);
+        }
+        .btn-social-icon.fb:hover {
+            color: #1877f2;
+            background: rgba(24,119,242,0.12);
+            border-color: rgba(24,119,242,0.4);
+            box-shadow: 0 4px 12px rgba(24,119,242,0.25);
+        }
+        .btn-social-icon.ig:hover {
+            color: #e1306c;
+            background: rgba(225,48,108,0.12);
+            border-color: rgba(225,48,108,0.4);
+            box-shadow: 0 4px 12px rgba(225,48,108,0.25);
+        }
+        .btn-social-icon.map:hover {
+            color: #82cfff;
+            background: rgba(130,207,255,0.12);
+            border-color: rgba(130,207,255,0.4);
+            box-shadow: 0 4px 12px rgba(130,207,255,0.25);
+        }
+
+        /* Modal CTA Button */
+        .btn-modal-wa {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 24px;
+            background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
+            background-size: 200% 100%;
+            background-position: 0% 0%;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            border-radius: 9999px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-position 0.4s ease,
+                        transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                        box-shadow 0.3s ease;
+            box-shadow: 0 6px 20px rgba(16,185,129,0.35);
+            margin-top: 4px;
+        }
+        .btn-modal-wa:hover {
+            background-position: 100% 0%;
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 30px rgba(16,185,129,0.5);
+        }
+        .btn-modal-wa:active { transform: scale(0.98); }
+
+        /* ── Weather Widget ── */
+        .weather-widget {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px 5px 8px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 9999px;
+            backdrop-filter: blur(8px);
+        }
+        .weather-temp { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; color: #fff; line-height: 1.15; }
+        .weather-desc { font-size: 9px; color: #bdc8d1; letter-spacing: 0.04em; line-height: 1.2; white-space: nowrap; }
+
+        /* ── Day/Night Toggle ── */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 9999px;
+            padding: 4px 7px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .theme-toggle:hover { background: rgba(255,255,255,0.13); border-color: rgba(255,255,255,0.22); }
+        .t-icon {
+            width: 18px; height: 18px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            transition: opacity 0.3s ease, color 0.3s ease;
+        }
+        .t-icon.sun  { color: #fbbf24; }
+        .t-icon.moon { color: #bdc8d1; opacity: 0.5; }
+        .t-track {
+            width: 34px; height: 18px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 9999px;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: background 0.3s ease;
+        }
+        .t-thumb {
+            width: 12px; height: 12px;
+            background: #fbbf24;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px; left: 2px;
+            transition: left 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.3s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+        }
+
+        /* ── Light Mode ── */
+        body.light-mode {
+            background-color: #edf2f7 !important;
+            color: #1a202c !important;
+        }
+        body.light-mode nav {
+            background: rgba(255,255,255,0.88) !important;
+            border-color: rgba(0,0,0,0.1) !important;
+        }
+        body.light-mode nav a, body.light-mode .weather-temp { color: #1a202c !important; }
+        body.light-mode .weather-desc { color: #4a5568 !important; }
+        body.light-mode .glass-card {
+            background: rgba(255,255,255,0.65) !important;
+            border-color: rgba(0,0,0,0.09) !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10) !important;
+        }
+        body.light-mode .theme-toggle { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.12); }
+        body.light-mode .t-thumb { left: 18px; background: #6366f1; }
+        body.light-mode .t-track { background: rgba(99,102,241,0.18); }
+        body.light-mode .t-icon.sun  { opacity: 0.4; }
+        body.light-mode .t-icon.moon { opacity: 1; color: #6366f1; }
+        body.light-mode footer { background-color: #1a2535 !important; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+    <!-- TopNavBar (Premium Pill Capsule) -->
+    <nav class="fixed top-5 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl bg-cosmic-void/78 backdrop-blur-xl border border-white/10 px-6 py-2.5 rounded-full flex justify-between items-center z-50 shadow-[0_10px_40px_rgba(0,0,0,0.35)] transition-all duration-300">
+        <!-- Brand -->
+        <a class="font-headline-lg text-[22px] font-bold text-primary tracking-tight cursor-pointer no-underline flex-shrink-0" href="index.html">San Roque</a>
+
+        <!-- Nav links -->
+        <div class="hidden md:flex gap-8 items-center">
+            <a class="font-label-caps text-[11px] tracking-widest text-primary border-b-2 border-primary pb-0.5 no-underline uppercase" href="#">Alojamientos</a>
+            <a class="font-label-caps text-[11px] tracking-widest text-on-surface-variant hover:text-primary transition-colors no-underline uppercase" href="index.html">Portal principal</a>
+        </div>
+
+        <!-- Right group: weather + toggle -->
+        <div class="flex items-center gap-3">
+            <!-- Weather widget -->
+            <div class="weather-widget hidden md:flex">
+                <!-- Sun icon -->
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <div>
+                    <div class="weather-temp">24&deg;C</div>
+                    <div class="weather-desc">Soleado, San Roque</div>
+                </div>
+            </div>
+
+            <!-- Day / Night toggle -->
+            <div class="theme-toggle" id="themeToggle" title="Cambiar modo">
+                <!-- Sun icon -->
+                <span class="t-icon sun">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </span>
+                <!-- Track + thumb -->
+                <div class="t-track"><div class="t-thumb"></div></div>
+                <!-- Moon icon -->
+                <span class="t-icon moon">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section (Full-Screen, Nature Backdrop, Asymmetric Bottom Wave Separator) -->
+        <section class="relative h-[80vh] w-full flex items-center justify-center text-center px-safe-area overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img alt="Vista aérea de San Roque, Corrientes" class="w-full h-full object-cover chaos-glitch transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8vmJqnR3spNorIc8RpZLhvF1rqss2leaLoBJ8vaUvRjybDIMxwBTl-GuBJUIgRiy99lkCXOI3bQsJUJq81LOe0MGW6nf8RV2y7HUt5coPieTVzraKFp4VRTIio4hJ7PGko91ExklQY2G_3IkYaPW1k0eweUR_xgQ8cExtkxEUVq2g6Ke-UouEmmp-riKf--JlqI6RIt4ynVwB8BcUYnjjiRWle1aY7O6bllCH9GlGLuq9C59rHVKqxrgPFbDZFuqmGMJYu3YiTGQ"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-background via-background/25 to-transparent"></div>
+            </div>
+            <div class="relative z-10 max-w-4xl space-y-6">
+                <h1 class="font-display-lg text-display-lg md:text-[80px] text-white drop-shadow-2xl font-extrabold tracking-tight">
+                    Alojamientos
+                </h1>
+                <p class="font-headline-lg text-on-surface-variant max-w-2xl mx-auto text-xl md:text-2xl font-medium tracking-wide">
+                    Donde el tiempo se detiene y la naturaleza te abraza.
+                </p>
+                <div class="pt-6">
+                    <a href="#buscadorSeccion" class="bg-[#10B981] hover:bg-[#059669] text-white px-8 py-3.5 rounded-full font-label-caps text-xs tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 inline-flex items-center gap-2 no-underline uppercase font-bold">
+                        <span>Buscar Ahora</span>
+                        <span class="material-symbols-outlined text-sm font-bold">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Organic curved wave separator (Asymmetrical design in white-matching background) -->
+            <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] transform translate-y-[1px] z-10">
+                <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-[65px] fill-[#0f1418] text-[#0f1418]">
+                    <path d="M985.6,92.8C1006.5,82,1019.5,55.6,1044,47c26-9.1,51.6,5.9,78.4,14.6c21.5,7,42.8,9.1,64.2,3.9V120H0V93c3.4-1.9,6.7-3.4,10-4.7c33-12.7,65-24.9,101.4-27.5c28.3-2,57.1,5.2,85.5,12.7c31,8.1,61.9,16.2,95,15c29-1,57.4-12.1,84.9-23c31.3-12.4,62-24.5,96.1-25.2c32-0.7,62.8,10.6,92.3,21.8c30.3,11.5,59.9,22.7,92.3,22.1c31.8-0.6,62.1-12.1,91.3-23.2C931.3,50.7,959,39,985.6,92.8z"></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Three Floating Category Cards (Overlapping Hero bottom, filters on click) -->
+        <section class="relative z-20 max-w-7xl mx-auto px-margin-edge -mt-24 grid grid-cols-1 md:grid-cols-3 gap-8 pb-12">
+            <!-- Card 1: Departamentos & Cabañas -->
+            <div class="glass-card rounded-t-2xl overflow-hidden flex flex-col justify-between group hover:-translate-y-2 transition-all duration-300 shadow-xl cursor-pointer" onclick="filtrarCategoria('departamento')">
+                <div class="p-6">
+                    <div class="flex items-center gap-2 text-primary mb-3">
+                        <span class="material-symbols-outlined text-lg">nature_people</span>
+                        <span class="font-label-caps text-[10px] tracking-wider uppercase">Cabañas & Deptos</span>
+                    </div>
+                    <h3 class="font-headline-lg text-white text-xl mb-3">Estancia Natural</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Departamentos amueblados y cabañas ideales para descansar en grupo o familia rodeados de naturaleza.</p>
+                </div>
+                <!-- Bottom Tab -->
+                <div class="bg-jungle-vibrant text-white font-label-caps text-xs py-3.5 text-center font-bold tracking-wider uppercase">
+                    Verde Naturaleza
+                </div>
+            </div>
+            <!-- Card 2: Hoteles de Confort -->
+            <div class="glass-card rounded-t-2xl overflow-hidden flex flex-col justify-between group hover:-translate-y-2 transition-all duration-300 shadow-xl cursor-pointer" onclick="filtrarCategoria('hotel')">
+                <div class="p-6">
+                    <div class="flex items-center gap-2 text-primary mb-3">
+                        <span class="material-symbols-outlined text-lg">hotel</span>
+                        <span class="font-label-caps text-[10px] tracking-wider uppercase">Confort & Servicios</span>
+                    </div>
+                    <h3 class="font-headline-lg text-white text-xl mb-3">Hoteles Premium</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Plazas hoteleras con servicios modernos en el corazón del pueblo histórico de San Roque.</p>
+                </div>
+                <!-- Bottom Tab -->
+                <div class="bg-primary text-[#001e2d] font-label-caps text-xs py-3.5 text-center font-bold tracking-wider uppercase">
+                    Celeste Agua
+                </div>
+            </div>
+            <!-- Card 3: Hospedajes Familiares -->
+            <div class="glass-card rounded-t-2xl overflow-hidden flex flex-col justify-between group hover:-translate-y-2 transition-all duration-300 shadow-xl cursor-pointer" onclick="filtrarCategoria('hospedaje')">
+                <div class="p-6">
+                    <div class="flex items-center gap-2 text-primary mb-3">
+                        <span class="material-symbols-outlined text-lg">home</span>
+                        <span class="font-label-caps text-[10px] tracking-wider uppercase">Hospitalidad Local</span>
+                    </div>
+                    <h3 class="font-headline-lg text-white text-xl mb-3">Hospedajes de Pueblo</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Habitaciones céntricas y hospedajes con cocina compartida, lavadero y trato familiar.</p>
+                </div>
+                <!-- Bottom Tab -->
+                <div class="bg-tertiary text-on-tertiary-container font-label-caps text-xs py-3.5 text-center font-bold tracking-wider uppercase">
+                    Amarillo Sol
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters & Search Bar Section -->
+        <section id="buscadorSeccion" class="py-10 px-margin-edge max-w-7xl mx-auto border-t border-b border-white/10 mt-6 scroll-mt-24">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                <div class="space-y-1">
+                    <span class="text-primary font-label-caps text-label-caps uppercase tracking-widest">Buscador</span>
+                    <h2 class="font-headline-lg text-2xl text-white">Filtra tu estancia ideal</h2>
+                </div>
+                <div class="flex flex-wrap gap-4 w-full lg:w-auto">
+                    <select id="filtroTipo" class="bg-surface-container text-on-surface border border-outline/25 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer flex-1 md:flex-none min-w-[170px]">
+                        <option value="todos">Todos los tipos</option>
+                        <option value="hotel">Hotel</option>
+                        <option value="hospedaje">Hospedaje</option>
+                        <option value="departamento">Departamento</option>
+                    </select>
+                    <select id="filtroCapacidad" class="bg-surface-container text-on-surface border border-outline/25 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer flex-1 md:flex-none min-w-[170px]">
+                        <option value="0">Cualquier capacidad</option>
+                        <option value="1">1 persona</option>
+                        <option value="2">2 personas</option>
+                        <option value="3">3 personas</option>
+                        <option value="4">4 personas</option>
+                        <option value="6">6+ personas</option>
+                    </select>
+                    <select id="ordenPrecio" class="bg-surface-container text-on-surface border border-outline/25 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer flex-1 md:flex-none min-w-[170px]">
+                        <option value="ninguno">Orden predeterminado</option>
+                        <option value="menor">Menor precio</option>
+                        <option value="mayor">Mayor precio</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accommodations Grid -->
+        <section class="py-16 px-margin-edge max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter-md" id="gridAlojamientos">
+                <!-- Dynamically loaded lodging cards go here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal (Premium Tailwind Style with Glassmorphism) -->
+    <div id="modal" class="hidden fixed inset-0 z-[100] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300">
+        <div class="glass-card rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] scale-95 opacity-0 transition-all duration-300" id="modalCard">
+            <!-- Close button -->
+            <button id="modalCerrar" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-on-surface-variant hover:bg-chaos-magenta hover:text-white transition-all duration-300 text-lg z-10">✕</button>
+            
+            <!-- Header -->
+            <h2 id="modalNombre" class="font-headline-lg text-2xl text-white pr-8 mb-1"></h2>
+            <div id="modalTipo" class="text-primary font-label-caps text-xs tracking-widest uppercase mb-4"></div>
+            
+            <!-- Image wrapper -->
+            <div id="modalImgWrapper" class="w-full h-[220px] rounded-xl overflow-hidden mb-5 border border-white/5 bg-white/5">
+                <!-- Dynamically injected image -->
+            </div>
+
+            <!-- Description -->
+            <p id="modalDesc" class="text-on-surface-variant text-sm mb-6 leading-relaxed"></p>
+
+            <!-- Redes & Ubicación -->
+            <div class="mb-6" id="modalRedesSec">
+                <h4 class="text-white font-label-caps text-xs uppercase tracking-wider mb-3">Redes &amp; Ubicación</h4>
+                <div class="flex flex-col gap-2.5" id="modalRedes">
+                    <!-- Dynamically injected links and addresses -->
+                </div>
+            </div>
+
+            <!-- Precios -->
+            <div class="mb-6" id="modalPreciosSec">
+                <h4 class="text-white font-label-caps text-xs uppercase tracking-wider mb-2.5">Precios por noche</h4>
+                <ul id="modalPrecios" class="divide-y divide-white/5 text-sm text-on-surface-variant">
+                    <!-- Dynamically injected list items -->
+                </ul>
+            </div>
+
+            <!-- Servicios -->
+            <div class="mb-6" id="modalServiciosSec">
+                <h4 class="text-white font-label-caps text-xs uppercase tracking-wider mb-3">Servicios Incluidos</h4>
+                <div id="modalServicios" class="flex flex-wrap gap-2">
+                    <!-- Dynamically injected service pills -->
+                </div>
+            </div>
+
+            <!-- Map embed -->
+            <div id="modalMap" class="rounded-xl overflow-hidden border border-white/10 h-[200px] mb-6">
+                <!-- Google Maps iframe -->
+            </div>
+
+            <!-- CTA WhatsApp -->
+            <a id="modalWa" target="_blank" class="btn-modal-wa">
+                <!-- Dynamically updated -->
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-jungle-deep w-full flex flex-col md:flex-row justify-between items-center gap-gutter-md px-8 py-5 border-t border-white/5 transition-all duration-500">
+        <div class="flex flex-col gap-1.5">
+            <div class="font-headline-lg text-base font-bold text-tertiary tracking-wide">San Roque Turismo</div>
+            <p class="text-on-surface-variant text-[11px] tracking-wide">Portal turístico municipal &mdash; San Roque, Corrientes</p>
+        </div>
+        <div class="flex gap-6 items-center">
+            <a class="font-label-caps text-[11px] tracking-widest text-primary hover:text-white transition-colors no-underline uppercase" href="#">Alojamientos</a>
+            <a class="font-label-caps text-[11px] tracking-widest text-on-surface-variant hover:text-primary transition-colors no-underline uppercase" href="index.html">Portal principal</a>
+        </div>
+        <!-- Timestamp -->
+        <p id="footerTimestamp" class="text-on-surface-variant/60 text-[10px] tracking-wide font-mono"></p>
+    </footer>
+
+    <script>
+        const alojamientos = [];
+
+        // ── Iconos SVG inline ──
+        const SVG_FB  = `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`;
+        const SVG_IG  = `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`;
+        const SVG_MAP = `<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+        const SVG_WA  = `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.623-1.023-5.086-2.884-6.949C16.592 1.995 14.137.974 11.514.974c-5.442 0-9.87 4.372-9.874 9.802-.001 1.768.479 3.49 1.39 5.025l-.916 3.348 3.468-.909zM19.14 15.65c-.378-.19-2.24-1.107-2.587-1.233-.347-.127-.6-.19-.85.19-.25.38-.967 1.233-1.184 1.485-.218.252-.436.282-.814.091-.378-.19-1.6-.59-3.047-1.882-1.124-1.002-1.883-2.24-2.103-2.62-.22-.38-.023-.585.166-.774.17-.17.378-.441.568-.662.19-.22.252-.378.378-.63.127-.252.064-.473-.032-.663-.095-.19-.85-2.05-1.164-2.806-.307-.74-.617-.639-.85-.651-.215-.01-.462-.01-.71-.01-.248 0-.65.093-.99.462-.34.37-1.302 1.272-1.302 3.102 0 1.829 1.33 3.595 1.518 3.848.188.252 2.618 3.997 6.34 5.61.886.383 1.577.612 2.115.783.89.282 1.7.242 2.34.146.714-.107 2.24-.916 2.555-1.802.314-.887.314-1.64.22-1.802-.094-.163-.347-.282-.725-.472z"/></svg>`;
+        const SVG_INFO = `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`;
+        const SVG_PIN  = `<svg class="w-3.5 h-3.5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+
+        // Fetch data
+        fetch('Alojamientos/alojamientos.json')
+            .then(r => r.json())
+            .then(data => {
+                alojamientos.push(...data);
+                renderizar(alojamientos);
+            })
+            .catch(() => {
+                document.getElementById('gridAlojamientos').innerHTML =
+                    '<p class="col-span-full text-center py-12 text-on-surface-variant italic">Error al cargar los datos.</p>';
+            });
+
+        function waUrl(num, text) {
+            const t = encodeURIComponent(text || 'Hola, quería consultar disponibilidad para hospedarme en San Roque.');
+            return `https://wa.me/54${num}?text=${t}`;
+        }
+
+        function precioLabel(precio) {
+            return '$' + precio.toLocaleString('es-AR');
+        }
+
+        function badgeHTML(a) {
+            if (a.sin_datos) return '<span class="absolute top-4 left-4 bg-chaos-magenta/30 border border-chaos-magenta/40 text-white text-[9px] font-label-caps px-2.5 py-0.5 rounded-full uppercase tracking-wider">⚠️ Sin Datos</span>';
+            if (a.tarifa_estimativa) return '<span class="absolute top-4 left-4 bg-tertiary/20 border border-tertiary/45 text-tertiary text-[9px] font-label-caps px-2.5 py-0.5 rounded-full uppercase tracking-wider">📋 Estimado</span>';
+            return '';
+        }
+
+        function tipoLabel(tipo) {
+            const map = { hotel: 'Hotel', hospedaje: 'Hospedaje', departamento: 'Departamento' };
+            return map[tipo] || tipo;
+        }
+
+        function renderizar(lista) {
+            const grid = document.getElementById('gridAlojamientos');
+            if (!lista.length) {
+                grid.innerHTML = '<p class="col-span-full text-center py-12 text-on-surface-variant italic">No se encontraron alojamientos con esos filtros.</p>';
+                return;
+            }
+            grid.innerHTML = lista.map(a => {
+                const sinDatos = a.sin_datos;
+                const cardClass = sinDatos ? 'group relative rounded-xl overflow-hidden glass-card flex flex-col min-h-[420px] transition-all duration-300 opacity-60' : 'group relative rounded-xl overflow-hidden glass-card flex flex-col min-h-[420px] transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl';
+
+                let preciosHTML = '';
+                if (!sinDatos && a.unidades.length) {
+                    preciosHTML = `<div class="bg-white/5 rounded-lg p-3.5 mb-4 border border-white/5">
+                        <h4 class="text-white font-label-caps text-[10px] uppercase tracking-wider mb-2">Precios por noche</h4>`;
+                    a.unidades.forEach(u => {
+                        preciosHTML += `<div class="flex justify-between items-center text-sm py-1 border-b border-white/5 last:border-0"><span class="text-on-surface-variant/80">${u.descripcion}</span><span class="font-bold text-primary">${precioLabel(u.precio)}</span></div>`;
+                    });
+                    preciosHTML += `</div>`;
+                }
+
+                const serviciosHTML = a.servicios.length
+                    ? `<div class="flex flex-wrap gap-1.5 mb-4">${a.servicios.slice(0, 3).map(s => `<span class="px-2.5 py-0.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-[10px] font-label-caps">${s.toUpperCase()}</span>`).join('')}
+                       ${a.servicios.length > 3 ? `<span class="px-2.5 py-0.5 rounded-full border border-outline/25 bg-white/5 text-on-surface-variant text-[10px] font-label-caps">+${a.servicios.length - 3}</span>` : ''}</div>`
+                    : '';
+
+                const waBtn = a.whatsapp
+                    ? `<a class="btn-wa-card" href="${waUrl(a.whatsapp, 'Hola, quería consultar disponibilidad para hospedarme en ' + a.nombre)}" target="_blank">${SVG_WA}<span>WhatsApp</span></a>`
+                    : '';
+
+                const detalleBtn = sinDatos ? '' :
+                    `<button class="btn-detalle-card" data-id="${a.id}">${SVG_INFO}<span>Ver Detalle</span></button>`;
+
+                const redesLinks = [];
+                if (a.facebook) redesLinks.push(`<a class="btn-social-icon fb" href="${a.facebook}" target="_blank" rel="noopener noreferrer" title="Facebook">${SVG_FB}</a>`);
+                if (a.instagram) redesLinks.push(`<a class="btn-social-icon ig" href="${a.instagram}" target="_blank" rel="noopener noreferrer" title="Instagram">${SVG_IG}</a>`);
+                if (a.coords)   redesLinks.push(`<a class="btn-social-icon map" href="https://maps.google.com/?q=${a.coords.lat},${a.coords.lng}" target="_blank" rel="noopener noreferrer" title="Ver en Google Maps">${SVG_MAP}</a>`);
+                const redesHTML = redesLinks.length ? `<div class="flex items-center gap-2 mb-4">${redesLinks.join('')}</div>` : '';
+
+                const imgHTML = a.imagen
+                    ? `<div class="relative w-full h-[180px] overflow-hidden bg-white/5"><img src="${a.imagen}" alt="${a.nombre}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 chaos-glitch"><div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80"></div>${badgeHTML(a)}<span class="absolute top-4 right-4 bg-primary/25 border border-primary/40 text-primary text-[10px] font-label-caps px-3 py-1 rounded-full uppercase tracking-wider">${tipoLabel(a.tipo)}</span></div>`
+                    : `<div class="relative w-full h-[180px] overflow-hidden flex flex-col items-center justify-center bg-gradient-to-t from-background to-primary/15 text-primary/70">${badgeHTML(a)}<span class="material-symbols-outlined text-4xl mb-1">hotel</span><span class="font-label-caps text-[10px] tracking-wider">SIN FOTO DISPONIBLE</span><span class="absolute top-4 right-4 bg-primary/25 border border-primary/40 text-primary text-[10px] font-label-caps px-3 py-1 rounded-full uppercase tracking-wider">${tipoLabel(a.tipo)}</span></div>`;
+
+                const direccionHTML = a.direccion
+                    ? `<div class="flex items-center gap-1.5 text-on-surface-variant/80 text-xs mb-3 bg-white/5 py-1.5 px-3 rounded-lg border border-white/5">${SVG_PIN} <span>${a.direccion}</span></div>`
+                    : '';
+
+                return `
+                    <div class="${cardClass}">
+                        ${imgHTML}
+                        <div class="p-6 flex-1 flex flex-col">
+                            <h3 class="font-headline-lg text-white text-xl mb-2">${a.nombre}</h3>
+                            ${direccionHTML}
+                            <p class="text-on-surface-variant text-sm mb-4 line-clamp-2 leading-relaxed">${a.descripcion}</p>
+                            ${serviciosHTML}
+                            ${redesHTML}
+                            ${preciosHTML}
+                            <div class="mt-auto pt-4 flex gap-3">
+                                ${waBtn}
+                                ${detalleBtn}
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            document.querySelectorAll('.btn-detalle, button[data-id]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = lista.find(a => a.id === btn.dataset.id);
+                    if (item) abrirModal(item);
+                });
+            });
+        }
+
+        // Modal handlers
+        const modal = document.getElementById('modal');
+        const modalCard = document.getElementById('modalCard');
+
+        function abrirModal(a) {
+            document.getElementById('modalNombre').textContent = a.nombre;
+            document.getElementById('modalTipo').textContent = tipoLabel(a.tipo);
+            document.getElementById('modalDesc').textContent = a.descripcion;
+
+            const modalImgWrapper = document.getElementById('modalImgWrapper');
+            if (a.imagen) {
+                modalImgWrapper.style.display = 'block';
+                modalImgWrapper.innerHTML = `<img src="${a.imagen}" alt="${a.nombre}" class="w-full h-full object-cover">`;
+            } else {
+                modalImgWrapper.style.display = 'none';
+            }
+
+            const precioSec = document.getElementById('modalPreciosSec');
+            const preciosList = document.getElementById('modalPrecios');
+            if (a.unidades.length) {
+                precioSec.style.display = '';
+                preciosList.innerHTML = a.unidades.map(u =>
+                    `<li class="flex justify-between items-center py-2.5 text-sm"><span class="text-on-surface-variant/80">${u.descripcion}</span><strong class="text-primary font-bold">${precioLabel(u.precio)}</strong></li>`
+                ).join('');
+            } else {
+                precioSec.style.display = 'none';
+            }
+
+            const servSec = document.getElementById('modalServiciosSec');
+            const servList = document.getElementById('modalServicios');
+            if (a.servicios.length) {
+                servSec.style.display = '';
+                servList.innerHTML = a.servicios.map(s => `<span class="px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-[11px] font-label-caps">${s.toUpperCase()}</span>`).join('');
+            } else {
+                servSec.style.display = 'none';
+            }
+
+            const redesSec = document.getElementById('modalRedesSec');
+            const redesDiv = document.getElementById('modalRedes');
+            const redesModalLinks = [];
+            if (a.direccion) {
+                redesModalLinks.push(`<div class="flex items-center gap-2 text-sm text-on-surface-variant/80 bg-white/5 py-2 px-3 rounded-lg border border-white/5">${SVG_PIN} <span>${a.direccion}</span></div>`);
+            }
+            if (a.facebook)  redesModalLinks.push(`<a class="inline-flex items-center gap-2.5 py-2 px-4 bg-white/5 border border-white/5 hover:border-[#1877f2]/40 rounded-xl text-sm hover:text-[#1877f2] hover:bg-[#1877f2]/10 transition-all text-on-surface-variant no-underline" href="${a.facebook}" target="_blank" rel="noopener noreferrer">${SVG_FB} Facebook</a>`);
+            if (a.instagram) redesModalLinks.push(`<a class="inline-flex items-center gap-2.5 py-2 px-4 bg-white/5 border border-white/5 hover:border-[#e1306c]/40 rounded-xl text-sm hover:text-[#e1306c] hover:bg-[#e1306c]/10 transition-all text-on-surface-variant no-underline" href="${a.instagram}" target="_blank" rel="noopener noreferrer">${SVG_IG} Instagram</a>`);
+            if (a.coords)    redesModalLinks.push(`<a class="inline-flex items-center gap-2.5 py-2 px-4 bg-white/5 border border-white/5 hover:border-primary/45 rounded-xl text-sm hover:text-primary hover:bg-primary/10 transition-all text-on-surface-variant no-underline" href="https://maps.google.com/?q=${a.coords.lat},${a.coords.lng}" target="_blank" rel="noopener noreferrer">${SVG_MAP} Abrir en Google Maps</a>`);
+            
+            if (redesModalLinks.length) {
+                redesSec.style.display = '';
+                redesDiv.innerHTML = `<div class="flex flex-wrap gap-2">${redesModalLinks.join('')}</div>`;
+            } else {
+                redesSec.style.display = 'none';
+            }
+
+            const mapDiv = document.getElementById('modalMap');
+            if (a.coords) {
+                mapDiv.style.display = 'block';
+                mapDiv.innerHTML = `<iframe loading="lazy" src="https://maps.google.com/maps?q=${a.coords.lat},${a.coords.lng}&z=15&output=embed" class="w-full h-full border-none block" allowfullscreen></iframe>`;
+            } else {
+                mapDiv.style.display = 'none';
+            }
+
+            const waLink = document.getElementById('modalWa');
+            if (a.whatsapp) {
+                waLink.style.display = 'flex';
+                waLink.href = waUrl(a.whatsapp, 'Hola, quería consultar disponibilidad para hospedarme en ' + a.nombre);
+                waLink.className = 'btn-modal-wa';
+                waLink.innerHTML = `${SVG_WA}<span>Consultar por WhatsApp</span><svg class="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+            } else {
+                waLink.style.display = 'none';
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalCard.classList.remove('scale-95', 'opacity-0');
+                modalCard.classList.add('scale-100', 'opacity-100');
+            }, 50);
+        }
+
+        function cerrarModal() {
+            modalCard.classList.remove('scale-100', 'opacity-100');
+            modalCard.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        document.getElementById('modalCerrar').addEventListener('click', cerrarModal);
+        modal.addEventListener('click', e => {
+            if (e.target === modal) cerrarModal();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) cerrarModal();
+        });
+
+        // Filter Functionality
+        function filtrar() {
+            const tipo = document.getElementById('filtroTipo').value;
+            const cap = parseInt(document.getElementById('filtroCapacidad').value);
+            const orden = document.getElementById('ordenPrecio').value;
+
+            let filtrados = alojamientos.filter(a => {
+                if (tipo !== 'todos' && a.tipo !== tipo) return false;
+                if (cap > 0) {
+                    if (!a.unidades.length) return false;
+                    const maxCap = Math.max(...a.unidades.map(u => u.capacidad));
+                    if (cap === 6) return maxCap >= 6;
+                    return a.unidades.some(u => u.capacidad >= cap);
+                }
+                return true;
+            });
+
+            if (orden === 'menor') {
+                filtrados.sort((a, b) => {
+                    const minA = a.unidades.length ? Math.min(...a.unidades.map(u => u.precio)) : Infinity;
+                    const minB = b.unidades.length ? Math.min(...b.unidades.map(u => u.precio)) : Infinity;
+                    return minA - minB;
+                });
+            } else if (orden === 'mayor') {
+                filtrados.sort((a, b) => {
+                    const minA = a.unidades.length ? Math.min(...a.unidades.map(u => u.precio)) : 0;
+                    const minB = b.unidades.length ? Math.min(...b.unidades.map(u => u.precio)) : 0;
+                    return minB - minA;
+                });
+            }
+
+            renderizar(filtrados);
+        }
+
+        function filtrarCategoria(tipo) {
+            document.getElementById('filtroTipo').value = tipo;
+            filtrar();
+            document.getElementById('buscadorSeccion').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.getElementById('filtroTipo').addEventListener('change', filtrar);
+        document.getElementById('filtroCapacidad').addEventListener('change', filtrar);
+        document.getElementById('ordenPrecio').addEventListener('change', filtrar);
+
+        // ── Day / Night Theme Toggle ──
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        let isLight = false;
+
+        // Live footer timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase();
+            const dateStr = now.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' });
+            const el = document.getElementById('footerTimestamp');
+            if (el) el.textContent = `© ${now.getFullYear()} San Roque Turismo | ${dateStr}, ${timeStr}`;
+        }
+        updateTimestamp();
+        setInterval(updateTimestamp, 60000);
+
+        // Toggle handler
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                isLight = !isLight;
+                body.classList.toggle('light-mode', isLight);
+            });
+        }
+
+        // Subtle card glow on hover (always on)
+        document.addEventListener('mousemove', (e) => {
+            const card = e.target.closest('.glass-card');
+            if (card) {
+                card.style.boxShadow = isLight
+                    ? '0 0 28px rgba(99,102,241,0.15)'
+                    : '0 0 28px rgba(130,207,255,0.12)';
+            }
+        });
+        document.addEventListener('mouseout', (e) => {
+            const card = e.target.closest('.glass-card');
+            if (card) card.style.boxShadow = '';
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'ease-out', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

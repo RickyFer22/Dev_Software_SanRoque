@@ -1,0 +1,17 @@
+# Scripts locales de Notion (solo uso local, no subir a GitHub)
+notion_scripts/
+create_notion_workspace.py
+
+# Imágenes de trabajo/ideas locales
+futuro.jpeg
+Idea.jpeg
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Scripts de despliegue y configuración sensible del VPS (NUNCA subir)
+deploy-to-vps.ps1
+deploy.sh
+deploy_vps_github.md
+setup_secrets.ps1
