@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&amp;family=Libre+Franklin:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Libre Franklin', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+        .font-headline-md, .font-display-lg, .font-label-md, .font-headline-lg, .font-label-sm, .font-display-lg-mobile { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#111827",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e0e2e6",
+                        "primary-fixed": "#dce2f7",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary": "#2f6948",
+                        "surface-bright": "#f8fafc",
+                        "primary-container": "#141b2b",
+                        "surface-dark": "#0a0c10",
+                        "on-secondary-fixed-variant": "#135132",
+                        "inverse-surface": "#2d3134",
+                        "secondary-fixed": "#b2f1c6",
+                        "surface-variant": "#e0e2e6",
+                        "outline": "#76777d",
+                        "on-secondary-fixed": "#002110",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#efc13d",
+                        "on-secondary-container": "#35704e",
+                        "on-tertiary-fixed-variant": "#594400",
+                        "on-primary-fixed-variant": "#404758",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#503d00",
+                        "on-error": "#ffffff",
+                        "institutional-green": "#145233",
+                        "primary-fixed-dim": "#c0c6db",
+                        "inverse-on-surface": "#eff1f5",
+                        "on-primary-container": "#7d8497",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-primary-fixed": "#141b2b",
+                        "secondary-fixed-dim": "#97d4ac",
+                        "outline-variant": "#c6c6cd",
+                        "surface-tint": "#575e70",
+                        "inverse-primary": "#c0c6db",
+                        "secondary-container": "#b2f1c6",
+                        "on-surface-variant": "#45464c",
+                        "surface-container-high": "#e6e8ec",
+                        "surface-container-lowest": "#ffffff",
+                        "slate-900": "#0a0c10",
+                        "surface-container-low": "#f2f4f8",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdf93",
+                        "surface-container": "#eceef2",
+                        "surface": "#f8fafc",
+                        "background": "#f8fafc",
+                        "on-background": "#111827",
+                        "tertiary": "#765b00",
+                        "tertiary-container": "#d1a621",
+                        "primary": "#000000",
+                        "surface-light": "#f8fafc",
+                        "surface-dim": "#d8dade",
+                        "accent-yellow": "#F7C844"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Hanken Grotesk"],
+                        "body-md": ["Libre Franklin"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "display-lg-mobile": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Libre Franklin"],
+                        "label-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface dark:bg-surface-dark text-on-surface dark:text-on-secondary font-body-md transition-colors duration-300">
+<!-- TopNavBar -->
+<header id="main-header" class="bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md w-full top-0 sticky z-50 transition-all duration-300 border-b border-outline-variant/20 dark:border-primary-fixed/10">
+  <div class="max-w-container-max mx-auto">
+
+    <!-- Main Row: Logo + Nav + Actions -->
+    <div id="header-inner" class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop transition-all duration-300 h-20">
+
+      <!-- Logo -->
+      <a href="#" class="font-headline-md text-headline-md font-bold text-primary dark:text-white tracking-tight select-none hover:opacity-80 transition-opacity duration-150">
+        San Roque
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-1 h-full">
+
+        <!-- Inicio -->
+        <a href="#"
+           class="px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-white hover:bg-on-surface/5 dark:hover:bg-on-secondary/5 transition-all duration-150 ease-out font-label-md text-label-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow">
+          Inicio
+        </a>
+
+        <!-- Alojamientos dropdown -->
+        <div class="relative nav-dropdown-group h-full flex items-center">
+          <button
+            class="flex items-center gap-1 px-3 py-2 rounded-lg text-primary dark:text-white font-bold font-label-md text-label-md hover:bg-on-surface/5 dark:hover:bg-on-secondary/5 transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow border-b-2 border-accent-yellow"
+            aria-haspopup="true" aria-expanded="false">
+            Alojamientos
+            <span class="material-symbols-outlined text-[18px] transition-transform duration-200 dropdown-chevron">expand_more</span>
+          </button>
+          <div class="dropdown-panel absolute top-[calc(100%+8px)] left-0 min-w-[220px]
+                      bg-surface-light/90 dark:bg-inverse-surface/90
+                      backdrop-blur-xl
+                      rounded-xl shadow-lg border border-outline/20 dark:border-primary-fixed/15
+                      py-2 z-[60]
+                      opacity-0 scale-95 origin-top pointer-events-none
+                      transition-all duration-200 ease-out">
+            <a class="block px-5 py-3 text-on-surface dark:text-inverse-on-surface hover:bg-on-surface/8 dark:hover:bg-on-surface/15 transition-colors duration-100 font-label-md text-label-md rounded-lg mx-1" href="#">Posadas Históricas</a>
+            <a class="block px-5 py-3 text-on-surface dark:text-inverse-on-surface hover:bg-on-surface/8 dark:hover:bg-on-surface/15 transition-colors duration-100 font-label-md text-label-md rounded-lg mx-1" href="#">Cabañas Premium</a>
+            <a class="block px-5 py-3 text-on-surface dark:text-inverse-on-surface hover:bg-on-surface/8 dark:hover:bg-on-surface/15 transition-colors duration-100 font-label-md text-label-md rounded-lg mx-1" href="#">Eco-Glamping</a>
+            <a class="block px-5 py-3 text-on-surface dark:text-inverse-on-surface hover:bg-on-surface/8 dark:hover:bg-on-surface/15 transition-colors duration-100 font-label-md text-label-md rounded-lg mx-1" href="#">Hoteles y Estancias</a>
+          </div>
+        </div>
+
+        <!-- Experiencias dropdown -->
+        <div class="relative nav-dropdown-group h-full flex items-center">
+          <button
+            class="flex items-center gap-1 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-white font-label-md text-label-md hover:bg-on-surface/5 dark:hover:bg-on-secondary/5 transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow"
+            aria-haspopup="true" aria-expanded="false">
+            Experiencias
+            <span class="material-symbols-outlined text-[18px] transition-transform duration-200 dropdown-chevron">expand_more</span>
+          </button>
+          <div class="dropdown-panel absolute top-[calc(100%+8px)] left-0 min-w-[220px]
+                      bg-surface-light/90 dark:bg-inverse-surface/90
+                      backdrop-blur-xl
+                      rounded-xl shadow-lg border border-outline/20 dark:border-primary-fixed/15
+                      py-2 z-[60]
+                      opacity-0 scale-95 origin-top pointer-events-none
+                      transition-all duration-200 ease-out">
+            <a class="block px-5 py-3 text-on-surface dark:text-inverse-on-surface hover:bg-on-surface/8 dark:hover:bg-on-surface/15 transition-colors duration-100 font-label-md text-label-md rounded-lg mx-1" href="#">Turismo de Naturaleza</a>
+            <a class="block px-5 py-3 text-on-surface dark:text-inverse-on-surface hover:bg-on-surface/8 dark:hover:bg-on-surface/15 transition-colors duration-100 font-label-md text-label-md rounded-lg mx-1" href="#">Circuitos Históricos</a>
+            <a class="block px-5 py-3 text-on-surface dark:text-inverse-on-surface hover:bg-on-surface/8 dark:hover:bg-on-surface/15 transition-colors duration-100 font-label-md text-label-md rounded-lg mx-1" href="#">Gastronomía Local</a>
+            <a class="block px-5 py-3 text-on-surface dark:text-inverse-on-surface hover:bg-on-surface/8 dark:hover:bg-on-surface/15 transition-colors duration-100 font-label-md text-label-md rounded-lg mx-1" href="#">Eventos y Congresos</a>
+          </div>
+        </div>
+
+        <!-- Contacto -->
+        <a href="#"
+           class="px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-white hover:bg-on-surface/5 dark:hover:bg-on-secondary/5 transition-all duration-150 ease-out font-label-md text-label-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow">
+          Contacto
+        </a>
+      </nav>
+
+      <!-- Right Side Actions -->
+      <div class="flex items-center gap-3">
+
+        <!-- Utility Pill (Desktop only) -->
+        <div class="hidden md:flex items-center gap-0.5 bg-surface-container dark:bg-surface-container-high/20 rounded-full px-1.5 py-1.5 border border-outline/15 dark:border-primary-fixed/15">
+          <!-- Search -->
+          <button class="flex items-center justify-center w-8 h-8 rounded-full text-on-surface-variant dark:text-outline-variant hover:bg-on-surface/10 dark:hover:bg-on-secondary/10 transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow">
+            <span class="material-symbols-outlined text-[20px]">search</span>
+          </button>
+          <!-- Weather (non-interactive) -->
+          <div class="flex items-center gap-1 px-2 text-on-surface-variant dark:text-outline-variant select-none">
+            <span class="material-symbols-outlined text-[18px]">light_mode</span>
+            <span class="font-label-md text-label-md">22°C</span>
+          </div>
+          <!-- Divider -->
+          <div class="w-px h-5 bg-outline/20 dark:bg-primary-fixed/20 mx-0.5"></div>
+          <!-- Theme Toggle -->
+          <button class="flex items-center justify-center w-8 h-8 rounded-full text-on-surface-variant dark:text-outline-variant hover:bg-on-surface/10 dark:hover:bg-on-secondary/10 transition-all duration-150 ease-out theme-toggle-desktop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow">
+            <span class="material-symbols-outlined text-[20px] theme-icon">light_mode</span>
+          </button>
+        </div>
+
+        <!-- Primary CTA -->
+        <button class="bg-institutional-green text-white font-bold px-5 py-2 rounded-full
+                       font-label-md text-label-md
+                       hover:bg-secondary
+                       active:scale-95
+                       transition-all duration-200 ease-out
+                       shadow-sm hover:shadow-md
+                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2
+                       hidden md:block">
+          Portal del Turista
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="md:hidden text-primary dark:text-white p-2 rounded-lg active:scale-95 active:bg-on-surface/10 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow">
+          <span class="material-symbols-outlined text-[28px]">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Secondary Row: Search, Weather, Theme -->
+    <div class="md:hidden flex items-center justify-between px-margin-mobile pb-3 border-t border-outline/5 dark:border-primary-fixed/5 pt-3">
+      <div class="flex items-center gap-4">
+        <button class="text-on-surface-variant dark:text-outline-variant flex items-center gap-1.5 hover:text-primary dark:hover:text-white transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow rounded-md px-1">
+          <span class="material-symbols-outlined text-[20px]">search</span>
+          <span class="text-label-sm font-label-sm">Buscar</span>
+        </button>
+        <div class="flex items-center gap-1 text-on-surface-variant/60 dark:text-outline-variant/60 select-none">
+          <span class="material-symbols-outlined text-[18px]">light_mode</span>
+          <span class="text-label-sm font-label-sm">22°C</span>
+        </div>
+      </div>
+      <button class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-container dark:bg-inverse-surface border border-outline/15 theme-toggle-mobile transition-all duration-200 ease-out text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-primary-container focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow">
+        <span class="material-symbols-outlined text-[18px] theme-icon">light_mode</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+<main class="min-h-screen bg-surface dark:bg-surface-dark transition-colors duration-300">
+<!-- Section Header -->
+<section class="pt-12 pb-8 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto"><div class="hidden md:flex justify-center mb-12">
+<nav class="bg-surface-light dark:bg-inverse-surface h-[60px] rounded-full shadow-md border border-outline/10 px-8 flex items-center gap-8 transition-all duration-300 shadow-xl">
+<a class="text-on-surface dark:text-inverse-on-surface font-body-md hover:text-primary dark:hover:text-accent-yellow transition-colors" href="#">Qué hacer</a>
+<a class="text-on-surface dark:text-inverse-on-surface font-body-md hover:text-primary dark:hover:text-accent-yellow transition-colors" href="#">Dónde alojarme</a>
+<a class="text-on-surface dark:text-inverse-on-surface font-body-md hover:text-primary dark:hover:text-accent-yellow transition-colors" href="#">Gastronomía</a>
+<a class="text-on-surface dark:text-inverse-on-surface font-body-md hover:text-primary dark:hover:text-accent-yellow transition-colors" href="#">Guía práctica</a>
+</nav>
+</div>
+<nav class="flex items-center space-x-2 text-outline dark:text-outline-variant mb-6 overflow-x-auto whitespace-nowrap">
+<span class="text-label-sm font-label-sm">Inicio</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-label-sm font-label-sm text-primary dark:text-white font-bold">Alojamientos</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary dark:text-white mb-4 leading-tight tracking-tight font-bold">Alojamientos en San Roque</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant dark:text-outline-variant leading-relaxed">Descubre el refugio perfecto entre la naturaleza y la historia. Desde posadas tradicionales hasta glamping de lujo, diseñados para tu descanso institucional y recreativo.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline/50 text-primary dark:text-white font-label-md text-label-md hover:bg-surface-container dark:hover:bg-primary-container transition-all duration-200 ease-out rounded-full hover:border-accent-yellow active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2"><span class="material-symbols-outlined">filter_list</span>Filtrar</button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline/50 text-primary dark:text-white font-label-md text-label-md hover:bg-surface-container dark:hover:bg-primary-container transition-all duration-200 ease-out rounded-full hover:border-accent-yellow active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2"><span class="material-symbols-outlined">sort</span>Ordenar</button>
+</div>
+</div>
+</section>
+<!-- Accommodations Grid -->
+<section class="py-8 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1: Posada de los Arroyos -->
+<article class="group bg-surface-container-lowest dark:bg-surface-dark overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col border border-outline/20 dark:border-primary-fixed/20 rounded-3xl hover:-translate-y-1 hover:shadow-sm">
+<div class="relative h-64 overflow-hidden">
+<img alt="Posada de los Arroyos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1hanGEnQNbF11OSzjIJmx2la9wtW1ygkDqNnTpXXPKY_xc6OWRkTZSxDi5UKFq8NJuvOA7cOrDd77sPYZeY9-5mzCEOIm0VWrS29YsslQqcmom_4IZQlg5NCHKTOnhvKUzwPmewdqSblxahE8vYy8Fz--CkkLp41zMQ9LIJdU0agfUa6JdJgTixpZdG9hwp5Y3GKvd0Taetv8I4JsuHAlzGkiYux9iSQHF1Px3O54Ut-pquinyZLkKr_FQX_eAucaigKd6KITCiw4"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded text-label-sm font-label-sm">HISTÓRICO</div>
+</div>
+<div class="p-6 flex flex-col flex-grow md:p-8">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-white">Posada de los Arroyos</h3>
+<div class="flex items-center gap-1 text-accent-yellow">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="text-label-md font-label-md text-on-surface dark:text-white">4.8</span>
+</div>
+</div>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-md line-clamp-2 mb-6 leading-relaxed">Arquitectura colonial y jardines nativos para una experiencia de calma absoluta junto al cauce del agua.</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-outline dark:text-outline-variant gap-4">
+<span class="material-symbols-outlined text-[20px]">wifi</span>
+<span class="material-symbols-outlined text-[20px]">coffee</span>
+<span class="material-symbols-outlined text-[20px]">pool</span>
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+</div>
+<button class="flex items-center gap-2 bg-institutional-green text-white px-5 py-2 font-label-md text-label-md hover:bg-secondary active:scale-95 transition-all duration-200 ease-out rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 min-w-[140px] justify-center">
+<span class="group-hover:translate-x-0.5 transition-transform duration-200">Ver más info</span>
+<span class="material-symbols-outlined text-[18px] w-0 overflow-hidden group-hover:w-[18px] transition-all duration-200 ease-out">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 2: Cabañas del Mirador -->
+<article class="group bg-surface-container-lowest dark:bg-surface-dark overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col border border-outline/20 dark:border-primary-fixed/20 rounded-3xl hover:-translate-y-1 hover:shadow-sm">
+<div class="relative h-64 overflow-hidden">
+<img alt="Cabañas del Mirador" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhscNj8gej49f3SCv1VgyxIpWzdcMfju5m1QMtZUymM7NueG7YbO5BJUOBqLyjkhkA0-iDiyRN3_4oVCZZbAYz5lkJO50XpizyVZuG_jIRGjzkTmil-iPhQIuqIpuOVxl_uXRA1uoCfpUnjR1NseqI1ejA7ObojyHJSBA-EH4xEM8xrbWOhEwa5J8my2BYsanasM7GWx14m1Csg14-dTVi_Fedg8NEqWdaaqOycgE-jE1eZcMP2f5TrGsDn3i2RFnPNvTHmDW32sPQ"/>
+<div class="absolute top-4 left-4 bg-institutional-green text-on-primary px-3 py-1 rounded text-label-sm font-label-sm">NATURALEZA</div>
+</div>
+<div class="p-6 flex flex-col flex-grow md:p-8">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-white">Cabañas del Mirador</h3>
+<div class="flex items-center gap-1 text-accent-yellow">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="text-label-md font-label-md text-on-surface dark:text-white">4.9</span>
+</div>
+</div>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-md line-clamp-2 mb-6 leading-relaxed">Vistas panorámicas del valle desde la comodidad de cabañas premium con deck privado y chimenea.</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-outline dark:text-outline-variant gap-4">
+<span class="material-symbols-outlined text-[20px]">wifi</span>
+<span class="material-symbols-outlined text-[20px]">coffee</span>
+<span class="material-symbols-outlined text-[20px]">pool</span>
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+</div>
+<button class="flex items-center gap-2 bg-institutional-green text-white px-5 py-2 font-label-md text-label-md hover:bg-secondary active:scale-95 transition-all duration-200 ease-out rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 min-w-[140px] justify-center">
+<span class="group-hover:translate-x-0.5 transition-transform duration-200">Ver más info</span>
+<span class="material-symbols-outlined text-[18px] w-0 overflow-hidden group-hover:w-[18px] transition-all duration-200 ease-out">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 3: Hotel Campo Real -->
+<article class="group bg-surface-container-lowest dark:bg-surface-dark overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col border border-outline/20 dark:border-primary-fixed/20 rounded-3xl hover:-translate-y-1 hover:shadow-sm">
+<div class="relative h-64 overflow-hidden">
+<img alt="Hotel Campo Real" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAldG_gIUvFe1GNsIZKFWI96FbqxSsBVBlO67CuCwpf0Po-OQh_qX30c48X1Ir9ymuJmttqnE8tcKwYH1vvrYmnd0cCmURnxGk-DWak6naNFEdNRMyHKTtG-6-zHVggh4zGxXDYNP-_pB2o8_IOE5sDdHv2yHBkFqVAVjv6DINWqT6-6Ros7v87BHhTfxm7QbWbCVlpCR5C43leVKbYczj6Cp6Y_60su-wTp7GF4lTJ5K_6SPweomNDLkF0uPLKgr2_SyQZIrT2yqiV"/>
+<div class="absolute top-4 left-4 bg-accent-yellow text-primary px-3 py-1 rounded text-label-sm font-label-sm">MÁS BUSCADO</div>
+</div>
+<div class="p-6 flex flex-col flex-grow md:p-8">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-white">Hotel Campo Real</h3>
+<div class="flex items-center gap-1 text-accent-yellow">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="text-label-md font-label-md text-on-surface dark:text-white">4.5</span>
+</div>
+</div>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-md line-clamp-2 mb-6 leading-relaxed">Servicios de primera clase en el corazón de San Roque. Ideal para convenciones y turismo ejecutivo.</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-outline dark:text-outline-variant gap-4">
+<span class="material-symbols-outlined text-[20px]">wifi</span>
+<span class="material-symbols-outlined text-[20px]">coffee</span>
+<span class="material-symbols-outlined text-[20px]">pool</span>
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+</div>
+<button class="flex items-center gap-2 bg-institutional-green text-white px-5 py-2 rounded-full font-label-md text-label-md hover:bg-secondary active:scale-95 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 min-w-[140px] justify-center">
+<span class="group-hover:translate-x-0.5 transition-transform duration-200">Conocer más</span>
+<span class="material-symbols-outlined text-[18px] w-0 overflow-hidden group-hover:w-[18px] transition-all duration-200 ease-out">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 4: La Chacra Ancestral -->
+<article class="group bg-surface-container-lowest dark:bg-surface-dark overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col border border-outline/20 dark:border-primary-fixed/20 rounded-3xl hover:-translate-y-1 hover:shadow-sm">
+<div class="relative h-64 overflow-hidden">
+<img alt="La Chacra Ancestral" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3XdLEGmKkG9eYnrhzChXjb2zPuQz0kIfJtqgadsNJmYYykoOr1XlzR-hIQz7AI0vUqFMNJGDcB4hkRNh1o4jByzAeBIicfZNRdTuTJpIl9palDC9lB42gbjJhwFcQj7CFchEEWXZVSeD3o68qP1VSbruK6AQE1cNOib7MN_I0E3-3N4dKeiDvm4XAMu7bNsUv6s_mbeq7rbXHHW4XbRFxRbzVqUbD-hdrdW11a4znn6ichTlB6o-sGwRq2VVi3NBOgfFq6S7-YOUh"/>
+<div class="absolute top-4 left-4 bg-secondary text-on-primary px-3 py-1 rounded text-label-sm font-label-sm">AGROTURISMO</div>
+</div>
+<div class="p-6 flex flex-col flex-grow md:p-8">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-white">La Chacra Ancestral</h3>
+<div class="flex items-center gap-1 text-accent-yellow">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="text-label-md font-label-md text-on-surface dark:text-white">4.7</span>
+</div>
+</div>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-md line-clamp-2 mb-6 leading-relaxed">Conecta con las raíces de nuestra tierra en una estancia dedicada al cultivo orgánico y la vida rural.</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-outline dark:text-outline-variant gap-4">
+<span class="material-symbols-outlined text-[20px]">wifi</span>
+<span class="material-symbols-outlined text-[20px]">coffee</span>
+<span class="material-symbols-outlined text-[20px]">pool</span>
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+</div>
+<button class="flex items-center gap-2 bg-institutional-green text-white px-5 py-2 font-label-md text-label-md hover:bg-secondary active:scale-95 transition-all duration-200 ease-out rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 min-w-[140px] justify-center">
+<span class="group-hover:translate-x-0.5 transition-transform duration-200">Ver más info</span>
+<span class="material-symbols-outlined text-[18px] w-0 overflow-hidden group-hover:w-[18px] transition-all duration-200 ease-out">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 5: Eco-Glamping Zen -->
+<article class="group bg-surface-container-lowest dark:bg-surface-dark overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col border border-outline/20 dark:border-primary-fixed/20 rounded-3xl hover:-translate-y-1 hover:shadow-sm">
+<div class="relative h-64 overflow-hidden">
+<img alt="Eco-Glamping Zen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3XdLEGmKkG9eYnrhzChXjb2zPuQz0kIfJtqgadsNJmYYykoOr1XlzR-hIQz7AI0vUqFMNJGDcB4hkRNh1o4jByzAeBIicfZNRdTuTJpIl9palDC9lB42gbjJhwFcQj7CFchEEWXZVSeD3o68qP1VSbruK6AQE1cNOib7MN_I0E3-3N4dKeiDvm4XAMu7bNsUv6s_mbeq7rbXHHW4XbRFxRbzVqUbD-hdrdW11a4znn6ichTlB6o-sGwRq2VVi3NBOgfFq6S7-YOUh"/>
+<div class="absolute top-4 left-4 bg-institutional-green text-on-primary px-3 py-1 rounded text-label-sm font-label-sm">SUSTENTABLE</div>
+</div>
+<div class="p-6 flex flex-col flex-grow md:p-8">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-white">Eco-Glamping Zen</h3>
+<div class="flex items-center gap-1 text-accent-yellow">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="text-label-md font-label-md text-on-surface dark:text-white">4.9</span>
+</div>
+</div>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-md line-clamp-2 mb-6 leading-relaxed">El lujo del silencio y el contacto directo con el bosque en domos geodésicos totalmente equipados.</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-outline dark:text-outline-variant gap-4">
+<span class="material-symbols-outlined text-[20px]">wifi</span>
+<span class="material-symbols-outlined text-[20px]">coffee</span>
+<span class="material-symbols-outlined text-[20px]">pool</span>
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+</div>
+<button class="flex items-center gap-2 bg-institutional-green text-white px-5 py-2 font-label-md text-label-md hover:bg-secondary active:scale-95 transition-all duration-200 ease-out rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 min-w-[140px] justify-center">
+<span class="group-hover:translate-x-0.5 transition-transform duration-200">Ver más info</span>
+<span class="material-symbols-outlined text-[18px] w-0 overflow-hidden group-hover:w-[18px] transition-all duration-200 ease-out">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 6: Casona del Pueblo -->
+<article class="group bg-surface-container-lowest dark:bg-surface-dark overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col border border-outline/20 dark:border-primary-fixed/20 rounded-3xl hover:-translate-y-1 hover:shadow-sm">
+<div class="relative h-64 overflow-hidden">
+<img alt="Casona del Pueblo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiESL3t1b2BDpJYQelqbtiBrp3sFY_iDuDa4ADmm5f3O1mkWwmNvvEKonZ8UEiQTUF5ZUbIUr0ibWUAazzYWJTi8OQ9rxdzdCELmISOiCyFKSrmNa1193amBkJ9zxbrj6m81uJ-1oUuODChGRyok3iwd4RuqWpBIupI7n5l6O-LWqU5_vDhh0F5tpI6CdwOcD3RWIF7DkEWGLGT3eALVmdkv8eFJWgZAv4V0oIiDT-Nsu-y9oFJHYAbRPC22jjQko2jIQuAX31AJAl"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded text-label-sm font-label-sm">CÉNTRICO</div>
+</div>
+<div class="p-6 flex flex-col flex-grow md:p-8">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface dark:text-white">Casona del Pueblo</h3>
+<div class="flex items-center gap-1 text-accent-yellow">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="text-label-md font-label-md text-on-surface dark:text-white">4.6</span>
+</div>
+</div>
+<p class="text-on-surface-variant dark:text-outline-variant font-body-md line-clamp-2 mb-6 leading-relaxed">Hospédate en un monumento histórico restaurado. Elegancia clásica a pasos de la plaza principal.</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex items-center gap-3 text-outline dark:text-outline-variant gap-4">
+<span class="material-symbols-outlined text-[20px]">wifi</span>
+<span class="material-symbols-outlined text-[20px]">coffee</span>
+<span class="material-symbols-outlined text-[20px]">pool</span>
+<span class="material-symbols-outlined text-[20px]">directions_car</span>
+</div>
+<button class="flex items-center gap-2 bg-institutional-green text-white px-5 py-2 font-label-md text-label-md hover:bg-secondary active:scale-95 transition-all duration-200 ease-out rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2 min-w-[140px] justify-center">
+<span class="group-hover:translate-x-0.5 transition-transform duration-200">Ver más info</span>
+<span class="material-symbols-outlined text-[18px] w-0 overflow-hidden group-hover:w-[18px] transition-all duration-200 ease-out">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Information Banner -->
+<section class="py-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="bg-surface-container dark:bg-surface-dark rounded-2xl p-8 md:p-12 border border-outline/10 dark:border-primary-fixed/20 flex flex-col md:flex-row items-center gap-8 shadow-2xl">
+<div class="md:w-2/3">
+<h2 class="font-headline-lg text-headline-md md:text-headline-lg text-primary dark:text-white mb-4">¿Viajas en grupo o por motivos laborales?</h2>
+<p class="font-body-lg text-body-lg mb-6 text-on-surface-variant dark:text-outline-variant">La Municipalidad de San Roque ofrece asesoramiento gratuito para reservas corporativas, delegaciones escolares o eventos institucionales. Garantizamos transparencia en tu gestión.</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-accent-yellow text-primary px-6 py-3 font-label-md text-label-md hover:bg-tertiary-fixed-dim transition-all duration-200 ease-out flex items-center gap-2 font-bold rounded-full hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2">
+<span class="material-symbols-outlined">mail</span>
+                        Contactar Oficina de Turismo
+                    </button>
+<button class="border border-primary dark:border-primary-fixed/30 text-primary dark:text-white px-6 py-3 font-label-md text-label-md hover:bg-on-surface/5 dark:hover:bg-on-surface/10 transition-all duration-200 ease-out rounded-full active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-yellow focus-visible:ring-offset-2">
+                        Guía del Viajero
+                    </button>
+</div>
+</div>
+<div class="md:w-1/3 flex justify-center">
+<img alt="San Roque Mountain" class="w-full h-full object-cover rounded-xl shadow-2xl opacity-90 border border-outline/10 dark:border-primary-fixed/10" src="https://lh3.googleusercontent.com/aida/AP1WRLuvUT6PF_rWkqHjV1XJH6ndFZRg5Ee3PIlkste0ADEISf9wxtuHrskTv-TgiqVIto_071tnGtTCI-DUytrWWvCVqYq9gU5QkopNUOd7j5bfLHSfT37DvYqijz-yjSpTf4G2QmZ1uYhUZNX7V-hppBqD_03GkOeQUZyT2zpx1qVDeKNQEc-0D6ya3J1jumpcS7SWyz8vuALQX-4vWNcGhJ1RadQf2m_pLQQSxlT56xymGmML2qiTEHKUZ5Y"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-high dark:bg-surface-dark text-on-surface dark:text-on-primary-fixed full-width bottom-0 mt-12 border-t border-outline/5 dark:border-primary-fixed/5 transition-colors duration-300">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full py-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto gap-8">
+<div class="flex flex-col gap-4">
+<div class="font-headline-md text-headline-md text-primary dark:text-white">San Roque</div>
+<p class="max-w-xs dark:text-outline-variant font-body-md text-body-md text-on-surface">
+                Comprometidos con el desarrollo sostenible y el bienestar de nuestra comunidad y sus visitantes.
+            </p>
+</div>
+<div class="grid grid-cols-2 md:flex md:gap-12 gap-8">
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-label-md text-institutional-green dark:text-accent-yellow mb-2">Institucional</span>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-body-md font-body-md" href="#">Portal de Transparencia</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-body-md font-body-md" href="#">Políticas de Privacidad</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-label-md text-institutional-green dark:text-accent-yellow mb-2">Servicios</span>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-body-md font-body-md" href="#">Términos de Uso</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors text-body-md font-body-md" href="#">Contacto</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 items-start md:items-end w-full md:w-auto">
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-outline/20 dark:border-primary-fixed/20 flex items-center justify-center hover:bg-surface-container dark:hover:bg-primary-container transition-all text-primary dark:text-white hover:border-accent-yellow hover:text-accent-yellow" href="#">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-outline/20 dark:border-primary-fixed/20 flex items-center justify-center hover:bg-surface-container dark:hover:bg-primary-container transition-all text-primary dark:text-white hover:border-accent-yellow hover:text-accent-yellow" href="#">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</a>
+</div>
+<p class="text-on-surface-variant/60 dark:text-outline-variant/60 text-label-sm font-label-sm">© 2024 Municipalidad de San Roque. Gestión Transparente.</p>
+</div>
+</div>
+</footer>
+<script>
+  // ── Theme Toggle ──────────────────────────────────────────────────────────
+  const themeToggles = document.querySelectorAll('.theme-toggle-desktop, .theme-toggle-mobile');
+  const htmlElement = document.documentElement;
+
+  function updateIcons() {
+    const isDark = htmlElement.classList.contains('dark');
+    themeToggles.forEach(toggle => {
+      const icon = toggle.querySelector('.theme-icon');
+      if (icon) icon.textContent = isDark ? 'dark_mode' : 'light_mode';
+    });
+  }
+
+  updateIcons();
+
+  themeToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      htmlElement.classList.toggle('dark');
+      updateIcons();
+      localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+  });
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') { htmlElement.classList.remove('dark'); updateIcons(); }
+
+  // ── Scroll: compact header ────────────────────────────────────────────────
+  const header      = document.getElementById('main-header');
+  const headerInner = document.getElementById('header-inner');
+
+  function onScroll() {
+    const scrolled = window.scrollY > 20;
+    // Solid background on scroll
+    header.classList.toggle('bg-surface-light/80',  !scrolled);
+    header.classList.toggle('dark:bg-surface-dark/80', !scrolled);
+    header.classList.toggle('bg-surface-light',      scrolled);
+    header.classList.toggle('dark:bg-surface-dark',  scrolled);
+    header.classList.toggle('shadow-sm',             scrolled);
+    header.classList.toggle('border-b',              scrolled);
+    // Compact inner height
+    headerInner.classList.toggle('h-20', !scrolled);
+    headerInner.classList.toggle('h-14', scrolled);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // run once on load
+
+  // ── Dropdown menus (hover + focus) ────────────────────────────────────────
+  document.querySelectorAll('.nav-dropdown-group').forEach(group => {
+    const panel   = group.querySelector('.dropdown-panel');
+    const chevron = group.querySelector('.dropdown-chevron');
+    const btn     = group.querySelector('button[aria-haspopup]');
+    let closeTimer;
+
+    function openPanel() {
+      clearTimeout(closeTimer);
+      panel.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+      panel.classList.add('opacity-100', 'scale-100');
+      chevron.classList.add('rotate-180');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+
+    function closePanel() {
+      closeTimer = setTimeout(() => {
+        panel.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+        panel.classList.remove('opacity-100', 'scale-100');
+        chevron.classList.remove('rotate-180');
+        btn.setAttribute('aria-expanded', 'false');
+      }, 80);
+    }
+
+    group.addEventListener('mouseenter', openPanel);
+    group.addEventListener('mouseleave', closePanel);
+    btn.addEventListener('focus', openPanel);
+    btn.addEventListener('blur',  closePanel);
+  });
+</script>
+</body></html>
