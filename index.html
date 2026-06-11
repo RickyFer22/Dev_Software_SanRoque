@@ -1,469 +1,1255 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="light">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal Municipal San Roque</title>
-<meta name="description" content="Portal Municipal de San Roque - Conectando a la comunidad con su municipio a través de tecnología innovadora.">
-<meta property="og:title" content="Portal Municipal San Roque">
-<meta property="og:description" content="Conectando a la comunidad con su municipio a través de tecnología innovadora.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://munisanroque.ar/">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<style>
-/* ══════════ RESET & BASE ══════════ */
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>San Roque - Turismo</title>
 
-:root{
-  --verde:#134e4a;
-  --verde-oscuro:#0d3937;
-  --verde-claro:#1a6b65;
-  --dorado:#d4a83c;
-  --dorado-claro:#f5d98a;
-  --gris-fondo:#f4f7f6;
-  --gris-texto:#4a5568;
-}
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 
-html{scroll-behavior:smooth;}
-body{
-  background:#0a2e2b;
-  font-family:'DM Sans',sans-serif;
-  color:#fff;
-  overflow-x:hidden;
-  overflow-y:auto;
-}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-/* ── canvas ── */
-#canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
-@media (prefers-reduced-motion: reduce) {
-  #canvas { display: none; }
-}
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#003633",
+            background: "#f7faf9",
+            "deep-forest": "#0D3937"
+          },
+          fontFamily: {
+            body: ["Inter"],
+            heading: ["Montserrat"]
+          }
+        }
+      }
+    }
+  </script>
 
-/* ── grid ── */
-.grid-bg{
-  position:fixed;inset:0;
-  background-image:linear-gradient(rgba(212,168,60,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,60,.03) 1px,transparent 1px);
-  background-size:72px 72px;
-  pointer-events:none;z-index:0;
-}
+  <style>
+    /* Estilos añadidos solo para la Intro */
+    #intro-screen { position: fixed; inset: 0; z-index: 1000; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .intro-text-layer { position: absolute; text-align: center; width: 100%; left: 0; top: 50%; transform: translateY(-50%); }
+    .absolute-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 100%; text-align: center; }
 
-/* ══════════ NAVBAR ══════════ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.9rem 3rem;
-  background:rgba(10,46,43,.75);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(212,168,60,.1);
-  opacity:0;animation:navIn .5s ease .1s forwards;
-  transition:background .3s ease,border-color .3s ease;
-}
+    /* Tus estilos originales intocables */
+    .chatbot{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      z-index:9999;
+      font-family:Arial;
+    }
 
-/* Light theme */
-body.light-mode{
-  background:#f4f7f6;
-  color:#1a202c;
-}
-body.light-mode nav{
-  background:rgba(255,255,255,.85);
-  border-bottom:1px solid rgba(19,78,74,.1);
-}
-body.light-mode .nav-brand{
-  color:rgba(26,32,44,.8);
-}
-body.light-mode .hero-headline .l1,
-body.light-mode .hero-headline .l2{
-  color:#1a202c;
-}
-body.light-mode .hero-desc{
-  color:rgba(26,32,44,.7);
-}
-body.light-mode .blob-1{
-  background:radial-gradient(circle,rgba(26,107,101,.3) 0%,transparent 70%);
-}
-body.light-mode .blob-2{
-  background:radial-gradient(circle,rgba(212,168,60,.2) 0%,transparent 65%);
-}
-body.light-mode .blob-3{
-  background:radial-gradient(circle,rgba(19,78,74,.15) 0%,transparent 65%);
-}
-body.light-mode .grid-bg{
-  background-image:linear-gradient(rgba(19,78,74,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(19,78,74,.05) 1px,transparent 1px);
-}
-@keyframes navIn{to{opacity:1;}}
+    .chat-button{
+      width:70px;
+      height:70px;
+      background:#0D3937;
+      border-radius:50%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      color:white;
+      font-size:10px;
+    }
 
-.nav-brand{
-  display:flex;align-items:center;gap:10px;
-  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
-  color:rgba(255,255,255,.8);text-decoration:none;
-}
-.nav-live{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:blink 2s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+    .chat-button img{
+      width:32px;
+      height:32px;
+    }
 
-.nav-links{display:flex;align-items:center;list-style:none;gap:1rem;}
+    .chat-window{
+      display:none;
+      width:320px;
+      height:420px;
+      background:white;
+      border-radius:16px;
+      overflow:hidden;
+      margin-top:10px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.3);
+      flex-direction:column;
+    }
 
-.theme-toggle{
-  display:flex;align-items:center;justify-content:center;
-  width:40px;height:40px;
-  border-radius:10px;
-  border:1px solid rgba(212,168,60,.3);
-  background:rgba(212,168,60,.05);
-  color:var(--dorado-claro);
-  cursor:pointer;
-  transition:all .3s cubic-bezier(.25,.8,.25,1);
-  font-size:18px;
-}
-.theme-toggle:hover{
-  background:var(--dorado);
-  color:var(--verde-oscuro);
-  border-color:var(--dorado);
-  transform:translateY(-2px);
-}
-body.light-mode .theme-toggle{
-  border-color:rgba(19,78,74,.3);
-  background:rgba(19,78,74,.05);
-  color:var(--verde);
-}
-body.light-mode .theme-toggle:hover{
-  background:var(--verde);
-  color:#fff;
-  border-color:var(--verde);
-}
-.nav-portal-btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--dorado-claro);
-  text-decoration: none;
-  padding: 8px 18px;
-  border-radius: 10px;
-  border: 1px solid rgba(212, 168, 60, 0.3);
-  background: rgba(212, 168, 60, 0.05);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-}
-.nav-portal-btn:hover {
-  background: var(--dorado);
-  color: var(--verde-oscuro);
-  border-color: var(--dorado);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(212, 168, 60, 0.15);
-}
+    .chat-box{
+      flex:1;
+      padding:10px;
+      overflow-y:auto;
+      font-size:14px;
+    }
 
-/* ══════════ HERO ══════════ */
-.hero{
-  position:relative;z-index:1;
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  padding:7rem 1.5rem 4rem;
-  text-align:center;
-  overflow:hidden;
-}
+    .chat-input{
+      display:flex;
+      border-top:1px solid #ddd;
+    }
 
-/* ambient blobs */
-.blob{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;}
-.blob-1{width:600px;height:600px;top:-200px;left:-200px;background:radial-gradient(circle,rgba(19,78,74,.55) 0%,transparent 70%);animation:blob1 10s ease-in-out infinite;}
-.blob-2{width:500px;height:500px;bottom:-150px;right:-150px;background:radial-gradient(circle,rgba(212,168,60,.13) 0%,transparent 65%);animation:blob2 13s ease-in-out infinite;}
-.blob-3{width:350px;height:350px;top:40%;left:60%;background:radial-gradient(circle,rgba(26,107,101,.2) 0%,transparent 65%);animation:blob2 8s ease-in-out 2s infinite;}
-@keyframes blob1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,30px) scale(1.08);}}
-@keyframes blob2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-30px,-20px) scale(1.05);}}
+    .chat-input input{
+      flex:1;
+      padding:10px;
+      border:none;
+      outline:none;
+    }
 
-.hero-inner{position:relative;z-index:2;max-width:900px;width:100%;display:flex;flex-direction:column;align-items:center;}
+    .chat-input button{
+      background:#0D3937;
+      color:white;
+      border:none;
+      padding:10px 14px;
+    }
 
-/* eyebrow */
-.eyebrow{
-  display:inline-flex;align-items:center;
-  padding:6px 18px;border-radius:999px;
-  border:1px solid rgba(212,168,60,.25);background:rgba(212,168,60,.06);
-  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;
-  color:var(--dorado);text-transform:uppercase;
-  margin-bottom:2.5rem;
-  opacity:0;animation:fadeUp .6s ease .4s forwards;
-}
+    .accordion{
+      display:flex;
+      width:100%;
+      height:420px;
+      overflow:hidden;
+      border-radius:20px;
+    }
 
-/* headline */
-.hero-headline{
-  margin-bottom:2rem;
-  opacity:0;animation:fadeUp .8s cubic-bezier(.22,1,.36,1) .7s forwards;
-}
-.hero-headline .l1{
-  display:block;
-  font-family:'Syne',sans-serif;
-  font-size:clamp(2.2rem, 6.2vw, 4.2rem);
-  font-weight:800;
-  color:#fff;
-  line-height:1.1;
-  letter-spacing:-1px;
-}
-.hero-headline .l2{
-  display:block;
-  font-family:'Syne',sans-serif;
-  font-size:clamp(2.2rem, 6.2vw, 4.2rem);
-  font-weight:800;
-  color:var(--dorado-claro);
-  line-height:1.1;
-  letter-spacing:-1px;
-  margin-top:0.3rem;
-}
-.hero-headline .l2 .underline-gold{
-  position:relative;
-  display:inline-block;
-}
-.hero-headline .l2 .underline-gold::after{
-  content:'';
-  position:absolute;
-  bottom:-4px;
-  left:0;
-  right:0;
-  height:3px;
-  background:linear-gradient(90deg,var(--dorado),var(--dorado-claro),var(--dorado));
-  border-radius:2px;
-  transform:scaleX(0);
-  transform-origin:left;
-  animation:lineGrow .9s cubic-bezier(.22,1,.36,1) 1.4s forwards;
-}
-@keyframes lineGrow{to{transform:scaleX(1);}}
+    .item{
+      position:relative;
+      flex:1;
+      min-width:140px;
+      transition:all .5s ease;
+      cursor:pointer;
+      overflow:hidden;
+      text-decoration:none;
+    }
 
-/* descriptor */
-.hero-desc{
-  font-size:clamp(.95rem, 1.4vw, 1.1rem);
-  font-weight:300;
-  color:rgba(255,255,255,.65);
-  line-height:1.8;
-  max-width:620px;
-  margin:0 auto 3rem;
-  padding:0 1rem;
-  opacity:0;
-  animation:fadeUp .6s ease 1.1s forwards;
-}
+    .item:hover{
+      flex:4;
+    }
 
-/* CTAs */
-.hero-ctas{
-  display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;
-  opacity:0;animation:fadeUp .6s ease 1.3s forwards;
-}
-.btn-p{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:15px 36px;border-radius:14px;
-  background:var(--dorado);color:var(--verde-oscuro);
-  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.3px;
-  text-decoration:none;border:none;
-  transition:all .35s cubic-bezier(.34,1.56,.64,1);
-}
-.btn-p:hover{background:var(--dorado-claro);transform:translateY(-4px) scale(1.05);box-shadow:0 20px 48px rgba(212,168,60,.35);}
-.btn-o{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:15px 32px;border-radius:14px;
-  border:1px solid rgba(212,168,60,.3);background:transparent;
-  color:var(--dorado-claro);font-family:'Syne',sans-serif;font-size:14px;font-weight:600;
-  text-decoration:none;
-  transition:all .3s ease;
-}
-.btn-o:hover{border-color:var(--dorado);background:rgba(212,168,60,.07);transform:translateY(-3px);}
+    .item img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.8), rgba(0,0,0,.2), transparent);
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:25px;
+      color:#fff;
+      opacity:0;
+      transition:opacity .4s ease;
+    }
 
-/* ══════════ MEDIA QUERIES ══════════ */
-@media(max-width:1024px){
-  nav{
-    padding:.9rem 2rem;
-  }
-  .hero-headline .l1,
-  .hero-headline .l2{
-    font-size:clamp(2rem, 5vw, 3.5rem);
-  }
-}
+    .item:hover .overlay{
+      opacity:1;
+    }
 
-@media(max-width:768px){
-  nav{
-    padding:.9rem 1.5rem;
-  }
-  .nav-brand{
-    font-size:12px;
-  }
-  .hero{
-    padding:6rem 1rem 3rem;
-  }
-  .theme-toggle{
-    width:36px;
-    height:36px;
-    font-size:16px;
-  }
-}
+    .overlay h3{
+      font-size:24px;
+      font-weight:bold;
+    }
 
-@media(max-width:480px){
-  .hero-ctas{
-    flex-direction:column;
-    width:100%;
-    max-width:300px;
-    margin:0 auto;
-  }
-  .btn-p, .btn-o{
-    width:100%;
-    justify-content:center;
-  }
-  .eyebrow{
-    font-size:10px;
-    letter-spacing:1px;
-    padding:5px 14px;
-    margin-bottom:1.8rem;
-  }
-  .hero-desc{
-    margin-bottom:2.2rem;
-  }
-}
-</style>
+    .overlay p{
+      font-size:14px;
+      margin-top:5px;
+      margin-bottom:12px;
+      max-width:300px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:10px 18px;
+      background:#fff;
+      color:#000;
+      border-radius:6px;
+      font-weight:bold;
+      font-size:14px;
+      width:max-content;
+      transition:.3s;
+    }
+
+    .btn:hover{
+      background:#16a34a;
+      color:#fff;
+    }
+
+    .btn-gastro{
+      display:inline-block;
+      background:#16a34a;
+      color:white;
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:600;
+      transition:.3s;
+      width:max-content;
+    }
+
+    .btn-gastro:hover{
+      background:#15803d;
+      color:#fff;
+    }
+
+    /* CSS NUEVO DEL CHATBOT */
+    .quick-btn{
+      background:#e2e8f0;
+      border:none;
+      border-radius:999px;
+      padding:6px 12px;
+      cursor:pointer;
+      font-size:12px;
+    }
+
+    .quick-btn:hover{
+      background:#cbd5e1;
+    }
+
+    .typing{
+      display:flex;
+      gap:4px;
+    }
+
+    .typing span{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#64748b;
+      animation:bounce 1s infinite;
+    }
+
+    .typing span:nth-child(2){
+      animation-delay:.2s;
+    }
+
+    .typing span:nth-child(3){
+      animation-delay:.4s;
+    }
+
+    @keyframes bounce{
+      0%,100%{
+        transform:translateY(0);
+      }
+      50%{
+        transform:translateY(-4px);
+      }
+    }
+
+    /* MOBILE */
+    @media(max-width:768px){
+      .accordion{
+        flex-direction:column;
+        height:auto;
+      }
+      .item{
+        height:220px;
+      }
+      .item:hover{
+        flex:1;
+      }
+      .overlay{
+        opacity:1;
+      }
+    }
+    body { font-family: Inter, sans-serif; }
+
+    /* Corrección de barra de scroll horizontal en carrusel */
+    .no-scrollbar::-webkit-scrollbar{
+      display:none;
+    }
+    .no-scrollbar{
+      -ms-overflow-style:none;
+      scrollbar-width:none;
+    }
+
+    /* CSS SECCIÓN DATOS ÚTILES (ADAPTADO) */
+    #lista-datos-utiles{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        list-style:none;
+        padding:0;
+        gap: 12px;
+    }
+
+    #lista-datos-utiles li{
+        flex: 1 1 calc(14% - 12px);
+        min-width: 120px;
+        margin: 0;
+    }
+
+    @media(max-width: 768px){
+        #lista-datos-utiles li{
+            flex: 1 1 calc(48% - 12px);
+        }
+    }
+
+    #lista-datos-utiles li a{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        background:#0D3937;
+        color:#fff;
+        padding:10px;
+        border-radius:12px;
+        text-align:center;
+        text-transform:uppercase;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        height:85px;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    #lista-datos-utiles li a:hover{
+        background:#16a34a;
+        transform: translateY(-2px);
+    }
+
+    #lista-datos-utiles li a i{
+        font-size:1.6em;
+        margin-bottom:6px;
+    }
+
+    /* EFECTO ZOOM PARA EL VIDEO */
+    .zoom-video {
+      animation: zoomInOut 22s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    @keyframes zoomInOut {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.13);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
 </head>
-<body>
 
-<canvas id="canvas" aria-label="Animación de partículas decorativa"></canvas>
-<div class="grid-bg"></div>
+<body class="bg-background">
 
-<!-- ── NAV ── -->
-<nav>
-  <a class="nav-brand" href="#">
-    <div class="nav-live"></div>
-    Portal Municipal · San Roque
-  </a>
-  <ul class="nav-links">
-    <li><button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">🌙</button></li>
-    <li><a class="nav-portal-btn" href="https://munisanroque.ar/" target="_blank">Portal ▸</a></li>
-  </ul>
-</nav>
+<div id="intro-screen">
 
-<!-- ══════════════ HERO ══════════════ -->
-<section class="hero">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
+  <img 
+    src="https://centrodejubiladosdecorrientes.org/wp-content/uploads/San-Roque-1.jpg?x48383"
+    alt="Intro San Roque Turismo"
+    class="absolute inset-0 w-full h-full object-cover opacity-30"
+  >
 
-  <div class="hero-inner">
-    <div class="eyebrow">¿Listo para construir?</div>
+  <div class="intro-text-layer font-heading tracking-widest uppercase">
 
-    <h1 class="hero-headline">
-      <span class="l1">San Roque</span>
-      <span class="l2"><span class="underline-gold">te necesita.</span></span>
+    <div id="intro-text-1" class="text-xs md:text-sm absolute-center opacity-0 tracking-[0.5em] text-white/70">
+      MUNICIPIO DE
+    </div>
+
+    <div id="intro-text-2" class="text-4xl md:text-7xl font-bold absolute-center flex justify-center gap-2 md:gap-4 text-white">
+      SAN ROQUE
+    </div>
+
+    <div id="intro-text-3" class="text-xs md:text-sm absolute-center opacity-0 tracking-[0.4em] text-[#d4af37] mt-16 md:mt-24">
+      TURISMO · CORRIENTES
+    </div>
+
+  </div>
+
+</div>
+
+<div class="absolute top-20 left-1/2 -translate-x-1/2 z-[60]
+            bg-black/40 backdrop-blur-md
+            text-white text-sm
+            px-6 py-2 rounded-full
+            flex items-center gap-4">
+  <span class="font-medium">
+    Municipalidad de San Roque
+  </span>
+  <span id="top-info" class="text-white/90"></span>
+</div>
+
+<header class="absolute top-0 left-0 w-full z-50 bg-black/10 backdrop-blur-md">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full overflow-hidden bg-white">
+        <img src="https://munisanroque.ar/logo.jpeg" alt="San Roque Turismo" class="w-full h-full object-cover"/>
+      </div>
+      <div class="flex flex-col leading-tight">
+        <span class="font-bold text-white text-xl tracking-wide">San Roque</span>
+        <div class="h-[3px] w-28 bg-green-600 rounded-full mt-1"></div>
+      </div>
+    </div>
+
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a class="text-white font-bold cursor-pointer">Inicio</a>
+      <a href="turismo.html" class="text-white/90 hover:text-white">Turismo</a>
+      <a href="hotel.html" class="text-white/90 hover:text-white">Hospedajes</a>
+      <a href="comer.html" class="text-white/90 hover:text-white">Comer</a>
+      <a href="eventos.html" class="text-white/90 hover:text-white">Eventos</a>
+      <a href="mapa.html" class="text-white/90 hover:text-white">Mapa</a>
+      <a href="contacto.html" class="text-white/90 hover:text-white">Contacto</a>
+    </nav>
+
+    <button class="md:hidden text-white text-2xl">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+
+  </div>
+</header>
+
+<section class="relative h-screen flex items-center justify-center text-white overflow-hidden">
+
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    class="absolute inset-0 w-full h-full object-cover zoom-video"
+  >
+    <source src="videos/sanroque.mp4" type="video/mp4">
+  </video>
+
+  <div class="absolute inset-0 bg-black/30"></div>
+
+  <div class="relative z-10 text-center max-w-3xl px-4">
+    <h1 class="text-4xl md:text-6xl font-bold font-heading">
+      Guía Oficial de Turismo
     </h1>
 
-    <p class="hero-desc">
-      Cada línea de código conecta a una persona con su municipio, su cultura y su comunidad. El impacto es real.
+    <p class="mt-4 text-lg md:text-xl text-white/90">
+      Descubrí alojamientos, gastronomía y experiencias en San Roque.
     </p>
+  </div>
+  
+  <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
+    <svg viewBox="0 0 1440 160" class="w-full block h-[70px] md:h-[110px]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(247,250,249,0.4)" d="M0,40 C320,130 640,-30 960,50 C1280,130 1360,90 1440,60 L1440,160 L0,160 Z"></path>
+      <path fill="rgba(247,250,249,1)" d="M0,80 C240,150 480,20 720,90 C960,160 1200,60 1440,80 L1440,160 L0,160 Z"></path>
+    </svg>
+  </div>
+</section>
 
-    <div class="hero-ctas">
-      <a class="btn-p" href="alojamientos.html">
-        Ver alojamientos &rarr;
+<section class="py-20 px-4 bg-gradient-to-b from-background via-background to-background">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="mb-12 text-center md:text-left">
+      <h2 class="text-4xl font-bold font-heading text-primary">
+        Recorré San Roque
+      </h2>
+      <p class="text-gray-600 mt-2 text-lg">
+        Descubrí los lugares más emblemáticos de nuestra ciudad
+      </p>
+    </div>
+
+    <div class="accordion">
+      <a href="museo.html" class="item">
+        <img src="https://www.diarioellibertador.com.ar/wp-content/uploads/2024/12/06-foto-63-Museos-de-Corrientes.jpg" alt="Museo">
+        <div class="overlay">
+          <h3>Visita nuestro Museo</h3>
+          <p>Ven a ver nuestras historias</p>
+          <span class="btn">Explorar</span>
+        </div>
       </a>
-      <a class="btn-o" href="https://munisanroque.ar/" target="_blank">
-        Ir al portal &rarr;
+      <a href="puente.html" class="item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQTg7lziLshHl98NPG3uCHxTGvzcKUEAVHVg&s" alt="Puente">
+        <div class="overlay">
+          <h3>Puente de la Vía</h3>
+          <p>Icono de la ciudad</p>
+          <span class="btn">Explorar</span>
+        </div>
       </a>
-      <a class="btn-o" href="https://chat.whatsapp.com/EwGPRSL3hI4BcsTHbYSCqy" target="_blank">
-        Contactar al equipo
+      <a href="plaza.html" class="item">
+        <img src="https://www.corrienteshoy.com/galeria/fotos/2020/10/08/o_1602188458.jpg" alt="Plaza">
+        <div class="overlay">
+          <h3>Nuestra Plaza</h3>
+          <p>Encuentro y vida social</p>
+          <span class="btn">Explorar</span>
+        </div>
+      </a>
+      <a href="senderos.html" class="item">
+        <img src="https://i.pinimg.com/736x/7e/8d/f0/7e8df074e591589160f850246610ed9e.jpg" alt="Senderos">
+        <div class="overlay">
+          <h3>Senderos Naturales</h3>
+          <p>Respirá, caminá, relajate</p>
+          <span class="btn">Explorar</span>
+        </div>
       </a>
     </div>
   </div>
 </section>
 
-<script>
-/* ── theme toggle ── */
-(function(){
-  const themeToggle=document.getElementById('themeToggle');
-  const body=document.body;
-  
-  // Verificar preferencia guardada
-  const savedTheme=localStorage.getItem('theme');
-  if(savedTheme==='light'){
-    body.classList.add('light-mode');
-    themeToggle.textContent='☀️';
-  }
-  
-  // Toggle tema
-  themeToggle.addEventListener('click',()=>{
-    body.classList.toggle('light-mode');
-    const isLight=body.classList.contains('light-mode');
-    themeToggle.textContent=isLight?'☀️':'🌙';
-    localStorage.setItem('theme',isLight?'light':'dark');
-  });
-})();
+<section class="py-20 bg-background">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="mb-10">
+      <span class="text-green-700 font-semibold uppercase tracking-widest text-sm">
+        Turismo San Roque
+      </span>
+      <h2 class="text-4xl font-bold text-primary mt-2">
+        Alojamientos disponibles
+      </h2>
+      <p class="text-gray-600 mt-3 max-w-3xl">
+        Conocé las distintas opciones de hospedaje habilitadas en San Roque para disfrutar una estadía cómoda y segura.
+      </p>
+    </div>
 
-/* ── particles system ── */
-(function(){
-  // Verificar soporte de canvas
-  const c=document.getElementById('canvas');
-  if(!c || !c.getContext) return;
-  
-  const ctx=c.getContext('2d');
-  let W,H,animationId;
-  let isVisible=true;
-  
-  // Colores de partículas
-  const COLS=['#d4a83c','#f5d98a','rgba(26,107,101,.8)','rgba(19,78,74,.9)','rgba(212,168,60,.4)'];
-  
-  // Redimensionar canvas
-  function resize(){
-    W=c.width=window.innerWidth;
-    H=c.height=window.innerHeight;
-  }
-  
-  // Crear nueva partícula
-  function mk(){
-    return{
-      x:Math.random()*W,
-      y:H+10,
-      r:Math.random()*1.8+.4,
-      dx:(Math.random()-.5)*.4,
-      dy:-(Math.random()*.65+.2),
-      a:Math.random()*.4+.06,
-      col:COLS[Math.floor(Math.random()*COLS.length)],
-      life:1,
-      dec:Math.random()*.002+.0007,
-      tw:Math.random()*Math.PI*2
-    };
-  }
-  
-  // Inicializar partículas
-  const ps=Array.from({length:80},mk).map(p=>{p.y=Math.random()*H;p.life=Math.random();return p;});
-  
-  // Dibujar frame
-  function draw(){
-    if(!isVisible) return;
+    <div class="relative">
+      <button onclick="scrollHosp(-1)"
+        class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white shadow-xl w-12 h-12 rounded-full hidden md:flex items-center justify-center text-2xl hover:bg-green-50">
+        ‹
+      </button>
+
+      <div id="hospedajes" class="flex gap-6 overflow-x-auto scroll-smooth no-scrollbar px-14 py-4"></div>
     
-    ctx.clearRect(0,0,W,H);
-    ps.forEach(p=>{
-      p.life-=p.dec;
-      p.x+=p.dx;
-      p.y+=p.dy;
-      p.tw+=.025;
-      
-      if(p.life<=0) Object.assign(p,mk());
-      
-      ctx.save();
-      ctx.globalAlpha=p.a*p.life*(0.75+0.25*Math.sin(p.tw));
-      ctx.fillStyle=p.col;
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fill();
-      ctx.restore();
-    });
+      <button onclick="scrollHosp(1)"
+        class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white shadow-xl w-12 h-12 rounded-full hidden md:flex items-center justify-center text-2xl hover:bg-green-50">
+        ›
+      </button>
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="hotel.html" class="inline-block text-green-700 font-semibold hover:underline">Ver todos los hospedajes</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="py-20 bg-background">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="mb-10">
+      <span class="text-green-700 font-semibold uppercase tracking-widest text-sm">
+        Gastronomía
+      </span>
+      <h2 class="text-4xl font-bold text-primary mt-2">
+        ¿Dónde Comer?
+      </h2>
+      <p class="text-gray-600 mt-3">
+        Descubrí las propuestas gastronómicas disponibles en San Roque.
+      </p>
+    </div>
+
+    <div id="gastronomia" class="accordion"></div>
+  </div>
+</section>
+
+<section class="py-14 px-4 bg-background">
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold text-primary font-heading">
+        Próximos Eventos y Agenda
+      </h2>
+      <p class="text-gray-500 mt-1 text-sm">
+        Actividades culturales, deportivas y ferias en nuestra ciudad.
+      </p>
+    </div>
     
-    animationId=requestAnimationFrame(draw);
-  }
-  
-  // Pausar animación cuando la pestaña no está visible
-  document.addEventListener('visibilitychange',()=>{
-    isVisible=!document.hidden;
-    if(isVisible) draw();
-    else cancelAnimationFrame(animationId);
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">⭐ Eventos Destacados</h3>
+        <div id="eventos-destacados" class="space-y-4"></div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">📅 Actividades Semanales</h3>
+        <div id="eventos-semanales" class="space-y-4"></div>
+      </div>
+    </div>
+
+    <div class="text-center mt-10">
+      <a href="eventos.html" class="inline-block bg-primary text-white px-6 py-3 rounded-xl hover:bg-green-700 transition font-semibold">
+        Ver todos los eventos →
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="datos-utiles" class="py-14 px-4 bg-background">
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold text-primary font-heading">
+        Datos útiles
+      </h2>
+      <p class="text-gray-500 mt-1 text-sm">
+        Información rápida y de servicio para tu estadía en la ciudad.
+      </p>
+    </div>
+
+    <ul id="lista-datos-utiles">
+        <li><a href="#" data-tipo="remises"><i class="fas fa-taxi"></i>Remises</a></li>
+        <li><a href="#" data-tipo="terminal"><i class="fas fa-bus"></i>Terminal</a></li>
+        <li><a href="#" data-tipo="municipio"><i class="fas fa-landmark"></i>Municipio</a></li>
+        <li><a href="#" data-tipo="iglesias"><i class="fas fa-church"></i>Iglesias</a></li>
+        <li><a href="#" data-tipo="emergencias"><i class="fas fa-ambulance"></i>Emergencias</a></li>
+        <li><a href="#" data-tipo="salud"><i class="fas fa-hospital"></i>Salud</a></li>
+        <li><a href="#" data-tipo="servicios"><i class="fas fa-university"></i>Servicios</a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="bg-background py-24">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-14">
+      <span class="text-green-700 font-semibold uppercase tracking-widest text-sm">
+        Conocé San Roque
+      </span>
+      <h2 class="text-4xl md:text-5xl font-bold text-primary font-heading mt-3">
+        Historia y Ubicación
+      </h2>
+      <p class="text-gray-600 max-w-3xl mx-auto mt-4">
+        Una ciudad correntina con profundas raíces históricas, ubicada estratégicamente entre los principales corridors turísticos de la provincia.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="bg-green-50 rounded-3xl p-8 shadow-lg">
+          <h3 class="text-2xl font-bold text-primary mb-5">
+            Un poco de historia
+          </h3>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            San Roque is una de las localidades históricas de la provincia de Corrientes. Fue fundada durante el período colonial y se desarrolló como un important centro productivo y cultural del interior correntino.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Su nombre honra a San Roque, patrono protector de los enfermos y peregrinos. A lo largo de los años la ciudad conservó tradiciones religiosas, festividades populares y un fuerte vínculo con la naturaleza.
+          </p>
+          <p class="text-gray-700 leading-relaxed">
+            Actualmente es un destino ideal para quienes buscan tranquilidad, turismo cultural y experiencias al aire libre.
+          </p>
+
+          <div class="grid grid-cols-2 gap-4 mt-8">
+            <div class="bg-white rounded-2xl p-4 text-center">
+              <div class="text-3xl font-bold text-green-700">250+</div>
+              <p class="text-sm text-gray-500">Años de historia</p>
+            </div>
+            <div class="bg-white rounded-2xl p-4 text-center">
+              <div class="text-3xl font-bold text-green-700">Corrientes</div>
+              <p class="text-sm text-gray-500">Provincia</p>
+            </div>
+          </div>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-6 items-center">
+            <img src="https://images.unsplash.com/photo-1544013587-414f8f4b4b7a?w=400" class="rounded-3xl shadow-xl w-32 h-24 object-cover" alt="San Roque Histórico" />
+            <a href="historia.html" class="bg-primary text-white px-6 py-3 rounded-xl hover:bg-green-700 transition font-medium text-center shadow-md w-full sm:w-auto">
+              Conocer más sobre San Roque
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="overflow-hidden rounded-3xl shadow-2xl border border-black/10">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28277.107021619623!2d-58.72973954659728!3d-28.572458421066753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x944f128be26cbfad%3A0xc6cb582f1b4c3e80!2sSan%20Roque%2C%20Corrientes!5e0!3m2!1ses-419!2sar!4v1718100000000!5m2!1ses-419!2sar"
+            class="w-full h-[520px] border-0"
+            loading="lazy"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="w-screen bg-primary text-white pt-14 pb-10 font-body relative left-1/2 right-1/2 -mx-[50vw] mt-auto">
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
+    <div>
+      <h2 class="text-3xl font-heading font-bold mb-4">San Roque</h2>
+      <p class="mb-3 text-white/90">Calle Principal 123, San Roque, Corrientes</p>
+      <p class="mb-3 text-white/90">+54 3777 000000</p>
+      <p class="text-white/90">turismo@sanroque.gob.ar</p>
+    </div>
+    <div>
+      <h3 class="text-lg font-heading font-bold mb-4">Turismo</h3>
+      <ul class="space-y-2 text-white/80">
+        <li class="hover:text-white transition cursor-pointer">Alojamientos</li>
+        <li class="hover:text-white transition cursor-pointer">Gastronomía</li>
+        <li class="hover:text-white transition cursor-pointer">Atractivos</li>
+        <li class="hover:text-white transition cursor-pointer">Mapas</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-lg font-heading font-bold mb-4">Municipio</h3>
+      <ul class="space-y-2 text-white/80">
+        <li class="hover:text-white transition cursor-pointer">Autoridades</li>
+        <li class="hover:text-white transition cursor-pointer">Trámites</li>
+        <li class="hover:text-white transition cursor-pointer">Prensa</li>
+        <li class="hover:text-white transition cursor-pointer">Contacto</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-lg font-heading font-bold mb-4">Seguinos</h3>
+      <div class="flex gap-4 mb-4 text-white/80">
+        <a href="#" class="hover:text-white transition">Facebook</a>
+        <a href="#" class="hover:text-white transition">Instagram</a>
+        <a href="#" class="hover:text-white transition">YouTube</a>
+      </div>
+      <p class="text-white/70 text-sm leading-relaxed">
+        Seguinos en nuestras redes para receive novedades y actividades oficiales de San Roque.
+      </p>
+    </div>
+  </div>
+  <div class="border-t border-white/20 mt-10 pt-6 text-center text-white/60 text-sm">
+    © 2026 Municipalidad de San Roque, Corrientes.
+  </div>
+</footer>
+
+<div id="chatbot" class="chatbot">
+  <div id="chatToggle" class="chat-button">
+    <img src="https://png.pngtree.com/png-clipart/20230815/original/pngtree-chat-bot-icon-isolated-bubble-modern-vector-picture-image_10800586.png" alt="Bot Icon">
+    <span>MuniAyuda</span>
+  </div>
+
+  <div id="chatWindow" class="chat-window">
+    <div class="bg-[#0D3937] text-white p-4">
+      <h3 class="font-bold text-lg">MuniAyuda</h3>
+      <p class="text-xs opacity-80">Asistente turístico de San Roque</p>
+    </div>
+
+    <div id="chatBox" class="chat-box"></div>
+
+    <div class="px-3 py-2 border-t flex gap-2 flex-wrap bg-slate-50">
+      <button class="quick-btn" onclick="quickAsk('hospedajes')">🏨 Hospedajes</button>
+      <button class="quick-btn" onclick="quickAsk('comer')">🍕 Comer</button>
+      <button class="quick-btn" onclick="quickAsk('eventos')">🎉 Eventos</button>
+      <button class="quick-btn" onclick="quickAsk('emergencias')">🚓 Emergencias</button>
+    </div>
+
+    <div class="chat-input">
+      <input id="chatInput" placeholder="¿Qué estás buscando?" onkeypress="if(event.key==='Enter')sendChat()">
+      <button onclick="sendChat()">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function scrollHosp(direction){
+  document.getElementById("hospedajes").scrollBy({
+    left: direction * 340,
+    behavior: "smooth"
   });
-  
-  window.addEventListener('resize',resize);
-  resize();
-  draw();
-})();
-</script>
+}
+
+let open = false;
+document.getElementById("chatToggle").onclick = () => {
+  open = !open;
+  document.getElementById("chatWindow").style.display = open ? "flex" : "none";
+};
+
+function quickAsk(text){
+  document.getElementById("chatInput").value = text;
+  sendChat();
+}
+
+function addMsg(text,user=false){
+  const box = document.getElementById("chatBox");
+  const div = document.createElement("div");
+
+  div.style.margin = "10px 0";
+  div.style.padding = "12px";
+  div.style.borderRadius = "14px";
+  div.style.maxWidth = "85%";
+  div.style.wordBreak = "break-word";
+
+  if(user){
+    div.style.marginLeft="auto";
+    div.style.background="#0D3937";
+    div.style.color="white";
+  }else{
+    div.style.background="#f1f5f9";
+    div.style.color="#111";
+  }
+
+  div.innerHTML = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function showTyping(){
+  const box = document.getElementById("chatBox");
+  const div = document.createElement("div");
+  div.id="typing";
+  div.style.margin="10px 0";
+  div.innerHTML=`
+    <div class="typing">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  `;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function hideTyping(){
+  const t = document.getElementById("typing");
+  if(t) t.remove();
+}
+
+function hotelCard(h){
+  const queryDireccion = encodeURIComponent(`${h.direccion || ""}, San Roque, Corrientes, Argentina`);
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=$${queryDireccion}`;
+  return `
+    <div style="background:white; border-radius:12px; padding:12px; margin-top:8px; border:1px solid #ddd; font-size:13px; color:#334155;">
+      <b style="color:#0D3937; font-size:14px;">${h.nombre}</b><br>
+      ${h.descripcion ? `<p style="margin:4px 0;">${h.descripcion}</p>` : ''}
+      ${h.direccion ? `<p style="margin:2px 0;">📍 <a href="${googleMapsUrl}" target="_blank" style="color:#0D3937; text-decoration:underline; font-weight:bold;">${h.direccion}</a></p>` : ''}
+      ${h.telefono ? `<p style="margin:2px 0;">📞 ${h.telefono}</p>` : ''}
+      ${h.precio ? `<p style="margin:2px 0; font-weight:600; color:#16a34a;">Precio: ${h.precio}</p>` : ''}
+      <div style="margin-top:6px; display:flex; gap:4px; flex-wrap:wrap;">
+        ${h.wifi ? "<span style='background:#f0fdf4; border:1px solid #bbf7d0; padding:2px 6px; border-radius:999px; font-size:11px;'>📶 WiFi</span>" : ""}
+        ${h.cochera ? "<span style='background:#f0fdf4; border:1px solid #bbf7d0; padding:2px 6px; border-radius:999px; font-size:11px;'>🚗 Cochera</span>" : ""}
+        ${h.piscina ? "<span style='background:#f0fdf4; border:1px solid #bbf7d0; padding:2px 6px; border-radius:999px; font-size:11px;'>🏊 Piscina</span>" : ""}
+      </div>
+    </div>
+  `;
+}
+
+function gastroCard(g){
+  const queryDireccion = encodeURIComponent(`${g.direccion || ""}, San Roque, Corrientes, Argentina`);
+  const googleMapsUrl = g.maps || `https://www.google.com/maps/search/?api=1&query=$${queryDireccion}`;
+  return `
+    <div style="background:white; border-radius:12px; padding:12px; margin-top:8px; border:1px solid #ddd; font-size:13px; color:#334155;">
+      <b style="color:#0D3937; font-size:14px;">${g.nombre}</b><br>
+      ${g.direccion ? `<p style="margin:4px 0 2px 0;">📍 <a href="${googleMapsUrl}" target="_blank" style="color:#0D3937; text-decoration:underline; font-weight:bold;">${g.direccion}</a></p>` : ''}
+      ${g.horario ? `<p style="margin:2px 0;">🕒 ${g.horario}</p>` : ''}
+      <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+        ${g.whatsapp ? `
+          <a target="_blank" href="https://wa.me/${g.whatsapp}" style="background:#25d366; color:white; padding:4px 10px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none; display:inline-flex; align-items:center;">
+            📲 WhatsApp
+          </a>
+        ` : ''}
+        ${g.instagram ? `
+          <a target="_blank" href="https://instagram.com/${g.instagram.replace('@','').trim()}" style="background:#e1306c; color:white; padding:4px 10px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none; display:inline-flex; align-items:center;">
+            📸 Instagram
+          </a>
+        ` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function sendChat(){
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if(!text) return;
+
+  addMsg(text,true);
+  input.value="";
+  showTyping();
+
+  setTimeout(()=>{
+    hideTyping();
+    processQuestion(text.toLowerCase());
+  },900);
+}
+
+function processQuestion(text){
+  if(text.includes("remis")){ responderDatosUtiles("remises"); return; }
+  if(text.includes("terminal") || text.includes("colectivo") || text.includes("bus")){ responderDatosUtiles("terminal"); return; }
+  if(text.includes("municipio") || text.includes("muni")){ responderDatosUtiles("municipio"); return; }
+  if(text.includes("iglesia") || text.includes("templo") || text.includes("parroquia")){ responderDatosUtiles("iglesias"); return; }
+  if(text.includes("policia") || text.includes("emergencia")){ responderDatosUtiles("emergencias"); return; }
+  if(text.includes("salud") || text.includes("farmacia") || text.includes("hospital")){ responderDatosUtiles("salud"); return; }
+  if(text.includes("servicio") || text.includes("cajero") || text.includes("banco")){ responderDatosUtiles("servicios"); return; }
+
+  if(text.includes("hotel") || text.includes("hospedaje") || text.includes("alojamiento") || text.includes("dormir") || text.includes("cabaña")){
+    if(hospedajesData.length === 0){
+      addMsg(`🏨 Actualmente no hay hospedajes disponibles en el sistema.`);
+      return;
+    }
+    let html = `<b>🏨 Hospedajes recomendados</b><br>`;
+    hospedajesData.forEach(h=>{ html += hotelCard(h); });
+    addMsg(html);
+    return;
+  }
+
+  if(text.includes("comer") || text.includes("restaurante") || text.includes("gastronomia") || text.includes("pizza")){
+    if(gastronomiaData.length === 0){
+      addMsg(`🍕 Actualmente no hay opciones gastronómicas registradas.`);
+      return;
+    }
+    let html = "<b>🍕 Opciones gastronómicas</b><br>";
+    gastronomiaData.forEach(g=>{ html += gastroCard(g); });
+    addMsg(html);
+    return;
+  }
+
+  if(text.includes("evento") || text.includes("festival")){
+    addMsg(`🎉 Consultá la sección Eventos para conocer actividades culturales, deportivas y gastronómicas.`);
+    return;
+  }
+
+  addMsg(`🤖 Puedo ayudarte con:<br><br>🏨 Hospedajes<br>🍕 Gastronomía<br>🎉 Eventos<br>🚓 Emergencias`);
+}
+
+addMsg(`
+  👋 <b>¡Bienvenido a MuniAyuda!</b><br><br>
+  Soy el asistente virtual de Turismo de San Roque.<br><br>
+  Puedo ayudarte con:<br>
+  🏨 Hospedajes<br>
+  🍕 Gastronomía<br>
+  🎉 Eventos<br>
+  🚓 Emergencias<br><br>
+  ¿Qué necesitás?
+`);
+
+const lat = -28.573;
+const lon = -58.711;
+
+async function getWeather() {
+  try {
+    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+    const data = await res.json();
+    return Math.round(data.current_weather.temperature);
+  } catch (e) {
+    return null;
+  }
+}
+
+function getGreeting(hour) {
+  if (hour < 12) return " Buenos días!";
+  if (hour < 19) return " Buenas tardes!";
+  return " Buenas noches!";
+}
+
+async function updateTopBar() {
+  const topInfo = document.getElementById("top-info");
+  if (!topInfo) return;
+  const now = new Date();
+  const date = now.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
+  const clock = now.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+  const greeting = getGreeting(now.getHours());
+  const temp = await getWeather();
+
+  topInfo.innerHTML = `${greeting} · ${date} · ${clock} hs` + (temp !== null ? ` · ${temp}°C` : "");
+}
+
+updateTopBar();
+setInterval(updateTopBar, 60000);
+
+let botData = {};
+let hospedajesData = [];
+let gastronomiaData = [];
+let eventosData = []; 
+
+async function cargarBot() {
+  try {
+    const res = await fetch("datos.json");
+    const data = await res.json();
+    botData = data.bot || {};
+    hospedajesData = data.hospedajes || [];
+    gastronomiaData = data.bot?.gastronomia || [];
+    eventosData = data.eventos || []; 
+  } catch (error) {
+    console.error("Error cargando el archivo datos.json:", error);
+  }
+}
+
+async function init() {
+  await cargarBot();
+  cargarHospedajes();
+  cargarGastronomia();
+  cargarEventos(); 
+}
+init();
+
+function cargarHospedajes() {
+  const contenedor = document.getElementById("hospedajes");
+  contenedor.innerHTML = "";
+
+  hospedajesData.slice(0, 6).forEach(h => {
+    const card = document.createElement("div");
+    card.className = "min-w-[320px] max-w-[320px] bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition flex flex-col justify-between";
+    
+    const queryDireccion = encodeURIComponent(`${h.direccion || ""}, San Roque, Corrientes, Argentina`);
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=$${queryDireccion}`;
+
+    card.innerHTML = `
+      <img src="${h.imagen}" class="w-full h-52 object-cover" alt="${h.nombre}">
+      <div class="p-6 flex flex-col justify-between h-full">
+        <div>
+          <h3 class="text-xl font-bold text-primary">${h.nombre}</h3>
+          <p class="text-gray-500 text-sm mt-2 line-clamp-3">${h.descripcion || ""}</p>
+          
+          <a href="${googleMapsUrl}" target="_blank" class="text-sm text-gray-700 mt-3 block hover:text-green-700 hover:underline font-medium">
+            📍 ${h.direccion || "Ver en mapa"}
+          </a>
+          
+          <p class="text-sm text-gray-700 mt-1">📞 ${h.telefono || ""}</p>
+          <p class="text-sm font-semibold text-green-700 mt-1">Precio: ${h.precio || ""}</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            ${h.wifi ? `<span class="bg-green-50 text-green-800 border border-green-200 px-2 py-0.5 rounded-full text-xs">📶 WiFi</span>` : ""}
+            ${h.cochera ? `<span class="bg-green-50 text-green-800 border border-green-200 px-2 py-0.5 rounded-full text-xs">🚗 Cochera</span>` : ""}
+            ${h.piscina ? `<span class="bg-green-50 text-green-800 border border-green-200 px-2 py-0.5 rounded-full text-xs">🏊 Piscina</span>` : ""}
+          </div>
+        </div>
+        <a href="${h.link || 'hotel.html'}" class="inline-block mt-4 text-green-700 font-semibold hover:underline">
+          Ver detalles →
+        </a>
+      </div>
+    `;
+    contenedor.appendChild(card);
+  });
+}
+
+function cargarGastronomia() {
+  const contenedor = document.getElementById("gastronomia");
+  contenedor.innerHTML = "";
+
+  gastronomiaData.forEach(g => {
+    const card = document.createElement("a");
+    card.className = "item";
+
+    const queryDireccion = encodeURIComponent(`${g.direccion || ""}, San Roque, Corrientes, Argentina`);
+    const googleMapsUrl = g.maps || `https://www.google.com/maps/search/?api=1&query=$${queryDireccion}`;
+    card.href = g.maps || googleMapsUrl || "#";
+    card.target = "_blank";
+
+    card.innerHTML = `
+      <img
+        src="${g.imagen || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600'}"
+        alt="${g.nombre}"
+      >
+
+      <div class="overlay">
+
+        <h3>${g.nombre}</h3>
+
+        <p>
+          📍 ${g.direccion || ""}
+          <br>
+          🕒 ${g.horario || ""}
+        </p>
+
+        <div class="flex gap-2 flex-wrap">
+
+          ${
+            g.whatsapp
+              ? `<a
+                    href="https://wa.me/${g.whatsapp}"
+                    target="_blank"
+                    class="btn-gastro"
+                    onclick="event.stopPropagation()"
+                 >
+                    WhatsApp
+                 </a>`
+              : ""
+          }
+
+          ${
+            g.instagram
+              ? `<a
+                    href="https://instagram.com/${g.instagram.replace('@','').trim()}"
+                    target="_blank"
+                    class="btn-gastro"
+                    onclick="event.stopPropagation()"
+                 >
+                    Instagram
+                 </a>`
+              : ""
+          }
+
+        </div>
+
+      </div>
+    `;
+
+    contenedor.appendChild(card);
+  });
+}
+
+function cargarEventos() {
+  const contenedorDestacados = document.getElementById("eventos-destacados");
+  const contenedorSemanales = document.getElementById("eventos-semanales");
+  if (!contenedorDestacados || !contenedorSemanales) return;
+
+  contenedorDestacados.innerHTML = "";
+  contenedorSemanales.innerHTML = "";
+
+  eventosData.forEach(e => {
+    const card = document.createElement("div");
+    card.className = "bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 p-4 flex flex-col sm:flex-row gap-4 hover:shadow-md transition";
+    
+    let fechaTexto = "";
+    if (e.fecha) {
+      const partes = e.fecha.split("-");
+      if(partes.length === 3) {
+        const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+        fechaTexto = `📅 ${parseInt(partes[2])} de ${meses[parseInt(partes[1]) - 1]}`;
+      } else {
+        fechaTexto = `📅 ${e.fecha}`;
+      }
+    } else if (e.frecuencia) {
+      fechaTexto = `🗓️ ${e.frecuencia}`;
+    }
+
+    card.innerHTML = `
+      ${e.imagen ? `<img src="${e.imagen}" class="w-full sm:w-28 h-28 object-cover rounded-xl shrink-0" alt="${e.titulo}" onerror="this.src='https://images.unsplash.com/photo-1511578314322-379afb476865?w=300'">` : ""}
+      <div class="flex flex-col justify-between flex-1">
+        <div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${e.destacado ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-green-50 text-green-800 border border-green-200'} uppercase tracking-wide">${e.tipo || 'Evento'}</span>
+          <h4 class="text-base font-bold text-primary mt-1">${e.titulo}</h4>
+          <p class="text-gray-500 text-xs mt-1 line-clamp-2">${e.descripcion || ""}</p>
+          
+          <div class="text-xs text-gray-600 mt-2 space-y-0.5">
+            <div class="font-medium">${fechaTexto} ${e.hora ? `• 🕒 ${e.hora}` : ""}</div>
+            <div class="text-gray-400">📍 ${e.ubicacion || ""}</div>
+          </div>
+        </div>
+        <div class="mt-2 text-right">
+          <a href="eventos.html" class="text-xs font-semibold text-green-700 hover:underline">Ver detalles →</a>
+        </div>
+      </div>
+    `;
+
+    if (e.destacado) {
+      contenedorDestacados.appendChild(card);
+    } else {
+      contenedorSemanales.appendChild(card);
+    }
+  });
+
+  if (contenedorDestacados.innerHTML === "") {
+    contenedorDestacados.innerHTML = `<p class="text-gray-400 text-sm italic">No hay eventos destacados programados.</p>`;
+  }
+  if (contenedorSemanales.innerHTML === "") {
+    contenedorSemanales.innerHTML = `<p class="text-gray-400 text-sm italic">No hay actividades semanales registradas.</p>`;
+  }
+}
+
+window.addEventListener("load", () => {
+  const tl = gsap.timeline();
+  tl.to("#intro-text-1", { opacity: 1, duration: 1, ease: "power2.out" })
+    .to("#intro-text-1", { opacity: 0, duration: 0.5, delay: 0.5 })
+    .fromTo("#intro-text-2", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.5, ease: "expo.out" })
+    .to("#intro-text-3", { opacity: 1, duration: 1, ease: "power2.out" }, "-=0.5")
+    .to("#intro-screen", { opacity: 0, duration: 1.5, delay: 1, ease: "power2.inOut", onComplete: () => {
+        document.getElementById("intro-screen").style.display = "none";
+    }});
+});
+
+// INTERACCIÓN INTEGRADA CON CHATBOT PARA DATOS ÚTILES
+const datosUtilesInfo = {
+  remises: {
+    titulo: "🚖 Remises",
+    descripcion: "Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
+    contactos: [
+      { nombre: "Remis San Roque", tel: "549XXXXXXXXX" },
+      { nombre: "Remis Centro", tel: "549XXXXXXXXX" },
+      { nombre: "Remis Norte", tel: "549XXXXXXXXX" }
+    ]
+  },
+  terminal: {
+    titulo: "🚌 Terminal de Ómnibus",
+    descripcion: "Punto de llegada y salida de transporte interurbano.",
+    ubicacion: "https://www.google.com/maps/place/Terminal+De+Colectivos/@-28.5767789,-58.7135694"
+  },
+  municipio: {
+    titulo: "🏛️ Municipio",
+    descripcion: "Atención al ciudadano y trámites.",
+    ubicacion: "https://www.google.com/maps/place/Municipalidad+De+San+Roque/@-28.5768429,-58.7089758"
+  },
+  iglesias: {
+    titulo: "⛪ Iglesias",
+    descripcion: "Templos de la zona de San Roque.",
+    lugares: [
+      { nombre: "Parroquia San Roque", link: "https://www.google.com/maps/place/Parroquia+San+Roque+de+Montpellier/" },
+      { nombre: "Templo Filadelfia", link: "https://www.google.com/maps/place/Templo+Filadelfia+de+San+Roque/" },
+      { nombre: "Iglesia Monte de Sion", link: "https://www.google.com/maps/place/Iglesia+Monte+de+Sion/" }
+    ]
+  },
+  emergencias: {
+    titulo: "🚨 Emergencias",
+    descripcion: "Servicios de urgencia disponibles.",
+    lugares: [
+      { nombre: "Comisaría San Roque", link: "https://www.google.com/maps/place/Comisaria+San+Roque/" },
+      { nombre: "Hospital / Guardia", link: "https://www.google.com/maps/search/hospital+san+roque" },
+      { nombre: "Bomberos", link: "https://www.google.com/maps/search/bomberos+san+roque" }
+    ]
+  },
+  salud: {
+    titulo: "🏥 Salud",
+    descripcion: "Farmacias y atención médica.",
+    lugares: [
+      { nombre: "Farmacia San Roque", link: "https://www.google.com/maps/place/Farmacia+San+Roque/" },
+      { font: "Farmacia Itatí", link: "https://www.google.com/maps/place/Farmacia+Itati+S.C.S./" },
+      { nombre: "Farmar IV", link: "https://www.google.com/maps/place/Farmar+IV/" }
+    ]
+  },
+  servicios: {
+    titulo: "🏧 Servicios rápidos",
+    descripcion: "Bancos, cajeros y pagos.",
+    lugares: [
+      { nombre: "Bancos y Cajeros", link: "https://www.google.com/maps/search/bancos+san+roque" },
+      { nombre: "Pago Fácil", link: "https://www.google.com/maps/search/pago+facil+san+roque" }
+    ]
+  }
+};
+
+document.querySelectorAll('#lista-datos-utiles a').forEach(btn => {
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    const tipo = this.dataset.tipo;
+    
+    // Abrir ventana del chatbot si estuviese cerrada
+    open = true;
+    document.getElementById("chatWindow").style.display = "flex";
+    
+    // Simular el mensaje del usuario con el botón presionado
+    addMsg(this.innerText.trim(), true);
+    showTyping();
+    
+    setTimeout(() => {
+      hideTyping();
+      responderDatosUtiles(tipo);
+    }, 600);
+  });
+});
+
+function responderDatosUtiles(tipo) {
+  const item = datosUtilesInfo[tipo];
+  if(!item) return;
+
+  let html = `<b>${item.titulo}</b><br>`;
+  html += `<p style="margin-top:4px; font-size:13px; color:#475569;">${item.descripcion}</p>`;
+
+  if(item.ubicacion){
+    html += `<p style="margin-top:8px;"><a target="_blank" href="${item.ubicacion}" style="color:#0D3937; font-weight:bold; text-decoration:underline;">📍 Ver ubicación en mapa</a></p>`;
+  }
+
+  if(item.lugares){
+    html += `<ul style="margin-top:8px; padding-left:14px; list-style-type:disc; font-size:13px;">`;
+    item.lugares.forEach(l => {
+      html += `<li style="margin-top:4px;"><a target="_blank" href="${l.link}" style="color:#0D3937; font-weight:bold; text-decoration:underline;">${l.nombre}</a></li>`;
+    });
+    html += `</ul>`;
+  }
+
+  if(item.contactos){
+    html += `<div style="margin-top:8px; font-size:13px;"><b>Contactos directos:</b><ul style="padding-left:0; list-style-type:none; margin-top:4px;">`;
+    item.contactos.forEach(c => {
+      html += `
+        <li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:between; align-items:center; gap:8px;">
+          <div><strong>${c.nombre}</strong></div>
+          <a target="_blank" href="https://wa.me/${c.tel}" style="background:#25d366; color:white; padding:2px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
+            📲 WhatsApp
+          </a>
+        </li>
+      `;
+    });
+    html += `</ul></div>`;
+  }
+
+  addMsg(html);
+}
+</script> 
+
 </body>
 </html>

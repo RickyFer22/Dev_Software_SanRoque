@@ -1,0 +1,201 @@
+{
+  "hospedajes": [
+    {
+      "nombre": "Leguiza Hotel",
+      "descripcion": "Hotel con excelente ubicación céntrica. Dispone de 9 habitaciones en total distribuidas entre dobles matrimoniales y dobles twin. Cuenta con WiFi Starlink de alta velocidad en todo el establecimiento. Redes: @leguiza.hotel",
+      "direccion": "Céntrica",
+      "telefono": "3777-206700",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": true,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600",
+      "link": "hotel.html"
+    },
+    {
+      "nombre": "Hospedaje JR",
+      "descripcion": "Cuenta con 4 habitaciones en total: 3 con una cama matrimonial y una de una plaza, y 1 con una cama matrimonial. Ofrece baño privado, aire acondicionado, televisión, Wi-Fi y una cocina compartida totalmente equipada (heladera, cocina y cafetera) para uso de los huéspedes.",
+      "direccion": "Berón de Astrada 826",
+      "telefono": "3777 50-8296 / 3777 47-0019",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": false,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600",
+      "link": "hotel.html"
+    },
+    {
+      "nombre": "Hospedaje Fortune",
+      "descripcion": "Apartamentos temporarios sin servicio de recepción ideal para mayor autonomía. Cuenta con 6 apartamentos con opciones que van desde habitaciones individuales (single) hasta cuádruples. Incluye blanquería, Directv, amenities, desayuno y merienda. Redes: fortune apartamentos.",
+      "direccion": "San Roque, Corrientes",
+      "telefono": "3777221872",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": false,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600",
+      "link": "hotel.html"
+    },
+    {
+      "nombre": "Hotel Esquivel",
+      "descripcion": "Alojamiento en modalidad de monoambiente. Cuenta con 3 habitaciones con una capacidad total para albergar a 9 personas. Ofrece servicios de aire acondicionado, baño privado, ropa de cama, toallón y contacto mediante perfil personal de Facebook (Juana Esquivel).",
+      "direccion": "San Roque, Corrientes",
+      "telefono": "3777534039",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": true,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600",
+      "link": "hotel.html"
+    },
+    {
+      "nombre": "Hospedaje Don Pedro",
+      "descripcion": "Dispone de 4 habitaciones en total: 2 habitaciones preparadas para 4 personas y 2 habitaciones preparadas para 2 personas. El establecimiento ofrece servicios incluidos de almuerzo, desayuno y aire acondicionado para sus huéspedes.",
+      "direccion": "San Roque, Corrientes",
+      "telefono": "3777302498",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": true,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1495365200479-c4ed1d35e1aa?w=600",
+      "link": "hotel.html"
+    },
+    {
+      "nombre": "Hospedaje Casa Blanca",
+      "descripcion": "Departamentos amueblados temporarios. Cuenta con 3 departamentos en total: 2 unidades con capacidad para hasta 4 personas y 1 unidad con capacidad para hasta 6 personas. Incluye ropa de cama, ropa de baño y aire acondicionado. Servicio de cochera disponible en 2 de las 3 unidades.",
+      "direccion": "San Roque, Corrientes",
+      "telefono": "3777385281",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": true,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600",
+      "link": "hotel.html"
+    },
+    {
+      "nombre": "Hospedaje San Martín",
+      "descripcion": "Establecimiento con capacidad de 7 habitaciones en total, distribuidas de la siguiente forma para la comodidad del visitante: 2 habitaciones dobles, 1 habitación matrimonial, 3 habitaciones triples y 1 habitación cuádruple.",
+      "direccion": "San Roque, Corrientes",
+      "telefono": "379498526",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": false,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600",
+      "link": "hotel.html"
+    },
+    {
+      "nombre": "Hotel Paraíso",
+      "descripcion": "Hospedaje confortable con una capacidad total de 3 habitaciones disponibles. Todos los ambientes cuentan con servicios incluidos de aire acondicionado, televisión y desayuno matutino.",
+      "direccion": "San Roque, Corrientes",
+      "telefono": "3795139474",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": false,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600",
+      "link": "hotel.html"
+    },
+    {
+      "nombre": "Hospedaje Ariana",
+      "descripcion": "Establecimiento equipado con todos los servicios esenciales para una estadía placentera. Ofrece a sus huéspedes aire acondicionado, monitoreo de seguridad, internet Wi-Fi de excelente alcance y garage propio techado.",
+      "direccion": "San Roque, Corrientes",
+      "telefono": "3777472472",
+      "precio": "Consultar",
+      "wifi": true,
+      "cochera": true,
+      "piscina": false,
+      "imagen": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600",
+      "link": "hotel.html"
+    }
+  ],
+  "bot": {
+    "gastronomia": [
+      {
+        "nombre": "Comedor Ariana",
+        "direccion": "Acceso a San Roque",
+        "horario": "10:30 a 16:00 / 19:00 a 00:00 hs",
+        "maps": "",
+        "imagen": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600",
+        "whatsapp": "3777700082",
+        "instagram": ""
+      },
+      {
+        "nombre": "Comedor Nancy",
+        "direccion": "Acceso a San Roque",
+        "horario": "07:00 a 14:30 / 17:00 a 00:00 hs",
+        "maps": "",
+        "imagen": "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600",
+        "whatsapp": "3777674450",
+        "instagram": ""
+      },
+      {
+        "nombre": "Comidas Estela",
+        "direccion": "Santiago Baibiene 525",
+        "horario": "07:00 a 23:00 hs",
+        "maps": "",
+        "imagen": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600",
+        "whatsapp": "3777674962",
+        "instagram": ""
+      },
+      {
+        "nombre": "Isidorito",
+        "direccion": "Martínez de Ibarra 654",
+        "horario": "17:00 a 02:00 hs",
+        "maps": "",
+        "imagen": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600",
+        "whatsapp": "3777533524",
+        "instagram": "isidorito124"
+      },
+      {
+        "nombre": "El Tordito",
+        "direccion": "Placido Martínez 308",
+        "horario": "18:00 a 00:00 hs",
+        "maps": "",
+        "imagen": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600",
+        "whatsapp": "3777221199",
+        "instagram": ""
+      },
+      {
+        "nombre": "Costumbres Argentina",
+        "direccion": "Juan García de Cossio 704",
+        "horario": "Lun a Jue: 07:00 a 03:00 (Corrido) | Vie, Sáb y Dom: 07:00 a 05:00 hs",
+        "maps": "",
+        "imagen": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600",
+        "whatsapp": "3777672266",
+        "instagram": "costumbresmarket"
+      },
+      {
+        "nombre": "Buffet La Terminal",
+        "direccion": "Artaza & Beron de Astrada",
+        "horario": "09:00 a 14:00 / 19:00 a 00:30 hs (Lunes a Lunes)",
+        "maps": "",
+        "imagen": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600",
+        "whatsapp": "3777391638",
+        "instagram": "bufetlaterminal"
+      }
+    ]
+  },
+  "eventos": [
+    {
+      "titulo": "Fiesta Patronal de San Roque",
+      "descripcion": "La celebración más importante de la comunidad con procesión tradicional, misas centrales y festival folclórico regional.",
+      "tipo": "Festival",
+      "destacado": true,
+      "fecha": "2026-08-16",
+      "hora": "09:00",
+      "ubicacion": "Parroquia San Roque",
+      "imagen": "https://images.unsplash.com/photo-1511578314322-379afb476865?w=300"
+    },
+    {
+      "titulo": "Feria de Artesanos y Emprendedores Local",
+      "descripcion": "Exposición y venta de productos artesanales en madera, cuero, tejidos y delicias dulces autóctonas.",
+      "tipo": "Feria",
+      "destacado": false,
+      "frecuencia": "Todos los sábados",
+      "hora": "17:00",
+      "ubicacion": "Plaza Principal",
+      "imagen": "https://images.unsplash.com/photo-1488900128323-21503983a07e?w=300"
+    }
+  ]
+}
