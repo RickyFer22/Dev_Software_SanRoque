@@ -1,71 +1,68 @@
 <!DOCTYPE html>
 
-<html class="light" lang="es"><head>
+<html class="scroll-smooth" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Gastronomía San Roque | Sabores de Corrientes</title>
-<!-- Fonts -->
+<title>San Roque Portal - Turismo y Gastronomía</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             "colors": {
-                    "on-tertiary-container": "#78c1b9",
-                    "on-tertiary": "#ffffff",
-                    "on-surface-variant": "#404847",
-                    "background": "#f9f9ff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#00504b",
+                    "on-tertiary-fixed": "#00201e",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#bfc8c6",
+                    "outline": "#707977",
+                    "on-secondary-fixed": "#251a00",
                     "surface-bright": "#f9f9ff",
-                    "inverse-primary": "#9ad1cb",
-                    "secondary-container": "#fece5e",
-                    "on-surface": "#111c2c",
-                    "surface-container-lowest": "#ffffff",
-                    "secondary-fixed-dim": "#efc052",
-                    "surface-container-high": "#dee8ff",
-                    "tertiary": "#003633",
-                    "surface-container-highest": "#d8e3fa",
-                    "secondary": "#785a00",
-                    "surface-dim": "#cfdaf1",
-                    "error-container": "#ffdad6",
-                    "on-error-container": "#93000a",
-                    "tertiary-fixed": "#a6f0e8",
+                    "on-secondary-fixed-variant": "#5b4300",
+                    "on-tertiary-container": "#78c1b9",
+                    "background": "#f9f9ff",
+                    "on-primary-container": "#87beb8",
+                    "secondary-fixed": "#ffdf9c",
+                    "inverse-on-surface": "#ebf1ff",
+                    "primary-fixed-dim": "#9ad1cb",
+                    "surface-container-low": "#f0f3ff",
                     "surface-tint": "#316763",
                     "on-primary-fixed": "#00201e",
-                    "surface-container": "#e7eeff",
-                    "on-primary": "#ffffff",
-                    "on-background": "#111c2c",
-                    "primary-fixed-dim": "#9ad1cb",
-                    "on-secondary": "#ffffff",
-                    "surface": "#f9f9ff",
-                    "on-error": "#ffffff",
-                    "surface-container-low": "#f0f3ff",
-                    "on-secondary-fixed": "#251a00",
-                    "outline-variant": "#bfc8c6",
-                    "error": "#ba1a1a",
-                    "on-primary-container": "#87beb8",
+                    "surface-container-lowest": "#ffffff",
                     "surface-variant": "#d8e3fa",
-                    "inverse-on-surface": "#ebf1ff",
-                    "on-tertiary-fixed-variant": "#00504b",
-                    "tertiary-container": "#004f4a",
-                    "on-tertiary-fixed": "#00201e",
+                    "surface-container-high": "#dee8ff",
+                    "on-surface": "#111c2c",
+                    "inverse-primary": "#9ad1cb",
                     "on-secondary-container": "#745700",
-                    "primary-fixed": "#b5ede7",
-                    "primary-container": "#134e4a",
-                    "inverse-surface": "#263142",
-                    "secondary-fixed": "#ffdf9c",
-                    "tertiary-fixed-dim": "#8ad4cc",
-                    "on-secondary-fixed-variant": "#5b4300",
-                    "outline": "#707977",
                     "primary": "#003633",
-                    "on-primary-fixed-variant": "#144f4b"
+                    "surface": "#f9f9ff",
+                    "on-surface-variant": "#404847",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#cfdaf1",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#111c2c",
+                    "tertiary": "#003633",
+                    "surface-container-highest": "#d8e3fa",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#efc052",
+                    "on-secondary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#144f4b",
+                    "surface-container": "#e7eeff",
+                    "tertiary-fixed": "#a6f0e8",
+                    "secondary-container": "#fece5e",
+                    "inverse-surface": "#263142",
+                    "primary-container": "#134e4a",
+                    "primary-fixed": "#b5ede7",
+                    "tertiary-fixed-dim": "#8ad4cc",
+                    "tertiary-container": "#004f4a",
+                    "secondary": "#785a00"
             },
             "borderRadius": {
                     "DEFAULT": "0.25rem",
@@ -74,35 +71,34 @@
                     "full": "9999px"
             },
             "spacing": {
-                    "sm": "8px",
-                    "md": "16px",
-                    "lg": "24px",
-                    "xs": "4px",
                     "gutter": "24px",
-                    "base": "4px",
-                    "margin-mobile": "16px",
-                    "xl": "32px",
-                    "margin-desktop": "64px"
+                    "margin-mobile": "20px",
+                    "base": "8px",
+                    "stack-lg": "48px",
+                    "stack-sm": "12px",
+                    "margin-desktop": "64px",
+                    "stack-md": "24px",
+                    "container-max": "1280px"
             },
             "fontFamily": {
-                    "label-sm": ["Source Sans 3"],
-                    "label-md": ["Source Sans 3"],
-                    "body-md": ["Source Sans 3"],
-                    "headline-sm": ["Playfair Display"],
-                    "headline-md": ["Playfair Display"],
-                    "display-lg-mobile": ["Playfair Display"],
+                    "body-md": ["Work Sans"],
+                    "label-sm": ["Work Sans"],
                     "display-lg": ["Playfair Display"],
-                    "body-lg": ["Source Sans 3"]
+                    "headline-md": ["Playfair Display"],
+                    "body-lg": ["Work Sans"],
+                    "label-md": ["Work Sans"],
+                    "headline-lg": ["Playfair Display"],
+                    "display-lg-mobile": ["Playfair Display"]
             },
             "fontSize": {
-                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
-                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
-                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
-                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}]
             }
           },
         },
@@ -112,364 +108,489 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .tourism-card-shadow {
+            box-shadow: 0px 4px 20px rgba(15, 57, 55, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .text-shadow-sm {
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        .tourism-card-shadow:hover {
+            box-shadow: 0px 8px 30px rgba(15, 57, 55, 0.12);
+            transform: translateY(-4px);
+        }
+        .glass-weather {
+            background: rgba(166, 240, 232, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .parallax-hero {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body-md">
+<body class="bg-surface font-body-md text-on-surface">
 <!-- TopNavBar -->
-<header class="docked full-width top-0 sticky z-50 bg-surface shadow-sm transition-all duration-300">
-<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-7xl mx-auto">
+<header class="w-full sticky top-0 z-50 bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline shadow-sm">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop flex justify-between items-center h-20">
 <div class="flex items-center gap-4">
-<span class="text-headline-sm font-headline-sm font-bold text-primary">Gastronomía San Roque</span>
+<span class="text-headline-md font-headline-md text-primary dark:text-primary-fixed-dim">San Roque Portal</span>
 </div>
-<nav class="hidden md:flex items-center gap-xl">
-<a class="text-primary font-bold border-b-2 border-secondary-fixed pb-1 font-label-md text-label-md" href="#">Home</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Restaurants</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Local Flavors</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Weather</a>
+<nav class="hidden md:flex items-center gap-base">
+<a class="text-primary font-bold border-b-2 border-secondary pb-1 text-label-md font-label-md hover:text-secondary transition-colors duration-200" href="#home">Home</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium text-label-md font-label-md hover:text-secondary transition-colors duration-200 ml-4" href="#gastronomy">Gastronomy</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium text-label-md font-label-md hover:text-secondary transition-colors duration-200 ml-4" href="#tourism">Tourism</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium text-label-md font-label-md hover:text-secondary transition-colors duration-200 ml-4" href="#lodging">Lodging</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium text-label-md font-label-md hover:text-secondary transition-colors duration-200 ml-4" href="#activities">Activities</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium text-label-md font-label-md hover:text-secondary transition-colors duration-200 ml-4" href="#weather">Weather</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium text-label-md font-label-md hover:text-secondary transition-colors duration-200 ml-4" href="#contact">Contact</a>
 </nav>
-<div class="flex items-center gap-md">
-<div class="hidden lg:flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-outline-variant">
-<span class="material-symbols-outlined text-outline mr-2">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-body-md w-40" placeholder="Search flavors..." type="text"/>
-</div>
-<button class="bg-primary-container text-on-primary rounded-full px-6 py-2 font-label-md text-label-md hover:opacity-90 transition-opacity">
-                    Book a Table
-                </button>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md hover:opacity-90 transition-opacity">Book Now</button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
 </div>
 </div>
 </header>
 <!-- Hero Section -->
-<section class="relative h-[819px] flex items-center overflow-hidden">
+<section class="relative h-[870px] flex items-center overflow-hidden" id="home">
 <div class="absolute inset-0 z-0">
-<img alt="Gastronomía Argentina" class="w-full h-full object-cover" data-alt="A lush, cinematic shot of high-quality Argentinian grilled meats on a rustic wooden table in a high-end restaurant setting. The lighting is warm and amber, highlighting the rich textures of the food and the elegant table setting. The atmosphere is sophisticated and welcoming, reflecting a modern corporate gastronomy aesthetic with deep teal and golden accents. Blurred background suggests a refined, sunlit courtyard in San Roque." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4miAypQFnsLyz92-GHrAxXwj3oOt1uofvQDxVBF4FdCn3YAsUkuVDIQgclrXv9dozIKc1Wgx4poUPeSrnRnjZuNAWsN9eWVjK1ORIsp2bBDlMJEwPfaw7Ywo9aRuNCje8mLcqJePfCZq1ksTyKpYU2GyuILQW9sriFxSLMVNZBFPs3fWrVaKM5LP1aRVjEWvGym09XpNMZa5rfMhUpvWF9rZ-kcOnQGwA2fUm12D7xGdMiJ-CB9FihoD5agVVWwldSdp0cCjeoxEo"/>
-<div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent"></div>
+<div class="parallax-hero w-full h-full" data-alt="A wide-angle, cinematic photograph of a serene river landscape in San Roque, Corrientes, at sunset. The historic iron bridge spans the golden water while traditional wooden boats are moored near the lush green wetlands. The lighting is warm and ethereal, capturing a sophisticated and tranquil pastoral atmosphere with rich greens and deep orange tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCLR-TaXBvPGTj0uswMFi7uVFZrV96C2JpNkV2gEn-SY1IKd_2Ig732d7w4cT5ivAFfujkFWP3nPV41hlqpsMRUW5ROXQ6H0fMZV4YSEh0EMAG82MwD943VCx6swN3l-LuBHBRvbYIERdab0y80TpXHkf9Vfh0HMpdOga8le1zy6wNmgHUeD6HfR9PrGicrSAD9zN_7ErrPnc1D8heEv992y3KM3DRjpgdGyK6Z1L28LLXPRin18GKRCsk5vfokHeyck6_GgAXe1fxV')">
 </div>
-<div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full">
-<div class="max-w-2xl">
-<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg text-white text-shadow-sm mb-6">
-                    Descubrí los Sabores de San Roque
-                </h1>
-<p class="text-body-lg text-white/90 mb-xl">
-                    Sumergite en una tradición culinaria única. Encontrá desde las parrilladas más emblemáticas hasta opciones artesanales en el corazón de Corrientes.
-                </p>
-<div class="flex flex-wrap gap-md">
-<button class="bg-secondary-container text-on-secondary-container px-xl py-4 rounded-xl font-label-md text-label-md font-bold shadow-lg hover:translate-y-[-2px] transition-all">
-                        Explorar locales gastronómicos
-                    </button>
-<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-xl py-4 rounded-xl font-label-md text-label-md font-bold hover:bg-white/20 transition-all">
-                        Ver Mapa de Sabores
-                    </button>
+<div class="absolute inset-0 bg-black/30"></div>
 </div>
+<div class="relative z-10 max-w-container-max mx-auto px-4 md:px-margin-desktop text-white">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-stack-sm drop-shadow-lg">Bienvenidos a San Roque</h1>
+<p class="font-body-lg text-body-lg max-w-2xl mb-stack-md opacity-90 drop-shadow-md">Descubrí la gastronomía, los paisajes, la cultura y las experiencias únicas que ofrece San Roque, Corrientes.</p>
+<div class="flex flex-col sm:flex-row gap-4">
+<a class="bg-secondary text-primary px-8 py-4 rounded-lg font-label-md text-center hover:scale-105 transition-transform duration-300" href="#gastronomy">Explorar Gastronomía</a>
+<a class="bg-white/10 backdrop-blur-md border-2 border-white/30 text-white px-8 py-4 rounded-lg font-label-md text-center hover:bg-white/20 transition-all duration-300" href="#tourism">Conocer San Roque</a>
 </div>
 </div>
 </section>
 <!-- Weather Section -->
-<section class="py-xl px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
-<div class="bg-surface-container rounded-3xl p-xl shadow-sm border border-outline-variant/30 flex flex-col md:flex-row gap-xl items-center">
-<div class="flex-1">
-<h2 class="text-headline-md font-headline-md text-primary mb-md">Clima Actual en San Roque</h2>
-<p class="text-body-md text-on-surface-variant mb-lg">
-                    Antes de salir a disfrutar de la gastronomía local, consultá las condiciones climáticas de San Roque.
-                </p>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-secondary-fixed-dim" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+<section class="py-stack-lg bg-surface-container-low" id="weather">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-stack-md gap-4">
 <div>
-<p class="text-label-sm">Estado</p>
-<p class="font-bold">Despejado</p>
+<span class="text-secondary font-label-md uppercase tracking-wider">Estado del Clima</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">San Roque Hoy</h2>
 </div>
+<div class="text-on-surface-variant font-label-sm">Actualizado hace 5 minutos</div>
 </div>
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-primary">humidity_percentage</span>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-md">
+<!-- Main Weather Card -->
+<div class="md:col-span-2 glass-weather p-stack-md rounded-xl flex items-center justify-between tourism-card-shadow">
 <div>
-<p class="text-label-sm">Humedad</p>
-<p class="font-bold">65%</p>
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+<span class="font-headline-md text-headline-md">Soleado</span>
 </div>
+<div class="text-[64px] font-headline-lg text-primary mt-2">28°C</div>
+<p class="text-on-surface-variant mt-1">Sensación térmica: 31°C</p>
 </div>
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-primary">air</span>
-<div>
-<p class="text-label-sm">Viento</p>
-<p class="font-bold">12 km/h</p>
+<div class="space-y-4 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">water_drop</span>
+<span>Humedad: 65%</span>
 </div>
-</div>
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-primary">device_thermostat</span>
-<div>
-<p class="text-label-sm">Temp.</p>
-<p class="font-bold">28°C</p>
-</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">air</span>
+<span>Viento: 12 km/h NE</span>
 </div>
 </div>
 </div>
-<div class="bg-white rounded-2xl p-lg shadow-md border border-outline-variant/20 w-full md:w-80">
-<p class="text-label-md font-bold mb-md uppercase tracking-wider text-outline">Pronóstico 3 Días</p>
-<div class="space-y-md">
-<div class="flex justify-between items-center">
-<span class="text-body-md">Mañana</span>
-<span class="material-symbols-outlined text-secondary-container">partly_cloudy_day</span>
-<span class="font-bold">26°C</span>
+<!-- Forecast Cards -->
+<div class="glass-weather p-6 rounded-xl text-center tourism-card-shadow">
+<p class="font-label-md text-on-surface-variant mb-2">Mañana</p>
+<span class="material-symbols-outlined text-3xl text-secondary mb-2">partly_cloudy_day</span>
+<div class="font-headline-md text-primary">26°C</div>
+<p class="text-label-sm text-on-surface-variant">Parcialmente nublado</p>
 </div>
-<div class="flex justify-between items-center">
-<span class="text-body-md">Miércoles</span>
-<span class="material-symbols-outlined text-secondary-container">sunny</span>
-<span class="font-bold">31°C</span>
+<div class="glass-weather p-6 rounded-xl text-center tourism-card-shadow">
+<p class="font-label-md text-on-surface-variant mb-2">Miércoles</p>
+<span class="material-symbols-outlined text-3xl text-secondary mb-2">thunderstorm</span>
+<div class="font-headline-md text-primary">22°C</div>
+<p class="text-label-sm text-on-surface-variant">Tormentas aisladas</p>
 </div>
-<div class="flex justify-between items-center">
-<span class="text-body-md">Jueves</span>
-<span class="material-symbols-outlined text-primary">cloudy_snowing</span>
-<span class="font-bold">22°C</span>
+</div>
+</div>
+</section>
+<!-- Gastronomy Section -->
+<section class="py-stack-lg bg-white" id="gastronomy">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
+<div class="text-center mb-stack-lg max-w-2xl mx-auto">
+<span class="text-secondary font-label-md uppercase tracking-wider">Sabores Locales</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-2">Circuito Gastronómico</h2>
+<div class="mt-stack-md flex flex-wrap justify-center gap-3">
+<button class="px-4 py-2 bg-primary text-white rounded-full font-label-sm">Todos</button>
+<button class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-sm hover:bg-secondary-container transition-colors">Celíacos</button>
+<button class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-sm hover:bg-secondary-container transition-colors">Delivery</button>
+<button class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-sm hover:bg-secondary-container transition-colors">Pet Friendly</button>
+</div>
+<div class="mt-6 relative max-w-md mx-auto">
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Buscar restaurante o plato..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-on-surface-variant">search</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack-md">
+<!-- Restaurant 1 -->
+<article class="group tourism-card-shadow rounded-xl overflow-hidden bg-white border border-outline-variant/30">
+<div class="aspect-[3/2] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A gourmet dining scene at Comedor Ariana, showing a rustic yet elegant wooden table set with traditional Corrientes cuisine like chipá and local fish. The lighting is soft and inviting, filtering through large windows that overlook a garden. The overall aesthetic is refined and editorial, consistent with a high-end tourism portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1wWfmFUuMytdhrzg5hb6nXL4I0rHezSvLcZBKCn_NKKZlmNH1j2obYbMrTQ0me9j1SerwNjix4XPVPv7toZMW2GkfcYz6TX0cGpujvgx5rzwzXl93f5kkYKUZ2xvBgLAkKHvvvd6Y7q6pj3DMPse4StGViOHnBcBOLWsrPX3mFcKpQYKjVqUdMi3H7n4mjkmqWTObarMAeEGpjciBeq_4WZ5n28LfR1i50gN-OpQP13fUbMP0rh6PFbVTQrU71N2voIabOuOjB_i2"/>
+</div>
+<div class="p-stack-md">
+<span class="text-secondary font-label-md">Parrilla &amp; Cocina Regional</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-1">Comedor Ariana</h3>
+<p class="text-body-md text-on-surface-variant mt-2 line-clamp-2">Reconocido por su exquisito asado y platos típicos de la región. Ambiente familiar y acogedor.</p>
+<div class="mt-4 flex items-center justify-between">
+<div class="flex gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+<a class="bg-[#25D366] text-white px-4 py-2 rounded-lg flex items-center gap-2 font-label-sm hover:opacity-90" href="https://wa.me/123456789">
+<span class="material-symbols-outlined text-sm">chat</span> Pedir ahora
+                            </a>
+</div>
+</div>
+</article>
+<!-- Restaurant 2 -->
+<article class="group tourism-card-shadow rounded-xl overflow-hidden bg-white border border-outline-variant/30">
+<div class="aspect-[3/2] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up shot of artisanal pastries and homemade local snacks at Nancy's Gastronomy. The colors are warm, highlighting the textures of fresh dough and sweet fillings. The presentation is professional and sophisticated, set against a clean white background with subtle greenery accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8hQBk8yzskEeezlUd9IPz1AMU_fspDVVgoex2mjeeplOssMILnu4FbU8bndoyneqjfYuEz_9ux_SQA2qaaodZtMmADCGf5Us7K5VEP0PuMOP2gn-pPgyO1XUfk_KOhxnSyIiaDI6cKrqPglFdx-1AusP2FVQpieolAcAn4_8CLJRzo3KBc9RYanS_WvrfQNfacFCsG3T5x15bvPLYjGqkCYQWlPg2xkFFO0l3CZG0SRNCB9IllP-8KiZGmpR2dD9EyIdOmwhoCVYr"/>
+</div>
+<div class="p-stack-md">
+<span class="text-secondary font-label-md">Rotisería &amp; Pastelería</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-1">Nancy</h3>
+<p class="text-body-md text-on-surface-variant mt-2 line-clamp-2">La mejor opción para platos rápidos de calidad y tortas artesanales únicas.</p>
+<div class="mt-4 flex items-center justify-between">
+<div class="flex gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<a class="bg-[#25D366] text-white px-4 py-2 rounded-lg flex items-center gap-2 font-label-sm hover:opacity-90" href="https://wa.me/123456789">
+<span class="material-symbols-outlined text-sm">chat</span> WhatsApp
+                            </a>
+</div>
+</div>
+</article>
+<!-- Restaurant 3 -->
+<article class="group tourism-card-shadow rounded-xl overflow-hidden bg-white border border-outline-variant/30">
+<div class="aspect-[3/2] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Interior view of a modern yet cozy cafe-style restaurant in San Roque. The design features wooden elements and warm lighting. Plates of elegant contemporary cuisine are being served. The mood is upscale yet accessible, perfect for a high-end regional tourism guide." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuu6u-4romU-VscZQRQmeLTfMo7Lz0Q3y2UpLTfR8_U_YfNhKSOveqCiTcgGjkhQ4bLdeuViOYXbJRS3WYGYTmiAZSVw0Dlisqs2JxP-Upvs3vsaHaUnVOcsNDH1WnsLdHijOjYZz2u5Eb-Qv_joTJahzdoplsqSr4zDrSLujJna0qulVxjnsoSm0e_TYFuUqi90PsesWu047l3rHvgSkS6OeFhs3ztbRXD-6Q57_1EYMpLt2c7hsxrTQU6tEVHqPhjrifBFaPOlpp"/>
+</div>
+<div class="p-stack-md">
+<span class="text-secondary font-label-md">Minutas &amp; Platos del Día</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-1">Buffet La Terminal</h3>
+<p class="text-body-md text-on-surface-variant mt-2 line-clamp-2">Punto de encuentro clásico con comida casera, abundante y servicio rápido.</p>
+<div class="mt-4 flex items-center justify-between">
+<div class="flex gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm">star_half</span>
+</div>
+<a class="bg-[#25D366] text-white px-4 py-2 rounded-lg flex items-center gap-2 font-label-sm hover:opacity-90" href="https://wa.me/123456789">
+<span class="material-symbols-outlined text-sm">chat</span> Consultar
+                            </a>
+</div>
+</div>
+</article>
+</div>
+<div class="mt-stack-lg text-center">
+<button class="border-2 border-primary text-primary px-8 py-3 rounded-lg font-label-md hover:bg-primary hover:text-white transition-all">Ver todos los locales</button>
+</div>
+</div>
+</section>
+<!-- Tourism Section: Bento Grid -->
+<section class="py-stack-lg bg-surface-container-highest/20" id="tourism">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
+<div class="mb-stack-lg">
+<span class="text-secondary font-label-md uppercase tracking-wider">Explorar</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-2">Destinos Imperdibles</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-[1200px] md:h-[600px]">
+<!-- Nature -->
+<div class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-xl tourism-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A breathtaking sunset over the Corrientes wetlands near San Roque. The sky is painted with vibrant pink and purple hues, reflected perfectly in the still water of the lagoon. Native flora frames the shot, creating a serene and majestic nature photograph in a sophisticated editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCREYfbRrTjOIuPCdHvnGrYmR63tXNfbcwNHHzmIzQE6JphdrRYSwzwhMBXuqOgYzZKsT-jv-YpB1_uqoWqA2JasmbAbFocheaOHRe-t7k2WVwaujDEUBt0siHGwgdYJLGSTmMPlvDoMZpnP4O6zM7T2S4YjSkkavtDHHHUXScgFt9L3fN7-B1Cn7_CAu9cYEfCcNi9IRDGVEX9tX6hXgP5In4IoV7rMdN0db7uECGN2pa9JBBelvtt2rLR8jbIlWacu5GJ7LimEYAz"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-stack-md flex flex-col justify-end">
+<span class="text-secondary-fixed font-label-md">Naturaleza</span>
+<h3 class="text-white font-headline-lg text-headline-lg">Esteros y Lagunas</h3>
+<p class="text-white/80 font-body-md mt-2 max-w-sm">Descubrí la biodiversidad única de nuestros humedales y la Costanera del Río Santa Lucía.</p>
+</div>
+</div>
+<!-- History -->
+<div class="md:col-span-2 relative group overflow-hidden rounded-xl tourism-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Detailed architectural photograph of the historic San Roque church. The white facade is lit by warm morning sun, highlighting its neoclassical details against a clear blue sky. The image is crisp and elegant, emphasizing the cultural heritage of the town." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZICPzCUScxfL35BSydd92bBqmK7F_jRBaYsIhdDSxOtp60ExaM1v245lx6tvYTr0zCSVcP5KWx2uDSxiyAB0CVRduQjUAmGx2taWFg3JFvNU7ybQiOMI9Qmr_HyRwrSuy12tLocTnki26yBdW_a_Cx35wnBbWUI03iPku_RAOX6Jhi9Cs2tsoqUdSY3XNKFt9h2FR4VIWX6xk7zSX3WY4aFd26IgL3tTviig-o9Lx7zoRHizE_GmfTySfS2M2YWT-_yH7GJjgRKnp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-stack-md flex flex-col justify-end">
+<span class="text-secondary-fixed font-label-md">Historia</span>
+<h3 class="text-white font-headline-md text-headline-md">Patrimonio Cultural</h3>
+<p class="text-white/80 font-body-md mt-1">Recorré la Iglesia Histórica y la Estación Ferroviaria.</p>
+</div>
+</div>
+<!-- Landscapes -->
+<div class="md:col-span-1 relative group overflow-hidden rounded-xl tourism-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A moody, high-contrast landscape photo of the San Roque railway bridge at dawn. The iron structure cuts a strong silhouette against the misty river background. The visual style is professional and artistic, suitable for a premium travel magazine." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwR0VqCr6vaKKkzfvw6dQvZbyajeTCAe3wism7DRjGS3DysiyK3Y-fpE6VqVzHg-EpqcdGBJeUW2r3TMDNNcvoSL7zZMQCtBEKpnPZVBiJpnxfZWO3woqSZV1A8ORAXS7SWeNXx8UbETbn4D-R4kP4sdTEnIv4PXukyzm7gpuwAaFFjMmu8Vx5ofkDzU_gT10Fs5eAqbHi5X3gNDWHmTbXkHjPJvoG1hhdKdzhq5g0BtZFBiDgn0OfQ3_UhgUjGJEAX60yJEvykq_q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
+<span class="text-secondary-fixed font-label-md">Paisajes</span>
+<h3 class="text-white font-headline-md text-headline-md">Puente de Hierro</h3>
+</div>
+</div>
+<!-- Sunsets -->
+<div class="md:col-span-1 relative group overflow-hidden rounded-xl tourism-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A tranquil landscape shot of a sunset in Corrientes. Soft golden light bathes the countryside, with tall palm trees silhouetted against a gradient sky. The mood is peaceful and high-end, capturing the essence of 'Sophisticated Pastoral' aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPFezZfMoZ4YYnBMjKUqDdUDuly5MJlt3snPfNrGZvqYUTxpPJoRl3YNf5bQFurvTJb1UeSZcr-nUs-IlVKnfsebUKE5TXl7YHpepVNFrvi3TgmvbQH8mo-Q3rNeP6JgrnL48HOPpOpnZ6ptTTD4Zrp35zTPFoRsh16lJuYlPaiS31RNJCCyw-GU3OdXJSVzS9dpMMTNa_jkmuSagU-3Sf7dPKrxk8Th5oDYA6IEsYDcMsZBm7_H0mxUsc_BwPsMtbqjbQ_3o5kn0U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
+<span class="text-secondary-fixed font-label-md">Experiencias</span>
+<h3 class="text-white font-headline-md text-headline-md">Atardeceres</h3>
 </div>
 </div>
 </div>
 </div>
 </section>
-<!-- Search & Filter -->
-<section class="py-xl px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
-<div class="flex flex-col gap-lg bg-white p-lg rounded-2xl shadow-sm border border-outline-variant/20">
-<div class="relative">
-<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
-<input class="w-full pl-12 pr-4 py-4 rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Buscar por nombre de restaurante..." type="text"/>
+<!-- Lodging Section -->
+<section class="py-stack-lg bg-surface" id="lodging">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-stack-lg gap-4">
+<div>
+<span class="text-secondary font-label-md uppercase tracking-wider">Donde Dormir</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-2">Alojamiento y Confort</h2>
 </div>
-<div class="flex flex-wrap gap-sm">
-<button class="bg-secondary-fixed text-on-secondary-fixed px-4 py-2 rounded-full font-label-md text-label-md flex items-center gap-xs">
-<span class="material-symbols-outlined text-[18px]">no_meals</span> Menú Celíacos
-                </button>
-<button class="bg-surface-container-low text-on-surface-variant border border-outline-variant px-4 py-2 rounded-full font-label-md text-label-md flex items-center gap-xs hover:border-primary">
-<span class="material-symbols-outlined text-[18px]">delivery_dining</span> Delivery
-                </button>
-<button class="bg-surface-container-low text-on-surface-variant border border-outline-variant px-4 py-2 rounded-full font-label-md text-label-md flex items-center gap-xs hover:border-primary">
-<span class="material-symbols-outlined text-[18px]">pets</span> Mascotas Permitidas
-                </button>
-<button class="bg-surface-container-low text-on-surface-variant border border-outline-variant px-4 py-2 rounded-full font-label-md text-label-md flex items-center gap-xs hover:border-primary">
-<span class="material-symbols-outlined text-[18px]">schedule</span> Abierto Ahora
-                </button>
-<button class="bg-surface-container-low text-on-surface-variant border border-outline-variant px-4 py-2 rounded-full font-label-md text-label-md flex items-center gap-xs hover:border-primary">
-<span class="material-symbols-outlined text-[18px]">payments</span> Medios de Pago
-                </button>
+<a class="text-primary font-label-md flex items-center gap-2 hover:gap-3 transition-all" href="#">Ver todos los hospedajes <span class="material-symbols-outlined">arrow_forward</span></a>
 </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<!-- Lodging 1 -->
+<div class="flex flex-col md:flex-row bg-white rounded-xl overflow-hidden tourism-card-shadow border border-outline-variant/30">
+<div class="md:w-2/5 aspect-video md:aspect-auto">
+<img class="w-full h-full object-cover" data-alt="Exterior of a premium boutique hotel in San Roque, Corrientes. The architecture combines traditional colonial style with modern luxury touches. The gardens are impeccably manicured, and the lighting is soft and golden. The image evokes a sense of prestige and tranquility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDip1m4_lkdl1DbcOLq06gH-glM9qWedRZ3XHbmTTn7R8BkICzM57qotjlvsBKovn8dMti-tL_6UVnaSnrjO9hnp_S0J3CM_uEvzr5QRio33rIHo-TySLNOTNTB5vUYgVmZePc8StNkHQhp2oT7o1woUAo28oagTk3cxFDIkBTYdwf-fmT0dg85r2RJq8Ay-UKG6LHJ8-HCqDbNqQ8gsymOmFFQZ7CLN_GRb0ngc6iYieqRYVlUtPSWIaMwLelP_lqTmTIOUkIxcFHi"/>
 </div>
-</section>
-<!-- Restaurant Grid -->
-<section class="py-xl px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-xl">
-<!-- ARIANA -->
-<div class="group bg-white rounded-[16px] overflow-hidden border border-outline-variant/20 shadow-sm hover:shadow-xl transition-all duration-300">
-<div class="relative h-48">
-<img alt="Comedor Ariana" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A warm, inviting dining room of a high-end restaurant with polished wooden tables and elegant place settings. The interior design combines rustic Argentinian elements with modern corporate minimalism, using a color scheme of deep teal and cream. Large windows allow soft natural light to fill the space, creating a serene and premium culinary environment in San Roque." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkNbmu-RD3h3lVV-HaEFm-rT1fL3i7qiE_cZiv4U0nbd3rq6h7VcNwLwlNkdSa5Rj3j6sIWmns3LREOqF0J-N576urqKQALISueJuv-8VuCjl99vtEtJdqCpRW6exHNdliXTzPy4JAqF-jttTuMyb2lkz8SFtrv62aKhQbo_BQAR41V5yDGogBFkRandMQoAkf3VgIG8ztl36B6TDlYpODHWYGPsoyOpZyFFOuPM2fc1jRNGc5F9XJcW3lgwsaJtaHJzAgdHAJaPhh"/>
-<div class="absolute top-4 right-4 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-tighter">Celiac Friendly</div>
-</div>
-<div class="p-lg">
-<h3 class="text-headline-sm font-headline-sm mb-2 text-primary">COMEDOR ARIANA</h3>
-<div class="flex flex-wrap gap-2 mb-lg">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Pets Allowed</span>
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Wifi</span>
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Parking</span>
-</div>
-<button class="w-full bg-primary-container text-on-primary py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary transition-colors">
-<span class="material-symbols-outlined text-[20px]">chat</span> Contactar por WhatsApp
-                    </button>
+<div class="p-stack-md md:w-3/5 flex flex-col">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-primary">Posada del Sol</h3>
+<div class="flex text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
 </div>
 </div>
-<!-- NANCY -->
-<div class="group bg-white rounded-[16px] overflow-hidden border border-outline-variant/20 shadow-sm hover:shadow-xl transition-all duration-300">
-<div class="relative h-48">
-<img alt="Comedor Nancy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A brightly lit, family-style Argentinian eatery with clean white walls and wooden accents. The scene shows a beautifully presented local dish on a ceramic plate. The lighting is crisp and airy, emphasizing the freshness of the ingredients. The aesthetic is clean, professional, and rooted in Corrientes tradition, featuring soft teal and warm golden tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR0ZnmCy-D6oG2HIhTBBrcL1qaEmSoeS_S3X4w9A17Sd-8ivwzoM3Fw9WxkyQ6Dc9loYexkGe4FCKBLz3vrL5VvhRKcmvo065p4py3RKqIQAEPcc9As3wsRHJehN48-R_JtlVTHTtFGwVZPO3FciPjXv-CGP9A0dxXpR7htZCgomhxEIQe_Y0scRewZCLe2OnxAUNfccfhR14Qt0wGzycZTHqpN30-s6CZQ-vpQsPEhP6R5y52957xI0v5wN3yk613Rz4kmQ5iOSUl"/>
-</div>
-<div class="p-lg">
-<h3 class="text-headline-sm font-headline-sm mb-2 text-primary">COMEDOR NANCY</h3>
-<p class="text-label-sm text-outline mb-md italic">* Celíacos con reserva previa</p>
-<div class="flex flex-wrap gap-2 mb-lg">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Pets Allowed</span>
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Wifi</span>
-</div>
-<button class="w-full bg-primary-container text-on-primary py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary transition-colors">
-<span class="material-symbols-outlined text-[20px]">chat</span> Contactar por WhatsApp
-                    </button>
-</div>
-</div>
-<!-- ISIDORITO -->
-<div class="group bg-white rounded-[16px] overflow-hidden border border-outline-variant/20 shadow-sm hover:shadow-xl transition-all duration-300">
-<div class="relative h-48">
-<img alt="Isidorito" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A cozy, upscale bistro interior with warm heating elements visible, creating an inviting glow. The decor features modern Argentinian touches with sophisticated dark wood and leather. The lighting is intimate and high-end. The brand's deep teal and gold color palette is subtly integrated into the napkins and glassware. The overall feel is one of comfort and professional hospitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7hlvEGaSRguLbIeeitKSHpp7kdMKBapks9CP1XV5qFmW5t3iyWeh0zdmUndTtNs8KcILb7_VTXeqb4FTWfLAh9ZbhzzE-tRExpcncVe5wCXaQMJiliTuZQ7DxPf5CVxSlqFERqght5Zfq-yyRk8oTh4MPc_mbTpVFACssmCBd9NV999iLxIKoShYEXdA5jxAiAieNxw4kAp5oXVX2OW11bTcw-APtcbay_oodoj_ZweDuQ7VWVFN2Q8eaz-7-jxd_Qtrsabv70jX7"/>
-<div class="absolute bottom-4 left-4 flex gap-2">
-<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-1 rounded uppercase">Free Delivery</span>
-</div>
-</div>
-<div class="p-lg">
-<div class="flex justify-between items-start mb-2">
-<h3 class="text-headline-sm font-headline-sm text-primary">ISIDORITO</h3>
-<a class="text-primary hover:text-secondary" href="#"><span class="material-symbols-outlined">public</span></a>
-</div>
-<div class="flex flex-wrap gap-2 mb-lg">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Heating</span>
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Wifi</span>
-</div>
-<button class="w-full bg-primary-container text-on-primary py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary transition-colors">
-<span class="material-symbols-outlined text-[20px]">chat</span> WhatsApp Isidorito
-                    </button>
-</div>
-</div>
-<!-- COSTUMBRES ARGENTINAS -->
-<div class="group bg-white rounded-[16px] overflow-hidden border border-outline-variant/20 shadow-sm hover:shadow-xl transition-all duration-300">
-<div class="relative h-48">
-<img alt="Costumbres Argentinas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern artisanal food market and restaurant with industrial-chic design. Exposed bricks, steel fixtures, and large digital menus display traditional Argentinian items. The lighting is vibrant and energetic, suitable for a professional modern corporate space. The color palette emphasizes primary teal and accent gold, suggesting quality and reliability. The space is filled with high-end culinary products." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj4DoQsUgCAEqdJiLnUa9fPgXDXEuZVUy7Eh-zmTPgprNzg8STJcXtzckZWPUEuyXnoobYzsJ00u-utrCWKLw_ICo2BDiPNrYAHmjgUwIL0kg3pXNwrnIflAh0jr31ESPtFiwvoXAvZ-Ti5ECqR_KTWxR1vHasX3vpCVfcwg5TPneJ3wJmiEaDcyn6gSczbdefbtpmOysjyRFgS6i27CgMLkRdyNRYejYdrmU24T5VBW8VQ5eeaktRR3Km9RPLMOsfsUOhH7WaLrgt"/>
-</div>
-<div class="p-lg">
-<h3 class="text-headline-sm font-headline-sm mb-2 text-primary">COSTUMBRES</h3>
-<div class="flex flex-wrap gap-2 mb-lg">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">TV</span>
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Free Delivery</span>
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Celiac</span>
-</div>
-<button class="w-full bg-primary-container text-on-primary py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary transition-colors">
-<span class="material-symbols-outlined text-[20px]">chat</span> WhatsApp Market
-                    </button>
-</div>
-</div>
-<!-- ESTELA -->
-<div class="group bg-white rounded-[16px] overflow-hidden border border-outline-variant/20 shadow-sm hover:shadow-xl transition-all duration-300">
-<div class="relative h-48">
-<img alt="Comidas Estela" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A traditional yet upscale restaurant facade in a historic Argentinian street. The architecture is colonial-style with modern signage. The evening lighting is warm and invites passersby into a professional, well-maintained dining environment. The overall aesthetic is grounded in heritage while maintaining a clean, contemporary corporate look with refined teal and amber accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6Gm7qdccU0MfZzVUTxsZkF9-DMXkdXJo1eQtj2IdW7yYxZ6oP25Wa9brUDZbTXr29Uw8InEmSHWx7hX8M69BSYhtHLtBRGPe4D7v6CUTlliuHHbMRb1OvczkEaVWbNtUGa6Jw8y2guIOhrKcdjw_aswJV7z-na0bB9YShOwaSnXcfSM63q0I_sVHwSk3IqioGzy2jmnbLsC6CR_ikzkC5Mkl5GCfDljpyZP7QntKQk3qVjQlJ5xI1bSc2p0im0ykjXT6Kfi1RWrDC"/>
-</div>
-<div class="p-lg">
-<h3 class="text-headline-sm font-headline-sm mb-2 text-primary">COMIDAS ESTELA</h3>
-<p class="text-label-sm text-outline mb-md flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">location_on</span> Santiago Baibiene 525
-                    </p>
-<div class="flex flex-wrap gap-2 mb-lg">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Showers</span>
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Wifi</span>
-</div>
-<button class="w-full bg-primary-container text-on-primary py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary transition-colors">
-<span class="material-symbols-outlined text-[20px]">chat</span> WhatsApp Estela
-                    </button>
-</div>
-</div>
-<!-- EL TORDITO -->
-<div class="group bg-white rounded-[16px] overflow-hidden border border-outline-variant/20 shadow-sm hover:shadow-xl transition-all duration-300">
-<div class="relative h-48">
-<img alt="El Tordito" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A lively, modern take-out and delivery kitchen in Argentina. The interior is professional and hygienic with stainless steel surfaces and warm decorative accents. Friendly staff are visible in the background. The lighting is bright and efficient. The color scheme features the brand's teal as a primary focus with golden highlights in the signage and menus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGD9hUhlASoRdXExznGYjXzPII013vIwEJeqSCkP6ImFPeGcOfRUWH0g-ouldT4WDzQ1tig6rpD-EsOfx9m2NcXMQ6IBegNDC_SDOELhKeWhlS2md38a-rGrygky6SEFLEcSi-AawQXtifGiDtrhxVRiXgiWhQKAU_MNkDnuUfJZIJZq5HdYYF_98xyNqgsROV7NiWxjTee99z7LnptZXgPn0WkxZmejK4TRAVYKQGSCC-6F73mGgdcdCfJ5H134PBS5_QJ-0X0WJt"/>
-</div>
-<div class="p-lg">
-<h3 class="text-headline-sm font-headline-sm mb-2 text-primary">EL TORDITO</h3>
-<p class="text-label-sm text-error mb-md font-bold">No dispone menú celíaco</p>
-<div class="flex flex-wrap gap-2 mb-lg">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Pets Allowed</span>
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[12px] font-bold">Free Delivery</span>
-</div>
-<button class="w-full bg-primary-container text-on-primary py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary transition-colors">
-<span class="material-symbols-outlined text-[20px]">chat</span> Pedir Delivery
-                    </button>
+<p class="text-on-surface-variant font-label-sm mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span> Calle Mitre 450, San Roque
+                        </p>
+<p class="text-body-md text-on-surface-variant mt-4 flex-grow">"Una experiencia increíble. La atención es personalizada y la vista al río es impagable."</p>
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-primary font-headline-md">$12.500 <span class="text-label-sm font-normal text-on-surface-variant">/ noche</span></span>
+<button class="bg-primary text-white px-6 py-2 rounded-lg font-label-sm hover:opacity-90">Ver Disponibilidad</button>
 </div>
 </div>
 </div>
-</section>
-<!-- Featured Celiac Section -->
-<section class="py-xl bg-primary text-white">
-<div class="px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
-<div class="flex flex-col md:flex-row gap-xl items-center">
-<div class="flex-1">
-<div class="inline-block bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full font-bold text-[12px] mb-4">BEST CHOICE FOR HEALTH</div>
-<h2 class="text-display-lg-mobile md:text-headline-md font-headline-md mb-6">¿Buscás opciones para celíacos?</h2>
-<p class="text-body-lg text-white/80 mb-xl">
-                        En San Roque priorizamos tu bienestar. Descubrí los locales con menú especializado y atención dedicada para personas con celiaquía.
-                    </p>
-<ul class="grid grid-cols-1 sm:grid-cols-2 gap-md">
-<li class="flex items-center gap-sm font-bold"><span class="material-symbols-outlined text-secondary-container">check_circle</span> Ariana</li>
-<li class="flex items-center gap-sm font-bold"><span class="material-symbols-outlined text-secondary-container">check_circle</span> Nancy (Pre-order)</li>
-<li class="flex items-center gap-sm font-bold"><span class="material-symbols-outlined text-secondary-container">check_circle</span> Estela</li>
-<li class="flex items-center gap-sm font-bold"><span class="material-symbols-outlined text-secondary-container">check_circle</span> Isidorito</li>
-<li class="flex items-center gap-sm font-bold"><span class="material-symbols-outlined text-secondary-container">check_circle</span> Costumbres Argentinas</li>
-</ul>
+<!-- Lodging 2 -->
+<div class="flex flex-col md:flex-row bg-white rounded-xl overflow-hidden tourism-card-shadow border border-outline-variant/30">
+<div class="md:w-2/5 aspect-video md:aspect-auto">
+<img class="w-full h-full object-cover" data-alt="Interior of a luxury guest room in a San Roque hotel. High-quality linens, wooden furniture, and elegant local art decor. Large windows open to a terrace with countryside views. The aesthetic is clean, sophisticated, and inviting, with a palette of soft neutrals and deep greens." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyVTbpQcnBk_OA8SNEofg_WkDDlNjAdDwbf7JEJnWzVFBXxIJPK2ax_R4Ma9BHCHqMl8UlvBd_82qgIFiIpXbCeVjm1U_2UsYrq3QpKyl24Y12dAzCNGi3Mh9ywvT7Ra2-3c5v8MWUEXCP5a6cyT2RoB5_PtgLG6LCDeYj-geXZm8qkEUyYtR4MZ0aiRw2JxzkDnTbKLM-HZsIHJ2w2l_Nx12mncXCItBhf0oL7q1Sj7ecxVMQoePvxh1q9Z7bgKyLsTCWRrNHxZUv"/>
 </div>
-<div class="flex-1 w-full">
-<div class="relative rounded-3xl overflow-hidden aspect-video shadow-2xl border-4 border-white/10">
-<img alt="Opciones Saludables" class="w-full h-full object-cover" data-alt="A gourmet, beautifully plated gluten-free meal featuring vibrant vegetables and grilled protein on a minimalist ceramic dish. The setting is an elegant Argentinian restaurant with high-end decor. The lighting is dramatic and editorial, highlighting the culinary craftsmanship. Deep teal and golden accents from the design system are present in the table textiles and surrounding elements, creating a sense of premium quality and care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEPnjgxQArpvD3f8HSIZgQ-D5q5KHPrfpQfCeKR-pg41xdxJ2_crhFD1HXcRTrsEjkBjaJjC_tpj_GkrEMvQbjcx4nh4S_M929Pl-EEVf28fZ2tqJoabe-6fJjQDXe9N4KL6MIpBvKXU-ROmy3yVPxF-4b2WUo-UeoZqPbyWPF60a8oVadEFtfEECeYU7UfswJXvpsRt1M4PDVdiM8nEUobtDVixcMKTLBpF8xXLXxoy2ciYuxEqXK_Pgd4YcNN-2ifOQIyWbz_80m"/>
+<div class="p-stack-md md:w-3/5 flex flex-col">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-primary">Apart Hotel San Roque</h3>
+<div class="flex text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+</div>
+<p class="text-on-surface-variant font-label-sm mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span> Av. Costanera 120
+                        </p>
+<p class="text-body-md text-on-surface-variant mt-4 flex-grow">"Habitaciones amplias y modernas. Ideal para viajes de negocios o descanso familiar."</p>
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-primary font-headline-md">$10.200 <span class="text-label-sm font-normal text-on-surface-variant">/ noche</span></span>
+<button class="bg-primary text-white px-6 py-2 rounded-lg font-label-sm hover:opacity-90">Ver Disponibilidad</button>
+</div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<!-- Interactive Map Placeholder -->
-<section class="py-xl px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
-<h2 class="text-headline-md font-headline-md text-primary mb-xl text-center">Mapa de Sabores</h2>
-<div class="relative bg-surface-container-highest rounded-3xl h-[500px] overflow-hidden border border-outline-variant shadow-inner group">
+<!-- Activities Section -->
+<section class="py-stack-lg bg-surface-container-low" id="activities">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
+<div class="text-center mb-stack-lg">
+<span class="text-secondary font-label-md uppercase tracking-wider">Qué Hacer</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-2">Experiencias y Aventuras</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+<!-- Activity Item -->
+<div class="group cursor-pointer">
+<div class="aspect-square bg-white rounded-full flex items-center justify-center tourism-card-shadow group-hover:bg-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-white transition-colors">sailing</span>
+</div>
+<p class="text-center mt-4 font-label-md text-primary">Pesca</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square bg-white rounded-full flex items-center justify-center tourism-card-shadow group-hover:bg-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-white transition-colors">directions_bike</span>
+</div>
+<p class="text-center mt-4 font-label-md text-primary">Ciclismo</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square bg-white rounded-full flex items-center justify-center tourism-card-shadow group-hover:bg-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-white transition-colors">hiking</span>
+</div>
+<p class="text-center mt-4 font-label-md text-primary">Hiking</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square bg-white rounded-full flex items-center justify-center tourism-card-shadow group-hover:bg-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-white transition-colors">photo_camera</span>
+</div>
+<p class="text-center mt-4 font-label-md text-primary">Fotografía</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square bg-white rounded-full flex items-center justify-center tourism-card-shadow group-hover:bg-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-white transition-colors">agriculture</span>
+</div>
+<p class="text-center mt-4 font-label-md text-primary">Turismo Rural</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square bg-white rounded-full flex items-center justify-center tourism-card-shadow group-hover:bg-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-white transition-colors">visibility</span>
+</div>
+<p class="text-center mt-4 font-label-md text-primary">Avistaje</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Map Section -->
+<section class="py-stack-lg bg-white">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
+<div class="mb-stack-md flex flex-col md:flex-row justify-between items-center gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Mapa Interactivo</h2>
+<p class="text-on-surface-variant">Ubicá los mejores puntos de interés en la ciudad.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg font-label-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">restaurant</span> Comer
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg font-label-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">hotel</span> Dormir
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg font-label-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">landscape</span> Visitar
+                    </button>
+</div>
+</div>
+<div class="h-[500px] w-full rounded-2xl overflow-hidden tourism-card-shadow relative bg-surface-container">
+<div class="absolute inset-0 grayscale opacity-40 mix-blend-multiply" data-location="San Roque, Corrientes, Argentina" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDIjpRAycBY5oZ0a_mI113O7ucy6XMswjinL9YXXoIJ47bgQIqanQwaMYfTC-bR874ayYlC-wG6YV6iFuA-txEy3F9EVW_6J-sh20TXsBMRcZkxOF_qOTiX9s1Ad36cTtZKW6ZudIW4ZRxgZ7eIchLwg-ms2gXc35i0hynkdoDu0YFSLy0Zz3JGILRZiYkCUYnYqmPH6L5QdukRdLX9oTj3f73kdVgMwzOz4PpzocuP_gqKf56fhlDKwezeNWipS49Ft5EFUGdpncFb')">
+</div>
+<!-- Mock Map Content -->
 <div class="absolute inset-0 flex items-center justify-center">
-<div class="text-center z-10 bg-white/90 backdrop-blur-md p-xl rounded-2xl shadow-xl max-w-md mx-4">
-<span class="material-symbols-outlined text-[64px] text-primary mb-4">map</span>
-<h3 class="text-headline-sm font-headline-sm text-primary mb-2">Explora San Roque</h3>
-<p class="text-body-md text-on-surface-variant mb-6">Ubicá cada restaurante y planificá tu ruta gastronómica por la ciudad de Corrientes.</p>
-<button class="bg-primary px-8 py-3 rounded-full text-white font-bold hover:scale-105 transition-transform">Ver Mapa Interactivo</button>
+<div class="relative">
+<!-- Marker 1 -->
+<div class="absolute -top-12 -left-20 group">
+<div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center border-2 border-white tourism-card-shadow cursor-pointer">
+<span class="material-symbols-outlined text-sm">hotel</span>
+</div>
+<div class="absolute top-0 left-12 bg-white px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap tourism-card-shadow border border-secondary">
+<span class="font-label-md text-primary">Posada del Sol</span>
 </div>
 </div>
-<!-- Mock map image -->
-<img alt="Mapa de San Roque" class="w-full h-full object-cover opacity-30 grayscale group-hover:grayscale-0 transition-all duration-700" data-location="San Roque, Corrientes, Argentina" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsUMuTfkjQ5OKg8K5BjXzNEMdPhk4rc6Oq22WXtj1Epx5Ik3jLObUIbd9qcDig6Zq_Yfrc2v7toRAYFdz9nUUkqBKmwMwfyuAsOGC1YhztGJxF_iNETl9aEWASQTHQ7oSX5l3axHZAbh3xKbWfg74SaBbuRSJAAaUqhuEZV5DISH91fV7PbW2N5jBDAcvErRL8bRCOpNqQ24TBpgldxmjBf1q9qiQQeVKkdIpzRz6lN1oppvKt0KJMiCE164-DprT7dEPDg8oH_Rst"/>
+<!-- Marker 2 -->
+<div class="absolute -bottom-8 right-24 group">
+<div class="w-10 h-10 bg-secondary text-white rounded-full flex items-center justify-center border-2 border-white tourism-card-shadow cursor-pointer">
+<span class="material-symbols-outlined text-sm">restaurant</span>
+</div>
+<div class="absolute bottom-0 left-12 bg-white px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap tourism-card-shadow border border-secondary">
+<span class="font-label-md text-primary">Comedor Ariana</span>
+</div>
+</div>
+<!-- Marker 3 -->
+<div class="absolute top-10 right-10 group">
+<div class="w-10 h-10 bg-tertiary text-white rounded-full flex items-center justify-center border-2 border-white tourism-card-shadow cursor-pointer">
+<span class="material-symbols-outlined text-sm">church</span>
+</div>
+<div class="absolute top-0 right-12 bg-white px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap tourism-card-shadow border border-secondary">
+<span class="font-label-md text-primary">Iglesia Histórica</span>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </section>
 <!-- Footer -->
-<footer class="bg-surface-container-highest border-t border-outline-variant/30 mt-xl">
-<div class="flex flex-col md:flex-row justify-between items-start gap-lg px-margin-mobile md:px-margin-desktop py-xl w-full max-w-7xl mx-auto">
-<div class="max-w-sm">
-<span class="text-headline-sm font-headline-sm text-primary font-bold">Gastronomía San Roque</span>
-<p class="text-body-md text-on-surface-variant mt-4">
-                    Descubriendo los tesoros culinarios de Corrientes. Tradición atemporal, hospitalidad moderna.
-                </p>
-<div class="flex gap-md mt-lg">
-<a class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-secondary transition-colors" href="#">
-<span class="material-symbols-outlined">chat</span>
-</a>
-<a class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-secondary transition-colors" href="#">
-<span class="material-symbols-outlined">photo_camera</span>
-</a>
-<a class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-secondary transition-colors" href="#">
-<span class="material-symbols-outlined">location_on</span>
-</a>
+<footer class="w-full mt-stack-lg bg-primary dark:bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop py-stack-lg grid grid-cols-1 md:grid-cols-4 gap-stack-md text-on-primary">
+<div class="md:col-span-1">
+<span class="text-headline-lg font-headline-lg text-on-primary dark:text-primary">San Roque</span>
+<p class="text-body-md text-on-primary/80 mt-4">Portal oficial de turismo y cultura de la ciudad de San Roque, Corrientes. Patrimonio vivo de nuestra historia.</p>
 </div>
-</div>
-<div class="grid grid-cols-2 gap-xl">
 <div>
-<h4 class="font-bold text-primary mb-md">Navegación</h4>
-<ul class="space-y-sm text-label-sm text-on-surface-variant">
-<li><a class="hover:text-primary transition-colors" href="#">Home</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Restaurantes</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Clima</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Contacto</a></li>
+<h4 class="font-label-md text-secondary-fixed mb-4">Información</h4>
+<ul class="space-y-2">
+<li><a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-label-sm" href="#">Privacy Policy</a></li>
+<li><a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-label-sm" href="#">Terms of Service</a></li>
+<li><a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-label-sm" href="#">Local Government</a></li>
+<li><a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-label-sm" href="#">Tourist Office</a></li>
 </ul>
 </div>
 <div>
-<h4 class="font-bold text-primary mb-md">Legal</h4>
-<ul class="space-y-sm text-label-sm text-on-surface-variant">
-<li><a class="hover:text-primary transition-colors" href="#">Privacidad</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Términos</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Misión</a></li>
+<h4 class="font-label-md text-secondary-fixed mb-4">Contacto</h4>
+<ul class="space-y-2 text-label-sm text-on-primary/80">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">mail</span> info@sanroque.gov.ar</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">phone</span> +54 3777 000000</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">location_on</span> San Roque, Corrientes, AR</li>
 </ul>
 </div>
+<div>
+<h4 class="font-label-md text-secondary-fixed mb-4">Síguenos</h4>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-secondary-fixed hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">face_nod</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-secondary-fixed hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">camera</span>
+</a>
 </div>
 </div>
-<div class="border-t border-outline-variant/20 py-lg px-margin-mobile md:px-margin-desktop text-center">
-<p class="text-label-sm text-outline">© 2024 Gastronomía de San Roque. San Roque, Corrientes. Todos los derechos reservados.</p>
 </div>
+<div class="max-w-container-max mx-auto px-4 md:px-margin-desktop py-6 border-t border-white/10 text-center md:text-left text-on-primary/60 text-label-sm">
+            © 2024 San Roque Tourism Office. All rights reserved.
+        </div>
 </footer>
+<!-- Floating WhatsApp Button -->
+<a class="fixed bottom-8 right-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform active:scale-95 flex items-center justify-center" href="https://wa.me/123456789">
+<span class="material-symbols-outlined text-3xl">chat</span>
+</a>
 <script>
-        // Simple header effect on scroll
+        // Micro-interaction for Parallax Scroll
         window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.classList.add('py-2', 'shadow-md');
-                header.classList.remove('py-4', 'shadow-sm');
-            } else {
-                header.classList.add('py-4', 'shadow-sm');
-                header.classList.remove('py-2', 'shadow-md');
+            const parallax = document.querySelector('.parallax-hero');
+            let scrollPosition = window.pageYOffset;
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrollPosition * 0.4}px)`;
             }
         });
+
+        // Search highlight interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        if (searchInput) {
+            searchInput.addEventListener('focus', () => {
+                searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+            });
+        }
     </script>
 </body></html>
