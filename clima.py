@@ -7,7 +7,7 @@ import urllib.request
 import json
 
 PUERTO = 8080
-ARCHIVO = "index.html"
+ARCHIVO = "tomasindex.html"
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 

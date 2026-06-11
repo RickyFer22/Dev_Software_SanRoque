@@ -9,74 +9,121 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
 <style>
-  .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; font-size: 24px; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased; }
-  .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .material-symbols-outlined { font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased; }
+  .material-symbols-outlined.filled { font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24; }
 
-  .fade-in-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1); }
-  .fade-in-up.visible { opacity: 1; transform: translateY(0); }
-  @keyframes viewFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-  .animate-view-in { animation: viewFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .fade-in-up { opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1); }
+  .fade-in-up.visible { opacity:1;transform:translateY(0); }
+  @keyframes viewFadeIn { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-view-in { animation:viewFadeIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards; }
 
-  .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: heroFade 18s infinite; transition: transform 0.7s ease; }
-  .hero-slide:nth-child(1) { animation-delay: 0s; } .hero-slide:nth-child(2) { animation-delay: 6s; } .hero-slide:nth-child(3) { animation-delay: 12s; }
-  @keyframes heroFade { 0% { opacity: 0; transform: scale(1.05); } 8% { opacity: 1; transform: scale(1); } 33% { opacity: 1; transform: scale(1); } 41% { opacity: 0; transform: scale(1.04); } 100% { opacity: 0; } }
+  .hero-slide { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:heroFade 18s infinite; }
+  .hero-slide:nth-child(1){animation-delay:0s} .hero-slide:nth-child(2){animation-delay:6s} .hero-slide:nth-child(3){animation-delay:12s}
+  @keyframes heroFade { 0%{opacity:0;transform:scale(1.05)} 8%{opacity:1;transform:scale(1)} 33%{opacity:1;transform:scale(1)} 41%{opacity:0;transform:scale(1.04)} 100%{opacity:0} }
 
-  .img-zoom { transition: transform 0.7s cubic-bezier(.22,1,.36,1); }
-  article:hover .img-zoom { transform: scale(1.06); }
-  .hero-text-shadow { text-shadow: 0 2px 20px rgba(0,0,0,0.5); }
-  .hide-scrollbar::-webkit-scrollbar { display: none; }
-  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .img-zoom { transition:transform 0.7s cubic-bezier(.22,1,.36,1); }
+  article:hover .img-zoom { transform:scale(1.06); }
+  .hero-text-shadow { text-shadow:0 2px 20px rgba(0,0,0,0.55); }
+  .hide-scrollbar::-webkit-scrollbar{display:none} .hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
 
-  /* Efecto Hover del Widget del Clima Flotante */
-  .weather-widget { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); outline: none; }
-  .weather-panel { 
-    opacity: 0; transform: scale(0.95) translateY(10px); pointer-events: none; 
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    transform-origin: bottom left; 
-  }
-  .weather-widget:hover .weather-panel,
-  .weather-widget:focus .weather-panel,
-  .weather-widget:focus-within .weather-panel { 
-    opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; 
-  }
+  /* ── TYPEWRITER ── */
+  .typewriter-cursor { display:inline-block;width:3px;height:0.82em;background:#F5D98A;margin-left:3px;vertical-align:middle;border-radius:2px;animation:blink 0.75s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  .service-badge { display: flex; align-items: center; gap: 6px; background: rgba(19,78,74,0.05); border: 1px solid rgba(19,78,74,0.12); border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; color: #134e4a; }
-  .capacity-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
-  .capacity-row:last-child { border-bottom: none; }
+  /* ── HERO FULLSCREEN ── */
+  #hero-section { position:relative;width:100%;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:0; }
+  #hero-section .hero-wave { position:absolute;bottom:-2px;left:0;width:100%;z-index:15;line-height:0; }
 
-  .leaflet-container { z-index: 10 !important; font-family: 'DM Sans', sans-serif; }
-  .leaflet-popup-content-wrapper { border-radius: 16px; padding: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-  .leaflet-popup-content { margin: 8px; }
+  /* ── WEATHER WIDGET ── */
+  .weather-widget { transition:transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);outline:none; }
+  .weather-panel { opacity:0;transform:scale(0.95) translateY(10px);pointer-events:none;transition:opacity 0.3s ease,transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);transform-origin:bottom left; }
+  .weather-widget:hover .weather-panel,.weather-widget:focus .weather-panel,.weather-widget:focus-within .weather-panel { opacity:1;transform:scale(1) translateY(0);pointer-events:auto; }
+
+  .service-badge { display:flex;align-items:center;gap:6px;background:rgba(19,78,74,0.05);border:1px solid rgba(19,78,74,0.12);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#134e4a; }
+  .capacity-row { display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(0,0,0,0.05); }
+  .capacity-row:last-child { border-bottom:none; }
+
+  .leaflet-container { z-index:10 !important;font-family:'DM Sans',sans-serif; }
+  .leaflet-popup-content-wrapper { border-radius:16px;padding:8px;box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+  .leaflet-popup-content { margin:8px; }
+
+  /* ── INTRO SPLASH ── */
+  #intro-splash { position:fixed;inset:0;z-index:9999;background:#003633;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.8s ease,visibility 0.8s ease; }
+  #intro-splash.hidden-out { opacity:0;visibility:hidden;pointer-events:none; }
+  #splash-logo { opacity:0;transform:scale(0.72);transition:opacity 0.9s cubic-bezier(.22,1,.36,1),transform 0.9s cubic-bezier(.22,1,.36,1); }
+  #splash-logo.show { opacity:1;transform:scale(1); }
+  #splash-text { opacity:0;transform:translateY(12px);transition:opacity 0.7s ease 0.6s,transform 0.7s ease 0.6s; }
+  #splash-text.show { opacity:1;transform:translateY(0); }
+
+  /* ── MAP COLLAPSIBLE ── */
+  .map-collapsible { max-height:88px;overflow:hidden;transition:max-height 0.7s cubic-bezier(.22,1,.36,1);border-radius:24px; }
+  .map-collapsible:hover,.map-collapsible:focus-within { max-height:560px; }
+  .map-peek { display:flex;align-items:center;gap:14px;padding:0 24px;height:88px;cursor:pointer;background:#fff;border-radius:24px;position:relative;z-index:1; }
+  .map-collapsible:hover .map-peek-hint { opacity:0; }
+  .map-peek-hint { transition:opacity 0.35s ease; }
+  #main-map { border-radius:0 0 24px 24px; }
+
+  /* ── GEO BADGE en cards ── */
+  .geo-btn { display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#134E4A;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:999px;padding:5px 12px;transition:background 0.2s,transform 0.2s;cursor:pointer;text-decoration:none; }
+  .geo-btn:hover { background:#dcfce7;transform:scale(1.04); }
+  .geo-btn .material-symbols-outlined { font-size:13px;color:#16a34a; }
+
+  /* ── EVENT CARD imagen ── */
+  .event-img { width:100%;height:130px;object-fit:cover;display:block; }
+  .event-img-wrap { position:relative;overflow:hidden; }
+  .event-img-wrap .event-img { transition:transform 0.5s cubic-bezier(.22,1,.36,1); }
+  .event-card:hover .event-img { transform:scale(1.06); }
+  .event-img-overlay { position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.08) 0%,rgba(0,0,0,0.38) 100%); }
+  .event-badge-over { position:absolute;top:10px;left:10px; }
+  .event-icon-over { position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center; }
+  .event-card { transition:transform 0.3s cubic-bezier(.22,1,.36,1),box-shadow 0.3s ease; }
+  .event-card:hover { transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,54,51,0.14); }
+  .ebadge { font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:999px; }
+  .ebadge.futsal{background:#fef9c3;color:#854d0e}
+  .ebadge.voley{background:#dbeafe;color:#1d4ed8}
+  .ebadge.festivo{background:#fce7f3;color:#9d174d}
+  .ebadge.defensores{background:#f0fdf4;color:#166534;border:1px solid #86efac}
 </style>
+
 <script id="tailwind-config">
   tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          "canvas-white": "#FFFFFF", "background": "#f6f7f8", "primary": "#003633",
-          "river-teal": "#134E4A", "golden-sand": "#D4A83C", "sun-haze": "#F5D98A",
-          "surface-container": "#edeeef", "on-surface-variant": "#404847",
-          "outline-variant": "#bfc8c6", "moss-dark": "#0A2E2B", "tertiary-fixed": "#c6eae5"
-        },
-        fontFamily: {
-          "body-md": ["DM Sans", "sans-serif"], "label-caps": ["JetBrains Mono", "monospace"],
-          "headline-md": ["Syne", "sans-serif"], "display-lg": ["Syne", "sans-serif"]
-        }
-      }
-    }
+    darkMode:"class",
+    theme:{ extend:{ colors:{ "canvas-white":"#FFFFFF","background":"#f0f4f3","primary":"#003633","river-teal":"#134E4A","golden-sand":"#D4A83C","sun-haze":"#F5D98A","surface-container":"#edeeef","on-surface-variant":"#404847","outline-variant":"#bfc8c6","moss-dark":"#0A2E2B","tertiary-fixed":"#c6eae5" }, fontFamily:{ "body-md":["DM Sans","sans-serif"],"label-caps":["JetBrains Mono","monospace"],"headline-md":["Syne","sans-serif"],"display-lg":["Syne","sans-serif"] } } }
   }
 </script>
 </head>
 <body class="bg-background text-neutral-900 font-body-md antialiased overflow-x-hidden">
 
+<!-- ═══ INTRO SPLASH ═══ -->
+<div id="intro-splash" aria-hidden="true">
+  <div id="splash-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="180" height="225" fill="none" stroke="#7fffd4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="120" cy="130" rx="100" ry="118"/>
+      <ellipse cx="120" cy="130" rx="90" ry="108"/>
+      <line x1="120" y1="30" x2="120" y2="160"/>
+      <line x1="88" y1="72" x2="152" y2="72"/>
+      <path d="M96 120 Q88 108 84 96 M96 120 Q90 107 93 95 M96 120 Q102 106 104 94"/>
+      <path d="M130 118 Q136 104 134 90 M130 118 Q138 106 142 95 M130 118 Q126 103 128 89"/>
+      <path d="M82 158 Q82 175 120 178 Q158 175 158 158 L152 135 Q136 145 120 146 Q104 145 88 135 Z"/>
+      <path d="M100 184 Q110 176 120 184 Q130 176 140 184 Q130 195 120 190 Q110 195 100 184Z"/>
+      <circle cx="120" cy="184" r="5"/>
+      <path d="M24 100 Q32 88 28 76 M24 100 Q18 87 22 74 M30 116 Q22 104 24 92 M30 116 Q36 102 34 88 M32 134 Q24 122 26 108"/>
+      <path d="M216 100 Q208 88 212 76 M216 100 Q222 87 218 74 M210 116 Q218 104 216 92 M210 116 Q204 102 206 88 M208 134 Q216 122 214 108"/>
+      <path d="M120 22 Q108 14 100 20 M120 22 Q112 10 118 4 M120 22 Q128 10 122 4 M120 22 Q132 14 140 20"/>
+    </svg>
+  </div>
+  <div id="splash-text" class="text-center">
+    <div class="font-display-lg text-4xl font-bold text-white tracking-tight">San Roque</div>
+    <div class="text-[#7fffd4] font-label-caps text-xs tracking-[0.25em] uppercase mt-1">Municipio · Corrientes</div>
+  </div>
+</div>
+
+<!-- ═══ CLIMA WIDGET ═══ -->
 <div class="fixed bottom-6 left-6 z-[60] weather-widget group" id="weather-widget" tabindex="0">
-  
   <div class="weather-panel absolute bottom-[calc(100%+12px)] left-0 w-64 bg-primary/95 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-2xl text-white">
     <div class="flex items-center justify-between mb-3">
       <div>
@@ -88,7 +135,6 @@
       </div>
       <span class="material-symbols-outlined text-[36px] text-golden-sand" id="wp-icon">light_mode</span>
     </div>
-    
     <div class="grid grid-cols-2 gap-2">
       <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
         <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">water_drop</span> Humedad</div>
@@ -108,13 +154,13 @@
       </div>
     </div>
   </div>
-
   <div class="bg-primary/90 backdrop-blur-md border border-white/20 shadow-lg rounded-full px-3 py-2 flex items-center gap-2 cursor-pointer transition-all duration-300 group-hover:bg-primary group-hover:shadow-xl group-hover:scale-105">
     <span class="material-symbols-outlined text-sun-haze text-[20px] group-hover:rotate-12 transition-transform" id="weather-icon-top">light_mode</span>
     <span class="text-white font-bold text-sm font-headline-md leading-none" id="weather-temp-top">--°</span>
   </div>
 </div>
 
+<!-- ═══ NAV ═══ -->
 <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-gradient-to-b from-black/60 to-transparent pt-6 pb-6">
   <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
     <a class="font-display-lg text-[30px] md:text-[36px] leading-none text-white tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer" onclick="backToGrid()">San Roque</a>
@@ -131,26 +177,43 @@
   </div>
 </nav>
 
+<!-- ═══ MAIN VIEW ═══ -->
 <div id="main-explorer-view" class="block animate-view-in">
-  
-  <section class="relative w-full h-[580px] flex items-center justify-center mb-16 overflow-hidden pt-20">
-    <div class="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/30 to-background z-10 mix-blend-multiply"></div>
+
+  <!-- ── HERO FULLSCREEN ── -->
+  <section id="hero-section">
+    <div class="absolute inset-0 z-10" style="background:linear-gradient(180deg,rgba(0,20,18,0.78) 0%,rgba(0,40,36,0.28) 45%,rgba(0,54,51,0.60) 82%,rgba(0,54,51,0.95) 100%);"></div>
     <div class="absolute inset-0 z-0">
       <img alt="Río San Roque" class="hero-slide" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk"/>
       <img alt="Naturaleza" class="hero-slide" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI"/>
       <img alt="Atardecer" class="hero-slide" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg_6EVVz-4JzRbHOD9M3g0kuSpQNIPYAHOpLI8wY7UHgg8CcnyQYGcReYwvaLYepzJqNxHIV9NWCcXmZuUvjLC-w-cWETEhFdrAbop2G-8g4gT54JfDNcJ3tYcNgZJVhcbjNGm8wZ2F7QyjTYXpPBr6G2yegS1RcXk0Jn0LIo380zAvGWZzvtOEavEG4xkPp0GJdh3pLj8T2lJNtofxImBFlWiKsA0tMCFSMzPfqk5PKNya-qFdt6y7JrC9yQi8KxfqufmTiw8K6Y"/>
     </div>
-    <div class="relative z-20 text-center px-4 max-w-4xl mx-auto fade-in-up mt-10">
-      <h1 class="font-display-lg text-[46px] md:text-[64px] text-canvas-white mb-4 hero-text-shadow tracking-tight">
-        Dónde alojarme <span class="text-sun-haze">San Roque</span>
+    <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+        <span class="material-symbols-outlined text-sun-haze text-[14px]">location_on</span>
+        <span class="text-white/90 text-xs font-label-caps tracking-widest uppercase">San Roque · Corrientes</span>
+      </div>
+      <h1 class="font-display-lg text-[46px] md:text-[68px] text-canvas-white mb-6 hero-text-shadow tracking-tight leading-tight min-h-[1.2em]">
+        <span id="hero-typewriter-text"></span><span class="typewriter-cursor"></span>
       </h1>
-      <p class="text-canvas-white/90 text-lg md:text-xl max-w-xl mx-auto hero-text-shadow">
+      <p class="text-canvas-white/85 text-lg md:text-xl max-w-xl mx-auto hero-text-shadow">
         Explorá hospedajes validados y departamentos equipados con atención directa de sus dueños.
       </p>
+      <div class="mt-12 flex flex-col items-center gap-1 opacity-60 animate-bounce">
+        <span class="text-white/70 text-[11px] font-label-caps tracking-widest uppercase">Explorá</span>
+        <span class="material-symbols-outlined text-white/70 text-[20px]">expand_more</span>
+      </div>
+    </div>
+    <!-- Wave transition to background -->
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,45 C360,95 1080,5 1440,55 L1440,90 L0,90 Z" fill="#f0f4f3"/>
+      </svg>
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 mb-8 fade-in-up">
+  <!-- ── FILTROS ── -->
+  <section class="max-w-7xl mx-auto px-6 mt-14 mb-8 fade-in-up">
     <div class="flex flex-wrap gap-3 justify-center md:justify-start pb-6" id="filter-buttons">
       <button class="px-5 py-2.5 rounded-full bg-river-teal text-canvas-white font-bold text-xs filter-btn flex items-center gap-2 shadow-sm hover:scale-105 active:scale-95 transition-all duration-300" data-filter="all">
         <span class="material-symbols-outlined text-[16px]">grid_view</span> Todos
@@ -167,13 +230,8 @@
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 mb-12 fade-in-up delay-100">
-    <div class="bg-white rounded-[32px] p-2 border border-outline-variant/30 shadow-md">
-      <div id="main-map" class="w-full h-[350px] md:h-[450px] rounded-[24px]"></div>
-    </div>
-  </section>
-
-  <section class="max-w-7xl mx-auto px-6 mb-24">
+  <!-- ── CARDS ── -->
+  <section class="max-w-7xl mx-auto px-6 mb-12">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="accommodations-grid">
 
       <article class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up" data-category="hospedaje" onclick="navigateToDetails('sanmartin')">
@@ -182,34 +240,25 @@
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
         </div>
         <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Hospedaje</div>
-        
         <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
           <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hospedaje San Martín</h2>
-          
           <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-            <div class="flex items-center gap-1">
-              <span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span>
-              <span class="text-neutral-800 font-bold text-sm">4.8</span>
-              <span class="text-neutral-400 text-xs ml-1">(14)</span>
-            </div>
+            <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.8</span><span class="text-neutral-400 text-xs ml-1">(14)</span></div>
             <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="sanmartin">
               <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
             </div>
           </div>
-
-          <p class="text-neutral-600 text-[14px] mb-4 line-clamp-2 lg:line-clamp-3">Amplio hospedaje con 7 habitaciones de distintas categorías, ideal para grupos y delegaciones familiares.</p>
-          <ul class="flex flex-wrap gap-1.5 mb-6">
-            <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">7 habitaciones</li>
-            <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Apto Familias</li>
-          </ul>
-          <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-xl">
-            VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span>
-          </span>
+          <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Amplio hospedaje con 7 habitaciones de distintas categorías, ideal para grupos y delegaciones familiares.</p>
+          <ul class="flex flex-wrap gap-1.5 mb-4"><li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">7 habitaciones</li><li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Apto Familias</li></ul>
+          <a href="https://www.google.com/maps?q=-28.5743,-58.7102" target="_blank" onclick="event.stopPropagation()" class="geo-btn mb-4 w-fit">
+            <span class="material-symbols-outlined">location_on</span> Ver en mapa · Gral. San Martín 420
+          </a>
+          <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
         </div>
       </article>
 
@@ -219,34 +268,25 @@
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
         </div>
         <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Hotel</div>
-        
         <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
           <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Leguiza Hotel</h2>
-          
           <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-            <div class="flex items-center gap-1">
-              <span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span>
-              <span class="text-neutral-800 font-bold text-sm">4.9</span>
-              <span class="text-neutral-400 text-xs ml-1">(28)</span>
-            </div>
+            <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.9</span><span class="text-neutral-400 text-xs ml-1">(28)</span></div>
             <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="leguiza">
               <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
             </div>
           </div>
-
-          <p class="text-neutral-600 text-[14px] mb-4 line-clamp-2 lg:line-clamp-3">Infraestructura de primer nivel con conectividad Starlink de alta velocidad y cocheras privadas seguras.</p>
-          <ul class="flex flex-wrap gap-1.5 mb-6">
-            <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">WiFi Starlink</li>
-            <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">9 habitaciones</li>
-          </ul>
-          <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-xl">
-            VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span>
-          </span>
+          <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Infraestructura de primer nivel con conectividad Starlink de alta velocidad y cocheras privadas seguras.</p>
+          <ul class="flex flex-wrap gap-1.5 mb-4"><li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">WiFi Starlink</li><li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">9 habitaciones</li></ul>
+          <a href="https://www.google.com/maps?q=-28.5760,-58.7088" target="_blank" onclick="event.stopPropagation()" class="geo-btn mb-4 w-fit">
+            <span class="material-symbols-outlined">location_on</span> Ver en mapa · Av. San Martín 180
+          </a>
+          <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
         </div>
       </article>
 
@@ -256,34 +296,25 @@
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
         </div>
         <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Hospedaje</div>
-        
         <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
           <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hospedaje JR</h2>
-          
           <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-            <div class="flex items-center gap-1">
-              <span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span>
-              <span class="text-neutral-800 font-bold text-sm">4.6</span>
-              <span class="text-neutral-400 text-xs ml-1">(9)</span>
-            </div>
+            <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.6</span><span class="text-neutral-400 text-xs ml-1">(9)</span></div>
             <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="jr">
               <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
             </div>
           </div>
-
-          <p class="text-neutral-600 text-[14px] mb-4 line-clamp-2 lg:line-clamp-3">Ambiente cálido y familiar con cocina de uso compartido totalmente equipada y baños privados.</p>
-          <ul class="flex flex-wrap gap-1.5 mb-6">
-            <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Baño Privado</li>
-            <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Cocina Común</li>
-          </ul>
-          <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-xl">
-            VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span>
-          </span>
+          <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Ambiente cálido y familiar con cocina de uso compartido totalmente equipada y baños privados.</p>
+          <ul class="flex flex-wrap gap-1.5 mb-4"><li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Baño Privado</li><li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Cocina Común</li></ul>
+          <a href="https://www.google.com/maps?q=-28.5751,-58.7115" target="_blank" onclick="event.stopPropagation()" class="geo-btn mb-4 w-fit">
+            <span class="material-symbols-outlined">location_on</span> Ver en mapa · Berón de Astrada 826
+          </a>
+          <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
         </div>
       </article>
 
@@ -293,47 +324,216 @@
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
         </div>
         <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Depto</div>
-        
         <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
           <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hospedaje Fortune</h2>
-          
           <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-            <div class="flex items-center gap-1">
-              <span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span>
-              <span class="text-neutral-800 font-bold text-sm">4.7</span>
-              <span class="text-neutral-400 text-xs ml-1">(19)</span>
-            </div>
+            <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.7</span><span class="text-neutral-400 text-xs ml-1">(19)</span></div>
             <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="fortune">
               <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
+              <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
             </div>
           </div>
-
-          <p class="text-neutral-600 text-[14px] mb-4 line-clamp-2 lg:line-clamp-3">Departamentos modernos totalmente independientes y amueblados. Hospedaje automatizado de ingreso coordinado sin recepción presencial.</p>
-          <ul class="flex flex-wrap gap-1.5 mb-6">
-            <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">6 Apartamentos</li>
-            <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Desayuno Inc.</li>
-          </ul>
-          <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 active:scale-95 shadow-md hover:shadow-xl">
-            VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span>
-          </span>
+          <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Departamentos modernos totalmente independientes y amueblados. Hospedaje automatizado de ingreso coordinado sin recepción presencial.</p>
+          <ul class="flex flex-wrap gap-1.5 mb-4"><li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">6 Apartamentos</li><li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Desayuno Inc.</li></ul>
+          <a href="https://www.google.com/maps?q=-28.5768,-58.7095" target="_blank" onclick="event.stopPropagation()" class="geo-btn mb-4 w-fit">
+            <span class="material-symbols-outlined">location_on</span> Ver en mapa · Pellegrini 310
+          </a>
+          <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
         </div>
       </article>
 
     </div>
   </section>
-</div>
 
+  <!-- ── MAPA COLAPSABLE ── -->
+  <section class="max-w-7xl mx-auto px-6 mb-12 fade-in-up">
+    <div class="bg-white border border-outline-variant/30 shadow-md map-collapsible" tabindex="0">
+      <div class="map-peek">
+        <span class="material-symbols-outlined text-river-teal text-[26px]">map</span>
+        <div class="flex-1">
+          <div class="font-bold text-primary text-[15px] font-headline-md">Ubicación de los alojamientos</div>
+          <div class="text-neutral-500 text-xs map-peek-hint flex items-center gap-1 mt-0.5">
+            <span class="material-symbols-outlined text-[13px]">touch_app</span> Pasá el cursor para ver el mapa completo
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-neutral-300 text-[20px] map-peek-hint">expand_more</span>
+      </div>
+      <div id="main-map" class="w-full h-[420px] md:h-[480px]"></div>
+    </div>
+  </section>
+
+  <!-- ── EVENTOS ── -->
+  <section class="max-w-7xl mx-auto px-6 mb-24 fade-in-up">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Próximos eventos</h2>
+        <p class="text-neutral-500 text-sm mt-1">Actividades deportivas, culturales y festivas de San Roque</p>
+      </div>
+      <span class="hidden md:flex items-center gap-1.5 text-river-teal font-bold text-xs uppercase tracking-wider border border-river-teal/30 px-4 py-2 rounded-full bg-teal-50">
+        <span class="material-symbols-outlined text-[15px]">calendar_month</span> Junio – Julio 2026
+      </span>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+      <!-- Futsal fase de grupos -->
+      <div class="event-card bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="event-img-wrap">
+          <img class="event-img" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80" alt="Futsal" loading="lazy"/>
+          <div class="event-img-overlay"></div>
+          <div class="event-badge-over"><span class="ebadge futsal">Futsal</span></div>
+          <div class="event-icon-over"><span class="material-symbols-outlined text-[16px] text-amber-500">sports_soccer</span></div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-primary text-[15px] font-headline-md leading-snug mb-1">Torneo Municipal de Futsal</h3>
+          <p class="text-neutral-500 text-[13px] mb-4 leading-relaxed">Fase de grupos — 12 equipos locales en cancha Municipal.</p>
+          <div class="space-y-1.5 text-xs text-neutral-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">calendar_today</span> Sáb 14 Jun · 20:00 hs</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">location_on</span> Polideportivo Municipal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voley intercolegial -->
+      <div class="event-card bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="event-img-wrap">
+          <img class="event-img" src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=600&q=80" alt="Voley" loading="lazy"/>
+          <div class="event-img-overlay"></div>
+          <div class="event-badge-over"><span class="ebadge voley">Voley</span></div>
+          <div class="event-icon-over"><span class="material-symbols-outlined text-[16px] text-blue-500">sports_volleyball</span></div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-primary text-[15px] font-headline-md leading-snug mb-1">Torneo Intercolegial de Voley</h3>
+          <p class="text-neutral-500 text-[13px] mb-4 leading-relaxed">Semifinales masculino y femenino. Entrada libre y gratuita.</p>
+          <div class="space-y-1.5 text-xs text-neutral-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">calendar_today</span> Dom 15 Jun · 09:00 hs</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">location_on</span> Gimnasio Escuela N°3</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fiesta del Río -->
+      <div class="event-card bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="event-img-wrap">
+          <img class="event-img" src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80" alt="Fiesta del Río" loading="lazy"/>
+          <div class="event-img-overlay"></div>
+          <div class="event-badge-over"><span class="ebadge festivo">Festivo</span></div>
+          <div class="event-icon-over"><span class="material-symbols-outlined text-[16px] text-pink-500">celebration</span></div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-primary text-[15px] font-headline-md leading-snug mb-1">Fiesta del Río</h3>
+          <p class="text-neutral-500 text-[13px] mb-4 leading-relaxed">Música en vivo, gastronomía y fuegos artificiales sobre el río.</p>
+          <div class="space-y-1.5 text-xs text-neutral-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">calendar_today</span> Vie 20 Jun · 19:00 hs</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">location_on</span> Costanera San Roque</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Defensores vs Bella Vista -->
+      <div class="event-card bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="event-img-wrap">
+          <img class="event-img" src="https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80" alt="Fútbol Defensores" loading="lazy"/>
+          <div class="event-img-overlay"></div>
+          <div class="event-badge-over"><span class="ebadge defensores">Defensores</span></div>
+          <div class="event-icon-over"><span class="material-symbols-outlined text-[16px] text-green-600">sports_soccer</span></div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-primary text-[15px] font-headline-md leading-snug mb-1">Defensores vs Atlético Bella Vista</h3>
+          <p class="text-neutral-500 text-[13px] mb-4 leading-relaxed">Liga Correntina — Fecha 9. ¡Apoyá al equipo local!</p>
+          <div class="space-y-1.5 text-xs text-neutral-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">calendar_today</span> Dom 22 Jun · 16:00 hs</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">location_on</span> Estadio Club Defensores</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Futsal -->
+      <div class="event-card bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="event-img-wrap">
+          <img class="event-img" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Final Futsal" loading="lazy"/>
+          <div class="event-img-overlay"></div>
+          <div class="event-badge-over"><span class="ebadge futsal">Futsal</span></div>
+          <div class="event-icon-over"><span class="material-symbols-outlined text-[16px] text-amber-500">emoji_events</span></div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-primary text-[15px] font-headline-md leading-snug mb-1">Final Torneo Municipal de Futsal</h3>
+          <p class="text-neutral-500 text-[13px] mb-4 leading-relaxed">La gran final con los 2 mejores equipos de la fase de grupos.</p>
+          <div class="space-y-1.5 text-xs text-neutral-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">calendar_today</span> Sáb 28 Jun · 21:00 hs</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">location_on</span> Polideportivo Municipal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Noche de Chamamé -->
+      <div class="event-card bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="event-img-wrap">
+          <img class="event-img" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Chamamé" loading="lazy"/>
+          <div class="event-img-overlay"></div>
+          <div class="event-badge-over"><span class="ebadge festivo" style="background:#ede9fe;color:#6d28d9;">Cultural</span></div>
+          <div class="event-icon-over"><span class="material-symbols-outlined text-[16px] text-violet-600">theater_comedy</span></div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-primary text-[15px] font-headline-md leading-snug mb-1">Noche de Chamamé</h3>
+          <p class="text-neutral-500 text-[13px] mb-4 leading-relaxed">Festival de música folklórica correntina con artistas locales y regionales.</p>
+          <div class="space-y-1.5 text-xs text-neutral-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">calendar_today</span> Vie 4 Jul · 21:30 hs</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">location_on</span> Plaza San Roque</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Defensores vs Rivadavia -->
+      <div class="event-card bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="event-img-wrap">
+          <img class="event-img" src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&q=80" alt="Fútbol" loading="lazy"/>
+          <div class="event-img-overlay"></div>
+          <div class="event-badge-over"><span class="ebadge defensores">Defensores</span></div>
+          <div class="event-icon-over"><span class="material-symbols-outlined text-[16px] text-green-600">sports_soccer</span></div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-primary text-[15px] font-headline-md leading-snug mb-1">Defensores vs Rivadavia</h3>
+          <p class="text-neutral-500 text-[13px] mb-4 leading-relaxed">Partido de copa regional. Importante para la clasificación.</p>
+          <div class="space-y-1.5 text-xs text-neutral-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">calendar_today</span> Dom 6 Jul · 17:00 hs</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">location_on</span> Estadio Club Defensores</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Voley -->
+      <div class="event-card bg-white rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="event-img-wrap">
+          <img class="event-img" src="https://images.unsplash.com/photo-1562552052-d85b7292ef1d?w=600&q=80" alt="Final Voley" loading="lazy"/>
+          <div class="event-img-overlay"></div>
+          <div class="event-badge-over"><span class="ebadge voley">Voley</span></div>
+          <div class="event-icon-over"><span class="material-symbols-outlined text-[16px] text-blue-500">emoji_events</span></div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-primary text-[15px] font-headline-md leading-snug mb-1">Final Intercolegial de Voley</h3>
+          <p class="text-neutral-500 text-[13px] mb-4 leading-relaxed">Gran final con premiación. Categorías masculino y femenino.</p>
+          <div class="space-y-1.5 text-xs text-neutral-600">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">calendar_today</span> Sáb 12 Jul · 10:00 hs</div>
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-river-teal">location_on</span> Gimnasio Escuela N°3</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- end main-explorer-view -->
+
+<!-- ═══ DETAIL VIEW ═══ -->
 <div id="detailed-accommodation-view" class="hidden pt-[110px] pb-28 lg:pb-16 bg-background min-h-screen">
   <div class="max-w-6xl mx-auto px-6">
     <button onclick="backToGrid()" class="inline-flex items-center gap-2 text-neutral-600 hover:text-primary font-bold text-sm mb-6 transition-colors hover:scale-105 active:scale-95">
       <span class="material-symbols-outlined text-[18px]">arrow_back</span> Volver a los alojamientos
     </button>
-
     <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <h1 id="det-title" class="text-3xl md:text-4xl font-bold text-primary font-headline-md leading-tight"></h1>
@@ -347,52 +547,38 @@
           <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-neutral-400">location_on</span> <span id="det-location"></span></span>
         </div>
       </div>
-      
       <div class="flex items-center gap-3">
         <span class="text-[11px] font-bold text-neutral-500 uppercase tracking-wider">Tu calificación:</span>
         <div class="flex items-center gap-1 interactive-stars bg-white px-3 py-1.5 rounded-full border border-neutral-200 shadow-sm transition-colors" id="det-interactive-stars" data-id="">
           <span class="vote-label text-[11px] text-neutral-400 font-bold uppercase mr-1 tracking-wider hidden">Votar</span>
-          <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
-          <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
-          <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
-          <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
-          <button class="star-btn transition-transform hover:scale-125 focus:scale-90"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+          <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+          <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+          <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+          <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+          <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
         </div>
       </div>
     </div>
-
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
       <div class="md:col-span-2 h-[320px] md:h-[440px] rounded-3xl overflow-hidden bg-neutral-200 shadow-md relative group cursor-pointer">
         <img id="det-main-img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="" alt="Imagen principal"/>
       </div>
-      <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 h-fit max-h-[440px] hide-scrollbar snap-x snap-mandatory scroll-smooth" id="det-gallery-thumbs">
-        </div>
+      <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 h-fit max-h-[440px] hide-scrollbar snap-x snap-mandatory scroll-smooth" id="det-gallery-thumbs"></div>
     </div>
-
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start relative">
       <div class="lg:col-span-2 space-y-8">
+        <div><h3 class="text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Sobre este alojamiento</h3><p id="det-long-desc" class="text-neutral-700 leading-relaxed text-base"></p></div>
+        <div><h3 class="text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Distribución y Capacidad</h3><div id="det-capacity-list" class="divide-y divide-neutral-100"></div></div>
+        <div><h3 class="text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Servicios e Instalaciones</h3><div id="det-services-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div></div>
         <div>
-          <h3 class="text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Sobre este alojamiento</h3>
-          <p id="det-long-desc" class="text-neutral-700 leading-relaxed text-base"></p>
-        </div>
-        <div>
-          <h3 class="text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Distribución y Capacidad</h3>
-          <div id="det-capacity-list" class="divide-y divide-neutral-100"></div>
-        </div>
-        <div>
-          <h3 class="text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Servicios e Instalaciones</h3>
-          <div id="det-services-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
-        </div>
-        <div id="det-rules-section">
           <h3 class="text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Normas y Políticas</h3>
           <div class="bg-neutral-50 border border-neutral-200 rounded-2xl p-5 space-y-4 text-sm text-neutral-700">
-            <div class="flex justify-between border-b border-neutral-200 pb-2"><span class="font-bold">Check-in:</span> <span id="det-checkin"></span></div>
-            <div class="flex justify-between border-b border-neutral-200 pb-2"><span class="font-bold">Check-out:</span> <span id="det-checkout"></span></div>
-            <div class="flex flex-col gap-1 pt-1"><span class="font-bold text-neutral-900">Cancelación:</span> <p id="det-cancellation" class="text-neutral-600 text-[13px] leading-relaxed"></p></div>
+            <div class="flex justify-between border-b border-neutral-200 pb-2"><span class="font-bold">Check-in:</span><span id="det-checkin"></span></div>
+            <div class="flex justify-between border-b border-neutral-200 pb-2"><span class="font-bold">Check-out:</span><span id="det-checkout"></span></div>
+            <div class="flex flex-col gap-1 pt-1"><span class="font-bold text-neutral-900">Cancelación:</span><p id="det-cancellation" class="text-neutral-600 text-[13px] leading-relaxed"></p></div>
           </div>
         </div>
       </div>
-
       <div class="bg-white border border-neutral-200 rounded-3xl p-6 shadow-xl lg:sticky lg:top-[120px] space-y-5">
         <div>
           <span class="text-[11px] font-bold text-river-teal bg-tertiary-fixed px-2 py-1 rounded-md font-label-caps uppercase tracking-wider block w-fit mb-2">Reserva Directa</span>
@@ -413,6 +599,7 @@
   </div>
 </div>
 
+<!-- ═══ MOBILE STICKY ═══ -->
 <div id="mobile-sticky-contact" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 p-4 z-50 lg:hidden shadow-[0_-10px_20px_rgba(0,0,0,0.06)] hidden animate-view-in">
   <a id="det-wa-btn-mobile" href="#" target="_blank" class="flex w-full items-center justify-center gap-2 py-3.5 bg-[#25D366] active:bg-[#20ba5a] text-white rounded-full font-bold text-[14px] tracking-wide shadow-md transition-transform active:scale-95">
     <svg class="w-[22px] h-[22px] fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.66.986 3.288 1.48 4.888 1.481 5.462 0 9.906-4.443 9.909-9.911.002-2.648-1.02-5.138-2.878-6.999-1.859-1.86-4.35-2.883-6.995-2.884-5.468 0-9.914 4.444-9.918 9.913-.002 1.706.47 3.313 1.366 4.748L1.875 22.13l4.772-1.253z"/></svg>
@@ -420,264 +607,175 @@
   </a>
 </div>
 
+<!-- ═══ FOOTER ═══ -->
 <footer class="w-full py-16 bg-primary text-white mt-10">
   <div class="max-w-7xl mx-auto px-6 text-center md:text-left grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div>
-      <div class="font-headline-sm text-xl font-bold text-sun-haze mb-2">San Roque</div>
-      <p class="text-white/60 text-sm">Portal oficial de búsqueda de alojamientos locales.</p>
-    </div>
-    <div class="text-sm space-y-1 text-white/70">
-      <p>Municipalidad de San Roque, Corrientes</p>
-    </div>
-    <div class="text-sm text-white/50">
-      <p>© 2026 Todos los derechos reservados.</p>
-    </div>
+    <div><div class="font-headline-md text-xl font-bold text-sun-haze mb-2">San Roque</div><p class="text-white/60 text-sm">Portal oficial de búsqueda de alojamientos locales.</p></div>
+    <div class="text-sm space-y-1 text-white/70"><p>Municipalidad de San Roque, Corrientes</p></div>
+    <div class="text-sm text-white/50"><p>© 2026 Todos los derechos reservados.</p></div>
   </div>
 </footer>
 
 <script>
-// ═══════════════════════════════════════════ DATA & MAPA ═══════════════════════════════════════════
+// ═══ DATA ═══
 const alojamientosData = {
-  'sanmartin': { titulo: 'Hospedaje San Martín', categoria: 'hospedaje', coords: [-28.5721, -58.7102], rating: '4.8', reviewsCount: '14 reseñas', ubicacion: 'San Roque', mainImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk', galeria: ['https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk', 'https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI', 'https://lh3.googleusercontent.com/aida-public/AB6AXuAg_6EVVz-4JzRbHOD9M3g0kuSpQNIPYAHOpLI8wY7UHgg8CcnyQYGcReYwvaLYepzJqNxHIV9NWCcXmZuUvjLC-w-cWETEhFdrAbop2G-8g4gT54JfDNcJ3tYcNgZJVhcbjNGm8wZ2F7QyjTYXpPBr6G2yegS1RcXk0Jn0LIo380zAvGWZzvtOEavEG4xkPp0GJdh3pLj8T2lJNtofxImBFlWiKsA0tMCFSMzPfqk5PKNya-qFdt6y7JrC9yQi8KxfqufmTiw8K6Y'], descripcionLarga: 'Hospedaje San Martín ofrece un entorno ideal tanto para delegaciones como para familias grandes que buscan comodidad y excelente atención. Las instalaciones se destacan por sus amplios espacios de descanso.', capacidad: [{ icono: 'bed', titulo: '7 habitaciones en total', desc: 'Ideales para grupos.' }], servicios: [{ icono: 'ac_unit', texto: 'Aire Acondicionado' }, { icono: 'family_restroom', texto: 'Apto Familias' }], checkin: '14:00', checkout: '10:00', cancelacion: 'Flexible', waNumber: '549379498526', telefono: 'tel:379498526' },
-  'leguiza': { titulo: 'Leguiza Hotel', categoria: 'hotel', coords: [-28.5755, -58.7051], rating: '4.9', reviewsCount: '28 reseñas', ubicacion: 'Centro', mainImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDE9WFbB3knnxqsUQl69k3imbw1PNvJmdRGQkKzqMB13lHTsdSvbIpuFD0L5FH9isUb3yOKR5VrisIQ-ZLdH8zTybBi7OTEkX-obM24ha02UHNvwZ0vKtnaidAh0maj7PARr-BZNaB0UCjaru7mTMN3H9ez-TR9oTBofHeHmkDYArG9M_Fz1Sg5YGzlBJo09gxmytXHphnKXQbHdanZgfFAstquibXfRXVW29lwHJQxbyA9LHjRWOvZtVBXNnERIpcm0usk_2GHBU', galeria: ['https://lh3.googleusercontent.com/aida-public/AB6AXuCDE9WFbB3knnxqsUQl69k3imbw1PNvJmdRGQkKzqMB13lHTsdSvbIpuFD0L5FH9isUb3yOKR5VrisIQ-ZLdH8zTybBi7OTEkX-obM24ha02UHNvwZ0vKtnaidAh0maj7PARr-BZNaB0UCjaru7mTMN3H9ez-TR9oTBofHeHmkDYArG9M_Fz1Sg5YGzlBJo09gxmytXHphnKXQbHdanZgfFAstquibXfRXVW29lwHJQxbyA9LHjRWOvZtVBXNnERIpcm0usk_2GHBU', 'https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI'], descripcionLarga: 'El Leguiza Hotel es la opción premium del centro corporativo y turístico de San Roque. Equipado con internet Starlink satelital ininterrumpido. Perfecto para nómadas digitales y ejecutivos.', capacidad: [{ icono: 'hotel', titulo: '9 Habitaciones', desc: 'Suite y Twin.' }], servicios: [{ icono: 'wifi', texto: 'Starlink' }, { icono: 'directions_car', texto: 'Cochera' }], checkin: '12:00', checkout: '11:00', cancelacion: 'Flexible', waNumber: '5493777206700', telefono: 'tel:3777206700' },
-  'jr': { titulo: 'Hospedaje JR', categoria: 'hospedaje', coords: [-28.5760, -58.7125], rating: '4.6', reviewsCount: '9 reseñas', ubicacion: 'Berón de Astrada 826', mainImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAseczUszmsEn78pANsddufBcwq_ny17_4ffia7-_cDSSr8GKlaRj1KyBH0nHtpwCHuB8z3vTqQb-khjUpxxE1uu-bEv235utiauvS_puBcBHqImurERZL07uHOHvxzYwQBLe_xYK1SOMEzufnWz7dOoPEdctWNjt8-4jef2uZPdjwXgqUpygeAT_rz-pgSUSbD1E9JRcXIUz4on4G56wyszw-80B6_Jiy56cnAkezpXSyhDeQX3eojjWe4j5gM6b3aEIyIQ5zxGfQ', galeria: ['https://lh3.googleusercontent.com/aida-public/AB6AXuAseczUszmsEn78pANsddufBcwq_ny17_4ffia7-_cDSSr8GKlaRj1KyBH0nHtpwCHuB8z3vTqQb-khjUpxxE1uu-bEv235utiauvS_puBcBHqImurERZL07uHOHvxzYwQBLe_xYK1SOMEzufnWz7dOoPEdctWNjt8-4jef2uZPdjwXgqUpygeAT_rz-pgSUSbD1E9JRcXIUz4on4G56wyszw-80B6_Jiy56cnAkezpXSyhDeQX3eojjWe4j5gM6b3aEIyIQ5zxGfQ', 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk'], descripcionLarga: 'Ubicado en una arteria tranquila. Destaca por su impecable limpieza y la comodidad de su cocina de uso común totalmente equipada.', capacidad: [{ icono: 'meeting_room', titulo: '4 Habitaciones' }], servicios: [{ icono: 'shower', texto: 'Baño Privado' }, { icono: 'kitchen', texto: 'Cocina' }], checkin: '13:00', checkout: '10:00', cancelacion: 'Estricta', waNumber: '5493777508296', telefono: 'tel:3777508296' },
-  'fortune': { titulo: 'Hospedaje Fortune', categoria: 'departamento', coords: [-28.5715, -58.7068], rating: '4.7', reviewsCount: '19 reseñas', ubicacion: 'San Roque', mainImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA4s83P1ccLqxkn9VtUtsjmiM5xo5gz766mJWFKm_jqoY3mvP3uNsnNxkAGEPd2U0Be8wHzTko3RoSPibTLapXI5Hrv5vJYwNv5OZ_lyFfSKjvX-eVijOIpRMnvyntfnZUN_yk8xbvKzBVh2CdNDDDXV-VgK0TkURvacCTnTIjGdKRO0ir0KkcBBMS1Nk7CA6RpTgiXpjSxBCLx231wi1SN8ru1l6xRq0_eszAsDCC3ourwycbx-jgDoG85w0riyCXbWUYHKEYWjII', galeria: ['https://lh3.googleusercontent.com/aida-public/AB6AXuA4s83P1ccLqxkn9VtUtsjmiM5xo5gz766mJWFKm_jqoY3mvP3uNsnNxkAGEPd2U0Be8wHzTko3RoSPibTLapXI5Hrv5vJYwNv5OZ_lyFfSKjvX-eVijOIpRMnvyntfnZUN_yk8xbvKzBVh2CdNDDDXV-VgK0TkURvacCTnTIjGdKRO0ir0KkcBBMS1Nk7CA6RpTgiXpjSxBCLx231wi1SN8ru1l6xRq0_eszAsDCC3ourwycbx-jgDoG85w0riyCXbWUYHKEYWjII', 'https://lh3.googleusercontent.com/aida-public/AB6AXuAg_6EVVz-4JzRbHOD9M3g0kuSpQNIPYAHOpLI8wY7UHgg8CcnyQYGcReYwvaLYepzJqNxHIV9NWCcXmZuUvjLC-w-cWETEhFdrAbop2G-8g4gT54JfDNcJ3tYcNgZJVhcbjNGm8wZ2F7QyjTYXpPBr6G2yegS1RcXk0Jn0LIo380zAvGWZzvtOEavEG4xkPp0GJdh3pLj8T2lJNtofxImBFlWiKsA0tMCFSMzPfqk5PKNya-qFdt6y7JrC9yQi8KxfqufmTiw8K6Y'], descripcionLarga: 'Departamentos modernos totalmente independientes y amueblados. Hospedaje automatizado de ingreso coordinado sin recepción presencial.', capacidad: [{ icono: 'apartment', titulo: '6 Apartamentos' }], servicios: [{ icono: 'coffee', texto: 'Desayuno' }, { icono: 'tv', texto: 'DirecTV' }], checkin: '15:00', checkout: '11:00', cancelacion: 'Moderada', waNumber: '5493777221872', telefono: 'tel:3777221872' }
+  'sanmartin': { titulo:'Hospedaje San Martín',categoria:'hospedaje',coords:[-28.5721,-58.7102],rating:'4.8',reviewsCount:'14 reseñas',ubicacion:'San Roque',mainImg:'https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk','https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI','https://lh3.googleusercontent.com/aida-public/AB6AXuAg_6EVVz-4JzRbHOD9M3g0kuSpQNIPYAHOpLI8wY7UHgg8CcnyQYGcReYwvaLYepzJqNxHIV9NWCcXmZuUvjLC-w-cWETEhFdrAbop2G-8g4gT54JfDNcJ3tYcNgZJVhcbjNGm8wZ2F7QyjTYXpPBr6G2yegS1RcXk0Jn0LIo380zAvGWZzvtOEavEG4xkPp0GJdh3pLj8T2lJNtofxImBFlWiKsA0tMCFSMzPfqk5PKNya-qFdt6y7JrC9yQi8KxfqufmTiw8K6Y'],descripcionLarga:'Hospedaje San Martín ofrece un entorno ideal tanto para delegaciones como para familias grandes que buscan comodidad y excelente atención. Las instalaciones se destacan por sus amplios espacios de descanso.',capacidad:[{icono:'bed',titulo:'7 habitaciones en total',desc:'Ideales para grupos.'}],servicios:[{icono:'ac_unit',texto:'Aire Acondicionado'},{icono:'family_restroom',texto:'Apto Familias'}],checkin:'14:00',checkout:'10:00',cancelacion:'Flexible',waNumber:'549379498526',telefono:'tel:379498526' },
+  'leguiza': { titulo:'Leguiza Hotel',categoria:'hotel',coords:[-28.5755,-58.7051],rating:'4.9',reviewsCount:'28 reseñas',ubicacion:'Centro',mainImg:'https://lh3.googleusercontent.com/aida-public/AB6AXuCDE9WFbB3knnxqsUQl69k3imbw1PNvJmdRGQkKzqMB13lHTsdSvbIpuFD0L5FH9isUb3yOKR5VrisIQ-ZLdH8zTybBi7OTEkX-obM24ha02UHNvwZ0vKtnaidAh0maj7PARr-BZNaB0UCjaru7mTMN3H9ez-TR9oTBofHeHmkDYArG9M_Fz1Sg5YGzlBJo09gxmytXHphnKXQbHdanZgfFAstquibXfRXVW29lwHJQxbyA9LHjRWOvZtVBXNnERIpcm0usk_2GHBU',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuCDE9WFbB3knnxqsUQl69k3imbw1PNvJmdRGQkKzqMB13lHTsdSvbIpuFD0L5FH9isUb3yOKR5VrisIQ-ZLdH8zTybBi7OTEkX-obM24ha02UHNvwZ0vKtnaidAh0maj7PARr-BZNaB0UCjaru7mTMN3H9ez-TR9oTBofHeHmkDYArG9M_Fz1Sg5YGzlBJo09gxmytXHphnKXQbHdanZgfFAstquibXfRXVW29lwHJQxbyA9LHjRWOvZtVBXNnERIpcm0usk_2GHBU','https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI'],descripcionLarga:'El Leguiza Hotel es la opción premium del centro corporativo y turístico de San Roque. Equipado con internet Starlink satelital ininterrumpido. Perfecto para nómadas digitales y ejecutivos.',capacidad:[{icono:'hotel',titulo:'9 Habitaciones',desc:'Suite y Twin.'}],servicios:[{icono:'wifi',texto:'Starlink'},{icono:'directions_car',texto:'Cochera'}],checkin:'12:00',checkout:'11:00',cancelacion:'Flexible',waNumber:'5493777206700',telefono:'tel:3777206700' },
+  'jr': { titulo:'Hospedaje JR',categoria:'hospedaje',coords:[-28.5760,-58.7125],rating:'4.6',reviewsCount:'9 reseñas',ubicacion:'Berón de Astrada 826',mainImg:'https://lh3.googleusercontent.com/aida-public/AB6AXuAseczUszmsEn78pANsddufBcwq_ny17_4ffia7-_cDSSr8GKlaRj1KyBH0nHtpwCHuB8z3vTqQb-khjUpxxE1uu-bEv235utiauvS_puBcBHqImurERZL07uHOHvxzYwQBLe_xYK1SOMEzufnWz7dOoPEdctWNjt8-4jef2uZPdjwXgqUpygeAT_rz-pgSUSbD1E9JRcXIUz4on4G56wyszw-80B6_Jiy56cnAkezpXSyhDeQX3eojjWe4j5gM6b3aEIyIQ5zxGfQ',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuAseczUszmsEn78pANsddufBcwq_ny17_4ffia7-_cDSSr8GKlaRj1KyBH0nHtpwCHuB8z3vTqQb-khjUpxxE1uu-bEv235utiauvS_puBcBHqImurERZL07uHOHvxzYwQBLe_xYK1SOMEzufnWz7dOoPEdctWNjt8-4jef2uZPdjwXgqUpygeAT_rz-pgSUSbD1E9JRcXIUz4on4G56wyszw-80B6_Jiy56cnAkezpXSyhDeQX3eojjWe4j5gM6b3aEIyIQ5zxGfQ','https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk'],descripcionLarga:'Ubicado en una arteria tranquila. Destaca por su impecable limpieza y la comodidad de su cocina de uso común totalmente equipada.',capacidad:[{icono:'meeting_room',titulo:'4 Habitaciones'}],servicios:[{icono:'shower',texto:'Baño Privado'},{icono:'kitchen',texto:'Cocina'}],checkin:'13:00',checkout:'10:00',cancelacion:'Estricta',waNumber:'5493777508296',telefono:'tel:3777508296' },
+  'fortune': { titulo:'Hospedaje Fortune',categoria:'departamento',coords:[-28.5715,-58.7068],rating:'4.7',reviewsCount:'19 reseñas',ubicacion:'San Roque',mainImg:'https://lh3.googleusercontent.com/aida-public/AB6AXuA4s83P1ccLqxkn9VtUtsjmiM5xo5gz766mJWFKm_jqoY3mvP3uNsnNxkAGEPd2U0Be8wHzTko3RoSPibTLapXI5Hrv5vJYwNv5OZ_lyFfSKjvX-eVijOIpRMnvyntfnZUN_yk8xbvKzBVh2CdNDDDXV-VgK0TkURvacCTnTIjGdKRO0ir0KkcBBMS1Nk7CA6RpTgiXpjSxBCLx231wi1SN8ru1l6xRq0_eszAsDCC3ourwycbx-jgDoG85w0riyCXbWUYHKEYWjII',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuA4s83P1ccLqxkn9VtUtsjmiM5xo5gz766mJWFKm_jqoY3mvP3uNsnNxkAGEPd2U0Be8wHzTko3RoSPibTLapXI5Hrv5vJYwNv5OZ_lyFfSKjvX-eVijOIpRMnvyntfnZUN_yk8xbvKzBVh2CdNDDDXV-VgK0TkURvacCTnTIjGdKRO0ir0KkcBBMS1Nk7CA6RpTgiXpjSxBCLx231wi1SN8ru1l6xRq0_eszAsDCC3ourwycbx-jgDoG85w0riyCXbWUYHKEYWjII','https://lh3.googleusercontent.com/aida-public/AB6AXuAg_6EVVz-4JzRbHOD9M3g0kuSpQNIPYAHOpLI8wY7UHgg8CcnyQYGcReYwvaLYepzJqNxHIV9NWCcXmZuUvjLC-w-cWETEhFdrAbop2G-8g4gT54JfDNcJ3tYcNgZJVhcbjNGm8wZ2F7QyjTYXpPBr6G2yegS1RcXk0Jn0LIo380zAvGWZzvtOEavEG4xkPp0GJdh3pLj8T2lJNtofxImBFlWiKsA0tMCFSMzPfqk5PKNya-qFdt6y7JrC9yQi8KxfqufmTiw8K6Y'],descripcionLarga:'Departamentos modernos totalmente independientes y amueblados. Hospedaje automatizado de ingreso coordinado sin recepción presencial.',capacidad:[{icono:'apartment',titulo:'6 Apartamentos'}],servicios:[{icono:'coffee',texto:'Desayuno'},{icono:'tv',texto:'DirecTV'}],checkin:'15:00',checkout:'11:00',cancelacion:'Moderada',waNumber:'5493777221872',telefono:'tel:3777221872' }
 };
 
-let map;
-const mapMarkers = {};
+let map; const mapMarkers = {};
 
 function initMap() {
-  map = L.map('main-map').setView([-28.5744, -58.7083], 15);
-  
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap'
-  }).addTo(map);
-
-  for (const [id, data] of Object.entries(alojamientosData)) {
-    if (data.coords) {
+  map = L.map('main-map').setView([-28.5744,-58.7083],15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+  for(const [id,data] of Object.entries(alojamientosData)) {
+    if(data.coords) {
       const marker = L.marker(data.coords).addTo(map);
-      marker.bindPopup(`
-        <div class="text-center min-w-[160px] p-1 font-body-md">
-          <img src="${data.mainImg}" class="w-full h-24 object-cover rounded-xl mb-3 shadow-sm" />
-          <h3 class="font-bold text-primary text-[15px] leading-tight mb-1">${data.titulo}</h3>
-          <div class="text-golden-sand text-[11px] mb-3 font-bold flex justify-center items-center gap-1">★ ${data.rating}</div>
-          <button onclick="navigateToDetails('${id}')" class="bg-river-teal text-white text-xs px-4 py-2 rounded-full font-bold w-full hover:bg-primary transition-colors shadow-sm">VER DETALLE</button>
-        </div>
-      `);
-      mapMarkers[id] = { marker: marker, category: data.categoria };
+      marker.bindPopup(`<div class="text-center min-w-[160px] p-1"><img src="${data.mainImg}" class="w-full h-24 object-cover rounded-xl mb-3 shadow-sm"/><h3 class="font-bold text-primary text-[15px] leading-tight mb-1">${data.titulo}</h3><div class="text-golden-sand text-[11px] mb-3 font-bold">★ ${data.rating}</div><button onclick="navigateToDetails('${id}')" class="bg-river-teal text-white text-xs px-4 py-2 rounded-full font-bold w-full hover:bg-primary transition-colors">VER DETALLE</button></div>`);
+      mapMarkers[id] = {marker,category:data.categoria};
     }
   }
 }
 
 function renderStars(ratingStr) {
-  const rating = parseFloat(ratingStr); let html = '';
-  for(let i=1; i<=5; i++) {
-    if (rating >= i) html += '<span class="material-symbols-outlined filled text-[20px]">star</span>';
-    else if (rating >= i - 0.5) html += '<span class="material-symbols-outlined filled text-[20px]">star_half</span>';
-    else html += '<span class="material-symbols-outlined text-[20px] text-neutral-300">star</span>';
+  const rating = parseFloat(ratingStr); let html='';
+  for(let i=1;i<=5;i++){
+    if(rating>=i) html+='<span class="material-symbols-outlined filled text-[20px]">star</span>';
+    else if(rating>=i-0.5) html+='<span class="material-symbols-outlined filled text-[20px]">star_half</span>';
+    else html+='<span class="material-symbols-outlined text-[20px] text-neutral-300">star</span>';
   } return html;
 }
 
-// ═══════════════════════════════════════════ SISTEMA DE VOTACIÓN UNICA ═══════════════════════════════════════════
+// ═══ VOTING ═══
 function initVotingForContainer(container) {
-  const accId = container.getAttribute('data-id');
-  if (!accId) return;
-
-  const savedVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
+  const accId = container.getAttribute('data-id'); if(!accId) return;
+  const savedVotes = JSON.parse(localStorage.getItem('userVotes')||'{}');
   const stars = container.querySelectorAll('.star-btn');
   const label = container.querySelector('.vote-label');
-  
-  container.classList.remove('pointer-events-none', 'bg-teal-50', 'border-teal-200');
-  if(label) {
-    label.textContent = 'Votar';
-    label.classList.remove('text-river-teal');
-    label.classList.add('text-neutral-500');
-  }
-  stars.forEach(s => s.querySelector('span').className = 'material-symbols-outlined text-[16px] md:text-[22px] text-neutral-300 transition-colors');
-
-  const lockVote = (val) => {
-    container.classList.add('pointer-events-none', 'bg-teal-50', 'border-teal-200');
-    if(label) {
-      label.textContent = '¡Votado!';
-      label.classList.replace('text-neutral-500', 'text-river-teal');
-    }
-    stars.forEach((s, i) => {
-      const icon = s.querySelector('span');
-      if (i < val) {
-        icon.classList.add('filled', 'text-golden-sand');
-        icon.classList.remove('text-neutral-300');
-      } else {
-        icon.classList.remove('filled', 'text-golden-sand');
-        icon.classList.add('text-neutral-300');
-      }
-    });
+  container.classList.remove('pointer-events-none','bg-teal-50','border-teal-200');
+  if(label){label.textContent='Votar';label.classList.remove('text-river-teal');label.classList.add('text-neutral-500');}
+  stars.forEach(s=>s.querySelector('span').className='material-symbols-outlined text-[16px] md:text-[22px] text-neutral-300 transition-colors');
+  const lockVote=(val)=>{
+    container.classList.add('pointer-events-none','bg-teal-50','border-teal-200');
+    if(label){label.textContent='¡Votado!';label.classList.replace('text-neutral-500','text-river-teal');}
+    stars.forEach((s,i)=>{const icon=s.querySelector('span');if(i<val){icon.classList.add('filled','text-golden-sand');icon.classList.remove('text-neutral-300');}else{icon.classList.remove('filled','text-golden-sand');icon.classList.add('text-neutral-300');}});
   };
-
-  if (savedVotes[accId]) { lockVote(savedVotes[accId]); return; }
-
-  if (container.dataset.listenerAttached) return;
-  container.dataset.listenerAttached = 'true';
-
-  stars.forEach((star, index) => {
-    star.addEventListener('mouseover', () => {
-      if(JSON.parse(localStorage.getItem('userVotes') || '{}')[accId]) return;
-      stars.forEach((s, i) => {
-        const icon = s.querySelector('span');
-        if (i <= index) { icon.classList.add('filled', 'text-golden-sand'); icon.classList.remove('text-neutral-300'); } 
-        else { icon.classList.remove('filled', 'text-golden-sand'); icon.classList.add('text-neutral-300'); }
-      });
-    });
-    
-    star.addEventListener('mouseout', () => {
-      if(JSON.parse(localStorage.getItem('userVotes') || '{}')[accId]) return;
-      stars.forEach(s => {
-        const icon = s.querySelector('span');
-        icon.classList.remove('filled', 'text-golden-sand'); 
-        icon.classList.add('text-neutral-300');
-      });
-    });
-
-    star.addEventListener('click', (e) => {
-      e.stopPropagation(); 
-      const currentVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
-      if(currentVotes[accId]) return;
-      
-      const val = index + 1;
-      currentVotes[accId] = val;
-      localStorage.setItem('userVotes', JSON.stringify(currentVotes));
-      
-      document.querySelectorAll(`.interactive-stars[data-id="${accId}"]`).forEach(c => {
-        const l = c.querySelector('.vote-label');
-        c.classList.add('pointer-events-none', 'bg-teal-50', 'border-teal-200');
-        if(l) { l.textContent = '¡Votado!'; l.classList.replace('text-neutral-500', 'text-river-teal'); }
-        c.querySelectorAll('.star-btn span').forEach((icon, i) => {
-          if (i < val) { 
-            icon.classList.add('filled', 'text-golden-sand'); icon.classList.remove('text-neutral-300'); 
-            icon.style.transform = 'scale(1.3)'; setTimeout(() => icon.style.transform = 'scale(1)', 200);
-          } else { 
-            icon.classList.remove('filled', 'text-golden-sand'); icon.classList.add('text-neutral-300'); 
-          }
-        });
-      });
-    });
+  if(savedVotes[accId]){lockVote(savedVotes[accId]);return;}
+  if(container.dataset.listenerAttached) return;
+  container.dataset.listenerAttached='true';
+  stars.forEach((star,index)=>{
+    star.addEventListener('mouseover',()=>{if(JSON.parse(localStorage.getItem('userVotes')||'{}')[accId]) return;stars.forEach((s,i)=>{const icon=s.querySelector('span');if(i<=index){icon.classList.add('filled','text-golden-sand');icon.classList.remove('text-neutral-300');}else{icon.classList.remove('filled','text-golden-sand');icon.classList.add('text-neutral-300');}});});
+    star.addEventListener('mouseout',()=>{if(JSON.parse(localStorage.getItem('userVotes')||'{}')[accId]) return;stars.forEach(s=>{const icon=s.querySelector('span');icon.classList.remove('filled','text-golden-sand');icon.classList.add('text-neutral-300');});});
+    star.addEventListener('click',(e)=>{e.stopPropagation();const cv=JSON.parse(localStorage.getItem('userVotes')||'{}');if(cv[accId]) return;const val=index+1;cv[accId]=val;localStorage.setItem('userVotes',JSON.stringify(cv));document.querySelectorAll(`.interactive-stars[data-id="${accId}"]`).forEach(c=>{const l=c.querySelector('.vote-label');c.classList.add('pointer-events-none','bg-teal-50','border-teal-200');if(l){l.textContent='¡Votado!';l.classList.replace('text-neutral-500','text-river-teal');}c.querySelectorAll('.star-btn span').forEach((icon,i)=>{if(i<val){icon.classList.add('filled','text-golden-sand');icon.classList.remove('text-neutral-300');icon.style.transform='scale(1.3)';setTimeout(()=>icon.style.transform='scale(1)',200);}else{icon.classList.remove('filled','text-golden-sand');icon.classList.add('text-neutral-300');}});});});
   });
 }
 
-// ═══════════════════════════════════════════ NAVEGACIÓN SPA ═══════════════════════════════════════════
+// ═══ SPA NAV ═══
 function navigateToDetails(id) {
-  const data = alojamientosData[id]; if (!data) return;
-  document.getElementById('main-explorer-view').classList.replace('block', 'hidden');
+  const data = alojamientosData[id]; if(!data) return;
+  document.getElementById('main-explorer-view').classList.replace('block','hidden');
   const detView = document.getElementById('detailed-accommodation-view');
-  detView.classList.replace('hidden', 'block');
+  detView.classList.replace('hidden','block');
   detView.classList.remove('animate-view-in'); void detView.offsetWidth; detView.classList.add('animate-view-in');
-  document.getElementById('mobile-sticky-contact').classList.replace('hidden', 'block');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  document.getElementById('det-title').textContent = data.titulo;
-  document.getElementById('det-rating-stars').innerHTML = renderStars(data.rating);
-  document.getElementById('det-rating-number').textContent = data.rating;
-  document.getElementById('det-reviews-count').textContent = data.reviewsCount;
-  document.getElementById('det-location').textContent = data.ubicacion;
-  document.getElementById('det-long-desc').textContent = data.descripcionLarga;
-  document.getElementById('det-main-img').src = data.mainImg;
-
-  const detStarsContainer = document.getElementById('det-interactive-stars');
-  detStarsContainer.setAttribute('data-id', id);
-  initVotingForContainer(detStarsContainer);
-
-  const thumbContainer = document.getElementById('det-gallery-thumbs'); thumbContainer.innerHTML = '';
-  data.galeria.forEach((imgUrl, i) => {
-    const btn = document.createElement('button');
-    btn.className = `snap-center w-[130px] md:w-full h-20 rounded-xl overflow-hidden shrink-0 border-[3px] transition-all hover:scale-105 active:scale-95 ${i === 0 ? 'border-primary' : 'border-transparent opacity-80 hover:opacity-100'}`;
-    btn.innerHTML = `<img class="w-full h-full object-cover" src="${imgUrl}" />`;
-    btn.onclick = () => { document.getElementById('det-main-img').src = imgUrl; Array.from(thumbContainer.children).forEach(b => b.classList.replace('border-primary', 'border-transparent')); btn.classList.replace('border-transparent', 'border-primary'); };
-    thumbContainer.appendChild(btn);
-  });
-
-  document.getElementById('det-capacity-list').innerHTML = data.capacidad.map(c => `<div class="capacity-row"><span class="material-symbols-outlined text-river-teal mt-0.5 text-[22px]">${c.icono}</span><div><div class="font-bold text-neutral-800 text-sm">${c.titulo}</div>${c.desc ? `<div class="text-neutral-500 text-[13px] mt-0.5">${c.desc}</div>` : ''}</div></div>`).join('');
-  document.getElementById('det-services-grid').innerHTML = data.servicios.map(s => `<div class="service-badge"><span class="material-symbols-outlined text-[18px] text-river-teal">${s.icono}</span><span>${s.texto}</span></div>`).join('');
-  document.getElementById('det-checkin').textContent = data.checkin; document.getElementById('det-checkout').textContent = data.checkout; document.getElementById('det-cancellation').textContent = data.cancelacion;
-
-  const waUrl = `https://wa.me/${data.waNumber}?text=${encodeURIComponent(`Hola! Vi tu alojamiento "${data.titulo}" en el portal de San Roque...`)}`;
-  document.getElementById('det-wa-btn-desktop').href = waUrl; document.getElementById('det-wa-btn-mobile').href = waUrl;
-  document.getElementById('det-phone-btn').href = data.telefono;
+  document.getElementById('mobile-sticky-contact').classList.replace('hidden','block');
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('det-title').textContent=data.titulo;
+  document.getElementById('det-rating-stars').innerHTML=renderStars(data.rating);
+  document.getElementById('det-rating-number').textContent=data.rating;
+  document.getElementById('det-reviews-count').textContent=data.reviewsCount;
+  document.getElementById('det-location').textContent=data.ubicacion;
+  document.getElementById('det-long-desc').textContent=data.descripcionLarga;
+  document.getElementById('det-main-img').src=data.mainImg;
+  const detStars=document.getElementById('det-interactive-stars');
+  detStars.setAttribute('data-id',id); initVotingForContainer(detStars);
+  const thumbContainer=document.getElementById('det-gallery-thumbs'); thumbContainer.innerHTML='';
+  data.galeria.forEach((imgUrl,i)=>{const btn=document.createElement('button');btn.className=`snap-center w-[130px] md:w-full h-20 rounded-xl overflow-hidden shrink-0 border-[3px] transition-all hover:scale-105 active:scale-95 ${i===0?'border-primary':'border-transparent opacity-80 hover:opacity-100'}`;btn.innerHTML=`<img class="w-full h-full object-cover" src="${imgUrl}"/>`;btn.onclick=()=>{document.getElementById('det-main-img').src=imgUrl;Array.from(thumbContainer.children).forEach(b=>b.classList.replace('border-primary','border-transparent'));btn.classList.replace('border-transparent','border-primary');};thumbContainer.appendChild(btn);});
+  document.getElementById('det-capacity-list').innerHTML=data.capacidad.map(c=>`<div class="capacity-row"><span class="material-symbols-outlined text-river-teal mt-0.5 text-[22px]">${c.icono}</span><div><div class="font-bold text-neutral-800 text-sm">${c.titulo}</div>${c.desc?`<div class="text-neutral-500 text-[13px] mt-0.5">${c.desc}</div>`:''}</div></div>`).join('');
+  document.getElementById('det-services-grid').innerHTML=data.servicios.map(s=>`<div class="service-badge"><span class="material-symbols-outlined text-[18px] text-river-teal">${s.icono}</span><span>${s.texto}</span></div>`).join('');
+  document.getElementById('det-checkin').textContent=data.checkin; document.getElementById('det-checkout').textContent=data.checkout; document.getElementById('det-cancellation').textContent=data.cancelacion;
+  const waUrl=`https://wa.me/${data.waNumber}?text=${encodeURIComponent(`Hola! Vi tu alojamiento "${data.titulo}" en el portal de San Roque...`)}`;
+  document.getElementById('det-wa-btn-desktop').href=waUrl; document.getElementById('det-wa-btn-mobile').href=waUrl;
+  document.getElementById('det-phone-btn').href=data.telefono;
 }
 
 function backToGrid() {
-  document.getElementById('detailed-accommodation-view').classList.replace('block', 'hidden');
-  document.getElementById('mobile-sticky-contact').classList.replace('block', 'hidden');
-  const mainView = document.getElementById('main-explorer-view');
-  mainView.classList.replace('hidden', 'block');
+  document.getElementById('detailed-accommodation-view').classList.replace('block','hidden');
+  document.getElementById('mobile-sticky-contact').classList.replace('block','hidden');
+  const mainView=document.getElementById('main-explorer-view');
+  mainView.classList.replace('hidden','block');
   mainView.classList.remove('animate-view-in'); void mainView.offsetWidth; mainView.classList.add('animate-view-in');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  
-  if (map) { setTimeout(() => { map.invalidateSize(); }, 100); }
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(map){setTimeout(()=>map.invalidateSize(),100);}
 }
 
-// ═══════════════════════════════════════════ LÓGICA GENERAL ═══════════════════════════════════════════
-document.addEventListener("DOMContentLoaded", () => {
-  const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.05 });
-  document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-
+// ═══ DOMCONTENTLOADED ═══
+document.addEventListener("DOMContentLoaded",()=>{
+  const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible');});},{threshold:0.05});
+  document.querySelectorAll('.fade-in-up').forEach(el=>observer.observe(el));
   initMap();
-
-  const filterBtns = document.querySelectorAll('.filter-btn'); const cards = document.querySelectorAll('.card-item');
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => { b.classList.remove('bg-river-teal','text-canvas-white','shadow-sm'); b.classList.add('bg-surface-container','text-on-surface-variant'); });
-      btn.classList.remove('bg-surface-container','text-on-surface-variant'); btn.classList.add('bg-river-teal','text-canvas-white','shadow-sm');
-      const f = btn.getAttribute('data-filter');
-      
-      cards.forEach(card => { card.style.display = (f === 'all' || card.getAttribute('data-category') === f) ? 'block' : 'none'; });
-
-      for (const [id, markerObj] of Object.entries(mapMarkers)) {
-        if (f === 'all' || markerObj.category === f) {
-          if (!map.hasLayer(markerObj.marker)) map.addLayer(markerObj.marker);
-        } else {
-          if (map.hasLayer(markerObj.marker)) map.removeLayer(markerObj.marker);
-        }
-      }
-    });
-  });
-
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('main-nav');
-    if (window.scrollY > 50) { nav.classList.add('bg-primary/95', 'backdrop-blur-md', 'shadow-md', 'py-4'); nav.classList.remove('bg-gradient-to-b', 'from-black/60', 'to-transparent', 'pt-6', 'pb-6'); } 
-    else { nav.classList.remove('bg-primary/95', 'backdrop-blur-md', 'shadow-md', 'py-4'); nav.classList.add('bg-gradient-to-b', 'from-black/60', 'to-transparent', 'pt-6', 'pb-6'); }
-  });
-
+  const filterBtns=document.querySelectorAll('.filter-btn');const cards=document.querySelectorAll('.card-item');
+  filterBtns.forEach(btn=>{btn.addEventListener('click',()=>{filterBtns.forEach(b=>{b.classList.remove('bg-river-teal','text-canvas-white','shadow-sm');b.classList.add('bg-surface-container','text-on-surface-variant');});btn.classList.remove('bg-surface-container','text-on-surface-variant');btn.classList.add('bg-river-teal','text-canvas-white','shadow-sm');const f=btn.getAttribute('data-filter');cards.forEach(card=>{card.style.display=(f==='all'||card.getAttribute('data-category')===f)?'block':'none';});for(const[id,markerObj] of Object.entries(mapMarkers)){if(f==='all'||markerObj.category===f){if(!map.hasLayer(markerObj.marker)) map.addLayer(markerObj.marker);}else{if(map.hasLayer(markerObj.marker)) map.removeLayer(markerObj.marker);}}});});
+  window.addEventListener('scroll',()=>{const nav=document.getElementById('main-nav');if(window.scrollY>50){nav.classList.add('bg-primary/95','backdrop-blur-md','shadow-md','py-4');nav.classList.remove('bg-gradient-to-b','from-black/60','to-transparent','pt-6','pb-6');}else{nav.classList.remove('bg-primary/95','backdrop-blur-md','shadow-md','py-4');nav.classList.add('bg-gradient-to-b','from-black/60','to-transparent','pt-6','pb-6');}});
   document.querySelectorAll('.interactive-stars').forEach(initVotingForContainer);
-
   loadWeather();
 });
 
-function ts2h(unix, offset){ const d = new Date((unix + offset) * 1000); return String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0'); }
+function ts2h(unix,offset){const d=new Date((unix+offset)*1000);return String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');}
 
 async function loadWeather() {
   try {
-    const res = await fetch('/api/weather?lat=-28.5768&lon=-58.7168');
-    if (!res.ok) throw new Error(); const d = await res.json(); if(d.error) throw new Error(d.error);
-
-    const owmCode = d.weather[0].icon; let icon = 'light_mode'; 
-    if (owmCode.includes('01')) icon = owmCode.includes('n') ? 'nights_stay' : 'light_mode';
-    else if (owmCode.includes('02') || owmCode.includes('03') || owmCode.includes('04')) icon = 'cloud';
-    else if (owmCode.includes('09') || owmCode.includes('10')) icon = 'rainy';
-    else if (owmCode.includes('11')) icon = 'thunderstorm';
-    else if (owmCode.includes('13')) icon = 'ac_unit';
-    else if (owmCode.includes('50')) icon = 'foggy';
-
-    document.getElementById('weather-icon-top').textContent = icon; document.getElementById('weather-temp-top').textContent = `${Math.round(d.main.temp)}°`;
-    document.getElementById('wp-temp').textContent = `${Math.round(d.main.temp)}°C`; document.getElementById('wp-desc').textContent = d.weather[0].description;
-    document.getElementById('wp-icon').textContent = icon; document.getElementById('wp-hum').textContent = `${d.main.humidity}%`;
-    document.getElementById('wp-wind').textContent = `${Math.round(d.wind.speed * 3.6)} km/h`; document.getElementById('wp-feel').textContent = `${Math.round(d.main.feels_like)}°C`;
-    document.getElementById('wp-pressure').textContent = `${d.main.pressure} hPa`;
-    document.getElementById('wp-date').textContent = new Date().toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
-  } catch(e) { console.error("Error clima."); }
+    const res=await fetch('/api/weather?lat=-28.5768&lon=-58.7168');
+    if(!res.ok) throw new Error(); const d=await res.json(); if(d.error) throw new Error(d.error);
+    const owmCode=d.weather[0].icon; let icon='light_mode';
+    if(owmCode.includes('01')) icon=owmCode.includes('n')?'nights_stay':'light_mode';
+    else if(owmCode.includes('02')||owmCode.includes('03')||owmCode.includes('04')) icon='cloud';
+    else if(owmCode.includes('09')||owmCode.includes('10')) icon='rainy';
+    else if(owmCode.includes('11')) icon='thunderstorm';
+    else if(owmCode.includes('13')) icon='ac_unit';
+    else if(owmCode.includes('50')) icon='foggy';
+    document.getElementById('weather-icon-top').textContent=icon; document.getElementById('weather-temp-top').textContent=`${Math.round(d.main.temp)}°`;
+    document.getElementById('wp-temp').textContent=`${Math.round(d.main.temp)}°C`; document.getElementById('wp-desc').textContent=d.weather[0].description;
+    document.getElementById('wp-icon').textContent=icon; document.getElementById('wp-hum').textContent=`${d.main.humidity}%`;
+    document.getElementById('wp-wind').textContent=`${Math.round(d.wind.speed*3.6)} km/h`; document.getElementById('wp-feel').textContent=`${Math.round(d.main.feels_like)}°C`;
+    document.getElementById('wp-pressure').textContent=`${d.main.pressure} hPa`;
+    document.getElementById('wp-date').textContent=new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
+  } catch(e){console.error("Error clima.");}
 }
 
-// Ya no necesitamos una función JS para abrir el panel del clima, CSS `group-hover` se encarga
+// ═══ INTRO SPLASH ═══
+(function(){
+  const splash=document.getElementById('intro-splash');
+  const logo=document.getElementById('splash-logo');
+  const text=document.getElementById('splash-text');
+  if(!splash) return;
+  if(sessionStorage.getItem('splashShown')){splash.classList.add('hidden-out');return;}
+  requestAnimationFrame(()=>{setTimeout(()=>{logo.classList.add('show');text.classList.add('show');},80);});
+  setTimeout(()=>{splash.classList.add('hidden-out');sessionStorage.setItem('splashShown','1');},2800);
+})();
+
+// ═══ TYPEWRITER ═══
+(function(){
+  const phrases=['Dónde alojarme\nen San Roque','Hospedajes\ncon alma local','Tu lugar\nbajo el sol correntino','Bienvenido a\nSan Roque','Descubrí\nlo mejor del norte'];
+  const el=document.getElementById('hero-typewriter-text');
+  if(!el) return;
+  let phraseIdx=0,charIdx=0,deleting=false,pauseTimer=null;
+  function type(){
+    if(!deleting){
+      charIdx++;
+      el.innerHTML=phrases[phraseIdx].slice(0,charIdx).replace('\n','<br>');
+      if(charIdx===phrases[phraseIdx].length){deleting=true;clearTimeout(pauseTimer);pauseTimer=setTimeout(type,2600);return;}
+      setTimeout(type,55+Math.random()*35);
+    } else {
+      charIdx--;
+      el.innerHTML=phrases[phraseIdx].slice(0,charIdx).replace('\n','<br>');
+      if(charIdx===0){deleting=false;phraseIdx=(phraseIdx+1)%phrases.length;setTimeout(type,380);return;}
+      setTimeout(type,28+Math.random()*18);
+    }
+  }
+  setTimeout(type,500);
+})();
 </script>
 </body>
 </html>
