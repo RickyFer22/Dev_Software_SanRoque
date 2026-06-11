@@ -1,0 +1,91 @@
+{
+  "hospedajes": [
+    {
+      "nombre": "Fortune",
+      "lat": -28.578244,
+      "lng": -58.708171,
+      "tipo": "Hospedaje",
+      "telefono": "3777000000",
+      "tags": ["Hospedaje"]
+    },
+    {
+      "nombre": "Casa Blanca",
+      "lat": -28.580640,
+      "lng": -58.717417,
+      "tipo": "Casa quinta",
+      "telefono": "3777674277",
+      "tags": ["Casa quinta", "Familiar"]
+    },
+    {
+      "nombre": "Hospedaje JR",
+      "lat": -28.576108,
+      "lng": -58.713279,
+      "tipo": "Hostel",
+      "telefono": "3777600322",
+      "tags": ["Hostel", "Habitaciones"]
+    },
+    {
+      "nombre": "Leguiza Hotel",
+      "lat": -28.575055,
+      "lng": -58.709070,
+      "tipo": "Hotel",
+      "telefono": "3777502565",
+      "tags": ["Hotel", "WiFi", "Climatización"]
+    }
+  ],
+  "gastronomia": [
+    {
+      "nombre": "Comedor Ariana",
+      "direccion": "Av. principal, San Roque",
+      "horario": "10:30 a 16:00 / 19:00 a 00:00",
+      "telefono": "5493777700082",
+      "tags": ["Comedor", "WiFi", "Estacionamiento"]
+    },
+    {
+      "nombre": "Comidas Estela",
+      "direccion": "Santiago Baibiene 525",
+      "horario": "07:00 a 23:00",
+      "telefono": "5493777674962",
+      "tags": ["Rotisería", "Comidas para llevar"]
+    },
+    {
+      "nombre": "Cafetería de la Plaza",
+      "direccion": "Zona centro",
+      "horario": "08:00 a 12:30 / 16:30 a 21:00",
+      "telefono": "5493777000000",
+      "tags": ["Cafetería", "Meriendas"]
+    }
+  ],
+  "eventos": [
+    {
+      "dia": "16",
+      "mes": "AGO",
+      "titulo": "Fiesta Patronal",
+      "descripcion": "Celebración religiosa, encuentro comunitario y actividades en la plaza."
+    },
+    {
+      "dia": "24",
+      "mes": "AGO",
+      "titulo": "Encuentro Cultural",
+      "descripcion": "Música, danza, artesanos y propuestas para toda la familia."
+    },
+    {
+      "dia": "07",
+      "mes": "SEP",
+      "titulo": "Torneo Deportivo",
+      "descripcion": "Actividades municipales y competencias recreativas."
+    },
+    {
+      "dia": "21",
+      "mes": "SEP",
+      "titulo": "Festival Local",
+      "descripcion": "Escenario abierto, gastronomía y paseo de productores."
+    },
+    {
+      "dia": "05",
+      "mes": "OCT",
+      "titulo": "Actividad Municipal",
+      "descripcion": "Jornada de turismo, ambiente y recorridos históricos."
+    }
+  ]
+}

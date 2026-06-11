@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portal Turístico Municipal de San Roque, Corrientes. Descubrí historia, cultura, naturaleza y hospitalidad.">
+    <title>Descubrí San Roque | Portal Turístico Municipal</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- TU CSS -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <a href="#contenido" class="skip-link">Saltar al contenido</a>
+    
+   <header>
+    <div class="header-container">
+        <div class="logo">
+            <img src="img/logo-muni.jpg" class="logo-img">
+            <h1>Municipalidad de San Roque</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#buscando">Accesos</a></li>
+                <li><a href="#clima">Clima</a></li>
+                <li><a href="#gastronomia">Gastronomía</a></li>
+                <li><a href="#hospedajes">Hospedajes</a></li>
+                <li><a href="#eventos">Eventos</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#mapa">Mapa</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+    <!-- HERO SECTION - SIN MODIFICAR -->
+    <section class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+        <source src="img/san-roque.mp4" type="video/mp4">
+        <!-- Fallback para navegadores que no soportan video -->
+        Tu navegador no soporta videos HTML5.
+    </video>
+    
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content">
+        <h2>Portal Turístico Municipal</h2>
+        <p>Descubrí San Roque</p>
+        <p>Historia, cultura, naturaleza y hospitalidad en el corazón de Corrientes.</p>
+        <div class="hero-buttons">
+            <a href="#gastronomia" class="btn btn-primary">🍽 Explorar Gastronomía</a>
+            <a href="#hospedajes" class="btn btn-secondary">🏨 Buscar Hospedaje</a>
+        </div>
+    </div>
+</section>
+
+    <div id="contenido">
+        <!-- ACCESOS RÁPIDOS -->
+        <section class="accesos-rapidos" id="buscando">
+            <div class="container">
+                <h2>¿Qué estás buscando hoy?</h2>
+                <div class="accesos-grid">
+                    <a href="#gastronomia" class="acceso-item">
+                        <span></span>
+                        <span>Gastronomía</span>
+                    </a>
+                    <a href="#hospedajes" class="acceso-item">
+                        <span>🏨</span>
+                        <span>Hospedajes</span>
+                    </a>
+                    <a href="#eventos" class="acceso-item">
+                        <span>🎭</span>
+                        <span>Cultura</span>
+                    </a>
+                    <a href="#mapa" class="acceso-item">
+                        <span>⛪</span>
+                        <span>Iglesias</span>
+                    </a>
+                    <a href="#eventos" class="acceso-item">
+                        <span>📅</span>
+                        <span>Eventos</span>
+                    </a>
+                    <a href="#clima" class="acceso-item">
+                        <span>🌦</span>
+                        <span>Clima</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ITINERARIOS SUGERIDOS -->
+        <section id="itinerarios">
+            <div class="container">
+                <h2>✨ Viví San Roque: Itinerarios Sugeridos</h2>
+                <p class="intro">¿No sabés por dónde empezar? Te armamos estas rutas para aprovechar al máximo tu visita.</p>
+                
+                <div class="grid-itinerarios">
+                    <div class="card-itinerario">
+                        <div class="icono-ruta">🍽</div>
+                        <h3>Ruta de los Sabores</h3>
+                        <p>Empezá con un café en la plaza, seguí con un almuerzo típico a la orilla del río y cerrá con una merienda local al atardecer.</p>
+                        <a href="#gastronomia" class="link-ruta">Ver comercios de esta ruta →</a>
+                    </div>
+                    
+                    <div class="card-itinerario">
+                        <div class="icono-ruta"></div>
+                        <h3>Ruta Histórica y Cultural</h3>
+                        <p>Recorré nuestra iglesia centenaria, cruzá el Puente Histórico y perdete por la peatonal descubriendo el patrimonio local.</p>
+                        <a href="#mapa" class="link-ruta">Ver mapa histórico →</a>
+                    </div>
+                    
+                    <div class="card-itinerario">
+                        <div class="icono-ruta">🌦</div>
+                        <h3>Escapada de Naturaleza</h3>
+                        <p>Ideal para fines de semana. Caminata por la costanera, pesca en el río y descanso en nuestras casas quintas.</p>
+                        <a href="#hospedajes" class="link-ruta">Ver opciones de descanso →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLIMA -->
+        <section id="clima">
+            <div class="container">
+                <h2>Información para visitantes</h2>
+                <h3 style="text-align: center; margin-bottom: 1rem;">Clima en San Roque</h3>
+                <p class="intro">Consulta rápida para planificar recorridos, comidas al aire libre y actividades municipales.</p>
+                
+                <div class="clima-container">
+                    <div class="clima-principal">🌤</div>
+                    <div class="clima-temp">24°C</div>
+                    <div class="clima-desc">Parcialmente soleado</div>
+                    <div class="clima-tip">
+                        💡 <strong>Ideal para recorrer la ciudad y disfrutar de la gastronomía local.</strong>
+                    </div>
+                    
+                    <div class="pronóstico">
+                        <div class="dia">
+                            <div class="dia-icon">🌤</div>
+                            <div><strong>Hoy</strong></div>
+                            <div>24° - Templado</div>
+                        </div>
+                        <div class="dia">
+                            <div class="dia-icon">☀️</div>
+                            <div><strong>Sab</strong></div>
+                            <div>26° - Soleado</div>
+                        </div>
+                        <div class="dia">
+                            <div class="dia-icon">🌦</div>
+                            <div><strong>Dom</strong></div>
+                            <div>22° - Inestable</div>
+                        </div>
+                        <div class="dia">
+                            <div class="dia-icon">☁️</div>
+                            <div><strong>Lun</strong></div>
+                            <div>20° - Nublado</div>
+                        </div>
+                        <div class="dia">
+                            <div class="dia-icon"></div>
+                            <div><strong>Mar</strong></div>
+                            <div>23° - Agradable</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GASTRONOMÍA -->
+        <section id="gastronomia">
+            <div class="container">
+                <h2>Comercios locales</h2>
+                <h3 style="text-align: center; margin-bottom: 1rem;">Gastronomía</h3>
+                <p class="intro">Listado neutral de opciones gastronómicas, con búsqueda, filtros, horarios, dirección y contacto directo.</p>
+                
+                <div class="filtros">
+                    <button class="filtro-btn active">Todos los rubros</button>
+                    <button class="filtro-btn">Comedor</button>
+                    <button class="filtro-btn">Parrilla</button>
+                    <button class="filtro-btn">Cafetería</button>
+                    <button class="filtro-btn">Rotisería</button>
+                </div>
+                
+                <div class="comercios-grid">
+                    <div class="comercio-card">
+                        <h3>Comedor Ariana</h3>
+                        <div class="comercio-info">📍 Av. principal, San Roque</div>
+                        <div class="comercio-info">🕒 10:30 a 16:00 / 19:00 a 00:00</div>
+                        <div class="tags">
+                            <span class="tag">Comedor</span>
+                            <span class="tag">WiFi</span>
+                            <span class="tag">Estacionamiento</span>
+                        </div>
+                        <div class="comercio-actions">
+                            <a href="https://wa.me/5493777700082?text=Hola,%20vi%20su%20comercio%20en%20el%20Portal%20Turístico%20de%20San%20Roque%20y%20quisiera%20consultar%20por%20la%20disponibilidad." class="btn-whatsapp" target="_blank">
+                                WhatsApp
+                            </a>
+                            <a href="#mapa" class="btn-mapa" onclick="centrarMapa(-28.580843, -58.721403, 'Comedor Ariana')">Ver ubicación</a>
+                        </div>
+                    </div>
+                    
+                    <div class="comercio-card">
+                        <h3>Comidas Estela</h3>
+                        <div class="comercio-info"> Santiago Baibiene 525</div>
+                        <div class="comercio-info">🕒 07:00 a 23:00</div>
+                        <div class="tags">
+                            <span class="tag">Rotisería</span>
+                            <span class="tag">Comidas para llevar</span>
+                        </div>
+                        <div class="comercio-actions">
+                            <a href="https://wa.me/5493777674962?text=Hola,%20vi%20su%20comercio%20en%20el%20Portal%20Turístico%20de%20San%20Roque%20y%20quisiera%20consultar%20por%20la%20disponibilidad." class="btn-whatsapp" target="_blank">
+                                WhatsApp
+                            </a>
+                            <a href="#mapa" class="btn-mapa">Ver ubicación</a>
+                        </div>
+                    </div>
+                    
+                    <div class="comercio-card">
+                        <h3>Cafetería de la Plaza</h3>
+                        <div class="comercio-info">📍 Zona centro</div>
+                        <div class="comercio-info">🕒 08:00 a 12:30 / 16:30 a 21:00</div>
+                        <div class="tags">
+                            <span class="tag">Cafetería</span>
+                            <span class="tag">Meriendas</span>
+                        </div>
+                        <div class="comercio-actions">
+                            <a href="https://wa.me/5493777000000?text=Hola,%20vi%20su%20comercio%20en%20el%20Portal%20Turístico%20de%20San%20Roque%20y%20quisiera%20consultar%20por%20la%20disponibilidad." class="btn-whatsapp" target="_blank">
+                                WhatsApp
+                            </a>
+                            <a href="#mapa" class="btn-mapa">Ver ubicación</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOSPEDAJES -->
+        <section id="hospedajes">
+            <div class="container">
+                <h2>Alojamiento</h2>
+                <h3 style="text-align: center; margin-bottom: 1rem;">Hospedajes</h3>
+                <p class="intro">Información institucional sin destacados ni posiciones preferenciales. Cada prestador mantiene la misma visibilidad.</p>
+                
+                <div class="filtros">
+                    <button class="filtro-btn active">Todos los tipos</button>
+                    <button class="filtro-btn">Hotel</button>
+                    <button class="filtro-btn">Cabaña</button>
+                    <button class="filtro-btn">Hostel</button>
+                    <button class="filtro-btn">Casa quinta</button>
+                </div>
+                
+                <div class="comercios-grid">
+                    <div class="comercio-card">
+                        <h3>Leguiza Hotel</h3>
+                        <div class="comercio-info">📍 Zona urbana</div>
+                        <div class="comercio-info">☎ 3777 50-2565</div>
+                        <div class="tags">
+                            <span class="tag">Hotel</span>
+                            <span class="tag">WiFi</span>
+                            <span class="tag">Climatización</span>
+                        </div>
+                        <div class="comercio-actions">
+                            <a href="https://wa.me/5493777502565?text=Hola,%20vi%20su%20hospedaje%20en%20el%20Portal%20Turístico%20de%20San%20Roque.%20¿Tienen%20habitaciones%20disponibles%20para%20este%20fin%20de%20semana?" class="btn-whatsapp" target="_blank">
+                                WhatsApp
+                            </a>
+                            <a href="#mapa" class="btn-mapa" onclick="centrarMapa(-28.575055, -58.709070, 'Leguiza Hotel')">Mapa</a>
+                        </div>
+                    </div>
+                    
+                    <div class="comercio-card">
+                        <h3>Hospedaje JR</h3>
+                        <div class="comercio-info">📍 Consultar dirección</div>
+                        <div class="comercio-info"> 3777 60-0322</div>
+                        <div class="tags">
+                            <span class="tag">Hostel</span>
+                            <span class="tag">Habitaciones</span>
+                        </div>
+                        <div class="comercio-actions">
+                            <a href="https://wa.me/5493777600322?text=Hola,%20vi%20su%20hospedaje%20en%20el%20Portal%20Turístico%20de%20San%20Roque.%20¿Tienen%20habitaciones%20disponibles%20para%20este%20fin%20de%20semana?" class="btn-whatsapp" target="_blank">
+                                WhatsApp
+                            </a>
+                            <a href="#mapa" class="btn-mapa" onclick="centrarMapa(-28.576108, -58.713279, 'Hospedaje JR')">Mapa</a>
+                        </div>
+                    </div>
+                    
+                    <div class="comercio-card">
+                        <h3>Casa Blanca</h3>
+                        <div class="comercio-info">📍 Consultar dirección</div>
+                        <div class="comercio-info">☎ 3777 67-4277</div>
+                        <div class="tags">
+                            <span class="tag">Casa quinta</span>
+                            <span class="tag">Familiar</span>
+                        </div>
+                        <div class="comercio-actions">
+                            <a href="https://wa.me/5493777674277?text=Hola,%20vi%20su%20hospedaje%20en%20el%20Portal%20Turístico%20de%20San%20Roque.%20¿Tienen%20habitaciones%20disponibles%20para%20este%20fin%20de%20semana?" class="btn-whatsapp" target="_blank">
+                                WhatsApp
+                            </a>
+                            <a href="#mapa" class="btn-mapa" onclick="centrarMapa(-28.580640, -58.717417, 'Casa Blanca')">Mapa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BANNER AGENDA MUNICIPAL CON EFECTOS -->
+        <section id="eventos" style="padding: 2rem;">
+            <div class="container">
+                <div class="banner-eventos">
+                    <div class="banner-overlay"></div>
+                    <div class="banner-content">
+                        <div class="banner-icono">
+                            <svg viewBox="0 0 100 100" class="banner-svg">
+                                <pattern id="pattern-circles" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <circle cx="10" cy="10" r="2" fill="#d4a83c" opacity="0.5"/>
+                                </pattern>
+                                <rect x="0" y="0" width="100" height="100" fill="url(#pattern-circles)"/>
+                                <path d="M20,50 Q35,30 50,50 T80,50" stroke="#d4a83c" stroke-width="3" fill="none" opacity="0.8">
+                                    <animate attributeName="d" dur="3s" repeatCount="indefinite"
+                                        values="M20,50 Q35,30 50,50 T80,50;
+                                                M20,50 Q35,70 50,50 T80,50;
+                                                M20,50 Q35,30 50,50 T80,50"/>
+                                </path>
+                                <circle cx="50" cy="50" r="15" stroke="#f5d98a" stroke-width="2" fill="none" opacity="0.6">
+                                    <animate attributeName="r" dur="2s" repeatCount="indefinite" values="15;20;15"/>
+                                    <animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0.6;0.2;0.6"/>
+                                </circle>
+                                <path d="M50,35 L50,65 M35,50 L65,50" stroke="#134e4a" stroke-width="3" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="banner-texto">
+                            <h2 class="banner-titulo">
+                                <span class="titulo-linea">DISFRUTÁ</span>
+                                <span class="titulo-linea highlight">SAN ROQUE</span>
+                            </h2>
+                            <p class="banner-subtitulo">EVENTOS Y ACTIVIDADES PARA VOS</p>
+                            <div class="banner-decoracion">
+                                <div class="linha-pontilhada"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-brilho"></div>
+                </div>
+                
+                <p class="intro">Una agenda flexible para mantener el portal vivo con fiestas, cultura, deportes, festivales y actividades municipales.</p>
+                
+                <div class="eventos-lista">
+                    <div class="evento-card">
+                        <div class="evento-fecha">
+                            <span class="evento-dia">16</span>
+                            <span class="evento-mes">AGO</span>
+                        </div>
+                        <div class="evento-info">
+                            <h3>Fiesta Patronal</h3>
+                            <p>Celebración religiosa, encuentro comunitario y actividades en la plaza.</p>
+                            <a href="#mapa" class="link-ruta">Ver lugar →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-fecha">
+                            <span class="evento-dia">24</span>
+                            <span class="evento-mes">AGO</span>
+                        </div>
+                        <div class="evento-info">
+                            <h3>Encuentro Cultural</h3>
+                            <p>Música, danza, artesanos y propuestas para toda la familia.</p>
+                            <a href="#mapa" class="link-ruta">Ver lugar →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-fecha">
+                            <span class="evento-dia">07</span>
+                            <span class="evento-mes">SEP</span>
+                        </div>
+                        <div class="evento-info">
+                            <h3>Torneo Deportivo</h3>
+                            <p>Actividades municipales y competencias recreativas.</p>
+                            <a href="#mapa" class="link-ruta">Ver lugar →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-fecha">
+                            <span class="evento-dia">21</span>
+                            <span class="evento-mes">SEP</span>
+                        </div>
+                        <div class="evento-info">
+                            <h3>Festival Local</h3>
+                            <p>Escenario abierto, gastronomía y paseo de productores.</p>
+                            <a href="#gastronomia" class="link-ruta">Ver comercios →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-fecha">
+                            <span class="evento-dia">05</span>
+                            <span class="evento-mes">OCT</span>
+                        </div>
+                        <div class="evento-info">
+                            <h3>Actividad Municipal</h3>
+                            <p>Jornada de turismo, ambiente y recorridos históricos.</p>
+                            <a href="#galeria" class="link-ruta">Conocer más →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALERÍA -->
+       <section id="galeria">
+    <div class="container">
+        <h2>Identidad local</h2>
+        <h3 style="text-align: center; margin-bottom: 1rem;">Conocé San Roque</h3>
+        <p class="intro">Galería fotográfica con imágenes reales de la ciudad, sus paisajes, su plaza, su iglesia y su patrimonio.</p>
+        
+        <div class="galeria-grid">
+            <div class="galeria-item" style="background-image: url('img/costanera 1.jpeg');" onclick="abrirLightbox('img/costanera 1.jpeg', 'Atardeceres en la Costanera: El encuentro con el río')">
+                <div class="galeria-overlay">
+                    <h3>Atardeceres en la Costanera: El encuentro con el río</h3>
+                </div>
+            </div>
+            
+            <div class="galeria-item" style="background-image: url('img/Peatonal San Roque.jpeg');" onclick="abrirLightbox('img/Peatonal San Roque.jpeg', 'La Peatonal: El corazón vivo de San Roque')">
+                <div class="galeria-overlay">
+                    <h3>La Peatonal: El corazón vivo de San Roque</h3>
+                </div>
+            </div>
+            
+            <div class="galeria-item" style="background-image: url('img/PLAZA E HIGLESIA.jpeg');" onclick="abrirLightbox('img/PLAZA E HIGLESIA.jpeg', 'Nuestra Plaza e Iglesia: 100 años de historia')">
+                <div class="galeria-overlay">
+                    <h3>Nuestra Plaza e Iglesia: 100 años de historia</h3>
+                </div>
+            </div>
+            
+            <div class="galeria-item" style="background-image: url('img/PUENTE HISTORICO 1.jpeg');" onclick="abrirLightbox('img/PUENTE HISTORICO 1.jpeg', 'El Puente Histórico: Testigo de nuestra identidad')">
+                <div class="galeria-overlay">
+                    <h3>El Puente Histórico: Testigo de nuestra identidad</h3>
+                </div>
+            </div>
+            
+            <div class="galeria-item" style="background-image: url('img/rio.jpeg');" onclick="abrirLightbox('img/rio.jpeg', 'Nuestro Río: Naturaleza y calma para desconectarse')">
+                <div class="galeria-overlay">
+                    <h3>Nuestro Río: Naturaleza y calma para desconectarse</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LIGHTBOX MODAL -->
+<div id="lightbox" class="lightbox" onclick="cerrarLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+</div>
+
+        <!-- MAPA INTERACTIVO -->
+       <section id="mapa">
+    <div class="container">
+        <h2>Orientación al visitante</h2>
+        <h3 style="text-align: center; margin-bottom: 1rem; color: var(--verde-claro);">Mapa interactivo</h3>
+        <p class="intro">Ubicá gastronomía, hospedajes, iglesias y lugares turísticos en tiempo real.</p>
+        
+        <div class="mapa-container">
+            <div id="mapa-interactivo" style="height: 500px; border-radius: 10px; z-index: 1;"></div>
+            
+            <div class="puntos-interes">
+                <button class="btn-mapa" onclick="filtrarMapa('todos')">📍 Todos</button>
+                <button class="btn-mapa" onclick="filtrarMapa('hospedaje')">🏨 Hospedajes</button>
+                <button class="btn-mapa" onclick="filtrarMapa('gastronomia')">🍽 Gastronomía</button>
+                <button class="btn-mapa" onclick="filtrarMapa('turismo')">⛪ Turismo</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Municipalidad de San Roque</h3>
+                <p>Portal turístico institucional para promover la identidad local, los servicios al visitante y la actividad de prestadores sin favoritismos.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>Dirección: Municipalidad de San Roque</p>
+                <p>Teléfono: +54 3777 000000</p>
+                <p>Correo: turismo@sanroque.gob.ar</p>
+                <a href="https://wa.me/5493777000000" class="btn-whatsapp" target="_blank" style="display: inline-block; margin-top: 1rem;">
+                    WhatsApp Turismo
+                </a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Turismo</h3>
+                <a href="#gastronomia">Gastronomía</a>
+                <a href="#hospedajes">Hospedajes</a>
+                <a href="#eventos">Eventos</a>
+                <a href="#mapa">Mapa turístico</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Redes</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Sitio municipal</a>
+                <a href="#">Prensa</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Municipalidad de San Roque, Corrientes. Portal turístico municipal.</p>
+        </div>
+    </footer>
+
+    <!-- CHATBOT ANIMADO ESTILO ARGENTINO -->
+    <div class="chatbot-container">
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <div class="chatbot-header-avatar">🤖</div>
+                <div class="chatbot-header-info">
+                    <h4>Asistente Virtual</h4>
+                    <p>¡Che! ¿En qué puedo ayudarte?</p>
+                </div>
+            </div>
+            
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chatbot-message bot">
+                    <div class="chatbot-message-avatar">🤖</div>
+                    <div class="chatbot-message-content">
+                        ¡Hola! Soy el asistente virtual de San Roque. ¿En qué puedo ayudarte? 🇦🇷
+                        <div class="chatbot-quick-options">
+                            <button class="quick-option" onclick="sendQuickMessage('Quiero comer algo rico')">🍽 Gastronomía</button>
+                            <button class="quick-option" onclick="sendQuickMessage('Necesito un lugar para dormir')">🏨 Hospedaje</button>
+                            <button class="quick-option" onclick="sendQuickMessage('¿Qué hay para hacer hoy?')"> Eventos</button>
+                            <button class="quick-option" onclick="sendQuickMessage('Quiero conocer la historia')">⛪ Historia</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="Escribí tu consulta..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
+        
+        <button class="chatbot-toggle" onclick="toggleChatbot()" title="Chatbot - ¿En qué puedo ayudarte?">
+            <div class="chatbot-badge">!</div>
+            <div class="chatbot-avatar">🤖</div>
+        </button>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // ============ MAPA INTERACTIVO ============
+        let mapa;
+        let marcadores = [];
+        
+        const lugares = [
+            // HOSPEDAJES
+            { nombre: 'Fortune', lat: -28.578244, lng: -58.708171, tipo: 'hospedaje', icono: '🏨', desc: 'Hospedaje' },
+            { nombre: 'Casa Blanca', lat: -28.580640, lng: -58.717417, tipo: 'hospedaje', icono: '🏨', desc: 'Casa quinta familiar' },
+            { nombre: 'Hospedaje JR', lat: -28.576108, lng: -58.713279, tipo: 'hospedaje', icono: '', desc: 'Hostel' },
+            { nombre: 'Leguiza Hotel', lat: -28.575055, lng: -58.709070, tipo: 'hospedaje', icono: '🏨', desc: 'Hotel con WiFi y climatización' },
+            
+            // GASTRONOMÍA
+            { nombre: 'Comedor Ariana', lat: -28.580843, lng: -58.721403, tipo: 'gastronomia', icono: '🍽', desc: 'Comedor - Av. principal' },
+            
+            // TURISMO
+            { nombre: 'Plaza San Martín', lat: -28.572519, lng: -58.708458, tipo: 'turismo', icono: '', desc: 'Plaza e Iglesia histórica' }
+        ];
+        
+        function initMapa() {
+            mapa = L.map('mapa-interactivo').setView([-28.577, -58.713], 15);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap',
+                maxZoom: 19
+            }).addTo(mapa);
+            
+            agregarMarcadores(lugares);
+        }
+        
+        function crearIconoPersonalizado(icono) {
+            return L.divIcon({
+                className: 'custom-marker-wrapper',
+                html: `<div class="custom-marker">${icono}</div>`,
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+        }
+        
+        function agregarMarcadores(lista) {
+            lista.forEach(lugar => {
+                const marcador = L.marker([lugar.lat, lugar.lng], {
+                    icon: crearIconoPersonalizado(lugar.icono)
+                }).addTo(mapa);
+                
+                marcador.bindPopup(`
+                    <h4>${lugar.nombre}</h4>
+                    <p>${lugar.desc}</p>
+                    <small>Tipo: ${lugar.tipo}</small>
+                `);
+                
+                marcadores.push({ marcador, tipo: lugar.tipo });
+            });
+        }
+        
+        function filtrarMapa(tipo) {
+            marcadores.forEach(({ marcador, tipo: t }) => {
+                if (tipo === 'todos' || t === tipo) {
+                    marcador.addTo(mapa);
+                } else {
+                    mapa.removeLayer(marcador);
+                }
+            });
+        }
+        
+        function centrarMapa(lat, lng, nombre) {
+            if (mapa) {
+                mapa.setView([lat, lng], 17);
+                marcadores.forEach(({ marcador }) => {
+                    const pos = marcador.getLatLng();
+                    if (Math.abs(pos.lat - lat) < 0.0001 && Math.abs(pos.lng - lng) < 0.0001) {
+                        marcador.openPopup();
+                    }
+                });
+            }
+        }
+        
+        // Inicializar mapa cuando cargue la página
+        document.addEventListener('DOMContentLoaded', initMapa);
+        
+        // ============ CHATBOT ============
+        function toggleChatbot() {
+            const chatWindow = document.getElementById('chatbotWindow');
+            chatWindow.classList.toggle('active');
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        function sendQuickMessage(message) {
+            document.getElementById('chatbotInput').value = message;
+            sendMessage();
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chatbotInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                setTimeout(() => {
+                    const response = getBotResponse(message);
+                    addMessage(response, 'bot');
+                }, 500);
+            }
+        }
+        
+        function addMessage(text, sender) {
+            const messagesDiv = document.getElementById('chatbotMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chatbot-message ${sender}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'chatbot-message-avatar';
+            avatar.textContent = sender === 'bot' ? '' : '👤';
+            
+            const content = document.createElement('div');
+            content.className = 'chatbot-message-content';
+            content.textContent = text;
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            messagesDiv.appendChild(messageDiv);
+            
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('gastronom') || lowerMessage.includes('comer') || lowerMessage.includes('restaurante')) {
+                return '¡Tenemos excelentes opciones gastronómicas! Te recomiendo visitar el Comedor Ariana. ¿Querés que te pase los contactos? 🍽';
+            } else if (lowerMessage.includes('hosped') || lowerMessage.includes('dormir') || lowerMessage.includes('hotel')) {
+                return 'Contamos con varios hospedajes: Leguiza Hotel, Hospedaje JR, Casa Blanca y Fortune. Todos con excelentes servicios. ¿Te paso los WhatsApp? 🏨';
+            } else if (lowerMessage.includes('evento') || lowerMessage.includes('actividad') || lowerMessage.includes('hacer')) {
+                return '¡Este mes tenemos la Fiesta Patronal (16/8) y el Encuentro Cultural (24/8)! Son imperdibles. 🎉';
+            } else if (lowerMessage.includes('historia') || lowerMessage.includes('iglesia') || lowerMessage.includes('cultura')) {
+                return 'San Roque tiene una rica historia. No te pierdas la Plaza San Martín, la Iglesia centenaria y el Puente Histórico. ¡Son patrimonio de la ciudad! ⛪';
+            } else if (lowerMessage.includes('clima') || lowerMessage.includes('tiempo')) {
+                return 'Hoy tenemos 24°C y está parcialmente soleado. ¡Ideal para recorrer la ciudad! 🌤';
+            } else if (lowerMessage.includes('mundial') || lowerMessage.includes('fútbol') || lowerMessage.includes('argentina')) {
+                return '¡Vamos Argentina! 🇦 Mientras disfrutás del mundial, no te olvides de conocer San Roque. ¡Te esperamos!';
+            } else if (lowerMessage.includes('mapa') || lowerMessage.includes('ubicacion') || lowerMessage.includes('donde')) {
+                return 'Podés ver todos los puntos en nuestro mapa interactivo. Hacé clic en "Mapa" en el menú superior. ️';
+            } else {
+                return 'Gracias por tu consulta. Si necesitás más información, podés escribirnos al WhatsApp de Turismo: 3777 000000. ¡Te esperamos en San Roque! 😊';
+            }
+        }
+        
+        // Filter buttons functionality
+        document.querySelectorAll('.filtro-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentElement.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Efecto de brillo al mover el mouse sobre el banner
+        const banner = document.querySelector('.banner-eventos');
+        if (banner) {
+            banner.addEventListener('mousemove', function(e) {
+                const rect = banner.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const brilho = document.querySelector('.banner-brilho');
+                if (brilho) {
+                    brilho.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(245, 217, 138, 0.2) 0%, transparent 50%)`;
+                }
+            });
+        }
+        // LIGHTBOX FUNCIONALIDAD
+function abrirLightbox(imagen, titulo) {
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightbox-img');
+    var lightboxCaption = document.getElementById('lightbox-caption');
+    
+    lightboxImg.src = imagen;
+    lightboxCaption.textContent = titulo;
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarLightbox() {
+    var lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        cerrarLightbox();
+    }
+});
+</script>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- TUS SCRIPTS -->
+<script src="js/mapa.js"></script>
+<script src="js/chatbot.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
