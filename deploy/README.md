@@ -42,31 +42,23 @@ Internet ──HTTPS──▶ Traefik (red 'web', Let's Encrypt)
 
 ## 3. Despliegue en el VPS
 
-### 3.1 Primera vez
+### 3.1 Puesta en marcha (recomendado: CI/CD)
 
-```bash
-ssh -p 22022 root@69.6.243.65
+1. Cargá los secretos del repo, incluido `OWM_API_KEY` (ver §5).
+2. Asegurá que la **DNS** de `vivisanroque.munisanroque.ar` apunte a `69.6.243.65`.
+3. Dispará el workflow: hacé un `git push` a `main` o corré **Run workflow** (`workflow_dispatch`)
+   desde la pestaña Actions.
 
-# Clonar (HTTPS: el repo es público y el VPS no necesita llave SSH de GitHub)
-mkdir -p /opt/projects
-git clone https://github.com/RickyFer22/Dev_Software_SanRoque.git /opt/projects/vivisanroque
-cd /opt/projects/vivisanroque
+El Action clona/actualiza el repo en el VPS, **genera `deploy/.env` desde el secreto**, asegura
+la red `web` de Traefik y levanta los contenedores. No hace falta tocar el VPS a mano.
 
-# Configurar credenciales (NO se versiona)
-cp deploy/.env.example deploy/.env
-nano deploy/.env          # completar OWM_API_KEY con tu clave real
-
-# Red de Traefik (si no existe) y primer despliegue
-docker network inspect web >/dev/null 2>&1 || docker network create web
-bash deploy/scripts/deploy.sh
-```
-
-Verificá: `https://vivisanroque.munisanroque.ar` (la DNS de ese subdominio debe apuntar a `69.6.243.65`).
+Verificá: `https://vivisanroque.munisanroque.ar`.
 
 ### 3.2 Despliegues siguientes
 
-- **Automático:** cada `git push` a `main` dispara `.github/workflows/deploy.yml` (requiere los secretos del repo, ver §5).
-- **Manual:** `cd /opt/projects/vivisanroque && bash deploy/scripts/deploy.sh`
+- **Automático:** cada `git push` a `main` dispara `.github/workflows/deploy.yml` (regenera `deploy/.env` y redepliega).
+- **Manual (opcional):** `cd /opt/projects/vivisanroque && bash deploy/scripts/deploy.sh`
+  (este modo manual requiere que `deploy/.env` exista; copialo de `deploy/.env.example`).
 
 ### 3.3 Prueba local (opcional)
 
@@ -99,9 +91,13 @@ En **Settings → Secrets and variables → Actions** del repo:
 | `VPS_USER` | `root` |
 | `VPS_PORT` | `22022` |
 | `VPS_SSH_KEY` | Llave SSH **privada** para que el runner entre **al VPS** (no es una llave de GitHub) |
+| `OWM_API_KEY` | API key de OpenWeatherMap (https://openweathermap.org/api) |
+
+**Generación automática de `deploy/.env`:** el workflow toma `OWM_API_KEY` del secreto y
+**escribe `deploy/.env` en el VPS en cada despliegue** (con permisos `600`). No hay que crear
+ni editar el `.env` a mano en el servidor, y la key **nunca** se imprime en los logs ni se versiona.
 
 > El repo es **público**: el VPS clona/actualiza por **HTTPS**, así que no necesita ninguna llave SSH de GitHub.
-> La API key de OpenWeatherMap **no** va en GitHub: vive solo en `deploy/.env` del VPS.
 
 ## 6. Endurecimiento de seguridad aplicado
 

@@ -24,11 +24,16 @@ jobs:
 
       - name: Deploy via SSH to VPS
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          # La API key viaja como variable de entorno del runner y se inyecta
+          # en la sesión SSH vía 'envs'. Nunca se imprime en los logs.
+          OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
+          envs: OWM_API_KEY
           script: |
             set -e
             PROJECT_PATH="/opt/projects/vivisanroque"
@@ -50,12 +55,23 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            echo "=== Validando deploy/.env (credenciales, NO versionadas) ==="
-            if [ ! -f "deploy/.env" ]; then
-              echo "[ERROR] Falta deploy/.env en el VPS."
-              echo "        Crealo una vez:  cp deploy/.env.example deploy/.env && nano deploy/.env"
+            echo "=== Generando deploy/.env desde secretos (NO se versiona) ==="
+            if [ -z "${OWM_API_KEY:-}" ]; then
+              echo "[ERROR] Falta el secreto OWM_API_KEY en GitHub."
+              echo "        Settings > Secrets and variables > Actions > New repository secret: OWM_API_KEY"
               exit 1
             fi
+            # umask 077 => el archivo queda con permisos 600 (solo root lo lee)
+            umask 077
+            cat > deploy/.env <<ENVEOF
+            PROJECT_NAME=vivisanroque
+            DOMAIN=vivisanroque.munisanroque.ar
+            OWM_API_KEY=${OWM_API_KEY}
+            OWM_UNITS=metric
+            OWM_LANG=es
+            WEATHER_CACHE_TTL_MS=600000
+            ENVEOF
+            echo "[OK] deploy/.env generado ($(wc -l < deploy/.env) líneas, key oculta)."
 
             echo "=== Asegurando red docker 'web' (Traefik) ==="
             docker network inspect web >/dev/null 2>&1 || docker network create web
