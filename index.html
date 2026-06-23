@@ -98,28 +98,442 @@
   .datos-utiles-lista li a i { font-size: 1.2rem; color: #D4A83C; }
 
   /* =========================================
-     CSS CHATBOT FLOTANTE
-     ========================================= */
-  .chatbot { position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: 'DM Sans', sans-serif; }
-  .chat-button { width: 70px; height: 70px; background: #003633; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s; }
-  .chat-button:hover { transform: scale(1.05); }
-  .chat-button img { width: 32px; height: 32px; margin-bottom: 2px;}
-  .chat-window { display: none; width: 320px; height: 440px; background: white; border-radius: 16px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); flex-direction: column; position: absolute; bottom: 70px; right: 0; }
-  .chat-header { background: #003633; color: white; padding: 16px; }
-  .chat-header h3 { font-size: 16px; margin-bottom: 4px; font-weight: bold;}
-  .chat-header p { font-size: 11px; opacity: 0.8; }
-  .chat-box { flex: 1; padding: 10px; overflow-y: auto; font-size: 14px; background: #f8fafc; }
-  .chat-quick { padding: 10px; border-top: 1px solid #ddd; display: flex; gap: 8px; flex-wrap: wrap; background: white; }
-  .quick-btn { background: #e2e8f0; border: none; border-radius: 20px; padding: 6px 12px; cursor: pointer; font-size: 12px; color: #333; font-family: inherit; font-weight: 500;}
-  .quick-btn:hover { background: #cbd5e1; }
-  .chat-input-area { display: flex; border-top: 1px solid #ddd; background: white; }
-  .chat-input-area input { flex: 1; padding: 12px; border: none; outline: none; font-family: inherit; }
-  .chat-input-area button { background: #003633; color: white; border: none; padding: 0 16px; cursor: pointer; font-weight: bold; }
-  .typing { display: flex; gap: 4px; margin: 10px; }
-  .typing span { width: 6px; height: 6px; border-radius: 50%; background: #64748b; animation: bounce 1s infinite; }
-  .typing span:nth-child(2) { animation-delay: .2s; }
-  .typing span:nth-child(3) { animation-delay: .4s; }
 
+   CHATBOT FLOTANTE MUNIAYUDA
+========================================= */
+
+
+.chatbot{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:9999;
+    font-family:'DM Sans',sans-serif;
+}
+
+
+/* BOTON FLOTANTE */
+
+.chat-button{
+
+    width:75px;
+    height:75px;
+
+    background:#003633;
+
+    border-radius:50%;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:11px;
+
+    box-shadow:
+    0 6px 18px rgba(0,0,0,.25);
+
+    transition:.3s;
+
+}
+
+
+.chat-button:hover{
+    transform:scale(1.08);
+}
+
+
+.chat-button img{
+
+    width:38px;
+    height:38px;
+
+    margin-bottom:3px;
+
+}
+
+
+/* VENTANA */
+
+.chat-window{
+
+    display:none;
+
+    width:360px;
+    height:520px;
+
+    background:white;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    margin-bottom:15px;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.30);
+
+    flex-direction:column;
+
+    position:absolute;
+
+    bottom:80px;
+    right:0;
+
+}
+
+
+/* HEADER */
+
+.chat-header{
+
+    background:
+    linear-gradient(
+    135deg,
+    #003633,
+    #0f766e
+    );
+
+    color:white;
+
+    padding:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+.chat-header img{
+
+    width:45px;
+    height:45px;
+
+    background:white;
+
+    border-radius:50%;
+
+    padding:5px;
+
+}
+
+
+
+.chat-header h3{
+
+    font-size:18px;
+
+    margin:0;
+
+    font-weight:700;
+
+}
+
+
+.chat-header p{
+
+    font-size:12px;
+
+    margin-top:3px;
+
+    opacity:.85;
+
+}
+
+
+
+/* CUERPO CHAT */
+
+.chat-box{
+
+    flex:1;
+
+    padding:12px;
+
+    overflow-y:auto;
+
+    font-size:14px;
+
+    background:#f8fafc;
+
+}
+
+
+
+/* MENSAJES */
+
+.chat-box div{
+
+    animation:
+    aparecer .25s ease;
+
+}
+
+
+
+@keyframes aparecer{
+
+from{
+opacity:0;
+transform:translateY(8px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+
+
+/* BOTONES RAPIDOS */
+
+.chat-quick{
+
+    padding:12px;
+
+    border-top:1px solid #e5e7eb;
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    background:white;
+
+}
+
+
+
+.quick-btn{
+
+    background:white;
+
+    border:1px solid #d5dddd;
+
+    border-radius:15px;
+
+    padding:9px 13px;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    color:#003633;
+
+    font-family:inherit;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+
+
+.quick-btn:hover{
+
+    background:#003633;
+
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+
+
+
+/* INPUT */
+
+.chat-input-area{
+
+    display:flex;
+
+    border-top:1px solid #ddd;
+
+    background:white;
+
+}
+
+
+
+.chat-input-area input{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    outline:none;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+}
+
+
+
+.chat-input-area button{
+
+    width:55px;
+
+    background:#003633;
+
+    color:white;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+
+
+/* TARJETAS DENTRO DEL CHAT */
+
+.chat-options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    margin-top:15px;
+
+}
+
+
+
+.chat-options button{
+
+    background:white;
+
+    border:1px solid #dbe4e3;
+
+    border-radius:15px;
+
+    padding:12px;
+
+    text-align:left;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#003633;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.05);
+
+    transition:.2s;
+
+}
+
+
+
+.chat-options button:hover{
+
+    background:#003633;
+
+    color:white;
+
+}
+
+
+
+/* ESCRIBIENDO */
+
+.typing{
+
+    display:flex;
+
+    gap:4px;
+
+    margin:10px;
+
+}
+
+
+.typing span{
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:#64748b;
+
+    animation:bounce 1s infinite;
+
+}
+
+
+.typing span:nth-child(2){
+animation-delay:.2s;
+}
+
+
+.typing span:nth-child(3){
+animation-delay:.4s;
+}
+
+
+
+@keyframes bounce{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-5px);
+}
+
+}
+
+
+
+/* CELULAR */
+
+@media(max-width:480px){
+
+.chat-window{
+
+width:calc(100vw - 30px);
+
+height:520px;
+
+right:-5px;
+
+}
+
+
+.chatbot{
+
+right:15px;
+
+bottom:15px;
+
+}
+
+}
   /* =========================================
      CSS BANNER DE EVENTOS (NUEVO AGREGADO)
      ========================================= */
@@ -786,29 +1200,86 @@
     CONTACTAR POR WHATSAPP
   </a>
 </div>
-
 <div id="chatbot" class="chatbot fade-in-up">
+
     <div id="chatWindow" class="chat-window">
+
         <div class="chat-header">
-            <h3>MuniAyuda</h3>
-            <p>Asistente turístico de San Roque</p>
+
+            <div class="chat-logo">
+                <img src="https://png.pngtree.com/png-clipart/20230815/original/pngtree-chat-bot-icon-isolated-bubble-modern-vector-picture-image_10800586.png">
+            </div>
+
+            <div>
+                <h3>MuniAyuda</h3>
+                <p>Asistente turístico de San Roque</p>
+            </div>
+
         </div>
+
+
         <div id="chatBox" class="chat-box"></div>
+
+
+        <!-- BOTONES RAPIDOS -->
         <div class="chat-quick">
-            <button class="quick-btn" onclick="quickAsk('hospedajes')">🏨 Hospedajes</button>
-            <button class="quick-btn" onclick="quickAsk('comer')">🍕 Comer</button>
-            <button class="quick-btn" onclick="quickAsk('eventos')">🎉 Eventos</button>
+
+            <button class="quick-btn" onclick="quickAsk('hospedajes')">
+                🏨 Turismo y Alojamiento
+            </button>
+
+
+            <button class="quick-btn" onclick="quickAsk('comer')">
+                🍕 Gastronomía
+            </button>
+
+
+            <button class="quick-btn" onclick="quickAsk('eventos')">
+                🎉 Eventos
+            </button>
+
+
+            <button class="quick-btn" onclick="quickAsk('informacion')">
+                ℹ️ Información
+            </button>
+
+
+            <button class="quick-btn" onclick="quickAsk('municipio')">
+                🏛️ Municipio
+            </button>
+
+
         </div>
+
+
         <div class="chat-input-area">
-            <input id="chatInput" placeholder="¿Qué estás buscando?" onkeypress="if(event.key==='Enter')sendChat()">
-            <button onclick="sendChat()">➤</button>
+
+            <input 
+            id="chatInput" 
+            placeholder="Escribe tu consulta..."
+            onkeypress="if(event.key==='Enter')sendChat()">
+
+
+            <button onclick="sendChat()">
+                ➤
+            </button>
+
         </div>
+
+
     </div>
+
+
 
     <div id="chatToggle" class="chat-button">
-        <img src="https://png.pngtree.com/png-clipart/20230815/original/pngtree-chat-bot-icon-isolated-bubble-modern-vector-picture-image_10800586.png" alt="Bot Icon">
+
+        <img src="https://png.pngtree.com/png-clipart/20230815/original/pngtree-chat-bot-icon-isolated-bubble-modern-vector-picture-image_10800586.png">
+
         <span>MuniAyuda</span>
+
     </div>
+
+
 </div>
 
 <footer class="w-full mt-10 bg-primary relative z-10">
@@ -857,15 +1328,362 @@
 
 <script>
 // ═══ DATA ═══
+// ═══ DATA ═══
+
 const alojamientosData = {
-  'sanmartin': { titulo:'Hospedaje San Martín',categoria:'hospedaje',coords:[-28.5721,-58.7102],rating:'4.8',reviewsCount:'14 reseñas',ubicacion:'San Roque',mainImg:'https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk','https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI','https://lh3.googleusercontent.com/aida-public/AB6AXuAg_6EVVz-4JzRbHOD9M3g0kuSpQNIPYAHOpLI8wY7UHgg8CcnyQYGcReYwvaLYepzJqNxHIV9NWCcXmZuUvjLC-w-cWETEhFdrAbop2G-8g4gT54JfDNcJ3tYcNgZJVhcbjNGm8wZ2F7QyjTYXpPBr6G2yegS1RcXk0Jn0LIo380zAvGWZzvtOEavEG4xkPp0GJdh3pLj8T2lJNtofxImBFlWiKsA0tMCFSMzPfqk5PKNya-qFdt6y7JrC9yQi8KxfqufmTiw8K6Y'],descripcionLarga:'Hospedaje',descripcionLarga:'Hospedaje San Martín ofrece un entorno ideal tanto para delegaciones como para familias grandes que buscan comodidad y excelente atención. Las instalaciones se destacan por sus amplios espacios de descanso.',capacidad:[{icono:'bed',titulo:'7 habitaciones en total',desc:'Ideales para grupos.'}],servicios:[{icono:'ac_unit',texto:'Aire Acondicionado'},{icono:'family_restroom',texto:'Apto Familias'}],checkin:'14:00',checkout:'10:00',cancelacion:'Flexible',waNumber:'549379498526',telefono:'tel:379498526',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk','https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI'] },
-  'leguiza': { titulo:'Leguiza Hotel',categoria:'hotel',coords:[-28.5755,-58.7051],rating:'4.9',reviewsCount:'28 reseñas',ubicacion:'Centro',mainImg:'https://lh3.googleusercontent.com/aida-public/AB6AXuCDE9WFbB3knnxqsUQl69k3imbw1PNvJmdRGQkKzqMB13lHTsdSvbIpuFD0L5FH9isUb3yOKR5VrisIQ-ZLdH8zTybBi7OTEkX-obM24ha02UHNvwZ0vKtnaidAh0maj7PARr-BZNaB0UCjaru7mTMN3H9ez-TR9oTBofHeHmkDYArG9M_Fz1Sg5YGzlBJo09gxmytXHphnKXQbHdanZgfFAstquibXfRXVW29lwHJQxbyA9LHjRWOvZtVBXNnERIpcm0usk_2GHBU',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuCDE9WFbB3knnxqsUQl69k3imbw1PNvJmdRGQkKzqMB13lHTsdSvbIpuFD0L5FH9isUb3yOKR5VrisIQ-ZLdH8zTybBi7OTEkX-obM24ha02UHNvwZ0vKtnaidAh0maj7PARr-BZNaB0UCjaru7mTMN3H9ez-TR9oTBofHeHmkDYArG9M_Fz1Sg5YGzlBJo09gxmytXHphnKXQbHdanZgfFAstquibXfRXVW29lwHJQxbyA9LHjRWOvZtVBXNnERIpcm0usk_2GHBU','https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI'],descripcionLarga:'El',descripcionLarga:'Leguiza Hotel es la opción premium del centro corporativo y turístico de San Roque. Equipado con internet Starlink satelital ininterrumpido. Perfecto para nómadas digitales y ejecutivos.',capacidad:[{icono:'hotel',titulo:'9 Habitaciones',desc:'Suite y Twin.'}],servicios:[{icono:'wifi',texto:'Starlink'},{icono:'directions_car',texto:'Cochera'}],checkin:'12:00',checkout:'11:00',cancelacion:'Flexible',waNumber:'5493777206700',telefono:'tel:3777206700',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuCDE9WFbB3knnxqsUQl69k3imbw1PNvJmdRGQkKzqMB13lHTsdSvbIpuFD0L5FH9isUb3yOKR5VrisIQ-ZLdH8zTybBi7OTEkX-obM24ha02UHNvwZ0vKtnaidAh0maj7PARr-BZNaB0UCjaru7mTMN3H9ez-TR9oTBofHeHmkDYArG9M_Fz1Sg5YGzlBJo09gxmytXHphnKXQbHdanZgfFAstquibXfRXVW29lwHJQxbyA9LHjRWOvZtVBXNnERIpcm0usk_2GHBU','https://lh3.googleusercontent.com/aida-public/AB6AXuAg_6EVVz-4JzRbHOD9M3g0kuSpQNIPYAHOpLI8wY7UHgg8CcnyQYGcReYwvaLYepzJqNxHIV9NWCcXmZuUvjLC-w-cWETEhFdrAbop2G-8g4gT54JfDNcJ3tYcNgZJVhcbjNGm8wZ2F7QyjTYXpPBr6G2yegS1RcXk0Jn0LIo380zAvGWZzvtOEavEG4xkPp0GJdh3pLj8T2lJNtofxImBFlWiKsA0tMCFSMzPfqk5PKNya-qFdt6y7JrC9yQi8KxfqufmTiw8K6Y'] },
-  'jr': { titulo:'Hospedaje JR',categoria:'hospedaje',coords:[-28.5760,-58.7125],rating:'4.6',reviewsCount:'9 reseñas',ubicacion:'Berón de Astrada 826',mainImg:'https://lh3.googleusercontent.com/aida-public/AB6AXuAseczUszmsEn78pANsddufBcwq_ny17_4ffia7-_cDSSr8GKlaRj1KyBH0nHtpwCHuB8z3vTqQb-khjUpxxE1uu-bEv235utiauvS_puBcBHqImurERZL07uHOHvxzYwQBLe_xYK1SOMEzufnWz7dOoPEdctWNjt8-4jef2uZPdjwXgqUpygeAT_rz-pgSUSbD1E9JRcXIUz4on4G56wyszw-80B6_Jiy56cnAkezpXSyhDeQX3eojjWe4j5gM6b3aEIyIQ5zxGfQ',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuAseczUszmsEn78pANsddufBcwq_ny17_4ffia7-_cDSSr8GKlaRj1KyBH0nHtpwCHuB8z3vTqQb-khjUpxxE1uu-bEv235utiauvS_puBcBHqImurERZL07uHOHvxzYwQBLe_xYK1SOMEzufnWz7dOoPEdctWNjt8-4jef2uZPdjwXgqUpygeAT_rz-pgSUSbD1E9JRcXIUz4on4G56wyszw-80B6_Jiy56cnAkezpXSyhDeQX3eojjWe4j5gM6b3aEIyIQ5zxGfQ','https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk'],descripcionLarga:'Ubicado',descripcionLarga:'Ubicado en una arteria tranquila. Destaca por su impecable limpieza y la comodidad de su cocina de uso común totalmente equipada.',capacidad:[{icono:'meeting_room',titulo:'4 Habitaciones'}],servicios:[{icono:'shower',texto:'Baño Privado'},{icono:'kitchen',texto:'Cocina'}],checkin:'13:00',checkout:'10:00',cancelacion:'Estricta',waNumber:'5493777508296',telefono:'tel:3777508296',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuAseczUszmsEn78pANsddufBcwq_ny17_4ffia7-_cDSSr8GKlaRj1KyBH0nHtpwCHuB8z3vTqQb-khjUpxxE1uu-bEv235utiauvS_puBcBHqImurERZL07uHOHvxzYwQBLe_xYK1SOMEzufnWz7dOoPEdctWNjt8-4jef2uZPdjwXgqUpygeAT_rz-pgSUSbD1E9JRcXIUz4on4G56wyszw-80B6_Jiy56cnAkezpXSyhDeQX3eojjWe4j5gM6b3aEIyIQ5zxGfQ','https://lh3.googleusercontent.com/aida-public/AB6AXuDdSIRrna_Q49b0SsoKOFkJnJe4OufHsCn8Vc_Y_8ybD1DnK5GHPZVoQRRUfaGwoh6nTqISj4Ha7u82hXsIzPPH-At_omDHrkL7qq-b-oqFxUI_30S36EaGJ_eqNrpGY0teb01FNtKAZKftOq-zb-YK_XteYBrqrOdXamKTyBFfAsRSO5gIJnkrm1uKuaZKMOkAL43CkRM72oto_1bbRBPnA0wJNcHFaYcV3PmcCGLept04rjKrmpHTEpU0Y22CJWWdWbKAlDXOQQI'] },
-  'fortune': { titulo:'Hospedaje Fortune',categoria:'departamento',coords:[-28.5715,-58.7068],rating:'4.7',reviewsCount:'19 reseñas',ubicacion:'San Roque',mainImg:'https://lh3.googleusercontent.com/aida-public/AB6AXuA4s83P1ccLqxkn9VtUtsjmiM5xo5gz766mJWFKm_jqoY3mvP3uNsnNxkAGEPd2U0Be8wHzTko3RoSPibTLapXI5Hrv5vJYwNv5OZ_lyFfSKjvX-eVijOIpRMnvyntfnZUN_yk8xbvKzBVh2CdNDDDXV-VgK0TkURvacCTnTIjGdKRO0ir0KkcBBMS1Nk7CA6RpTgiXpjSxBCLx231wi1SN8ru1l6xRq0_eszAsDCC3ourwycbx-jgDoG85w0riyCXbWUYHKEYWjII',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuA4s83P1ccLqxkn9VtUtsjmiM5xo5gz766mJWFKm_jqoY3mvP3uNsnNxkAGEPd2U0Be8wHzTko3RoSPibTLapXI5Hrv5vJYwNv5OZ_lyFfSKjvX-eVijOIpRMnvyntfnZUN_yk8xbvKzBVh2CdNDDDXV-VgK0TkURvacCTnTIjGdKRO0ir0KkcBBMS1Nk7CA6RpTgiXpjSxBCLx231wi1SN8ru1l6xRq0_eszAsDCC3ourwycbx-jgDoG85w0riyCXbWUYHKEYWjII','https://lh3.googleusercontent.com/aida-public/AB6AXuAg_6EVVz-4JzRbHOD9M3g0kuSpQNIPYAHOpLI8wY7UHgg8CcnyQYGcReYwvaLYepzJqNxHIV9NWCcXmZuUvjLC-w-cWETEhFdrAbop2G-8g4gT54JfDNcJ3tYcNgZJVhcbjNGm8wZ2F7QyjTYXpPBr6G2yegS1RcXk0Jn0LIo380zAvGWZzvtOEavEG4xkPp0GJdh3pLj8T2lJNtofxImBFlWiKsA0tMCFSMzPfqk5PKNya-qFdt6y7JrC9yQi8KxfqufmTiw8K6Y'],descripcionLarga:'Departamentos',descripcionLarga:'Departamentos modernos totalmente independientes y amueblados. Hospedaje automatizado de ingreso coordinado sin recepción presencial.',capacidad:[{icono:'apartment',titulo:'6 Apartamentos'}],servicios:[{icono:'coffee',texto:'Desayuno'},{icono:'tv',texto:'DirecTV'}],checkin:'15:00',checkout:'11:00',cancelacion:'Moderada',waNumber:'5493777221872',telefono:'tel:3777221872',galeria:['https://lh3.googleusercontent.com/aida-public/AB6AXuA4s83P1ccLqxkn9VtUtsjmiM5xo5gz766mJWFKm_jqoY3mvP3uNsnNxkAGEPd2U0Be8wHzTko3RoSPibTLapXI5Hrv5vJYwNv5OZ_lyFfSKjvX-eVijOIpRMnvyntfnZUN_yk8xbvKzBVh2CdNDDDXV-VgK0TkURvacCTnTIjGdKRO0ir0KkcBBMS1Nk7CA6RpTgiXpjSxBCLx231wi1SN8ru1l6xRq0_eszAsDCC3ourwycbx-jgDoG85w0riyCXbWUYHKEYWjII','https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk'] }
+
+
+// ===============================
+// ALOJAMIENTOS
+// ===============================
+
+
+'ariadna':{
+titulo:'Hotel y Hospedaje Ariadna',
+categoria:'hotel',
+coords:[-28.580930282595837,-58.72157750594606],
+rating:'4.8',
+reviewsCount:'0 reseñas',
+ubicacion:'San Roque',
+
+mainImg:'fotos/hotelariadna.png',
+
+galeria:[
+'fotos/hotelariadna.png'
+],
+
+descripcionLarga:'Hotel y hospedaje Ariadna ofrece comodidad y tranquilidad para visitantes de San Roque.',
+
+capacidad:[
+{icono:'hotel',titulo:'Habitaciones disponibles'}
+],
+
+servicios:[
+{icono:'wifi',texto:'WiFi'},
+{icono:'bed',texto:'Habitaciones cómodas'}
+],
+
+checkin:'14:00',
+checkout:'10:00',
+cancelacion:'Flexible',
+
+waNumber:'',
+telefono:''
+},
+
+
+
+'casablanca':{
+titulo:'Hotel Casa Blanca',
+categoria:'hotel',
+coords:[-28.580770065591047,-58.71758019665767],
+rating:'4.8',
+reviewsCount:'0 reseñas',
+ubicacion:'San Roque',
+
+mainImg:'fotos/casablanca.png',
+
+galeria:[
+'fotos/casablanca.png'
+],
+
+descripcionLarga:'Hotel Casa Blanca brinda alojamiento confortable en San Roque.',
+
+capacidad:[],
+servicios:[],
+
+checkin:'14:00',
+checkout:'10:00',
+cancelacion:'Flexible',
+
+waNumber:'',
+telefono:''
+},
+
+
+
+'sanmartin':{
+titulo:'Hospedaje San Martín',
+categoria:'hospedaje',
+coords:[-28.572689061181862,-58.70867259115471],
+rating:'4.8',
+reviewsCount:'14 reseñas',
+ubicacion:'San Roque',
+
+mainImg:'fotos/hospedajesanmartin.png',
+
+galeria:[
+'fotos/hospedajesanmartin.png'
+],
+
+descripcionLarga:'Hospedaje San Martín ofrece comodidad para familias y grupos.',
+
+capacidad:[
+{icono:'bed',titulo:'Habitaciones disponibles'}
+],
+
+servicios:[
+{icono:'ac_unit',texto:'Aire acondicionado'},
+{icono:'family_restroom',texto:'Apto familias'}
+],
+
+checkin:'14:00',
+checkout:'10:00',
+cancelacion:'Flexible',
+
+waNumber:'',
+telefono:''
+},
+
+
+
+'jr':{
+titulo:'Hospedaje JR',
+categoria:'hospedaje',
+coords:[-28.575846639617794,-58.71311808584592],
+rating:'4.6',
+reviewsCount:'9 reseñas',
+ubicacion:'San Roque',
+
+mainImg:'fotos/hospedajejr.png',
+
+galeria:[
+'fotos/hospedajejr.png'
+],
+
+descripcionLarga:'Hospedaje JR ofrece tranquilidad y comodidad en una zona accesible.',
+
+capacidad:[],
+servicios:[],
+
+checkin:'13:00',
+checkout:'10:00',
+cancelacion:'Flexible',
+
+waNumber:'',
+telefono:''
+},
+
+
+
+'leguiza':{
+titulo:'Leguiza Hotel',
+categoria:'hotel',
+coords:[-28.575303530420296,-58.70919522752146],
+rating:'4.9',
+reviewsCount:'28 reseñas',
+ubicacion:'Centro',
+
+mainImg:'fotos/leguizahotel.png',
+
+galeria:[
+'fotos/leguizahotel.png'
+],
+
+descripcionLarga:'Leguiza Hotel es una opción premium ubicada en el centro de San Roque.',
+
+capacidad:[
+{icono:'hotel',titulo:'Habitaciones'}
+],
+
+servicios:[
+{icono:'wifi',texto:'Internet'},
+{icono:'directions_car',texto:'Cochera'}
+],
+
+checkin:'12:00',
+checkout:'11:00',
+cancelacion:'Flexible',
+
+waNumber:'',
+telefono:''
+},
+
+
+
+'fortune':{
+titulo:'Fortune Hotel',
+categoria:'hotel',
+coords:[-28.57844744943032,-58.708549644931],
+rating:'4.7',
+reviewsCount:'19 reseñas',
+ubicacion:'San Roque',
+
+mainImg:'fotos/fortunehotel.png',
+
+galeria:[
+'fotos/fortunehotel.png'
+],
+
+descripcionLarga:'Departamentos modernos y totalmente equipados.',
+
+capacidad:[
+{icono:'apartment',titulo:'Departamentos'}
+],
+
+servicios:[
+{icono:'tv',texto:'Televisión'},
+{icono:'coffee',texto:'Desayuno'}
+],
+
+checkin:'15:00',
+checkout:'11:00',
+cancelacion:'Moderada',
+
+waNumber:'',
+telefono:''
+},
+
+
+
+
+// ===============================
+// LUGARES IMPORTANTES
+// ===============================
+
+
+
+'plaza_libertad':{
+titulo:'Plaza Principal Libertad',
+categoria:'lugar',
+coords:[-28.57098181276159,-58.71209180928368],
+mainImg:'fotos/plazalibertad.png'
+},
+
+
+'museo':{
+titulo:'Museo',
+categoria:'lugar',
+coords:[-28.57098181276159,-58.71209180928368],
+mainImg:'fotos/museo.png'
+},
+
+
+'policia':{
+titulo:'Policía de San Roque',
+categoria:'servicio',
+coords:[-28.570089924920314,-58.712608217644515],
+mainImg:'fotos/policia.png'
+},
+
+
+'parroquia':{
+titulo:'Parroquia San Roque de Montpellier',
+categoria:'iglesia',
+coords:[-28.571590353744543,-58.711252302690546],
+mainImg:'fotos/parroquia.png'
+},
+
+
+'monte_sion':{
+titulo:'Iglesia Monte de Sion',
+categoria:'iglesia',
+coords:[-28.575815684105844,-58.707426283145196],
+mainImg:'fotos/montesion.png'
+},
+
+
+'filadelfia':{
+titulo:'Templo Filadelfia de San Roque',
+categoria:'iglesia',
+coords:[-28.57730954160022,-58.70606541439768],
+mainImg:'fotos/filadelfia.png'
+},
+
+
+'testigos':{
+titulo:'Salón del Reino de los Testigos de Jehová',
+categoria:'iglesia',
+coords:[-28.577110361826733,-58.70697266022936],
+mainImg:'fotos/testigos.png'
+},
+
+
+'asamblea_dios':{
+titulo:'Iglesia Evangélica Asamblea de Dios 248',
+categoria:'iglesia',
+coords:[-28.580856838882077,-58.718072982275054],
+mainImg:'fotos/asambleadios.png'
+},
+
+
+'bomberos':{
+titulo:'Bomberos de San Roque',
+categoria:'servicio',
+coords:[-28.577904318277724,-58.713826053599384],
+mainImg:'fotos/bomberos.png'
+},
+
+
+'hospital':{
+titulo:'Hospital de San Roque',
+categoria:'salud',
+coords:[-28.577551339214832,-58.711226434897526],
+mainImg:'fotos/hospital.png'
+},
+
+
+'farmar':{
+titulo:'Farmar IV',
+categoria:'farmacia',
+coords:[-28.57564523967805,-28.7115423787572],
+mainImg:'fotos/farmar.png'
+},
+
+
+'farmacia_itati':{
+titulo:'Farmacia Itatí S.C.S',
+categoria:'farmacia',
+coords:[-28.57490350407002,-58.70936387230284],
+mainImg:'fotos/farmaciaitati.png'
+},
+
+
+'tressens':{
+titulo:'Farmacia Tressens II S.C.S',
+categoria:'farmacia',
+coords:[-28.575223851034433,-58.70882743052239],
+mainImg:'fotos/tressens.png'
+},
+
+
+'farmacia_san_roque':{
+titulo:'Farmacia San Roque',
+categoria:'farmacia',
+coords:[-28.57708938162111,-58.711638385451934],
+mainImg:'fotos/farmaciasanroque.png'
+},
+
+
+'municipalidad':{
+titulo:'Municipalidad de San Roque',
+categoria:'servicio',
+coords:[-28.57680756168794,-58.708982356874806],
+mainImg:'fotos/municipalidad.png'
+},
+
+
+'cic':{
+titulo:'C.I.C Extensión del Municipio de San Roque',
+categoria:'servicio',
+coords:[-28.575522578502625,-58.70431666637905],
+mainImg:'fotos/cic.png'
+},
+
+
+'registro_civil':{
+titulo:'Registro Civil',
+categoria:'servicio',
+coords:[-28.576534179577525,-58.70901613864172],
+mainImg:'fotos/registrocivil.png'
+}
+
+
 };
 
-let map; const mapMarkers = {};
 
+let map;
+const mapMarkers = {};
 function initMap() {
   map = L.map('main-map').setView([-28.5744,-58.7083],15);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
@@ -1018,63 +1836,164 @@ async function loadWeather() {
 
 // ═══ DATOS ÚTILES E INFO CHATBOT ═══
 const datosUtilesInfo = {
-    remises: {
-        titulo: "🚖 Remises",
-        descripcion: "Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
-        contactos: [
-            { nombre: "Remis San Roque", tel: "549XXXXXXXXX" },
-            { nombre: "Remis Centro", tel: "549XXXXXXXXX" },
-            { nombre: "Remis Norte", tel: "549XXXXXXXXX" }
+    remises:{
+        titulo:"🚖 Remises",
+        descripcion:"Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
+        contactos:[
+            {nombre:"Remis San Roque", tel:"549XXXXXXXXX"},
+            {nombre:"Remis Centro", tel:"549XXXXXXXXX"},
+            {nombre:"Remis Norte", tel:"549XXXXXXXXX"}
         ]
     },
-    terminal: {
-        titulo: "🚌 Terminal de Ómnibus",
-        descripcion: "Punto de llegada y salida de transporte interurbano.",
-        ubicacion: "https://www.google.com/maps/place/Terminal+De+Colectivos/@-28.5767789,-58.7135694"
+
+
+    terminal:{
+        titulo:"🚌 Terminal de Ómnibus",
+        descripcion:"Terminal de colectivos de San Roque.",
+        ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.5767789,-58.7135694"
     },
-    municipio: {
-        titulo: "🏛️ Municipio",
-        descripcion: "Atención al ciudadano y trámites.",
-        ubicacion: "https://www.google.com/maps/place/Municipalidad+De+San+Roque/@-28.5768429,-58.7089758"
+
+
+    municipio:{
+        titulo:"🏛️ Municipalidad",
+        descripcion:"Atención al ciudadano y trámites municipales.",
+        ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806"
     },
-    iglesias: {
-        titulo: "⛪ Iglesias",
-        descripcion: "Templos de la zona de San Roque.",
-        lugares: [
-            { nombre: "Parroquia San Roque", link: "https://www.google.com/maps/place/Parroquia+San+Roque+de+Montpellier/" },
-            { nombre: "Templo Filadelfia", link: "https://www.google.com/maps/place/Templo+Filadelfia+de+San+Roque/" },
-            { nombre: "Iglesia Monte de Sion", link: "https://www.google.com/maps/place/Iglesia+Monte+de+Sion/" }
+
+
+    iglesias:{
+        titulo:"⛪ Iglesias",
+        descripcion:"Templos religiosos de San Roque.",
+        lugares:[
+
+            {
+                nombre:"Parroquia San Roque de Montpellier",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.571590353744543,-58.711252302690546"
+            },
+
+            {
+                nombre:"Iglesia Monte de Sion",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.575815684105844,-58.707426283145196"
+            },
+
+            {
+                nombre:"Templo Filadelfia de San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57730954160022,-58.70606541439768"
+            },
+
+            {
+                nombre:"Salón del Reino de los Testigos de Jehová",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.577110361826733,-58.70697266022936"
+            },
+
+            {
+                nombre:"Iglesia Evangélica Asamblea de Dios",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.580856838882077,-58.718072982275054"
+            }
+
         ]
     },
-    emergencias: {
-        titulo: "🚨 Emergencias",
-        descripcion: "Servicios de urgencia disponibles.",
-        lugares: [
-            { nombre: "Comisaría San Roque", link: "https://www.google.com/maps/place/Comisaria+San+Roque/" },
-            { nombre: "Hospital / Guardia", link: "https://www.google.com/maps/search/hospital+san+roque" },
-            { nombre: "Bomberos", link: "https://www.google.com/maps/search/bomberos+san+roque" }
+
+
+    emergencias:{
+        titulo:"🚨 Emergencias",
+        descripcion:"Servicios de urgencia disponibles en San Roque.",
+        lugares:[
+
+            {
+                nombre:"Policía de San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.570089924920314,-58.712608217644515"
+            },
+
+            {
+                nombre:"Hospital de San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.577551339214832,-58.711226434897526"
+            },
+
+            {
+                nombre:"Bomberos San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.577904318277724,-58.713826053599384"
+            }
+
         ]
     },
-    salud: {
-        titulo: "🏥 Salud",
-        descripcion: "Farmacias y atención médica.",
-        lugares: [
-            { nombre: "Farmacia San Roque", link: "https://www.google.com/maps/place/Farmacia+San+Roque/" },
-            { nombre: "Farmacia Itatí", link: "https://www.google.com/maps/place/Farmacia+Itati+S.C.S./" },
-            { nombre: "Farmar IV", link: "https://www.google.com/maps/place/Farmar+IV/" }
+
+
+    salud:{
+        titulo:"🏥 Salud",
+        descripcion:"Farmacias y atención médica.",
+        lugares:[
+
+            {
+                nombre:"Farmar IV",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57564523967805,-58.7115423787572"
+            },
+
+            {
+                nombre:"Farmacia Itatí S.C.S",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57490350407002,-58.70936387230284"
+            },
+
+            {
+                nombre:"Farmacia Tressens II",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.575223851034433,-58.70882743052239"
+            },
+
+            {
+                nombre:"Farmacia San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57708938162111,-58.711638385451934"
+            }
+
         ]
     },
-    servicios: {
-        titulo: "🏧 Servicios rápidos",
-        descripcion: "Bancos, cajeros y pagos.",
-        lugares: [
-            { nombre: "Bancos y Cajeros", link: "https://www.google.com/maps/search/bancos+san+roque" },
-            { nombre: "Pago Fácil", link: "https://www.google.com/maps/search/pago+facil+san+roque" }
+
+
+    servicios:{
+        titulo:"🏧 Servicios rápidos",
+        descripcion:"Servicios útiles para visitantes.",
+        lugares:[
+
+            {
+                nombre:"Municipalidad de San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806"
+            },
+
+            {
+                nombre:"C.I.C extensión del municipio",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905"
+            },
+
+            {
+                nombre:"Registro Civil",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172"
+            }
+
+        ]
+    },
+
+
+    turismo:{
+        titulo:"📍 Lugares turísticos",
+        descripcion:"Puntos importantes de San Roque.",
+
+        lugares:[
+
+            {
+                nombre:"Plaza Principal Libertad",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368"
+            },
+
+            {
+                nombre:"Museo de San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368"
+            }
+
         ]
     }
+
 };
 
-const BOT_API = "https://muni-bot-production.up.railway.app/chat";
+const BOT_API = "/.netlify/functions/chat";
 let chatOpen = false;
 
 document.getElementById("chatToggle").onclick = () => {
