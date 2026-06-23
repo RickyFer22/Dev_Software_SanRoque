@@ -21,8 +21,9 @@ if [ ! -f "$ENV_FILE" ]; then
   exit 1
 fi
 
-echo "[1/5] Actualizando código desde GitHub..."
-git pull origin main || echo "[WARN] git pull falló; continúo con los archivos locales."
+echo "[1/5] Actualizando código desde GitHub (HTTPS, repo público)..."
+git remote set-url origin "https://github.com/RickyFer22/Dev_Software_SanRoque.git" 2>/dev/null || true
+git fetch origin main && git reset --hard origin/main || echo "[WARN] git fetch falló; continúo con los archivos locales."
 
 echo "[2/5] Asegurando red docker externa 'web' (Traefik)..."
 docker network inspect web >/dev/null 2>&1 || docker network create web

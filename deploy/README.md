@@ -47,9 +47,9 @@ Internet ──HTTPS──▶ Traefik (red 'web', Let's Encrypt)
 ```bash
 ssh -p 22022 root@69.6.243.65
 
-# Clonar
-mkdir -p /opt/projects/vivisanroque
-git clone git@github.com:RickyFer22/Dev_Software_SanRoque.git /opt/projects/vivisanroque
+# Clonar (HTTPS: el repo es público y el VPS no necesita llave SSH de GitHub)
+mkdir -p /opt/projects
+git clone https://github.com/RickyFer22/Dev_Software_SanRoque.git /opt/projects/vivisanroque
 cd /opt/projects/vivisanroque
 
 # Configurar credenciales (NO se versiona)
@@ -98,8 +98,9 @@ En **Settings → Secrets and variables → Actions** del repo:
 | `VPS_HOST` | `69.6.243.65` |
 | `VPS_USER` | `root` |
 | `VPS_PORT` | `22022` |
-| `VPS_SSH_KEY` | Llave SSH **privada** con acceso al VPS (deploy key) |
+| `VPS_SSH_KEY` | Llave SSH **privada** para que el runner entre **al VPS** (no es una llave de GitHub) |
 
+> El repo es **público**: el VPS clona/actualiza por **HTTPS**, así que no necesita ninguna llave SSH de GitHub.
 > La API key de OpenWeatherMap **no** va en GitHub: vive solo en `deploy/.env` del VPS.
 
 ## 6. Endurecimiento de seguridad aplicado

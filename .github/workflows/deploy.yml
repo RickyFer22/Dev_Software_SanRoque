@@ -32,17 +32,21 @@ jobs:
           script: |
             set -e
             PROJECT_PATH="/opt/projects/vivisanroque"
+            # Repositorio PÚBLICO: se clona por HTTPS (el VPS no necesita llave SSH de GitHub)
+            REPO_URL="https://github.com/RickyFer22/Dev_Software_SanRoque.git"
 
             echo "=== Verificando proyecto ==="
             if [ ! -d "$PROJECT_PATH/.git" ]; then
-              echo "[INFO] Clonando repositorio..."
-              mkdir -p "$PROJECT_PATH"
-              git clone git@github.com:RickyFer22/Dev_Software_SanRoque.git "$PROJECT_PATH"
+              echo "[INFO] Clonando repositorio (HTTPS)..."
+              rm -rf "$PROJECT_PATH"
+              git clone "$REPO_URL" "$PROJECT_PATH"
             fi
 
             cd "$PROJECT_PATH"
 
             echo "=== Actualizando código ==="
+            # Forzar origin a HTTPS por si un clon previo quedó en SSH (causa del fallo anterior)
+            git remote set-url origin "$REPO_URL"
             git fetch origin main
             git reset --hard origin/main
 
