@@ -1,0 +1,22 @@
+# Imagen estática del Portal Turístico de San Roque (Nginx)
+# Build context = raíz del repo (ver deploy/docker-compose.yml)
+FROM nginx:1.27-alpine
+
+# Configuración endurecida de Nginx
+COPY deploy/nginx.conf /etc/nginx/nginx.conf
+
+# Archivos estáticos del sitio (lo que NO debe copiarse se excluye en .dockerignore)
+COPY . /usr/share/nginx/html
+
+# El .dockerignore evita que la carpeta deploy/ y metadatos entren a la imagen,
+# pero por las dudas removemos restos de despliegue del docroot.
+RUN rm -rf /usr/share/nginx/html/deploy \
+           /usr/share/nginx/html/.github \
+           /usr/share/nginx/html/.git
+
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]

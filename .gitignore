@@ -1,0 +1,31 @@
+# ===== Credenciales / entorno (NUNCA subir) =====
+.env
+deploy/.env
+*.env.local
+*.key
+*.pem
+id_ed25519
+id_rsa
+
+# ===== Scripts/notas locales sueltos en la RAÍZ (versiones históricas) =====
+# Anclados con '/' para NO afectar a deploy/scripts/*.sh
+/deploy-to-vps.ps1
+/setup_secrets.ps1
+/deploy.sh
+/deploy_vps_github.md
+
+# ===== Dependencias =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== Artefactos de build / bundles =====
+*.tar.gz
+*-bundle.tar.gz
+
+# ===== Sistema / editor =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

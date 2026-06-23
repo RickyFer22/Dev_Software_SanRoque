@@ -1,0 +1,13 @@
+{
+  "name": "sanroque-weather-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Proxy mínimo a OpenWeatherMap para el Portal Turístico de San Roque",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

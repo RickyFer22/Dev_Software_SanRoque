@@ -1,0 +1,68 @@
+# Stack base (válido para local y VPS). El overlay de VPS añade Traefik/dominio.
+# Uso local:  docker compose -f deploy/docker-compose.yml up --build
+# Uso VPS:    ver deploy/scripts/deploy.sh
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.web
+    image: ${PROJECT_NAME:-vivisanroque}_web
+    container_name: ${PROJECT_NAME:-vivisanroque}_web
+    restart: always
+    depends_on:
+      - weather
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          memory: 32M
+    ports:
+      - "${PORT:-8080}:80"
+    networks:
+      - internal
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  weather:
+    build:
+      context: ./weather
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME:-vivisanroque}_weather
+    container_name: ${PROJECT_NAME:-vivisanroque}_weather
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+    expose:
+      - "3000"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
+        reservations:
+          memory: 16M
+    networks:
+      - internal
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    cap_drop:
+      - ALL
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  internal:
+    driver: bridge

@@ -1,0 +1,38 @@
+# Lo que NO debe entrar a la imagen estática (build context = raíz del repo).
+.git
+.github
+.gitignore
+.dockerignore
+
+# Infra de despliegue: se excluye TODO menos nginx.conf (que el Dockerfile.web sí copia).
+# Lo más importante: nunca incluir deploy/.env (contiene la API key).
+deploy/.env
+deploy/.env.example
+deploy/weather
+deploy/scripts
+deploy/docker-compose.yml
+deploy/docker-compose.vps.yml
+deploy/Dockerfile.web
+deploy/README.md
+
+# Scripts y notas locales de despliegue (versiones sueltas históricas)
+*.ps1
+*.sh
+deploy_vps_github.md
+
+# Documentación y binarios pesados que no se sirven
+README.md
+*.pdf
+*.docx
+*.zip
+*.rar
+Idea.jpeg
+futuro.jpeg
+
+# Dependencias / logs / SO
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
