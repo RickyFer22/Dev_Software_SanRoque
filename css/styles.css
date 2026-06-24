@@ -1,0 +1,649 @@
+.material-symbols-outlined { font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased; }
+  .material-symbols-outlined.filled { font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24; }
+
+  .fade-in-up { opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1); }
+  .fade-in-up.visible { opacity:1;transform:translateY(0); }
+  @keyframes viewFadeIn { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-view-in { animation:viewFadeIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+  .hero-slide { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:heroFade 18s infinite; }
+  .hero-slide:nth-child(1){animation-delay:0s} .hero-slide:nth-child(2){animation-delay:6s} .hero-slide:nth-child(3){animation-delay:12s}
+  @keyframes heroFade { 0%{opacity:0;transform:scale(1.05)} 8%{opacity:1;transform:scale(1)} 33%{opacity:1;transform:scale(1)} 41%{opacity:0;transform:scale(1.04)} 100%{opacity:0} }
+
+  .img-zoom { transition:transform 0.7s cubic-bezier(.22,1,.36,1); }
+  article:hover .img-zoom { transform:scale(1.06); }
+  .hero-text-shadow { text-shadow:0 2px 20px rgba(0,0,0,0.55); }
+  .hide-scrollbar::-webkit-scrollbar{display:none} .hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+
+  /* ── TYPEWRITER ── */
+  .typewriter-cursor { display:inline-block;width:3px;height:0.82em;background:#F5D98A;margin-left:3px;vertical-align:middle;border-radius:2px;animation:blink 0.75s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ── HERO FULLSCREEN ── */
+  #hero-section { position:relative;width:100%;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:0; }
+  #hero-section .hero-wave { position:absolute;bottom:-2px;left:0;width:100%;z-index:15;line-height:0; }
+
+  /* ── WEATHER WIDGET ── */
+  .weather-widget { transition:transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);outline:none; }
+  .weather-panel { opacity:0;transform:scale(0.95) translateY(10px);pointer-events:none;transition:opacity 0.3s ease,transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);transform-origin:bottom left; }
+  .weather-widget:hover .weather-panel,.weather-widget:focus .weather-panel,.weather-widget:focus-within .weather-panel { opacity:1;transform:scale(1) translateY(0);pointer-events:auto; }
+
+  .service-badge { display:flex;align-items:center;gap:6px;background:rgba(19,78,74,0.05);border:1px solid rgba(19,78,74,0.12);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#134e4a; }
+  .capacity-row { display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(0,0,0,0.05); }
+  .capacity-row:last-child { border-bottom:none; }
+
+  .leaflet-container { z-index:10 !important;font-family:'DM Sans',sans-serif; }
+  .leaflet-popup-content-wrapper { border-radius:16px;padding:8px;box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+  .leaflet-popup-content { margin:8px; }
+
+  /* ── INTRO SPLASH ── */
+  #intro-splash { position:fixed;inset:0;z-index:9999;background:#003633;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.8s ease,visibility 0.8s ease; }
+  #intro-splash.hidden-out { opacity:0;visibility:hidden;pointer-events:none; }
+  #splash-logo { opacity:0;transform:scale(0.72);transition:opacity 0.9s cubic-bezier(.22,1,.36,1),transform 0.9s cubic-bezier(.22,1,.36,1); }
+  #splash-logo.show { opacity:1;transform:scale(1); }
+  #splash-text { opacity:0;transform:translateY(12px);transition:opacity 0.7s ease 0.6s,transform 0.7s ease 0.6s; }
+  #splash-text.show { opacity:1;transform:translateY(0); }
+
+  /* ── MAP COLLAPSIBLE ── */
+  .map-collapsible { max-height:88px;overflow:hidden;transition:max-height 0.7s cubic-bezier(.22,1,.36,1);border-radius:24px; }
+  .map-collapsible:hover,.map-collapsible:focus-within { max-height:560px; }
+  .map-peek { display:flex;align-items:center;gap:14px;padding:0 24px;height:88px;cursor:pointer;background:#fff;border-radius:24px;position:relative;z-index:1; }
+  .map-collapsible:hover .map-peek-hint { opacity:0; }
+  .map-peek-hint { transition:opacity 0.35s ease; }
+  #main-map { border-radius:0 0 24px 24px; }
+
+  /* ── GEO BADGE en cards ── */
+  .geo-btn { display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#134E4A;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:999px;padding:5px 12px;transition:background 0.2s,transform 0.2s;cursor:pointer;text-decoration:none; }
+  .geo-btn:hover { background:#dcfce7;transform:scale(1.04); }
+  .geo-btn .material-symbols-outlined { font-size:13px;color:#16a34a; }
+
+  /* ── EVENT CARD imagen ── */
+  .event-img { width:100%;height:130px;object-fit:cover;display:block; }
+  .event-img-wrap { position:relative;overflow:hidden; }
+  .event-img-wrap .event-img { transition:transform 0.5s cubic-bezier(.22,1,.36,1); }
+  .event-card:hover .event-img { transform:scale(1.06); }
+  .event-img-overlay { position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.08) 0%,rgba(0,0,0,0.38) 100%); }
+  .event-badge-over { position:absolute;top:10px;left:10px; }
+  .event-icon-over { position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center; }
+  .event-card { transition:transform 0.3s cubic-bezier(.22,1,.36,1),box-shadow 0.3s ease; }
+  .event-card:hover { transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,54,51,0.14); }
+  .ebadge { font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:999px; }
+  .ebadge.futsal{background:#fef9c3;color:#854d0e}
+  .ebadge.voley{background:#dbeafe;color:#1d4ed8}
+  .ebadge.festivo{background:#fce7f3;color:#9d174d}
+  .ebadge.defensores{background:#f0fdf4;color:#166534;border:1px solid #86efac}
+
+  /* =========================================
+     CSS DATOS ÚTILES
+     ========================================= */
+  .datos-utiles-lista { list-style: none; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+  .datos-utiles-lista li a { display: flex; align-items: center; gap: 10px; background: white; padding: 15px 25px; border-radius: 12px; color: #003633; text-decoration: none; font-weight: bold; font-size: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-bottom: 3px solid #D4A83C; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .datos-utiles-lista li a:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+  .datos-utiles-lista li a i { font-size: 1.2rem; color: #D4A83C; }
+
+  /* =========================================
+
+   CHATBOT FLOTANTE MUNIAYUDA
+========================================= */
+
+
+.chatbot{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:9999;
+    font-family:'DM Sans',sans-serif;
+}
+
+
+/* BOTON FLOTANTE */
+
+.chat-button{
+
+    width:75px;
+    height:75px;
+
+    background:#003633;
+
+    border-radius:50%;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:11px;
+
+    box-shadow:
+    0 6px 18px rgba(0,0,0,.25);
+
+    transition:.3s;
+
+}
+
+
+.chat-button:hover{
+    transform:scale(1.08);
+}
+
+
+.chat-button img{
+
+    width:38px;
+    height:38px;
+
+    margin-bottom:3px;
+
+}
+
+
+/* VENTANA */
+
+.chat-window{
+
+    display:none;
+
+    width:360px;
+    height:520px;
+
+    background:white;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    margin-bottom:15px;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.30);
+
+    flex-direction:column;
+
+    position:absolute;
+
+    bottom:80px;
+    right:0;
+
+}
+
+
+/* HEADER */
+
+.chat-header{
+
+    background:
+    linear-gradient(
+    135deg,
+    #003633,
+    #0f766e
+    );
+
+    color:white;
+
+    padding:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+.chat-header img{
+
+    width:45px;
+    height:45px;
+
+    background:white;
+
+    border-radius:50%;
+
+    padding:5px;
+
+}
+
+
+
+.chat-header h3{
+
+    font-size:18px;
+
+    margin:0;
+
+    font-weight:700;
+
+}
+
+
+.chat-header p{
+
+    font-size:12px;
+
+    margin-top:3px;
+
+    opacity:.85;
+
+}
+
+
+
+/* CUERPO CHAT */
+
+.chat-box{
+
+    flex:1;
+
+    padding:12px;
+
+    overflow-y:auto;
+
+    font-size:14px;
+
+    background:#f8fafc;
+
+}
+
+
+
+/* MENSAJES */
+
+.chat-box div{
+
+    animation:
+    aparecer .25s ease;
+
+}
+
+
+
+@keyframes aparecer{
+
+from{
+opacity:0;
+transform:translateY(8px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+
+
+/* BOTONES RAPIDOS */
+
+.chat-quick{
+
+    padding:12px;
+
+    border-top:1px solid #e5e7eb;
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    background:white;
+
+}
+
+
+
+.quick-btn{
+
+    background:white;
+
+    border:1px solid #d5dddd;
+
+    border-radius:15px;
+
+    padding:9px 13px;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    color:#003633;
+
+    font-family:inherit;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+
+
+.quick-btn:hover{
+
+    background:#003633;
+
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+
+
+
+/* INPUT */
+
+.chat-input-area{
+
+    display:flex;
+
+    border-top:1px solid #ddd;
+
+    background:white;
+
+}
+
+
+
+.chat-input-area input{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    outline:none;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+}
+
+
+
+.chat-input-area button{
+
+    width:55px;
+
+    background:#003633;
+
+    color:white;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+
+
+/* TARJETAS DENTRO DEL CHAT */
+
+.chat-options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    margin-top:15px;
+
+}
+
+
+
+.chat-options button{
+
+    background:white;
+
+    border:1px solid #dbe4e3;
+
+    border-radius:15px;
+
+    padding:12px;
+
+    text-align:left;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#003633;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.05);
+
+    transition:.2s;
+
+}
+
+
+
+.chat-options button:hover{
+
+    background:#003633;
+
+    color:white;
+
+}
+
+
+
+/* ESCRIBIENDO */
+
+.typing{
+
+    display:flex;
+
+    gap:4px;
+
+    margin:10px;
+
+}
+
+
+.typing span{
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:#64748b;
+
+    animation:bounce 1s infinite;
+
+}
+
+
+.typing span:nth-child(2){
+animation-delay:.2s;
+}
+
+
+.typing span:nth-child(3){
+animation-delay:.4s;
+}
+
+
+
+@keyframes bounce{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-5px);
+}
+
+}
+
+
+
+/* CELULAR */
+
+@media(max-width:480px){
+
+.chat-window{
+
+width:calc(100vw - 30px);
+
+height:520px;
+
+right:-5px;
+
+}
+
+
+.chatbot{
+
+right:15px;
+
+bottom:15px;
+
+}
+
+}
+  /* =========================================
+     CSS BANNER DE EVENTOS (NUEVO AGREGADO)
+     ========================================= */
+  .banner-eventos {
+      position: relative;
+      width: 100%;
+      min-height: 400px;
+      background-image: url('img/PUENTE HISTORICO 2.jpeg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(13, 57, 55, 0.3);
+  }
+  .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+          135deg,
+          rgba(13, 57, 55, 0.88) 0%,
+          rgba(19, 78, 74, 0.80) 50%,
+          rgba(26, 107, 101, 0.85) 100%
+      );
+      z-index: 1;
+  }
+  .banner-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      padding: 4rem 3rem;
+  }
+  .banner-icono {
+      width: 100px !important;
+      height: 100px !important;
+      flex-shrink: 0;
+      animation: floatIcon 3s ease-in-out infinite;
+  }
+  .banner-svg {
+      width: 100px !important;
+      height: 100px !important;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+  }
+  .banner-texto {
+      flex: 1;
+  }
+  .banner-titulo {
+      font-size: 4.5rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 900;
+      margin: 0;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+  }
+  .titulo-linea {
+      display: block;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      animation: titleGlow 3s ease-in-out infinite;
+  }
+  .titulo-linea.highlight {
+      color: #d4a83c;
+      text-shadow: 
+          0 0 30px rgba(212, 168, 60, 0.6),
+          0 0 60px rgba(212, 168, 60, 0.3),
+          0 2px 10px rgba(0,0,0,0.3);
+      animation: highlightPulse 2.5s ease-in-out infinite;
+  }
+  .banner-subtitulo {
+      font-size: 1.4rem;
+      color: #f5d98a;
+      margin: 1.5rem 0 0 0;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+  }
+  .banner-decoracion {
+      margin-top: 1.5rem;
+      width: 100%;
+      max-width: 450px;
+  }
+  .linha-dorada {
+      height: 3px;
+      background: linear-gradient(90deg, #d4a83c 0%, #f5d98a 50%, #d4a83c 100%);
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(212, 168, 60, 0.5);
+  }
+
+  @keyframes floatIcon {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+  }
+  @keyframes titleGlow {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.15); }
+  }
+  @keyframes highlightPulse {
+      0%, 100% { 
+          filter: brightness(1);
+          text-shadow: 
+              0 0 30px rgba(212, 168, 60, 0.6),
+              0 0 60px rgba(212, 168, 60, 0.3),
+              0 2px 10px rgba(0,0,0,0.3);
+      }
+      50% { 
+          filter: brightness(1.25);
+          text-shadow: 
+              0 0 40px rgba(212, 168, 60, 0.9),
+              0 0 80px rgba(212, 168, 60, 0.5),
+              0 2px 10px rgba(0,0,0,0.3);
+      }
+  }
+
+  @media (max-width: 768px) {
+      .banner-eventos { min-height: 350px; }
+      .banner-content { flex-direction: column; text-align: center; gap: 2rem; padding: 3rem 2rem; }
+      .banner-icono { width: 80px !important; height: 80px !important; }
+      .banner-svg { width: 80px !important; height: 80px !important; }
+      .banner-titulo { font-size: 2.8rem; }
+      .banner-subtitulo { font-size: 1rem; letter-spacing: 3px; }
+  }
