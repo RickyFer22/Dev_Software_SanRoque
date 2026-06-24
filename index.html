@@ -116,10 +116,10 @@
 
 .chat-button{
 
-    width:75px;
-    height:75px;
+    width:90px;
+    height:87px;
 
-    background:#003633;
+    background:#ffffff;
 
     border-radius:50%;
 
@@ -135,9 +135,11 @@
     font-size:11px;
 
     box-shadow:
-    0 6px 18px rgba(0,0,0,.25);
+    0 4px 14px rgba(0,54,51,.35);
 
     transition:.3s;
+
+    position:relative;
 
 }
 
@@ -149,11 +151,55 @@
 
 .chat-button img{
 
-    width:38px;
-    height:38px;
+    width:82px;
+    height:82px;
 
-    margin-bottom:3px;
+    margin-bottom:2px;
+    border-radius:50%;
+    display:block;
 
+    animation: botFloat 3.2s ease-in-out infinite;
+    transition: transform .5s cubic-bezier(.34,1.56,.64,1);
+
+}
+
+.chat-button:hover img{
+    animation-play-state: paused;
+}
+
+.chat-button.clicked img{
+    animation: botClickPop .6s cubic-bezier(.34,1.56,.64,1);
+}
+
+.chat-button::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    box-shadow: 0 0 0 0 rgba(212,168,60,.55);
+    pointer-events:none;
+}
+
+.chat-button.open::after{
+    animation: ringPulse 1.8s ease-out infinite;
+}
+
+@keyframes botFloat{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-5px) rotate(-3deg); }
+}
+
+@keyframes botClickPop{
+    0%{transform:scale(1) rotate(0)}
+    25%{transform:scale(.78) rotate(-12deg)}
+    55%{transform:scale(1.22) rotate(10deg)}
+    80%{transform:scale(.94) rotate(-4deg)}
+    100%{transform:scale(1) rotate(0)}
+}
+
+@keyframes ringPulse{
+    0%{box-shadow:0 0 0 0 rgba(212,168,60,.55);}
+    100%{box-shadow:0 0 0 16px rgba(212,168,60,0);}
 }
 
 
@@ -703,9 +749,9 @@ bottom:15px;
     <div class="hidden md:flex items-center bg-white/95 backdrop-blur-sm rounded-full px-8 py-3.5 shadow-lg gap-8 hover:shadow-xl transition-shadow">
       <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="#">Qué hacer</a>
       <a class="text-primary font-bold text-[13px] hover:scale-105 uppercase tracking-wide transition-all cursor-pointer" onclick="backToGrid()">Dónde alojarme</a>
-      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="#">Gastronomía</a>
-      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="#">Agenda</a>
-      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="#">Guía práctica</a>
+      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="gastronomia.html">Gastronomía</a>
+      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="#agenda">Agenda</a>
+      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="#datos-utiles">Guía práctica</a>
     </div>
     <div class="weather-widget group relative" id="weather-widget" tabindex="0">
       <div class="weather-panel absolute top-[calc(100%+12px)] right-0 w-64 bg-primary/95 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-2xl text-white">
@@ -929,7 +975,7 @@ bottom:15px;
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 mb-24 fade-in-up">
+  <section id="agenda" class="max-w-7xl mx-auto px-6 mb-24 fade-in-up">
     
     <div class="banner-eventos mb-10 shadow-lg">
         <div class="banner-overlay"></div>
@@ -1207,7 +1253,7 @@ bottom:15px;
         <div class="chat-header">
 
             <div class="chat-logo">
-                <img src="https://png.pngtree.com/png-clipart/20230815/original/pngtree-chat-bot-icon-isolated-bubble-modern-vector-picture-image_10800586.png">
+                <img src="turisbot-logo.png" alt="TurisBot">
             </div>
 
             <div>
@@ -1273,9 +1319,7 @@ bottom:15px;
 
     <div id="chatToggle" class="chat-button">
 
-        <img src="https://png.pngtree.com/png-clipart/20230815/original/pngtree-chat-bot-icon-isolated-bubble-modern-vector-picture-image_10800586.png">
-
-        <span>MuniAyuda</span>
+        <img src="turisbot-logo.png" alt="TurisBot">
 
     </div>
 
@@ -1999,6 +2043,12 @@ let chatOpen = false;
 document.getElementById("chatToggle").onclick = () => {
     chatOpen = !chatOpen;
     document.getElementById("chatWindow").style.display = chatOpen ? "flex" : "none";
+    const btn = document.getElementById("chatToggle");
+    btn.classList.toggle('open', chatOpen);
+    btn.classList.remove('clicked');
+    void btn.offsetWidth; // reinicia la animación aunque se haga click repetidas veces
+    btn.classList.add('clicked');
+    setTimeout(() => btn.classList.remove('clicked'), 650);
 };
 
 // Escucha de clicks en los botones de Datos Útiles
