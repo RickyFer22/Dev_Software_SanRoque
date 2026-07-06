@@ -647,3 +647,72 @@ bottom:15px;
       .banner-titulo { font-size: 2.8rem; }
       .banner-subtitulo { font-size: 1rem; letter-spacing: 3px; }
   }
+
+/* Gastronomía: ajustes mobile y paquete standalone */
+html, body { max-width: 100%; overflow-x: hidden; }
+#gastronomia-grid .card-item { width: 100%; }
+.chatbot img { max-width: 100%; object-fit: contain; }
+
+@media (max-width: 768px) {
+  #main-nav { padding-top: 14px !important; padding-bottom: 14px !important; }
+  #main-nav > div { padding-left: 16px !important; padding-right: 16px !important; gap: 12px; }
+  #main-nav a.font-display-lg { font-size: 28px !important; }
+  .weather-panel { right: 0; width: min(16rem, calc(100vw - 32px)); transform-origin: top right; }
+  #hero-section { min-height: 560px; height: 100svh; padding-left: 18px; padding-right: 18px; }
+  #hero-section h1 { font-size: 38px !important; line-height: 1.08 !important; }
+  #hero-section p { font-size: 15px !important; line-height: 1.55 !important; }
+  #directory { padding-top: 72px !important; padding-bottom: 72px !important; }
+  #directory .mb-16 { margin-bottom: 32px !important; }
+  #gastronomia-grid { gap: 24px !important; }
+  #gastronomia-grid .card-item { min-height: 640px; border-radius: 20px; }
+  #gastronomia-grid .card-item p,
+  #gastronomia-grid .card-item li,
+  #gastronomia-grid .card-item a,
+  #gastronomia-grid .card-item span { overflow-wrap: anywhere; }
+  .chatbot { right: 12px; bottom: 12px; }
+  .chat-button { width: 64px; height: 64px; font-size: 10px; }
+  .chat-button img { width: 30px; height: 30px; }
+  .chat-window { width: calc(100vw - 24px); height: min(78vh, 560px); right: -2px; bottom: 74px; border-radius: 18px; }
+  .chat-quick { max-height: 118px; overflow-y: auto; }
+  .quick-btn { padding: 8px 10px; font-size: 11px; }
+  .chat-input-area input { min-width: 0; }
+  footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
+}
+
+@media (max-width: 390px) {
+  #hero-section h1 { font-size: 34px !important; }
+  #gastronomia-grid .card-item { min-height: 690px; }
+  .geo-btn { font-size: 10px; }
+}
+/* Fix seguro: temperatura y chatbot sin romper contenido */
+.weather-widget:focus .weather-panel,
+.weather-widget:focus-within .weather-panel {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+  pointer-events: none;
+}
+.weather-widget.weather-open .weather-panel {
+  opacity: 1 !important;
+  transform: scale(1) translateY(0) !important;
+  pointer-events: auto !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  .weather-widget:hover .weather-panel {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+  }
+}
+@media (max-width: 768px) {
+  .weather-widget:hover .weather-panel {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    pointer-events: none;
+  }
+  .weather-widget.weather-open .weather-panel {
+    opacity: 1 !important;
+    transform: scale(1) translateY(0) !important;
+    pointer-events: auto !important;
+  }
+  .chat-window { max-height: calc(100svh - 96px); }
+}
