@@ -96,7 +96,7 @@
 }
 
 
-/* BOTON FLOTANTE */
+/* BOTON FLOTANTE — el botón ES la imagen completa */
 
 .chat-button{
 
@@ -108,7 +108,6 @@
     border-radius:50%;
 
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
 
@@ -118,10 +117,12 @@
 
     font-size:11px;
 
+    overflow:hidden;
+
     box-shadow:
     0 6px 18px rgba(0,0,0,.25);
 
-    transition:.3s;
+    transition:transform .3s ease, box-shadow .3s ease;
 
 }
 
@@ -133,10 +134,63 @@
 
 .chat-button img{
 
-    width:38px;
-    height:38px;
+    width:100%;
+    height:100%;
 
-    margin-bottom:3px;
+    object-fit:cover;
+
+    display:block;
+
+    margin:0;
+
+    pointer-events:none;
+
+}
+
+/* Texto oculto visualmente (accesibilidad), la imagen ocupa todo el botón */
+.chat-button span{
+
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+
+}
+
+
+/* ANIMACION AL HACER CLICK (el botón nunca se oculta, solo se anima) */
+
+@keyframes chatButtonPop{
+
+    0%{ transform:scale(1); }
+    30%{ transform:scale(0.82); }
+    55%{ transform:scale(1.18); }
+    80%{ transform:scale(0.95); }
+    100%{ transform:scale(1); }
+
+}
+
+
+@keyframes chatButtonRing{
+
+    0%{ box-shadow:0 6px 18px rgba(0,0,0,.25), 0 0 0 0 rgba(0,54,51,.55); }
+    100%{ box-shadow:0 6px 18px rgba(0,0,0,.25), 0 0 0 24px rgba(0,54,51,0); }
+
+}
+
+
+.chat-button.clicked{
+
+    animation:
+    chatButtonPop .45s ease,
+    chatButtonRing .6s ease-out;
+
+    /* opacity y visibilidad se mantienen intactas: el botón sigue siempre visible */
 
 }
 
@@ -671,7 +725,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
   #gastronomia-grid .card-item span { overflow-wrap: anywhere; }
   .chatbot { right: 12px; bottom: 12px; }
   .chat-button { width: 64px; height: 64px; font-size: 10px; }
-  .chat-button img { width: 30px; height: 30px; }
+  .chat-button img { width: 100%; height: 100%; }
   .chat-window { width: calc(100vw - 24px); height: min(78vh, 560px); right: -2px; bottom: 74px; border-radius: 18px; }
   .chat-quick { max-height: 118px; overflow-y: auto; }
   .quick-btn { padding: 8px 10px; font-size: 11px; }
