@@ -348,10 +348,21 @@ const datosUtilesInfo = {
 const BOT_API = "https://muni-bot-production.up.railway.app/chat";
 let chatOpen = false;
 
-document.getElementById("chatToggle").onclick = () => {
+const chatToggleBtn = document.getElementById("chatToggle");
+
+chatToggleBtn.onclick = () => {
     chatOpen = !chatOpen;
     document.getElementById("chatWindow").style.display = chatOpen ? "flex" : "none";
+
+    // Animación de click: el botón nunca se oculta, solo se anima
+    chatToggleBtn.classList.remove("clicked");
+    void chatToggleBtn.offsetWidth; // fuerza reinicio de la animación
+    chatToggleBtn.classList.add("clicked");
 };
+
+chatToggleBtn.addEventListener("animationend", () => {
+    chatToggleBtn.classList.remove("clicked");
+});
 
 // Escucha de clicks en los botones de Datos Útiles
 document.querySelectorAll('#lista-datos-utiles a').forEach(btn => {
