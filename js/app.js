@@ -59,6 +59,16 @@ function navigateToDetails(id) {
   document.getElementById('det-rating-number').textContent=data.rating;
   document.getElementById('det-reviews-count').textContent=data.reviewsCount;
   document.getElementById('det-location').textContent=data.ubicacion;
+  const detMapLink = document.getElementById('det-map-link');
+  if (detMapLink) {
+    if (data.mapUrl) {
+      detMapLink.href = data.mapUrl;
+    } else if (data.coords && data.coords.length === 2) {
+      detMapLink.href = `https://www.google.com/maps/search/?api=1&query=${data.coords[0]},${data.coords[1]}`;
+    } else {
+      detMapLink.href = "#";
+    }
+  }
   document.getElementById('det-long-desc').textContent=data.descripcionLarga;
   document.getElementById('det-main-img').src=data.mainImg;
   const detStars=document.getElementById('det-interactive-stars');
@@ -87,13 +97,39 @@ function backToGrid() {
 document.addEventListener("DOMContentLoaded",()=>{
   const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible');});},{threshold:0.05});
   document.querySelectorAll('.fade-in-up').forEach(el=>observer.observe(el));
-  initMap();
-  const filterBtns=document.querySelectorAll('.filter-btn');const cards=document.querySelectorAll('.card-item');
-  filterBtns.forEach(btn=>{btn.addEventListener('click',()=>{filterBtns.forEach(b=>{b.classList.remove('bg-river-teal','text-canvas-white','shadow-sm');b.classList.add('bg-surface-container','text-on-surface-variant');});btn.classList.remove('bg-surface-container','text-on-surface-variant');btn.classList.add('bg-river-teal','text-canvas-white','shadow-sm');const f=btn.getAttribute('data-filter');cards.forEach(card=>{card.style.display=(f==='all'||card.getAttribute('data-category')===f)?'block':'none';});for(const[id,markerObj] of Object.entries(mapMarkers)){if(f==='all'||markerObj.category===f){if(!map.hasLayer(markerObj.marker)) map.addLayer(markerObj.marker);}else{if(map.hasLayer(markerObj.marker)) map.removeLayer(markerObj.marker);}}});});
+
+  // Inicializar el mapa y tarjetas cuando los datos estén listos
+  // (el evento 'appDataReady' lo dispara data.js al terminar fetch o fallback)
+  const initUI = () => {
+    initMap();
+    const filterBtns=document.querySelectorAll('.filter-btn');const cards=document.querySelectorAll('.card-item');
+    filterBtns.forEach(btn=>{btn.addEventListener('click',()=>{filterBtns.forEach(b=>{b.classList.remove('bg-river-teal','text-canvas-white','shadow-sm');b.classList.add('bg-surface-container','text-on-surface-variant');});btn.classList.remove('bg-surface-container','text-on-surface-variant');btn.classList.add('bg-river-teal','text-canvas-white','shadow-sm');const f=btn.getAttribute('data-filter');cards.forEach(card=>{card.style.display=(f==='all'||card.getAttribute('data-category')===f)?'block':'none';});for(const[id,markerObj] of Object.entries(mapMarkers)){if(f==='all'||markerObj.category===f){if(!map.hasLayer(markerObj.marker)) map.addLayer(markerObj.marker);}else{if(map.hasLayer(markerObj.marker)) map.removeLayer(markerObj.marker);}}});});
+  };
+
+  document.addEventListener('appDataReady', (e) => {
+    // Si la API devolvió datosUtiles, fusionarlos con los locales
+    const apiDU = e.detail && e.detail.datosUtiles;
+    if (apiDU) {
+      for (const [cat, val] of Object.entries(apiDU)) {
+        if (val && typeof val === 'object') {
+          datosUtilesInfo[cat] = { ...datosUtilesInfo[cat], ...val };
+        }
+      }
+    }
+    initUI();
+  });
+
+  // Fallback: si appDataReady no llega en 6s (red muy lenta), inicializar igual
+  const fallbackTimer = setTimeout(() => {
+    if (!map) initUI();
+  }, 6000);
+  document.addEventListener('appDataReady', () => clearTimeout(fallbackTimer), { once: true });
+
   window.addEventListener('scroll',()=>{const nav=document.getElementById('main-nav');if(window.scrollY>50){nav.classList.add('bg-primary/95','backdrop-blur-md','shadow-md','py-4');nav.classList.remove('bg-gradient-to-b','from-black/60','to-transparent','pt-6','pb-6');}else{nav.classList.remove('bg-primary/95','backdrop-blur-md','shadow-md','py-4');nav.classList.add('bg-gradient-to-b','from-black/60','to-transparent','pt-6','pb-6');}});
   document.querySelectorAll('.interactive-stars').forEach(initVotingForContainer);
   loadWeather();
 });
+
 
 function ts2h(unix,offset){const d=new Date((unix+offset)*1000);return String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');}
 

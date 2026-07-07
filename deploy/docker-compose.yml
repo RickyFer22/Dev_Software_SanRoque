@@ -11,6 +11,7 @@ services:
     restart: always
     depends_on:
       - weather
+      - admin
     deploy:
       resources:
         limits:
@@ -62,6 +63,45 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME:-vivisanroque}_admin
+    container_name: ${PROJECT_NAME:-vivisanroque}_admin
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - PORT=4000
+      - DATA_DIR=/data
+      - NODE_ENV=production
+    expose:
+      - "4000"
+    volumes:
+      - admin_data:/data
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 128M
+        reservations:
+          memory: 32M
+    networks:
+      - internal
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  admin_data:
 
 networks:
   internal:

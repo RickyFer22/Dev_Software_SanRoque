@@ -132,46 +132,78 @@
       <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Dónde alojarme</a>
       <a class="text-primary font-bold text-[13px] hover:scale-105 uppercase tracking-wide transition-all cursor-pointer" href="gastronomia.html">Gastronomía</a>
       <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html#agenda">Agenda</a>
-      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html#datos-utiles">Guía práctica</a>
+      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="#datos-utiles">Guía práctica</a>
     </div>
-    <div class="weather-widget group relative" id="weather-widget" tabindex="0">
-      <div class="weather-panel absolute top-[calc(100%+12px)] right-0 w-64 bg-primary/95 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-2xl text-white">
-        <div class="flex items-center justify-between mb-3">
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="text-3xl font-bold text-sun-haze font-headline-md" id="wp-temp">--&deg;C</span>
-              <span class="text-white/70 text-xs capitalize" id="wp-desc">--</span>
+    <div class="flex items-center gap-4">
+      <div class="weather-widget group relative" id="weather-widget" tabindex="0">
+        <div class="weather-panel absolute top-[calc(100%+12px)] right-0 w-64 bg-primary/95 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-2xl text-white">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-bold text-sun-haze font-headline-md" id="wp-temp">--&deg;C</span>
+                <span class="text-white/70 text-xs capitalize" id="wp-desc">--</span>
+              </div>
+              <div class="text-white/50 text-[9px] mt-1 font-label-caps tracking-widest" id="wp-date">--</div>
             </div>
-            <div class="text-white/50 text-[9px] mt-1 font-label-caps tracking-widest" id="wp-date">--</div>
+            <span class="material-symbols-outlined text-[36px] text-golden-sand" id="wp-icon">light_mode</span>
           </div>
-          <span class="material-symbols-outlined text-[36px] text-golden-sand" id="wp-icon">light_mode</span>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
+              <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">water_drop</span> Humedad</div>
+              <div class="text-white font-bold text-xs" id="wp-hum">--%</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
+              <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">air</span> Viento</div>
+              <div class="text-white font-bold text-xs" id="wp-wind">-- km/h</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
+              <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">thermostat</span> Sens.</div>
+              <div class="text-white font-bold text-xs" id="wp-feel">--&deg;C</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
+              <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">compress</span> Presión</div>
+              <div class="text-white font-bold text-xs" id="wp-pressure">-- hPa</div>
+            </div>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
-            <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">water_drop</span> Humedad</div>
-            <div class="text-white font-bold text-xs" id="wp-hum">--%</div>
-          </div>
-          <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
-            <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">air</span> Viento</div>
-            <div class="text-white font-bold text-xs" id="wp-wind">-- km/h</div>
-          </div>
-          <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
-            <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">thermostat</span> Sens.</div>
-            <div class="text-white font-bold text-xs" id="wp-feel">--&deg;C</div>
-          </div>
-          <div class="bg-white/10 rounded-xl p-2.5 border border-white/10 text-center">
-            <div class="text-white/50 text-[8px] font-label-caps uppercase mb-1 flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[10px]">compress</span> Presión</div>
-            <div class="text-white font-bold text-xs" id="wp-pressure">-- hPa</div>
-          </div>
+        <div class="bg-primary/90 backdrop-blur-md border border-white/20 shadow-lg rounded-full px-3 py-2 flex items-center gap-2 cursor-pointer transition-all duration-300 group-hover:bg-primary group-hover:shadow-xl group-hover:scale-105">
+          <span class="material-symbols-outlined text-sun-haze text-[20px] group-hover:rotate-12 transition-transform" id="weather-icon-top">light_mode</span>
+          <span class="text-white font-bold text-sm font-headline-md leading-none" id="weather-temp-top">--&deg;</span>
         </div>
       </div>
-      <div class="bg-primary/90 backdrop-blur-md border border-white/20 shadow-lg rounded-full px-3 py-2 flex items-center gap-2 cursor-pointer transition-all duration-300 group-hover:bg-primary group-hover:shadow-xl group-hover:scale-105">
-        <span class="material-symbols-outlined text-sun-haze text-[20px] group-hover:rotate-12 transition-transform" id="weather-icon-top">light_mode</span>
-        <span class="text-white font-bold text-sm font-headline-md leading-none" id="weather-temp-top">--&deg;</span>
-      </div>
+      
+      <!-- Hamburger Menu Button -->
+      <button id="mobile-menu-btn" class="md:hidden text-white hover:text-sun-haze focus:outline-none flex items-center ml-4">
+        <span class="material-symbols-outlined text-[32px]">menu</span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Mobile Menu Dropdown -->
+  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-primary/95 backdrop-blur-xl border-t border-white/20 shadow-2xl origin-top transition-all duration-300">
+    <div class="flex flex-col px-6 py-6 gap-6">
+      <a class="text-white hover:text-sun-haze font-medium text-[15px] uppercase tracking-wide transition-all" href="#">Qué hacer</a>
+      <a class="text-white hover:text-sun-haze font-medium text-[15px] uppercase tracking-wide transition-all" href="index.html">Dónde alojarme</a>
+      <a class="text-sun-haze font-bold text-[15px] uppercase tracking-wide transition-all cursor-pointer" href="gastronomia.html">Gastronomía</a>
+      <a class="text-white hover:text-sun-haze font-medium text-[15px] uppercase tracking-wide transition-all" href="index.html#agenda" onclick="document.getElementById('mobile-menu').classList.add('hidden'); document.getElementById('mobile-menu-btn').querySelector('span').textContent='menu';">Agenda</a>
+      <a class="text-white hover:text-sun-haze font-medium text-[15px] uppercase tracking-wide transition-all" href="#datos-utiles" onclick="document.getElementById('mobile-menu').classList.add('hidden'); document.getElementById('mobile-menu-btn').querySelector('span').textContent='menu';">Guía práctica</a>
     </div>
   </div>
 </nav>
+
+<script>
+  (function(){
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    if(btn && menu) {
+      btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+        const icon = btn.querySelector('span');
+        icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+      });
+    }
+  })();
+</script>
 <main>
 <!-- Hero Section -->
 <section id="hero-section" class="relative h-[819px] flex items-center justify-center text-center px-gutter overflow-hidden">
@@ -194,6 +226,25 @@
 </svg>
 </div>
 </section>
+<!-- Datos Utiles Section -->
+<section id="datos-utiles" class="max-w-7xl mx-auto px-6 mb-12 mt-12">
+  <div class="text-center mb-10">
+    <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight uppercase">Datos Útiles
+    </h2>
+    <p class="text-neutral-500 text-sm mt-2">Información rápida y de servicio para tu estadía en la ciudad.</p>
+  </div>
+
+  <ul id="lista-datos-utiles" class="datos-utiles-lista">
+    <li><a href="#" data-tipo="remises"><i class="fas fa-taxi"></i> Remises</a></li>
+    <li><a href="#" data-tipo="terminal"><i class="fas fa-bus"></i> Terminal</a></li>
+    <li><a href="#" data-tipo="municipio"><i class="fas fa-landmark"></i> Municipio</a></li>
+    <li><a href="#" data-tipo="iglesias"><i class="fas fa-church"></i> Iglesias</a></li>
+    <li><a href="#" data-tipo="emergencias"><i class="fas fa-ambulance"></i> Emergencias</a></li>
+    <li><a href="#" data-tipo="salud"><i class="fas fa-hospital"></i> Salud</a></li>
+    <li><a href="#" data-tipo="servicios"><i class="fas fa-university"></i> Servicios</a></li>
+  </ul>
+</section>
+
 <!-- Filters & Intro -->
 <section class="py-section-padding px-gutter max-w-container-max mx-auto" id="directory">
 <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
@@ -599,10 +650,139 @@
     window.sendChat();
   };
 
+  const datosUtilesInfo = {
+      remises:{
+          titulo:"🚖 Remises",
+          descripcion:"Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
+          contactos:[
+              {nombre:"Remis San Roque", tel:"549XXXXXXXXX"},
+              {nombre:"Remis Centro", tel:"549XXXXXXXXX"},
+              {nombre:"Remis Norte", tel:"549XXXXXXXXX"}
+          ]
+      },
+      terminal:{
+          titulo:"🚌 Terminal de Ómnibus",
+          descripcion:"Terminal de colectivos de San Roque.",
+          ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.5767789,-58.7135694"
+      },
+      municipio:{
+          titulo:"🏛️ Municipalidad",
+          descripcion:"Atención al ciudadano y trámites municipales.",
+          ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806"
+      },
+      iglesias:{
+          titulo:"⛪ Iglesias",
+          descripcion:"Templos religiosos de San Roque.",
+          lugares:[
+              { nombre:"Parroquia San Roque de Montpellier", link:"https://www.google.com/maps/search/?api=1&query=-28.571590353744543,-58.711252302690546" },
+              { nombre:"Iglesia Monte de Sion", link:"https://www.google.com/maps/search/?api=1&query=-28.575815684105844,-58.707426283145196" },
+              { nombre:"Templo Filadelfia de San Roque", link:"https://www.google.com/maps/search/?api=1&query=-28.57730954160022,-58.70606541439768" },
+              { nombre:"Salón del Reino de los Testigos de Jehová", link:"https://www.google.com/maps/search/?api=1&query=-28.577110361826733,-58.70697266022936" },
+              { nombre:"Iglesia Evangélica Asamblea de Dios", link:"https://www.google.com/maps/search/?api=1&query=-28.580856838882077,-58.718072982275054" }
+          ]
+      },
+      emergencias:{
+          titulo:"🚨 Emergencias",
+          descripcion:"Servicios de urgencia disponibles en San Roque.",
+          lugares:[
+              { nombre:"Policía de San Roque", link:"https://www.google.com/maps/search/?api=1&query=-28.570089924920314,-58.712608217644515" },
+              { nombre:"Hospital de San Roque", link:"https://www.google.com/maps/search/?api=1&query=-28.577551339214832,-58.711226434897526" },
+              { nombre:"Bomberos San Roque", link:"https://www.google.com/maps/search/?api=1&query=-28.577904318277724,-58.713826053599384" }
+          ]
+      },
+      salud:{
+          titulo:"🏥 Salud",
+          descripcion:"Farmacias y atención médica.",
+          lugares:[
+              { nombre:"Farmar IV", link:"https://www.google.com/maps/search/?api=1&query=-28.57564523967805,-58.7115423787572" },
+              { nombre:"Farmacia Itatí S.C.S", link:"https://www.google.com/maps/search/?api=1&query=-28.57490350407002,-58.70936387230284" },
+              { nombre:"Farmacia Tressens II", link:"https://www.google.com/maps/search/?api=1&query=-28.575223851034433,-58.70882743052239" },
+              { nombre:"Farmacia San Roque", link:"https://www.google.com/maps/search/?api=1&query=-28.57708938162111,-58.711638385451934" }
+          ]
+      },
+      servicios:{
+          titulo:"🏧 Servicios rápidos",
+          descripcion:"Servicios útiles para visitantes.",
+          lugares:[
+              { nombre:"Municipalidad de San Roque", link:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806" },
+              { nombre:"C.I.C extensión del municipio", link:"https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905" },
+              { nombre:"Registro Civil", link:"https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172" }
+          ]
+      },
+      turismo:{
+          titulo:"📍 Lugares turísticos",
+          descripcion:"Puntos importantes de San Roque.",
+          lugares:[
+              { nombre:"Plaza Principal Libertad", link:"https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368" },
+              { nombre:"Museo de San Roque", link:"https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368" }
+          ]
+      }
+  };
+
+  function responderDatosUtiles(tipo) {
+      const item = datosUtilesInfo[tipo];
+      if(!item) return;
+
+      let html = `<b>${item.titulo}</b><br>`;
+      html += `<p style="margin-top:4px; font-size:13px; color:#475569;">${item.descripcion}</p>`;
+
+      if(item.ubicacion){
+          html += `<p style="margin-top:8px;"><a target="_blank" href="${item.ubicacion}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">📍 Ver ubicación en mapa</a></p>`;
+      }
+
+      if(item.lugares){
+          html += `<ul style="margin-top:8px; padding-left:14px; list-style-type:disc; font-size:13px;">`;
+          item.lugares.forEach(l => {
+              html += `<li style="margin-top:4px;"><a target="_blank" href="${l.link}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">${l.nombre}</a></li>`;
+          });
+          html += `</ul>`;
+      }
+
+      if(item.contactos){
+          html += `<div style="margin-top:8px; font-size:13px;"><b>Contactos directos:</b><ul style="padding-left:0; list-style-type:none; margin-top:4px;">`;
+          item.contactos.forEach(c => {
+              html += `<li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                      <div><strong>${c.nombre}</strong></div>
+                      <a target="_blank" href="https://wa.me/${c.tel}" style="background:#25d366; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
+                          📲 WhatsApp
+                      </a>
+                  </li>`;
+          });
+          html += `</ul></div>`;
+      }
+
+      addLocalMsg(html, false);
+  }
+
+  function initDatosUtilesListeners() {
+      document.querySelectorAll('#lista-datos-utiles a').forEach(btn => {
+          btn.addEventListener('click', function(e){
+              e.preventDefault();
+              const tipo = this.dataset.tipo;
+              
+              // Abrir ventana del chatbot si estuviese cerrada
+              document.getElementById("chatWindow").style.display = "flex";
+              
+              // Simular el mensaje del usuario con el botón presionado
+              addLocalMsg(this.innerText.trim(), true);
+              showLocalTyping();
+              
+              setTimeout(() => {
+                  hideLocalTyping();
+                  responderDatosUtiles(tipo);
+              }, 600);
+          });
+      });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSafeWeatherToggle);
+    document.addEventListener('DOMContentLoaded', () => {
+        initSafeWeatherToggle();
+        initDatosUtilesListeners();
+    });
   } else {
     initSafeWeatherToggle();
+    initDatosUtilesListeners();
   }
 })();
 </script>

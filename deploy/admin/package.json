@@ -1,0 +1,23 @@
+{
+  "name": "sanroque-admin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Panel de administración del Portal Turístico de San Roque",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "bcryptjs": "^2.4.3",
+    "connect-sqlite3": "^0.9.13",
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
+    "express-session": "^1.18.0",
+    "helmet": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

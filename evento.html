@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Fiestas Patronales San Roque - Evento</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: { extend: { colors: { "canvas-white": "#FFFFFF", "background": "#f0f4f3", "primary": "#003633", "river-teal": "#134E4A", "golden-sand": "#D4A83C", "sun-haze": "#F5D98A", "surface-container": "#edeeef", "on-surface-variant": "#404847", "outline-variant": "#bfc8c6", "moss-dark": "#0A2E2B", "tertiary-fixed": "#c6eae5" }, fontFamily: { "body-md": ["DM Sans", "sans-serif"], "label-caps": ["JetBrains Mono", "monospace"], "headline-md": ["Syne", "sans-serif"], "display-lg": ["Syne", "sans-serif"] } } }
+    }
+  </script>
+</head>
+
+<body class="bg-[#FDFBF7] text-neutral-900 font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-primary/95 backdrop-blur-md shadow-md py-4">
+    <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
+      <a href="index.html" class="font-display-lg text-[26px] leading-none text-sun-haze tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer">
+        San Roque
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a class="text-white hover:text-sun-haze font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Inicio</a>
+        <a class="text-white hover:text-sun-haze font-medium text-[13px] uppercase tracking-wide transition-all" href="gastronomia.html">Gastronomía</a>
+      </div>
+      <a href="index.html" class="flex items-center gap-2 text-white font-bold text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-colors">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span> Volver
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Evento -->
+  <header class="relative pt-24 md:pt-0 w-full md:h-[60vh] flex items-end">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=80" alt="Fiestas Patronales San Roque" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/60 to-transparent"></div>
+    </div>
+    <div class="relative z-10 w-full max-w-5xl mx-auto px-6 pb-12 pt-40">
+      <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-4 py-1.5 mb-4 text-sun-haze">
+        <span class="material-symbols-outlined text-[16px]">celebration</span>
+        <span class="text-xs font-bold uppercase tracking-wider">Evento Destacado</span>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-display-lg font-bold text-white mb-4 leading-tight drop-shadow-md">Fiestas Patronales San Roque</h1>
+      <div class="flex flex-wrap items-center gap-6 text-white/90 font-medium text-sm md:text-base">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-sun-haze">calendar_today</span> 16 de Agosto 2026
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-sun-haze">location_on</span> Plaza Principal Libertad
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-sun-haze">loyalty</span> Entrada Gratuita
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-12 gap-12">
+    
+    <!-- Intro text -->
+    <div class="md:col-span-5">
+      <h2 class="text-2xl font-bold font-headline-md text-primary mb-6">Sobre la Festividad</h2>
+      <p class="text-neutral-600 leading-relaxed mb-6">
+        La Fiesta Patronal de San Roque, Corrientes, se celebra cada año el <strong>16 de agosto</strong> en honor a San Roque de Montpellier, protector de los enfermos, peregrinos y las mascotas.
+      </p>
+      <p class="text-neutral-600 leading-relaxed mb-8">
+        Esta festividad es el evento religioso y cultural más importante de la localidad, reuniendo a miles de fieles y turistas en torno al histórico templo parroquial. Las celebraciones combinan la profunda fe católica con la identidad cultural del litoral argentino, generando un ambiente de hermandad y tradición único en la provincia.
+      </p>
+      
+      <div class="bg-white p-6 rounded-2xl border border-outline-variant/40 shadow-sm">
+        <h3 class="font-bold text-neutral-800 mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-golden-sand">info</span> Información Útil
+        </h3>
+        <ul class="space-y-4 text-sm text-neutral-600">
+          <li class="flex gap-3"><span class="material-symbols-outlined text-[20px] text-river-teal">local_parking</span> <span>Estacionamiento gratuito en calles aledañas.</span></li>
+          <li class="flex gap-3"><span class="material-symbols-outlined text-[20px] text-river-teal">accessible</span> <span>Accesibilidad para sillas de ruedas en la plaza y parroquia.</span></li>
+          <li class="flex gap-3"><span class="material-symbols-outlined text-[20px] text-river-teal">restaurant</span> <span>Puestos gastronómicos locales y food trucks disponibles todo el día.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Timeline / Cronograma -->
+    <div class="md:col-span-7">
+      <h2 class="text-2xl font-bold font-headline-md text-primary mb-8 border-b border-outline-variant/30 pb-4">Cronograma de Actividades</h2>
+      
+      <div class="relative border-l-2 border-river-teal/20 ml-4 space-y-10 pb-4">
+        
+        <!-- Item 1 -->
+        <div class="relative pl-8">
+          <div class="absolute -left-[17px] top-1 w-8 h-8 bg-river-teal rounded-full flex items-center justify-center text-white shadow-md border-4 border-[#FDFBF7]">
+            <span class="material-symbols-outlined text-[14px]">menu_book</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-xs font-bold text-river-teal uppercase tracking-wider mb-1">7 al 15 de Agosto</div>
+            <h4 class="text-lg font-bold text-neutral-800 mb-2">Novena preparatoria</h4>
+            <p class="text-neutral-600 text-sm leading-relaxed">Rezos diarios del Santo Rosario y misas especiales por las intenciones de toda la comunidad sanroqueña.</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="relative pl-8">
+          <div class="absolute -left-[17px] top-1 w-8 h-8 bg-river-teal rounded-full flex items-center justify-center text-white shadow-md border-4 border-[#FDFBF7]">
+            <span class="material-symbols-outlined text-[14px]">nightlife</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-xs font-bold text-river-teal uppercase tracking-wider mb-1">Noche del 15 de Agosto</div>
+            <h4 class="text-lg font-bold text-neutral-800 mb-2">Vigilia y Serenata</h4>
+            <p class="text-neutral-600 text-sm leading-relaxed">Se espera el inicio del día del santo patrono con una tradicional cantata y espectáculos musicales folclóricos en vivo frente al templo.</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="relative pl-8">
+          <div class="absolute -left-[17px] top-1 w-8 h-8 bg-river-teal rounded-full flex items-center justify-center text-white shadow-md border-4 border-[#FDFBF7]">
+            <span class="material-symbols-outlined text-[14px]">church</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-xs font-bold text-river-teal uppercase tracking-wider mb-1">16 de Agosto · Mañana</div>
+            <h4 class="text-lg font-bold text-neutral-800 mb-2">Actos litúrgicos centrales</h4>
+            <p class="text-neutral-600 text-sm leading-relaxed">Misa de inicio de jornada y solemne recepción de las autoridades locales y provinciales.</p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="relative pl-8 z-10">
+          <div class="absolute -left-[19px] top-1 w-9 h-9 bg-golden-sand rounded-full flex items-center justify-center text-white shadow-md border-4 border-[#FDFBF7]">
+            <span class="material-symbols-outlined text-[16px]">groups</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-golden-sand/40 shadow-md ring-1 ring-golden-sand/10 transform scale-[1.02]">
+            <div class="text-xs font-bold text-golden-sand uppercase tracking-wider mb-1">16 de Agosto · Tarde</div>
+            <h4 class="text-lg font-bold text-neutral-900 mb-2">Solemne Procesión</h4>
+            <p class="text-neutral-700 text-sm leading-relaxed">El momento más emotivo. La multitud de fieles acompaña la imagen de San Roque recorriendo las principales calles del pueblo.</p>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="relative pl-8">
+          <div class="absolute -left-[17px] top-1 w-8 h-8 bg-river-teal rounded-full flex items-center justify-center text-white shadow-md border-4 border-[#FDFBF7]">
+            <span class="material-symbols-outlined text-[14px]">restaurant</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-xs font-bold text-river-teal uppercase tracking-wider mb-1">16 de Agosto · Mediodía</div>
+            <h4 class="text-lg font-bold text-neutral-800 mb-2">Almuerzo comunitario</h4>
+            <p class="text-neutral-600 text-sm leading-relaxed">Se comparte el tradicional almuerzo popular con exquisitas opciones locales como locro, asado a la estaca, empanadas de carne cortada a cuchillo y pasteles.</p>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="relative pl-8">
+          <div class="absolute -left-[17px] top-1 w-8 h-8 bg-river-teal rounded-full flex items-center justify-center text-white shadow-md border-4 border-[#FDFBF7]">
+            <span class="material-symbols-outlined text-[14px]">celebration</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-xs font-bold text-river-teal uppercase tracking-wider mb-1">16 de Agosto · Cierre</div>
+            <h4 class="text-lg font-bold text-neutral-800 mb-2">Festival Folclórico</h4>
+            <p class="text-neutral-600 text-sm leading-relaxed">Cierre de oro con un gran festival chamamecero y folclórico gratuito en la plaza, que incluye la participación de reconocidos artistas del NEA.</p>
+          </div>
+        </div>
+
+        <!-- Item 7 -->
+        <div class="relative pl-8">
+          <div class="absolute -left-[17px] top-1 w-8 h-8 bg-river-teal rounded-full flex items-center justify-center text-white shadow-md border-4 border-[#FDFBF7]">
+            <span class="material-symbols-outlined text-[14px]">pets</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-xs font-bold text-river-teal uppercase tracking-wider mb-1">Tradición Especial</div>
+            <h4 class="text-lg font-bold text-neutral-800 mb-2">Bendición de Mascotas</h4>
+            <p class="text-neutral-600 text-sm leading-relaxed">Al ser San Roque el patrono de los perros, se realiza el popular y tierno desfile y bendición de los animales de compañía de los vecinos.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full mt-auto bg-primary">
+    <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8 text-white">
+      <div class="md:col-span-1">
+        <span class="text-3xl font-headline-md font-bold text-sun-haze">San Roque</span>
+        <p class="text-base text-white/80 mt-4">Portal oficial de turismo y cultura de la ciudad de San Roque, Corrientes.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm text-sun-haze mb-4 uppercase tracking-wider">Contacto</h4>
+        <ul class="space-y-2 text-sm text-white/80">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">phone</span> +54 3777 000000</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">location_on</span> San Roque, Corrientes, AR</li>
+        </ul>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 py-6 border-t border-white/10 text-white/60 text-sm text-center md:text-left">
+      © 2026 Municipio de San Roque.
+    </div>
+  </footer>
+
+</body>
+</html>

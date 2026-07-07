@@ -36,6 +36,11 @@ services:
     networks:
       - internal
 
+  admin:
+    # El backend de admin tampoco se expone directamente; nginx hace de proxy.
+    networks:
+      - internal
+
 networks:
   web:
     external: true
