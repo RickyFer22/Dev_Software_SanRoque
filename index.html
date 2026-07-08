@@ -119,37 +119,32 @@
         </div>
       </div>
       
-      <!-- Hamburger Menu Button -->
-      <button id="mobile-menu-btn" class="md:hidden text-white hover:text-sun-haze focus:outline-none flex items-center ml-4">
-        <span class="material-symbols-outlined text-[32px]">menu</span>
-      </button>
-    </div>
-    
-    <!-- Mobile Menu Dropdown -->
-    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-primary/95 backdrop-blur-xl border-t border-white/20 shadow-2xl origin-top transition-all duration-300">
-      <div class="flex flex-col px-6 py-6 gap-6">
-        <a class="text-white hover:text-sun-haze font-medium text-[15px] uppercase tracking-wide transition-all" href="#">Qué hacer</a>
-        <a class="text-sun-haze font-bold text-[15px] uppercase tracking-wide transition-all cursor-pointer" onclick="backToGrid(); document.getElementById('mobile-menu').classList.add('hidden'); document.getElementById('mobile-menu-btn').querySelector('span').textContent='menu';">Dónde alojarme</a>
-        <a class="text-white hover:text-sun-haze font-medium text-[15px] uppercase tracking-wide transition-all" href="gastronomia.html">Gastronomía</a>
-        <a class="text-white hover:text-sun-haze font-medium text-[15px] uppercase tracking-wide transition-all" href="#agenda" onclick="document.getElementById('mobile-menu').classList.add('hidden'); document.getElementById('mobile-menu-btn').querySelector('span').textContent='menu';">Agenda</a>
-        <a class="text-white hover:text-sun-haze font-medium text-[15px] uppercase tracking-wide transition-all" href="#datos-utiles" onclick="document.getElementById('mobile-menu').classList.add('hidden'); document.getElementById('mobile-menu-btn').querySelector('span').textContent='menu';">Guía práctica</a>
-      </div>
     </div>
   </nav>
 
-  <script>
-    (function(){
-      const btn = document.getElementById('mobile-menu-btn');
-      const menu = document.getElementById('mobile-menu');
-      if(btn && menu) {
-        btn.addEventListener('click', () => {
-          menu.classList.toggle('hidden');
-          const icon = btn.querySelector('span');
-          icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
-        });
-      }
-    })();
-  </script>
+  <!-- Barra de navegación inferior (solo en móvil) -->
+  <nav id="mobile-bottom-nav" class="mobile-bottom-nav md:hidden" aria-label="Navegación móvil">
+    <a class="bottom-nav-item" href="#">
+      <span class="material-symbols-outlined">explore</span>
+      <span>Qué hacer</span>
+    </a>
+    <a class="bottom-nav-item active" onclick="backToGrid()">
+      <span class="material-symbols-outlined">hotel</span>
+      <span>Alojarme</span>
+    </a>
+    <a class="bottom-nav-item" href="gastronomia.html">
+      <span class="material-symbols-outlined">restaurant</span>
+      <span>Comer</span>
+    </a>
+    <a class="bottom-nav-item" href="#agenda">
+      <span class="material-symbols-outlined">event</span>
+      <span>Agenda</span>
+    </a>
+    <a class="bottom-nav-item" href="#datos-utiles">
+      <span class="material-symbols-outlined">menu_book</span>
+      <span>Guía</span>
+    </a>
+  </nav>
 
   <div id="main-explorer-view" class="block animate-view-in">
 
