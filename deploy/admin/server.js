@@ -10,6 +10,8 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const { SYSTEM_PROMPT, answerLocally, publicBotConfig } = require('./bot-service');
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '4000', 10);
@@ -17,6 +19,8 @@ const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
 const DATA_FILE = path.join(DATA_DIR, 'admin.json');
 const LOCAL_ENV_FILE = path.join(__dirname, '..', '.env');
+const BOT_LOG_LIMIT = 500;
+const SYSTEM_LOG_LIMIT = 500;
 
 function loadLocalEnv() {
   if (!fs.existsSync(LOCAL_ENV_FILE)) return;
@@ -63,6 +67,9 @@ function buildInitialStore() {
     votes: [],
     analytics: {},
     audit: [],
+    bot_logs: [],
+    system_logs: [],
+    migrations: [],
     createdAt: now,
   };
 }
@@ -80,6 +87,9 @@ function normalizeStore(store) {
     votes: Array.isArray(store.votes) ? store.votes : [],
     analytics: typeof store.analytics === 'object' && store.analytics !== null ? store.analytics : {},
     audit: Array.isArray(store.audit) ? store.audit : [],
+    bot_logs: Array.isArray(store.bot_logs) ? store.bot_logs.slice(0, BOT_LOG_LIMIT) : [],
+    system_logs: Array.isArray(store.system_logs) ? store.system_logs.slice(0, SYSTEM_LOG_LIMIT) : [],
+    migrations: Array.isArray(store.migrations) ? store.migrations : [],
     createdAt: store.createdAt || new Date().toISOString(),
   };
 }
@@ -173,6 +183,32 @@ app.get('/admin/api/health', (req, res) => {
   return res.json({ ok: true });
 });
 
+function appendLog(collection, entry, limit) {
+  const store = loadStore();
+  const current = Array.isArray(store[collection]) ? store[collection] : [];
+  store[collection] = [entry, ...current].slice(0, limit);
+  saveStore(store);
+  return entry;
+}
+
+function recordSystemLog(level, event, details = {}, req = null) {
+  return appendLog('system_logs', {
+    id: crypto.randomUUID(),
+    createdAt: new Date().toISOString(),
+    level,
+    event,
+    requestId: req && req.requestId ? req.requestId : null,
+    adminUser: req && req.admin ? req.admin.user : null,
+    details,
+  }, SYSTEM_LOG_LIMIT);
+}
+
+app.use((req, res, next) => {
+  req.requestId = String(req.header('x-request-id') || crypto.randomUUID());
+  res.setHeader('x-request-id', req.requestId);
+  next();
+});
+
 // Endpoint público de datos (similar al original)
 app.get('/api/data', (req, res) => {
   const store = loadStore();
@@ -182,6 +218,107 @@ app.get('/api/data', (req, res) => {
     eventos: store.eventos || [],
     datosUtiles: transformDatosUtilesForPublic(store.datos_utiles || []),
   });
+});
+
+app.post('/api/bot/chat', async (req, res) => {
+  const startedAt = Date.now();
+  const message = sanitizeString(req.body && req.body.message, 1000).trim();
+  if (!message) return res.status(400).json({ error: 'El mensaje es obligatorio', requestId: req.requestId });
+
+  const store = loadStore();
+  let source = 'local';
+  let fallback = false;
+  let category = 'general';
+  let status = 'ok';
+  let reply = '';
+  let error = null;
+
+  try {
+    const local = answerLocally(message, store);
+    if (local) {
+      reply = local.reply;
+      category = local.category;
+    } else if (process.env.BOT_API_URL) {
+      source = 'external';
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), Number(process.env.BOT_TIMEOUT_MS || 6000));
+      try {
+        const response = await fetch(process.env.BOT_API_URL, {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            ...(process.env.BOT_API_KEY ? { authorization: `Bearer ${process.env.BOT_API_KEY}` } : {}),
+          },
+          body: JSON.stringify({ message, systemPrompt: SYSTEM_PROMPT }),
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error(`upstream_${response.status}`);
+        const data = await response.json();
+        reply = sanitizeString(data.reply || data.response || data.message, 5000);
+        if (!reply) throw new Error('upstream_empty');
+      } finally {
+        clearTimeout(timeout);
+      }
+    } else {
+      fallback = true;
+      source = 'fallback';
+      reply = 'Puedo ayudarte con remises, alojamientos, gastronomía, eventos y datos útiles de San Roque. ¿Qué necesitás conocer?';
+    }
+  } catch (err) {
+    fallback = true;
+    source = 'fallback';
+    status = 'degraded';
+    error = sanitizeString(err && err.message, 200);
+    reply = 'Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.';
+    recordSystemLog('warning', 'bot_upstream_failure', { error }, req);
+  }
+
+  const latencyMs = Date.now() - startedAt;
+  appendLog('bot_logs', {
+    id: req.requestId,
+    createdAt: new Date().toISOString(),
+    category,
+    source,
+    status,
+    fallback,
+    latencyMs,
+    inputLength: message.length,
+    outputLength: reply.length,
+    message: sanitizeString(message, 300),
+    reply: sanitizeString(reply, 1000),
+    error,
+    ip: req.ip || 'unknown',
+  }, BOT_LOG_LIMIT);
+
+  res.json({ reply, source, fallback, category, requestId: req.requestId, latencyMs });
+});
+
+app.get('/admin/api/bot-config', (req, res) => {
+  if (!['super-admin', 'editor'].includes(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  res.json(publicBotConfig(process.env));
+});
+
+app.get('/admin/api/observability', (req, res) => {
+  if (!['super-admin', 'editor'].includes(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const store = loadStore();
+  const botLogs = store.bot_logs || [];
+  res.json({
+    metrics: {
+      requests: botLogs.length,
+      errors: botLogs.filter((item) => item.status !== 'ok').length,
+      fallbacks: botLogs.filter((item) => item.fallback).length,
+      averageLatencyMs: botLogs.length ? Math.round(botLogs.reduce((sum, item) => sum + Number(item.latencyMs || 0), 0) / botLogs.length) : 0,
+    },
+    botLogs,
+    systemLogs: store.system_logs || [],
+  });
+});
+
+app.get('/admin/api/observability/export', (req, res) => {
+  if (!['super-admin', 'editor'].includes(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const store = loadStore();
+  res.setHeader('Content-Disposition', `attachment; filename="observabilidad-${Date.now()}.json"`);
+  res.json({ exportedAt: new Date().toISOString(), botLogs: store.bot_logs || [], systemLogs: store.system_logs || [] });
 });
 
 // Public endpoint to create tickets (error reports) from the public site or clients
@@ -256,7 +393,7 @@ async function handleAdminLogin(req, res) {
   const { username, password } = req.body || {};
   console.log(`[admin] login request path=${req.path} username=${String(username)}`);
   if (!username || !password) return res.status(400).json({ error: 'username and password required' });
-  const adminUser = process.env.ADMIN_USER || 'admin';
+  const adminUser = process.env.ADMIN_USER || 'gestion.turistica.sr';
   const adminHash = process.env.ADMIN_PASSWORD_HASH;
   const setupPassword = process.env.ADMIN_SETUP_PASSWORD;
   const devPassword = process.env.ADMIN_DEV_PASSWORD;
@@ -279,6 +416,7 @@ async function handleAdminLogin(req, res) {
         passwordHash: pwdHash,
       });
       req.session.admin = { user: newUser.username || newUser.id, role: newUser.role || 'super-admin' };
+      recordSystemLog('info', 'admin_login_success', { username: newUser.username, role: newUser.role }, req);
       return res.json({ ok: true, user: { id: newUser.id, username: newUser.username, role: newUser.role } });
     }
     return res.status(403).json({ error: 'Forbidden' });
@@ -296,6 +434,7 @@ async function handleAdminLogin(req, res) {
         passwordHash: adminHash,
       });
       req.session.admin = { user: newUser.username || newUser.id, role: newUser.role || 'super-admin' };
+      recordSystemLog('info', 'admin_login_success', { username: newUser.username, role: newUser.role }, req);
       return res.json({ ok: true, user: { id: newUser.id, username: newUser.username, role: newUser.role } });
     }
   }
@@ -312,6 +451,7 @@ async function handleAdminLogin(req, res) {
         passwordHash: pwdHash,
       });
       req.session.admin = { user: newUser.username || newUser.id, role: newUser.role || 'super-admin' };
+      recordSystemLog('info', 'admin_login_success', { username: newUser.username, role: newUser.role }, req);
       return res.json({ ok: true, user: { id: newUser.id, username: newUser.username, role: newUser.role } });
     }
   }
@@ -327,15 +467,23 @@ async function handleAdminLogin(req, res) {
         passwordHash: bcrypt.hashSync(setupPassword, 10),
       });
       req.session.admin = { user: existingUser.username || existingUser.id, role: existingUser.role || 'super-admin' };
+      recordSystemLog('info', 'admin_login_success', { username: existingUser.username, role: existingUser.role }, req);
       return res.json({ ok: true, user: { id: existingUser.id, username: existingUser.username, role: existingUser.role || 'super-admin' } });
     }
   }
 
-  if (!user || !user.passwordHash) return res.status(403).json({ error: 'Forbidden' });
+  if (!user || !user.passwordHash) {
+    recordSystemLog('warning', 'admin_login_failed', { username: sanitizeString(username, 80), reason: 'unknown_user' }, req);
+    return res.status(403).json({ error: 'Forbidden' });
+  }
   const ok = await bcrypt.compare(password, user.passwordHash);
-  if (!ok) return res.status(403).json({ error: 'Forbidden' });
+  if (!ok) {
+    recordSystemLog('warning', 'admin_login_failed', { username: sanitizeString(username, 80), reason: 'invalid_password' }, req);
+    return res.status(403).json({ error: 'Forbidden' });
+  }
 
   req.session.admin = { user: user.username || user.id, role: user.role || 'editor' };
+  recordSystemLog('info', 'admin_login_success', { username: user.username, role: user.role }, req);
   return res.json({ ok: true, user: { id: user.id, username: user.username, role: user.role } });
 }
 
@@ -808,4 +956,5 @@ app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 
 app.listen(PORT, () => {
   console.log(`[admin] versión mínima escuchando en :${PORT}`);
+  recordSystemLog('info', 'system_started', { port: PORT, nodeEnv: process.env.NODE_ENV || 'development' });
 });

@@ -827,9 +827,77 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .chat-quick { max-height: 118px; overflow-y: auto; }
   .quick-btn { padding: 8px 10px; font-size: 11px; }
   .chat-input-area input { min-width: 0; }
-  footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
+footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
   .site-footer { text-align:left; }
   .site-footer .social-link { flex:1;max-width:150px; }
+}
+
+/* Experiencias editoriales 2026 */
+.events-editorial-banner {
+  position: relative;
+  min-height: 310px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(34px, 6vw, 76px);
+  color: #fff;
+  border-radius: 30px 10px 30px 10px;
+  background: linear-gradient(112deg, #003633 0%, #0b514b 65%, #17685f 100%);
+  box-shadow: 0 24px 54px rgba(0,54,51,.22);
+}
+.events-editorial-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .18;
+  background: repeating-linear-gradient(125deg, transparent 0 34px, rgba(245,217,138,.28) 35px 36px);
+}
+.events-banner-watermark { position:absolute;z-index:-2;right:-5%;top:50%;width:min(48vw,520px);height:min(48vw,520px);object-fit:cover;border-radius:50%;transform:translateY(-50%);opacity:.13;filter:grayscale(1) contrast(1.2); }
+.events-banner-copy { max-width:740px; }
+.events-banner-kicker { display:inline-flex;align-items:center;gap:10px;margin-bottom:20px;color:#F5D98A;font:600 11px/1.2 "JetBrains Mono",monospace;letter-spacing:.18em;text-transform:uppercase; }
+.events-banner-kicker::before { content:"";width:42px;height:1px;background:#D4A83C; }
+.events-banner-copy h2 { margin:0;font:800 clamp(46px,7vw,92px)/.88 "Syne",sans-serif;letter-spacing:-.055em;text-transform:uppercase; }
+.events-banner-copy h2 span { display:block;color:#F5D98A;font-size:.58em;letter-spacing:.02em; }
+.events-banner-copy p { margin:24px 0 0;max-width:540px;color:rgba(255,255,255,.82);font-size:clamp(16px,2vw,20px); }
+.events-banner-date { display:grid;justify-items:center;gap:3px;padding-left:34px;border-left:1px solid rgba(245,217,138,.45);color:#F5D98A;font:600 10px/1 "JetBrains Mono",monospace;letter-spacing:.22em; }
+.events-banner-date strong { color:#fff;font:800 clamp(40px,6vw,74px)/1 "Syne",sans-serif;letter-spacing:-.08em; }
+
+.gastronomy-story-cta { position:relative;margin:clamp(60px,10vw,120px) calc(50% - 50vw) 0;padding:clamp(90px,12vw,160px) 24px;overflow:hidden;isolation:isolate;color:#fff;background:linear-gradient(150deg,#002c29 0%,#003f3a 58%,#0f5d55 100%);text-align:center; }
+.gastronomy-story-cta::before,.gastronomy-story-cta::after { content:"";position:absolute;left:-5%;width:110%;height:70px;background:#f0f4f3;z-index:1; }
+.gastronomy-story-cta::before { top:-46px;border-radius:0 0 50% 50%; }
+.gastronomy-story-cta::after { bottom:-50px;border-radius:50% 50% 0 0; }
+.gastronomy-story-inner { position:relative;z-index:2;max-width:980px;margin:auto; }
+.gastronomy-story-kicker { display:block;margin-bottom:25px;color:#F5D98A;font:600 11px/1.2 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase; }
+.gastronomy-story-cta h2 { min-height:2.1em;margin:0;color:#fff;font:700 clamp(40px,7vw,76px)/1.03 "Syne",sans-serif;letter-spacing:-.04em; }
+.gastronomy-story-cta p { max-width:680px;margin:28px auto 0;color:rgba(255,255,255,.78);font-size:clamp(17px,2vw,21px);line-height:1.65; }
+.gastronomy-story-orbit { position:absolute;left:50%;top:50%;width:min(82vw,850px);aspect-ratio:1;border:1px solid rgba(245,217,138,.2);border-radius:50%;transform:translate(-50%,-50%); }
+.gastronomy-story-orbit::before,.gastronomy-story-orbit::after { content:"";position:absolute;inset:12%;border:1px solid rgba(245,217,138,.12);border-radius:50%; }
+.gastronomy-story-orbit::after { inset:28%; }
+.gastronomy-story-mark { position:absolute;right:4%;bottom:2%;color:rgba(245,217,138,.07);font:800 min(26vw,340px)/1 "Syne",sans-serif;letter-spacing:-.12em; }
+.gastronomy-story-detail { display:flex;align-items:center;justify-content:center;gap:18px;margin-top:42px;color:#F5D98A;font:500 10px/1.4 "JetBrains Mono",monospace;letter-spacing:.15em;text-transform:uppercase; }
+.gastronomy-story-detail span { width:54px;height:1px;background:#D4A83C; }
+
+.academic-credits { display:flex;flex-wrap:wrap;justify-content:center;gap:5px 18px;padding-top:15px;padding-bottom:15px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.66);font-size:11px;line-height:1.45;text-align:center; }
+.academic-credits strong { width:100%;color:#F5D98A;font-size:11px; }
+.compact-footer-inner { max-width:1280px;margin:auto;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#fff; }
+.compact-footer-inner strong { font:700 22px/1.2 "Syne",sans-serif;color:#F5D98A; }
+.compact-footer-inner p { margin:4px 0 0;color:rgba(255,255,255,.68);font-size:13px; }
+.compact-footer-links { display:flex;flex-wrap:wrap;gap:18px; }
+.compact-footer-links a { color:rgba(255,255,255,.78);font-size:12px;text-decoration:none; }
+.compact-footer-links a:hover { color:#F5D98A; }
+.compact-footer-legal { padding-top:13px;padding-bottom:15px;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.55);font-size:11px;text-align:center; }
+
+@media (max-width: 700px) {
+  .events-editorial-banner { min-height:270px;grid-template-columns:1fr;padding:34px 26px;border-radius:24px 8px; }
+  .events-banner-watermark { width:330px;height:330px;right:-40%; }
+  .events-banner-date { display:none; }
+  .events-banner-copy h2 { font-size:48px; }
+  .gastronomy-story-cta { padding:105px 22px 120px; }
+  .gastronomy-story-detail span { width:22px; }
+  .compact-footer-inner { align-items:flex-start;flex-direction:column; }
 }
 
 @media (max-width: 390px) {

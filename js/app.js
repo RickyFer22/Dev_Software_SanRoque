@@ -352,26 +352,26 @@ function updateWeatherUI({ icon, temp, desc, humidity, wind, feels, pressure }){
   if(wpHum) wpHum.textContent = `${humidity}%`;
   if(wpWind) wpWind.textContent = `${Math.round(wind)} km/h`;
   if(wpFeel) wpFeel.textContent = `${Math.round(feels)}°C`;
-  if(wpPressure) wpPressure.textContent = `${Math.round(pressure)} hPa`;
+  if(wpPressure) wpPressure.textContent = Number.isFinite(Number(pressure)) ? `${Math.round(Number(pressure))} hPa` : '-- hPa';
   if(wpDate) wpDate.textContent = new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
 }
 
 async function loadWeather() {
   const fallback = async () => {
-    const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.5768&longitude=-58.7168&current_weather=true&timezone=America%2FArgentina%2FCordoba';
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.5768&longitude=-58.7168&current=temperature_2m%2Crelative_humidity_2m%2Capparent_temperature%2Csurface_pressure%2Cweather_code%2Cwind_speed_10m&timezone=America%2FArgentina%2FCordoba';
     const res = await fetch(url);
     if(!res.ok) throw new Error('Open-Meteo error');
     const d = await res.json();
-    if(!d.current_weather) throw new Error('Open-Meteo missing data');
-    const info = weatherCodeInfo(d.current_weather.weathercode);
+    if(!d.current) throw new Error('Open-Meteo missing data');
+    const info = weatherCodeInfo(d.current.weather_code);
     updateWeatherUI({
       icon: info.icon,
-      temp: d.current_weather.temperature,
+      temp: d.current.temperature_2m,
       desc: info.desc,
-      humidity: d.current_weather.relativehumidity ?? '--',
-      wind: d.current_weather.windspeed ?? 0,
-      feels: d.current_weather.temperature ?? d.current_weather.temperature,
-      pressure: d.current_weather.pressure ?? '--'
+      humidity: d.current.relative_humidity_2m ?? '--',
+      wind: d.current.wind_speed_10m ?? 0,
+      feels: d.current.apparent_temperature ?? d.current.temperature_2m,
+      pressure: d.current.surface_pressure ?? '--'
     });
   };
 
@@ -439,9 +439,14 @@ const datosUtilesInfo = {
         titulo:"🚖 Remises",
         descripcion:"Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
         contactos:[
-            {nombre:"Remis San Roque", tel:"549XXXXXXXXX"},
-            {nombre:"Remis Centro", tel:"549XXXXXXXXX"},
-            {nombre:"Remis Norte", tel:"549XXXXXXXXX"}
+            {nombre:"Remis choro", tel:"3777721215"},
+            {nombre:"Romero ale", tel:"3777476810"},
+            {nombre:"BALDOVINO", tel:"3777-711144"},
+            {nombre:"PAULO", tel:"1130251880"},
+            {nombre:"TELLO REMIS", tel:"3777446545"},
+            {nombre:"TU REMIS", tel:"3777697065"},
+            {nombre:"FONTANA", tel:"37775202117"},
+            {nombre:"REMIS", tel:"37778207866"}
         ]
     },
 
@@ -592,7 +597,7 @@ const datosUtilesInfo = {
 
 };
 
-const BOT_API = "https://muni-bot-production.up.railway.app/chat";
+const BOT_API = "/api/bot/chat";
 let chatOpen = false;
 
 const chatToggleBtn = document.getElementById("chatToggle");
@@ -615,20 +620,9 @@ chatToggleBtn.addEventListener("animationend", () => {
 document.querySelectorAll('#lista-datos-utiles a').forEach(btn => {
     btn.addEventListener('click', function(e){
         e.preventDefault();
-        const tipo = this.dataset.tipo;
-        
-        // Abrir ventana del chatbot si estuviese cerrada
         chatOpen = true;
         document.getElementById("chatWindow").style.display = "flex";
-        
-        // Simular el mensaje del usuario con el botón presionado
-        addMsg(this.innerText.trim(), true);
-        showTyping();
-        
-        setTimeout(() => {
-            hideTyping();
-            responderDatosUtiles(tipo);
-        }, 600);
+        quickAsk(this.innerText.trim());
     });
 });
 
@@ -659,7 +653,8 @@ function addMsg(text, user=false){
         div.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
     }
 
-    div.innerHTML = text; 
+    div.style.whiteSpace = "pre-wrap";
+    div.textContent = text;
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
 }
@@ -702,15 +697,15 @@ function responderDatosUtiles(tipo) {
         item.contactos.forEach(c => {
             html += `<li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                     <div><strong>${c.nombre}</strong></div>
-                    <a target="_blank" href="https://wa.me/${c.tel}" style="background:#25d366; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
-                        📲 WhatsApp
+                    <a href="tel:${String(c.tel).replace(/\D/g,'')}" style="background:#003633; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
+                        📞 ${c.tel}
                     </a>
                 </li>`;
         });
         html += `</ul></div>`;
     }
 
-    addMsg(html);
+    addMsg(html.replace(/<[^>]*>/g, ''));
 }
 
 async function sendChat(){
@@ -722,18 +717,7 @@ async function sendChat(){
     input.value = "";
     showTyping();       
 
-    const textLower = text.toLowerCase();
-
-    // 1. Verificamos si la pregunta es sobre Datos Útiles primero (respuesta local rápida)
-    if(textLower.includes("remis") || textLower.includes("remises") || textLower.includes("taxi")){ setTimeout(()=>{ hideTyping(); responderDatosUtiles("remises"); }, 600); return; }
-    if(textLower.includes("terminal") || textLower.includes("colectivo") || textLower.includes("bus")){ setTimeout(()=>{ hideTyping(); responderDatosUtiles("terminal"); }, 600); return; }
-    if(textLower.includes("municipio") || textLower.includes("muni")){ setTimeout(()=>{ hideTyping(); responderDatosUtiles("municipio"); }, 600); return; }
-    if(textLower.includes("iglesia") || textLower.includes("templo") || textLower.includes("parroquia")){ setTimeout(()=>{ hideTyping(); responderDatosUtiles("iglesias"); }, 600); return; }
-    if(textLower.includes("policia") || textLower.includes("emergencia") || textLower.includes("bomberos")){ setTimeout(()=>{ hideTyping(); responderDatosUtiles("emergencias"); }, 600); return; }
-    if(textLower.includes("salud") || textLower.includes("farmacia") || textLower.includes("hospital")){ setTimeout(()=>{ hideTyping(); responderDatosUtiles("salud"); }, 600); return; }
-    if(textLower.includes("servicio") || textLower.includes("cajero") || textLower.includes("banco")){ setTimeout(()=>{ hideTyping(); responderDatosUtiles("servicios"); }, 600); return; }
-
-    // 2. Si no es de Datos Útiles, consulta a la API
+    // Todas las consultas pasan por la API del mismo origen para quedar observadas.
     try {
         const response = await fetch(BOT_API, {
             method: "POST", 

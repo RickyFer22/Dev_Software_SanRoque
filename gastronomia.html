@@ -137,7 +137,7 @@
       <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="#datos-utiles">Guía práctica</a>
     </div>
     <div class="flex items-center gap-4">
-      <div class="weather-widget group relative" id="weather-widget" tabindex="0">
+      <div class="hidden md:block weather-widget group relative" id="weather-widget" tabindex="0">
         <div class="weather-panel absolute top-[calc(100%+12px)] right-0 w-64 bg-primary/95 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-2xl text-white">
           <div class="flex items-center justify-between mb-3">
             <div>
@@ -173,7 +173,18 @@
           <span class="text-white font-bold text-sm font-headline-md leading-none" id="weather-temp-top">--&deg;</span>
         </div>
       </div>
-      
+      <button id="mobile-menu-toggle" class="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-primary shadow-lg transition-all" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav-panel">
+        <span class="material-symbols-outlined text-[24px]">menu</span>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-nav-panel" class="md:hidden hidden px-4 pt-3 pb-2">
+    <div class="rounded-[24px] border border-white/20 bg-primary/95 p-3 shadow-2xl backdrop-blur-md">
+      <a class="mobile-nav-link" href="index.html">Qué hacer</a>
+      <a class="mobile-nav-link" href="index.html">Dónde alojarme</a>
+      <a class="mobile-nav-link active" href="gastronomia.html" aria-current="page">Gastronomía</a>
+      <a class="mobile-nav-link" href="index.html#agenda">Agenda</a>
+      <a class="mobile-nav-link" href="#datos-utiles">Guía práctica</a>
     </div>
   </div>
 </nav>
@@ -188,7 +199,7 @@
     <span class="material-symbols-outlined">hotel</span>
     <span>Alojarme</span>
   </a>
-  <a class="bottom-nav-item active" href="gastronomia.html">
+  <a class="bottom-nav-item active" href="gastronomia.html" aria-current="page">
     <span class="material-symbols-outlined">restaurant</span>
     <span>Comer</span>
   </a>
@@ -268,14 +279,15 @@
 </div>
 
 <!-- Artisanal CTA Section -->
-<section class="bg-primary py-section-padding px-gutter text-center overflow-hidden relative">
-<div class="max-w-4xl mx-auto relative z-10">
-<span class="font-label-caps text-label-caps text-secondary-fixed uppercase tracking-[0.2em] mb-6 block">Sabores Locales</span>
-<h2 class="font-display-lg text-[34px] sm:text-[42px] md:text-[56px] text-on-primary mb-8 leading-tight min-h-[2.4em]"><span id="cta-typewriter-text"></span><span class="typewriter-cursor"></span></h2>
-<p class="font-body-lg text-body-lg text-on-primary-container mb-12 max-w-2xl mx-auto">
-                    San Roque te espera con los brazos abiertos y la mesa servida. Descubrí por qué nuestra gastronomía es el orgullo de la región.
-                </p>
-
+<section class="gastronomy-story-cta" aria-labelledby="gastronomy-story-title">
+  <div class="gastronomy-story-orbit" aria-hidden="true"></div>
+  <div class="gastronomy-story-mark" aria-hidden="true">SR</div>
+  <div class="gastronomy-story-inner">
+    <span class="gastronomy-story-kicker">Sabores locales · memoria correntina</span>
+    <h2 id="gastronomy-story-title"><span id="cta-typewriter-text"></span><span class="typewriter-cursor"></span></h2>
+    <p>San Roque te espera con los brazos abiertos y la mesa servida. Descubrí por qué nuestra gastronomía es el orgullo de la región.</p>
+    <div class="gastronomy-story-detail"><span></span>Recetas, productores y mesas con identidad<span></span></div>
+  </div>
 </section>
 </main>
 <div id="chatbot" class="chatbot">
@@ -308,21 +320,13 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="w-full bg-primary border-t border-outline-variant">
-<div class="flex flex-col md:flex-row justify-between items-center py-base px-gutter max-w-container-max mx-auto h-auto min-h-[120px]">
-<div class="mb-8 md:mb-0">
-<div class="font-headline-md text-headline-md text-on-primary mb-2">San Roque Gastronómico</div>
-<p class="font-body-md text-body-md text-on-primary-container">© 2026 Municipio de San Roque, Corrientes.</p>
-</div>
-<div class="flex flex-col md:flex-row gap-8 items-center">
-<div class="flex gap-6">
-<a class="text-on-primary-container hover:text-secondary-container transition-all font-label-caps text-label-caps uppercase" href="index.html">Inicio</a>
-<a class="text-on-primary-container hover:text-secondary-container transition-all font-label-caps text-label-caps uppercase" href="#">Facebook</a>
-<a class="text-on-primary-container hover:text-secondary-container transition-all font-label-caps text-label-caps uppercase" href="#">Instagram</a>
-<a class="text-on-primary-container hover:text-secondary-container transition-all font-label-caps text-label-caps uppercase" href="#">WhatsApp</a>
-</div>
-</div>
-</div>
+<footer class="site-footer compact-footer w-full bg-primary">
+  <div class="compact-footer-inner">
+    <div><strong>San Roque Gastronómico</strong><p>Portal oficial de turismo y cultura.</p></div>
+    <div class="compact-footer-links"><a href="index.html">Inicio</a><a href="https://www.instagram.com/sanroque.municipio" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://www.facebook.com/share/1AW5YTS5oZ/" target="_blank" rel="noopener noreferrer">Facebook</a></div>
+  </div>
+  <div class="academic-credits"><strong>Creado por pasantes de la Tecnicatura Superior en Desarrollo de Software 3.er año</strong><span>Autores: Daniel Almirón · Lucas Sánchez · Milca Martínez · Román Rossi · Tomas Rolet</span><span>Ayudante: Javier Legal · Profesora: Yesica Ponce</span></div>
+  <div class="compact-footer-legal">© 2026 Municipalidad de San Roque. Portal oficial de turismo y cultura. Todos los derechos reservados.</div>
 </footer>
 <script>
         // Simple scroll animation for cards
@@ -378,7 +382,7 @@
           if (wpHum) wpHum.textContent = `${data.humidity}%`;
           if (wpWind) wpWind.textContent = `${Math.round(data.wind)} km/h`;
           if (wpFeel) wpFeel.textContent = `${Math.round(data.feels)}\u00B0C`;
-          if (wpPressure) wpPressure.textContent = `${Math.round(data.pressure)} hPa`;
+          if (wpPressure) wpPressure.textContent = Number.isFinite(Number(data.pressure)) ? `${Math.round(Number(data.pressure))} hPa` : '-- hPa';
           if (wpDate) wpDate.textContent = new Date().toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
         }
 
@@ -425,20 +429,20 @@
           }
 
           try {
-            const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.5768&longitude=-58.7168&current_weather=true&relativehumidity_2m=true&surface_pressure=true&timezone=America%2FArgentina%2FCordoba';
+            const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.5768&longitude=-58.7168&current=temperature_2m%2Crelative_humidity_2m%2Capparent_temperature%2Csurface_pressure%2Cweather_code%2Cwind_speed_10m&timezone=America%2FArgentina%2FCordoba';
             const res = await fetch(url);
             if (!res.ok) throw new Error('Open-Meteo error');
             const d = await res.json();
-            if (!d.current_weather) throw new Error('Open-Meteo missing current_weather');
-            const info = weatherCodeInfo(d.current_weather.weathercode);
+            if (!d.current) throw new Error('Open-Meteo missing current conditions');
+            const info = weatherCodeInfo(d.current.weather_code);
             setWeatherUI({
               icon: info.icon,
               desc: info.desc,
-              temp: d.current_weather.temperature,
-              humidity: d.current_weather.relativehumidity_2m ?? '--',
-              wind: d.current_weather.windspeed ?? 0,
-              feels: d.current_weather.temperature,
-              pressure: d.current_weather.surface_pressure ?? '--'
+              temp: d.current.temperature_2m,
+              humidity: d.current.relative_humidity_2m ?? '--',
+              wind: d.current.wind_speed_10m ?? 0,
+              feels: d.current.apparent_temperature ?? d.current.temperature_2m,
+              pressure: d.current.surface_pressure ?? '--'
             });
           } catch (err) {
             console.error('Error clima.', err.message);
@@ -447,7 +451,7 @@
 
         loadWeather();
 
-        const BOT_API = "https://muni-bot-production.up.railway.app/chat";
+        const BOT_API = "/api/bot/chat";
         let chatOpen = false;
 
         document.getElementById("chatToggle").onclick = () => {
@@ -479,7 +483,8 @@
                 div.style.borderBottomLeftRadius = "2px";
                 div.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
             }
-            div.innerHTML = text;
+            div.style.whiteSpace = "pre-wrap";
+            div.textContent = text;
             box.appendChild(div);
             box.scrollTop = box.scrollHeight;
         }
@@ -523,7 +528,7 @@
         }
 
         setTimeout(() => {
-            addMsg(`<b>Bienvenido a MuniAyuda</b><br><br>Soy el asistente virtual de Turismo de San Roque.<br><br>Puedo ayudarte con:<br>Hospedajes<br>Gastronomía<br>Eventos<br>Emergencias<br><br>¿Qué necesitás?`);
+            addMsg(`Bienvenido a MuniAyuda\n\nSoy el asistente virtual de Turismo de San Roque.\n\nPuedo ayudarte con:\nHospedajes\nGastronomía\nEventos\nEmergencias\n\n¿Qué necesitás?`);
         }, 1000);
         // ═══ TYPEWRITER ═══
         (function(){
@@ -583,11 +588,11 @@
   }
 
   const localAnswers = {
-    hospedajes: '<b>Hospedajes</b><br>En la sección Dónde alojarme encontrás hoteles, hospedajes y departamentos disponibles en San Roque.',
-    comer: '<b>Gastronomía</b><br>Podés consultar comedores, horarios, ubicación y WhatsApp directo desde estas tarjetas.',
-    eventos: '<b>Eventos</b><br>Consultá la agenda local para actividades culturales, deportivas y municipales.',
-    informacion: '<b>Información</b><br>Te puedo orientar sobre gastronomía, alojamiento, eventos y datos útiles de San Roque.',
-    municipio: '<b>Municipio</b><br>Para trámites o consultas oficiales, acercate a la Municipalidad de San Roque o consultá sus canales de contacto.'
+    hospedajes: 'Hospedajes\nEn la sección Dónde alojarme encontrás hoteles, hospedajes y departamentos disponibles en San Roque.',
+    comer: 'Gastronomía\nPodés consultar comedores, horarios, ubicación y WhatsApp directo desde estas tarjetas.',
+    eventos: 'Eventos\nConsultá la agenda local para actividades culturales, deportivas y municipales.',
+    informacion: 'Información\nTe puedo orientar sobre gastronomía, alojamiento, eventos y datos útiles de San Roque.',
+    municipio: 'Municipio\nPara trámites o consultas oficiales, acercate a la Municipalidad de San Roque o consultá sus canales de contacto.'
   };
 
   function localReply(text){
@@ -619,7 +624,8 @@
       div.style.borderBottomLeftRadius = '2px';
       div.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)';
     }
-    div.innerHTML = text;
+    div.style.whiteSpace = 'pre-wrap';
+    div.textContent = text;
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
   }
@@ -643,7 +649,7 @@
     input.value = '';
     showLocalTyping();
     try {
-      const response = await fetch('https://muni-bot-production.up.railway.app/chat', {
+      const response = await fetch('/api/bot/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text })
@@ -670,9 +676,14 @@
           titulo:"🚖 Remises",
           descripcion:"Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
           contactos:[
-              {nombre:"Remis San Roque", tel:"549XXXXXXXXX"},
-              {nombre:"Remis Centro", tel:"549XXXXXXXXX"},
-              {nombre:"Remis Norte", tel:"549XXXXXXXXX"}
+              {nombre:"Remis choro", tel:"3777721215"},
+              {nombre:"Romero ale", tel:"3777476810"},
+              {nombre:"BALDOVINO", tel:"3777-711144"},
+              {nombre:"PAULO", tel:"1130251880"},
+              {nombre:"TELLO REMIS", tel:"3777446545"},
+              {nombre:"TU REMIS", tel:"3777697065"},
+              {nombre:"FONTANA", tel:"37775202117"},
+              {nombre:"REMIS", tel:"37778207866"}
           ]
       },
       terminal:{
@@ -758,46 +769,61 @@
           item.contactos.forEach(c => {
               html += `<li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                       <div><strong>${c.nombre}</strong></div>
-                      <a target="_blank" href="https://wa.me/${c.tel}" style="background:#25d366; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
-                          📲 WhatsApp
+                      <a href="tel:${String(c.tel).replace(/\D/g,'')}" style="background:#003633; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
+                          📞 ${c.tel}
                       </a>
                   </li>`;
           });
           html += `</ul></div>`;
       }
 
-      addLocalMsg(html, false);
+      addLocalMsg(html.replace(/<[^>]*>/g, ''), false);
   }
 
   function initDatosUtilesListeners() {
       document.querySelectorAll('#lista-datos-utiles a').forEach(btn => {
           btn.addEventListener('click', function(e){
               e.preventDefault();
-              const tipo = this.dataset.tipo;
-              
-              // Abrir ventana del chatbot si estuviese cerrada
               document.getElementById("chatWindow").style.display = "flex";
-              
-              // Simular el mensaje del usuario con el botón presionado
-              addLocalMsg(this.innerText.trim(), true);
-              showLocalTyping();
-              
-              setTimeout(() => {
-                  hideLocalTyping();
-                  responderDatosUtiles(tipo);
-              }, 600);
+              window.quickAsk(this.innerText.trim());
           });
       });
+  }
+
+  function initMobileMenu() {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const panel = document.getElementById('mobile-nav-panel');
+    if (!toggle || !panel) return;
+    const close = () => {
+      panel.classList.add('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Abrir menú');
+      const icon = toggle.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = 'menu';
+    };
+    toggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const open = panel.classList.toggle('hidden') === false;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      const icon = toggle.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = open ? 'close' : 'menu';
+    });
+    panel.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
+    document.addEventListener('click', (event) => { if (!panel.contains(event.target) && event.target !== toggle) close(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { close(); toggle.focus(); } });
   }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initSafeWeatherToggle();
         initDatosUtilesListeners();
+        initMobileMenu();
     });
   } else {
     initSafeWeatherToggle();
     initDatosUtilesListeners();
+    initMobileMenu();
   }
 })();
 </script>

@@ -278,6 +278,10 @@
     /* Spinner placeholder styles usable in multiple views */
     .spinner-placeholder{display:inline-block;width:20px;height:20px;border-radius:50%;border:3px solid rgba(11,93,123,0.12);border-top-color:var(--teal);animation:spin 1s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
+    .metric-card strong{display:block;margin-top:6px;font-size:28px;color:var(--teal)}
+    .log-list{display:grid;gap:10px;max-height:460px;overflow:auto}
+    .log-entry{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--card)}
+    #bot-system-prompt[readonly]{min-height:190px;background:var(--bg);cursor:not-allowed}
   </style>
 </head>
 <body>
@@ -297,7 +301,7 @@
     <div class="card" style="max-width:420px;width:100%;margin:0 16px;text-align:left;">
       <h2 style="margin-top:0">Iniciar sesión</h2>
       <div style="margin-bottom:12px;color:var(--muted)">Accede con tus credenciales para ver el panel administrativo.</div>
-      <label style="display:block;margin-bottom:8px">Usuario<input id="login-user" placeholder="admin" /></label>
+      <label style="display:block;margin-bottom:8px">Usuario<input id="login-user" placeholder="gestion.turistica.sr" /></label>
       <label style="display:block;margin-bottom:8px">Contraseña<input id="login-pass" type="password" placeholder="••••••" /></label>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
         <button id="loginBtnOverlay">Iniciar sesión</button>
@@ -312,6 +316,8 @@
     <button class="tab" data-section="gastronomia">Gastronomía</button>
     <button class="tab" data-section="eventos">Eventos</button>
     <button class="tab" data-section="datos-utiles">Datos útiles</button>
+    <button class="tab" data-section="bot-config">Bot y APIs</button>
+    <button class="tab" data-section="observability">Observabilidad</button>
     <button class="tab" data-section="users">Usuarios</button>
     <button class="tab" data-section="audit">Auditoría</button>
     <button class="tab" data-section="reviews">Reseñas</button>
@@ -519,6 +525,46 @@
       <label>Backup JSON<textarea id="backup-restore-body" placeholder='Pega aquí el JSON de backup'></textarea></label>
       <div class="toolbar"><button data-action="restore-backup">Restaurar backup</button></div>
     </div>
+  </div>
+
+  <div id="bot-config" class="section">
+    <div class="grid">
+      <div class="card">
+        <h2>Estado del asistente</h2>
+        <div><strong>Proveedor:</strong> <span id="bot-provider">Cargando…</span></div>
+        <div><strong>Endpoint público:</strong> <code id="bot-endpoint">—</code></div>
+        <div><strong>Upstream:</strong> <code id="bot-upstream">—</code></div>
+        <div><strong>Timeout:</strong> <span id="bot-timeout">—</span></div>
+        <div><strong>Fallback:</strong> <span id="bot-fallback">—</span></div>
+      </div>
+      <div class="card">
+        <h2>Claves y servicios</h2>
+        <div><strong>Clave del proveedor:</strong> <code id="bot-provider-key-mask">—</code></div>
+        <div><strong>Clave meteorológica:</strong> <code id="weather-key-mask">—</code></div>
+        <p class="small">Los secretos se muestran enmascarados y nunca se envían completos al navegador.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h2>System prompt inmutable</h2>
+      <label>Instrucción efectiva<textarea id="bot-system-prompt" readonly aria-readonly="true" rows="10"></textarea></label>
+      <p class="small">Configuración protegida en el servidor. No admite edición desde el panel ni por API.</p>
+    </div>
+  </div>
+
+  <div id="observability" class="section">
+    <div class="toolbar">
+      <button data-action="refresh-observability">Actualizar registros</button>
+      <button data-action="export-observability">Exportar JSON</button>
+      <label>Buscar<input id="observability-search" type="search" placeholder="ID, categoría, evento o error" /></label>
+    </div>
+    <div class="grid">
+      <div class="card metric-card"><span class="small">Consultas</span><strong id="bot-metric-requests">0</strong></div>
+      <div class="card metric-card"><span class="small">Errores</span><strong id="bot-metric-errors">0</strong></div>
+      <div class="card metric-card"><span class="small">Fallbacks</span><strong id="bot-metric-fallbacks">0</strong></div>
+      <div class="card metric-card"><span class="small">Latencia media</span><strong id="bot-metric-latency">0 ms</strong></div>
+    </div>
+    <div class="card"><h2>Log del bot</h2><div id="bot-logs" class="log-list" aria-live="polite"></div></div>
+    <div class="card"><h2>Log del sistema</h2><div id="system-logs" class="log-list" aria-live="polite"></div></div>
   </div>
 
   <div id="analytics" class="section">

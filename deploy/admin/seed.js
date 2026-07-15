@@ -185,9 +185,14 @@ const datosUtiles = [
     descripcion: 'Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.',
     contenido: {
       contactos: [
-        { nombre: 'Remis San Roque', tel: '549XXXXXXXXX' },
-        { nombre: 'Remis Centro', tel: '549XXXXXXXXX' },
-        { nombre: 'Remis Norte', tel: '549XXXXXXXXX' },
+        { nombre: 'Remis choro', tel: '3777721215' },
+        { nombre: 'Romero ale', tel: '3777476810' },
+        { nombre: 'BALDOVINO', tel: '3777-711144' },
+        { nombre: 'PAULO', tel: '1130251880' },
+        { nombre: 'TELLO REMIS', tel: '3777446545' },
+        { nombre: 'TU REMIS', tel: '3777697065' },
+        { nombre: 'FONTANA', tel: '37775202117' },
+        { nombre: 'REMIS', tel: '37778207866' },
       ]
     }
   },

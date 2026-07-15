@@ -12,10 +12,54 @@ test('public footer is Spanish, useful and does not expose admin', () => {
   assert.match(html, /Política de privacidad/);
   assert.match(html, /Términos y condiciones/);
   assert.match(html, /Municipalidad de San Roque/);
-  assert.match(html, /Oficina de Turismo/);
+  assert.doesNotMatch(html, /Oficina de Turismo/);
   assert.match(html, /Todos los derechos reservados/);
+  assert.match(html, /Creado por pasantes de la Tecnicatura Superior en Desarrollo de Software/);
+  assert.match(html, /Daniel Almirón/);
+  assert.match(html, /Lucas Sánchez/);
+  assert.match(html, /Milca Martínez/);
+  assert.match(html, /Román Rossi/);
+  assert.match(html, /Tomas Rolet/);
+  assert.match(html, /Ayudante:\s*Javier Legal/);
+  assert.match(html, /Profesora:\s*Yesica Ponce/);
   assert.doesNotMatch(html, /Privacy Policy|Terms of Service|Local Government|Tourist Office/);
   assert.doesNotMatch(html, /href="\/admin(?:\/login)?"/);
+});
+
+test('gastronomy exposes the same accessible mobile selector as the home page', () => {
+  const html = read('gastronomia.html');
+
+  assert.match(html, /id="mobile-menu-toggle"/);
+  assert.match(html, /aria-controls="mobile-nav-panel"/);
+  assert.match(html, /id="mobile-nav-panel"/);
+  assert.match(html, /aria-current="page"[^>]*>\s*<span[^>]*>restaurant/s);
+});
+
+test('gastronomy CTA and events banner use the editorial redesign hooks', () => {
+  const home = read('index.html');
+  const gastro = read('gastronomia.html');
+  const css = read('css/styles.css');
+
+  assert.match(home, /class="events-editorial-banner/);
+  assert.match(home, /events-banner-watermark/);
+  assert.match(gastro, /class="gastronomy-story-cta/);
+  assert.match(gastro, /gastronomy-story-orbit/);
+  assert.match(css, /\.events-editorial-banner/);
+  assert.match(css, /\.gastronomy-story-cta/);
+  assert.match(css, /\.academic-credits/);
+});
+
+test('weather fallbacks request complete current conditions without rendering NaN', () => {
+  const sources = [read('js/app.js'), read('gastronomia.html')].join('\n');
+  assert.match(sources, /current=temperature_2m%2Crelative_humidity_2m%2Capparent_temperature%2Csurface_pressure%2Cweather_code%2Cwind_speed_10m/);
+  assert.match(sources, /Number\.isFinite\(Number\(pressure\)\)/);
+});
+
+test('chat messages from visitors and APIs are rendered as text, not executable HTML', () => {
+  const app = read('js/app.js');
+  const gastro = read('gastronomia.html');
+  assert.doesNotMatch(app, /function addMsg\([\s\S]*?div\.innerHTML\s*=\s*text/);
+  assert.doesNotMatch(gastro, /function addLocalMsg\([\s\S]*?div\.innerHTML\s*=\s*text/);
 });
 
 test('public footer uses the official municipality social links', () => {

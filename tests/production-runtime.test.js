@@ -45,6 +45,13 @@ test('admin runtime does not initialize the incompatible connect-sqlite3 store',
   assert.equal(pkg.dependencies['better-sqlite3'], undefined);
 });
 
+test('admin container includes bot runtime and production migration scripts', () => {
+  const dockerfile = read('deploy/admin/Dockerfile');
+  assert.match(dockerfile, /COPY package\.json package-lock\.json server\.js seed\.js bot-service\.js/);
+  assert.match(dockerfile, /COPY scripts \.\/scripts/);
+  assert.match(dockerfile, /node scripts\/migrate-bot-data\.js && exec node server\.js/);
+});
+
 test('deployment waits for the admin health endpoint', () => {
   const workflow = read('.github/workflows/deploy.yml');
   assert.match(workflow, /curl[^\n]+\/api\/data/);
@@ -54,6 +61,12 @@ test('deployment waits for the admin health endpoint', () => {
 test('nginx keeps admin static assets behind the admin proxy', () => {
   const nginx = read('deploy/nginx.conf');
   assert.match(nginx, /location\s+\^~\s+\/admin\s*\{/);
+});
+
+test('nginx proxies the same-origin bot endpoint to the admin backend', () => {
+  const nginx = read('deploy/nginx.conf');
+  assert.match(nginx, /location\s*=\s*\/api\/bot\/chat\s*\{/);
+  assert.doesNotMatch(nginx, /connect-src[^;\"]*muni-bot-production\.up\.railway\.app/);
 });
 
 test('admin dashboard avoids forbidden user requests and uses its proxied health route', () => {

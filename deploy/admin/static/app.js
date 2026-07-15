@@ -660,6 +660,80 @@ function toggleSection(sectionId) {
   document.querySelectorAll('.tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.section === sectionId));
   const target = document.getElementById(sectionId);
   if (target) target.classList.add('active');
+  if (sectionId === 'bot-config') loadBotConfig();
+  if (sectionId === 'observability') loadObservability();
+}
+
+function setText(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value == null ? '—' : String(value);
+}
+
+async function loadBotConfig() {
+  const data = await fetchJson('/admin/api/bot-config');
+  if (data.error) {
+    setText('bot-provider', `Error: ${data.error}`);
+    return;
+  }
+  setText('bot-provider', data.provider);
+  setText('bot-endpoint', data.endpoint);
+  setText('bot-upstream', data.upstreamEndpoint);
+  setText('bot-timeout', `${data.timeoutMs} ms`);
+  setText('bot-fallback', data.fallback);
+  setText('bot-provider-key-mask', data.providerKeyMask);
+  setText('weather-key-mask', data.weatherKeyMask);
+  const prompt = document.getElementById('bot-system-prompt');
+  if (prompt) prompt.value = data.systemPrompt || '';
+}
+
+let observabilitySnapshot = { metrics: {}, botLogs: [], systemLogs: [] };
+
+function escapeLog(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+}
+
+function renderLogList(id, entries, type) {
+  const container = document.getElementById(id);
+  if (!container) return;
+  const query = (document.getElementById('observability-search')?.value || '').trim().toLowerCase();
+  const filtered = entries.filter((entry) => !query || JSON.stringify(entry).toLowerCase().includes(query));
+  container.innerHTML = filtered.length ? filtered.map((entry) => `
+    <article class="log-entry">
+      <div><strong>${escapeLog(type === 'bot' ? (entry.category || 'general') : (entry.event || 'sistema'))}</strong> <span class="pill">${escapeLog(entry.status || entry.level || 'info')}</span></div>
+      <div class="small">${escapeLog(new Date(entry.createdAt).toLocaleString())} · ${escapeLog(entry.id || entry.requestId || 'sin-id')} ${entry.latencyMs != null ? `· ${escapeLog(entry.latencyMs)} ms` : ''}</div>
+      <div class="small">${escapeLog(type === 'bot' ? `${entry.source || 'local'}${entry.fallback ? ' · fallback' : ''} · ${entry.message || ''}` : JSON.stringify(entry.details || {}))}</div>
+    </article>`).join('') : '<p class="small">No hay registros para este filtro.</p>';
+}
+
+function renderObservability() {
+  const metrics = observabilitySnapshot.metrics || {};
+  setText('bot-metric-requests', metrics.requests || 0);
+  setText('bot-metric-errors', metrics.errors || 0);
+  setText('bot-metric-fallbacks', metrics.fallbacks || 0);
+  setText('bot-metric-latency', `${metrics.averageLatencyMs || 0} ms`);
+  renderLogList('bot-logs', observabilitySnapshot.botLogs || [], 'bot');
+  renderLogList('system-logs', observabilitySnapshot.systemLogs || [], 'system');
+}
+
+async function loadObservability() {
+  const data = await fetchJson('/admin/api/observability');
+  if (data.error) {
+    const target = document.getElementById('bot-logs');
+    if (target) target.innerHTML = `<p class="small">Error: ${escapeLog(data.error)}</p>`;
+    return;
+  }
+  observabilitySnapshot = data;
+  renderObservability();
+}
+
+function exportObservability() {
+  const blob = new Blob([JSON.stringify(observabilitySnapshot, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = `observabilidad-${Date.now()}.json`;
+  anchor.click();
+  URL.revokeObjectURL(url);
 }
 
 function renderHealth(text) {
@@ -717,6 +791,7 @@ function mapResourceToPermissionName(resource) {
 
 function canReadResource(resource, role) {
   const name = mapResourceToPermissionName(resource);
+  if (['bot-config', 'observability'].includes(name)) return ['super-admin', 'editor'].includes(role);
   if (name === 'users') return role === 'super-admin';
   if (name === 'reviews') return ['super-admin', 'editor', 'viewer'].includes(role);
   if (name === 'audit') return ['super-admin', 'editor'].includes(role);
@@ -1186,6 +1261,7 @@ async function refreshAll() {
   const permitted = Object.keys(resources).filter((key) => key !== 'overview' && canReadResource(key, role));
   await Promise.all(permitted.map(loadResource));
   await loadHealth();
+  if (['super-admin', 'editor'].includes(role)) await Promise.all([loadBotConfig(), loadObservability()]);
 }
 
 function handleAction(event) {
@@ -1194,6 +1270,8 @@ function handleAction(event) {
   const action = button.dataset.action;
   const resource = button.dataset.resource;
   const id = button.dataset.id;
+  if (action === 'refresh-observability') { loadObservability(); return; }
+  if (action === 'export-observability') { exportObservability(); return; }
   if (action === 'load') {
     loadResource(resource);
     return;
@@ -1473,5 +1551,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginPassInput = document.getElementById('login-pass');
   if (loginPassInput) loginPassInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') serverLogin(); });
   setupImageFileInputs();
+  const observabilitySearch = document.getElementById('observability-search');
+  if (observabilitySearch) observabilitySearch.addEventListener('input', renderObservability);
   refreshAll();
 });
