@@ -1005,9 +1005,11 @@ function renderDataUtiles(items) {
 
 async function loadCounts() {
   renderSessionOverview();
-  const [data, users, reviews, audit, alojamientos, gastronomia, eventos] = await Promise.all([
+  const role = getCurrentAdminSession().role;
+  const usersRequest = role === 'super-admin' ? fetchJson('/admin/api/users') : Promise.resolve({ users: [], skipped: true });
+  const [data, users, reviews, audit, alojamientos, gastronomia, eventos, tickets] = await Promise.all([
     fetchJson('/api/data'),
-    fetchJson('/admin/api/users'),
+    usersRequest,
     fetchJson('/admin/api/reviews'),
     fetchJson('/admin/api/audit'),
     fetchJson('/admin/api/alojamientos'),
@@ -1025,7 +1027,7 @@ async function loadCounts() {
   renderCount('count-ev', (data.eventos || []).length);
   renderCount('count-du', Object.keys(data.datosUtiles || {}).length);
 
-  if (users.error) {
+  if (users.error || users.skipped) {
     renderCount('count-users', 'sin permiso');
   } else {
     renderCount('count-users', (users.users || []).length);
@@ -1042,15 +1044,8 @@ async function loadCounts() {
   } else {
     renderCount('count-audit', (audit.audit || []).length);
   }
-  if (Array.isArray(arguments[7]) || (typeof arguments[7] === 'object' && arguments[7] && arguments[7].length !== undefined)) {
-    // this branch should not normally run; prefer the explicit variable below
-  }
-  // tickets result is last in the Promise.all; try to read it safely
-  try {
-    const ticketsResp = await fetchJson('/admin/api/tickets');
-    if (!ticketsResp.error) renderCount('count-tickets', (Array.isArray(ticketsResp) ? ticketsResp.length : (ticketsResp.length || (ticketsResp.tickets || []).length)));
-    else renderCount('count-tickets', 'sin permiso');
-  } catch (e) { renderCount('count-tickets', 'error'); }
+  if (!tickets.error) renderCount('count-tickets', (Array.isArray(tickets) ? tickets.length : (tickets.length || (tickets.tickets || []).length)));
+  else renderCount('count-tickets', 'sin permiso');
 
   const contentItems = [alojamientos, gastronomia, eventos].reduce((acc, items) => acc.concat(Array.isArray(items) ? items : []), []);
   const published = contentItems.filter((item) => item.status === 'published').length;
@@ -1174,7 +1169,7 @@ async function loadResource(resource) {
 }
 
 async function loadHealth() {
-  const data = await fetchJson('/health');
+  const data = await fetchJson('/admin/api/health');
   if (data && data.ok) {
     renderHealth('Servidor: OK');
   } else if (data && data.error) {

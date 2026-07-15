@@ -55,3 +55,12 @@ test('nginx keeps admin static assets behind the admin proxy', () => {
   const nginx = read('deploy/nginx.conf');
   assert.match(nginx, /location\s+\^~\s+\/admin\s*\{/);
 });
+
+test('admin dashboard avoids forbidden user requests and uses its proxied health route', () => {
+  const app = read('deploy/admin/static/app.js');
+  const server = read('deploy/admin/server.js');
+
+  assert.match(app, /role\s*===\s*'super-admin'\s*\?\s*fetchJson\('\/admin\/api\/users'\)/);
+  assert.match(app, /fetchJson\('\/admin\/api\/health'\)/);
+  assert.match(server, /app\.get\('\/admin\/api\/health'/);
+});

@@ -168,6 +168,10 @@ function sendForbiddenOrUnauthenticated(req, res) {
 app.use('/admin/static', express.static(path.join(__dirname, 'static')));
 
 app.get('/health', (req, res) => res.json({ ok: true }));
+app.get('/admin/api/health', (req, res) => {
+  if (!req.session || !req.session.admin) return res.status(401).json({ error: 'Unauthenticated' });
+  return res.json({ ok: true });
+});
 
 // Endpoint público de datos (similar al original)
 app.get('/api/data', (req, res) => {
