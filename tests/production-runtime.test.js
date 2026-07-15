@@ -50,3 +50,8 @@ test('deployment waits for the admin health endpoint', () => {
   assert.match(workflow, /curl[^\n]+\/api\/data/);
   assert.match(workflow, /docker logs --tail 100 vivisanroque_admin/);
 });
+
+test('nginx keeps admin static assets behind the admin proxy', () => {
+  const nginx = read('deploy/nginx.conf');
+  assert.match(nginx, /location\s+\^~\s+\/admin\s*\{/);
+});
