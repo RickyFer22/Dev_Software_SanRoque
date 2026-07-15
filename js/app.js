@@ -223,17 +223,31 @@ document.addEventListener("DOMContentLoaded",()=>{
   const mobileToggle=document.getElementById('mobile-menu-toggle');
   const mobilePanel=document.getElementById('mobile-nav-panel');
   if (mobileToggle && mobilePanel) {
+    const setMobileMenuOpen=(open)=>{
+      mobilePanel.classList.toggle('hidden', !open);
+      mobileToggle.setAttribute('aria-expanded', String(open));
+      mobileToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      const icon=mobileToggle.querySelector('span');
+      if(icon) icon.textContent=open ? 'close' : 'menu';
+    };
     mobileToggle.addEventListener('click',()=>{
       const isHidden=mobilePanel.classList.contains('hidden');
-      mobilePanel.classList.toggle('hidden', !isHidden);
-      mobileToggle.setAttribute('aria-expanded', String(isHidden));
-      mobileToggle.querySelector('span').textContent = isHidden ? 'close' : 'menu';
+      setMobileMenuOpen(isHidden);
     });
     mobilePanel.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{
-      mobilePanel.classList.add('hidden');
-      mobileToggle.setAttribute('aria-expanded', 'false');
-      mobileToggle.querySelector('span').textContent='menu';
+      setMobileMenuOpen(false);
     }));
+    document.addEventListener('keydown',(event)=>{
+      if(event.key==='Escape' && !mobilePanel.classList.contains('hidden')){
+        setMobileMenuOpen(false);
+        mobileToggle.focus();
+      }
+    });
+    document.addEventListener('click',(event)=>{
+      if(!mobilePanel.classList.contains('hidden') && !mobilePanel.contains(event.target) && !mobileToggle.contains(event.target)){
+        setMobileMenuOpen(false);
+      }
+    });
   }
 
   // Inicializar el mapa y tarjetas cuando los datos estén listos
@@ -394,7 +408,7 @@ async function loadWeather() {
   if(!splash) return;
   if(sessionStorage.getItem('splashShown')){splash.classList.add('hidden-out');return;}
   requestAnimationFrame(()=>{setTimeout(()=>{logo.classList.add('show');text.classList.add('show');},80);});
-  setTimeout(()=>{splash.classList.add('hidden-out');sessionStorage.setItem('splashShown','1');},2800);
+  setTimeout(()=>{splash.classList.add('hidden-out');sessionStorage.setItem('splashShown','1');},1800);
 })();
 
 // ═══ TYPEWRITER ═══

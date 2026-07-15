@@ -29,3 +29,10 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# ===== Documentación interna de Codex =====
+docs/superpowers/
+
+# ===== Artefactos locales de pruebas visuales =====
+.playwright-cli/
+output/playwright/

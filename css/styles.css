@@ -57,12 +57,28 @@
   .leaflet-popup-content { margin:8px; }
 
   /* ── INTRO SPLASH ── */
-  #intro-splash { position:fixed;inset:0;z-index:9999;background:#003633;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.8s ease,visibility 0.8s ease; }
+  #intro-splash { position:fixed;inset:0;z-index:9999;background:#003633;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.65s ease,visibility 0.65s ease; }
   #intro-splash.hidden-out { opacity:0;visibility:hidden;pointer-events:none; }
   #splash-logo { opacity:0;transform:scale(0.72);transition:opacity 0.9s cubic-bezier(.22,1,.36,1),transform 0.9s cubic-bezier(.22,1,.36,1); }
   #splash-logo.show { opacity:1;transform:scale(1); }
   #splash-text { opacity:0;transform:translateY(12px);transition:opacity 0.7s ease 0.6s,transform 0.7s ease 0.6s; }
   #splash-text.show { opacity:1;transform:translateY(0); }
+  .splash-crest { width:clamp(164px,22vw,220px);aspect-ratio:1;display:block;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px rgba(245,217,138,.35),0 24px 60px rgba(0,0,0,.28); }
+
+  /* ── FOOTER INSTITUCIONAL ── */
+  .site-footer { overflow:hidden;box-shadow:0 -18px 50px rgba(0,54,51,.08); }
+  .site-footer::before { content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,rgba(245,217,138,.65),transparent); }
+  .footer-brand-mark { width:64px;height:64px;border-radius:20px;overflow:hidden;border:1px solid rgba(245,217,138,.45);box-shadow:0 14px 28px rgba(0,0,0,.2); }
+  .footer-brand-mark img { width:100%;height:100%;object-fit:cover; }
+  .footer-link { display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.78);font-size:14px;line-height:1.5;text-decoration:none;transition:color .2s ease,transform .2s ease; }
+  .footer-link:hover { color:#F5D98A;transform:translateX(3px); }
+  .footer-contact { display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,.78);line-height:1.5;text-decoration:none;overflow-wrap:anywhere; }
+  a.footer-contact:hover { color:#F5D98A; }
+  .footer-contact .material-symbols-outlined { flex:0 0 auto;font-size:19px;color:#F5D98A;margin-top:1px; }
+  .social-link { min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:0 15px;border-radius:999px;border:1px solid rgba(255,255,255,.22);color:#fff;font-size:13px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.06);transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease; }
+  .social-link:hover { background:#F5D98A;color:#003633;border-color:#F5D98A;transform:translateY(-2px); }
+  .social-link i { font-size:18px; }
+  .footer-link:focus-visible,.footer-contact:focus-visible,.social-link:focus-visible { outline:3px solid #F5D98A;outline-offset:4px;border-radius:8px; }
 
   /* ── MAP COLLAPSIBLE ── */
   .map-collapsible { max-height:88px;overflow:hidden;transition:max-height 0.7s cubic-bezier(.22,1,.36,1);border-radius:24px; }
@@ -752,18 +768,19 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .weather-panel { right: 0; width: min(16rem, calc(100vw - 32px)); transform-origin: top right; }
   .mobile-bottom-nav {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: 8px;
+    right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom));
     z-index: 40;
     display: flex;
     justify-content: space-around;
     align-items: center;
     background: rgba(255,255,255,0.96);
     backdrop-filter: blur(18px);
-    border-top: 1px solid rgba(0,0,0,0.08);
-    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
-    box-shadow: 0 -8px 24px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,54,51,0.1);
+    border-radius: 22px;
+    padding: 7px;
+    box-shadow: 0 16px 40px rgba(0,54,51,0.18);
   }
   .bottom-nav-item {
     flex: 1;
@@ -772,7 +789,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
     align-items: center;
     justify-content: center;
     gap: 3px;
-    padding: 8px 4px;
+    min-height: 52px;
+    padding: 7px 4px;
     border-radius: 14px;
     color: #64748b;
     font-size: 10px;
@@ -782,13 +800,14 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .bottom-nav-item.active,
   .bottom-nav-item:active {
     color: #003633;
-    background: rgba(19,78,74,0.08);
+    background: rgba(212,168,60,0.18);
   }
+  .bottom-nav-item:focus-visible { outline:3px solid #D4A83C;outline-offset:1px; }
   .bottom-nav-item .material-symbols-outlined {
     font-size: 20px;
   }
   body {
-    padding-bottom: 78px;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
   }
   #hero-section { min-height: 560px; height: 100svh; padding-left: 18px; padding-right: 18px; }
   #hero-section h1 { font-size: 38px !important; line-height: 1.08 !important; }
@@ -801,7 +820,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
   #gastronomia-grid .card-item li,
   #gastronomia-grid .card-item a,
   #gastronomia-grid .card-item span { overflow-wrap: anywhere; }
-  .chatbot { right: 12px; bottom: 12px; }
+  .chatbot { right: 12px; bottom: calc(88px + env(safe-area-inset-bottom)); }
   .chat-button { width: 64px; height: 64px; font-size: 10px; }
   .chat-button img { width: 100%; height: 100%; }
   .chat-window { width: calc(100vw - 24px); height: min(78vh, 560px); right: -2px; bottom: 74px; border-radius: 18px; }
@@ -809,6 +828,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .quick-btn { padding: 8px 10px; font-size: 11px; }
   .chat-input-area input { min-width: 0; }
   footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
+  .site-footer { text-align:left; }
+  .site-footer .social-link { flex:1;max-width:150px; }
 }
 
 @media (max-width: 390px) {
@@ -847,4 +868,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
     pointer-events: auto !important;
   }
   .chat-window { max-height: calc(100svh - 96px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important;animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important; }
+  #intro-splash { display:none; }
 }

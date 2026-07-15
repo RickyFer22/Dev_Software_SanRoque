@@ -16,7 +16,7 @@ test('public pages use same-origin production endpoints', () => {
   ].map(read).join('\n');
 
   assert.doesNotMatch(publicSources, /127\.0\.0\.1:4000/);
-  assert.match(read('index.html'), /href="\/admin\/login"/);
+  assert.doesNotMatch(read('index.html'), /href="\/admin(?:\/login)?"/);
   assert.match(read('js/data.js'), /fetch\(`\$\{BACKEND_BASE\}\/api\/data`/);
 });
 
