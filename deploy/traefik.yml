@@ -1,0 +1,28 @@
+# Ejemplo mínimo de Traefik para VPS (ACME Let's Encrypt)
+version: '3.8'
+services:
+  traefik:
+    image: traefik:2.10
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entryPoints.web.address=:80
+      - --entryPoints.websecure.address=:443
+      - --certificatesResolvers.letsencrypt.acme.tlsChallenge=true
+      - --certificatesResolvers.letsencrypt.acme.email=${LETSENCRYPT_EMAIL}
+      - --certificatesResolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --log.level=INFO
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge

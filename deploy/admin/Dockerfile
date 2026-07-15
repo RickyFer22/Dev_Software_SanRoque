@@ -17,7 +17,8 @@ WORKDIR /app
 
 # Solo copiamos node_modules ya construidos y el código fuente
 COPY --from=builder /app/node_modules ./node_modules
-COPY package.json server.js seed.js ./
+COPY package.json package-lock.json server.js seed.js ./
+COPY static ./static
 
 ENV NODE_ENV=production \
     PORT=4000 \

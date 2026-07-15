@@ -173,41 +173,162 @@ const _fallbackAlojamientos = {
 // ── Variable global accesible por app.js ──────────────────────────────────────
 let alojamientosData = _fallbackAlojamientos;
 
-// ── Carga desde la API con fallback ──────────────────────────────────────────
-(async function loadAppData() {
+function normalizeAccommodationItem(item, fallbackId = '') {
+  if (!item || typeof item !== 'object') return null;
+
+  const id = String(item.id || fallbackId || '').trim();
+  if (!id) return null;
+
+  const parseArrayValue = (value) => {
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string') {
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (err) {
+        return [];
+      }
+    }
+    return [];
+  };
+
+  const normalized = {
+    ...item,
+    id,
+    titulo: item.titulo || item.name || id,
+    categoria: item.categoria || 'hospedaje',
+    coords: Array.isArray(item.coords)
+      ? item.coords
+      : (typeof item.lat !== 'undefined' && typeof item.lon !== 'undefined')
+        ? [Number(item.lat), Number(item.lon)]
+        : null,
+    mainImg: item.mainImg || item.img || (Array.isArray(item.galeria) && item.galeria[0]) || '',
+    galeria: parseArrayValue(item.galeria).length ? parseArrayValue(item.galeria) : (item.mainImg ? [item.mainImg] : []),
+    capacidad: parseArrayValue(item.capacidad),
+    servicios: parseArrayValue(item.servicios)
+  };
+
+  return normalized;
+}
+
+function normalizeAccommodationData(payload) {
+  if (!payload) return {};
+
+  if (Array.isArray(payload)) {
+    return payload.reduce((acc, item, index) => {
+      const normalized = normalizeAccommodationItem(item, item?.id || index);
+      if (normalized) acc[normalized.id] = normalized;
+      return acc;
+    }, {});
+  }
+
+  if (typeof payload === 'object') {
+    return Object.entries(payload).reduce((acc, [key, value]) => {
+      const normalized = normalizeAccommodationItem(value, key);
+      if (normalized) acc[normalized.id] = normalized;
+      return acc;
+    }, {});
+  }
+
+  return {};
+}
+
+const BACKEND_BASE = (function resolveBackendBase() {
+  const host = window.location.hostname;
+  if (host === '127.0.0.1' || host === 'localhost' || host === '0.0.0.0') {
+    return window.location.port === '4000' ? '' : 'http://127.0.0.1:4000';
+  }
+  return 'http://127.0.0.1:4000';
+})();
+
+// ── Carga desde la API con fallback inmediato y refresco automático ─────
+function buildFallbackAppData() {
+  return {
+    alojamientos: _fallbackAlojamientos,
+    gastronomia: [],
+    eventos: [],
+    datosUtiles: null,
+  };
+}
+
+let lastAppDataSignature = null;
+
+async function refreshAppData({ silent = false } = {}) {
+  const fallbackAppData = buildFallbackAppData();
+
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000); // timeout 5s
+    const timeout = setTimeout(() => controller.abort(), 1200);
 
-    const res = await fetch('/api/data', { signal: controller.signal });
+    const res = await fetch(`${BACKEND_BASE}/api/data`, {
+      signal: controller.signal,
+      cache: 'no-store',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
     clearTimeout(timeout);
 
     if (!res.ok) throw new Error('API respondió con error ' + res.status);
 
     const data = await res.json();
+    const normalizedAlojamientos = normalizeAccommodationData(data.alojamientos);
 
-    if (data.alojamientos && Object.keys(data.alojamientos).length > 0) {
+    if (Object.keys(normalizedAlojamientos).length > 0) {
       const lugaresBase = {};
       for (const [k, v] of Object.entries(_fallbackAlojamientos)) {
         if (['lugar','servicio','iglesia','salud','farmacia'].includes(v.categoria)) {
           lugaresBase[k] = v;
         }
       }
-      alojamientosData = { ...lugaresBase, ...data.alojamientos };
+      alojamientosData = { ...lugaresBase, ...normalizedAlojamientos };
+    } else {
+      alojamientosData = _fallbackAlojamientos;
     }
 
-    window.appData = data;
-
+    window.appData = { ...data, alojamientos: alojamientosData };
   } catch (err) {
-    console.info('[data] API no disponible, usando datos locales.', err.message);
-    window.appData = {
-      alojamientos: _fallbackAlojamientos,
-      gastronomia: [],
-      eventos: [],
-      datosUtiles: null,
-    };
+    if (!silent) {
+      console.info('[data] API no disponible, usando datos locales.', err.message);
+    }
+    alojamientosData = fallbackAppData.alojamientos;
+    window.appData = fallbackAppData;
   }
 
-  // Notificar a app.js que los datos están listos
+  const signature = JSON.stringify(window.appData);
+  if (signature !== lastAppDataSignature) {
+    lastAppDataSignature = signature;
+    document.dispatchEvent(new CustomEvent('appDataReady', { detail: window.appData }));
+  } else if (!silent) {
+    document.dispatchEvent(new CustomEvent('appDataReady', { detail: window.appData }));
+  }
+
+  return window.appData;
+}
+
+(function initAppData() {
+  window.appData = buildFallbackAppData();
+  alojamientosData = window.appData.alojamientos;
+  window.refreshAppData = refreshAppData;
   document.dispatchEvent(new CustomEvent('appDataReady', { detail: window.appData }));
+
+  refreshAppData({ silent: true });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      refreshAppData({ silent: true });
+    }
+  });
+
+  window.addEventListener('focus', () => {
+    refreshAppData({ silent: true });
+  });
+
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'sanroque-admin-sync') {
+      refreshAppData({ silent: true });
+    }
+  });
+
+  setInterval(() => {
+    refreshAppData({ silent: true });
+  }, 5000);
 })();

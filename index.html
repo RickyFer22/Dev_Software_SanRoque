@@ -16,7 +16,9 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -54,9 +56,9 @@
   </div>
 
   <nav id="main-nav"
-    class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-gradient-to-b from-black/60 to-transparent pt-6 pb-6">
-    <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
-      <a class="font-display-lg text-[30px] md:text-[36px] leading-none text-white tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer"
+    class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-gradient-to-b from-black/60 to-transparent pt-4 pb-3 md:pt-6 md:pb-6">
+    <div class="flex items-center justify-between px-4 md:px-6 max-w-7xl mx-auto gap-3">
+      <a class="font-display-lg text-[24px] md:text-[36px] leading-none text-white tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer"
         onclick="backToGrid()">San Roque</a>
       <div
         class="hidden md:flex items-center bg-white/95 backdrop-blur-sm rounded-full px-8 py-3.5 shadow-lg gap-8 hover:shadow-xl transition-shadow">
@@ -71,7 +73,7 @@
         <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all"
           href="#datos-utiles">Guía práctica</a>
       </div>
-      <div class="weather-widget group relative" id="weather-widget" tabindex="0">
+      <div class="hidden md:block weather-widget group relative" id="weather-widget" tabindex="0">
         <div
           class="weather-panel absolute top-[calc(100%+12px)] right-0 w-64 bg-primary/95 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-2xl text-white">
           <div class="flex items-center justify-between mb-3">
@@ -118,7 +120,18 @@
           <span class="text-white font-bold text-sm font-headline-md leading-none" id="weather-temp-top">--°</span>
         </div>
       </div>
-      
+      <button id="mobile-menu-toggle" class="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-primary shadow-lg transition-all" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav-panel">
+        <span class="material-symbols-outlined text-[24px]">menu</span>
+      </button>
+    </div>
+    <div id="mobile-nav-panel" class="md:hidden hidden px-4 pt-3 pb-2">
+      <div class="rounded-[24px] border border-white/20 bg-primary/95 p-3 shadow-2xl backdrop-blur-md">
+        <a class="mobile-nav-link" href="#">Qué hacer</a>
+        <a class="mobile-nav-link active" onclick="backToGrid()">Dónde alojarme</a>
+        <a class="mobile-nav-link" href="gastronomia.html">Gastronomía</a>
+        <a class="mobile-nav-link" href="#agenda">Agenda</a>
+        <a class="mobile-nav-link" href="#datos-utiles">Guía práctica</a>
+      </div>
     </div>
   </nav>
 
@@ -203,448 +216,20 @@
       </ul>
     </section>
 
-
-
     <section class="max-w-7xl mx-auto px-6 mb-12">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="accommodations-grid">
-
-        <article
-          class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up"
-          data-category="hospedaje" onclick="navigateToDetails('sanmartin')">
-          <div
-            class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Hospedaje San Martín" class="w-full h-full object-cover img-zoom"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBZ-HQVqZuWT9eJ8bi8DZdICg9HRjSIt7LhnN3-LWJMa9zBFDbZDtjr0pkO3ITamjkoQn8A4TcUbBVXFC785tBwd1WwAke7NC-YGAx1MwPQ9yLI72X7ie2lcx2iL97fXKo3sYFL7u9G_ILqDWuWYNOaBSUUxt95hlrSzj5pKRl__EDoWzDMqT5Ebuzglw0xoUQTfq4V-LHAeG6BcoRB2TfvQjSJv6KzfESwho1Ish7tl8cPyGPOw0z76Yc_SvHnzoGTVzSDMfSAPk"
-              loading="lazy" />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0">
-            </div>
-          </div>
-          <div
-            class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">
-            Hospedaje</div>
-          <div
-            class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hospedaje San Martín</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span
-                  class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span
-                  class="text-neutral-800 font-bold text-sm">4.8</span><span
-                  class="text-neutral-400 text-xs ml-1">(14)</span></div>
-              <div
-                class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors"
-                data-id="sanmartin">
-                <span
-                  class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Amplio hospedaje con 7 habitaciones de distintas
-              categorías, ideal para grupos y delegaciones familiares.</p>
-            <ul class="flex flex-wrap gap-1.5 mb-4">
-              <li
-                class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                7 habitaciones</li>
-              <li
-                class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                Apto Familias</li>
-            </ul>
-            <a href="https://www.google.com/maps?q=-28.5743,-58.7102" target="_blank" onclick="event.stopPropagation()"
-              class="geo-btn mb-4 w-fit">
-              <span class="material-symbols-outlined">location_on</span> Ver en mapa · Gral. San Martín 420
-            </a>
-            <span
-              class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER
-              DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
-        <article
-          class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up"
-          data-category="hotel" onclick="navigateToDetails('leguiza')">
-          <div
-            class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Leguiza Hotel" class="w-full h-full object-cover img-zoom"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDE9WFbB3knnxqsUQl69k3imbw1PNvJmdRGQkKzqMB13lHTsdSvbIpuFD0L5FH9isUb3yOKR5VrisIQ-ZLdH8zTybBi7OTEkX-obM24ha02UHNvwZ0vKtnaidAh0maj7PARr-BZNaB0UCjaru7mTMN3H9ez-TR9oTBofHeHmkDYArG9M_Fz1Sg5YGzlBJo09gxmytXHphnKXQbHdanZgfFAstquibXfRXVW29lwHJQxbyA9LHjRWOvZtVBXNnERIpcm0usk_2GHBU"
-              loading="lazy" />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0">
-            </div>
-          </div>
-          <div
-            class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">
-            Hotel</div>
-          <div
-            class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Leguiza Hotel</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span
-                  class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span
-                  class="text-neutral-800 font-bold text-sm">4.9</span><span
-                  class="text-neutral-400 text-xs ml-1">(28)</span></div>
-              <div
-                class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors"
-                data-id="leguiza">
-                <span
-                  class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Infraestructura de primer nivel con conectividad
-              Starlink de alta velocidad y cocheras privadas seguras.</p>
-            <ul class="flex flex-wrap gap-1.5 mb-4">
-              <li
-                class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                WiFi Starlink</li>
-              <li
-                class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                9 habitaciones</li>
-            </ul>
-            <a href="https://www.google.com/maps?q=-28.5760,-58.7088" target="_blank" onclick="event.stopPropagation()"
-              class="geo-btn mb-4 w-fit">
-              <span class="material-symbols-outlined">location_on</span> Ver en mapa · Av. San Martín 180
-            </a>
-            <span
-              class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER
-              DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
-        <article
-          class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up"
-          data-category="hospedaje" onclick="navigateToDetails('jr')">
-          <div
-            class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Hospedaje JR" class="w-full h-full object-cover img-zoom"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAseczUszmsEn78pANsddufBcwq_ny17_4ffia7-_cDSSr8GKlaRj1KyBH0nHtpwCHuB8z3vTqQb-khjUpxxE1uu-bEv235utiauvS_puBcBHqImurERZL07uHOHvxzYwQBLe_xYK1SOMEzufnWz7dOoPEdctWNjt8-4jef2uZPdjwXgqUpygeAT_rz-pgSUSbD1E9JRcXIUz4on4G56wyszw-80B6_Jiy56cnAkezpXSyhDeQX3eojjWe4j5gM6b3aEIyIQ5zxGfQ"
-              loading="lazy" />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0">
-            </div>
-          </div>
-          <div
-            class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">
-            Hospedaje</div>
-          <div
-            class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hospedaje JR</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span
-                  class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span
-                  class="text-neutral-800 font-bold text-sm">4.6</span><span
-                  class="text-neutral-400 text-xs ml-1">(9)</span></div>
-              <div
-                class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors"
-                data-id="jr">
-                <span
-                  class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Ambiente cálido y familiar con cocina de uso
-              compartido totalmente equipada y baños privados.</p>
-            <ul class="flex flex-wrap gap-1.5 mb-4">
-              <li
-                class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                Baño Privado</li>
-              <li
-                class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                Cocina Común</li>
-            </ul>
-            <a href="https://www.google.com/maps?q=-28.5751,-58.7115" target="_blank" onclick="event.stopPropagation()"
-              class="geo-btn mb-4 w-fit">
-              <span class="material-symbols-outlined">location_on</span> Ver en mapa · Berón de Astrada 826
-            </a>
-            <span
-              class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER
-              DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
-        <article
-          class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up"
-          data-category="departamento" onclick="navigateToDetails('fortune')">
-          <div
-            class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Hospedaje Fortune" class="w-full h-full object-cover img-zoom"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4s83P1ccLqxkn9VtUtsjmiM5xo5gz766mJWFKm_jqoY3mvP3uNsnNxkAGEPd2U0Be8wHzTko3RoSPibTLapXI5Hrv5vJYwNv5OZ_lyFfSKjvX-eVijOIpRMnvyntfnZUN_yk8xbvKzBVh2CdNDDDXV-VgK0TkURvacCTnTIjGdKRO0ir0KkcBBMS1Nk7CA6RpTgiXpjSxBCLx231wi1SN8ru1l6xRq0_eszAsDCC3ourwycbx-jgDoG85w0riyCXbWUYHKEYWjII"
-              loading="lazy" />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0">
-            </div>
-          </div>
-          <div
-            class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">
-            Depto</div>
-          <div
-            class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hospedaje Fortune</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span
-                  class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span
-                  class="text-neutral-800 font-bold text-sm">4.7</span><span
-                  class="text-neutral-400 text-xs ml-1">(19)</span></div>
-              <div
-                class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors"
-                data-id="fortune">
-                <span
-                  class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span
-                    class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Departamentos modernos totalmente independientes y
-              amueblados. Hospedaje automatizado de ingreso coordinado sin recepción presencial.</p>
-            <ul class="flex flex-wrap gap-1.5 mb-4">
-              <li
-                class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                6 Apartamentos</li>
-              <li
-                class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                Desayuno Inc.</li>
-            </ul>
-            <a href="https://www.google.com/maps?q=-28.5768,-58.7095" target="_blank" onclick="event.stopPropagation()"
-              class="geo-btn mb-4 w-fit">
-              <span class="material-symbols-outlined">location_on</span> Ver en mapa · Pellegrini 310
-            </a>
-            <span
-              class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER
-              DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
-        <article class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up" data-category="hotel" onclick="navigateToDetails('ariadna')">
-          <div class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Hotel y Hospedaje Ariadna" class="w-full h-full object-cover img-zoom" src="fotos/hotelariadna.png" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
-          </div>
-          <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Hotel</div>
-          <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hotel y Hospedaje Ariadna</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.8</span><span class="text-neutral-400 text-xs ml-1">(0)</span></div>
-              <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="ariadna">
-                <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Hotel y hospedaje Ariadna ofrece comodidad y tranquilidad para visitantes de San Roque.</p>
-            <ul class="flex flex-wrap gap-1.5 mb-4">
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">WiFi</li>
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Hab. cómodas</li>
-            </ul>
-            <a href="https://www.google.com/maps?q=-28.5809,-58.7215" target="_blank" onclick="event.stopPropagation()" class="geo-btn mb-4 w-fit">
-              <span class="material-symbols-outlined">location_on</span> Ver en mapa
-            </a>
-            <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
-        <article class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up" data-category="hotel" onclick="navigateToDetails('casablanca')">
-          <div class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Hotel Casa Blanca" class="w-full h-full object-cover img-zoom" src="img/Hospedaje Casa Blanca.jpeg" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
-          </div>
-          <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Hotel</div>
-          <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hotel Casa Blanca</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.8</span><span class="text-neutral-400 text-xs ml-1">(0)</span></div>
-              <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="casablanca">
-                <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Hotel Casa Blanca brinda alojamiento confortable en San Roque.</p>
-            <a href="https://www.google.com/maps?q=-28.5807,-58.7175" target="_blank" onclick="event.stopPropagation()" class="geo-btn mb-4 w-fit">
-              <span class="material-symbols-outlined">location_on</span> Ver en mapa
-            </a>
-            <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
-        <article class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up" data-category="hospedaje" onclick="navigateToDetails('esquivel')">
-          <div class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Hotel Esquivel" class="w-full h-full object-cover img-zoom" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
-          </div>
-          <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Hospedaje</div>
-          <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hotel Esquivel</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.5</span><span class="text-neutral-400 text-xs ml-1">(0)</span></div>
-              <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="esquivel">
-                <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Monoambientes con capacidad total para 9 personas distribuidas en 3 habitaciones.</p>
-            <ul class="flex flex-wrap gap-1.5 mb-4">
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Aire Acond.</li>
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Cochera</li>
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">WiFi</li>
-            </ul>
-            <a href="https://maps.app.goo.gl/AF4hg6RbQJHYcEDC6" target="_blank" onclick="event.stopPropagation()" class="geo-btn mb-4 w-fit">
-              <span class="material-symbols-outlined">location_on</span> Ver en mapa
-            </a>
-            <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
-        <article class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up" data-category="hospedaje" onclick="navigateToDetails('donpedro')">
-          <div class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Hospedaje Don Pedro" class="w-full h-full object-cover img-zoom" src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
-          </div>
-          <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Hospedaje</div>
-          <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hospedaje Don Pedro</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.6</span><span class="text-neutral-400 text-xs ml-1">(0)</span></div>
-              <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="donpedro">
-                <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Capacidad para 12 personas en 4 habitaciones.</p>
-            <ul class="flex flex-wrap gap-1.5 mb-4">
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Desayuno</li>
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Estacionamiento</li>
-            </ul>
-            <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
-        <article class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer h-[520px] lg:h-[380px] card-item fade-in-up" data-category="hotel" onclick="navigateToDetails('paraiso')">
-          <div class="absolute inset-0 w-full h-[45%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-            <img alt="Hotel Paraíso" class="w-full h-full object-cover img-zoom" src="https://images.unsplash.com/photo-1551882547-ff40c0d13c81?w=600&q=80" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
-          </div>
-          <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Hotel</div>
-          <div class="absolute inset-x-0 bottom-0 top-[45%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-            <h2 class="text-primary text-[22px] font-bold font-headline-md mb-2">Hotel Paraíso</h2>
-            <div class="flex items-center justify-between mb-4 w-full" onclick="event.stopPropagation()">
-              <div class="flex items-center gap-1"><span class="material-symbols-outlined filled text-golden-sand text-[18px]">star</span><span class="text-neutral-800 font-bold text-sm">4.7</span><span class="text-neutral-400 text-xs ml-1">(0)</span></div>
-              <div class="flex items-center gap-1 interactive-stars bg-neutral-50 px-2 py-1 rounded-full border border-neutral-200 shadow-sm transition-colors" data-id="paraiso">
-                <span class="vote-label text-[10px] text-neutral-500 font-bold uppercase mr-1 tracking-wider">Votar</span>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-                <button class="star-btn transition-transform hover:scale-125"><span class="material-symbols-outlined text-[16px] text-neutral-300 transition-colors">star</span></button>
-              </div>
-            </div>
-            <p class="text-neutral-600 text-[14px] mb-4 line-clamp-3">Cómodo hotel con capacidad total de 3 habitaciones.</p>
-            <ul class="flex flex-wrap gap-1.5 mb-4">
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Aire Acond.</li>
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">TV</li>
-              <li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Desayuno</li>
-            </ul>
-            <a href="https://maps.app.goo.gl/xdS8yyXqYySfMx2d6?g_st=aw" target="_blank" onclick="event.stopPropagation()" class="geo-btn mb-4 w-fit">
-              <span class="material-symbols-outlined">location_on</span> Ver en mapa
-            </a>
-            <span class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">VER DETALLE <span class="material-symbols-outlined text-[16px]">open_in_new</span></span>
-          </div>
-        </article>
-
+      <div class="mb-8">
+        <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Hospedajes</h2>
+        <p class="text-neutral-500 text-sm mt-1">Opciones cómodas y bien ubicadas para tu estadía en San Roque</p>
       </div>
-      
-      <div class="flex justify-center mt-8">
-        <button id="btn-ver-mas-alojamientos" class="px-6 py-3 rounded-full bg-surface-container text-on-surface-variant font-bold text-sm shadow-sm hover:bg-neutral-200 hover:scale-105 active:scale-95 transition-all duration-300">
-          Ver más alojamientos
+      <div class="rounded-[32px]">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="accommodations-carousel"></div>
+      </div>
+      <div class="mt-6 flex justify-center">
+        <button id="btn-ver-mas-alojamientos" class="hidden px-5 py-2.5 rounded-full border border-outline-variant/70 bg-white text-primary font-semibold text-sm shadow-sm hover:border-river-teal hover:text-river-teal hover:scale-[1.02] active:scale-95 transition-all duration-300">
+          Ver más
         </button>
       </div>
     </section>
-
-    <script>
-      (function() {
-        const grid = document.getElementById('accommodations-grid');
-        const btnVerMas = document.getElementById('btn-ver-mas-alojamientos');
-        if(!grid || !btnVerMas) return;
-        
-        const cards = Array.from(grid.querySelectorAll('.card-item'));
-        
-        // Shuffle cards randomly
-        for (let i = cards.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [cards[i], cards[j]] = [cards[j], cards[i]];
-        }
-        
-        // Re-append in new order and hide those beyond the first 4
-        cards.forEach((card, index) => {
-          grid.appendChild(card);
-          if (index >= 4) {
-            card.style.display = 'none';
-          }
-        });
-
-        if(cards.length <= 4) {
-           btnVerMas.style.display = 'none';
-        }
-        
-        let isExpanded = false;
-        btnVerMas.addEventListener('click', () => {
-          isExpanded = !isExpanded;
-          cards.forEach((card, index) => {
-            if (index >= 4) {
-              card.style.display = isExpanded ? '' : 'none';
-            }
-          });
-          btnVerMas.textContent = isExpanded ? 'Ver menos' : 'Ver más alojamientos';
-        });
-      })();
-    </script>
 
     <section class="max-w-7xl mx-auto px-6 mb-12 fade-in-up">
       <div class="bg-white border border-outline-variant/30 shadow-md map-collapsible" tabindex="0">
@@ -701,35 +286,8 @@
           <span class="material-symbols-outlined text-[15px]">calendar_month</span> Junio – Julio 2026
         </span>
       </div>
-      <div class="max-w-[360px]">
-        <div class="rounded-2xl border border-outline-variant/30 shadow-md bg-[#FDFBF7] overflow-hidden flex flex-col">
-          
-          <div class="w-full h-[260px] relative">
-            <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80" class="w-full h-full object-cover" alt="Fiestas Patronales">
-          </div>
-          
-          <div class="p-6 pb-20 relative flex-1 flex flex-col justify-between">
-            <div>
-              <h3 class="text-[24px] font-bold text-[#1f2937] mb-4 leading-tight">Fiestas Patronales San Roque 2026</h3>
-              <div class="space-y-2.5 text-[15px] font-semibold text-[#29703C]">
-                <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-[20px]">calendar_today</span> 16 de agosto
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-[20px]">schedule</span> desde 10:00
-                </div>
-                <div class="flex items-start gap-2">
-                  <span class="material-symbols-outlined text-[20px] mt-0.5">location_on</span> Plaza Principal Libertad
-                </div>
-              </div>
-            </div>
-            
-            <a href="evento.html" class="absolute bottom-5 right-5 bg-[#2F7E3B] hover:bg-[#1b5e20] text-white w-12 h-12 rounded-xl flex items-center justify-center transition-colors shadow-md hover:scale-105 active:scale-95">
-              <span class="material-symbols-outlined text-[26px]">chevron_right</span>
-            </a>
-          </div>
-          
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="events-grid">
+         <!-- Eventos se cargan dinámicamente aquí -->
       </div>
       
 
@@ -955,6 +513,7 @@
           <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm" href="#">Terms of Service</a></li>
           <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm" href="#">Local Government</a></li>
           <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm" href="#">Tourist Office</a></li>
+          <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm font-semibold" href="http://127.0.0.1:4000/admin/login">Panel administrador</a></li>
         </ul>
       </div>
 
@@ -992,6 +551,55 @@
   </footer>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const grid = document.getElementById('events-grid');
+      if (!grid) return;
+
+      const formatDate = (value) => {
+        if (!value) return 'Próximamente';
+        const date = new Date(`${value}T12:00:00`);
+        if (Number.isNaN(date.getTime())) return value;
+        return date.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+      };
+
+      try {
+        const backendBase = window.location.port === '4000' ? '' : 'http://127.0.0.1:4000';
+        const res = await fetch(`${backendBase}/api/data`);
+        if (!res.ok) throw new Error('No se pudo cargar la agenda');
+        const data = await res.json();
+        const eventos = (data.eventos || []).filter(Boolean);
+
+        if (!eventos.length) {
+          grid.innerHTML = '<div class="md:col-span-2 lg:col-span-3 text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-10 text-neutral-600">Próximamente habrá eventos publicados desde el panel de administración.</div>';
+          return;
+        }
+
+        grid.innerHTML = eventos.map((evento) => `
+          <article class="bg-white rounded-3xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-xl transition-all duration-300">
+            <div class="h-40 overflow-hidden">
+              <img src="${evento.imagen || 'img/hero.jpg.jpg'}" alt="${evento.titulo}" class="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-river-teal font-bold mb-3">
+                <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+                ${formatDate(evento.fecha)}
+              </div>
+              <h3 class="text-xl font-bold text-primary mb-2">${evento.titulo}</h3>
+              <p class="text-neutral-600 text-sm leading-relaxed mb-4">${evento.descripcion || 'Consulta la agenda local.'}</p>
+              <div class="text-sm text-neutral-500 space-y-1">
+                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">schedule</span> ${evento.hora || 'Horario a confirmar'}</div>
+                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">location_on</span> ${evento.lugar || 'San Roque'}</div>
+              </div>
+            </div>
+          </article>
+        `).join('');
+      } catch (error) {
+        console.info('No se pudieron cargar los eventos desde la API', error.message);
+        grid.innerHTML = '<div class="md:col-span-2 lg:col-span-3 text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-10 text-neutral-600">No hay eventos disponibles por el momento.</div>';
+      }
+    });
+  </script>
 </body>
 
 </html>

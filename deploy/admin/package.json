@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "test:e2e": "npx playwright test --project=chromium"
   },
   "dependencies": {
     "better-sqlite3": "^9.4.3",
@@ -19,5 +20,8 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "^1.40.0"
   }
 }

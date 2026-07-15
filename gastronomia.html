@@ -358,19 +358,30 @@
 
 
         function setWeatherUI(data) {
-          document.getElementById('weather-icon-top').textContent = data.icon;
-          document.getElementById('weather-temp-top').textContent = `${Math.round(data.temp)}\u00B0`;
-          document.getElementById('wp-temp').textContent = `${Math.round(data.temp)}\u00B0C`;
-          document.getElementById('wp-desc').textContent = data.desc;
-          document.getElementById('wp-icon').textContent = data.icon;
-          document.getElementById('wp-hum').textContent = `${data.humidity}%`;
-          document.getElementById('wp-wind').textContent = `${Math.round(data.wind)} km/h`;
-          document.getElementById('wp-feel').textContent = `${Math.round(data.feels)}\u00B0C`;
-          document.getElementById('wp-pressure').textContent = `${Math.round(data.pressure)} hPa`;
-          document.getElementById('wp-date').textContent = new Date().toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
+          const iconTop = document.getElementById('weather-icon-top');
+          const tempTop = document.getElementById('weather-temp-top');
+          const wpTemp = document.getElementById('wp-temp');
+          const wpDesc = document.getElementById('wp-desc');
+          const wpIcon = document.getElementById('wp-icon');
+          const wpHum = document.getElementById('wp-hum');
+          const wpWind = document.getElementById('wp-wind');
+          const wpFeel = document.getElementById('wp-feel');
+          const wpPressure = document.getElementById('wp-pressure');
+          const wpDate = document.getElementById('wp-date');
+          if (iconTop) iconTop.textContent = data.icon;
+          if (tempTop) tempTop.textContent = `${Math.round(data.temp)}\u00B0`;
+          if (wpTemp) wpTemp.textContent = `${Math.round(data.temp)}\u00B0C`;
+          if (wpDesc) wpDesc.textContent = data.desc;
+          if (wpIcon) wpIcon.textContent = data.icon;
+          if (wpHum) wpHum.textContent = `${data.humidity}%`;
+          if (wpWind) wpWind.textContent = `${Math.round(data.wind)} km/h`;
+          if (wpFeel) wpFeel.textContent = `${Math.round(data.feels)}\u00B0C`;
+          if (wpPressure) wpPressure.textContent = `${Math.round(data.pressure)} hPa`;
+          if (wpDate) wpDate.textContent = new Date().toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
         }
 
         function iconFromOpenWeather(code) {
+          if (!code) return 'light_mode';
           if (code.includes('01')) return code.includes('n') ? 'nights_stay' : 'light_mode';
           if (code.includes('02') || code.includes('03') || code.includes('04')) return 'cloud';
           if (code.includes('09') || code.includes('10')) return 'rainy';
@@ -390,39 +401,47 @@
         }
 
         async function loadWeather() {
+          const backendBase = ['127.0.0.1','localhost','0.0.0.0'].includes(window.location.hostname)
+            ? (window.location.port === '4000' ? '' : 'http://127.0.0.1:4000')
+            : '';
+
           try {
-            const res = await fetch('/api/weather?lat=-28.5768&lon=-58.7168');
-            if (!res.ok) throw new Error();
+            const res = await fetch(`${backendBase}/api/weather?lat=-28.5768&lon=-58.7168`);
+            if (!res.ok) throw new Error('Backend weather error');
             const d = await res.json();
-            if (d.error) throw new Error(d.error);
+            if (d.error || !d.weather || !d.weather[0] || !d.main) throw new Error('Invalid backend weather payload');
             setWeatherUI({
               icon: iconFromOpenWeather(d.weather[0].icon),
-              desc: d.weather[0].description,
+              desc: d.weather[0].description || 'Clima actual',
               temp: d.main.temp,
-              humidity: d.main.humidity,
-              wind: d.wind.speed * 3.6,
-              feels: d.main.feels_like,
-              pressure: d.main.pressure
+              humidity: d.main.humidity ?? '--',
+              wind: d.wind?.speed ? d.wind.speed * 3.6 : 0,
+              feels: d.main.feels_like ?? d.main.temp,
+              pressure: d.main.pressure ?? '--'
             });
-          } catch(e) {
-            try {
-              const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.5768&longitude=-58.7168&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,surface_pressure&timezone=America%2FArgentina%2FCordoba';
-              const res = await fetch(url);
-              if (!res.ok) throw new Error();
-              const d = await res.json();
-              const info = weatherCodeInfo(d.current.weather_code);
-              setWeatherUI({
-                icon: info.icon,
-                desc: info.desc,
-                temp: d.current.temperature_2m,
-                humidity: d.current.relative_humidity_2m,
-                wind: d.current.wind_speed_10m,
-                feels: d.current.apparent_temperature,
-                pressure: d.current.surface_pressure
-              });
-            } catch(err) {
-              console.error("Error clima.");
-            }
+            return;
+          } catch (e) {
+            console.warn('Backend weather failed, falling back to Open-Meteo', e.message);
+          }
+
+          try {
+            const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.5768&longitude=-58.7168&current_weather=true&relativehumidity_2m=true&surface_pressure=true&timezone=America%2FArgentina%2FCordoba';
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('Open-Meteo error');
+            const d = await res.json();
+            if (!d.current_weather) throw new Error('Open-Meteo missing current_weather');
+            const info = weatherCodeInfo(d.current_weather.weathercode);
+            setWeatherUI({
+              icon: info.icon,
+              desc: info.desc,
+              temp: d.current_weather.temperature,
+              humidity: d.current_weather.relativehumidity_2m ?? '--',
+              wind: d.current_weather.windspeed ?? 0,
+              feels: d.current_weather.temperature,
+              pressure: d.current_weather.surface_pressure ?? '--'
+            });
+          } catch (err) {
+            console.error('Error clima.', err.message);
           }
         }
 

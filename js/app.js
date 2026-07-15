@@ -1,10 +1,35 @@
 let map;
 const mapMarkers = {};
+
+function isAccommodationVisible(item) {
+  if (!item) return false;
+  const value = item.activo;
+  if (value === 0 || value === '0' || value === false || value === 'false' || value === 'inactivo' || value === 'oculto' || value === 'hidden') {
+    return false;
+  }
+  return true;
+}
+
 function initMap() {
-  map = L.map('main-map').setView([-28.5744,-58.7083],15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+  if (!document.getElementById('main-map')) return;
+
+  Object.keys(mapMarkers).forEach((id) => {
+    const entry = mapMarkers[id];
+    if (entry && entry.marker && map && map.hasLayer(entry.marker)) {
+      map.removeLayer(entry.marker);
+    }
+    delete mapMarkers[id];
+  });
+
+  if (!map) {
+    map = L.map('main-map').setView([-28.5744,-58.7083],15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+  } else {
+    map.setView([-28.5744,-58.7083],15);
+  }
+
   for(const [id,data] of Object.entries(alojamientosData)) {
-    if(data.coords) {
+    if(data.coords && isAccommodationVisible(data)) {
       const marker = L.marker(data.coords).addTo(map);
       marker.bindPopup(`<div class="text-center min-w-[160px] p-1"><img src="${data.mainImg}" class="w-full h-24 object-cover rounded-xl mb-3 shadow-sm"/><h3 class="font-bold text-primary text-[15px] leading-tight mb-1">${data.titulo}</h3><div class="text-golden-sand text-[11px] mb-3 font-bold">★ ${data.rating}</div><button onclick="navigateToDetails('${id}')" class="bg-river-teal text-white text-xs px-4 py-2 rounded-full font-bold w-full hover:bg-primary transition-colors">VER DETALLE</button></div>`);
       mapMarkers[id] = {marker,category:data.categoria};
@@ -22,6 +47,22 @@ function renderStars(ratingStr) {
 }
 
 // ═══ VOTING ═══
+async function submitVote(itemType, itemId, rating) {
+  try {
+    const res = await fetch(`${BACKEND_BASE}/api/vote`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ itemType, itemId, rating })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'No se pudo registrar el voto');
+    return data;
+  } catch (err) {
+    console.error('[vote]', err);
+    return { ok: false, error: err.message };
+  }
+}
+
 function initVotingForContainer(container) {
   const accId = container.getAttribute('data-id'); if(!accId) return;
   const savedVotes = JSON.parse(localStorage.getItem('userVotes')||'{}');
@@ -41,7 +82,7 @@ function initVotingForContainer(container) {
   stars.forEach((star,index)=>{
     star.addEventListener('mouseover',()=>{if(JSON.parse(localStorage.getItem('userVotes')||'{}')[accId]) return;stars.forEach((s,i)=>{const icon=s.querySelector('span');if(i<=index){icon.classList.add('filled','text-golden-sand');icon.classList.remove('text-neutral-300');}else{icon.classList.remove('filled','text-golden-sand');icon.classList.add('text-neutral-300');}});});
     star.addEventListener('mouseout',()=>{if(JSON.parse(localStorage.getItem('userVotes')||'{}')[accId]) return;stars.forEach(s=>{const icon=s.querySelector('span');icon.classList.remove('filled','text-golden-sand');icon.classList.add('text-neutral-300');});});
-    star.addEventListener('click',(e)=>{e.stopPropagation();const cv=JSON.parse(localStorage.getItem('userVotes')||'{}');if(cv[accId]) return;const val=index+1;cv[accId]=val;localStorage.setItem('userVotes',JSON.stringify(cv));document.querySelectorAll(`.interactive-stars[data-id="${accId}"]`).forEach(c=>{const l=c.querySelector('.vote-label');c.classList.add('pointer-events-none','bg-teal-50','border-teal-200');if(l){l.textContent='¡Votado!';l.classList.replace('text-neutral-500','text-river-teal');}c.querySelectorAll('.star-btn span').forEach((icon,i)=>{if(i<val){icon.classList.add('filled','text-golden-sand');icon.classList.remove('text-neutral-300');icon.style.transform='scale(1.3)';setTimeout(()=>icon.style.transform='scale(1)',200);}else{icon.classList.remove('filled','text-golden-sand');icon.classList.add('text-neutral-300');}});});});
+    star.addEventListener('click', async (e)=>{e.stopPropagation();const cv=JSON.parse(localStorage.getItem('userVotes')||'{}');if(cv[accId]) return;const val=index+1;cv[accId]=val;localStorage.setItem('userVotes',JSON.stringify(cv));const result = await submitVote('alojamiento', accId, val);document.querySelectorAll(`.interactive-stars[data-id="${accId}"]`).forEach(c=>{const l=c.querySelector('.vote-label');c.classList.add('pointer-events-none','bg-teal-50','border-teal-200');if(l){l.textContent = result.ok ? '¡Votado!' : 'Intenta más tarde';l.classList.replace('text-neutral-500', result.ok ? 'text-river-teal' : 'text-red-500');}c.querySelectorAll('.star-btn span').forEach((icon,i)=>{if(i<val){icon.classList.add('filled','text-golden-sand');icon.classList.remove('text-neutral-300');icon.style.transform='scale(1.3)';setTimeout(()=>icon.style.transform='scale(1)',200);}else{icon.classList.remove('filled','text-golden-sand');icon.classList.add('text-neutral-300');}});});});
   });
 }
 
@@ -93,17 +134,143 @@ function backToGrid() {
   if(map){setTimeout(()=>map.invalidateSize(),100);}
 }
 
+function createAccommodationCard(id, data) {
+  const image = data.mainImg || (Array.isArray(data.galeria) && data.galeria[0]) || 'img/hero.jpg.jpg';
+  const categoryLabel = data.categoria === 'hotel' ? 'Hotel' : data.categoria === 'hospedaje' ? 'Hospedaje' : 'Alojamiento';
+  const description = data.descripcionLarga || 'Alojamiento cómodo y bien ubicado en San Roque.';
+  const services = Array.isArray(data.servicios) && data.servicios.length
+    ? data.servicios.slice(0, 3).map(s => s.texto || s).join(' · ')
+    : 'WiFi · comodidad · buena ubicación';
+  return `
+    <article class="relative group bg-canvas-white rounded-[28px] overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[560px] sm:min-h-[520px] card-item fade-in-up" data-category="${data.categoria || 'hospedaje'}" data-aos="fade-up" data-aos-duration="700">
+      <div class="absolute inset-0 h-[42%] sm:h-[46%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
+        <img src="${image}" alt="${data.titulo}" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
+      </div>
+      <div class="absolute inset-x-0 bottom-0 top-[42%] sm:top-[46%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-5 sm:p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
+        <div class="flex items-center justify-between gap-3 mb-4">
+          <span class="text-[11px] uppercase tracking-[0.2em] text-river-teal font-bold">${categoryLabel}</span>
+          <div class="flex items-center gap-1 text-golden-sand font-bold text-sm">
+            <span class="material-symbols-outlined text-[16px]">star</span>
+            ${data.rating || '4.5'}
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-primary leading-tight">${data.titulo}</h3>
+        <p class="text-sm text-neutral-600 leading-relaxed">${description}</p>
+        <div class="text-sm text-neutral-500 mt-3">${services}</div>
+        <div class="flex items-center justify-between mt-6">
+          <div class="text-sm text-neutral-500">📍 ${data.ubicacion || 'San Roque'}</div>
+          <button onclick="event.stopPropagation(); navigateToDetails('${id}')" class="px-4 py-2 rounded-full bg-river-teal text-white text-xs font-bold uppercase tracking-wider hover:bg-primary transition-all">Ver detalle</button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderAccommodationCards() {
+  const carousel = document.getElementById('accommodations-carousel');
+  const toggleBtn = document.getElementById('btn-ver-mas-alojamientos');
+  if (!carousel) return;
+
+  const items = Object.entries(alojamientosData || {})
+    .filter(([id, item]) => item && item.coords && isAccommodationVisible(item) && !['lugar','servicio','iglesia','salud','farmacia'].includes(item.categoria))
+    .map(([id, item]) => ({ id, item }));
+
+  if (!items.length) {
+    carousel.innerHTML = '<div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-10 text-neutral-600">No hay hospedajes disponibles por el momento.</div>';
+    if (toggleBtn) toggleBtn.classList.add('hidden');
+    return;
+  }
+
+  let expanded = false;
+
+  const renderCards = (list) => {
+    carousel.innerHTML = list.map(({ id, item }) => `<div class="w-full">${createAccommodationCard(id, item)}</div>`).join('');
+
+    document.querySelectorAll('.card-item').forEach((card) => {
+      card.addEventListener('touchstart', () => card.classList.add('touch-active'), { passive: true });
+      card.addEventListener('touchend', () => card.classList.remove('touch-active'));
+      card.addEventListener('touchcancel', () => card.classList.remove('touch-active'));
+    });
+
+    if (window.AOS) window.AOS.refreshHard();
+  };
+
+  if (items.length > 3) {
+    renderCards(items.slice(0, 3));
+    if (toggleBtn) {
+      toggleBtn.classList.remove('hidden');
+      toggleBtn.textContent = expanded ? 'Ocultar' : 'Ver más';
+      toggleBtn.onclick = () => {
+        expanded = !expanded;
+        renderCards(expanded ? items : items.slice(0, 3));
+        toggleBtn.textContent = expanded ? 'Ocultar' : 'Ver más';
+      };
+    }
+  } else {
+    renderCards(items);
+    if (toggleBtn) toggleBtn.classList.add('hidden');
+  }
+}
+
 // ═══ DOMCONTENTLOADED ═══
+let uiInitialized = false;
+
 document.addEventListener("DOMContentLoaded",()=>{
   const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible');});},{threshold:0.05});
   document.querySelectorAll('.fade-in-up').forEach(el=>observer.observe(el));
 
+  const mobileToggle=document.getElementById('mobile-menu-toggle');
+  const mobilePanel=document.getElementById('mobile-nav-panel');
+  if (mobileToggle && mobilePanel) {
+    mobileToggle.addEventListener('click',()=>{
+      const isHidden=mobilePanel.classList.contains('hidden');
+      mobilePanel.classList.toggle('hidden', !isHidden);
+      mobileToggle.setAttribute('aria-expanded', String(isHidden));
+      mobileToggle.querySelector('span').textContent = isHidden ? 'close' : 'menu';
+    });
+    mobilePanel.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{
+      mobilePanel.classList.add('hidden');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      mobileToggle.querySelector('span').textContent='menu';
+    }));
+  }
+
   // Inicializar el mapa y tarjetas cuando los datos estén listos
   // (el evento 'appDataReady' lo dispara data.js al terminar fetch o fallback)
   const initUI = () => {
+    if (!uiInitialized) {
+      if (window.AOS) {
+        AOS.init({ once: true, duration: 700, easing: 'ease-out-cubic', offset: 80, mirror: false });
+      }
+      uiInitialized = true;
+    }
     initMap();
+    renderAccommodationCards();
     const filterBtns=document.querySelectorAll('.filter-btn');const cards=document.querySelectorAll('.card-item');
-    filterBtns.forEach(btn=>{btn.addEventListener('click',()=>{filterBtns.forEach(b=>{b.classList.remove('bg-river-teal','text-canvas-white','shadow-sm');b.classList.add('bg-surface-container','text-on-surface-variant');});btn.classList.remove('bg-surface-container','text-on-surface-variant');btn.classList.add('bg-river-teal','text-canvas-white','shadow-sm');const f=btn.getAttribute('data-filter');cards.forEach(card=>{card.style.display=(f==='all'||card.getAttribute('data-category')===f)?'block':'none';});for(const[id,markerObj] of Object.entries(mapMarkers)){if(f==='all'||markerObj.category===f){if(!map.hasLayer(markerObj.marker)) map.addLayer(markerObj.marker);}else{if(map.hasLayer(markerObj.marker)) map.removeLayer(markerObj.marker);}}});});
+    if (!filterBtns.length) return;
+
+    filterBtns.forEach((btn) => {
+      btn.onclick = () => {
+        filterBtns.forEach((b) => {
+          b.classList.remove('bg-river-teal','text-canvas-white','shadow-sm');
+          b.classList.add('bg-surface-container','text-on-surface-variant');
+        });
+        btn.classList.remove('bg-surface-container','text-on-surface-variant');
+        btn.classList.add('bg-river-teal','text-canvas-white','shadow-sm');
+        const f = btn.getAttribute('data-filter');
+        cards.forEach((card) => {
+          card.style.display = (f === 'all' || card.getAttribute('data-category') === f) ? 'block' : 'none';
+        });
+        for (const [id, markerObj] of Object.entries(mapMarkers)) {
+          if (f === 'all' || markerObj.category === f) {
+            if (!map.hasLayer(markerObj.marker)) map.addLayer(markerObj.marker);
+          } else {
+            if (map.hasLayer(markerObj.marker)) map.removeLayer(markerObj.marker);
+          }
+        }
+      };
+    });
   };
 
   document.addEventListener('appDataReady', (e) => {
@@ -133,24 +300,90 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 function ts2h(unix,offset){const d=new Date((unix+offset)*1000);return String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');}
 
+function mapWeatherCode(code){
+  if(code.includes('01')) return 'light_mode';
+  if(code.includes('02')||code.includes('03')||code.includes('04')) return 'cloud';
+  if(code.includes('09')||code.includes('10')) return 'rainy';
+  if(code.includes('11')) return 'thunderstorm';
+  if(code.includes('13')) return 'ac_unit';
+  if(code.includes('50')) return 'foggy';
+  return 'light_mode';
+}
+
+function weatherCodeInfo(code){
+  if([0,1].includes(code)) return { icon:'light_mode', desc:'cielo despejado' };
+  if([2,3].includes(code)) return { icon:'cloud', desc:'parcialmente nublado' };
+  if([45,48].includes(code)) return { icon:'foggy', desc:'neblina' };
+  if([51,53,55,61,63,65,80,81,82].includes(code)) return { icon:'rainy', desc:'lluvia' };
+  if([95,96,99].includes(code)) return { icon:'thunderstorm', desc:'tormenta' };
+  return { icon:'cloud', desc:'clima actual' };
+}
+
+function updateWeatherUI({ icon, temp, desc, humidity, wind, feels, pressure }){
+  const iconEl = document.getElementById('weather-icon-top');
+  const tempTop = document.getElementById('weather-temp-top');
+  const wpTemp = document.getElementById('wp-temp');
+  const wpDesc = document.getElementById('wp-desc');
+  const wpIcon = document.getElementById('wp-icon');
+  const wpHum = document.getElementById('wp-hum');
+  const wpWind = document.getElementById('wp-wind');
+  const wpFeel = document.getElementById('wp-feel');
+  const wpPressure = document.getElementById('wp-pressure');
+  const wpDate = document.getElementById('wp-date');
+  if(iconEl) iconEl.textContent = icon;
+  if(tempTop) tempTop.textContent = `${Math.round(temp)}°`;
+  if(wpTemp) wpTemp.textContent = `${Math.round(temp)}°C`;
+  if(wpDesc) wpDesc.textContent = desc;
+  if(wpIcon) wpIcon.textContent = icon;
+  if(wpHum) wpHum.textContent = `${humidity}%`;
+  if(wpWind) wpWind.textContent = `${Math.round(wind)} km/h`;
+  if(wpFeel) wpFeel.textContent = `${Math.round(feels)}°C`;
+  if(wpPressure) wpPressure.textContent = `${Math.round(pressure)} hPa`;
+  if(wpDate) wpDate.textContent = new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
+}
+
 async function loadWeather() {
+  const fallback = async () => {
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.5768&longitude=-58.7168&current_weather=true&timezone=America%2FArgentina%2FCordoba';
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('Open-Meteo error');
+    const d = await res.json();
+    if(!d.current_weather) throw new Error('Open-Meteo missing data');
+    const info = weatherCodeInfo(d.current_weather.weathercode);
+    updateWeatherUI({
+      icon: info.icon,
+      temp: d.current_weather.temperature,
+      desc: info.desc,
+      humidity: d.current_weather.relativehumidity ?? '--',
+      wind: d.current_weather.windspeed ?? 0,
+      feels: d.current_weather.temperature ?? d.current_weather.temperature,
+      pressure: d.current_weather.pressure ?? '--'
+    });
+  };
+
   try {
-    const res=await fetch('/api/weather?lat=-28.5768&lon=-58.7168');
-    if(!res.ok) throw new Error(); const d=await res.json(); if(d.error) throw new Error(d.error);
-    const owmCode=d.weather[0].icon; let icon='light_mode';
-    if(owmCode.includes('01')) icon=owmCode.includes('n')?'nights_stay':'light_mode';
-    else if(owmCode.includes('02')||owmCode.includes('03')||owmCode.includes('04')) icon='cloud';
-    else if(owmCode.includes('09')||owmCode.includes('10')) icon='rainy';
-    else if(owmCode.includes('11')) icon='thunderstorm';
-    else if(owmCode.includes('13')) icon='ac_unit';
-    else if(owmCode.includes('50')) icon='foggy';
-    document.getElementById('weather-icon-top').textContent=icon; document.getElementById('weather-temp-top').textContent=`${Math.round(d.main.temp)}°`;
-    document.getElementById('wp-temp').textContent=`${Math.round(d.main.temp)}°C`; document.getElementById('wp-desc').textContent=d.weather[0].description;
-    document.getElementById('wp-icon').textContent=icon; document.getElementById('wp-hum').textContent=`${d.main.humidity}%`;
-    document.getElementById('wp-wind').textContent=`${Math.round(d.wind.speed*3.6)} km/h`; document.getElementById('wp-feel').textContent=`${Math.round(d.main.feels_like)}°C`;
-    document.getElementById('wp-pressure').textContent=`${d.main.pressure} hPa`;
-    document.getElementById('wp-date').textContent=new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
-  } catch(e){console.error("Error clima.");}
+    const res = await fetch(`${BACKEND_BASE}/api/weather?lat=-28.5768&lon=-58.7168`);
+    if(!res.ok) throw new Error('Backend weather error');
+    const d = await res.json();
+    if(d.error || !d.weather || !d.weather[0] || !d.main) throw new Error('Invalid backend weather payload');
+    updateWeatherUI({
+      icon: mapWeatherCode(d.weather[0].icon || ''),
+      temp: d.main.temp,
+      desc: d.weather[0].description || 'Clima actual',
+      humidity: d.main.humidity ?? '--',
+      wind: d.wind?.speed ? d.wind.speed * 3.6 : 0,
+      feels: d.main.feels_like ?? d.main.temp,
+      pressure: d.main.pressure ?? '--'
+    });
+    return;
+  } catch (err) {
+    console.warn('[weather] Backend failed, using Open-Meteo fallback', err.message);
+    try {
+      await fallback();
+    } catch (fallbackErr) {
+      console.error('[weather] Fallback failed', fallbackErr.message);
+    }
+  }
 }
 
 // ═══ INTRO SPLASH ═══
