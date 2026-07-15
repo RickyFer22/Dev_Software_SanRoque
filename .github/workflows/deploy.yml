@@ -82,8 +82,22 @@ jobs:
             docker compose --env-file deploy/.env \
               -f deploy/docker-compose.yml -f deploy/docker-compose.vps.yml up -d --remove-orphans
 
+            echo "=== Verificando salud del backend admin ==="
+            ADMIN_READY=false
+            for attempt in $(seq 1 30); do
+              if curl -fsS https://vivisanroque.munisanroque.ar/api/data >/dev/null; then
+                ADMIN_READY=true
+                break
+              fi
+              sleep 2
+            done
+            if [ "$ADMIN_READY" != "true" ]; then
+              echo "[ERROR] El backend admin no quedó disponible."
+              docker logs --tail 100 vivisanroque_admin || true
+              exit 1
+            fi
+
             echo "=== Estado ==="
-            sleep 5
             docker compose --env-file deploy/.env \
               -f deploy/docker-compose.yml -f deploy/docker-compose.vps.yml ps
             echo "=== Despliegue completado: https://vivisanroque.munisanroque.ar ==="

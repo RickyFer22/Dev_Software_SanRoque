@@ -12,6 +12,7 @@ function loadDataScript() {
       location: { hostname: 'localhost', port: '4000' },
       appData: undefined,
       alojamientosData: undefined,
+      addEventListener() {},
     },
     document: {
       addEventListener() {},
@@ -35,6 +36,8 @@ function loadDataScript() {
     }),
     setTimeout: global.setTimeout,
     clearTimeout: global.clearTimeout,
+    setInterval() { return 1; },
+    clearInterval() {},
     AbortController: class { abort() {} },
     CustomEvent: class { constructor(type, init) { this.type = type; this.detail = init && init.detail; } },
   };
@@ -44,6 +47,8 @@ function loadDataScript() {
   sandbox.window.fetch = sandbox.fetch;
   sandbox.window.setTimeout = sandbox.setTimeout;
   sandbox.window.clearTimeout = sandbox.clearTimeout;
+  sandbox.window.setInterval = sandbox.setInterval;
+  sandbox.window.clearInterval = sandbox.clearInterval;
 
   const start = Date.now();
   vm.createContext(sandbox);

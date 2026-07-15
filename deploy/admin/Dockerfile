@@ -1,14 +1,10 @@
 # Panel de administración del Portal Turístico de San Roque
-# Usa better-sqlite3 → requiere compilación con node-gyp (el stage builder lo resuelve)
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Dependencias del sistema para compilar better-sqlite3
-RUN apk add --no-cache python3 make g++
-
-COPY package.json ./
-RUN npm install --omit=dev
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
 
 # ──────────────────────────────────────────────────────────────────
 FROM node:20-alpine

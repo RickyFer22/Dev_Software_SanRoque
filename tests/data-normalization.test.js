@@ -1,4 +1,5 @@
 const assert = require('assert');
+const test = require('node:test');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -12,6 +13,7 @@ function loadDataScript() {
       location: { hostname: 'localhost', port: '4000' },
       appData: undefined,
       alojamientosData: undefined,
+      addEventListener() {},
     },
     document: {
       addEventListener() {},
@@ -48,6 +50,8 @@ function loadDataScript() {
     }),
     setTimeout: (fn) => { fn(); return 1; },
     clearTimeout: () => {},
+    setInterval() { return 1; },
+    clearInterval() {},
     AbortController: class { abort() {} },
     CustomEvent: class { constructor(type, init) { this.type = type; this.detail = init && init.detail; } },
   };
@@ -57,6 +61,8 @@ function loadDataScript() {
   sandbox.window.fetch = sandbox.fetch;
   sandbox.window.setTimeout = sandbox.setTimeout;
   sandbox.window.clearTimeout = sandbox.clearTimeout;
+  sandbox.window.setInterval = sandbox.setInterval;
+  sandbox.window.clearInterval = sandbox.clearInterval;
   sandbox.window.location = sandbox.window.location;
 
   vm.createContext(sandbox);
@@ -65,10 +71,14 @@ function loadDataScript() {
   return sandbox;
 }
 
-const sandbox = loadDataScript();
-assert.ok(sandbox.window.alojamientosData, 'Expected normalized accommodation data to be available');
-assert.ok(sandbox.window.alojamientosData.ariadna, 'Expected accommodation entry to be keyed by id');
-assert.deepStrictEqual(sandbox.window.alojamientosData.ariadna.coords, [-28.58, -58.72]);
-assert.deepStrictEqual(sandbox.window.alojamientosData.ariadna.capacidad, [{ icono: 'hotel', titulo: 'Habitaciones' }]);
-assert.deepStrictEqual(sandbox.window.alojamientosData.ariadna.servicios, [{ icono: 'wifi', texto: 'WiFi' }]);
-console.log('data normalization regression test passed');
+test('normalizes accommodation records returned by the API', async () => {
+  const sandbox = loadDataScript();
+  await sandbox.window.refreshAppData();
+
+  const alojamientos = sandbox.window.appData.alojamientos;
+  assert.ok(alojamientos, 'Expected normalized accommodation data to be available');
+  assert.ok(alojamientos.ariadna, 'Expected accommodation entry to be keyed by id');
+  assert.deepStrictEqual(Array.from(alojamientos.ariadna.coords), [-28.58, -58.72]);
+  assert.deepStrictEqual(JSON.parse(JSON.stringify(alojamientos.ariadna.capacidad)), [{ icono: 'hotel', titulo: 'Habitaciones' }]);
+  assert.deepStrictEqual(JSON.parse(JSON.stringify(alojamientos.ariadna.servicios)), [{ icono: 'wifi', texto: 'WiFi' }]);
+});

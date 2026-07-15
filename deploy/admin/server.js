@@ -7,7 +7,6 @@
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
-const SQLiteStore = require('connect-sqlite3')(session);
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
@@ -134,9 +133,10 @@ app.use(cors({
 // Ensure preflight (OPTIONS) requests are handled and return CORS headers
 app.options('*', cors({ origin: true, credentials: true }));
 
-// session store (sqlite file inside DATA_DIR)
+// El store en memoria evita la incompatibilidad del adaptador SQLite de sesiones
+// que impedía iniciar el contenedor. Los datos administrados siguen persistiendo
+// en DATA_DIR; solo las sesiones se renuevan cuando reinicia el servicio.
 app.use(session({
-  store: new SQLiteStore({ dir: DATA_DIR, db: 'sessions.sqlite' }),
   secret: process.env.SESSION_SECRET || 'dev-secret-change-me',
   resave: false,
   saveUninitialized: false,

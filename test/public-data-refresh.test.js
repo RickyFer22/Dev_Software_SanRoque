@@ -39,6 +39,18 @@ test('public data loader exposes refreshAppData and updates appData from backend
     }),
     setTimeout,
     clearTimeout,
+    setInterval() { return 1; },
+    clearInterval() {},
+    AbortController: class {
+      constructor() { this.signal = {}; }
+      abort() {}
+    },
+    CustomEvent: class {
+      constructor(type, init) {
+        this.type = type;
+        this.detail = init && init.detail;
+      }
+    },
     Date,
     JSON,
     Object,

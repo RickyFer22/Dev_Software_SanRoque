@@ -5,6 +5,8 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Dónde alojarme - San Roque, Corrientes</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -513,7 +515,7 @@
           <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm" href="#">Terms of Service</a></li>
           <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm" href="#">Local Government</a></li>
           <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm" href="#">Tourist Office</a></li>
-          <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm font-semibold" href="http://127.0.0.1:4000/admin/login">Panel administrador</a></li>
+          <li><a class="text-white/80 hover:text-sun-haze transition-colors text-sm font-semibold" href="/admin/login">Panel administrador</a></li>
         </ul>
       </div>
 
@@ -564,7 +566,7 @@
       };
 
       try {
-        const backendBase = window.location.port === '4000' ? '' : 'http://127.0.0.1:4000';
+        const backendBase = '';
         const res = await fetch(`${backendBase}/api/data`);
         if (!res.ok) throw new Error('No se pudo cargar la agenda');
         const data = await res.json();

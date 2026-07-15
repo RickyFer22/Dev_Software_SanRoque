@@ -4,6 +4,8 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>San Roque Gastronómico - Sabores con Tradición</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -401,9 +403,7 @@
         }
 
         async function loadWeather() {
-          const backendBase = ['127.0.0.1','localhost','0.0.0.0'].includes(window.location.hostname)
-            ? (window.location.port === '4000' ? '' : 'http://127.0.0.1:4000')
-            : '';
+          const backendBase = '';
 
           try {
             const res = await fetch(`${backendBase}/api/weather?lat=-28.5768&lon=-58.7168`);

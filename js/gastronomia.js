@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let data = Array.isArray(window.gastronomiaData) ? window.gastronomiaData : [];
   try {
-    const backendBase = window.location.port === '4000' ? '' : 'http://127.0.0.1:4000';
+    const backendBase = '';
     const res = await fetch(`${backendBase}/api/data`);
     if (res.ok) {
       const payload = await res.json();
