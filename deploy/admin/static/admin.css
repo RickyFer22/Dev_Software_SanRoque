@@ -1,37 +1,42 @@
 /* Vivi San Roque · Panel Admin — tokens y layout institucional */
 :root {
-  --moss: #003633;
-  --moss-deep: #002926;
-  --river: #134e4a;
-  --river-hover: #0f3f3c;
+  --moss: #274F10;        /* verde oliva profundo (obera.tur.ar) */
+  --moss-deep: #1c3d0b;
+  --river: #336A15;       /* oliva medio */
+  --river-hover: #2b5a12;
   --gold: #d4a83c;
   --sun: #f5d98a;
-  --canvas: #eef3f2;
+  --canvas: #eef3e8;      /* lienzo con leve tinte oliva */
   --surface: #ffffff;
-  --surface-2: #f7faf9;
-  --text: #17302e;
-  --muted: #667573;
-  --line: #d6dfdd;
+  --surface-2: #f6f9f0;
+  --text: #1e2a15;
+  --muted: #6b7860;
+  --line: #dbe3d1;
   --danger: #a83232;
-  --ok: #15803d;
+  --ok: #2f7d18;
   --warn: #b45309;
+  /* acentos KPI sólidos (paleta del cartel «San Roque») */
+  --kpi-1a: #3DA33A; --kpi-1b: #2D5C13;
+  --kpi-2a: #EE9A1B; --kpi-2b: #C6700F;
+  --kpi-3a: #2E93C7; --kpi-3b: #2B57A7;
+  --kpi-4a: #E2603B; --kpi-4b: #B23A2E;
   --sidebar-w: 260px;
   --topbar-h: 64px;
   --radius: 14px;
   --radius-sm: 10px;
-  --shadow: 0 8px 28px rgba(0, 54, 51, 0.08);
+  --shadow: 0 8px 28px rgba(24, 52, 9, 0.10);
   --font: "Segoe UI", "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
   color-scheme: light;
 }
 
 [data-theme="dark"] {
-  --canvas: #0a1615;
-  --surface: #0f1f1e;
-  --surface-2: #132726;
-  --text: #e8f2f0;
-  --muted: #9fb3ae;
-  --line: #1e3532;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --canvas: #0e1608;
+  --surface: #14200c;
+  --surface-2: #1a2a10;
+  --text: #eaf2df;
+  --muted: #a6b598;
+  --line: #26361a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
 
@@ -313,46 +318,70 @@ button, input, textarea, select { font: inherit; }
 }
 
 .kpi-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 18px;
+  gap: 8px;
+  padding: 20px;
   border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
+  background: var(--kpi-1a);
+  border: none;
+  box-shadow: 0 12px 26px rgba(24, 52, 9, 0.18);
   cursor: pointer;
   text-align: left;
-  transition: transform 0.12s ease, border-color 0.12s ease;
+  color: #fff;
+  overflow: hidden;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+
+/* color sólido por posición (paleta del cartel «San Roque») */
+.kpi-grid > .kpi-card:nth-child(4n+1) { background: linear-gradient(135deg, var(--kpi-1a), var(--kpi-1b)); }
+.kpi-grid > .kpi-card:nth-child(4n+2) { background: linear-gradient(135deg, var(--kpi-2a), var(--kpi-2b)); }
+.kpi-grid > .kpi-card:nth-child(4n+3) { background: linear-gradient(135deg, var(--kpi-3a), var(--kpi-3b)); }
+.kpi-grid > .kpi-card:nth-child(4n+4) { background: linear-gradient(135deg, var(--kpi-4a), var(--kpi-4b)); }
+
+.kpi-card::after {
+  content: "";
+  position: absolute;
+  right: -30px; top: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  pointer-events: none;
 }
 
 .kpi-card:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--gold) 55%, var(--line));
+  transform: translateY(-3px);
+  box-shadow: 0 18px 38px rgba(24, 52, 9, 0.28);
 }
 
 .kpi-card .kpi-label {
   font-size: 12px;
-  font-weight: 750;
+  font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .kpi-card .kpi-value {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--moss);
+  font-size: 2.4rem;
+  font-weight: 850;
+  color: #fff;
   letter-spacing: -0.03em;
   line-height: 1;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
 }
-
-[data-theme="dark"] .kpi-card .kpi-value { color: var(--sun); }
 
 .kpi-card .kpi-hint {
   font-size: 12px;
-  color: var(--muted);
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.82);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
+.kpi-card .kpi-hint::after { content: "→"; transition: transform 0.15s ease; }
+.kpi-card:hover .kpi-hint::after { transform: translateX(3px); }
 
 .quick-actions {
   display: flex;
@@ -443,40 +472,51 @@ button, .btn {
   gap: 8px;
   border: none;
   border-radius: var(--radius-sm);
-  background: var(--moss);
+  background: linear-gradient(180deg, var(--river) 0%, var(--moss) 100%);
   color: #fff;
-  padding: 10px 14px;
-  font-weight: 700;
+  padding: 10px 15px;
+  font-weight: 750;
   cursor: pointer;
-  transition: background 0.12s ease, transform 0.12s ease;
+  box-shadow: 0 4px 12px rgba(24, 52, 9, 0.18);
+  transition: filter 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 button:hover, .btn:hover {
-  background: var(--river-hover);
+  filter: brightness(1.08);
+  box-shadow: 0 6px 16px rgba(24, 52, 9, 0.26);
 }
 
-button:active { transform: translateY(1px); }
+button:active { transform: translateY(1px); box-shadow: 0 2px 8px rgba(24, 52, 9, 0.2); }
+button:focus-visible, .btn:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
 
 button.cancel-button,
 .btn-secondary {
-  background: transparent;
+  background: var(--surface);
   color: var(--text);
   border: 1px solid var(--line);
+  box-shadow: none;
 }
 
 button.cancel-button:hover,
 .btn-secondary:hover {
   background: var(--surface-2);
+  filter: none;
+  border-color: color-mix(in srgb, var(--moss) 40%, var(--line));
 }
 
 button.btn-gold {
-  background: var(--gold);
+  background: linear-gradient(180deg, var(--sun) 0%, var(--gold) 100%);
   color: var(--moss-deep);
+  box-shadow: 0 4px 12px rgba(212, 168, 60, 0.35);
 }
 
 button.btn-gold:hover {
-  background: var(--sun);
+  filter: brightness(1.05);
 }
+
+/* botones de acción destructiva/afirmativa dentro de listas */
+button.btn-danger { background: linear-gradient(180deg, #c9483a, var(--danger)); }
+button.btn-ok { background: linear-gradient(180deg, #3aa528, var(--ok)); }
 
 .small {
   font-size: 0.92rem;

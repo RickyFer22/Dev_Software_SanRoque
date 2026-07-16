@@ -48,7 +48,13 @@
   .weather-panel { opacity:0;transform:scale(0.95) translateY(10px);pointer-events:none;transition:opacity 0.3s ease,transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);transform-origin:bottom left; }
   .weather-widget:hover .weather-panel,.weather-widget:focus .weather-panel,.weather-widget:focus-within .weather-panel { opacity:1;transform:scale(1) translateY(0);pointer-events:auto; }
 
-  .service-badge { display:flex;align-items:center;gap:6px;background:rgba(51,106,21,0.05);border:1px solid rgba(51,106,21,0.12);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#336a15; }
+  .service-badge { display:flex;align-items:center;gap:6px;background:rgba(51,106,21,0.06);border:1px solid rgba(51,106,21,0.14);border-radius:12px;padding:11px 14px;font-size:13px;font-weight:650;color:#336a15;transition:transform .15s ease,box-shadow .15s ease,background .15s ease; }
+  .service-badge:hover { transform:translateY(-2px);background:rgba(51,106,21,0.1);box-shadow:0 8px 18px rgba(39,79,16,.12); }
+  /* Título de sección con acento oliva (detalle de alojamiento) */
+  .det-section-title { position:relative;padding-left:15px; }
+  .det-section-title::before { content:"";position:absolute;left:0;top:1px;height:22px;width:4px;border-radius:3px;background:linear-gradient(180deg,#3DA33A,#274F10); }
+  .capacity-row { transition:background .15s ease;border-radius:10px; }
+  .capacity-row:hover { background:rgba(51,106,21,0.05); }
   .capacity-row { display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(0,0,0,0.05); }
   .capacity-row:last-child { border-bottom:none; }
 
@@ -911,8 +917,8 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 /* ── FOOTER estilo obera.tur.ar: verde oliva #2D5C13 + barra oscura #202317 ── */
 .site-footer {
   background:
-    radial-gradient(120% 100% at 50% -10%, rgba(123,170,57,.28), transparent 60%),
-    linear-gradient(180deg, #336A15 0%, #2D5C13 46%, #274F10 100%);
+    radial-gradient(120% 90% at 50% 0%, rgba(163,210,79,.13), transparent 62%),
+    linear-gradient(180deg, #2D5C13 0%, #2D5C13 42%, #26500F 100%);
 }
 /* tapiz: contornos orgánicos verdes (marca de agua, como el wordmark de obera) */
 .footer-tapiz {

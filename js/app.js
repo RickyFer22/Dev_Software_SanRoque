@@ -120,7 +120,7 @@ function navigateToDetails(id, skipPush) {
       detMapLink.href = "#";
     }
   }
-  document.getElementById('det-long-desc').textContent=data.descripcionLarga;
+  document.getElementById('det-long-desc').textContent=data.descripcionLarga || `${data.titulo} ofrece alojamiento en San Roque. Consultá disponibilidad, tarifas y detalles directamente con el anfitrión.`;
   document.getElementById('det-main-img').src=data.mainImg;
   const detStars=document.getElementById('det-interactive-stars');
   // Reemplaza el widget viejo por el módulo compartido de calificaciones.
@@ -138,9 +138,17 @@ function navigateToDetails(id, skipPush) {
   };
   if (!skipPush && window.VsrShare) { try { history.pushState({h:id}, '', VsrShare.buildUrl('h', id)); } catch(_){} }
   const thumbContainer=document.getElementById('det-gallery-thumbs'); thumbContainer.innerHTML='';
-  data.galeria.forEach((imgUrl,i)=>{const btn=document.createElement('button');btn.className=`snap-center w-[130px] md:w-full h-20 rounded-xl overflow-hidden shrink-0 border-[3px] transition-all hover:scale-105 active:scale-95 ${i===0?'border-primary':'border-transparent opacity-80 hover:opacity-100'}`;btn.innerHTML=`<img class="w-full h-full object-cover" src="${imgUrl}"/>`;btn.onclick=()=>{document.getElementById('det-main-img').src=imgUrl;Array.from(thumbContainer.children).forEach(b=>b.classList.replace('border-primary','border-transparent'));btn.classList.replace('border-transparent','border-primary');};thumbContainer.appendChild(btn);});
-  document.getElementById('det-capacity-list').innerHTML=data.capacidad.map(c=>`<div class="capacity-row"><span class="material-symbols-outlined text-river-teal mt-0.5 text-[22px]">${c.icono}</span><div><div class="font-bold text-neutral-800 text-sm">${c.titulo}</div>${c.desc?`<div class="text-neutral-500 text-[13px] mt-0.5">${c.desc}</div>`:''}</div></div>`).join('');
-  document.getElementById('det-services-grid').innerHTML=data.servicios.map(s=>`<div class="service-badge"><span class="material-symbols-outlined text-[18px] text-river-teal">${s.icono}</span><span>${s.texto}</span></div>`).join('');
+  const galeria=Array.isArray(data.galeria)?data.galeria:[];
+  galeria.forEach((imgUrl,i)=>{const btn=document.createElement('button');btn.className=`snap-center w-[130px] md:w-full h-20 rounded-xl overflow-hidden shrink-0 border-[3px] transition-all hover:scale-105 active:scale-95 ${i===0?'border-primary':'border-transparent opacity-80 hover:opacity-100'}`;btn.innerHTML=`<img class="w-full h-full object-cover" src="${imgUrl}"/>`;btn.onclick=()=>{document.getElementById('det-main-img').src=imgUrl;Array.from(thumbContainer.children).forEach(b=>b.classList.replace('border-primary','border-transparent'));btn.classList.replace('border-transparent','border-primary');};thumbContainer.appendChild(btn);});
+  // Distribución/Capacidad y Servicios: ocultar la sección si no hay datos (evita headers huérfanos).
+  const capList=Array.isArray(data.capacidad)?data.capacidad:[];
+  const capSec=document.getElementById('det-capacity-section');
+  document.getElementById('det-capacity-list').innerHTML=capList.map(c=>`<div class="capacity-row"><span class="material-symbols-outlined text-river-teal mt-0.5 text-[22px]">${c.icono||'chevron_right'}</span><div><div class="font-bold text-neutral-800 text-sm">${c.titulo||''}</div>${c.desc?`<div class="text-neutral-500 text-[13px] mt-0.5">${c.desc}</div>`:''}</div></div>`).join('');
+  if (capSec) capSec.style.display = capList.length ? '' : 'none';
+  const svcList=Array.isArray(data.servicios)?data.servicios:[];
+  const svcSec=document.getElementById('det-services-section');
+  document.getElementById('det-services-grid').innerHTML=svcList.map(s=>`<div class="service-badge"><span class="material-symbols-outlined text-[18px] text-river-teal">${s.icono||'check_circle'}</span><span>${s.texto||s}</span></div>`).join('');
+  if (svcSec) svcSec.style.display = svcList.length ? '' : 'none';
   document.getElementById('det-checkin').textContent=data.checkin; document.getElementById('det-checkout').textContent=data.checkout; document.getElementById('det-cancellation').textContent=data.cancelacion;
   const waUrl=`https://wa.me/${data.waNumber}?text=${encodeURIComponent(`Hola! Vi tu alojamiento "${data.titulo}" en el portal de San Roque...`)}`;
   document.getElementById('det-wa-btn-desktop').href=waUrl; document.getElementById('det-wa-btn-mobile').href=waUrl;
@@ -456,7 +464,7 @@ async function loadWeather() {
 
 // ═══ TYPEWRITER ═══
 (function(){
-  const phrases=['Dónde alojarme\nen San Roque','Hospedajes\ncon alma local','Tu lugar\nbajo el sol correntino','Bienvenido a\nSan Roque','Descubrí\nlo mejor del norte'];
+  const phrases=['Dónde alojarme\nen San Roque','Hospedajes\ncon alma local','Tu lugar\nbajo el sol correntino','Bienvenido a\nSan Roque','Descubrí\nlo mejor de tu país'];
   const el=document.getElementById('hero-typewriter-text');
   if(!el) return;
   let phraseIdx=0,charIdx=0,deleting=false,pauseTimer=null;

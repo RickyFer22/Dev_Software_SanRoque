@@ -250,6 +250,10 @@ app.use(session({
   resave: false,
   rolling: true, // renueva la expiración por inactividad en cada request
   saveUninitialized: false,
+  // Detrás de Traefik la TLS termina en el proxy; con proxy:true express-session
+  // confía en X-Forwarded-Proto para emitir la cookie Secure (si no, la descarta
+  // por considerar la conexión insegura y el login "no persiste" en producción).
+  proxy: true,
   cookie: {
     httpOnly: true,
     secure: IS_PROD,
