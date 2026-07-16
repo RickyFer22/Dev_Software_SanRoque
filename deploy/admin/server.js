@@ -8,10 +8,23 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
+const helmet = require('helmet');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { SYSTEM_PROMPT, answerLocally, publicBotConfig } = require('./bot-service');
+const bruteforce = require('./security');
+
+const IS_PROD = process.env.NODE_ENV === 'production';
+
+// Subida de imágenes: lista blanca por firma de contenido (magic bytes).
+// WebP es el formato preferido; el resto se acepta pero el frontend convierte a WebP.
+const IMAGE_SIGNATURES = [
+  { mime: 'image/webp', test: (b) => b.length > 12 && b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP' },
+  { mime: 'image/jpeg', test: (b) => b.length > 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
+  { mime: 'image/png', test: (b) => b.length > 8 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 },
+];
+const MAX_UPLOAD_BYTES = parseInt(process.env.MAX_UPLOAD_BYTES || String(5 * 1024 * 1024), 10); // 5 MB
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '4000', 10);
@@ -162,44 +175,115 @@ function transformDatosUtilesForPublic(datosUtiles) {
   }, {});
 }
 
-app.use(express.json({ limit: '20mb' }));
+// SECURITY: en producción exige un SESSION_SECRET fuerte (nunca el default).
+if (IS_PROD && (!process.env.SESSION_SECRET || process.env.SESSION_SECRET === 'dev-secret-change-me')) {
+  console.error('[admin] SECURITY ERROR: SESSION_SECRET ausente o por defecto con NODE_ENV=production. Abortando.');
+  process.exit(1);
+}
 
-// Use the official `cors` middleware to handle preflight and allow cross-origin
-// requests during development. This permits the public site at different
-// origins (e.g. Live Server at :5500) to fetch `/api/*` resources.
-app.use(cors({
-  origin: (origin, cb) => {
-    // Allow requests from any origin during local development. If running in
-    // production, consider restricting this to the site origin.
-    cb(null, true);
+// Detrás de Traefik/reverse proxy: confía en el primer proxy para obtener IP y
+// marcar la cookie como segura sobre HTTPS.
+app.set('trust proxy', 1);
+
+// Cabeceras de seguridad. CSP estricta: el panel admin es autocontenido
+// (solo /admin/static/*). Se permite data: e https: para imágenes (logo/uploads).
+app.use(helmet({
+  contentSecurityPolicy: {
+    useDefaults: true,
+    directives: {
+      'default-src': ["'self'"],
+      'script-src': ["'self'"],
+      'style-src': ["'self'", "'unsafe-inline'"],
+      'img-src': ["'self'", 'data:', 'https:'],
+      'font-src': ["'self'", 'data:'],
+      'connect-src': ["'self'"],
+      'object-src': ["'none'"],
+      'frame-ancestors': ["'none'"],
+      'base-uri': ["'self'"],
+      'form-action': ["'self'"],
+      'upgrade-insecure-requests': IS_PROD ? [] : null,
+    },
   },
-  credentials: true,
-  exposedHeaders: ['Content-Disposition'],
+  crossOriginEmbedderPolicy: false,
+  hsts: IS_PROD ? { maxAge: 31536000, includeSubDomains: true, preload: false } : false,
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));
 
-// Ensure preflight (OPTIONS) requests are handled and return CORS headers
-app.options('*', cors({ origin: true, credentials: true }));
+// Parser ampliado SOLO en rutas que reciben payloads grandes (imagen base64 /
+// backup). El resto de la API queda acotado a 1 MB (defensa contra DoS).
+app.use('/admin/api/upload-image', express.json({ limit: '8mb' }));
+app.use('/admin/api/restore', express.json({ limit: '20mb' }));
+app.use(express.json({ limit: '1mb' }));
 
-// El store en memoria evita la incompatibilidad del adaptador SQLite de sesiones
-// que impedía iniciar el contenedor. Los datos administrados siguen persistiendo
-// en DATA_DIR; solo las sesiones se renuevan cuando reinicia el servicio.
+// CORS: solo se reflejan orígenes de la allowlist con credenciales. Peticiones
+// same-origin (sin cabecera Origin) siguen permitidas. Esto evita que sitios
+// de terceros hagan llamadas autenticadas al panel.
+const ALLOWED_ORIGINS = String(process.env.ADMIN_ALLOWED_ORIGINS || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+function corsOrigin(origin, cb) {
+  if (!origin) return cb(null, true); // same-origin / curl / apps nativas
+  if (!IS_PROD) return cb(null, true); // desarrollo: permisivo
+  if (ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
+  return cb(null, false); // el navegador bloqueará la respuesta credencial
+}
+app.use(cors({ origin: corsOrigin, credentials: true, exposedHeaders: ['Content-Disposition'] }));
+app.options('*', cors({ origin: corsOrigin, credentials: true }));
+
+// Sesión endurecida. En producción la cookie es Secure (requiere HTTPS) y
+// SameSite=Lax mitiga CSRF junto con la verificación de Origin de más abajo.
+const IDLE_TIMEOUT_MS = parseInt(process.env.SESSION_IDLE_MS || String(60 * 60 * 1000), 10); // 1 h inactividad
+const ABSOLUTE_TIMEOUT_MS = parseInt(process.env.SESSION_ABSOLUTE_MS || String(12 * 60 * 60 * 1000), 10); // 12 h máx
 app.use(session({
+  name: 'vsr_admin_sid',
   secret: process.env.SESSION_SECRET || 'dev-secret-change-me',
   resave: false,
+  rolling: true, // renueva la expiración por inactividad en cada request
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
+  cookie: {
+    httpOnly: true,
+    secure: IS_PROD,
+    sameSite: 'lax',
+    maxAge: IDLE_TIMEOUT_MS,
+  },
 }));
 
-// attach admin info to req: prefer session, fallback to headers
+// Defensa CSRF adicional: en métodos que modifican estado, si viene cabecera
+// Origin debe pertenecer a la allowlist (o ser same-host). SameSite=Lax ya
+// bloquea la mayoría de POST cross-site; esto cubre el resto.
+const MUTATING = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
+app.use((req, res, next) => {
+  if (!MUTATING.has(req.method)) return next();
+  const origin = req.get('origin');
+  if (!origin) return next(); // sin Origin (same-origin form/curl) => permitido
+  try {
+    const host = new URL(origin).host;
+    if (host === req.get('host')) return next();
+    if (!IS_PROD) return next();
+    if (ALLOWED_ORIGINS.some((o) => { try { return new URL(o).host === host; } catch { return false; } })) return next();
+  } catch (_) { /* origin malformado => rechazar */ }
+  return res.status(403).json({ error: 'Origen no permitido.' });
+});
+
+// Sesión => req.admin. SIN fallback por cabeceras: el rol jamás proviene del
+// cliente. Sin sesión válida el usuario es invitado sin permisos.
 app.use((req, res, next) => {
   if (req.session && req.session.admin) {
+    const t = Date.now();
+    const created = req.session.createdAt || t;
+    const last = req.session.lastSeen || t;
+    if (t - created > ABSOLUTE_TIMEOUT_MS || t - last > IDLE_TIMEOUT_MS) {
+      return req.session.destroy(() => {
+        req.admin = { user: 'anonymous', role: 'guest' };
+        next();
+      });
+    }
+    req.session.lastSeen = t;
     req.admin = { user: req.session.admin.user, role: req.session.admin.role };
     return next();
   }
-  req.admin = {
-    user: String(req.header('x-admin-user') || 'anonymous'),
-    role: String(req.header('x-admin-role') || 'guest').toLowerCase(),
-  };
+  req.admin = { user: 'anonymous', role: 'guest' };
   next();
 });
 
@@ -351,6 +435,33 @@ app.get('/admin/api/observability', (req, res) => {
   });
 });
 
+// KPIs de seguridad para el superadmin. Cada métrica responde una pregunta operativa.
+app.get('/admin/api/security/overview', (req, res) => {
+  if (!isSuperAdmin(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const store = loadStore();
+  const logs = Array.isArray(store.system_logs) ? store.system_logs : [];
+  const since = Date.now() - 24 * 60 * 60 * 1000;
+  const in24h = (l) => new Date(l.createdAt).getTime() >= since;
+  const users = Array.isArray(store.users) ? store.users : [];
+  const bf = bruteforce.snapshot();
+  res.json({
+    generatedAt: new Date().toISOString(),
+    kpis: {
+      failedLogins24h: logs.filter((l) => l.event === 'admin_login_failed' && in24h(l)).length,
+      blockedLogins24h: logs.filter((l) => l.event === 'admin_login_blocked' && in24h(l)).length,
+      successfulLogins24h: logs.filter((l) => l.event === 'admin_login_success' && in24h(l)).length,
+      lockedAccounts: bf.lockedAccounts,
+      lockedIps: bf.lockedIps,
+      superAdmins: countSuperAdmins(users),
+      totalUsers: users.length,
+      usersWithoutMfa: users.length, // MFA aún no implementado (ver roadmap)
+    },
+    recentSecurityEvents: logs
+      .filter((l) => ['admin_login_failed', 'admin_login_blocked', 'admin_login_success', 'admin_login_session_error'].includes(l.event))
+      .slice(0, 25),
+  });
+});
+
 app.get('/admin/api/observability/export', (req, res) => {
   if (!['super-admin', 'editor'].includes(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
   const store = loadStore();
@@ -398,130 +509,160 @@ app.post('/admin/api/upload-image', (req, res) => {
   if (!['super-admin', 'editor'].includes(req.admin.role)) {
     return sendForbiddenOrUnauthenticated(req, res);
   }
-  const { filename, dataUrl } = req.body || {};
-  if (!dataUrl) {
-    return res.status(400).json({ error: 'dataUrl is required' });
+  const { dataUrl } = req.body || {};
+  if (!dataUrl || typeof dataUrl !== 'string') {
+    return res.status(400).json({ error: 'Falta la imagen.' });
   }
 
   const matches = /^data:(image\/[a-zA-Z0-9.+-]+);base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl);
   if (!matches) {
-    return res.status(400).json({ error: 'Invalid image data URL' });
+    return res.status(400).json({ error: 'Formato de imagen inválido.' });
   }
 
-  const mimeType = matches[1];
-  const base64 = matches[2];
-  const ext = mimeType.split('/')[1].replace('+', '');
-  const safeName = String(filename || `upload-${Date.now()}`).replace(/[^a-zA-Z0-9-_\.]/g, '_');
-  const fileName = `${Date.now()}-${safeName}.${ext}`;
+  let buffer;
+  try {
+    buffer = Buffer.from(matches[2], 'base64');
+  } catch (_) {
+    return res.status(400).json({ error: 'Formato de imagen inválido.' });
+  }
+
+  // Límite de tamaño.
+  if (buffer.length === 0 || buffer.length > MAX_UPLOAD_BYTES) {
+    return res.status(413).json({ error: `La imagen supera el máximo de ${Math.round(MAX_UPLOAD_BYTES / (1024 * 1024))} MB.` });
+  }
+
+  // Validación REAL por firma de contenido (no confía en la extensión/MIME declarado).
+  // Rechaza SVG y cualquier tipo no listado (evita XSS por SVG y ejecutables disfrazados).
+  const detected = IMAGE_SIGNATURES.find((sig) => sig.test(buffer));
+  if (!detected) {
+    return res.status(415).json({ error: 'Solo se permiten imágenes JPG, PNG o WebP. Preferí WebP.' });
+  }
+
+  // Nombre aleatorio (anti path-traversal / colisiones); extensión derivada de la firma.
+  const ext = detected.mime === 'image/jpeg' ? 'jpg' : detected.mime.split('/')[1];
+  const fileName = `${crypto.randomBytes(16).toString('hex')}.${ext}`;
   const filePath = path.join(UPLOAD_DIR, fileName);
+  // Defensa en profundidad: el destino debe quedar dentro de UPLOAD_DIR.
+  if (path.dirname(path.resolve(filePath)) !== path.resolve(UPLOAD_DIR)) {
+    return res.status(400).json({ error: 'Ruta de destino inválida.' });
+  }
 
   try {
-    fs.writeFileSync(filePath, Buffer.from(base64, 'base64'));
+    fs.writeFileSync(filePath, buffer);
   } catch (err) {
     console.error('[admin] upload image failed', err);
-    return res.status(500).json({ error: 'Failed to save image' });
+    return res.status(500).json({ error: 'No se pudo guardar la imagen.' });
   }
 
-  res.json({ url: `/admin/uploads/${fileName}` });
+  recordAudit('upload', 'uploads', fileName, req, { bytes: buffer.length, mime: detected.mime });
+  res.json({ url: `/admin/uploads/${fileName}`, mime: detected.mime, webp: detected.mime === 'image/webp' });
 });
 
 // --- Authentication endpoints ---
+// Hash señuelo para comparar en tiempo constante cuando el usuario no existe
+// (mitiga enumeración por temporización). Se calcula una vez al arrancar.
+const DUMMY_HASH = bcrypt.hashSync('user-does-not-exist-constant-time', 10);
+
+function isActiveUser(user) {
+  if (!user) return false;
+  const st = String(user.status || 'active').toLowerCase();
+  return ['active', 'enabled', 'published', ''].includes(st);
+}
+
+// Regenera el id de sesión (anti session-fixation) y persiste el estado admin.
+function establishSession(req, adminObj) {
+  return new Promise((resolve, reject) => {
+    req.session.regenerate((err) => {
+      if (err) return reject(err);
+      req.session.admin = adminObj;
+      req.session.createdAt = Date.now();
+      req.session.lastSeen = Date.now();
+      req.session.save((err2) => (err2 ? reject(err2) : resolve()));
+    });
+  });
+}
+
 async function handleAdminLogin(req, res) {
-  const { username, password } = req.body || {};
-  console.log(`[admin] login request path=${req.path} username=${String(username)}`);
-  if (!username || !password) return res.status(400).json({ error: 'username and password required' });
+  const body = req.body || {};
+  const username = typeof body.username === 'string' ? body.username.trim() : '';
+  const password = typeof body.password === 'string' ? body.password : '';
+  const ip = req.ip || 'unknown';
+
+  // Respuesta de fallo SIEMPRE genérica: no revela usuario, contraseña ni bloqueo.
+  const genericFail = (reason, status = 401) => {
+    recordSystemLog('warning', 'admin_login_failed', { username: sanitizeString(username, 80), reason }, req);
+    return res.status(status).json({ error: bruteforce.GENERIC_LOGIN_ERROR });
+  };
+
+  if (!username || !password) {
+    return res.status(400).json({ error: bruteforce.GENERIC_LOGIN_ERROR });
+  }
+
+  // Anti fuerza bruta: evalúa bloqueo por IP + cuenta antes de tocar credenciales.
+  const gate = bruteforce.assess({ ip, username });
+  if (gate.blocked) {
+    recordSystemLog('warning', 'admin_login_blocked', { username: sanitizeString(username, 80) }, req);
+    await bruteforce.delay(300);
+    return res.status(401).json({ error: bruteforce.GENERIC_LOGIN_ERROR });
+  }
+  if (gate.delayMs) await bruteforce.delay(gate.delayMs); // retraso progresivo
+
   const adminUser = process.env.ADMIN_USER || 'gestion.turistica.sr';
   const adminHash = process.env.ADMIN_PASSWORD_HASH;
   const setupPassword = process.env.ADMIN_SETUP_PASSWORD;
   const devPassword = process.env.ADMIN_DEV_PASSWORD;
-  const allowSetupFallback = setupPassword && (!adminHash || process.env.NODE_ENV !== 'production');
-  const isAdminUser = String(username) === String(adminUser);
+  const allowSetupFallback = setupPassword && (!adminHash || !IS_PROD);
+  const isAdminUser = username === String(adminUser);
 
   const store = loadStore();
   const users = Array.isArray(store.users) ? store.users : [];
-  const user = users.find((u) => String(u.username) === String(username));
+  const user = users.find((u) => String(u.username) === username);
 
-  // First-time bootstrap with ADMIN_SETUP_PASSWORD when the DB is empty.
-  if (!user && users.length === 0 && setupPassword) {
-    if (password === setupPassword) {
-      const pwdHash = bcrypt.hashSync(password, 10);
-      const newUser = createResource('users', {
-        username,
-        name: username,
-        role: 'super-admin',
-        status: 'active',
-        passwordHash: pwdHash,
-      });
-      req.session.admin = { user: newUser.username || newUser.id, role: newUser.role || 'super-admin' };
-      recordSystemLog('info', 'admin_login_success', { username: newUser.username, role: newUser.role }, req);
-      return res.json({ ok: true, user: { id: newUser.id, username: newUser.username, role: newUser.role } });
-    }
-    return res.status(403).json({ error: 'Forbidden' });
+  let authed = null; // { id, username, role }
+
+  // 1) Bootstrap inicial: store sin usuarios y contraseña de setup.
+  if (!authed && !user && users.length === 0 && setupPassword && password === setupPassword) {
+    const nu = createResource('users', { username, name: username, role: 'super-admin', status: 'active', passwordHash: bcrypt.hashSync(password, 10) });
+    authed = { id: nu.id, username: nu.username, role: 'super-admin' };
   }
-
-  // Allow login via ADMIN_PASSWORD_HASH for the configured admin user.
-  if (!user && isAdminUser && adminHash) {
-    const ok = await bcrypt.compare(password, adminHash);
-    if (ok) {
-      const newUser = createResource('users', {
-        username: adminUser,
-        name: adminUser,
-        role: 'super-admin',
-        status: 'active',
-        passwordHash: adminHash,
-      });
-      req.session.admin = { user: newUser.username || newUser.id, role: newUser.role || 'super-admin' };
-      recordSystemLog('info', 'admin_login_success', { username: newUser.username, role: newUser.role }, req);
-      return res.json({ ok: true, user: { id: newUser.id, username: newUser.username, role: newUser.role } });
+  // 2) ADMIN_PASSWORD_HASH para el admin configurado.
+  if (!authed && !user && isAdminUser && adminHash && await bcrypt.compare(password, adminHash)) {
+    const nu = createResource('users', { username: adminUser, name: adminUser, role: 'super-admin', status: 'active', passwordHash: adminHash });
+    authed = { id: nu.id, username: nu.username, role: 'super-admin' };
+  }
+  // 3) Contraseña de desarrollo (jamás en producción).
+  if (!authed && !user && isAdminUser && devPassword && !IS_PROD && password === devPassword) {
+    const nu = createResource('users', { username: adminUser, name: adminUser, role: 'super-admin', status: 'active', passwordHash: bcrypt.hashSync(devPassword, 10) });
+    authed = { id: nu.id, username: nu.username, role: 'super-admin' };
+  }
+  // 4) Setup password para el admin (dev, o prod sin hash aún configurado).
+  if (!authed && isAdminUser && allowSetupFallback && password === setupPassword) {
+    const eu = user || createResource('users', { username: adminUser, name: adminUser, role: 'super-admin', status: 'active', passwordHash: bcrypt.hashSync(setupPassword, 10) });
+    authed = { id: eu.id, username: eu.username, role: eu.role || 'super-admin' };
+  }
+  // 5) Usuario normal del store. Compara SIEMPRE (hash real o señuelo) => tiempo constante.
+  if (!authed) {
+    const hash = (user && user.passwordHash) ? user.passwordHash : DUMMY_HASH;
+    const ok = await bcrypt.compare(password, hash);
+    if (user && user.passwordHash && ok && isActiveUser(user)) {
+      authed = { id: user.id, username: user.username, role: user.role || 'editor' };
     }
   }
 
-  // Dev lower-security fallback for local testing only.
-  if (!user && isAdminUser && devPassword && process.env.NODE_ENV !== 'production') {
-    if (password === devPassword) {
-      const pwdHash = bcrypt.hashSync(devPassword, 10);
-      const newUser = createResource('users', {
-        username: adminUser,
-        name: adminUser,
-        role: 'super-admin',
-        status: 'active',
-        passwordHash: pwdHash,
-      });
-      req.session.admin = { user: newUser.username || newUser.id, role: newUser.role || 'super-admin' };
-      recordSystemLog('info', 'admin_login_success', { username: newUser.username, role: newUser.role }, req);
-      return res.json({ ok: true, user: { id: newUser.id, username: newUser.username, role: newUser.role } });
-    }
+  if (!authed) {
+    bruteforce.recordFailure({ ip, username });
+    return genericFail('invalid_credentials');
   }
 
-  // Local development fallback: allow ADMIN_SETUP_PASSWORD for the default admin account even if it already exists.
-  if (isAdminUser && allowSetupFallback) {
-    if (password === setupPassword) {
-      const existingUser = user || createResource('users', {
-        username: adminUser,
-        name: adminUser,
-        role: 'super-admin',
-        status: 'active',
-        passwordHash: bcrypt.hashSync(setupPassword, 10),
-      });
-      req.session.admin = { user: existingUser.username || existingUser.id, role: existingUser.role || 'super-admin' };
-      recordSystemLog('info', 'admin_login_success', { username: existingUser.username, role: existingUser.role }, req);
-      return res.json({ ok: true, user: { id: existingUser.id, username: existingUser.username, role: existingUser.role || 'super-admin' } });
-    }
+  try {
+    await establishSession(req, { user: authed.username || authed.id, role: authed.role });
+  } catch (e) {
+    recordSystemLog('error', 'admin_login_session_error', { username: sanitizeString(username, 80) }, req);
+    return res.status(500).json({ error: bruteforce.GENERIC_LOGIN_ERROR });
   }
-
-  if (!user || !user.passwordHash) {
-    recordSystemLog('warning', 'admin_login_failed', { username: sanitizeString(username, 80), reason: 'unknown_user' }, req);
-    return res.status(403).json({ error: 'Forbidden' });
-  }
-  const ok = await bcrypt.compare(password, user.passwordHash);
-  if (!ok) {
-    recordSystemLog('warning', 'admin_login_failed', { username: sanitizeString(username, 80), reason: 'invalid_password' }, req);
-    return res.status(403).json({ error: 'Forbidden' });
-  }
-
-  req.session.admin = { user: user.username || user.id, role: user.role || 'editor' };
-  recordSystemLog('info', 'admin_login_success', { username: user.username, role: user.role }, req);
-  return res.json({ ok: true, user: { id: user.id, username: user.username, role: user.role } });
+  bruteforce.recordSuccess({ ip, username });
+  recordSystemLog('info', 'admin_login_success', { username: authed.username, role: authed.role }, req);
+  return res.json({ ok: true, user: { id: authed.id, username: authed.username, role: authed.role } });
 }
 
 app.post('/admin/login', handleAdminLogin);
@@ -737,6 +878,27 @@ function canBackupRestore(role) {
   return isSuperAdmin(role);
 }
 
+// Jerarquía de roles (mayor número = más privilegio). Base para impedir escalada.
+const ROLE_RANK = {
+  guest: 0,
+  viewer: 1,
+  auditor: 2,
+  soporte: 2,
+  operador: 3,
+  editor: 4,
+  admin: 8,
+  'super-admin': 10,
+};
+function roleRank(role) {
+  return ROLE_RANK[String(role || 'guest').toLowerCase()] ?? 0;
+}
+function isKnownRole(role) {
+  return Object.prototype.hasOwnProperty.call(ROLE_RANK, String(role || '').toLowerCase());
+}
+function countSuperAdmins(users) {
+  return (users || []).filter((u) => isSuperAdmin(u.role) && isActiveUser(u)).length;
+}
+
 function recordAudit(action, resource, resourceId, req, changes = {}) {
   const store = loadStore();
   const entry = {
@@ -867,35 +1029,80 @@ app.get('/admin/api/users/:id', (req, res) => {
 });
 app.post('/admin/api/users', (req, res) => {
   if (!canWrite('users', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
-  const body = req.body || {};
+  const body = Object.assign({}, req.body || {});
+  const actorRank = roleRank(req.admin.role);
+  // No se puede crear un rol desconocido ni superior al del actor.
+  if (body.role !== undefined) {
+    if (!isKnownRole(body.role)) return res.status(400).json({ error: 'Rol inválido.' });
+    if (roleRank(body.role) > actorRank) return res.status(403).json({ error: 'No podés asignar un rol superior al tuyo.' });
+  }
+  // Mass-assignment: nunca se aceptan estos campos desde el cliente.
+  delete body.id; delete body.createdAt; delete body.passwordHash;
   if (body.password) {
     body.passwordHash = bcrypt.hashSync(String(body.password), 10);
     delete body.password;
   }
   const item = createResource('users', body);
-  recordAudit('create', 'users', item.id, req, item);
   const safe = Object.assign({}, item);
-  if (safe.passwordHash) delete safe.passwordHash;
+  delete safe.passwordHash;
+  recordAudit('create', 'users', item.id, req, safe); // audita sin secretos
   res.status(201).json(safe);
 });
 app.put('/admin/api/users/:id', (req, res) => {
   if (!canWrite('users', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
-  const body = req.body || {};
+  const body = Object.assign({}, req.body || {});
+  const actorRank = roleRank(req.admin.role);
+  const store = loadStore();
+  const target = (store.users || []).find((u) => String(u.id) === String(req.params.id));
+  if (!target) return sendNotFound(res);
+  const isSelf = String(target.username) === String(req.admin.user) || String(target.id) === String(req.admin.user);
+
+  // No se puede modificar a alguien de rango mayor al propio.
+  if (roleRank(target.role) > actorRank) {
+    return res.status(403).json({ error: 'No podés modificar a un usuario de rol superior.' });
+  }
+  // Cambio de rol: debe ser conocido y no superior al del actor.
+  if (body.role !== undefined) {
+    if (!isKnownRole(body.role)) return res.status(400).json({ error: 'Rol inválido.' });
+    if (roleRank(body.role) > actorRank) return res.status(403).json({ error: 'No podés asignar un rol superior al tuyo.' });
+    // Un actor no puede auto-elevarse ni bajar al único super-admin restante.
+    if (isSelf && roleRank(body.role) > roleRank(target.role)) return res.status(403).json({ error: 'No podés cambiar tu propio rol.' });
+    if (isSuperAdmin(target.role) && !isSuperAdmin(body.role) && countSuperAdmins(store.users) <= 1) {
+      return res.status(409).json({ error: 'Debe existir al menos un super-administrador activo.' });
+    }
+  }
+  // Impide que un actor se desactive a sí mismo dejando el sistema sin super-admin.
+  if (isSelf && body.status !== undefined && !isActiveUser({ status: body.status }) && isSuperAdmin(target.role) && countSuperAdmins(store.users) <= 1) {
+    return res.status(409).json({ error: 'Debe existir al menos un super-administrador activo.' });
+  }
+  delete body.id; delete body.createdAt; delete body.passwordHash;
   if (body.password) {
     body.passwordHash = bcrypt.hashSync(String(body.password), 10);
     delete body.password;
   }
   const result = updateResource('users', req.params.id, body);
   if (!result) return sendNotFound(res);
-  recordAudit('update', 'users', req.params.id, req, req.body || {});
   const safe = Object.assign({}, result);
-  if (safe.passwordHash) delete safe.passwordHash;
+  const auditChanges = Object.assign({}, body); delete auditChanges.passwordHash;
+  delete safe.passwordHash;
+  recordAudit('update', 'users', req.params.id, req, auditChanges);
   res.json(safe);
 });
 app.delete('/admin/api/users/:id', (req, res) => {
   if (!canDelete('users', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const store = loadStore();
+  const target = (store.users || []).find((u) => String(u.id) === String(req.params.id));
+  if (!target) return sendNotFound(res);
+  const isSelf = String(target.username) === String(req.admin.user) || String(target.id) === String(req.admin.user);
+  if (isSelf) return res.status(409).json({ error: 'No podés eliminar tu propia cuenta.' });
+  if (roleRank(target.role) > roleRank(req.admin.role)) {
+    return res.status(403).json({ error: 'No podés eliminar a un usuario de rol superior.' });
+  }
+  if (isSuperAdmin(target.role) && countSuperAdmins(store.users) <= 1) {
+    return res.status(409).json({ error: 'Debe existir al menos un super-administrador activo.' });
+  }
   if (!deleteResource('users', req.params.id)) return sendNotFound(res);
-  recordAudit('delete', 'users', req.params.id, req, {});
+  recordAudit('delete', 'users', req.params.id, req, { username: target.username, role: target.role });
   res.json({ success: true });
 });
 
@@ -995,17 +1202,19 @@ app.get('/admin/login', (req, res) => {
   return res.status(404).send('Login page not found');
 });
 
-// Servir la página SPA estática en /admin y rutas hijas
-app.get('/admin', (req, res) => {
-  const indexPath = path.join(__dirname, 'static', 'index.html');
-  if (fs.existsSync(indexPath)) return res.sendFile(indexPath);
-  return res.send('<!doctype html><html><body><p>Panel temporal. Static index no encontrado.</p></body></html>');
-});
-app.get('/admin/*', (req, res) => {
+// Gate del SPA: sin sesión válida NO se sirve el HTML del panel; se redirige al
+// login único. Evita exponer estructura/markup del admin a anónimos.
+function serveAdminSpa(req, res) {
+  if (!req.session || !req.session.admin) {
+    const next = encodeURIComponent(req.originalUrl || '/admin');
+    return res.redirect(302, `/admin/login?next=${next}`);
+  }
   const indexPath = path.join(__dirname, 'static', 'index.html');
   if (fs.existsSync(indexPath)) return res.sendFile(indexPath);
   return res.status(404).send('Index not found');
-});
+}
+app.get('/admin', serveAdminSpa);
+app.get('/admin/*', serveAdminSpa);
 
 // Fallback 404
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));

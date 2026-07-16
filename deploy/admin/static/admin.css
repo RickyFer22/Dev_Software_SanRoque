@@ -687,6 +687,30 @@ pre {
   to { opacity: 1; transform: none; }
 }
 
+/* Tabla compacta (eventos de seguridad, listados) */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th,
+.data-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.data-table th {
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.data-table tbody tr:hover { background: color-mix(in srgb, var(--gold) 8%, transparent); }
+.data-table td:nth-child(2) { font-family: ui-monospace, "JetBrains Mono", monospace; }
+#security-events { overflow-x: auto; }
+
 .sidebar-backdrop {
   display: none;
   position: fixed;

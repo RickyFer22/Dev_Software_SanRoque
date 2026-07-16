@@ -69,6 +69,9 @@
           <button type="button" class="nav-item tab" data-section="observability">
             <span class="nav-icon">◎</span> Observabilidad
           </button>
+          <button type="button" class="nav-item tab" data-section="seguridad">
+            <span class="nav-icon">⛨</span> Seguridad
+          </button>
           <button type="button" class="nav-item tab" data-section="backup">
             <span class="nav-icon">⇩</span> Backup
           </button>
@@ -522,6 +525,19 @@
           </div>
           <div class="card"><h2>Log del bot</h2><div id="bot-logs" class="log-list" aria-live="polite"></div></div>
           <div class="card"><h2>Log del sistema</h2><div id="system-logs" class="log-list" aria-live="polite"></div></div>
+        </div>
+
+        <!-- SEGURIDAD (solo super-admin) -->
+        <div id="seguridad" class="section">
+          <div class="toolbar">
+            <button type="button" data-action="refresh-security">Actualizar</button>
+            <span class="small">Panel de seguridad · solo super-administrador</span>
+          </div>
+          <div class="kpi-grid" id="security-kpis" aria-live="polite"></div>
+          <div class="card">
+            <h2>Eventos de seguridad recientes</h2>
+            <div id="security-events" aria-live="polite"></div>
+          </div>
         </div>
 
         <!-- ANALYTICS -->

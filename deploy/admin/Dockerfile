@@ -16,7 +16,9 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY package.json package-lock.json server.js seed.js bot-service.js ./
 COPY static ./static
 COPY scripts ./scripts
-COPY data/admin.json ./data/admin.seed.json
+# Plantilla de datos SIN cuentas por defecto. El admin real se crea en el primer
+# arranque con ADMIN_SETUP_PASSWORD / ADMIN_PASSWORD_HASH (ver server.js).
+COPY data/admin.seed.json ./data/admin.seed.json
 
 ENV NODE_ENV=production \
     PORT=4000 \

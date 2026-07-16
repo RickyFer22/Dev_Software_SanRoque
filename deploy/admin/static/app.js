@@ -72,6 +72,7 @@ const SECTION_TITLES = {
   backup: 'Backup',
   'bot-config': 'Bot y APIs',
   observability: 'Observabilidad',
+  seguridad: 'Seguridad',
   analytics: 'Analytics',
 };
 
@@ -341,34 +342,84 @@ function updateImagePreview(fileInputId, previewId, imageUrl) {
   }
 }
 
+// Límites de imagen en cliente (el servidor revalida de todos modos).
+const IMAGE_MAX_INPUT_BYTES = 12 * 1024 * 1024; // 12 MB de entrada antes de convertir
+const IMAGE_MAX_DIMENSION = 1600; // px lado mayor
+const IMAGE_WEBP_QUALITY = 0.82;
+const ALLOWED_INPUT_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+
+// Convierte cualquier imagen soportada a WebP (redimensionada) usando canvas.
+// Devuelve un data URL image/webp. Rechaza si el navegador no soporta WebP.
+function convertImageToWebp(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+      if (Math.max(width, height) > IMAGE_MAX_DIMENSION) {
+        const scale = IMAGE_MAX_DIMENSION / Math.max(width, height);
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return reject(new Error('Canvas no disponible'));
+      ctx.drawImage(img, 0, 0, width, height);
+      const dataUrl = canvas.toDataURL('image/webp', IMAGE_WEBP_QUALITY);
+      if (!dataUrl.startsWith('data:image/webp')) {
+        return reject(new Error('Tu navegador no puede generar WebP. Actualizalo e intentá de nuevo.'));
+      }
+      resolve(dataUrl);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('No se pudo leer la imagen.')); };
+    img.src = url;
+  });
+}
+
 function setupImageFileInput(fileInputId, imageFieldId, previewId) {
   const fileInput = document.getElementById(fileInputId);
   const imageField = document.getElementById(imageFieldId);
   if (!fileInput || !imageField) return;
-  fileInput.addEventListener('change', () => {
+  fileInput.addEventListener('change', async () => {
     const file = fileInput.files && fileInput.files[0];
     if (!file) {
       imageField.value = '';
       updateImagePreview(fileInputId, previewId, '');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const dataUrl = reader.result;
-      updateImagePreview(fileInputId, previewId, dataUrl);
-      const result = await fetchJson('/admin/api/upload-image', {
-        method: 'POST',
-        body: JSON.stringify({ filename: file.name, dataUrl }),
-      });
-      if (result.error) {
-        showToast('Error subiendo imagen: ' + result.error, 'error');
-        imageField.value = dataUrl;
-        return;
-      }
-      imageField.value = result.url || dataUrl;
-      updateImagePreview(fileInputId, previewId, result.url || dataUrl);
-    };
-    reader.readAsDataURL(file);
+    if (!ALLOWED_INPUT_TYPES.includes(file.type)) {
+      showToast('Formato no permitido. Usá JPG, PNG o WebP.', 'error');
+      fileInput.value = '';
+      return;
+    }
+    if (file.size > IMAGE_MAX_INPUT_BYTES) {
+      showToast('La imagen es demasiado grande (máx. 12 MB).', 'error');
+      fileInput.value = '';
+      return;
+    }
+    let webpDataUrl;
+    try {
+      showToast('Optimizando imagen a WebP…', 'ok');
+      webpDataUrl = await convertImageToWebp(file);
+    } catch (err) {
+      showToast(err.message || 'No se pudo procesar la imagen.', 'error');
+      return;
+    }
+    updateImagePreview(fileInputId, previewId, webpDataUrl);
+    const result = await fetchJson('/admin/api/upload-image', {
+      method: 'POST',
+      body: JSON.stringify({ dataUrl: webpDataUrl }),
+    });
+    if (result.error) {
+      showToast('Error subiendo imagen: ' + result.error, 'error');
+      return;
+    }
+    imageField.value = result.url || '';
+    updateImagePreview(fileInputId, previewId, result.url || webpDataUrl);
+    showToast('Imagen subida en WebP.', 'ok');
   });
 }
 
@@ -741,6 +792,7 @@ function toggleSection(sectionId) {
   closeSidebar();
   if (sectionId === 'bot-config') loadBotConfig();
   if (sectionId === 'observability') loadObservability();
+  if (sectionId === 'seguridad') loadSecurity();
   if (['alojamientos', 'gastronomia', 'eventos', 'datos-utiles', 'users', 'reviews', 'tickets', 'audit', 'uploads'].includes(sectionId)) {
     loadResource(sectionId).catch(() => {});
   }
@@ -806,6 +858,42 @@ async function loadObservability() {
   }
   observabilitySnapshot = data;
   renderObservability();
+}
+
+async function loadSecurity() {
+  const data = await fetchJson('/admin/api/security/overview');
+  const grid = document.getElementById('security-kpis');
+  const events = document.getElementById('security-events');
+  if (!grid) return;
+  if (data.error) {
+    grid.innerHTML = `<p class="small">Error: ${escapeLog(data.error)}</p>`;
+    if (events) events.innerHTML = '';
+    return;
+  }
+  const k = data.kpis || {};
+  const card = (label, value, hint) =>
+    `<div class="kpi-card" style="cursor:default"><span class="kpi-label">${escapeLog(label)}</span><span class="kpi-value">${escapeLog(value)}</span><span class="kpi-hint">${escapeLog(hint || '')}</span></div>`;
+  grid.innerHTML = [
+    card('Logins fallidos (24 h)', k.failedLogins24h ?? 0, 'Intentos rechazados'),
+    card('Intentos bloqueados (24 h)', k.blockedLogins24h ?? 0, 'Rate limiting'),
+    card('Cuentas bloqueadas', k.lockedAccounts ?? 0, 'Bloqueo temporal activo'),
+    card('IPs bloqueadas', k.lockedIps ?? 0, 'Bloqueo temporal activo'),
+    card('Logins exitosos (24 h)', k.successfulLogins24h ?? 0, 'Accesos válidos'),
+    card('Super-admins', k.superAdmins ?? 0, `de ${k.totalUsers ?? 0} usuarios`),
+    card('Usuarios sin MFA', k.usersWithoutMfa ?? 0, 'MFA pendiente (roadmap)'),
+  ].join('');
+  if (events) {
+    const rows = (data.recentSecurityEvents || []).map((e) => {
+      const when = escapeLog(new Date(e.createdAt).toLocaleString('es-AR'));
+      const evt = escapeLog(e.event);
+      const who = escapeLog((e.details && e.details.username) || e.adminUser || '—');
+      const ip = escapeLog(e.details && e.details.ip ? e.details.ip : '');
+      return `<tr><td>${when}</td><td>${evt}</td><td>${who}</td><td>${ip}</td></tr>`;
+    }).join('');
+    events.innerHTML = rows
+      ? `<table class="data-table"><thead><tr><th>Fecha</th><th>Evento</th><th>Usuario</th><th>IP</th></tr></thead><tbody>${rows}</tbody></table>`
+      : '<p class="small">Sin eventos de seguridad recientes.</p>';
+  }
 }
 
 function exportObservability() {
@@ -874,6 +962,7 @@ function mapResourceToPermissionName(resource) {
 function canReadResource(resource, role) {
   const name = mapResourceToPermissionName(resource);
   if (['bot-config', 'observability'].includes(name)) return ['super-admin', 'editor'].includes(role);
+  if (name === 'seguridad') return role === 'super-admin';
   if (name === 'users') return role === 'super-admin';
   if (name === 'reviews') return ['super-admin', 'editor', 'viewer'].includes(role);
   if (name === 'audit') return ['super-admin', 'editor'].includes(role);
@@ -1352,6 +1441,7 @@ function handleAction(event) {
   const resource = button.dataset.resource;
   const id = button.dataset.id;
   if (action === 'refresh-observability') { loadObservability(); return; }
+  if (action === 'refresh-security') { loadSecurity(); return; }
   if (action === 'export-observability') { exportObservability(); return; }
   if (action === 'load') {
     loadResource(resource);
