@@ -20,12 +20,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   function crearCard(local) {
+    const id = local.id || String(local.nombre || local.titulo || '').toLowerCase().replace(/\s+/g, '-');
+    const nombre = local.nombre || local.titulo || 'Local';
     const servicios = (local.servicios || [])
       .map(servicio => `<li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider leading-tight">${serviceLabels[servicio] || servicio}</li>`)
       .join("");
+    const ratingBadge = window.VsrRatings ? VsrRatings.averageBadgeHtml('gastronomia', id, 16) : '';
 
     return `
-      <article class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[620px] lg:min-h-[430px] card-item fade-in-up">
+      <article id="gastro-${id}" data-gastro-id="${id}" class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[620px] lg:min-h-[430px] card-item fade-in-up">
         <div class="absolute inset-0 w-full h-[40%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
           <img src="${local.imagen || local.mainImg}" alt="${local.nombre || local.titulo}" class="w-full h-full object-cover img-zoom" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
@@ -43,7 +46,10 @@ document.addEventListener("DOMContentLoaded", async () => {
               <span class="material-symbols-outlined text-river-teal text-[18px]">location_on</span>${local.ubicacion || local.direccion || local.lugar || 'San Roque'}</span>
           </div>
 
-          <p class="text-neutral-600 text-[14px] mb-4 leading-relaxed">${local.descripcion || ''}</p>
+          <p class="text-neutral-600 text-[14px] mb-3 leading-relaxed">${local.descripcion || ''}</p>
+
+          <div class="mb-2">${ratingBadge}</div>
+          <div class="vsr-interactive mb-4" data-type="gastronomia" data-id="${id}"></div>
 
           <ul class="flex flex-wrap gap-1.5 mb-4">${servicios}</ul>
 
@@ -51,32 +57,64 @@ document.addEventListener("DOMContentLoaded", async () => {
             <span class="material-symbols-outlined">location_on</span> Ver en mapa
           </a>
 
-          <a href="https://wa.me/${local.whatsapp || local.waNumber || ''}" target="_blank" onclick="event.stopPropagation()" class="mt-auto inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">
-            WhatsApp <span class="material-symbols-outlined text-[16px]">open_in_new</span>
-          </a>
+          <div class="mt-auto flex items-center gap-2 flex-wrap">
+            <a href="https://wa.me/${local.whatsapp || local.waNumber || ''}" target="_blank" onclick="event.stopPropagation()" class="inline-flex w-fit items-center gap-1.5 px-6 py-3 bg-river-teal text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-primary transition-all duration-300 hover:scale-105 shadow-md">
+              WhatsApp <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+            </a>
+            <button type="button" class="gastro-share-btn inline-flex w-fit items-center gap-1.5 px-5 py-3 bg-white text-river-teal border border-neutral-200 rounded-full font-bold text-xs uppercase tracking-wider hover:bg-river-teal hover:text-white transition-all shadow-sm" data-share-id="${id}" data-share-name="${nombre.replace(/"/g, '&quot;')}" onclick="event.stopPropagation()">
+              <span class="material-symbols-outlined text-[16px]">share</span> Compartir
+            </button>
+          </div>
         </div>
       </article>
     `;
   }
 
   let data = Array.isArray(window.gastronomiaData) ? window.gastronomiaData : [];
+  let ratingsLoaded = false;
   try {
-    const backendBase = '';
-    const res = await fetch(`${backendBase}/api/data`);
+    const res = await fetch(`/api/data`);
     if (res.ok) {
       const payload = await res.json();
       if (Array.isArray(payload.gastronomia) && payload.gastronomia.length) {
         data = payload.gastronomia;
-      } else if (payload && typeof payload === 'object' && Array.isArray(payload.gastronomia)) {
-        data = payload.gastronomia;
       }
+      if (window.VsrRatings && payload.ratings) { VsrRatings.setRatings(payload.ratings); ratingsLoaded = true; }
     }
   } catch (err) {
     console.info('Usando gastronomía local por fallback', err.message);
   }
+  if (window.VsrRatings && !ratingsLoaded) { try { await VsrRatings.load(); } catch (_) {} }
 
   const items = Array.isArray(data) ? data : Object.values(data || {});
   grid.innerHTML = items.map(crearCard).join("");
+
+  // Calificaciones interactivas por local.
+  if (window.VsrRatings) VsrRatings.mountAllInteractive(grid);
+
+  // Botón compartir por tarjeta (permalink ?g=<id>).
+  grid.querySelectorAll('.gastro-share-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      if (!window.VsrShare) return;
+      const r = await VsrShare.share('g', btn.dataset.shareId, btn.dataset.shareName);
+      if (r && r.method === 'clipboard') {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span> ¡Copiado!';
+        setTimeout(() => { btn.innerHTML = original; }, 1800);
+      }
+    });
+  });
+
+  // Si se abrió con ?g=<id>, resaltar y desplazar a ese local.
+  const focusId = window.VsrShare && VsrShare.paramFromUrl('g');
+  if (focusId) {
+    const el = document.getElementById('gastro-' + focusId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('vsr-highlight');
+      setTimeout(() => el.classList.remove('vsr-highlight'), 3000);
+    }
+  }
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {

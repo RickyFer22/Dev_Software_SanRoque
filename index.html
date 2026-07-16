@@ -285,7 +285,10 @@
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <span class="text-[11px] font-bold text-neutral-500 uppercase tracking-wider">Tu calificación:</span>
+          <button id="det-share-btn" type="button"
+            class="inline-flex items-center gap-1.5 bg-white text-river-teal px-4 py-2 rounded-full border border-neutral-200 shadow-sm text-xs font-bold uppercase tracking-wider hover:bg-river-teal hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">share</span> <span id="det-share-label">Compartir</span>
+          </button>
           <div
             class="flex items-center gap-1 interactive-stars bg-white px-3 py-1.5 rounded-full border border-neutral-200 shadow-sm transition-colors"
             id="det-interactive-stars" data-id="">
@@ -513,13 +516,16 @@
     </div>
 
     <div class="academic-credits max-w-7xl mx-auto px-6 md:px-8">
-      <strong>Creado por pasantes de la Tecnicatura Superior en Desarrollo de Software 3.er año</strong>
-      <span>Autores: Daniel Almirón · Lucas Sánchez · Milca Martínez · Román Rossi · Tomas Rolet</span>
-      <span>Ayudante: Javier Legal · Profesora: Yesica Ponce</span>
+      <strong>Desarrollado por estudiantes de 3.<sup>er</sup> año de la Tecnicatura Superior en Desarrollo de Software</strong>
+      <span class="academic-authors"><b>Autores:</b> Daniel Almirón · Lucas Sánchez · Milca Martínez · Román Rossi · Tomás Rolet</span>
+      <span><b>Ayudante:</b> Javier Legal &nbsp;·&nbsp; <b>Profesora:</b> Yésica Ponce</span>
+      <span class="academic-institute">Instituto Superior de Formación Docente «Juan García de Cossio»</span>
     </div>
     <div class="compact-footer-legal max-w-7xl mx-auto px-6 md:px-8">© 2026 Municipalidad de San Roque. Portal oficial de turismo y cultura. Todos los derechos reservados.</div>
   </footer>
   <script src="js/data.js"></script>
+  <script src="js/ratings.js"></script>
+  <script src="js/share.js"></script>
   <script src="js/app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {

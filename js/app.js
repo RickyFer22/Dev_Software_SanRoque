@@ -86,8 +86,20 @@ function initVotingForContainer(container) {
   });
 }
 
+// Muestra el PROMEDIO de votos (o el rating base como fallback) en el detalle.
+function updateDetailRating(id, fallback) {
+  const avg = window.VsrRatings && VsrRatings.getAverage('alojamiento', id);
+  const starsEl = document.getElementById('det-rating-stars');
+  const numEl = document.getElementById('det-rating-number');
+  const revEl = document.getElementById('det-reviews-count');
+  const value = avg ? avg.average : (parseFloat(fallback && fallback.rating) || 0);
+  if (starsEl) starsEl.innerHTML = window.VsrRatings ? VsrRatings.starsHtml(value, 20) : renderStars(value);
+  if (numEl) numEl.textContent = avg ? avg.average.toFixed(1) : (fallback && fallback.rating || '');
+  if (revEl) revEl.textContent = avg ? `${avg.count} ${avg.count === 1 ? 'voto' : 'votos'}` : (fallback && fallback.reviewsCount || '');
+}
+
 // ═══ SPA NAV ═══
-function navigateToDetails(id) {
+function navigateToDetails(id, skipPush) {
   const data = alojamientosData[id]; if(!data) return;
   document.getElementById('main-explorer-view').classList.replace('block','hidden');
   const detView = document.getElementById('detailed-accommodation-view');
@@ -96,9 +108,7 @@ function navigateToDetails(id) {
   document.getElementById('mobile-sticky-contact').classList.replace('hidden','block');
   window.scrollTo({top:0,behavior:'smooth'});
   document.getElementById('det-title').textContent=data.titulo;
-  document.getElementById('det-rating-stars').innerHTML=renderStars(data.rating);
-  document.getElementById('det-rating-number').textContent=data.rating;
-  document.getElementById('det-reviews-count').textContent=data.reviewsCount;
+  updateDetailRating(id, data);
   document.getElementById('det-location').textContent=data.ubicacion;
   const detMapLink = document.getElementById('det-map-link');
   if (detMapLink) {
@@ -113,7 +123,20 @@ function navigateToDetails(id) {
   document.getElementById('det-long-desc').textContent=data.descripcionLarga;
   document.getElementById('det-main-img').src=data.mainImg;
   const detStars=document.getElementById('det-interactive-stars');
-  detStars.setAttribute('data-id',id); initVotingForContainer(detStars);
+  // Reemplaza el widget viejo por el módulo compartido de calificaciones.
+  detStars.className='vsr-interactive';
+  detStars.setAttribute('data-type','alojamiento');
+  detStars.setAttribute('data-id',id);
+  delete detStars.dataset.vsrMounted;
+  detStars.innerHTML='';
+  if (window.VsrRatings) VsrRatings.mountInteractive(detStars, ()=>updateDetailRating(id, data));
+  const shareBtn=document.getElementById('det-share-btn');
+  if (shareBtn && window.VsrShare) shareBtn.onclick=async ()=>{
+    const r=await VsrShare.share('h', id, data.titulo);
+    const lbl=document.getElementById('det-share-label');
+    if (lbl && r && r.method==='clipboard') { lbl.textContent='¡Enlace copiado!'; setTimeout(()=>{ lbl.textContent='Compartir'; },1800); }
+  };
+  if (!skipPush && window.VsrShare) { try { history.pushState({h:id}, '', VsrShare.buildUrl('h', id)); } catch(_){} }
   const thumbContainer=document.getElementById('det-gallery-thumbs'); thumbContainer.innerHTML='';
   data.galeria.forEach((imgUrl,i)=>{const btn=document.createElement('button');btn.className=`snap-center w-[130px] md:w-full h-20 rounded-xl overflow-hidden shrink-0 border-[3px] transition-all hover:scale-105 active:scale-95 ${i===0?'border-primary':'border-transparent opacity-80 hover:opacity-100'}`;btn.innerHTML=`<img class="w-full h-full object-cover" src="${imgUrl}"/>`;btn.onclick=()=>{document.getElementById('det-main-img').src=imgUrl;Array.from(thumbContainer.children).forEach(b=>b.classList.replace('border-primary','border-transparent'));btn.classList.replace('border-transparent','border-primary');};thumbContainer.appendChild(btn);});
   document.getElementById('det-capacity-list').innerHTML=data.capacidad.map(c=>`<div class="capacity-row"><span class="material-symbols-outlined text-river-teal mt-0.5 text-[22px]">${c.icono}</span><div><div class="font-bold text-neutral-800 text-sm">${c.titulo}</div>${c.desc?`<div class="text-neutral-500 text-[13px] mt-0.5">${c.desc}</div>`:''}</div></div>`).join('');
@@ -127,6 +150,7 @@ function navigateToDetails(id) {
 function backToGrid() {
   document.getElementById('detailed-accommodation-view').classList.replace('block','hidden');
   document.getElementById('mobile-sticky-contact').classList.replace('block','hidden');
+  try { history.pushState({}, '', location.pathname); } catch(_){}
   const mainView=document.getElementById('main-explorer-view');
   mainView.classList.replace('hidden','block');
   mainView.classList.remove('animate-view-in'); void mainView.offsetWidth; mainView.classList.add('animate-view-in');
@@ -141,6 +165,8 @@ function createAccommodationCard(id, data) {
   const services = Array.isArray(data.servicios) && data.servicios.length
     ? data.servicios.slice(0, 3).map(s => s.texto || s).join(' · ')
     : 'WiFi · comodidad · buena ubicación';
+  const avg = window.VsrRatings && VsrRatings.getAverage('alojamiento', id);
+  const ratingLabel = avg ? avg.average.toFixed(1) : (data.rating || '4.5');
   return `
     <article class="relative group bg-canvas-white rounded-[28px] overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[560px] sm:min-h-[520px] card-item fade-in-up" data-category="${data.categoria || 'hospedaje'}" data-aos="fade-up" data-aos-duration="700">
       <div class="absolute inset-0 h-[42%] sm:h-[46%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
@@ -152,7 +178,7 @@ function createAccommodationCard(id, data) {
           <span class="text-[11px] uppercase tracking-[0.2em] text-river-teal font-bold">${categoryLabel}</span>
           <div class="flex items-center gap-1 text-golden-sand font-bold text-sm">
             <span class="material-symbols-outlined text-[16px]">star</span>
-            ${data.rating || '4.5'}
+            ${ratingLabel}${avg ? ` <span class="text-neutral-400 font-medium">(${avg.count})</span>` : ''}
           </div>
         </div>
         <h3 class="text-xl font-bold text-primary leading-tight">${data.titulo}</h3>
@@ -287,7 +313,17 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
   };
 
-  document.addEventListener('appDataReady', (e) => {
+  const openFromPermalink = () => {
+    const id = window.VsrShare && VsrShare.paramFromUrl('h');
+    if (id && alojamientosData[id]) navigateToDetails(id, true);
+  };
+
+  document.addEventListener('appDataReady', async (e) => {
+    // Si la API trae ratings, cargarlos en el módulo antes de renderizar.
+    if (window.VsrRatings) {
+      if (e.detail && e.detail.ratings) VsrRatings.setRatings(e.detail.ratings);
+      else await VsrRatings.load();
+    }
     // Si la API devolvió datosUtiles, fusionarlos con los locales
     const apiDU = e.detail && e.detail.datosUtiles;
     if (apiDU) {
@@ -298,6 +334,13 @@ document.addEventListener("DOMContentLoaded",()=>{
       }
     }
     initUI();
+    openFromPermalink();
+  });
+
+  window.addEventListener('popstate', () => {
+    const id = window.VsrShare && VsrShare.paramFromUrl('h');
+    if (id && alojamientosData[id]) navigateToDetails(id, true);
+    else backToGrid();
   });
 
   // Fallback: si appDataReady no llega en 6s (red muy lenta), inicializar igual

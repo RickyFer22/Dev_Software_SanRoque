@@ -338,6 +338,7 @@ app.get('/api/data', (req, res) => {
     gastronomia: store.gastronomia || [],
     eventos: store.eventos || [],
     datosUtiles: transformDatosUtilesForPublic(store.datos_utiles || []),
+    ratings: computeRatings(store),
   });
 });
 
@@ -485,24 +486,81 @@ app.post('/api/tickets', (req, res) => {
   res.status(201).json(item);
 });
 
+// Tipos válidos de ítem calificable.
+const RATEABLE_TYPES = ['alojamiento', 'gastronomia'];
+
+// Hash de IP para deduplicar votos sin almacenar la IP en claro (privacidad).
+function hashIp(ip) {
+  const salt = process.env.SESSION_SECRET || 'vsr-vote-salt';
+  return crypto.createHash('sha256').update(String(ip || 'unknown') + '|' + salt).digest('hex');
+}
+
+// Promedio y cantidad de votos por ítem: { 'alojamiento:jr': { average, count } }.
+function computeRatings(store) {
+  const votes = Array.isArray(store.votes) ? store.votes : [];
+  const acc = {};
+  for (const v of votes) {
+    const r = Number(v.rating);
+    if (!v.itemType || !v.itemId || !(r >= 1 && r <= 5)) continue;
+    const key = `${v.itemType}:${v.itemId}`;
+    if (!acc[key]) acc[key] = { sum: 0, count: 0 };
+    acc[key].sum += r;
+    acc[key].count += 1;
+  }
+  const out = {};
+  for (const [key, { sum, count }] of Object.entries(acc)) {
+    out[key] = { average: Math.round((sum / count) * 10) / 10, count };
+  }
+  return out;
+}
+
+// Ratings agregados (público).
+app.get('/api/ratings', (req, res) => {
+  res.json({ ratings: computeRatings(loadStore()) });
+});
+
+// Registrar/actualizar voto: 1 por IP por ítem. Devuelve el promedio actualizado.
 app.post('/api/vote', (req, res) => {
-  const { itemType, itemId, rating } = req.body || {};
-  if (!itemType || !itemId || !rating) {
-    return res.status(400).json({ error: 'itemType, itemId and rating are required' });
+  const body = req.body || {};
+  const itemType = String(body.itemType || '');
+  const itemId = sanitizeString(body.itemId || '', 120).trim();
+  const rating = Math.round(Number(body.rating));
+
+  if (!RATEABLE_TYPES.includes(itemType) || !itemId) {
+    return res.status(400).json({ error: 'Datos de voto inválidos.' });
+  }
+  if (!(rating >= 1 && rating <= 5)) {
+    return res.status(400).json({ error: 'La calificación debe estar entre 1 y 5.' });
   }
 
   const store = loadStore();
-  const vote = {
-    id: makeId('vote'),
-    itemType,
-    itemId,
-    rating: Number(rating),
-    ip: req.ip || 'unknown',
-    createdAt: new Date().toISOString(),
-  };
-  store.votes.unshift(vote);
+  if (!Array.isArray(store.votes)) store.votes = [];
+  const ipHash = hashIp(req.ip);
+
+  // Un voto por IP por ítem: si ya existe, se actualiza (nunca suma un segundo voto).
+  const existing = store.votes.find(
+    (v) => v.itemType === itemType && String(v.itemId) === itemId && v.ipHash === ipHash
+  );
+  const nowIso = new Date().toISOString();
+  let updated = false;
+  if (existing) {
+    existing.rating = rating;
+    existing.updatedAt = nowIso;
+    updated = true;
+  } else {
+    store.votes.unshift({
+      id: makeId('vote'),
+      itemType,
+      itemId,
+      rating,
+      ipHash,
+      createdAt: nowIso,
+    });
+  }
   saveStore(store);
-  res.json({ ok: true, vote });
+
+  const agg = computeRatings(store)[`${itemType}:${itemId}`] || { average: rating, count: 1 };
+  res.json({ ok: true, updated, yourRating: rating, average: agg.average, count: agg.count });
 });
 
 app.post('/admin/api/upload-image', (req, res) => {
