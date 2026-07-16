@@ -8,22 +8,29 @@ const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
 test('public footer is Spanish, useful and does not expose admin', () => {
   const html = read('index.html');
+  const css = read('css/styles.css');
 
-  assert.match(html, /Política de privacidad/);
-  assert.match(html, /Términos y condiciones/);
+  assert.match(html, /class="footer-navigation"/);
+  assert.match(html, /class="footer-social-pill"/);
+  assert.match(html, /Naturaleza, cultura e historia en el corazón de Corrientes/);
+  assert.match(html, /Remises y servicios/);
   assert.match(html, /Municipalidad de San Roque/);
   assert.doesNotMatch(html, /Oficina de Turismo/);
   assert.match(html, /Todos los derechos reservados/);
-  assert.match(html, /Creado por pasantes de la Tecnicatura Superior en Desarrollo de Software/);
+  assert.match(html, /Desarrollado por estudiantes de 3\.<sup>er<\/sup> año de la Tecnicatura Superior en Desarrollo de Software/);
   assert.match(html, /Daniel Almirón/);
   assert.match(html, /Lucas Sánchez/);
   assert.match(html, /Milca Martínez/);
   assert.match(html, /Román Rossi/);
-  assert.match(html, /Tomas Rolet/);
-  assert.match(html, /Ayudante:\s*Javier Legal/);
-  assert.match(html, /Profesora:\s*Yesica Ponce/);
+  assert.match(html, /Tomás Rolet/);
+  assert.match(html, /Ayudante:<\/b>\s*Javier Legal/);
+  assert.match(html, /Profesora:<\/b>\s*Yésica Ponce/);
   assert.doesNotMatch(html, /Privacy Policy|Terms of Service|Local Government|Tourist Office/);
   assert.doesNotMatch(html, /href="\/admin(?:\/login)?"/);
+  assert.match(css, /\.sr-l1\s*\{\s*color:#ef2024/);
+  assert.match(css, /\.sr-l4\s*\{\s*color:#45ad2f/);
+  assert.match(css, /\.sr-l6\s*\{\s*color:#68409b/);
+  assert.match(css, /@media \(max-width:640px\)/);
 });
 
 test('gastronomy exposes the same accessible mobile selector as the home page', () => {

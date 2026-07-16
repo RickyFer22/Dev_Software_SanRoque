@@ -888,17 +888,45 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .gastronomy-story-detail { display:flex;align-items:center;justify-content:center;gap:18px;margin-top:42px;color:#F5D98A;font:500 10px/1.4 "JetBrains Mono",monospace;letter-spacing:.15em;text-transform:uppercase; }
 .gastronomy-story-detail span { width:54px;height:1px;background:#D4A83C; }
 
-.academic-credits { display:flex;flex-direction:column;align-items:center;gap:7px;padding:22px 16px 18px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:12px;line-height:1.5;text-align:center; }
-.academic-credits strong { color:#F5D98A;font-size:12.5px;font-weight:700;letter-spacing:.01em; }
-.academic-credits b { color:rgba(255,255,255,.92);font-weight:700; }
-.academic-credits .academic-institute { color:#F5D98A;font-weight:600;font-size:12px; }
-.academic-credits .academic-authors { margin-top:7px;padding-top:9px;border-top:1px solid rgba(245,217,138,.16);color:rgba(255,255,255,.82); }
+.academic-credits { display:flex;flex-direction:column;align-items:center;gap:8px;padding:32px 24px 22px;color:#b9c99a;font-size:12px;line-height:1.55;text-align:center; }
+.academic-credits strong { color:#e3ebca;font-size:12.5px;font-weight:700;letter-spacing:.01em; }
+.academic-credits b { color:#f6f3e8;font-weight:700; }
+.academic-credits .academic-institute { color:#c9d89f;font-weight:600;font-size:12px; }
+.academic-credits .academic-authors { margin-top:4px;color:#b9c99a; }
+.academic-kicker { color:#e0b858;font:700 10px/1.4 "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase; }
 
-/* ── WORDMARK MULTICOLOR "San Roque" (colores del cartel turístico) ── */
-.sr-wordmark { font-family:"Syne",sans-serif;font-weight:800;letter-spacing:-.01em;line-height:1;display:inline-block;white-space:nowrap; }
-.sr-wordmark span { display:inline-block;transition:transform .25s ease; }
-.sr-wordmark:hover span { transform:translateY(-3px); }
-/* delay escalonado del hover, como las letras del cartel */
+/* Footer inspirado en el cartel físico de acceso a San Roque. */
+.site-footer {
+  --footer-olive:#315424;
+  --footer-olive-deep:#1d3817;
+  --footer-night:#13230f;
+  --footer-cream:#f4f1e6;
+  --footer-gold:#d8b15d;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:linear-gradient(135deg,#426c30 0%,#315424 48%,#1f4019 100%);
+  color:#fff;
+  box-shadow:0 -18px 50px rgba(39,79,16,.12);
+}
+.site-footer::before { display:none; }
+.footer-tapiz {
+  position:absolute;inset:90px 0 auto;height:430px;z-index:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='220'%3E%3Cg%20fill='none'%20stroke='%23b4c78a'%20stroke-width='1'%20stroke-opacity='.12'%3E%3Ccircle%20cx='110'%20cy='110'%20r='28'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='54'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='82'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='106'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:220px 220px;
+  -webkit-mask-image:linear-gradient(#000,transparent);
+  mask-image:linear-gradient(#000,transparent);
+}
+.site-footer > *:not(.footer-tapiz) { position:relative;z-index:1; }
+.footer-landscape { height:92px;background:var(--footer-cream);overflow:hidden; }
+.footer-landscape::before,.footer-landscape::after { content:"";position:absolute;bottom:-50px;width:62%;height:104px;border-radius:50% 50% 0 0;background:var(--footer-olive); }
+.footer-landscape::before { left:-8%;transform:rotate(1deg); }
+.footer-landscape::after { right:-8%;transform:rotate(-1deg); }
+.footer-landscape { border-bottom:3px solid var(--footer-gold); }
+
+.sr-wordmark { display:inline-flex;white-space:nowrap;font-family:"Syne",sans-serif;font-weight:800;letter-spacing:-.055em;line-height:.9; }
+.sr-wordmark span { display:inline-block;transition:transform .25s ease,filter .25s ease; }
+.sr-wordmark:hover span { transform:translateY(-4px);filter:saturate(1.18) brightness(1.06); }
 .sr-wordmark:hover .sr-l1 { transition-delay:0s; }
 .sr-wordmark:hover .sr-l2 { transition-delay:.03s; }
 .sr-wordmark:hover .sr-l3 { transition-delay:.06s; }
@@ -907,73 +935,79 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .sr-wordmark:hover .sr-l6 { transition-delay:.15s; }
 .sr-wordmark:hover .sr-l7 { transition-delay:.18s; }
 .sr-wordmark:hover .sr-l8 { transition-delay:.21s; }
-.sr-l1 { color:#FF463A; } /* S rojo */
-.sr-l2 { color:#FF9226; } /* a naranja */
-.sr-l3 { color:#FFC72C; } /* n ámbar */
-.sr-l4 { color:#57C64F; } /* R verde */
-.sr-l5 { color:#22C7B8; } /* o teal */
-.sr-l6 { color:#40B4E5; } /* q celeste */
-.sr-l7 { color:#4A78D6; } /* u azul */
-.sr-l8 { color:#A85BC7; } /* e violeta */
+.sr-l1 { color:#ef2024; }
+.sr-l2 { color:#f47b20; }
+.sr-l3 { color:#f6bd16; }
+.sr-l4 { color:#45ad2f; }
+.sr-l5 { color:#159bd3; }
+.sr-l6 { color:#68409b; }
+.sr-l7 { color:#c92d67; }
+.sr-l8 { color:#ef541c; }
 
-/* ── FOOTER estilo obera.tur.ar: verde oliva #2D5C13 + barra oscura #202317 ── */
-.site-footer {
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(163,210,79,.22), transparent 60%),
-    linear-gradient(180deg, #367216 0%, #2F6414 44%, #275210 100%);
-}
-/* tapiz: contornos orgánicos verdes (marca de agua, como el wordmark de obera) */
-.footer-tapiz {
-  position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.5;
-  background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='220'%3E%3Cg%20fill='none'%20stroke='%23A7D24F'%20stroke-width='1'%20stroke-opacity='0.16'%3E%3Ccircle%20cx='110'%20cy='110'%20r='26'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='50'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='74'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='98'/%3E%3Ccircle%20cx='0'%20cy='0'%20r='38'/%3E%3Ccircle%20cx='0'%20cy='0'%20r='62'/%3E%3Ccircle%20cx='220'%20cy='220'%20r='38'/%3E%3Ccircle%20cx='220'%20cy='220'%20r='62'/%3E%3Ccircle%20cx='220'%20cy='0'%20r='30'/%3E%3Ccircle%20cx='0'%20cy='220'%20r='30'/%3E%3C/g%3E%3C/svg%3E");
-  background-size:220px 220px;
-  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 60%,transparent 95%);
-  mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 60%,transparent 95%);
-}
-/* asegura que el contenido quede sobre el tapiz */
-.site-footer > *:not(.footer-tapiz) { position:relative; z-index:1; }
-
-.footer-hero {
-  padding:32px 24px 22px;
-  display:flex; flex-direction:column; align-items:center; gap:11px; text-align:center;
-}
-.footer-kicker {
-  display:inline-flex; align-items:center; gap:10px;
-  font-size:12px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#F5D98A;
-}
-.footer-kicker::before, .footer-kicker::after { content:""; width:30px; height:1px; }
-.footer-kicker::before { background:linear-gradient(90deg,transparent,#F5D98A); }
-.footer-kicker::after  { background:linear-gradient(90deg,#F5D98A,transparent); }
-/* Wordmark "San Roque" gigante con extrusión 3D profunda (letras del cartel en relieve) */
-.sr-wordmark-hero {
-  font-size:clamp(40px,8vw,98px); letter-spacing:-.03em; line-height:.92;
-  margin:-2px 0 2px; max-width:100%;
-  -webkit-text-stroke:1px rgba(0,0,0,.28);
-}
+.footer-hero { display:flex;flex-direction:column;align-items:center;gap:22px;margin-top:-69px;padding:0 24px 62px;text-align:center; }
+.sr-wordmark-hero { max-width:100%;font-size:clamp(62px,9.4vw,148px);-webkit-text-stroke:1px rgba(25,21,14,.32); }
 .sr-wordmark-hero span {
-  filter:saturate(1.35) brightness(1.08);
-  text-shadow:
-    0 -1px 0 rgba(255,255,255,.35),
-    1px 1px 0 #1c3d0b, 2px 2px 0 #193709, 3px 3px 0 #163208,
-    4px 4px 0 #142c08, 5px 5px 0 #112607, 6px 6px 0 #0f2206,
-    7px 7px 0 #0c1a05, 8px 8px 0 #0a1504, 9px 9px 0 #081103,
-    10px 10px 18px rgba(0,0,0,.6);
+  filter:saturate(1.1);
+  text-shadow:0 -2px 0 rgba(255,255,255,.28),1px 1px 0 #2a2519,2px 2px 0 #241f16,3px 3px 0 #211c13,4px 4px 0 #1d1911,5px 5px 0 #18150e,6px 6px 0 #14110b,7px 7px 0 #100e09,8px 8px 0 #0b0a06,11px 16px 22px rgba(0,0,0,.52);
 }
-.footer-hero-actions { display:flex; align-items:center; gap:14px; margin-top:8px; }
-.footer-hero-actions .footer-brand-mark { width:48px; height:48px; border-radius:14px; }
-.social-icon {
-  width:46px; height:46px; display:inline-flex; align-items:center; justify-content:center;
-  border-radius:50%; border:1px solid rgba(245,217,138,.4); color:#fff; font-size:18px;
-  text-decoration:none; background:rgba(255,255,255,.08);
-  transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease;
-}
-.social-icon:hover { background:#F5D98A; color:#274F10; border-color:#F5D98A; transform:translateY(-3px); }
-.social-icon:focus-visible { outline:3px solid #F5D98A; outline-offset:3px; }
-@media (max-width:480px) { .footer-hero { padding:36px 20px 26px; } }
+.footer-tagline { margin:4px 0 0;color:#dce7c4;font-size:clamp(15px,1.6vw,19px);font-weight:500; }
+.footer-hero-actions { display:flex;align-items:center;justify-content:center;gap:12px; }
+.footer-social-pill { display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:10px 19px 10px 12px;border:1px solid rgba(255,255,255,.7);border-radius:999px;background:var(--footer-cream);color:#172311;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 10px 24px rgba(8,19,6,.22);transition:transform .2s ease,box-shadow .2s ease,background .2s ease; }
+.footer-social-pill i { display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#182b13;color:#fff;font-size:13px; }
+.footer-social-pill:hover { transform:translateY(-3px);background:#fff;box-shadow:0 14px 30px rgba(8,19,6,.32); }
+.footer-social-pill:focus-visible { outline:3px solid var(--footer-gold);outline-offset:4px; }
 
-/* Barra inferior oscura (créditos + legal), como el sub-pie de obera */
-.footer-bottombar { background:#202317; padding:26px 0 6px; }
-.footer-bottombar .academic-credits { border-top:0; padding-top:0; }
+.footer-navigation { background:rgba(24,57,19,.84);border-top:1px solid rgba(255,255,255,.05); }
+.footer-navigation-inner { display:grid;grid-template-columns:minmax(260px,1.45fr) repeat(3,minmax(145px,1fr));gap:clamp(34px,5vw,76px);padding-top:54px;padding-bottom:56px; }
+.footer-brand-column { display:flex;flex-direction:column;align-items:flex-start;gap:12px; }
+.footer-brand-column h2 { margin:0;color:#fff;font:700 clamp(27px,3vw,35px)/1.1 "Syne",sans-serif;letter-spacing:-.035em; }
+.footer-brand-column p { max-width:290px;margin:0;color:#d5e1bf;font-size:15px;line-height:1.55; }
+.footer-brand-column a { color:#d8e7b9;font-size:14px;font-weight:700;text-decoration:none; }
+.footer-brand-column > span { margin-top:5px;color:#aabd83;font:700 10px/1.5 "JetBrains Mono",monospace;letter-spacing:.14em; }
+.footer-link-column { display:flex;flex-direction:column;align-items:flex-start;gap:14px; }
+.footer-link-column h3 { margin:0 0 3px;color:var(--footer-gold);font:700 11px/1.4 "JetBrains Mono",monospace;letter-spacing:.13em;text-transform:uppercase; }
+.footer-link-column a { display:inline-flex;align-items:center;gap:10px;color:#fff;font-size:15px;line-height:1.4;text-decoration:none; }
+.footer-link-column a::before { content:"";width:13px;height:2px;border-radius:2px;background:#829f58;transition:width .2s ease,background .2s ease; }
+.footer-link-column a:hover { color:#eef5dd; }
+.footer-link-column a:hover::before { width:21px;background:var(--footer-gold); }
+.footer-link-column a:focus-visible,.footer-brand-column a:focus-visible { outline:2px solid var(--footer-gold);outline-offset:4px;border-radius:3px; }
+
+.footer-bottombar { background:var(--footer-night);padding:0 0 8px; }
+.footer-bottombar .academic-credits { border-top:0; }
+.compact-footer-legal { padding:14px 24px 18px;border-top:1px solid rgba(180,199,138,.28);color:#99ac77;font-size:11px;line-height:1.5;text-align:center; }
+
+@media (max-width:900px) {
+  .footer-navigation-inner { grid-template-columns:1.3fr 1fr; }
+  .footer-brand-column { grid-row:span 2; }
+}
+@media (max-width:640px) {
+  .footer-landscape { height:72px; }
+  .footer-landscape::before,.footer-landscape::after { bottom:-36px;height:72px; }
+  .footer-hero { gap:18px;margin-top:-48px;padding:0 20px 40px; }
+  .sr-wordmark-hero { font-size:clamp(54px,16vw,72px); }
+  .footer-tagline { max-width:330px;line-height:1.5; }
+  .footer-social-pill { min-height:44px;padding:9px 14px 9px 10px;font-size:13px; }
+  .footer-navigation-inner { grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 20px;padding-top:40px;padding-bottom:42px; }
+  .footer-brand-column { grid-column:1/-1;grid-row:auto; }
+  .footer-brand-column p { max-width:340px; }
+  .footer-link-column:last-child { grid-column:1/-1;display:grid;grid-template-columns:repeat(3,max-content);column-gap:18px; }
+  .footer-link-column:last-child h3 { grid-column:1/-1; }
+  .footer-link-column:last-child a { font-size:13px; }
+  .academic-credits { padding:32px 24px 20px;font-size:11px; }
+  .academic-credits strong { font-size:12px; }
+}
+@media (max-width:390px) {
+  .sr-wordmark-hero { font-size:52px; }
+  .footer-social-pill span { display:none; }
+  .footer-social-pill { width:46px;padding:9px;justify-content:center; }
+  .footer-social-pill i { width:26px;height:26px; }
+  .footer-link-column:last-child { grid-template-columns:1fr; }
+  .footer-link-column:last-child h3 { grid-column:auto; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .sr-wordmark span,.footer-social-pill,.footer-link-column a::before { transition:none; }
+  .sr-wordmark:hover span,.footer-social-pill:hover { transform:none; }
+}
 
 /* ── MONJITA DOMINICA: tarjeta interactiva del hero ── */
 .monjita-hero-card { position:absolute;z-index:25;top:96px;left:16px;display:flex;align-items:center;gap:12px;max-width:280px;padding:10px 15px 10px 10px;border:1px solid rgba(245,217,138,.4);border-radius:18px;background:rgba(0,32,29,.42);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-align:left;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.28);transition:transform .25s ease,background .25s ease,box-shadow .25s ease; }
