@@ -43,14 +43,16 @@ test('same-origin bot, immutable prompt and bounded observability are declared',
   assert.match(publicSources, /\/api\/bot\/chat/);
 });
 
-test('admin exposes read-only bot configuration and observable logs', () => {
+test('admin exposes editable bot configuration and observable logs', () => {
   const html = read('deploy/admin/static/index.html');
   const app = read('deploy/admin/static/app.js');
 
   assert.match(html, /data-section="bot-config"/);
   assert.match(html, /data-section="observability"/);
-  assert.match(html, /id="bot-system-prompt"[^>]*readonly/);
-  assert.match(html, /id="bot-provider-key-mask"/);
+  assert.match(html, /id="bot-system-prompt"/);
+  assert.match(html, /id="bot-save-config"/);
+  assert.match(html, /class="bot-api-keystate small"/);
+  assert.match(html, /id="weather-key-mask"/);
   assert.match(html, /id="bot-logs"/);
   assert.match(html, /id="system-logs"/);
   assert.match(app, /\/admin\/api\/bot-config/);
@@ -74,14 +76,18 @@ test('bot service answers managed remises and never exposes complete secrets', (
     datos_utiles: [{ categoria: 'remises', contenido: { contactos: remises.map(([nombre, tel]) => ({ nombre, tel })) } }],
   };
   const answer = answerLocally('Necesito un remis', store);
-  const config = publicBotConfig({ BOT_API_KEY: 'secret-value-123456', OWM_API_KEY: 'weather-value-7890' });
+  const config = publicBotConfig(null, {
+    BOT_API_URL: 'https://bot.example.test/chat',
+    BOT_API_KEY: 'secret-value-123456',
+    OWM_API_KEY: 'weather-value-7890',
+  });
 
   assert.equal(answer.category, 'remises');
   assert.match(answer.reply, /Remis choro: 3777721215/);
   assert.match(answer.reply, /BALDOVINO: 3777-711144/);
-  assert.doesNotMatch(config.providerKeyMask, /secret-value-123456/);
+  assert.doesNotMatch(config.apis[0].keyMask, /secret-value-123456/);
   assert.doesNotMatch(config.weatherKeyMask, /weather-value-7890/);
-  assert.equal(config.promptEditable, false);
+  assert.equal(config.promptEditable, true);
 });
 
 test('bot service strips managed markup before returning local answers', () => {

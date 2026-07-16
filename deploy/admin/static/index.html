@@ -144,6 +144,44 @@
             <button type="button" class="cancel-button" data-goto="bot-config">Configurar bot</button>
           </div>
 
+          <section class="card portal-preview-card" aria-labelledby="portal-preview-title">
+            <div class="portal-preview-head">
+              <div>
+                <span class="portal-preview-eyebrow">Página pública</span>
+                <h2 id="portal-preview-title">Vista del portal</h2>
+                <p>Comprobá cómo se ve el contenido publicado sin salir del panel.</p>
+              </div>
+              <div class="portal-preview-actions">
+                <div class="preview-device-switch" role="group" aria-label="Tamaño de la vista previa">
+                  <button type="button" class="active" data-preview-device="desktop" aria-pressed="true">Escritorio</button>
+                  <button type="button" data-preview-device="mobile" aria-pressed="false">Móvil</button>
+                </div>
+                <button type="button" id="portal-preview-refresh" class="cancel-button">Actualizar vista</button>
+                <a class="portal-preview-open" href="/" target="_blank" rel="noopener">Abrir portal ↗</a>
+              </div>
+            </div>
+
+            <div class="portal-preview-browser" aria-label="Captura en vivo del portal">
+              <div class="portal-preview-browserbar" aria-hidden="true">
+                <span></span><span></span><span></span>
+                <div>vivisanroque.munisanroque.ar</div>
+              </div>
+              <div class="portal-preview-stage" id="portal-preview-stage" data-device="desktop">
+                <iframe
+                  id="portal-preview-frame"
+                  src="/"
+                  title="Vista previa del portal público de Viví San Roque"
+                  loading="lazy"
+                  referrerpolicy="same-origin"
+                ></iframe>
+              </div>
+            </div>
+            <div class="portal-preview-meta">
+              <span class="portal-preview-live"><i aria-hidden="true"></i> Vista en vivo</span>
+              <span id="portal-preview-updated" aria-live="polite">Lista para revisar</span>
+            </div>
+          </section>
+
           <div class="card">
             <h2>Estado del servidor</h2>
             <pre id="health">Cargando…</pre>

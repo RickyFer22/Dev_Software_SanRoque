@@ -90,6 +90,46 @@ function showToast(message, type = 'ok') {
   }, 4200);
 }
 
+function setPortalPreviewDevice(device) {
+  const normalized = device === 'mobile' ? 'mobile' : 'desktop';
+  const stage = document.getElementById('portal-preview-stage');
+  if (!stage) return;
+
+  stage.dataset.device = normalized;
+  stage.classList.toggle('is-mobile', normalized === 'mobile');
+  document.querySelectorAll('[data-preview-device]').forEach((button) => {
+    const active = button.dataset.previewDevice === normalized;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+}
+
+function refreshPortalPreview() {
+  const frame = document.getElementById('portal-preview-frame');
+  const updated = document.getElementById('portal-preview-updated');
+  if (!frame) return;
+
+  const previewUrl = new URL('/', window.location.origin);
+  previewUrl.searchParams.set('_adminPreview', String(Date.now()));
+  frame.src = previewUrl.toString();
+  if (updated) {
+    const time = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    updated.textContent = `Actualizada ${time}`;
+  }
+}
+
+function initPortalPreview() {
+  document.querySelectorAll('[data-preview-device]').forEach((button) => {
+    button.addEventListener('click', () => setPortalPreviewDevice(button.dataset.previewDevice));
+  });
+  document.getElementById('portal-preview-refresh')?.addEventListener('click', refreshPortalPreview);
+  document.getElementById('portal-preview-frame')?.addEventListener('load', () => {
+    const updated = document.getElementById('portal-preview-updated');
+    if (updated && updated.textContent === 'Lista para revisar') updated.textContent = 'Portal cargado';
+  });
+  setPortalPreviewDevice('desktop');
+}
+
 function closeSidebar() {
   document.body.classList.remove('sidebar-open');
   const backdrop = document.getElementById('sidebar-backdrop');
@@ -1802,6 +1842,7 @@ async function copyUploadUrl(url) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initPortalPreview();
   document.querySelectorAll('.nav-item, .tab').forEach((tab) => {
     tab.addEventListener('click', () => toggleSection(tab.dataset.section));
   });

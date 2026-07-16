@@ -47,7 +47,7 @@ test('admin runtime does not initialize the incompatible connect-sqlite3 store',
 
 test('admin container includes bot runtime and production migration scripts', () => {
   const dockerfile = read('deploy/admin/Dockerfile');
-  assert.match(dockerfile, /COPY package\.json package-lock\.json server\.js seed\.js bot-service\.js/);
+  assert.match(dockerfile, /COPY package\.json package-lock\.json server\.js(?: security\.js)? seed\.js bot-service\.js/);
   assert.match(dockerfile, /COPY scripts \.\/scripts/);
   assert.match(dockerfile, /node scripts\/migrate-bot-data\.js && exec node server\.js/);
 });

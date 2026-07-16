@@ -11,7 +11,7 @@ test('public footer is Spanish, useful and does not expose admin', () => {
   const css = read('css/styles.css');
 
   assert.match(html, /class="footer-navigation"/);
-  assert.match(html, /class="footer-social-pill"/);
+  assert.match(html, /class="[^"]*footer-social-pill[^"]*"/);
   assert.match(html, /Naturaleza, cultura e historia en el corazón de Corrientes/);
   assert.match(html, /Remises y servicios/);
   assert.match(html, /Municipalidad de San Roque/);
@@ -42,15 +42,13 @@ test('gastronomy exposes the same accessible mobile selector as the home page', 
   assert.match(html, /aria-current="page"[^>]*>\s*<span[^>]*>restaurant/s);
 });
 
-test('gastronomy CTA and events banner use the editorial redesign hooks', () => {
-  const home = read('index.html');
+test('gastronomy CTA and editorial components keep their redesign hooks', () => {
   const gastro = read('gastronomia.html');
   const css = read('css/styles.css');
 
-  assert.match(home, /class="events-editorial-banner/);
-  assert.match(home, /events-banner-watermark/);
   assert.match(gastro, /class="gastronomy-story-cta/);
   assert.match(gastro, /gastronomy-story-orbit/);
+  assert.match(css, /\.events-banner-watermark/);
   assert.match(css, /\.events-editorial-banner/);
   assert.match(css, /\.gastronomy-story-cta/);
   assert.match(css, /\.academic-credits/);

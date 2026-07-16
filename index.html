@@ -241,17 +241,17 @@
     <section class="max-w-7xl mx-auto px-6 mb-12 fade-in-up">
       <div class="bg-white border border-outline-variant/30 shadow-md map-collapsible" tabindex="0">
         <div class="map-peek">
-          <span class="material-symbols-outlined text-river-teal text-[26px]">map</span>
+          <span class="map-heading-icon material-symbols-outlined">map</span>
           <div class="flex-1">
             <div class="font-bold text-primary text-[15px] font-headline-md">Ubicación de los alojamientos</div>
-            <div class="text-neutral-500 text-xs map-peek-hint flex items-center gap-1 mt-0.5">
-              <span class="material-symbols-outlined text-[13px]">touch_app</span> Pasá el cursor para ver el mapa
-              completo
-            </div>
+            <div class="text-neutral-500 text-xs mt-0.5">Calles, accesos y alojamientos de San Roque</div>
           </div>
-          <span class="material-symbols-outlined text-neutral-300 text-[20px] map-peek-hint">expand_more</span>
+          <div class="map-legend" aria-label="Referencias del mapa">
+            <span><i class="map-legend-trace" aria-hidden="true"></i> Traza urbana</span>
+            <span><i class="map-legend-stay" aria-hidden="true"></i> Alojamientos</span>
+          </div>
         </div>
-        <div id="main-map" class="w-full h-[420px] md:h-[480px]"></div>
+        <div id="main-map" class="w-full h-[420px] md:h-[500px]" aria-label="Mapa interactivo de alojamientos en San Roque"></div>
       </div>
     </section>
 
@@ -483,45 +483,47 @@
 
   </div>
 
-  <footer id="contacto" class="site-footer w-full mt-10 bg-primary relative z-10 overflow-hidden">
-    <div class="footer-tapiz" aria-hidden="true"></div>
-    <div class="footer-landscape" aria-hidden="true"></div>
-    <div class="footer-hero max-w-7xl mx-auto px-6 md:px-8">
+  <footer id="contacto" class="site-footer w-full mt-10 relative z-10 overflow-hidden">
+    <div class="footer-cream-crown" aria-hidden="true"></div>
+    <div class="footer-wordmark-wrap max-w-7xl mx-auto px-6">
       <span class="sr-wordmark sr-wordmark-hero" aria-label="San Roque"><span class="sr-l1">S</span><span class="sr-l2">a</span><span class="sr-l3">n</span>&nbsp;<span class="sr-l4">R</span><span class="sr-l5">o</span><span class="sr-l6">q</span><span class="sr-l7">u</span><span class="sr-l8">e</span></span>
+    </div>
+
+    <div class="footer-social-band">
       <p class="footer-tagline">Naturaleza, cultura e historia en el corazón de Corrientes.</p>
-      <div class="footer-hero-actions" aria-label="Redes sociales municipales">
-        <a class="footer-social-pill" href="https://www.instagram.com/sanroque.municipio" target="_blank" rel="noopener noreferrer" aria-label="Seguir a la Municipalidad de San Roque en Instagram">
+      <div class="footer-social-actions max-w-7xl mx-auto px-6">
+        <a class="social-link footer-social-pill" href="https://www.instagram.com/sanroque.municipio" target="_blank" rel="noopener noreferrer" aria-label="Seguir a la Municipalidad de San Roque en Instagram">
           <i class="fa-brands fa-instagram" aria-hidden="true"></i><span>Instagram</span>
         </a>
-        <a class="footer-social-pill" href="https://www.facebook.com/share/1AW5YTS5oZ/" target="_blank" rel="noopener noreferrer" aria-label="Seguir a la Municipalidad de San Roque en Facebook">
+        <a class="social-link footer-social-pill" href="https://www.facebook.com/share/1AW5YTS5oZ/" target="_blank" rel="noopener noreferrer" aria-label="Seguir a la Municipalidad de San Roque en Facebook">
           <i class="fa-brands fa-facebook-f" aria-hidden="true"></i><span>Facebook</span>
         </a>
       </div>
     </div>
 
     <div class="footer-navigation">
-      <div class="footer-navigation-inner max-w-7xl mx-auto px-6 md:px-8">
-        <div class="footer-brand-column">
+      <div class="footer-grid max-w-7xl mx-auto px-6 md:px-8">
+        <div class="footer-intro">
           <h2>Viví San Roque</h2>
           <p>Portal oficial de turismo y cultura de la Municipalidad de San Roque.</p>
           <a href="https://www.instagram.com/sanroque.municipio" target="_blank" rel="noopener noreferrer">@sanroque.municipio</a>
-          <span>SAN ROQUE · CORRIENTES</span>
+          <span>San Roque · Corrientes</span>
         </div>
-        <nav class="footer-link-column" aria-label="Explorar San Roque">
+        <nav aria-label="Explorá San Roque">
           <h3>Explorá</h3>
-          <a href="#hero-section">Qué hacer</a>
+          <a href="#">Qué hacer</a>
           <a href="#agenda">Agenda</a>
           <a href="gastronomia.html">Gastronomía</a>
         </nav>
-        <nav class="footer-link-column" aria-label="Planificar la visita">
+        <nav aria-label="Planificá tu visita">
           <h3>Planificá</h3>
           <a href="#accommodations-carousel">Dónde alojarme</a>
           <a href="#datos-utiles">Guía práctica</a>
           <a href="#datos-utiles">Remises y servicios</a>
         </nav>
-        <nav class="footer-link-column" aria-label="Canales institucionales">
+        <nav aria-label="Información institucional">
           <h3>Institucional</h3>
-          <a href="#contacto">Municipalidad de San Roque</a>
+          <a href="https://munisanroque.ar/" target="_blank" rel="noopener noreferrer">Municipalidad de San Roque</a>
           <a href="https://www.instagram.com/sanroque.municipio" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://www.facebook.com/share/1AW5YTS5oZ/" target="_blank" rel="noopener noreferrer">Facebook</a>
         </nav>
@@ -530,13 +532,14 @@
 
     <div class="footer-bottombar">
       <div class="academic-credits max-w-7xl mx-auto px-6 md:px-8">
-        <span class="academic-kicker">Proyecto educativo · Tecnología local</span>
+        <span class="academic-label">Proyecto educativo · tecnología local</span>
         <strong>Desarrollado por estudiantes de 3.<sup>er</sup> año de la Tecnicatura Superior en Desarrollo de Software</strong>
         <span class="academic-institute">Instituto Superior de Formación Docente «Juan García de Cossio»</span>
         <span class="academic-authors"><b>Autores:</b> Daniel Almirón · Lucas Sánchez · Milca Martínez · Román Rossi · Tomás Rolet</span>
         <span><b>Ayudante:</b> Javier Legal &nbsp;·&nbsp; <b>Profesora:</b> Yésica Ponce</span>
+        <span class="footer-policy-links"><span>Política de privacidad</span><span>Términos y condiciones</span></span>
       </div>
-      <div class="compact-footer-legal max-w-7xl mx-auto px-6 md:px-8">© 2026 Municipalidad de San Roque. Portal oficial de turismo y cultura. Todos los derechos reservados.</div>
+      <div class="compact-footer-legal max-w-7xl mx-auto px-6 md:px-8">© 2026 Municipalidad de San Roque · Portal oficial de turismo y cultura · Todos los derechos reservados.</div>
     </div>
   </footer>
   <!-- Modal: historia de la Monjita Dominica -->

@@ -1,5 +1,26 @@
 let map;
+let mapUrbanLayer;
 const mapMarkers = {};
+
+// Límite urbano de San Roque (OpenStreetMap relation 9389182, simplificado para uso web).
+const SAN_ROQUE_URBAN_TRACE = {
+  type: 'Feature',
+  properties: { name: 'Traza urbana de San Roque' },
+  geometry: {
+    type: 'Polygon',
+    coordinates: [[
+      [-58.721909, -28.576320], [-58.721871, -28.580627], [-58.721772, -28.589526],
+      [-58.717848, -28.587045], [-58.714684, -28.585054], [-58.709754, -28.584441],
+      [-58.705041, -28.583948], [-58.700555, -28.583441], [-58.697238, -28.583051],
+      [-58.696455, -28.582377], [-58.695684, -28.577030], [-58.695883, -28.576023],
+      [-58.700914, -28.569988], [-58.703005, -28.567539], [-58.702859, -28.566762],
+      [-58.704318, -28.565320], [-58.707805, -28.566912], [-58.708674, -28.565744],
+      [-58.709639, -28.565357], [-58.711463, -28.565612], [-58.712111, -28.564952],
+      [-58.715825, -28.566296], [-58.717642, -28.569516], [-58.721385, -28.571117],
+      [-58.721739, -28.572516], [-58.721909, -28.576320]
+    ]]
+  }
+};
 
 function isAccommodationVisible(item) {
   if (!item) return false;
@@ -8,6 +29,16 @@ function isAccommodationVisible(item) {
     return false;
   }
   return true;
+}
+
+function isSanRoqueCoordinate(coords) {
+  if (!Array.isArray(coords) || coords.length < 2) return false;
+  const latitude = Number(coords[0]);
+  const longitude = Number(coords[1]);
+  return Number.isFinite(latitude)
+    && Number.isFinite(longitude)
+    && latitude >= -28.65 && latitude <= -28.50
+    && longitude >= -58.80 && longitude <= -58.60;
 }
 
 function initMap() {
@@ -22,15 +53,41 @@ function initMap() {
   });
 
   if (!map) {
-    map = L.map('main-map',{scrollWheelZoom:false}).setView([-28.5744,-58.7083],15);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:20,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'}).addTo(map);
-  } else {
-    map.setView([-28.5744,-58.7083],15);
+    map = L.map('main-map', { scrollWheelZoom: false, zoomControl: true }).setView([-28.5744, -58.7083], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(map);
   }
 
+  if (mapUrbanLayer && map.hasLayer(mapUrbanLayer)) map.removeLayer(mapUrbanLayer);
+  mapUrbanLayer = L.geoJSON(SAN_ROQUE_URBAN_TRACE, {
+    style: {
+      className: 'map-urban-trace',
+      color: '#9A4D24',
+      weight: 4,
+      opacity: 0.95,
+      fillColor: '#D6A645',
+      fillOpacity: 0.1,
+      dashArray: '10 7'
+    }
+  }).addTo(map);
+  mapUrbanLayer.bindTooltip('Traza urbana de San Roque', { sticky: true, className: 'map-trace-tooltip' });
+
+  const visibleBounds = mapUrbanLayer.getBounds();
+  const accommodationIcon = L.divIcon({
+    className: 'accommodation-map-marker',
+    html: '<span class="material-symbols-outlined" aria-hidden="true">bed</span>',
+    iconSize: [38, 44],
+    iconAnchor: [19, 42],
+    popupAnchor: [0, -40]
+  });
+
   for(const [id,data] of Object.entries(alojamientosData)) {
-    if(data.coords && isAccommodationVisible(data)) {
-      const marker = L.marker(data.coords).addTo(map);
+    if(isSanRoqueCoordinate(data.coords) && isAccommodationVisible(data)) {
+      const marker = L.marker(data.coords, { icon: accommodationIcon, title: data.titulo }).addTo(map);
+      visibleBounds.extend(data.coords);
       const mAvg = window.VsrRatings && VsrRatings.getAverage('alojamiento', id);
       const mRating = (mAvg && mAvg.count > 0)
         ? `<div class="text-golden-sand text-[11px] mb-3 font-bold">★ ${mAvg.average.toFixed(1)} <span class="text-neutral-400 font-medium">(${mAvg.count})</span></div>`
@@ -39,6 +96,8 @@ function initMap() {
       mapMarkers[id] = {marker,category:data.categoria};
     }
   }
+
+  if (visibleBounds.isValid()) map.fitBounds(visibleBounds, { padding: [28, 28], maxZoom: 15 });
 }
 
 function renderStars(ratingStr) {

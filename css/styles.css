@@ -43,11 +43,19 @@
   #hero-section { position:relative;width:100%;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:0; }
   #hero-section .hero-wave { position:absolute;bottom:-2px;left:0;width:100%;z-index:15;line-height:0; }
 
-  /* ── WEATHER WIDGET (paleta azul cielo, fuera del oliva; fondo sólido para legibilidad) ── */
-  .weather-sky { background:linear-gradient(160deg,#0A4363 0%,#0F5A7E 55%,#17739B 100%); box-shadow:0 18px 44px -18px rgba(6,34,52,.7); }
-  .weather-pill { background:linear-gradient(135deg,#0F5A7E 0%,#2189B8 100%); }
-  .weather-pill span { text-shadow:0 1px 3px rgba(4,26,40,.55); }
-  .weather-widget:hover .weather-pill,.weather-widget:focus-within .weather-pill { background:linear-gradient(135deg,#0B4E6E 0%,#2E97C4 100%); }
+  /* ── WEATHER WIDGET · terracota complementario del verde institucional ── */
+  :root {
+    --weather-900:#4B211C;
+    --weather-800:#6F2F25;
+    --weather-650:#98452E;
+    --weather-500:#B85E38;
+    --weather-sun:#FFD27A;
+  }
+  .weather-sky { background:linear-gradient(155deg,var(--weather-900) 0%,var(--weather-800) 54%,var(--weather-650) 100%); box-shadow:0 18px 44px -18px rgba(75,33,28,.72); }
+  .weather-pill { background:linear-gradient(135deg,var(--weather-800) 0%,var(--weather-500) 100%); border-color:rgba(255,210,122,.38) !important; }
+  .weather-pill span { text-shadow:0 1px 3px rgba(48,18,14,.6); }
+  .weather-pill .material-symbols-outlined,.weather-panel #wp-icon { color:var(--weather-sun) !important; }
+  .weather-widget:hover .weather-pill,.weather-widget:focus-within .weather-pill { background:linear-gradient(135deg,var(--weather-900) 0%,var(--weather-650) 100%); }
   .weather-widget { transition:transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);outline:none; }
   .weather-panel { opacity:0;transform:scale(0.95) translateY(10px);pointer-events:none;transition:opacity 0.3s ease,transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);transform-origin:bottom left; }
   .weather-widget:hover .weather-panel,.weather-widget:focus .weather-panel,.weather-widget:focus-within .weather-panel { opacity:1;transform:scale(1) translateY(0);pointer-events:auto; }
@@ -91,10 +99,29 @@
   .footer-link:focus-visible,.footer-contact:focus-visible,.social-link:focus-visible { outline:3px solid #F5D98A;outline-offset:4px;border-radius:8px; }
 
   /* ── MAPA (siempre visible, sin ocultamiento) ── */
-  .map-collapsible { overflow:hidden;border-radius:24px;box-shadow:0 18px 44px -22px rgba(16,52,10,.55);border:1px solid rgba(39,79,16,.12); }
-  .map-peek { display:flex;align-items:center;gap:14px;padding:16px 24px;background:#fff;border-radius:24px 24px 0 0;position:relative;z-index:1;border-bottom:1px solid rgba(39,79,16,.1); }
+  .map-collapsible { overflow:hidden;border-radius:28px;box-shadow:0 22px 52px -22px rgba(16,52,10,.48);border:1px solid rgba(39,79,16,.15); }
+  .map-peek { display:flex;align-items:center;gap:14px;padding:18px 24px;background:linear-gradient(135deg,#fff 0%,#f6f3e9 100%);border-radius:28px 28px 0 0;position:relative;z-index:401;border-bottom:1px solid rgba(39,79,16,.13); }
   .map-peek-hint { display:none; }
-  #main-map { border-radius:0 0 24px 24px; }
+  .map-heading-icon { display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#e9f1df;color:#315d20;font-size:25px; }
+  .map-legend { display:flex;align-items:center;flex-wrap:wrap;justify-content:flex-end;gap:8px 14px;color:#40523c;font-size:11px;font-weight:700; }
+  .map-legend span { display:inline-flex;align-items:center;gap:7px;white-space:nowrap; }
+  .map-legend i { display:inline-block;flex:0 0 auto; }
+  .map-legend-trace { width:22px;height:10px;border:2px dashed #9A4D24;border-radius:4px;background:rgba(214,166,69,.16); }
+  .map-legend-stay { width:12px;height:12px;border-radius:50% 50% 50% 0;background:#315D20;transform:rotate(-45deg);box-shadow:0 0 0 3px rgba(49,93,32,.13); }
+  #main-map { border-radius:0 0 28px 28px;background:#e8eadf; }
+  #main-map .leaflet-tile-pane { filter:saturate(.88) contrast(1.08); }
+  .map-urban-trace { stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 2px 2px rgba(75,33,28,.25)); }
+  .map-trace-tooltip { border:0;border-radius:10px;background:#4B211C;color:#fff;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,.18); }
+  .accommodation-map-marker { display:grid;place-items:center;width:38px !important;height:38px !important;margin-top:-38px !important;margin-left:-19px !important;border:3px solid #fff;border-radius:50% 50% 50% 0;background:#315D20;color:#fff;transform:rotate(-45deg);box-shadow:0 7px 18px rgba(24,56,17,.34); }
+  .accommodation-map-marker .material-symbols-outlined { font-size:19px;transform:rotate(45deg); }
+  #main-map .leaflet-control-zoom a { color:#315D20;border-color:rgba(49,93,32,.16); }
+  #main-map .leaflet-control-attribution { background:rgba(255,255,255,.86);font-size:10px; }
+  @media (max-width:640px) {
+    .map-peek { align-items:flex-start;padding:15px 16px; }
+    .map-heading-icon { width:38px;height:38px;border-radius:12px; }
+    .map-legend { width:100%;justify-content:flex-start;margin-top:9px; }
+    .map-peek { flex-wrap:wrap; }
+  }
 
   /* ── GEO BADGE en cards ── */
   .geo-btn { display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#336A15;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:999px;padding:5px 12px;transition:background 0.2s,transform 0.2s;cursor:pointer;text-decoration:none; }
@@ -1007,6 +1034,82 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 @media (prefers-reduced-motion:reduce) {
   .sr-wordmark span,.footer-social-pill,.footer-link-column a::before { transition:none; }
   .sr-wordmark:hover span,.footer-social-pill:hover { transform:none; }
+}
+
+/* ── FOOTER 2026 · paisaje institucional por capas ── */
+.site-footer {
+  isolation:isolate;
+  color:#fff;
+  background:#F6F1E7;
+  box-shadow:0 -20px 58px rgba(22,52,17,.1);
+}
+.site-footer::before { display:none; }
+.footer-cream-crown { height:108px;background:#F6F1E7; }
+.footer-cream-crown::after {
+  content:"";position:absolute;left:-3%;right:-3%;bottom:-48px;height:96px;z-index:0;
+  background:#355F2B;border-radius:50% 55% 0 0 / 78% 86% 0 0;
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.08);
+}
+.footer-wordmark-wrap {
+  position:absolute !important;inset:20px 0 auto;z-index:4 !important;
+  display:flex;justify-content:center;pointer-events:none;text-align:center;
+}
+.site-footer .sr-wordmark-hero {
+  font-size:clamp(54px,8.2vw,112px);margin:0;line-height:.88;white-space:nowrap;
+  transform:translateY(0);filter:drop-shadow(0 14px 10px rgba(6,22,5,.3));
+}
+.footer-social-band {
+  position:relative;background:linear-gradient(110deg,#426D34 0%,#2D5726 55%,#24491F 100%);
+  padding:72px 0 34px;border-top:3px solid #D4A83C;
+}
+.footer-social-band .footer-tagline { margin:0 auto 20px;padding:0 20px;color:rgba(255,255,255,.76);font-size:13px;text-align:center; }
+.footer-social-actions { display:flex;align-items:center;justify-content:center;gap:12px; }
+.footer-social-band .social-link {
+  min-width:132px;min-height:46px;padding:0 20px;border:1px solid rgba(28,64,23,.1);
+  background:#F8F4EB;color:#193617;box-shadow:0 10px 24px rgba(13,36,10,.18);
+}
+.footer-social-band .social-link:hover { background:#FFD981;color:#183915;border-color:#FFD981;transform:translateY(-3px); }
+.footer-navigation { background:linear-gradient(135deg,#24491F 0%,#1D3F1A 100%); }
+.footer-grid {
+  display:grid;grid-template-columns:1.35fr repeat(3,1fr);gap:clamp(28px,5vw,74px);
+  padding-top:48px;padding-bottom:48px;
+}
+.footer-intro { display:flex;flex-direction:column;align-items:flex-start;gap:11px; }
+.footer-intro h2 { margin:0;font:800 clamp(24px,2.2vw,31px)/1.05 "Syne",sans-serif;letter-spacing:-.04em; }
+.footer-intro p { max-width:280px;margin:7px 0 1px;color:rgba(255,255,255,.74);font-size:14px;line-height:1.55; }
+.footer-intro a { color:#fff;font-weight:700;font-size:13px;text-decoration:none; }
+.footer-intro span { color:#D9C379;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase; }
+.footer-grid nav { display:flex;flex-direction:column;align-items:flex-start;gap:13px; }
+.footer-grid nav h3 { margin:0 0 4px;color:#E2B94B;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase; }
+.footer-grid nav a { position:relative;padding-left:20px;color:rgba(255,255,255,.9);font-size:14px;text-decoration:none;transition:color .2s ease,transform .2s ease; }
+.footer-grid nav a::before { content:"";position:absolute;left:0;top:.68em;width:9px;height:1px;background:#A7C66A; }
+.footer-grid nav a:hover { color:#FFD981;transform:translateX(3px); }
+.site-footer .footer-bottombar { background:#142B13;padding:27px 0 0; }
+.site-footer .academic-credits { gap:7px;padding-bottom:17px;color:rgba(255,255,255,.62); }
+.site-footer .academic-label { color:#E2B94B;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase; }
+.site-footer .academic-credits strong { color:rgba(255,255,255,.9); }
+.site-footer .academic-credits .academic-institute { color:#AFC58D; }
+.footer-policy-links { display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:4px;color:rgba(255,255,255,.54);font-size:10px; }
+.site-footer .compact-footer-legal { border-top-color:rgba(212,168,60,.22);padding-top:14px;padding-bottom:18px;color:rgba(255,255,255,.46); }
+@media (max-width:900px) {
+  .footer-grid { grid-template-columns:1.25fr 1fr 1fr; }
+  .footer-grid nav:last-child { grid-column:2 / 4;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center; }
+  .footer-grid nav:last-child h3 { grid-column:1 / -1; }
+}
+@media (max-width:640px) {
+  .footer-cream-crown { height:82px; }
+  .footer-wordmark-wrap { top:25px; }
+  .site-footer .sr-wordmark-hero { font-size:clamp(38px,12.2vw,54px);letter-spacing:-.055em; }
+  .footer-social-band { padding-top:56px; }
+  .footer-social-actions { flex-direction:column; }
+  .footer-social-band .social-link { width:min(230px,100%); }
+  .footer-grid { grid-template-columns:1fr 1fr;gap:34px 24px;padding-top:39px;padding-bottom:42px; }
+  .footer-intro { grid-column:1 / -1; }
+  .footer-grid nav:last-child { grid-column:1 / -1;display:flex; }
+}
+@media (max-width:390px) {
+  .footer-grid { grid-template-columns:1fr; }
+  .footer-grid nav:last-child { grid-column:auto; }
 }
 
 /* ── MONJITA DOMINICA: tarjeta interactiva del hero ── */

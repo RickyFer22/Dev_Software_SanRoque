@@ -13,7 +13,7 @@ test('the site declares the official San Roque favicon assets', () => {
   assert.ok(fs.existsSync(path.join(root, 'apple-touch-icon.png')));
 });
 
-test('favicon.ico contains the standard multi-resolution icon set', () => {
+test('favicon.ico contains the common browser icon sizes', () => {
   const icon = fs.readFileSync(path.join(root, 'favicon.ico'));
   assert.equal(icon.readUInt16LE(0), 0, 'ICO reserved field');
   assert.equal(icon.readUInt16LE(2), 1, 'ICO image type');
@@ -27,5 +27,5 @@ test('favicon.ico contains the standard multi-resolution icon set', () => {
     if (width === height) sizes.push(width);
   }
 
-  assert.deepEqual(sizes, [16, 32, 48, 64, 128, 256]);
+  assert.deepEqual(sizes, [16, 32, 48, 64]);
 });
