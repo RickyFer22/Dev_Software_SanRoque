@@ -31,7 +31,11 @@ function initMap() {
   for(const [id,data] of Object.entries(alojamientosData)) {
     if(data.coords && isAccommodationVisible(data)) {
       const marker = L.marker(data.coords).addTo(map);
-      marker.bindPopup(`<div class="text-center min-w-[160px] p-1"><img src="${data.mainImg}" class="w-full h-24 object-cover rounded-xl mb-3 shadow-sm"/><h3 class="font-bold text-primary text-[15px] leading-tight mb-1">${data.titulo}</h3><div class="text-golden-sand text-[11px] mb-3 font-bold">★ ${data.rating}</div><button onclick="navigateToDetails('${id}')" class="bg-river-teal text-white text-xs px-4 py-2 rounded-full font-bold w-full hover:bg-primary transition-colors">VER DETALLE</button></div>`);
+      const mAvg = window.VsrRatings && VsrRatings.getAverage('alojamiento', id);
+      const mRating = (mAvg && mAvg.count > 0)
+        ? `<div class="text-golden-sand text-[11px] mb-3 font-bold">★ ${mAvg.average.toFixed(1)} <span class="text-neutral-400 font-medium">(${mAvg.count})</span></div>`
+        : `<div class="text-neutral-400 text-[11px] mb-3">Sin calificaciones aún</div>`;
+      marker.bindPopup(`<div class="text-center min-w-[160px] p-1"><img src="${data.mainImg}" class="w-full h-24 object-cover rounded-xl mb-3 shadow-sm"/><h3 class="font-bold text-primary text-[15px] leading-tight mb-1">${data.titulo}</h3>${mRating}<button onclick="navigateToDetails('${id}')" class="bg-river-teal text-white text-xs px-4 py-2 rounded-full font-bold w-full hover:bg-primary transition-colors">VER DETALLE</button></div>`);
       mapMarkers[id] = {marker,category:data.categoria};
     }
   }
@@ -87,15 +91,16 @@ function initVotingForContainer(container) {
 }
 
 // Muestra el PROMEDIO de votos (o el rating base como fallback) en el detalle.
-function updateDetailRating(id, fallback) {
+function updateDetailRating(id) {
   const avg = window.VsrRatings && VsrRatings.getAverage('alojamiento', id);
+  const hasVotes = avg && avg.count > 0;
   const starsEl = document.getElementById('det-rating-stars');
   const numEl = document.getElementById('det-rating-number');
   const revEl = document.getElementById('det-reviews-count');
-  const value = avg ? avg.average : (parseFloat(fallback && fallback.rating) || 0);
-  if (starsEl) starsEl.innerHTML = window.VsrRatings ? VsrRatings.starsHtml(value, 20) : renderStars(value);
-  if (numEl) numEl.textContent = avg ? avg.average.toFixed(1) : (fallback && fallback.rating || '');
-  if (revEl) revEl.textContent = avg ? `${avg.count} ${avg.count === 1 ? 'voto' : 'votos'}` : (fallback && fallback.reviewsCount || '');
+  // Solo se muestran calificaciones REALES del sistema de votos; sin votos → aviso honesto.
+  if (starsEl) starsEl.innerHTML = window.VsrRatings ? VsrRatings.starsHtml(hasVotes ? avg.average : 0, 20) : renderStars(hasVotes ? avg.average : 0);
+  if (numEl) numEl.textContent = hasVotes ? avg.average.toFixed(1) : '';
+  if (revEl) revEl.textContent = hasVotes ? `${avg.count} ${avg.count === 1 ? 'voto' : 'votos'}` : 'Sin calificaciones aún';
 }
 
 // ═══ SPA NAV ═══
@@ -150,9 +155,28 @@ function navigateToDetails(id, skipPush) {
   document.getElementById('det-services-grid').innerHTML=svcList.map(s=>`<div class="service-badge"><span class="material-symbols-outlined text-[18px] text-river-teal">${s.icono||'check_circle'}</span><span>${s.texto||s}</span></div>`).join('');
   if (svcSec) svcSec.style.display = svcList.length ? '' : 'none';
   document.getElementById('det-checkin').textContent=data.checkin; document.getElementById('det-checkout').textContent=data.checkout; document.getElementById('det-cancellation').textContent=data.cancelacion;
-  const waUrl=`https://wa.me/${data.waNumber}?text=${encodeURIComponent(`Hola! Vi tu alojamiento "${data.titulo}" en el portal de San Roque...`)}`;
-  document.getElementById('det-wa-btn-desktop').href=waUrl; document.getElementById('det-wa-btn-mobile').href=waUrl;
-  document.getElementById('det-phone-btn').href=data.telefono;
+  setContactButtons(data);
+}
+
+// Configura teléfono y WhatsApp con enlaces válidos. Si el alojamiento no tiene
+// número cargado, se OCULTA el botón (nunca se generan tel:/wa.me rotos ni se
+// promete un contacto que no existe).
+function setContactButtons(data) {
+  const digits = (v) => String(v == null ? '' : v).replace(/[^\d+]/g, '');
+  const phone = digits(data.telefono);
+  const wa = digits(data.waNumber || data.telefono);
+  const setBtn = (elId, href) => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    // Se usa style.display (no la clase .hidden) para no pisar utilidades
+    // responsive como "hidden lg:flex" cuando el botón sí debe mostrarse.
+    if (href) { el.href = href; el.style.display = ''; el.removeAttribute('aria-hidden'); }
+    else { el.removeAttribute('href'); el.style.display = 'none'; el.setAttribute('aria-hidden', 'true'); }
+  };
+  const waUrl = wa ? `https://wa.me/${wa.replace(/^\+/, '')}?text=${encodeURIComponent(`Hola! Vi tu alojamiento "${data.titulo}" en el portal de San Roque...`)}` : '';
+  setBtn('det-wa-btn-desktop', waUrl);
+  setBtn('det-wa-btn-mobile', waUrl);
+  setBtn('det-phone-btn', phone ? `tel:${phone}` : '');
 }
 
 function backToGrid() {
@@ -174,7 +198,10 @@ function createAccommodationCard(id, data) {
     ? data.servicios.slice(0, 3).map(s => s.texto || s).join(' · ')
     : 'WiFi · comodidad · buena ubicación';
   const avg = window.VsrRatings && VsrRatings.getAverage('alojamiento', id);
-  const ratingLabel = avg ? avg.average.toFixed(1) : (data.rating || '4.5');
+  const hasVotes = avg && avg.count > 0;
+  const ratingBadge = hasVotes
+    ? `<div class="flex items-center gap-1 text-golden-sand font-bold text-sm"><span class="material-symbols-outlined text-[16px]">star</span>${avg.average.toFixed(1)} <span class="text-neutral-400 font-medium">(${avg.count})</span></div>`
+    : `<div class="text-[11px] text-neutral-400 font-medium">Sin calificaciones aún</div>`;
   return `
     <article class="relative group bg-canvas-white rounded-[28px] overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[560px] sm:min-h-[520px] card-item fade-in-up" data-category="${data.categoria || 'hospedaje'}" data-aos="fade-up" data-aos-duration="700">
       <div class="absolute inset-0 h-[42%] sm:h-[46%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
@@ -184,10 +211,7 @@ function createAccommodationCard(id, data) {
       <div class="absolute inset-x-0 bottom-0 top-[42%] sm:top-[46%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-5 sm:p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
         <div class="flex items-center justify-between gap-3 mb-4">
           <span class="text-[11px] uppercase tracking-[0.2em] text-river-teal font-bold">${categoryLabel}</span>
-          <div class="flex items-center gap-1 text-golden-sand font-bold text-sm">
-            <span class="material-symbols-outlined text-[16px]">star</span>
-            ${ratingLabel}${avg ? ` <span class="text-neutral-400 font-medium">(${avg.count})</span>` : ''}
-          </div>
+          ${ratingBadge}
         </div>
         <h3 class="text-xl font-bold text-primary leading-tight">${data.titulo}</h3>
         <p class="text-sm text-neutral-600 leading-relaxed">${description}</p>
