@@ -67,7 +67,7 @@
 
   /* ── FOOTER INSTITUCIONAL ── */
   .site-footer { overflow:hidden;box-shadow:0 -18px 50px rgba(0,54,51,.08); }
-  .site-footer::before { content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,rgba(245,217,138,.65),transparent); }
+  .site-footer::before { content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,#E23B2E,#EE7A1B,#F3B21C,#3DA33A,#17A398,#2E93C7,#2B57A7,#7E3F98); }
   .footer-brand-mark { width:64px;height:64px;border-radius:20px;overflow:hidden;border:1px solid rgba(245,217,138,.45);box-shadow:0 14px 28px rgba(0,0,0,.2); }
   .footer-brand-mark img { width:100%;height:100%;object-fit:cover; }
   .footer-link { display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.78);font-size:14px;line-height:1.5;text-decoration:none;transition:color .2s ease,transform .2s ease; }
@@ -883,8 +883,21 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .academic-credits { display:flex;flex-direction:column;align-items:center;gap:7px;padding:22px 16px 18px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:12px;line-height:1.5;text-align:center; }
 .academic-credits strong { color:#F5D98A;font-size:12.5px;font-weight:700;letter-spacing:.01em; }
 .academic-credits b { color:rgba(255,255,255,.92);font-weight:700; }
-.academic-credits .academic-authors { color:rgba(255,255,255,.82); }
-.academic-credits .academic-institute { margin-top:2px;padding-top:8px;border-top:1px solid rgba(245,217,138,.18);color:rgba(255,255,255,.66);font-style:italic;font-size:11.5px; }
+.academic-credits .academic-institute { color:#F5D98A;font-weight:600;font-size:12px; }
+.academic-credits .academic-authors { margin-top:7px;padding-top:9px;border-top:1px solid rgba(245,217,138,.16);color:rgba(255,255,255,.82); }
+
+/* ── WORDMARK MULTICOLOR "San Roque" (colores del cartel turístico) ── */
+.sr-wordmark { font-family:"Syne",sans-serif;font-weight:800;letter-spacing:-.01em;line-height:1;display:inline-block;white-space:nowrap; }
+.sr-wordmark span { display:inline-block;transition:transform .25s ease; }
+.sr-wordmark:hover span { transform:translateY(-2px); }
+.sr-l1 { color:#E23B2E; } /* S rojo */
+.sr-l2 { color:#EE7A1B; } /* a naranja */
+.sr-l3 { color:#F3B21C; } /* n ámbar */
+.sr-l4 { color:#3DA33A; } /* R verde */
+.sr-l5 { color:#17A398; } /* o teal */
+.sr-l6 { color:#2E93C7; } /* q celeste */
+.sr-l7 { color:#2B57A7; } /* u azul */
+.sr-l8 { color:#7E3F98; } /* e violeta */
 
 /* ── MONJITA DOMINICA: tarjeta interactiva del hero ── */
 .monjita-hero-card { position:absolute;z-index:25;top:96px;left:16px;display:flex;align-items:center;gap:12px;max-width:280px;padding:10px 15px 10px 10px;border:1px solid rgba(245,217,138,.4);border-radius:18px;background:rgba(0,32,29,.42);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-align:left;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.28);transition:transform .25s ease,background .25s ease,box-shadow .25s ease; }
