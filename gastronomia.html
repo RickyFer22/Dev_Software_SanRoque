@@ -24,42 +24,42 @@
           extend: {
             "colors": {
                     "error": "#ba1a1a",
-                    "primary": "#003633",
+                    "primary": "#274F10",
                     "surface-variant": "#dce2f3",
                     "surface-bright": "#f9f9ff",
                     "tertiary-container": "#363632",
                     "on-primary": "#FFFFFF",
                     "on-error": "#ffffff",
-                    "on-secondary": "#003633",
+                    "on-secondary": "#274F10",
                     "on-tertiary-fixed": "#1c1c18",
                     "on-primary-fixed": "#00201a",
                     "surface-container-low": "#f0f3ff",
                     "on-tertiary-fixed-variant": "#474742",
                     "tertiary-fixed-dim": "#c9c6c0",
                     "secondary-fixed": "#F5D98A",
-                    "surface-tint": "#134E4A",
+                    "surface-tint": "#336A15",
                     "outline": "#8a958f",
                     "surface-container": "#edeeef",
                     "primary-fixed": "#c5eadf",
-                    "on-surface": "#0A2E2B",
+                    "on-surface": "#16340A",
                     "on-secondary-fixed": "#241a00",
                     "surface-container-highest": "#dce2f3",
                     "error-container": "#ffdad6",
-                    "primary-container": "#134E4A",
+                    "primary-container": "#336A15",
                     "surface-dim": "#d3daea",
-                    "on-background": "#0A2E2B",
+                    "on-background": "#16340A",
                     "surface": "#FFFFFF",
-                    "on-secondary-container": "#003633",
+                    "on-secondary-container": "#274F10",
                     "inverse-surface": "#2a313d",
                     "on-secondary-fixed-variant": "#574500",
                     "outline-variant": "#bfc8c6",
                     "secondary": "#D4A83C",
-                    "on-primary-container": "#c6eae5",
+                    "on-primary-container": "#dcedbf",
                     "on-error-container": "#93000a",
                     "on-tertiary-container": "#a19f99",
                     "on-surface-variant": "#404847",
                     "primary-fixed-dim": "#aacec3",
-                    "tertiary-fixed": "#c6eae5",
+                    "tertiary-fixed": "#dcedbf",
                     "tertiary": "#21211d",
                     "on-tertiary": "#ffffff",
                     "secondary-fixed-dim": "#e9c349",
@@ -71,10 +71,10 @@
                     "background": "#f0f4f3",
                     "on-primary-fixed-variant": "#2b4d44",
                     "canvas-white": "#FFFFFF",
-                    "river-teal": "#134E4A",
+                    "river-teal": "#336A15",
                     "golden-sand": "#D4A83C",
                     "sun-haze": "#F5D98A",
-                    "moss-dark": "#0A2E2B"
+                    "moss-dark": "#16340A"
             },
             "borderRadius": {
                     "DEFAULT": "0.125rem",
@@ -121,7 +121,7 @@
 .typewriter-cursor { display:inline-block;width:3px;height:0.82em;background:#F5D98A;margin-left:3px;vertical-align:middle;border-radius:2px;animation:blink 0.75s step-end infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 .bg-hero {
-    background-image: linear-gradient(rgba(1, 38, 31, 0.7), rgba(1, 38, 31, 0.4)), url(https://lh3.googleusercontent.com/aida-public/AB6AXuDXPNF0hPvAByP14sN0oRR7_hUgSYFzOsTTbZKy_Tzcglbajnma5no_0gTUkPCqvCxGJq7HwrECzMDaCyF2qCOgTGZwho7ISuTa8ka4PkPrErMTxsFfyjA3q7borKE_ACpx94lYz5PxhSROrVUyPyOtprR48vaTuRIvHJgrt68RZFX4h7jFOnVs8mzhrBLhAQ-jlZpd72nSsQfFYsqJityXpxV4y3Pykrbg9B718dpj5a12k3JLJTNtYfCL0UwID33hE4H2-Ar3_x9-);
+    background-image: linear-gradient(rgba(16, 34, 10, 0.7), rgba(16, 34, 10, 0.4)), url(https://lh3.googleusercontent.com/aida-public/AB6AXuDXPNF0hPvAByP14sN0oRR7_hUgSYFzOsTTbZKy_Tzcglbajnma5no_0gTUkPCqvCxGJq7HwrECzMDaCyF2qCOgTGZwho7ISuTa8ka4PkPrErMTxsFfyjA3q7borKE_ACpx94lYz5PxhSROrVUyPyOtprR48vaTuRIvHJgrt68RZFX4h7jFOnVs8mzhrBLhAQ-jlZpd72nSsQfFYsqJityXpxV4y3Pykrbg9B718dpj5a12k3JLJTNtYfCL0UwID33hE4H2-Ar3_x9-);
     background-size: cover;
     background-position: center
     }</style>
@@ -484,7 +484,7 @@
             div.style.wordBreak = "break-word";
             if(user){
                 div.style.marginLeft = "auto";
-                div.style.background = "#003633";
+                div.style.background = "#274F10";
                 div.style.color = "white";
                 div.style.borderBottomRightRadius = "2px";
             } else {
@@ -625,7 +625,7 @@
     div.style.wordBreak = 'break-word';
     if(user){
       div.style.marginLeft = 'auto';
-      div.style.background = '#003633';
+      div.style.background = '#274F10';
       div.style.color = 'white';
       div.style.borderBottomRightRadius = '2px';
     } else {
@@ -763,13 +763,13 @@
       html += `<p style="margin-top:4px; font-size:13px; color:#475569;">${item.descripcion}</p>`;
 
       if(item.ubicacion){
-          html += `<p style="margin-top:8px;"><a target="_blank" href="${item.ubicacion}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">📍 Ver ubicación en mapa</a></p>`;
+          html += `<p style="margin-top:8px;"><a target="_blank" href="${item.ubicacion}" style="color:#336A15; font-weight:bold; text-decoration:underline;">📍 Ver ubicación en mapa</a></p>`;
       }
 
       if(item.lugares){
           html += `<ul style="margin-top:8px; padding-left:14px; list-style-type:disc; font-size:13px;">`;
           item.lugares.forEach(l => {
-              html += `<li style="margin-top:4px;"><a target="_blank" href="${l.link}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">${l.nombre}</a></li>`;
+              html += `<li style="margin-top:4px;"><a target="_blank" href="${l.link}" style="color:#336A15; font-weight:bold; text-decoration:underline;">${l.nombre}</a></li>`;
           });
           html += `</ul>`;
       }
@@ -779,7 +779,7 @@
           item.contactos.forEach(c => {
               html += `<li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                       <div><strong>${c.nombre}</strong></div>
-                      <a href="tel:${String(c.tel).replace(/\D/g,'')}" style="background:#003633; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
+                      <a href="tel:${String(c.tel).replace(/\D/g,'')}" style="background:#274F10; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
                           📞 ${c.tel}
                       </a>
                   </li>`;
