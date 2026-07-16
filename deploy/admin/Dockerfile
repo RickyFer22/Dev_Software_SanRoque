@@ -13,7 +13,7 @@ WORKDIR /app
 
 # Solo copiamos node_modules ya construidos y el código fuente
 COPY --from=builder /app/node_modules ./node_modules
-COPY package.json package-lock.json server.js seed.js bot-service.js ./
+COPY package.json package-lock.json server.js security.js seed.js bot-service.js ./
 COPY static ./static
 COPY scripts ./scripts
 # Plantilla de datos SIN cuentas por defecto. El admin real se crea en el primer
