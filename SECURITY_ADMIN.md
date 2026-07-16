@@ -69,7 +69,7 @@ Suite existente del portal (`tests/`, `test/`) → sin regresiones.
 
 | Variable | Uso |
 |----------|-----|
-| `SESSION_SECRET` | **Obligatoria en prod** (aborta si falta o es la default) |
+| `SESSION_SECRET` | Recomendada en prod. Si falta, el server genera uno aleatorio por arranque (las sesiones no persisten entre reinicios). El CI/CD la inyecta desde el secreto `SESSION_SECRET` de GitHub si existe. |
 | `ADMIN_USER` | Usuario admin (def. `gestion.turistica.sr`) |
 | `ADMIN_PASSWORD_HASH` | Hash bcrypt del admin (preferido en prod) |
 | `ADMIN_SETUP_PASSWORD` | Bootstrap del primer admin |

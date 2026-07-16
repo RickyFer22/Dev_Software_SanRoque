@@ -175,10 +175,19 @@ function transformDatosUtilesForPublic(datosUtiles) {
   }, {});
 }
 
-// SECURITY: en producción exige un SESSION_SECRET fuerte (nunca el default).
-if (IS_PROD && (!process.env.SESSION_SECRET || process.env.SESSION_SECRET === 'dev-secret-change-me')) {
-  console.error('[admin] SECURITY ERROR: SESSION_SECRET ausente o por defecto con NODE_ENV=production. Abortando.');
-  process.exit(1);
+// SESSION_SECRET: en producción debe venir del entorno. Si falta, se genera uno
+// aleatorio fuerte al arrancar (evita el default inseguro Y evita un crash-loop en
+// el deploy). Con el almacén de sesiones en memoria, las sesiones ya se reinician
+// al reiniciar el proceso, así que un secreto efímero es equivalente en la práctica.
+// Definí SESSION_SECRET en el entorno para que las sesiones sobrevivan reinicios.
+let SESSION_SECRET = process.env.SESSION_SECRET;
+if (!SESSION_SECRET || SESSION_SECRET === 'dev-secret-change-me') {
+  if (IS_PROD) {
+    SESSION_SECRET = crypto.randomBytes(48).toString('hex');
+    console.warn('[admin] AVISO: SESSION_SECRET no definido en producción; se generó uno aleatorio para esta ejecución. Definilo en el entorno para persistir sesiones entre reinicios.');
+  } else {
+    SESSION_SECRET = 'dev-secret-change-me';
+  }
 }
 
 // Detrás de Traefik/reverse proxy: confía en el primer proxy para obtener IP y
@@ -237,7 +246,7 @@ const IDLE_TIMEOUT_MS = parseInt(process.env.SESSION_IDLE_MS || String(60 * 60 *
 const ABSOLUTE_TIMEOUT_MS = parseInt(process.env.SESSION_ABSOLUTE_MS || String(12 * 60 * 60 * 1000), 10); // 12 h máx
 app.use(session({
   name: 'vsr_admin_sid',
-  secret: process.env.SESSION_SECRET || 'dev-secret-change-me',
+  secret: SESSION_SECRET,
   resave: false,
   rolling: true, // renueva la expiración por inactividad en cada request
   saveUninitialized: false,
