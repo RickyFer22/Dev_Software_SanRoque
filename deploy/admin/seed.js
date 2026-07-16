@@ -278,6 +278,21 @@ const datosUtiles = [
   },
 ];
 
+const actividades = [
+  {
+    id: 'balneario',
+    titulo: 'Balneario Municipal',
+    descripcion: 'Hermoso balneario sobre el Río Santa Lucía, ideal para disfrutar de la arena y el sol en verano con servicios completos.',
+    imagen: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80'
+  },
+  {
+    id: 'capilla',
+    titulo: 'Capilla Histórica',
+    descripcion: 'Templo histórico fundado por los monjes dominicos, monumento emblemático del patrimonio arquitectónico de la ciudad.',
+    imagen: 'https://images.unsplash.com/photo-1548625361-155deee223cb?w=800&q=80'
+  }
+];
+
 // ── Insertar datos ────────────────────────────────────────────────────────────
 function run() {
   const insertAloj = db.prepare(`
@@ -299,6 +314,11 @@ function run() {
   const insertDU = db.prepare(`
     INSERT OR IGNORE INTO datos_utiles (id,categoria,titulo,descripcion,contenido)
     VALUES (?,?,?,?,?)
+  `);
+
+  const insertAct = db.prepare(`
+    INSERT OR IGNORE INTO actividades (id,titulo,descripcion,imagen)
+    VALUES (?,?,?,?)
   `);
 
   const txAloj = db.transaction(() => {
@@ -331,16 +351,24 @@ function run() {
     }
   });
 
+  const txAct = db.transaction(() => {
+    for (const a of actividades) {
+      insertAct.run(a.id, a.titulo, a.descripcion, a.imagen);
+    }
+  });
+
   txAloj();
   txGast();
   txEv();
   txDU();
+  txAct();
 
   console.log(`✅ Seed completado:`);
   console.log(`   - ${alojamientos.length} alojamientos`);
   console.log(`   - ${gastronomia.length} locales gastronómicos`);
   console.log(`   - ${eventos.length} eventos`);
   console.log(`   - ${datosUtiles.length} datos útiles`);
+  console.log(`   - ${actividades.length} actividades`);
 }
 
 // Las tablas deben existir antes de correr el seed
@@ -370,6 +398,11 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS datos_utiles (
     id TEXT PRIMARY KEY, categoria TEXT NOT NULL, titulo TEXT NOT NULL,
     descripcion TEXT DEFAULT '', contenido TEXT DEFAULT '{}', activo INTEGER DEFAULT 1,
+    createdAt TEXT DEFAULT (datetime('now')), updatedAt TEXT DEFAULT (datetime('now'))
+  );
+  CREATE TABLE IF NOT EXISTS actividades (
+    id TEXT PRIMARY KEY, titulo TEXT NOT NULL, descripcion TEXT DEFAULT '',
+    imagen TEXT DEFAULT '', activo INTEGER DEFAULT 1,
     createdAt TEXT DEFAULT (datetime('now')), updatedAt TEXT DEFAULT (datetime('now'))
   );
 `);

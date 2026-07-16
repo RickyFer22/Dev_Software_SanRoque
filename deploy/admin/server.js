@@ -85,6 +85,7 @@ function buildInitialStore() {
     gastronomia: [],
     eventos: [],
     datos_utiles: [],
+    actividades: [],
     users: [],
     tickets: [],
     reviews: [],
@@ -106,6 +107,7 @@ function normalizeStore(store) {
     gastronomia: Array.isArray(store.gastronomia) ? store.gastronomia : [],
     eventos: Array.isArray(store.eventos) ? store.eventos : [],
     datos_utiles: Array.isArray(store.datos_utiles) ? store.datos_utiles : [],
+    actividades: Array.isArray(store.actividades) ? store.actividades : [],
     users: Array.isArray(store.users) ? store.users : [],
     tickets: Array.isArray(store.tickets) ? store.tickets : [],
     reviews: Array.isArray(store.reviews) ? store.reviews : [],
@@ -147,6 +149,7 @@ function applyBundledSeedIfEmpty(store) {
     gastronomia: seed.gastronomia || [],
     eventos: seed.eventos || [],
     datos_utiles: (store.datos_utiles && store.datos_utiles.length) ? store.datos_utiles : (seed.datos_utiles || []),
+    actividades: seed.actividades || [],
     users: (store.users && store.users.length) ? store.users : (seed.users || []),
   }));
   try { fs.writeFileSync(DATA_FILE, JSON.stringify(merged, null, 2)); } catch (e) { console.error('[admin] error saving seeded store', e); }
@@ -363,6 +366,7 @@ app.get('/api/data', (req, res) => {
     gastronomia: store.gastronomia || [],
     eventos: store.eventos || [],
     datosUtiles: transformDatosUtilesForPublic(store.datos_utiles || []),
+    actividades: store.actividades || [],
     ratings: computeRatings(store),
   });
 });
@@ -997,6 +1001,13 @@ function validateAndSanitize(collection, data) {
       out.imagen = sanitizeString(data.imagen || '', 300);
       out.status = (sanitizeString(data.status || 'published', 30)).toLowerCase();
       break;
+    case 'actividades':
+      out.titulo = sanitizeString(data.titulo || '', 200);
+      out.descripcion = sanitizeString(data.descripcion || '', 2000);
+      out.imagen = sanitizeString(data.imagen || '', 300);
+      out.activo = normalizeActiveValue(data.activo);
+      out.status = (sanitizeString(data.status || 'published', 30)).toLowerCase();
+      break;
     case 'datos_utiles':
     case 'datos-utiles':
       out.categoria = sanitizeString(data.categoria || '', 120);
@@ -1204,6 +1215,7 @@ function resourceRoutes(basePath, name) {
 resourceRoutes('/admin/api/alojamientos', 'alojamientos');
 resourceRoutes('/admin/api/gastronomia', 'gastronomia');
 resourceRoutes('/admin/api/eventos', 'eventos');
+resourceRoutes('/admin/api/actividades', 'actividades');
 resourceRoutes('/admin/api/tickets', 'tickets');
 
 app.get('/admin/api/datos-utiles', (req, res) => {

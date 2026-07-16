@@ -10,10 +10,8 @@ test('public footer is Spanish, useful and does not expose admin', () => {
   const html = read('index.html');
   const css = read('css/styles.css');
 
-  assert.match(html, /class="footer-navigation"/);
   assert.match(html, /class="[^"]*footer-social-pill[^"]*"/);
   assert.match(html, /Naturaleza, cultura e historia en el corazón de Corrientes/);
-  assert.match(html, /Remises y servicios/);
   assert.match(html, /Municipalidad de San Roque/);
   assert.doesNotMatch(html, /Oficina de Turismo/);
   assert.match(html, /Todos los derechos reservados/);

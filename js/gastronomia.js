@@ -89,6 +89,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   const items = Array.isArray(data) ? data : Object.values(data || {});
   grid.innerHTML = items.map(crearCard).join("");
 
+  // Redirigir a la landing de cada comercio al hacer click en la tarjeta
+  grid.querySelectorAll('article[data-gastro-id]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.vsr-interactive, .geo-btn, .gastro-share-btn, a[href*="wa.me"]')) {
+        return;
+      }
+      const id = card.dataset.gastroId;
+      window.location.href = `comercio.html?id=${id}`;
+    });
+  });
+
   // Calificaciones interactivas por local.
   if (window.VsrRatings) VsrRatings.mountAllInteractive(grid);
 

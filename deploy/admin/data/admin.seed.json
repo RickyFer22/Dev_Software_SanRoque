@@ -320,6 +320,28 @@
     }
   ],
   "datos_utiles": [],
+  "actividades": [
+    {
+      "id": "balneario",
+      "titulo": "Balneario Municipal",
+      "descripcion": "Hermoso balneario sobre el Río Santa Lucía, ideal para disfrutar de la arena y el sol en verano con servicios completos.",
+      "imagen": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
+      "activo": 1,
+      "status": "published",
+      "createdAt": "2026-07-16T00:00:00.000Z",
+      "updatedAt": "2026-07-16T00:00:00.000Z"
+    },
+    {
+      "id": "capilla",
+      "titulo": "Capilla Histórica",
+      "descripcion": "Templo histórico fundado por los monjes dominicos, monumento emblemático del patrimonio arquitectónico de la ciudad.",
+      "imagen": "https://images.unsplash.com/photo-1548625361-155deee223cb?w=800&q=80",
+      "activo": 1,
+      "status": "published",
+      "createdAt": "2026-07-16T00:00:00.000Z",
+      "updatedAt": "2026-07-16T00:00:00.000Z"
+    }
+  ],
   "users": [],
   "tickets": [],
   "reviews": [],

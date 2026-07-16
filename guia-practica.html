@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Guía Práctica - San Roque</title>
+  <meta name="description" content="Guía práctica de servicios, remises, terminal, municipio, iglesias, salud y emergencias en San Roque." />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="css/tw-base.css" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-[#FDFBF7] text-neutral-900 font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-primary/95 backdrop-blur-md shadow-md py-4">
+    <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
+      <a href="index.html" class="font-display-lg text-[26px] leading-none text-sun-haze tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer">
+        San Roque
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a class="text-white hover:text-sun-haze font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Inicio</a>
+        <a class="text-white hover:text-sun-haze font-medium text-[13px] uppercase tracking-wide transition-all" href="gastronomia.html">Gastronomía</a>
+      </div>
+      <a href="index.html" class="flex items-center gap-2 text-white font-bold text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-colors">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span> Volver
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Header -->
+  <header class="relative pt-24 md:pt-0 w-full md:h-[40vh] flex items-end">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=80" alt="Guía Práctica de Servicios" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/50 to-transparent"></div>
+    </div>
+    <div class="relative z-10 w-full max-w-5xl mx-auto px-6 pb-12 pt-32 text-white">
+      <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-4 py-1.5 mb-4 text-sun-haze">
+        <span class="material-symbols-outlined text-[16px]">info</span>
+        <span class="text-xs font-bold uppercase tracking-wider">Información y Servicios</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-display-lg font-bold mb-4 leading-tight drop-shadow-md">Guía Práctica</h1>
+      <p class="text-white/80 max-w-2xl text-sm md:text-base">Accedé a los contactos de remises, terminal, iglesias, emergencias y servicios municipales de manera rápida y asistida.</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-6 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl font-bold text-primary font-headline-md">¿Qué servicio estás buscando?</h2>
+      <p class="text-neutral-500 text-sm mt-2">Hacé click en cualquier categoría para iniciar el asistente y ver la información de contacto.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      <a href="#" onclick="event.preventDefault(); quickAsk('Remises');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">local_taxi</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Remises</h3>
+        <p class="text-xs text-neutral-500">Contactos de agencias y choferes locales.</p>
+      </a>
+      <a href="#" onclick="event.preventDefault(); quickAsk('Terminal');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">directions_bus</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Terminal</h3>
+        <p class="text-xs text-neutral-500">Información sobre colectivos y boleterías.</p>
+      </a>
+      <a href="#" onclick="event.preventDefault(); quickAsk('Municipio');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">domain</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Municipio</h3>
+        <p class="text-xs text-neutral-500">Horarios de atención y trámites oficiales.</p>
+      </a>
+      <a href="#" onclick="event.preventDefault(); quickAsk('Iglesias');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">church</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Iglesias</h3>
+        <p class="text-xs text-neutral-500">Horarios de misas y templos de la ciudad.</p>
+      </a>
+      <a href="#" onclick="event.preventDefault(); quickAsk('Emergencias');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">emergency</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Emergencias</h3>
+        <p class="text-xs text-neutral-500">Bomberos, policía y defensa civil.</p>
+      </a>
+      <a href="#" onclick="event.preventDefault(); quickAsk('Salud');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">medical_services</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Salud</h3>
+        <p class="text-xs text-neutral-500">Hospitales, clínicas y farmacias de turno.</p>
+      </a>
+      <a href="#" onclick="event.preventDefault(); quickAsk('Servicios');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">design_services</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Servicios</h3>
+        <p class="text-xs text-neutral-500">Bancos, cajeros y otros servicios públicos.</p>
+      </a>
+    </div>
+  </main>
+
+  <!-- Chatbot Window Markup -->
+  <div id="chatbot" class="chatbot">
+      <div id="chatWindow" class="chat-window">
+          <div class="chat-header">
+              <div class="chat-logo">
+                  <img src="turisbot-logo.png" alt="MuniAyuda Logo">
+              </div>
+              <div>
+                  <h3>MuniAyuda</h3>
+                  <p>Asistente turístico de San Roque</p>
+              </div>
+          </div>
+          <div id="chatBox" class="chat-box"></div>
+          <div class="chat-quick">
+              <button class="quick-btn" onclick="quickAsk('hospedajes')">Turismo y Alojamiento</button>
+              <button class="quick-btn" onclick="quickAsk('comer')">Gastronomía</button>
+              <button class="quick-btn" onclick="quickAsk('eventos')">Eventos</button>
+              <button class="quick-btn" onclick="quickAsk('informacion')">Información</button>
+              <button class="quick-btn" onclick="quickAsk('municipio')">Municipio</button>
+          </div>
+          <div class="chat-input-area">
+              <input id="chatInput" placeholder="Escribe tu consulta..." onkeypress="if(event.key==='Enter')sendChat()">
+              <button onclick="sendChat()">&gt;</button>
+          </div>
+      </div>
+      <div id="chatToggle" class="chat-button">
+          <img src="turisbot-logo.png" alt="Chat button">
+          <span>MuniAyuda</span>
+      </div>
+  </div>
+
+  <!-- Compact Footer -->
+  <footer class="site-footer w-full mt-auto relative z-10 overflow-hidden">
+    <div class="footer-cream-crown" aria-hidden="true"></div>
+    <div class="footer-wordmark-wrap max-w-7xl mx-auto px-6">
+      <span class="sr-wordmark sr-wordmark-hero" aria-label="San Roque"><span class="sr-l1">S</span><span class="sr-l2">a</span><span class="sr-l3">n</span>&nbsp;<span class="sr-l4">R</span><span class="sr-l5">o</span><span class="sr-l6">q</span><span class="sr-l7">u</span><span class="sr-l8">e</span></span>
+    </div>
+    <div class="footer-social-band">
+      <p class="footer-tagline">Naturaleza, cultura e historia en el corazón de Corrientes.</p>
+      <div class="footer-social-actions max-w-7xl mx-auto px-6">
+        <a class="social-link footer-social-pill" href="https://www.instagram.com/sanroque.municipio" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i><span>Instagram</span>
+        </a>
+        <a class="social-link footer-social-pill" href="https://www.facebook.com/share/1AW5YTS5oZ/" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-facebook-f" aria-hidden="true"></i><span>Facebook</span>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottombar">
+      <div class="academic-credits max-w-7xl mx-auto px-6 md:px-8">
+        <span class="academic-label">Proyecto educativo · tecnología local</span>
+        <strong>Desarrollado por estudiantes de 3.<sup>er</sup> año de la Tecnicatura Superior en Desarrollo de Software</strong>
+        <span class="academic-institute">Instituto Superior de Formación Docente «Juan García de Cossio»</span>
+        <span class="academic-authors"><b>Autores:</b> Daniel Almirón · Lucas Sánchez · Milca Martínez · Román Rossi · Tomás Rolet</span>
+        <span><b>Ayudante:</b> Javier Legal &nbsp;·&nbsp; <b>Profesora:</b> Yésica Ponce</span>
+        <span class="footer-policy-links"><span>Política de privacidad</span><span>Términos y condiciones</span></span>
+      </div>
+      <div class="compact-footer-legal max-w-7xl mx-auto px-6 md:px-8">© 2026 Municipalidad de San Roque · Portal oficial de turismo y cultura · Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <script>
+    const BOT_API = "/api/bot/chat";
+    let chatOpen = false;
+
+    document.getElementById("chatToggle").onclick = () => {
+        chatOpen = !chatOpen;
+        document.getElementById("chatWindow").style.display = chatOpen ? "flex" : "none";
+    };
+
+    function addMsg(text, user=false){
+        const box = document.getElementById("chatBox");
+        const div = document.createElement("div");
+        div.style.margin = "10px 0";
+        div.style.padding = "12px";
+        div.style.borderRadius = "14px";
+        if(user){
+            div.style.background = "#EBE5D8";
+            div.style.alignSelf = "flex-end";
+            div.style.marginLeft = "30px";
+        } else {
+            div.style.background = "#FFF";
+            div.style.alignSelf = "flex-start";
+            div.style.marginRight = "30px";
+            div.style.boxShadow = "0 1px 3px rgba(0,0,0,0.1)";
+        }
+        div.innerHTML = text;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function showTyping(){
+        const box = document.getElementById("chatBox");
+        const div = document.createElement("div");
+        div.id = "typing";
+        div.style.margin = "10px 0";
+        div.style.padding = "12px";
+        div.style.background = "#FFF";
+        div.style.borderRadius = "14px";
+        div.style.alignSelf = "flex-start";
+        div.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function hideTyping(){
+        const t = document.getElementById("typing");
+        if(t) t.remove();
+    }
+
+    async function sendChat(){
+        const input = document.getElementById("chatInput");
+        const text = input.value.trim();
+        if(!text) return;
+        addMsg(text, true);
+        input.value = "";
+        showTyping();
+        try {
+            const response = await fetch(BOT_API, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text })
+            });
+            if(!response.ok) throw new Error("Status: " + response.status);
+            const data = await response.json();
+            hideTyping();
+            addMsg(data.reply || data.response || "No tengo una respuesta para esa consulta.");
+        } catch (err) {
+            console.error(err);
+            hideTyping();
+            addMsg("Lo siento, estoy experimentando dificultades técnicas. Reintente más tarde.");
+        }
+    }
+
+    function quickAsk(text){
+        chatOpen = true;
+        document.getElementById("chatWindow").style.display = "flex";
+        document.getElementById("chatInput").value = text;
+        sendChat();
+    }
+  </script>
+</body>
+</html>

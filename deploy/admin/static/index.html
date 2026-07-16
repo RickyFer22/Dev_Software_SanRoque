@@ -36,6 +36,9 @@
           <button type="button" class="nav-item tab" data-section="eventos">
             <span class="nav-icon">◇</span> Eventos
           </button>
+          <button type="button" class="nav-item tab" data-section="actividades">
+            <span class="nav-icon">☼</span> Qué hacer
+          </button>
           <button type="button" class="nav-item tab" data-section="datos-utiles">
             <span class="nav-icon">ℹ</span> Datos útiles
           </button>
@@ -363,21 +366,55 @@
               <div id="datos-utiles-list"></div>
             </div>
             <div class="card crud-form-panel">
-              <h2>Dato útil</h2>
+               <h2>Dato útil</h2>
+               <div class="toolbar">
+                 <label>Categoría<input id="datos-utiles-categoria" placeholder="remises" /></label>
+                 <label>Título<input id="datos-utiles-titulo" placeholder="Remises" /></label>
+               </div>
+               <div class="toolbar">
+                 <label>Descripción<textarea id="datos-utiles-descripcion" placeholder="Información actualizada"></textarea></label>
+               </div>
+               <div class="toolbar-v" style="display: flex; flex-direction: column; align-items: stretch; gap: 8px;">
+                 <label style="font-weight: bold; font-size: 13px;">Contactos / Lugares</label>
+                 <div id="datos-utiles-contacts-container" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                 <button type="button" id="btn-add-contact" class="btn-gold" style="margin-top: 8px; width: fit-content; padding: 6px 12px; font-size: 12px;">+ Agregar Fila</button>
+               </div>
+               <div id="edit-state-datos-utiles" class="small" style="margin-top: 8px;"></div>
+               <div class="toolbar" style="margin-top: 12px;">
+                 <button type="button" data-action="submit" data-resource="datos-utiles">Guardar</button>
+                 <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="datos-utiles">Cancelar</button>
+               </div>
+             </div>
+           </div>
+         </div>
+
+        <!-- QUE HACER / ACTIVIDADES -->
+        <div id="actividades" class="section">
+          <div class="crud-layout">
+            <div class="crud-list-panel">
+              <div class="panel-title">
+                <h2>Qué hacer (Actividades)</h2>
+                <button type="button" data-action="create" data-resource="actividades">+ Actividad</button>
+              </div>
+              <div id="actividades-list"></div>
+            </div>
+            <div class="card crud-form-panel">
+              <h2>Actividad / Atractivo</h2>
               <div class="toolbar">
-                <label>Categoría<input id="datos-utiles-categoria" placeholder="remises" /></label>
-                <label>Título<input id="datos-utiles-titulo" placeholder="Remises" /></label>
+                <label>Título<input id="actividades-titulo" placeholder="Ej: Balneario Municipal" /></label>
               </div>
               <div class="toolbar">
-                <label>Descripción<textarea id="datos-utiles-descripcion" placeholder="Información actualizada"></textarea></label>
+                <label>Imagen (URL)<input id="actividades-imagen" placeholder="/uploads/…" /></label>
+                <label>Subir imagen<input type="file" id="actividades-image-file" accept="image/*" /></label>
               </div>
-              <div class="toolbar">
-                <label>Contenido JSON (modo avanzado)<textarea id="datos-utiles-contenido" placeholder='{"contactos": [{"nombre": "Remis Local", "tel": "549377xxxxxxx"}]}'></textarea></label>
+              <img id="actividades-image-preview" class="image-preview" src="" alt="Vista previa" style="max-height: 120px; object-fit: cover; border-radius: 8px; margin-top: 8px; display: none;" />
+              <div class="toolbar" style="margin-top: 8px;">
+                <label>Descripción<textarea id="actividades-descripcion" placeholder="Descripción de la actividad o atractivo turístico"></textarea></label>
               </div>
-              <div id="edit-state-datos-utiles" class="small"></div>
+              <div id="edit-state-actividades" class="small"></div>
               <div class="toolbar">
-                <button type="button" data-action="submit" data-resource="datos-utiles">Guardar</button>
-                <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="datos-utiles">Cancelar</button>
+                <button type="button" data-action="submit" data-resource="actividades">Guardar</button>
+                <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="actividades">Cancelar</button>
               </div>
             </div>
           </div>

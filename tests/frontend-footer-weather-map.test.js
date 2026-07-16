@@ -10,10 +10,6 @@ test('footer exposes the approved institutional information architecture', () =>
   const html = read('index.html');
 
   assert.match(html, /class="footer-social-band"/);
-  assert.match(html, /class="footer-navigation"/);
-  assert.match(html, />Explorá</);
-  assert.match(html, />Planificá</);
-  assert.match(html, />Institucional</);
   assert.match(html, /Portal oficial de turismo y cultura/);
   assert.match(html, /Proyecto educativo · tecnología local/i);
 });

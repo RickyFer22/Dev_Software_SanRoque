@@ -3,6 +3,7 @@ const resources = {
   alojamientos: { api: '/admin/api/alojamientos', title: 'Alojamientos' },
   gastronomia: { api: '/admin/api/gastronomia', title: 'Gastronomía' },
   eventos: { api: '/admin/api/eventos', title: 'Eventos' },
+  actividades: { api: '/admin/api/actividades', title: 'Qué hacer' },
   'datos-utiles': { api: '/admin/api/datos-utiles', title: 'Datos útiles', isDataUtil: true },
   users: { api: '/admin/api/users', title: 'Usuarios' },
   tickets: { api: '/admin/api/tickets', title: 'Tickets' },
@@ -465,6 +466,22 @@ function setupImageFileInputs() {
   setupImageFileInput('event-image-file', 'event-imagen', 'event-image-preview');
   setupImageFileInput('alojamiento-image-file', 'alojamiento-mainImg', 'alojamiento-image-preview');
   setupImageFileInput('gastronomia-image-file', 'gastronomia-imagen', 'gastronomia-image-preview');
+  setupImageFileInput('actividades-image-file', 'actividades-imagen', 'actividades-image-preview');
+}
+
+function addContactRow(name = '', value = '') {
+  const container = document.getElementById('datos-utiles-contacts-container');
+  if (!container) return;
+  const row = document.createElement('div');
+  row.className = 'contact-row';
+  row.style = 'display: flex; gap: 8px; align-items: center; margin-top: 4px;';
+  row.innerHTML = `
+    <input class="contact-name" placeholder="Nombre" style="flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;" value="${(name || '').replace(/"/g, '&quot;')}" />
+    <input class="contact-value" placeholder="Teléfono / Enlace" style="flex: 2; padding: 6px; border: 1px solid #ccc; border-radius: 4px;" value="${(value || '').replace(/"/g, '&quot;')}" />
+    <button type="button" class="btn-remove-contact" style="padding: 6px 10px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">X</button>
+  `;
+  row.querySelector('.btn-remove-contact').onclick = () => row.remove();
+  container.appendChild(row);
 }
 
 function getDatosUtilesForm() {
@@ -472,24 +489,32 @@ function getDatosUtilesForm() {
     categoria: document.getElementById('datos-utiles-categoria'),
     titulo: document.getElementById('datos-utiles-titulo'),
     descripcion: document.getElementById('datos-utiles-descripcion'),
-    contenido: document.getElementById('datos-utiles-contenido'),
   };
 }
 
 function getDatosUtilesPayload() {
   const form = getDatosUtilesForm();
-  let contenidoValue = form.contenido?.value?.trim() || '';
-  let contenido = {};
-  if (contenidoValue) {
-    try {
-      contenido = JSON.parse(contenidoValue);
-    } catch (err) {
-      showToast('Contenido JSON inválido: ' + err.message, 'error');
-      return null;
+  const categoria = form.categoria?.value?.trim();
+  const container = document.getElementById('datos-utiles-contacts-container');
+  const rows = container ? container.querySelectorAll('.contact-row') : [];
+  const contacts = [];
+  rows.forEach((row) => {
+    const name = row.querySelector('.contact-name')?.value?.trim();
+    const val = row.querySelector('.contact-value')?.value?.trim();
+    if (name && val) {
+      contacts.push({ name, val });
     }
+  });
+
+  const contenido = {};
+  if (categoria === 'remises') {
+    contenido.contactos = contacts.map((c) => ({ nombre: c.name, tel: c.val }));
+  } else {
+    contenido.lugares = contacts.map((c) => ({ nombre: c.name, link: c.val }));
   }
+
   return {
-    categoria: form.categoria?.value?.trim(),
+    categoria,
     titulo: form.titulo?.value?.trim(),
     descripcion: form.descripcion?.value?.trim(),
     contenido,
@@ -502,7 +527,16 @@ function setDatosUtilesForm(item = {}) {
   form.categoria.value = item.categoria || '';
   form.titulo.value = item.titulo || '';
   form.descripcion.value = item.descripcion || '';
-  form.contenido.value = item.contenido ? JSON.stringify(item.contenido, null, 2) : '';
+
+  const container = document.getElementById('datos-utiles-contacts-container');
+  if (container) container.innerHTML = '';
+
+  const cont = item.contenido || {};
+  const list = cont.contactos || cont.lugares || [];
+  list.forEach((c) => {
+    const val = c.tel || c.link || '';
+    addContactRow(c.nombre || '', val);
+  });
 }
 
 function clearDatosUtilesForm() {
@@ -511,7 +545,54 @@ function clearDatosUtilesForm() {
   form.categoria.value = '';
   form.titulo.value = '';
   form.descripcion.value = '';
-  form.contenido.value = '';
+  const container = document.getElementById('datos-utiles-contacts-container');
+  if (container) container.innerHTML = '';
+}
+
+// Actividades / Qué hacer
+function getActividadesForm() {
+  return {
+    titulo: document.getElementById('actividades-titulo'),
+    imagen: document.getElementById('actividades-imagen'),
+    descripcion: document.getElementById('actividades-descripcion'),
+    preview: document.getElementById('actividades-image-preview'),
+    fileInput: document.getElementById('actividades-image-file'),
+  };
+}
+
+function getActividadesPayload() {
+  const form = getActividadesForm();
+  return {
+    titulo: form.titulo?.value?.trim(),
+    imagen: form.imagen?.value?.trim(),
+    descripcion: form.descripcion?.value?.trim(),
+  };
+}
+
+function setActividadesForm(item = {}) {
+  const form = getActividadesForm();
+  if (!form.titulo) return;
+  form.titulo.value = item.titulo || '';
+  form.imagen.value = item.imagen || '';
+  form.descripcion.value = item.descripcion || '';
+  if (form.preview) {
+    if (item.imagen) {
+      form.preview.src = item.imagen;
+      form.preview.style.display = 'block';
+    } else {
+      form.preview.style.display = 'none';
+    }
+  }
+}
+
+function clearActividadesForm() {
+  const form = getActividadesForm();
+  if (!form.titulo) return;
+  form.titulo.value = '';
+  form.imagen.value = '';
+  form.descripcion.value = '';
+  if (form.preview) form.preview.style.display = 'none';
+  if (form.fileInput) form.fileInput.value = '';
 }
 
 function getTicketForm() {
@@ -569,6 +650,16 @@ function setEditState(resource, item) {
     setEventForm(item);
     if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
     const form = getEventForm();
+    if (form.titulo) {
+      form.titulo.focus();
+      form.titulo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return;
+  }
+  if (resource === 'actividades') {
+    setActividadesForm(item);
+    if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
+    const form = getActividadesForm();
     if (form.titulo) {
       form.titulo.focus();
       form.titulo.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -635,6 +726,12 @@ function clearEditState(resource) {
   }
   if (resource === 'eventos') {
     clearEventForm();
+    const state = document.getElementById(`edit-state-${resource}`);
+    if (state) state.textContent = '';
+    return;
+  }
+  if (resource === 'actividades') {
+    clearActividadesForm();
     const state = document.getElementById(`edit-state-${resource}`);
     if (state) state.textContent = '';
     return;
@@ -1526,9 +1623,11 @@ async function loadResource(resource) {
         ? [item.categoria, item.ubicacion, item.rating].filter(Boolean).join(' · ')
         : resource === 'eventos'
           ? [item.tipo, item.lugar, item.fecha].filter(Boolean).join(' · ')
-          : item[key] || '';
+          : resource === 'actividades'
+            ? (item.descripcion || '').slice(0, 100) + '...'
+            : item[key] || '';
     const imagePath = resource === 'gastronomia' ? item.imagen : (item.mainImg || item.imagen);
-    const thumb = ['alojamientos', 'gastronomia', 'eventos'].includes(resource)
+    const thumb = ['alojamientos', 'gastronomia', 'eventos', 'actividades'].includes(resource)
       ? renderListThumb(imagePath)
       : '';
     return `
@@ -1699,6 +1798,7 @@ async function loadItemForEdit(resource, id) {
   if (resource === 'alojamientos') setAlojamientoForm(item);
   if (resource === 'gastronomia') setGastronomiaForm(item);
   if (resource === 'datos-utiles') setDatosUtilesForm(item);
+  if (resource === 'actividades') setActividadesForm(item);
   setEditState(resource, item);
   toggleSection(resource);
 }
@@ -1716,6 +1816,12 @@ async function sendCreate(resource) {
     payload = getEventPayload();
     if (!payload.titulo) {
       showToast('El evento necesita un título.', 'error');
+      return;
+    }
+  } else if (resource === 'actividades') {
+    payload = getActividadesPayload();
+    if (!payload.titulo) {
+      showToast('La actividad necesita un título.', 'error');
       return;
     }
   } else if (resource === 'alojamientos') {
@@ -1884,6 +1990,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (backdrop) backdrop.addEventListener('click', closeSidebar);
 
   setupImageFileInputs();
+  const btnAddContact = document.getElementById('btn-add-contact');
+  if (btnAddContact) {
+    btnAddContact.addEventListener('click', () => addContactRow('', ''));
+  }
   const observabilitySearch = document.getElementById('observability-search');
   if (observabilitySearch) observabilitySearch.addEventListener('input', renderObservability);
   refreshAll();
