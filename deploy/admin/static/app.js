@@ -14,6 +14,95 @@ const resources = {
 let currentEdit = null;
 let currentAdminSession = { user: 'anonymous', role: 'guest' };
 
+function redirectToLogin(reason) {
+  const next = encodeURIComponent(window.location.pathname + window.location.search);
+  const params = new URLSearchParams({ next });
+  if (reason) params.set('reason', reason);
+  window.location.replace(`/admin/login?${params.toString()}`);
+}
+
+function resolvePublicAssetUrl(imagePath) {
+  if (!imagePath || typeof imagePath !== 'string') return '';
+  const trimmed = imagePath.trim();
+  if (!trimmed || trimmed.startsWith('data:')) return trimmed;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (trimmed.startsWith('/')) return trimmed;
+  return `/${trimmed.replace(/^\.\//, '')}`;
+}
+
+function renderListThumb(imagePath) {
+  const src = resolvePublicAssetUrl(imagePath);
+  if (!src) return '';
+  return `<img class="list-thumb" src="${src}" alt="" loading="lazy" onerror="this.style.visibility='hidden'" />`;
+}
+
+const STATUS_LABELS = {
+  published: 'Publicado',
+  draft: 'Borrador',
+  archived: 'Archivado',
+  approved: 'Aprobada',
+  rejected: 'Rechazada',
+  pending: 'Pendiente',
+  active: 'Activo',
+  inactive: 'Inactivo',
+  banned: 'Bloqueado',
+  low: 'Baja',
+  normal: 'Normal',
+  high: 'Alta',
+};
+
+const ROLE_LABELS = {
+  'super-admin': 'Super admin',
+  editor: 'Editor',
+  viewer: 'Solo lectura',
+  guest: 'Invitado',
+};
+
+const SECTION_TITLES = {
+  overview: 'Resumen',
+  alojamientos: 'Alojamientos',
+  gastronomia: 'Gastronomía',
+  eventos: 'Eventos',
+  'datos-utiles': 'Datos útiles',
+  users: 'Usuarios',
+  tickets: 'Tickets',
+  audit: 'Auditoría',
+  reviews: 'Reseñas',
+  uploads: 'Uploads',
+  backup: 'Backup',
+  'bot-config': 'Bot y APIs',
+  observability: 'Observabilidad',
+  analytics: 'Analytics',
+};
+
+function showToast(message, type = 'ok') {
+  const host = document.getElementById('toast-host');
+  if (!host) {
+    window.alert(message);
+    return;
+  }
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.setAttribute('role', 'status');
+  toast.textContent = message;
+  host.appendChild(toast);
+  setTimeout(() => {
+    toast.remove();
+  }, 4200);
+}
+
+function closeSidebar() {
+  document.body.classList.remove('sidebar-open');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (backdrop) backdrop.hidden = true;
+}
+
+function openSidebar() {
+  document.body.classList.add('sidebar-open');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (backdrop) backdrop.hidden = false;
+}
+
 function getEditorTextarea(resource) {
   return document.getElementById(`new-${resource}-body`);
 }
@@ -242,8 +331,9 @@ function clearGastronomiaForm() {
 function updateImagePreview(fileInputId, previewId, imageUrl) {
   const preview = document.getElementById(previewId);
   if (!preview) return;
-  if (imageUrl) {
-    preview.src = imageUrl;
+  const resolved = resolvePublicAssetUrl(imageUrl);
+  if (resolved) {
+    preview.src = resolved;
     preview.style.display = 'block';
   } else {
     preview.src = '';
@@ -271,7 +361,7 @@ function setupImageFileInput(fileInputId, imageFieldId, previewId) {
         body: JSON.stringify({ filename: file.name, dataUrl }),
       });
       if (result.error) {
-        alert('Error subiendo imagen: ' + result.error);
+        showToast('Error subiendo imagen: ' + result.error, 'error');
         imageField.value = dataUrl;
         return;
       }
@@ -305,7 +395,7 @@ function getDatosUtilesPayload() {
     try {
       contenido = JSON.parse(contenidoValue);
     } catch (err) {
-      alert('Contenido JSON inválido: ' + err.message);
+      showToast('Contenido JSON inválido: ' + err.message, 'error');
       return null;
     }
   }
@@ -580,26 +670,11 @@ async function logoutAdmin() {
     await fetchJson('/admin/logout', { method: 'POST' });
   } catch (e) {}
   currentAdminSession = { user: 'anonymous', role: 'guest' };
-  document.body.classList.add('logged-out');
-  const loginView = document.getElementById('login-view');
-  if (loginView) loginView.style.display = 'flex';
-  await refreshAll();
+  redirectToLogin();
 }
 
 async function serverLogin() {
-  // accept credentials from the login overlay only
-  const user = (document.getElementById('login-user')?.value?.trim());
-  const pass = (document.getElementById('login-pass')?.value) || '';
-  if (!user || !pass) { alert('Usuario y contraseña requeridos'); return; }
-  const result = await fetchJson('/admin/login', { method: 'POST', body: JSON.stringify({ username: user, password: pass }) });
-  if (result.error) { alert('Login falló: ' + result.error); return; }
-  const overlayPwd = document.getElementById('login-pass');
-  if (overlayPwd) overlayPwd.value = '';
-  document.body.classList.remove('logged-out');
-  const loginView = document.getElementById('login-view');
-  if (loginView) loginView.style.display = 'none';
-  await loadSessionInfo();
-  await refreshAll();
+  redirectToLogin();
 }
 
 function applyTheme(theme) {
@@ -638,11 +713,7 @@ async function fetchJson(path, opts = {}) {
 
     if (!r.ok) {
       if (r.status === 401) {
-        try {
-          document.body.classList.add('logged-out');
-          const loginView = document.getElementById('login-view');
-          if (loginView) loginView.style.display = 'flex';
-        } catch (e) {}
+        redirectToLogin('expired');
       }
       return { error: `${r.status} ${r.statusText} ${text}`, status: r.status, body: parsed };
     }
@@ -657,11 +728,22 @@ async function fetchJson(path, opts = {}) {
 
 function toggleSection(sectionId) {
   document.querySelectorAll('.section').forEach((sec) => sec.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.section === sectionId));
+  document.querySelectorAll('.nav-item, .tab').forEach((tab) => {
+    const active = tab.dataset.section === sectionId;
+    tab.classList.toggle('active', active);
+    if (active) tab.setAttribute('aria-current', 'page');
+    else tab.removeAttribute('aria-current');
+  });
   const target = document.getElementById(sectionId);
   if (target) target.classList.add('active');
+  const title = document.getElementById('page-title');
+  if (title) title.textContent = SECTION_TITLES[sectionId] || resources[sectionId]?.title || sectionId;
+  closeSidebar();
   if (sectionId === 'bot-config') loadBotConfig();
   if (sectionId === 'observability') loadObservability();
+  if (['alojamientos', 'gastronomia', 'eventos', 'datos-utiles', 'users', 'reviews', 'tickets', 'audit', 'uploads'].includes(sectionId)) {
+    loadResource(sectionId).catch(() => {});
+  }
 }
 
 function setText(id, value) {
@@ -747,12 +829,12 @@ function renderCount(id, value) {
 
 function renderRolePill(role) {
   const normalized = (role || 'guest').toString().toLowerCase();
-  return `<span class="pill role-pill ${normalized}">${normalized}</span>`;
+  return `<span class="pill role-pill ${normalized}">${ROLE_LABELS[normalized] || normalized}</span>`;
 }
 
 function renderStatusPill(status) {
   const normalized = (status || 'pending').toString().toLowerCase();
-  return `<span class="pill status-pill ${normalized}">${normalized}</span>`;
+  return `<span class="pill status-pill ${normalized}">${STATUS_LABELS[normalized] || normalized}</span>`;
 }
 
 function normalizeAdminRole(role) {
@@ -817,8 +899,8 @@ function canDeleteResource(resource, role) {
 
 function renderSessionOverview() {
   const session = getCurrentAdminSession();
-  renderCount('overview-session-user', session.user || 'anonymous');
-  renderCount('overview-session-role', session.role || 'guest');
+  renderCount('header-session-user', session.user || 'anonymous');
+  renderCount('header-session-role', ROLE_LABELS[session.role] || session.role || 'guest');
 }
 
 function updateRoleUI() {
@@ -826,11 +908,7 @@ function updateRoleUI() {
   const role = session.role;
   renderSessionOverview();
 
-  // If guest (logged out) show only the login controls: hide tabs, sections and header actions.
   const isGuest = role === 'guest';
-  const tabsContainer = document.querySelector('.tabs');
-  if (tabsContainer) tabsContainer.style.display = isGuest ? 'none' : '';
-  // header action buttons
   const headerRefresh = document.getElementById('refreshAll');
   const headerLogout = document.getElementById('logout');
   const headerTheme = document.getElementById('theme-toggle');
@@ -838,15 +916,7 @@ function updateRoleUI() {
   if (headerLogout) headerLogout.style.display = isGuest ? 'none' : '';
   if (headerTheme) headerTheme.style.display = isGuest ? 'none' : '';
 
-  // top header and main toolbar
-  const headerEl = document.querySelector('.header');
-  const mainToolbar = document.getElementById('main-toolbar');
-  if (headerEl) headerEl.style.display = isGuest ? 'none' : '';
-  if (mainToolbar) mainToolbar.style.display = isGuest ? 'none' : '';
-  // hide footer or other peripheral elements when guest
-  document.querySelectorAll('.footer, #footer, .site-footer').forEach((el) => { el.style.display = isGuest ? 'none' : ''; });
-
-  document.querySelectorAll('.tab').forEach((tab) => {
+  document.querySelectorAll('.nav-item, .tab').forEach((tab) => {
     const section = tab.dataset.section;
     if (isGuest) {
       tab.style.display = 'none';
@@ -866,6 +936,7 @@ function updateRoleUI() {
     }
     if (section.id && section.id !== 'overview' && !canReadResource(section.id, role)) {
       section.style.display = 'none';
+      section.classList.remove('active');
     } else {
       section.style.display = '';
     }
@@ -903,10 +974,6 @@ function updateRoleUI() {
 }
 
 async function loadSessionInfo() {
-  // show checking placeholder
-  document.body.classList.add('checking-session');
-  const loginSpinner = document.getElementById('login-spinner');
-  if (loginSpinner) loginSpinner.style.display = 'block';
   const result = await fetchJson('/admin/api/session');
   if (!result.error && result.admin) {
     currentAdminSession = {
@@ -914,17 +981,13 @@ async function loadSessionInfo() {
       role: normalizeAdminRole(result.admin.role),
     };
     document.body.classList.remove('logged-out');
-    const loginView = document.getElementById('login-view');
-    if (loginView) loginView.style.display = 'none';
   } else {
     currentAdminSession = { user: 'anonymous', role: 'guest' };
     document.body.classList.add('logged-out');
-    const loginView = document.getElementById('login-view');
-    if (loginView) loginView.style.display = 'flex';
+    redirectToLogin(result.status === 401 ? 'expired' : undefined);
+    return result;
   }
   updateRoleUI();
-  document.body.classList.remove('checking-session');
-  if (loginSpinner) loginSpinner.style.display = 'none';
   return result;
 }
 
@@ -932,7 +995,12 @@ function renderList(containerId, items, renderItem) {
   const container = document.getElementById(containerId);
   if (!container) return;
   if (!Array.isArray(items) || !items.length) {
-    container.innerHTML = '<div class="card"><p>No hay elementos disponibles.</p></div>';
+    const resource = containerId.replace(/-list$/, '');
+    container.innerHTML = `
+      <div class="empty-state card">
+        <p>No hay elementos cargados.</p>
+        ${resource && resources[resource] ? `<button type="button" data-action="create" data-resource="${resource}">Agregar el primero</button>` : ''}
+      </div>`;
     return;
   }
   container.innerHTML = items.map(renderItem).join('');
@@ -1023,14 +1091,17 @@ function renderAudit(entry) {
 
 function renderUploads(item) {
   if (!item || typeof item !== 'object') return '';
+  const url = resolvePublicAssetUrl(item.url || item.name);
   return `
-    <div class="list-row">
-      <div>
-        <strong>${item.name}</strong><br>
-        <a href="${item.url}" target="_blank" rel="noreferrer">Abrir archivo</a>
-      </div>
-      <div class="list-actions">
-        <button data-action="delete" data-resource="uploads" data-id="${encodeURIComponent(item.name)}">Eliminar</button>
+    <div class="upload-card">
+      <img src="${url}" alt="" loading="lazy" onerror="this.style.opacity='0.3'" />
+      <div class="upload-meta">
+        <strong>${item.name}</strong>
+        <code>${url}</code>
+        <div class="list-actions">
+          <button type="button" data-action="copy-url" data-url="${url}">Copiar URL</button>
+          <button type="button" data-action="delete" data-resource="uploads" data-id="${encodeURIComponent(item.name)}">Eliminar</button>
+        </div>
       </div>
     </div>
   `;
@@ -1132,6 +1203,11 @@ async function loadCounts() {
   renderCount('count-status-draft', draft);
   renderCount('count-status-archived', archived);
   renderCount('count-review-pending', pendingReviews);
+  const badge = document.getElementById('nav-badge-reviews');
+  if (badge) {
+    badge.dataset.count = String(pendingReviews);
+    badge.textContent = pendingReviews > 0 ? String(pendingReviews) : '';
+  }
   // Try to render analytics panel if admin analytics are available
   try {
     const storeResp = await fetchJson('/admin/api/store');
@@ -1224,9 +1300,14 @@ async function loadResource(resource) {
         : resource === 'eventos'
           ? [item.tipo, item.lugar, item.fecha].filter(Boolean).join(' · ')
           : item[key] || '';
+    const imagePath = resource === 'gastronomia' ? item.imagen : (item.mainImg || item.imagen);
+    const thumb = ['alojamientos', 'gastronomia', 'eventos'].includes(resource)
+      ? renderListThumb(imagePath)
+      : '';
     return `
-      <div class="list-row">
-        <div>
+      <div class="list-row list-row-with-thumb">
+        ${thumb}
+        <div style="flex:1">
           <strong>${item.id}</strong><br>
           <span class="small">${item[key] || JSON.stringify(item).slice(0, 80)}</span>
           ${details ? `<div class="small" style="margin-top:4px;">${details}</div>` : ''}
@@ -1312,12 +1393,15 @@ function handleAction(event) {
   if (action === 'delete' && resource === 'uploads') {
     return sendDelete(resource, decodeURIComponent(id));
   }
+  if (action === 'copy-url') {
+    return copyUploadUrl(button.dataset.url);
+  }
 }
 
 async function downloadBackup() {
   const result = await fetchJson('/admin/api/backup');
   if (result.error) {
-    alert(`Error descargando backup: ${result.error}`);
+    showToast(`Error descargando backup: ${result.error}`, 'error');
     return;
   }
   const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
@@ -1330,6 +1414,7 @@ async function downloadBackup() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   renderCount('backup-status', 'Backup descargado localmente.');
+  showToast('Backup descargado', 'ok');
 }
 
 async function restoreBackup() {
@@ -1339,15 +1424,15 @@ async function restoreBackup() {
   try {
     payload = JSON.parse(textarea.value);
   } catch (err) {
-    alert('JSON inválido: ' + err.message);
+    showToast('JSON inválido: ' + err.message, 'error');
     return;
   }
   const result = await fetchJson('/admin/api/restore', { method: 'POST', body: JSON.stringify(payload) });
   if (result.error) {
-    alert(`Error restaurando backup: ${result.error}`);
+    showToast(`Error restaurando backup: ${result.error}`, 'error');
     return;
   }
-  alert('Backup restaurado correctamente.');
+  showToast('Backup restaurado correctamente.', 'ok');
   await refreshAll();
 }
 
@@ -1355,15 +1440,25 @@ async function viewAudit(id) {
   if (!id) return;
   const result = await fetchJson('/admin/api/audit');
   if (result.error) {
-    alert(`Error cargando auditoría: ${result.error}`);
+    showToast(`Error cargando auditoría: ${result.error}`, 'error');
     return;
   }
   const entry = (result.audit || []).find((item) => String(item.id) === String(id));
   if (!entry) {
-    alert('Entrada de auditoría no encontrada.');
+    showToast('Entrada de auditoría no encontrada.', 'error');
     return;
   }
-  alert(`Auditoría ${entry.id}\nAcción: ${entry.action}\nRecurso: ${entry.resource}\nID: ${entry.resourceId}\nUsuario: ${entry.adminUser} (${entry.adminRole})\nFecha: ${new Date(entry.createdAt).toLocaleString()}\nCambios: ${JSON.stringify(entry.changes, null, 2)}`);
+  showToast(`${entry.action} · ${entry.resource}/${entry.resourceId} · ${entry.adminUser}`, 'ok');
+  const detail = document.createElement('pre');
+  detail.textContent = JSON.stringify(entry, null, 2);
+  const host = document.getElementById('audit-list');
+  if (host) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = '<h2>Detalle de auditoría</h2>';
+    card.appendChild(detail);
+    host.prepend(card);
+  }
 }
 
 async function loadItemForEdit(resource, id) {
@@ -1371,25 +1466,16 @@ async function loadItemForEdit(resource, id) {
   if (!info || !id) return;
   const item = await fetchJson(`${info.api}/${encodeURIComponent(id)}`);
   if (item.error) {
-    alert(`Error cargando item: ${item.error}`);
+    showToast(`Error cargando item: ${item.error}`, 'error');
     return;
   }
-  if (resource === 'users') {
-    setUserForm(item);
-  }
-  if (resource === 'eventos') {
-    setEventForm(item);
-  }
-  if (resource === 'alojamientos') {
-    setAlojamientoForm(item);
-  }
-  if (resource === 'gastronomia') {
-    setGastronomiaForm(item);
-  }
-  if (resource === 'datos-utiles') {
-    setDatosUtilesForm(item);
-  }
+  if (resource === 'users') setUserForm(item);
+  if (resource === 'eventos') setEventForm(item);
+  if (resource === 'alojamientos') setAlojamientoForm(item);
+  if (resource === 'gastronomia') setGastronomiaForm(item);
+  if (resource === 'datos-utiles') setDatosUtilesForm(item);
   setEditState(resource, item);
+  toggleSection(resource);
 }
 
 async function sendCreate(resource) {
@@ -1398,38 +1484,38 @@ async function sendCreate(resource) {
   if (resource === 'users') {
     payload = getUserPayload();
     if (!payload.username) {
-      alert('El usuario necesita un username.');
+      showToast('El usuario necesita un username.', 'error');
       return;
     }
   } else if (resource === 'eventos') {
     payload = getEventPayload();
     if (!payload.titulo) {
-      alert('El evento necesita un título.');
+      showToast('El evento necesita un título.', 'error');
       return;
     }
   } else if (resource === 'alojamientos') {
     payload = getAlojamientoPayload();
     if (!payload.titulo || !payload.categoria) {
-      alert('El alojamiento necesita título y categoría.');
+      showToast('El alojamiento necesita título y categoría.', 'error');
       return;
     }
   } else if (resource === 'gastronomia') {
     payload = getGastronomiaPayload();
     if (!payload.nombre || !payload.tipo) {
-      alert('La gastronomía necesita nombre y tipo.');
+      showToast('La gastronomía necesita nombre y tipo.', 'error');
       return;
     }
   } else if (resource === 'tickets') {
     payload = getTicketPayload();
     if (!payload.title || !payload.message) {
-      alert('El ticket necesita título y mensaje.');
+      showToast('El ticket necesita título y mensaje.', 'error');
       return;
     }
   } else if (resource === 'datos-utiles') {
     payload = getDatosUtilesPayload();
     if (!payload) return;
     if (!payload.categoria) {
-      alert('El dato útil necesita una categoría.');
+      showToast('El dato útil necesita una categoría.', 'error');
       return;
     }
   } else {
@@ -1437,7 +1523,7 @@ async function sendCreate(resource) {
     try {
       payload = JSON.parse(textarea.value);
     } catch (err) {
-      alert('JSON inválido: ' + err.message);
+      showToast('JSON inválido: ' + err.message, 'error');
       return;
     }
   }
@@ -1447,7 +1533,7 @@ async function sendCreate(resource) {
   let method = 'POST';
   if (resource === 'datos-utiles') {
     if (!payload.categoria) {
-      alert('El dato útil necesita una propiedad "categoria".');
+      showToast('El dato útil necesita una propiedad "categoria".', 'error');
       return;
     }
     if (currentEdit && currentEdit.resource === resource) {
@@ -1467,10 +1553,10 @@ async function sendCreate(resource) {
   }
   const result = await fetchJson(path, { method, body: JSON.stringify(payload) });
   if (result.error) {
-    alert(`Error al crear ${resource}: ${result.error}`);
+    showToast(`Error al guardar: ${result.error}`, 'error');
     return;
   }
-  alert('Elemento creado / actualizado correctamente.');
+  showToast('Guardado correctamente.', 'ok');
   clearEditState(resource);
   notifyPublicDataRefresh();
   await loadResource(resource);
@@ -1478,7 +1564,7 @@ async function sendCreate(resource) {
 }
 
 async function sendDelete(resource, id) {
-  if (!confirm('Confirmar eliminar este elemento?')) return;
+  if (!confirm('¿Confirmar eliminar este elemento?')) return;
   const info = resources[resource];
   if (!info || !id) return;
   let path = `${info.api}/${encodeURIComponent(id)}`;
@@ -1487,10 +1573,10 @@ async function sendDelete(resource, id) {
   }
   const result = await fetchJson(path, { method: 'DELETE' });
   if (result.error) {
-    alert(`Error al eliminar ${resource}: ${result.error}`);
+    showToast(`Error al eliminar: ${result.error}`, 'error');
     return;
   }
-  alert('Elemento eliminado.');
+  showToast('Elemento eliminado.', 'ok');
   notifyPublicDataRefresh();
   await loadResource(resource);
   await loadCounts();
@@ -1501,7 +1587,7 @@ async function toggleResourceVisibility(resource, id) {
   if (!info || !id) return;
   const item = await fetchJson(`${info.api}/${encodeURIComponent(id)}`);
   if (item.error) {
-    alert(`Error cargando elemento: ${item.error}`);
+    showToast(`Error cargando elemento: ${item.error}`, 'error');
     return;
   }
   const currentActivo = item.activo !== undefined ? item.activo : 1;
@@ -1511,10 +1597,10 @@ async function toggleResourceVisibility(resource, id) {
     body: JSON.stringify(updated),
   });
   if (result.error) {
-    alert(`Error actualizando visibilidad: ${result.error}`);
+    showToast(`Error actualizando visibilidad: ${result.error}`, 'error');
     return;
   }
-  alert(`Elemento ${updated.activo ? 'mostrado' : 'ocultado'} correctamente.`);
+  showToast(`Elemento ${updated.activo ? 'mostrado' : 'ocultado'} correctamente.`, 'ok');
   notifyPublicDataRefresh();
   await loadResource(resource);
   await loadCounts();
@@ -1527,17 +1613,48 @@ async function updateReviewStatus(id, status) {
     body: JSON.stringify({ status }),
   });
   if (result.error) {
-    alert(`Error al actualizar reseña: ${result.error}`);
+    showToast(`Error al actualizar reseña: ${result.error}`, 'error');
     return;
   }
-  alert('Reseña actualizada.');
+  showToast('Reseña actualizada.', 'ok');
   await loadResource('reviews');
+  await loadCounts();
+}
+
+async function copyUploadUrl(url) {
+  if (!url) return;
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast('URL copiada al portapapeles', 'ok');
+  } catch (e) {
+    showToast('No se pudo copiar la URL', 'error');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.tab').forEach((tab) => tab.addEventListener('click', () => toggleSection(tab.dataset.section)));
-  document.body.addEventListener('click', handleAction);
-  document.getElementById('refreshAll').addEventListener('click', refreshAll);
+  document.querySelectorAll('.nav-item, .tab').forEach((tab) => {
+    tab.addEventListener('click', () => toggleSection(tab.dataset.section));
+  });
+
+  document.body.addEventListener('click', (event) => {
+    const goto = event.target.closest('[data-goto]');
+    if (goto) {
+      const section = goto.dataset.goto;
+      const createResource = goto.dataset.create;
+      toggleSection(section);
+      if (createResource) {
+        setTimeout(() => {
+          const btn = document.querySelector(`button[data-action="create"][data-resource="${createResource}"]`);
+          if (btn) btn.click();
+        }, 50);
+      }
+      return;
+    }
+    handleAction(event);
+  });
+
+  const refreshBtn = document.getElementById('refreshAll');
+  if (refreshBtn) refreshBtn.addEventListener('click', refreshAll);
   const logoutBtn = document.getElementById('logout');
   if (logoutBtn) logoutBtn.addEventListener('click', logoutAdmin);
   const themeBtn = document.getElementById('theme-toggle');
@@ -1546,10 +1663,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const saved = localStorage.getItem('admin_theme') || 'light';
     applyTheme(saved);
   }
-  const loginBtnOverlay = document.getElementById('loginBtnOverlay');
-  if (loginBtnOverlay) loginBtnOverlay.addEventListener('click', serverLogin);
-  const loginPassInput = document.getElementById('login-pass');
-  if (loginPassInput) loginPassInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') serverLogin(); });
+
+  const menuToggle = document.getElementById('menu-toggle');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (menuToggle) menuToggle.addEventListener('click', () => {
+    if (document.body.classList.contains('sidebar-open')) closeSidebar();
+    else openSidebar();
+  });
+  if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
   setupImageFileInputs();
   const observabilitySearch = document.getElementById('observability-search');
   if (observabilitySearch) observabilitySearch.addEventListener('input', renderObservability);

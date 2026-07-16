@@ -6,6 +6,9 @@ const bcrypt = require('bcryptjs');
 
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'admin.json');
+const BUNDLED_SEED_FILE = fs.existsSync(path.join(__dirname, '..', 'data', 'admin.seed.json'))
+  ? path.join(__dirname, '..', 'data', 'admin.seed.json')
+  : path.join(__dirname, '..', 'data', 'admin.json');
 const EDITOR_USERNAME = 'gestion.turistica.sr';
 const EDITOR_PASSWORD = process.env.EDITOR_PASSWORD;
 const MIGRATION_ID = '2026-07-bot-remises-editor';
@@ -27,9 +30,27 @@ const contacts = [
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 const store = fs.existsSync(DATA_FILE) ? JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')) : {};
+store.alojamientos = Array.isArray(store.alojamientos) ? store.alojamientos : [];
+store.gastronomia = Array.isArray(store.gastronomia) ? store.gastronomia : [];
+store.eventos = Array.isArray(store.eventos) ? store.eventos : [];
 store.datos_utiles = Array.isArray(store.datos_utiles) ? store.datos_utiles : [];
 store.users = Array.isArray(store.users) ? store.users : [];
 store.migrations = Array.isArray(store.migrations) ? store.migrations : [];
+
+const tourismEmpty = !store.alojamientos.length && !store.gastronomia.length && !store.eventos.length;
+if (tourismEmpty && fs.existsSync(BUNDLED_SEED_FILE)) {
+  const seed = JSON.parse(fs.readFileSync(BUNDLED_SEED_FILE, 'utf8'));
+  store.alojamientos = Array.isArray(seed.alojamientos) ? seed.alojamientos : [];
+  store.gastronomia = Array.isArray(seed.gastronomia) ? seed.gastronomia : [];
+  store.eventos = Array.isArray(seed.eventos) ? seed.eventos : [];
+  if (!store.datos_utiles.length && Array.isArray(seed.datos_utiles)) {
+    store.datos_utiles = seed.datos_utiles;
+  }
+  if (!store.users.length && Array.isArray(seed.users)) {
+    store.users = seed.users;
+  }
+  console.log(JSON.stringify({ ok: true, seeded: true, alojamientos: store.alojamientos.length, gastronomia: store.gastronomia.length, eventos: store.eventos.length }));
+}
 
 const usefulData = {
   id: 'du_remises',

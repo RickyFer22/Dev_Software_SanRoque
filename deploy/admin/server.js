@@ -18,6 +18,9 @@ const PORT = parseInt(process.env.PORT || '4000', 10);
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
 const DATA_FILE = path.join(DATA_DIR, 'admin.json');
+const BUNDLED_SEED_FILE = fs.existsSync(path.join(__dirname, 'data', 'admin.seed.json'))
+  ? path.join(__dirname, 'data', 'admin.seed.json')
+  : path.join(__dirname, 'data', 'admin.json');
 const LOCAL_ENV_FILE = path.join(__dirname, '..', '.env');
 const BOT_LOG_LIMIT = 500;
 const SYSTEM_LOG_LIMIT = 500;
@@ -94,18 +97,52 @@ function normalizeStore(store) {
   };
 }
 
+function isTourismContentEmpty(store) {
+  return !(store.alojamientos && store.alojamientos.length)
+    && !(store.gastronomia && store.gastronomia.length)
+    && !(store.eventos && store.eventos.length);
+}
+
+function loadBundledSeed() {
+  try {
+    if (!fs.existsSync(BUNDLED_SEED_FILE)) return null;
+    return normalizeStore(JSON.parse(fs.readFileSync(BUNDLED_SEED_FILE, 'utf8')));
+  } catch (e) {
+    console.error('[admin] error loading bundled seed', e);
+    return null;
+  }
+}
+
+function applyBundledSeedIfEmpty(store) {
+  if (!isTourismContentEmpty(store)) return store;
+  const seed = loadBundledSeed();
+  if (!seed) return store;
+  const merged = normalizeStore(Object.assign({}, store, {
+    alojamientos: seed.alojamientos || [],
+    gastronomia: seed.gastronomia || [],
+    eventos: seed.eventos || [],
+    datos_utiles: (store.datos_utiles && store.datos_utiles.length) ? store.datos_utiles : (seed.datos_utiles || []),
+    users: (store.users && store.users.length) ? store.users : (seed.users || []),
+  }));
+  try { fs.writeFileSync(DATA_FILE, JSON.stringify(merged, null, 2)); } catch (e) { console.error('[admin] error saving seeded store', e); }
+  console.log('[admin] store seeded from bundled template');
+  return merged;
+}
+
 function loadStore() {
   try {
     if (!fs.existsSync(DATA_FILE)) {
-      const initial = buildInitialStore();
-      fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2));
+      const initial = applyBundledSeedIfEmpty(buildInitialStore());
+      if (isTourismContentEmpty(initial)) {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2));
+      }
       return initial;
     }
     const raw = fs.readFileSync(DATA_FILE, 'utf8');
-    return normalizeStore(JSON.parse(raw || '{}'));
+    return applyBundledSeedIfEmpty(normalizeStore(JSON.parse(raw || '{}')));
   } catch (e) {
     console.error('[admin] error loading store', e);
-    const initial = buildInitialStore();
+    const initial = applyBundledSeedIfEmpty(buildInitialStore());
     try { fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2)); } catch (er){}
     return initial;
   }
@@ -499,7 +536,8 @@ app.post('/admin/logout', (req, res) => {
 
 app.get('/admin/api/session', (req, res) => {
   if (req.session && req.session.admin) return res.json({ admin: req.session.admin });
-  return res.json({ admin: { user: req.admin.user, role: req.admin.role } });
+  // Sin sesión de servidor => 401 para que el SPA redirija al login único (/admin/login).
+  return res.status(401).json({ error: 'Unauthenticated' });
 });
 
 function makeId(prefix = 'item') {
@@ -603,6 +641,20 @@ function validateAndSanitize(collection, data) {
       }
   }
   return out;
+}
+
+function isInvalidPublishedImage(value) {
+  const img = sanitizeString(value || '', 300).trim();
+  return !img || img === 'x' || img.includes('logo-muni');
+}
+
+function assertPublishedImage(collection, payload) {
+  if (!payload || payload.status !== 'published') return;
+  if (!['alojamientos', 'gastronomia', 'eventos'].includes(collection)) return;
+  const field = collection === 'alojamientos' ? 'mainImg' : 'imagen';
+  if (isInvalidPublishedImage(payload[field])) {
+    throw new Error('Imagen obligatoria para contenido publicado (use una foto del local, no el logo municipal).');
+  }
 }
 
 function getCollection(name) {
@@ -718,23 +770,27 @@ function resourceRoutes(basePath, name) {
     if (!canWrite(name, req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
     try {
       const payload = validateAndSanitize(name, req.body || {});
+      assertPublishedImage(name, payload);
       const item = createResource(name, payload);
       recordAudit('create', name, item.id, req, item);
       return res.status(201).json(item);
     } catch (e) {
-      return res.status(400).json({ error: 'Invalid payload' });
+      const message = e && e.message ? e.message : 'Invalid payload';
+      return res.status(400).json({ error: message });
     }
   });
   app.put(`${basePath}/:id`, (req, res) => {
     if (!canWrite(name, req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
     try {
       const payload = validateAndSanitize(name, req.body || {});
+      assertPublishedImage(name, payload);
       const result = updateResource(name, req.params.id, payload);
       if (!result) return sendNotFound(res);
       recordAudit('update', name, req.params.id, req, payload);
       return res.json(result);
     } catch (e) {
-      return res.status(400).json({ error: 'Invalid payload' });
+      const message = e && e.message ? e.message : 'Invalid payload';
+      return res.status(400).json({ error: message });
     }
   });
   app.delete(`${basePath}/:id`, (req, res) => {

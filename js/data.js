@@ -4,6 +4,9 @@
 // Si la API no está disponible, usa los datos hardcodeados como fallback
 // para que el portal nunca quede en blanco.
 
+const PLACEHOLDER_ALOJ_IMG = 'img/hero.jpg.jpg';
+const BRAND_LOGO_PATH = 'img/logo-muni.jpg';
+
 // 🏨 Datos hardcodeados (fallback)
 const _fallbackAlojamientos = {
   'ariadna':{
@@ -13,8 +16,8 @@ const _fallbackAlojamientos = {
     rating:'4.8',
     reviewsCount:'0 reseñas',
     ubicacion:'San Roque',
-    mainImg:'img/logo-muni.jpg',
-    galeria:['img/logo-muni.jpg'],
+    mainImg: PLACEHOLDER_ALOJ_IMG,
+    galeria:[PLACEHOLDER_ALOJ_IMG],
     descripcionLarga:'Hotel y hospedaje Ariadna ofrece comodidad y tranquilidad para visitantes de San Roque.',
     capacidad:[{icono:'hotel',titulo:'Habitaciones disponibles'}],
     servicios:[{icono:'wifi',texto:'WiFi'},{icono:'bed',texto:'Habitaciones cómodas'}],
@@ -44,8 +47,8 @@ const _fallbackAlojamientos = {
     rating:'4.8',
     reviewsCount:'14 reseñas',
     ubicacion:'San Roque',
-    mainImg:'img/logo-muni.jpg',
-    galeria:['img/logo-muni.jpg'],
+    mainImg: PLACEHOLDER_ALOJ_IMG,
+    galeria:[PLACEHOLDER_ALOJ_IMG],
     descripcionLarga:'Hospedaje San Martín ofrece comodidad para familias y grupos.',
     capacidad:[{icono:'bed',titulo:'Habitaciones disponibles'}],
     servicios:[{icono:'ac_unit',texto:'Aire acondicionado'},{icono:'family_restroom',texto:'Apto familias'}],
@@ -91,8 +94,8 @@ const _fallbackAlojamientos = {
     rating:'4.7',
     reviewsCount:'19 reseñas',
     ubicacion:'San Roque',
-    mainImg:'img/logo-muni.jpg',
-    galeria:['img/logo-muni.jpg'],
+    mainImg: PLACEHOLDER_ALOJ_IMG,
+    galeria:[PLACEHOLDER_ALOJ_IMG],
     descripcionLarga:'Departamentos modernos y totalmente equipados.',
     capacidad:[{icono:'apartment',titulo:'Departamentos'}],
     servicios:[{icono:'tv',texto:'Televisión'},{icono:'coffee',texto:'Desayuno'}],
@@ -192,11 +195,17 @@ function normalizeAccommodationItem(item, fallbackId = '') {
     return [];
   };
 
-  const normalizeAsset = (value) => typeof value === 'string' && value.startsWith('fotos/')
-    ? 'img/logo-muni.jpg'
-    : value;
-  const gallery = parseArrayValue(item.galeria).map(normalizeAsset);
-  const mainImage = normalizeAsset(item.mainImg || item.img || gallery[0] || 'img/logo-muni.jpg');
+  const resolveAssetPath = (value) => {
+    if (!value || typeof value !== 'string') return PLACEHOLDER_ALOJ_IMG;
+    const trimmed = value.trim();
+    if (!trimmed || trimmed === 'x') return PLACEHOLDER_ALOJ_IMG;
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    if (trimmed.includes(BRAND_LOGO_PATH)) return PLACEHOLDER_ALOJ_IMG;
+    if (trimmed.startsWith('fotos/')) return PLACEHOLDER_ALOJ_IMG;
+    return trimmed;
+  };
+  const gallery = parseArrayValue(item.galeria).map(resolveAssetPath);
+  const mainImage = resolveAssetPath(item.mainImg || item.img || gallery[0] || PLACEHOLDER_ALOJ_IMG);
 
   const normalized = {
     ...item,

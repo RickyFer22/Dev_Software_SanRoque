@@ -33,6 +33,9 @@ Thumbs.db
 # ===== Documentación interna de Codex =====
 docs/superpowers/
 
+# ===== Planes internos (no versionar) =====
+PLAN_MEJORAS.md
+
 # ===== Artefactos locales de pruebas visuales =====
 .playwright-cli/
 output/playwright/

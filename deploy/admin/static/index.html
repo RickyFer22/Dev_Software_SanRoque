@@ -3,574 +3,536 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Panel Admin · San Roque</title>
-  <style>
-    :root {
-      /* Panel colors mapped to site palette */
-      --primary: #003633;
-      --teal: #0b5d7b;
-      --accent: #D4A83C;
-      --bg: #fbfdff;
-      --bg-2: #ffffff;
-      --input-bg: #f8fafc;
-      --teal-dark: #08455a;
-      --card-bg: #ffffff;
-      --text: #0b2730;
-      --muted: #52667a;
-      --muted-2: #718096;
-      --muted-3: #2b3b43;
-      --pre-bg: #f1f7ff;
-      --border: rgba(148, 163, 184, 0.12);
-      /* Badge / role helper colors */
-      --badge-bg: #dbeafe;
-      --badge-text: #1d4ed8;
-      /* Dark theme helpers */
-      --dark-bg-start: #071226;
-      --dark-bg-end: #04121a;
-      --dark-surface: #071226;
-      --dark-surface-2: #0b1420;
-      --dark-accent: #a9d3e6;
-      color-scheme: light;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 16px;
-      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-      color: var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-    .header h1 {
-      margin: 0;
-      font-size: 1.4rem;
-      letter-spacing: -0.02em;
-    }
-    .header p {
-      margin: 8px 0 0;
-      color: #475569;
-      max-width: 560px;
-    }
-    .tabs {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 8px;
-      margin-bottom: 18px;
-      align-items: center;
-    }
-    .tab {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 8px 12px;
-      border: 1px solid rgba(15,23,42,0.06);
-      border-radius: 14px;
-      background: var(--card-bg);
-      color: var(--text);
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(11,93,123,0.06);
-      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
-    }
-    .tab:hover { transform: translateY(-1px); background: var(--bg-2); }
-    .tab.active {
-      background: var(--teal);
-      color: #ffffff;
-      border-color: var(--teal);
-      box-shadow: 0 12px 28px rgba(11, 93, 123, 0.12);
-    }
-    .card {
-      background: var(--card-bg);
-      padding: 18px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-      margin-bottom: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.08);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 18px;
-    }
-    .card h2 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 1.05rem;
-      color: var(--text);
-    }
-    .section { display: none; }
-    .section.active { display: block; }
-    pre {
-      background: var(--pre-bg);
-      padding: 18px;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      overflow: auto;
-      max-height: 360px;
-      color: var(--text);
-    }
-    input, textarea, select {
-      width: 100%;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: var(--input-bg);
-      padding: 12px 14px;
-      font: inherit;
-      color: var(--text);
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: var(--teal);
-      box-shadow: 0 0 0 4px rgba(11, 93, 123, 0.12);
-    }
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-    }
-    label {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-weight: 600;
-      color: var(--muted-3);
-    }
-    .image-preview {
-      max-width: 100%;
-      max-height: 220px;
-      border-radius: 18px;
-      display: block;
-      margin-top: 12px;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
-    }
-    button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: none;
-      border-radius: 12px;
-      background: var(--teal);
-      color: #ffffff;
-      padding: 8px 12px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(11, 93, 123, 0.12);
-      transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
-    }
-    button:hover { transform: translateY(-1px); background: var(--teal-dark); }
-    button:active { transform: translateY(0); }
-    button.cancel-button { background: var(--muted-2); }
-    button.cancel-button:hover { background: var(--muted); }
-    .small { font-size: 0.95rem; color: var(--muted); line-height: 1.6; }
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: flex-end;
-      margin-bottom: 18px;
-    }
-    .toolbar label { flex: 1 1 220px; min-width: 220px; }
-    .toolbar span.small { flex: 1 1 320px; min-width: 220px; }
-    .list-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      background: var(--bg-2);
-      border: 1px solid rgba(203, 213, 225, 0.6);
-      margin-bottom: 10px;
-    }
-    .list-row:last-child { margin-bottom: 0; }
-    .list-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: var(--badge-bg);
-      color: var(--badge-text);
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      text-transform: capitalize;
-    }
-    .role-pill { background: #e0f2fe; color: #0369a1; }
-    .role-pill.super-admin { background: #eff6ff; color: var(--badge-text); }
-    .role-pill.editor { background: #ecfdf5; color: #15803d; }
-    .role-pill.viewer { background: #f8fafc; color: var(--muted-3); }
-    .role-pill.guest { background: #f1f5f9; color: var(--muted); }
-    .status-pill { background: #f8fafc; color: var(--muted-3); }
-    .status-pill.published { background: #dcfce7; color: #15803d; }
-    .status-pill.draft { background: #fef3c7; color: #b45309; }
-    .status-pill.archived { background: #e2e8f0; color: var(--muted-3); }
-    .status-pill.approved { background: #d1fae5; color: #15803d; }
-    .status-pill.rejected { background: #fee2e2; color: #b91c1c; }
-    .status-pill.pending { background: #e0f2fe; color: #0369a1; }
-    .meta-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
-      font-size: 0.92rem;
-      color: var(--muted);
-      margin-top: 10px;
-    }
-    .row-label { color: var(--muted-2); }
-    @media (max-width: 860px) {
-      .tabs { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
-      .toolbar { align-items: stretch; gap:8px; }
-      .list-row { flex-direction: column; align-items: stretch; }
-      .meta-row { grid-template-columns: 1fr; }
-      .header { padding-bottom:8px }
-    }
-    /* Dark theme overrides (applied when document.documentElement has data-theme="dark") */
-    [data-theme="dark"] body {
-      color: #e6eef9;
-      background: linear-gradient(180deg, var(--dark-bg-start) 0%, var(--dark-bg-end) 100%);
-    }
-    [data-theme="dark"] .card {
-      background: var(--dark-surface);
-      color: #e6eef9;
-      border-color: rgba(255,255,255,0.04);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
-    [data-theme="dark"] input, [data-theme="dark"] textarea, [data-theme="dark"] select {
-      background: var(--dark-surface-2);
-      border-color: #203243;
-      color: #e6eef9;
-    }
-    [data-theme="dark"] .toolbar span.small, [data-theme="dark"] .small, [data-theme="dark"] .row-label {
-      color: #9fb3c9;
-    }
-    [data-theme="dark"] .tab { background: var(--dark-surface); color: var(--dark-accent); border-color: transparent; }
-    [data-theme="dark"] .tab.active { background: var(--teal); color: #ffffff; }
-    [data-theme="dark"] button { background: var(--teal); color: #ffffff; }
-    [data-theme="dark"] button.cancel-button { background: #334a59; }
-    /* Spinner placeholder styles usable in multiple views */
-    .spinner-placeholder{display:inline-block;width:20px;height:20px;border-radius:50%;border:3px solid rgba(11,93,123,0.12);border-top-color:var(--teal);animation:spin 1s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .metric-card strong{display:block;margin-top:6px;font-size:28px;color:var(--teal)}
-    .log-list{display:grid;gap:10px;max-height:460px;overflow:auto}
-    .log-entry{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--card)}
-    #bot-system-prompt[readonly]{min-height:190px;background:var(--bg);cursor:not-allowed}
-  </style>
+  <meta name="theme-color" content="#003633" />
+  <title>Vivi San Roque · Admin</title>
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/admin/static/admin.css" />
 </head>
 <body>
-  <div class="header">
-    <div>
-      <h1>Panel de administración · San Roque</h1>
-      <p class="small">Gestiona contenido, usuarios y copias de seguridad.</p>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button id="refreshAll">Actualizar todo</button>
-      <button id="logout" class="cancel-button">Cerrar sesión</button>
-      <button id="theme-toggle">Modo noche</button>
-    </div>
-  </div>
-  <!-- Login overlay / dedicated view (shown when logged out) -->
-  <div id="login-view" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;z-index:9999;background:rgba(2,6,23,0.6);">
-    <div class="card" style="max-width:420px;width:100%;margin:0 16px;text-align:left;">
-      <h2 style="margin-top:0">Iniciar sesión</h2>
-      <div style="margin-bottom:12px;color:var(--muted)">Accede con tus credenciales para ver el panel administrativo.</div>
-      <label style="display:block;margin-bottom:8px">Usuario<input id="login-user" placeholder="gestion.turistica.sr" /></label>
-      <label style="display:block;margin-bottom:8px">Contraseña<input id="login-pass" type="password" placeholder="••••••" /></label>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
-        <button id="loginBtnOverlay">Iniciar sesión</button>
+  <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navegación del panel">
+      <div class="sidebar-brand">
+        <img src="/img/logo-muni.jpg" alt="" width="44" height="44" />
+        <div>
+          <strong>Vivi San Roque</strong>
+          <span>Panel admin</span>
+        </div>
       </div>
-      <div id="login-spinner" style="display:none;margin-top:12px"><small class="small">Comprobando sesión…</small></div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-label">Contenido</div>
+          <button type="button" class="nav-item tab active" data-section="overview" aria-current="page">
+            <span class="nav-icon">▣</span> Resumen
+          </button>
+          <button type="button" class="nav-item tab" data-section="alojamientos">
+            <span class="nav-icon">⌂</span> Alojamientos
+          </button>
+          <button type="button" class="nav-item tab" data-section="gastronomia">
+            <span class="nav-icon">◉</span> Gastronomía
+          </button>
+          <button type="button" class="nav-item tab" data-section="eventos">
+            <span class="nav-icon">◇</span> Eventos
+          </button>
+          <button type="button" class="nav-item tab" data-section="datos-utiles">
+            <span class="nav-icon">ℹ</span> Datos útiles
+          </button>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-label">Moderación</div>
+          <button type="button" class="nav-item tab" data-section="reviews">
+            <span class="nav-icon">★</span> Reseñas
+            <span class="nav-badge" id="nav-badge-reviews" data-count="0"></span>
+          </button>
+          <button type="button" class="nav-item tab" data-section="tickets">
+            <span class="nav-icon">⚑</span> Tickets
+          </button>
+        </div>
+
+        <div class="nav-group" data-nav-group="sistema">
+          <div class="nav-group-label">Sistema</div>
+          <button type="button" class="nav-item tab" data-section="users">
+            <span class="nav-icon">◎</span> Usuarios
+          </button>
+          <button type="button" class="nav-item tab" data-section="uploads">
+            <span class="nav-icon">☁</span> Uploads
+          </button>
+          <button type="button" class="nav-item tab" data-section="audit">
+            <span class="nav-icon">☰</span> Auditoría
+          </button>
+          <button type="button" class="nav-item tab" data-section="bot-config">
+            <span class="nav-icon">◈</span> Bot y APIs
+          </button>
+          <button type="button" class="nav-item tab" data-section="observability">
+            <span class="nav-icon">◎</span> Observabilidad
+          </button>
+          <button type="button" class="nav-item tab" data-section="backup">
+            <span class="nav-icon">⇩</span> Backup
+          </button>
+          <button type="button" class="nav-item tab" data-section="analytics">
+            <span class="nav-icon">▤</span> Analytics
+          </button>
+        </div>
+      </nav>
+
+      <div class="sidebar-foot">
+        <a href="/" target="_blank" rel="noopener">← Ver portal público</a>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar header">
+        <div class="topbar-left">
+          <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰</button>
+          <div>
+            <h1 id="page-title">Resumen</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="session-chip">
+            <span id="header-session-user">-</span>
+            <strong id="header-session-role">-</strong>
+          </div>
+          <button type="button" id="refreshAll">Actualizar</button>
+          <button type="button" id="theme-toggle" class="cancel-button">Modo noche</button>
+          <button type="button" id="logout" class="cancel-button">Cerrar sesión</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- RESUMEN -->
+        <div id="overview" class="section active">
+          <div class="kpi-grid">
+            <button type="button" class="kpi-card" data-goto="alojamientos">
+              <span class="kpi-label">Alojamientos</span>
+              <span class="kpi-value" id="count-aloj">—</span>
+              <span class="kpi-hint">Ir a gestionar</span>
+            </button>
+            <button type="button" class="kpi-card" data-goto="gastronomia">
+              <span class="kpi-label">Gastronomía</span>
+              <span class="kpi-value" id="count-gast">—</span>
+              <span class="kpi-hint">Ir a gestionar</span>
+            </button>
+            <button type="button" class="kpi-card" data-goto="eventos">
+              <span class="kpi-label">Eventos</span>
+              <span class="kpi-value" id="count-ev">—</span>
+              <span class="kpi-hint">Ir a gestionar</span>
+            </button>
+            <button type="button" class="kpi-card" data-goto="reviews">
+              <span class="kpi-label">Reseñas pendientes</span>
+              <span class="kpi-value" id="count-review-pending">—</span>
+              <span class="kpi-hint">Ir a moderar</span>
+            </button>
+          </div>
+
+          <div class="status-bar">
+            <div class="status-chip">Publicados <strong id="count-status-published">—</strong></div>
+            <div class="status-chip">Borradores <strong id="count-status-draft">—</strong></div>
+            <div class="status-chip">Archivados <strong id="count-status-archived">—</strong></div>
+            <div class="status-chip">Datos útiles <strong id="count-du">—</strong></div>
+            <div class="status-chip">Usuarios <strong id="count-users">—</strong></div>
+            <div class="status-chip">Tickets <strong id="count-tickets">—</strong></div>
+            <div class="status-chip">Reseñas <strong id="count-reviews">—</strong></div>
+            <div class="status-chip">Historial <strong id="count-audit">—</strong></div>
+          </div>
+
+          <div class="quick-actions">
+            <button type="button" class="btn-gold" data-goto="alojamientos" data-create="alojamientos">+ Alojamiento</button>
+            <button type="button" class="btn-gold" data-goto="gastronomia" data-create="gastronomia">+ Gastronomía</button>
+            <button type="button" class="btn-gold" data-goto="eventos" data-create="eventos">+ Evento</button>
+            <button type="button" class="cancel-button" data-goto="reviews">Moderar reseñas</button>
+          </div>
+
+          <div class="card">
+            <h2>Estado del servidor</h2>
+            <pre id="health">Cargando…</pre>
+          </div>
+        </div>
+
+        <!-- ALOJAMIENTOS -->
+        <div id="alojamientos" class="section">
+          <div class="crud-layout">
+            <div class="crud-list-panel">
+              <div class="panel-title">
+                <h2>Listado</h2>
+                <button type="button" data-action="create" data-resource="alojamientos">+ Nuevo</button>
+              </div>
+              <div class="toolbar">
+                <label>Buscar<input data-search-resource="alojamientos" placeholder="Título, categoría…" /></label>
+              </div>
+              <div id="alojamientos-list"></div>
+            </div>
+            <div class="card crud-form-panel">
+              <h2>Alojamiento</h2>
+              <div class="toolbar">
+                <label>Título<input id="alojamiento-titulo" placeholder="Nuevo hotel" /></label>
+                <label>Categoría<input id="alojamiento-categoria" placeholder="hotel / hospedaje" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Latitud<input id="alojamiento-lat" type="number" step="any" placeholder="-28.57" /></label>
+                <label>Longitud<input id="alojamiento-lon" type="number" step="any" placeholder="-58.71" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Rating<input id="alojamiento-rating" placeholder="4.5" /></label>
+                <label>Ubicación<input id="alojamiento-ubicacion" placeholder="San Roque" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Imagen (URL)<input id="alojamiento-mainImg" placeholder="img/Hospedaje JR.jpeg" /></label>
+                <label>Visible en portal
+                  <select id="alojamiento-activo">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                  </select>
+                </label>
+              </div>
+              <div class="toolbar">
+                <label>Estado
+                  <select id="alojamiento-status">
+                    <option value="published">Publicado</option>
+                    <option value="draft">Borrador</option>
+                    <option value="archived">Archivado</option>
+                  </select>
+                </label>
+                <label>Subir imagen<input type="file" id="alojamiento-image-file" accept="image/*" /></label>
+              </div>
+              <img id="alojamiento-image-preview" class="image-preview" src="" alt="Vista previa" />
+              <div class="toolbar">
+                <label>Descripción<textarea id="alojamiento-descripcionLarga" placeholder="Descripción del alojamiento"></textarea></label>
+              </div>
+              <div id="edit-state-alojamientos" class="small"></div>
+              <div class="toolbar">
+                <button type="button" data-action="submit" data-resource="alojamientos">Guardar</button>
+                <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="alojamientos">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GASTRONOMÍA -->
+        <div id="gastronomia" class="section">
+          <div class="crud-layout">
+            <div class="crud-list-panel">
+              <div class="panel-title">
+                <h2>Listado</h2>
+                <button type="button" data-action="create" data-resource="gastronomia">+ Nuevo</button>
+              </div>
+              <div class="toolbar">
+                <label>Buscar<input data-search-resource="gastronomia" placeholder="Nombre, tipo…" /></label>
+              </div>
+              <div id="gastronomia-list"></div>
+            </div>
+            <div class="card crud-form-panel">
+              <h2>Local gastronómico</h2>
+              <div class="toolbar">
+                <label>Nombre<input id="gastronomia-nombre" placeholder="Nuevo comedor" /></label>
+                <label>Tipo<input id="gastronomia-tipo" placeholder="comedor" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Dirección<input id="gastronomia-direccion" placeholder="Dirección" /></label>
+                <label>Horario<input id="gastronomia-horario" placeholder="08:00 - 22:00" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Imagen (URL)<input id="gastronomia-imagen" placeholder="img/Comedor Ariana.jpeg" /></label>
+                <label>Visible en portal
+                  <select id="gastronomia-activo">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                  </select>
+                </label>
+              </div>
+              <div class="toolbar">
+                <label>Estado
+                  <select id="gastronomia-status">
+                    <option value="published">Publicado</option>
+                    <option value="draft">Borrador</option>
+                    <option value="archived">Archivado</option>
+                  </select>
+                </label>
+                <label>Subir imagen<input type="file" id="gastronomia-image-file" accept="image/*" /></label>
+              </div>
+              <img id="gastronomia-image-preview" class="image-preview" src="" alt="Vista previa" />
+              <div class="toolbar">
+                <label>Descripción<textarea id="gastronomia-descripcion" placeholder="Descripción"></textarea></label>
+              </div>
+              <div id="edit-state-gastronomia" class="small"></div>
+              <div class="toolbar">
+                <button type="button" data-action="submit" data-resource="gastronomia">Guardar</button>
+                <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="gastronomia">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EVENTOS -->
+        <div id="eventos" class="section">
+          <div class="crud-layout">
+            <div class="crud-list-panel">
+              <div class="panel-title">
+                <h2>Listado</h2>
+                <button type="button" data-action="create" data-resource="eventos">+ Nuevo</button>
+              </div>
+              <div class="toolbar">
+                <label>Buscar<input data-search-resource="eventos" placeholder="Título, lugar…" /></label>
+              </div>
+              <div id="eventos-list"></div>
+            </div>
+            <div class="card crud-form-panel">
+              <h2>Evento</h2>
+              <div class="toolbar">
+                <label>Título<input id="event-titulo" placeholder="Nuevo evento" /></label>
+                <label>Tipo<input id="event-tipo" placeholder="cultural" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Fecha<input id="event-fecha" type="date" /></label>
+                <label>Hora<input id="event-hora" type="time" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Lugar<input id="event-lugar" placeholder="Plaza Principal" /></label>
+                <label>Imagen<input id="event-imagen" placeholder="img/PLAZA E HIGLESIA.jpeg" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Estado
+                  <select id="event-status">
+                    <option value="published">Publicado</option>
+                    <option value="draft">Borrador</option>
+                    <option value="archived">Archivado</option>
+                  </select>
+                </label>
+                <label>Subir imagen<input type="file" id="event-image-file" accept="image/*" /></label>
+              </div>
+              <img id="event-image-preview" class="image-preview" src="" alt="Vista previa" />
+              <div class="toolbar">
+                <label>Descripción<textarea id="event-descripcion" placeholder="Descripción"></textarea></label>
+              </div>
+              <div id="edit-state-eventos" class="small"></div>
+              <div class="toolbar">
+                <button type="button" data-action="submit" data-resource="eventos">Guardar</button>
+                <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="eventos">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATOS ÚTILES -->
+        <div id="datos-utiles" class="section">
+          <div class="crud-layout">
+            <div class="crud-list-panel">
+              <div class="panel-title">
+                <h2>Categorías</h2>
+                <button type="button" data-action="create" data-resource="datos-utiles">+ Nuevo</button>
+              </div>
+              <div id="datos-utiles-list"></div>
+            </div>
+            <div class="card crud-form-panel">
+              <h2>Dato útil</h2>
+              <div class="toolbar">
+                <label>Categoría<input id="datos-utiles-categoria" placeholder="remises" /></label>
+                <label>Título<input id="datos-utiles-titulo" placeholder="Remises" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Descripción<textarea id="datos-utiles-descripcion" placeholder="Información actualizada"></textarea></label>
+              </div>
+              <div class="toolbar">
+                <label>Contenido JSON (modo avanzado)<textarea id="datos-utiles-contenido" placeholder='{"contactos": [{"nombre": "Remis Local", "tel": "549377xxxxxxx"}]}'></textarea></label>
+              </div>
+              <div id="edit-state-datos-utiles" class="small"></div>
+              <div class="toolbar">
+                <button type="button" data-action="submit" data-resource="datos-utiles">Guardar</button>
+                <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="datos-utiles">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USUARIOS -->
+        <div id="users" class="section">
+          <div class="crud-layout">
+            <div class="crud-list-panel">
+              <div class="panel-title">
+                <h2>Usuarios</h2>
+                <button type="button" data-action="create" data-resource="users">+ Usuario</button>
+              </div>
+              <div id="users-list"></div>
+            </div>
+            <div class="card crud-form-panel">
+              <h2>Usuario</h2>
+              <div class="toolbar">
+                <label>Usuario<input id="user-username" placeholder="editor" /></label>
+                <label>Nombre<input id="user-name" placeholder="Editor" /></label>
+                <label>Contraseña<input id="user-password" type="password" placeholder="Nueva contraseña (opcional)" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Rol
+                  <select id="user-role">
+                    <option value="super-admin">Super admin</option>
+                    <option value="editor">Editor</option>
+                    <option value="viewer">Solo lectura</option>
+                    <option value="guest">Invitado</option>
+                  </select>
+                </label>
+                <label>Estado
+                  <select id="user-status">
+                    <option value="active">Activo</option>
+                    <option value="inactive">Inactivo</option>
+                    <option value="pending">Pendiente</option>
+                    <option value="banned">Bloqueado</option>
+                  </select>
+                </label>
+              </div>
+              <p class="small">Super admin: todos los permisos. Editor: crea y edita contenido. Solo lectura: visualiza.</p>
+              <div id="edit-state-users" class="small"></div>
+              <div class="toolbar">
+                <button type="button" data-action="submit" data-resource="users">Guardar</button>
+                <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="users">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AUDITORÍA -->
+        <div id="audit" class="section">
+          <div class="card">
+            <h2>Historial de cambios</h2>
+            <p class="small">Acciones de administradores y editores.</p>
+          </div>
+          <div class="toolbar">
+            <button type="button" data-action="load" data-resource="audit">Actualizar</button>
+            <label>Buscar<input data-search-resource="audit" placeholder="Filtrar historial" /></label>
+          </div>
+          <div id="audit-list"></div>
+          <div id="audit-pagination" class="small"></div>
+        </div>
+
+        <!-- RESEÑAS -->
+        <div id="reviews" class="section">
+          <div class="card">
+            <h2>Moderación de reseñas</h2>
+            <p class="small">Aprobá, rechazá o eliminá reseñas del portal.</p>
+          </div>
+          <div class="toolbar">
+            <button type="button" data-action="load" data-resource="reviews">Actualizar</button>
+            <label>Buscar<input data-search-resource="reviews" placeholder="Filtrar reseñas" /></label>
+          </div>
+          <div id="reviews-list"></div>
+          <div id="reviews-pagination" class="small"></div>
+        </div>
+
+        <!-- TICKETS -->
+        <div id="tickets" class="section">
+          <div class="toolbar">
+            <button type="button" data-action="load" data-resource="tickets">Actualizar</button>
+            <label>Buscar<input data-search-resource="tickets" placeholder="Filtrar tickets" /></label>
+          </div>
+          <div id="tickets-list"></div>
+          <div id="tickets-pagination" class="small"></div>
+          <div class="card">
+            <h2>Nuevo ticket / reporte</h2>
+            <div class="toolbar">
+              <label>Título<input id="ticket-title" placeholder="Resumen del problema" /></label>
+              <label>Severidad
+                <select id="ticket-severity">
+                  <option value="low">Baja</option>
+                  <option value="normal">Normal</option>
+                  <option value="high">Alta</option>
+                </select>
+              </label>
+            </div>
+            <div class="toolbar">
+              <label>Mensaje<textarea id="ticket-message" placeholder="Describí el problema"></textarea></label>
+            </div>
+            <div class="toolbar">
+              <label>Email (opcional)<input id="ticket-email" placeholder="mail@ejemplo.com" /></label>
+            </div>
+            <div id="edit-state-tickets" class="small"></div>
+            <div class="toolbar">
+              <button type="button" data-action="submit" data-resource="tickets">Crear ticket</button>
+              <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="tickets">Cancelar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- UPLOADS -->
+        <div id="uploads" class="section">
+          <div class="card">
+            <h2>Archivos subidos</h2>
+            <p class="small">Miniaturas y rutas públicas. Copiá la URL para usarla en alojamientos o gastronomía.</p>
+          </div>
+          <div class="toolbar">
+            <button type="button" data-action="load" data-resource="uploads">Actualizar lista</button>
+          </div>
+          <div id="uploads-list" class="uploads-grid"></div>
+          <div id="uploads-pagination" class="small"></div>
+        </div>
+
+        <!-- BACKUP -->
+        <div id="backup" class="section">
+          <div class="toolbar">
+            <button type="button" data-action="download-backup">Descargar backup</button>
+          </div>
+          <div id="backup-status" class="small"></div>
+          <div class="card">
+            <h2>Restaurar backup</h2>
+            <label>Backup JSON<textarea id="backup-restore-body" placeholder="Pegá aquí el JSON de backup"></textarea></label>
+            <div class="toolbar" style="margin-top:12px">
+              <button type="button" data-action="restore-backup">Restaurar backup</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOT -->
+        <div id="bot-config" class="section">
+          <div class="grid">
+            <div class="card">
+              <h2>Estado del asistente</h2>
+              <div><strong>Proveedor:</strong> <span id="bot-provider">Cargando…</span></div>
+              <div><strong>Endpoint público:</strong> <code id="bot-endpoint">—</code></div>
+              <div><strong>Upstream:</strong> <code id="bot-upstream">—</code></div>
+              <div><strong>Timeout:</strong> <span id="bot-timeout">—</span></div>
+              <div><strong>Fallback:</strong> <span id="bot-fallback">—</span></div>
+            </div>
+            <div class="card">
+              <h2>Claves y servicios</h2>
+              <div><strong>Clave del proveedor:</strong> <code id="bot-provider-key-mask">—</code></div>
+              <div><strong>Clave meteorológica:</strong> <code id="weather-key-mask">—</code></div>
+              <p class="small">Los secretos se muestran enmascarados.</p>
+            </div>
+          </div>
+          <div class="card">
+            <h2>System prompt inmutable</h2>
+            <label>Instrucción efectiva<textarea id="bot-system-prompt" readonly aria-readonly="true" rows="10"></textarea></label>
+            <p class="small">Configuración protegida en el servidor.</p>
+          </div>
+        </div>
+
+        <!-- OBSERVABILIDAD -->
+        <div id="observability" class="section">
+          <div class="toolbar">
+            <button type="button" data-action="refresh-observability">Actualizar registros</button>
+            <button type="button" data-action="export-observability" class="cancel-button">Exportar JSON</button>
+            <label>Buscar<input id="observability-search" type="search" placeholder="ID, categoría, evento o error" /></label>
+          </div>
+          <div class="grid">
+            <div class="card metric-card"><span class="small">Consultas</span><strong id="bot-metric-requests">0</strong></div>
+            <div class="card metric-card"><span class="small">Errores</span><strong id="bot-metric-errors">0</strong></div>
+            <div class="card metric-card"><span class="small">Fallbacks</span><strong id="bot-metric-fallbacks">0</strong></div>
+            <div class="card metric-card"><span class="small">Latencia media</span><strong id="bot-metric-latency">0 ms</strong></div>
+          </div>
+          <div class="card"><h2>Log del bot</h2><div id="bot-logs" class="log-list" aria-live="polite"></div></div>
+          <div class="card"><h2>Log del sistema</h2><div id="system-logs" class="log-list" aria-live="polite"></div></div>
+        </div>
+
+        <!-- ANALYTICS -->
+        <div id="analytics" class="section">
+          <div id="analytics-panel"></div>
+        </div>
+      </main>
     </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" data-section="overview">Resumen</button>
-    <button class="tab" data-section="alojamientos">Alojamientos</button>
-    <button class="tab" data-section="gastronomia">Gastronomía</button>
-    <button class="tab" data-section="eventos">Eventos</button>
-    <button class="tab" data-section="datos-utiles">Datos útiles</button>
-    <button class="tab" data-section="bot-config">Bot y APIs</button>
-    <button class="tab" data-section="observability">Observabilidad</button>
-    <button class="tab" data-section="users">Usuarios</button>
-    <button class="tab" data-section="audit">Auditoría</button>
-    <button class="tab" data-section="reviews">Reseñas</button>
-    <button class="tab" data-section="tickets">Tickets</button>
-    <button class="tab" data-section="uploads">Uploads</button>
-    <button class="tab" data-section="backup">Backup</button>
-    <button class="tab" data-section="analytics">Analytics</button>
-  </div>
-
-  <div id="overview" class="section active">
-    <div class="grid">
-      <div class="card"><h2>Conteos</h2><div><strong>Alojamientos:</strong> <span id="count-aloj">Cargando…</span></div><div><strong>Gastronomía:</strong> <span id="count-gast">Cargando…</span></div><div><strong>Eventos:</strong> <span id="count-ev">Cargando…</span></div><div><strong>Datos útiles:</strong> <span id="count-du">Cargando…</span></div><div><strong>Usuarios:</strong> <span id="count-users">Cargando…</span></div><div><strong>Reseñas:</strong> <span id="count-reviews">Cargando…</span></div><div><strong>Historial:</strong> <span id="count-audit">Cargando…</span></div><div><strong>Reseñas pendientes:</strong> <span id="count-review-pending">Cargando…</span></div><div><strong>Publicados:</strong> <span id="count-status-published">Cargando…</span></div><div><strong>Borradores:</strong> <span id="count-status-draft">Cargando…</span></div><div><strong>Archivados:</strong> <span id="count-status-archived">Cargando…</span></div></div><div class="card"><h2>Sesión</h2><div>Usuario: <strong id="overview-session-user">-</strong></div><div>Rol: <strong id="overview-session-role">-</strong></div></div>
-      <div class="card"><h2>Conteos</h2><div><strong>Alojamientos:</strong> <span id="count-aloj">Cargando…</span></div><div><strong>Gastronomía:</strong> <span id="count-gast">Cargando…</span></div><div><strong>Eventos:</strong> <span id="count-ev">Cargando…</span></div><div><strong>Datos útiles:</strong> <span id="count-du">Cargando…</span></div><div><strong>Usuarios:</strong> <span id="count-users">Cargando…</span></div><div><strong>Tickets:</strong> <span id="count-tickets">Cargando…</span></div><div><strong>Reseñas:</strong> <span id="count-reviews">Cargando…</span></div><div><strong>Historial:</strong> <span id="count-audit">Cargando…</span></div><div><strong>Reseñas pendientes:</strong> <span id="count-review-pending">Cargando…</span></div><div><strong>Publicados:</strong> <span id="count-status-published">Cargando…</span></div><div><strong>Borradores:</strong> <span id="count-status-draft">Cargando…</span></div><div><strong>Archivados:</strong> <span id="count-status-archived">Cargando…</span></div></div><div class="card"><h2>Sesión</h2><div>Usuario: <strong id="overview-session-user">-</strong></div><div>Rol: <strong id="overview-session-role">-</strong></div></div>
-      <div class="card"><h2>Estado del servidor</h2><pre id="health">Cargando…</pre></div>
-    </div>
-  </div>
-
-  <div id="alojamientos" class="section">
-    <div class="toolbar"><button data-action="load" data-resource="alojamientos">Cargar alojamientos</button><button data-action="create" data-resource="alojamientos">Crear nuevo alojamiento</button></div>
-    <div id="alojamientos-list"></div>
-    <div class="card"><h2>Alojamiento</h2>
-      <div class="toolbar">
-        <label>Título<input id="alojamiento-titulo" placeholder="Nuevo hotel" /></label>
-        <label>Categoría<input id="alojamiento-categoria" placeholder="hotel" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Latitud<input id="alojamiento-lat" type="number" step="any" placeholder="-28.57" /></label>
-        <label>Longitud<input id="alojamiento-lon" type="number" step="any" placeholder="-58.71" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Rating<input id="alojamiento-rating" placeholder="4.5" /></label>
-        <label>Ubicación<input id="alojamiento-ubicacion" placeholder="San Roque" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Imagen<input id="alojamiento-mainImg" placeholder="img/nuevo.png" /></label>
-        <label>Activo<select id="alojamiento-activo"><option value="1">1</option><option value="0">0</option></select></label>
-      </div>
-      <div class="toolbar">
-        <label>Estado<select id="alojamiento-status"><option value="published">published</option><option value="draft">draft</option><option value="archived">archived</option></select></label>
-        <label>Subir imagen<input type="file" id="alojamiento-image-file" accept="image/*" /></label>
-      </div>
-      <div class="toolbar"><img id="alojamiento-image-preview" class="image-preview" src="" alt="Preview" /></div>
-      <div class="toolbar">
-        <label>Descripción<textarea id="alojamiento-descripcionLarga" placeholder="Descripción aquí"></textarea></label>
-      </div>
-      <div id="edit-state-alojamientos" class="small"></div>
-      <div class="toolbar"><button data-action="submit" data-resource="alojamientos">Guardar</button><button class="cancel-button" data-action="cancel-edit" data-resource="alojamientos">Cancelar edición</button></div>
-    </div>
-  </div>
-
-  <div id="gastronomia" class="section">
-    <div class="toolbar"><button data-action="load" data-resource="gastronomia">Cargar gastronomía</button><button data-action="create" data-resource="gastronomia">Crear nueva gastronomía</button></div>
-    <div id="gastronomia-list"></div>
-    <div class="card"><h2>Gastronomía</h2>
-      <div class="toolbar">
-        <label>Nombre<input id="gastronomia-nombre" placeholder="Nuevo comedor" /></label>
-        <label>Tipo<input id="gastronomia-tipo" placeholder="comedor" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Dirección<input id="gastronomia-direccion" placeholder="Dirección" /></label>
-        <label>Horario<input id="gastronomia-horario" placeholder="08:00 - 22:00" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Imagen<input id="gastronomia-imagen" placeholder="img/nuevo.png" /></label>
-        <label>Activo<select id="gastronomia-activo"><option value="1">1</option><option value="0">0</option></select></label>
-      </div>
-      <div class="toolbar">
-        <label>Estado<select id="gastronomia-status"><option value="published">published</option><option value="draft">draft</option><option value="archived">archived</option></select></label>
-        <label>Subir imagen<input type="file" id="gastronomia-image-file" accept="image/*" /></label>
-      </div>
-      <div class="toolbar"><img id="gastronomia-image-preview" class="image-preview" src="" alt="Preview" /></div>
-      <div class="toolbar">
-        <label>Descripción<textarea id="gastronomia-descripcion" placeholder="Descripción aquí"></textarea></label>
-      </div>
-      <div id="edit-state-gastronomia" class="small"></div>
-      <div class="toolbar"><button data-action="submit" data-resource="gastronomia">Guardar</button><button class="cancel-button" data-action="cancel-edit" data-resource="gastronomia">Cancelar edición</button></div>
-    </div>
-  </div>
-
-  <div id="eventos" class="section">
-    <div class="toolbar"><button data-action="load" data-resource="eventos">Cargar eventos</button><button data-action="create" data-resource="eventos">Crear nuevo evento</button></div>
-    <div id="eventos-list"></div>
-    <div class="card"><h2>Evento</h2>
-      <div class="toolbar">
-        <label>Título<input id="event-titulo" placeholder="Nuevo evento" /></label>
-        <label>Tipo<input id="event-tipo" placeholder="cultural" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Fecha<input id="event-fecha" type="date" /></label>
-        <label>Hora<input id="event-hora" type="time" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Lugar<input id="event-lugar" placeholder="Plaza Principal" /></label>
-        <label>Imagen<input id="event-imagen" placeholder="img/nuevo.png" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Estado<select id="event-status"><option value="published">published</option><option value="draft">draft</option><option value="archived">archived</option></select></label>
-        <label>Subir imagen<input type="file" id="event-image-file" accept="image/*" /></label>
-      </div>
-      <div class="toolbar"><img id="event-image-preview" class="image-preview" src="" alt="Preview" /></div>
-      <div class="toolbar">
-        <label>Descripción<textarea id="event-descripcion" placeholder="Descripción aquí"></textarea></label>
-      </div>
-      <div id="edit-state-eventos" class="small"></div>
-      <div class="toolbar"><button data-action="submit" data-resource="eventos">Guardar</button><button class="cancel-button" data-action="cancel-edit" data-resource="eventos">Cancelar edición</button></div>
-    </div>
-  </div>
-
-  <div id="datos-utiles" class="section">
-    <div class="toolbar"><button data-action="load" data-resource="datos-utiles">Cargar datos útiles</button><button data-action="create" data-resource="datos-utiles">Actualizar / crear dato útil</button></div>
-    <div id="datos-utiles-list"></div>
-    <div class="card"><h2>Dato útil</h2>
-      <div class="toolbar">
-        <label>Categoría<input id="datos-utiles-categoria" placeholder="remises" /></label>
-        <label>Título<input id="datos-utiles-titulo" placeholder="🚖 Remises actualizados" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Descripción<textarea id="datos-utiles-descripcion" placeholder="Información actualizada"></textarea></label>
-      </div>
-      <div class="toolbar">
-        <label>Contenido JSON<textarea id="datos-utiles-contenido" placeholder='{"contactos": [{ "nombre": "Remis Local", "tel": "549377xxxxxxx" }]}'></textarea></label>
-      </div>
-      <div id="edit-state-datos-utiles" class="small"></div>
-      <div class="toolbar"><button data-action="submit" data-resource="datos-utiles">Guardar</button><button class="cancel-button" data-action="cancel-edit" data-resource="datos-utiles">Cancelar edición</button></div>
-    </div>
-  </div>
-
-  <div id="users" class="section">
-    <div class="toolbar"><button data-action="load" data-resource="users">Cargar usuarios</button><button data-action="create" data-resource="users">Crear usuario</button></div>
-    <div id="users-list"></div>
-    <div class="card"><h2>Usuario</h2>
-      <div class="toolbar">
-        <label>Usuario<input id="user-username" placeholder="editor" /></label>
-        <label>Nombre<input id="user-name" placeholder="Editor" /></label>
-        <label>Contraseña<input id="user-password" type="password" placeholder="Nueva contraseña (opcional)" /></label>
-      </div>
-      <div class="toolbar">
-        <label>Rol<select id="user-role"><option value="super-admin">super-admin</option><option value="editor">editor</option><option value="viewer">viewer</option><option value="guest">guest</option></select></label>
-        <label>Estado<select id="user-status"><option value="active">active</option><option value="inactive">inactive</option><option value="pending">pending</option><option value="banned">banned</option></select></label>
-      </div>
-      <div class="small">Roles: super-admin = todos los permisos, editor = puede crear/editar contenido, viewer = solo visualiza.</div>
-      <div id="edit-state-users" class="small"></div>
-      <div class="toolbar"><button data-action="submit" data-resource="users">Guardar</button><button class="cancel-button" data-action="cancel-edit" data-resource="users">Cancelar edición</button></div>
-    </div>
-  </div>
-
-  <div id="audit" class="section">
-    <div class="toolbar">
-      <button data-action="load" data-resource="audit">Cargar historial</button>
-      <label>Buscar<input data-search-resource="audit" placeholder="Filtrar historial" /></label>
-    </div>
-    <div id="audit-list"></div>
-    <div id="audit-pagination" class="small"></div>
-    <div class="card"><h2>Historial de cambios</h2><p class="small">Muestra las acciones realizadas por los administradores y editores.</p></div>
-  </div>
-
-  <div id="reviews" class="section">
-    <div class="toolbar">
-      <button data-action="load" data-resource="reviews">Cargar reseñas</button>
-      <label>Buscar<input data-search-resource="reviews" placeholder="Filtrar reseñas" /></label>
-    </div>
-    <div id="reviews-list"></div>
-    <div id="reviews-pagination" class="small"></div>
-    <div class="card"><h2>Moderación</h2><p class="small">Use los botones de cada reseña para aprobar, rechazar o eliminar.</p></div>
-  </div>
-
-  <div id="tickets" class="section">
-    <div class="toolbar">
-      <button data-action="load" data-resource="tickets">Cargar tickets</button>
-      <label>Buscar<input data-search-resource="tickets" placeholder="Filtrar tickets" /></label>
-    </div>
-    <div id="tickets-list"></div>
-    <div id="tickets-pagination" class="small"></div>
-    <div class="card"><h2>Nuevo ticket / Reporte</h2>
-      <div class="toolbar">
-        <label>Título<input id="ticket-title" placeholder="Resumen del problema" /></label>
-        <label>Severidad<select id="ticket-severity"><option value="low">low</option><option value="normal">normal</option><option value="high">high</option></select></label>
-      </div>
-      <div class="toolbar">
-        <label>Mensaje<textarea id="ticket-message" placeholder="Describe el problema con detalle"></textarea></label>
-      </div>
-      <div class="toolbar">
-        <label>Email (opcional)<input id="ticket-email" placeholder="mail@ejemplo.com" /></label>
-      </div>
-      <div id="edit-state-tickets" class="small"></div>
-      <div class="toolbar"><button data-action="submit" data-resource="tickets">Crear ticket</button><button class="cancel-button" data-action="cancel-edit" data-resource="tickets">Cancelar</button></div>
-    </div>
-  </div>
-
-  <div id="uploads" class="section">
-    <div class="toolbar">
-      <button data-action="load" data-resource="uploads">Listar uploads</button>
-    </div>
-    <div id="uploads-list"></div>
-    <div id="uploads-pagination" class="small"></div>
-    <div class="card"><h2>Archivos subidos</h2><p class="small">Lista las imágenes subidas y permite eliminar las que ya no se usen.</p></div>
-  </div>
-
-  <div id="backup" class="section">
-    <div class="toolbar">
-      <button data-action="download-backup">Descargar backup</button>
-    </div>
-    <div id="backup-status" class="small"></div>
-    <div class="card"><h2>Restaurar backup</h2>
-      <label>Backup JSON<textarea id="backup-restore-body" placeholder='Pega aquí el JSON de backup'></textarea></label>
-      <div class="toolbar"><button data-action="restore-backup">Restaurar backup</button></div>
-    </div>
-  </div>
-
-  <div id="bot-config" class="section">
-    <div class="grid">
-      <div class="card">
-        <h2>Estado del asistente</h2>
-        <div><strong>Proveedor:</strong> <span id="bot-provider">Cargando…</span></div>
-        <div><strong>Endpoint público:</strong> <code id="bot-endpoint">—</code></div>
-        <div><strong>Upstream:</strong> <code id="bot-upstream">—</code></div>
-        <div><strong>Timeout:</strong> <span id="bot-timeout">—</span></div>
-        <div><strong>Fallback:</strong> <span id="bot-fallback">—</span></div>
-      </div>
-      <div class="card">
-        <h2>Claves y servicios</h2>
-        <div><strong>Clave del proveedor:</strong> <code id="bot-provider-key-mask">—</code></div>
-        <div><strong>Clave meteorológica:</strong> <code id="weather-key-mask">—</code></div>
-        <p class="small">Los secretos se muestran enmascarados y nunca se envían completos al navegador.</p>
-      </div>
-    </div>
-    <div class="card">
-      <h2>System prompt inmutable</h2>
-      <label>Instrucción efectiva<textarea id="bot-system-prompt" readonly aria-readonly="true" rows="10"></textarea></label>
-      <p class="small">Configuración protegida en el servidor. No admite edición desde el panel ni por API.</p>
-    </div>
-  </div>
-
-  <div id="observability" class="section">
-    <div class="toolbar">
-      <button data-action="refresh-observability">Actualizar registros</button>
-      <button data-action="export-observability">Exportar JSON</button>
-      <label>Buscar<input id="observability-search" type="search" placeholder="ID, categoría, evento o error" /></label>
-    </div>
-    <div class="grid">
-      <div class="card metric-card"><span class="small">Consultas</span><strong id="bot-metric-requests">0</strong></div>
-      <div class="card metric-card"><span class="small">Errores</span><strong id="bot-metric-errors">0</strong></div>
-      <div class="card metric-card"><span class="small">Fallbacks</span><strong id="bot-metric-fallbacks">0</strong></div>
-      <div class="card metric-card"><span class="small">Latencia media</span><strong id="bot-metric-latency">0 ms</strong></div>
-    </div>
-    <div class="card"><h2>Log del bot</h2><div id="bot-logs" class="log-list" aria-live="polite"></div></div>
-    <div class="card"><h2>Log del sistema</h2><div id="system-logs" class="log-list" aria-live="polite"></div></div>
-  </div>
-
-  <div id="analytics" class="section">
-    <div id="analytics-panel"></div>
-  </div>
-
+  <div class="toast-host" id="toast-host" aria-live="polite"></div>
   <script src="/admin/static/app.js"></script>
 </body>
 </html>
