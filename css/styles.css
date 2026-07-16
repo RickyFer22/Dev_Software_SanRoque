@@ -908,25 +908,25 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .sr-l7 { color:#2B57A7; } /* u azul */
 .sr-l8 { color:#7E3F98; } /* e violeta */
 
-/* ── FOOTER estilo obera.tur.ar: tapiz verde + wordmark hero multicolor ── */
+/* ── FOOTER estilo obera.tur.ar: verde oliva #2D5C13 + barra oscura #202317 ── */
 .site-footer {
   background:
-    radial-gradient(130% 100% at 50% -20%, rgba(61,163,58,.20), rgba(23,163,152,.06) 42%, transparent 70%),
-    linear-gradient(180deg, #0A2E2B 0%, #072220 55%, #051916 100%);
+    radial-gradient(120% 100% at 50% -10%, rgba(123,170,57,.28), transparent 60%),
+    linear-gradient(180deg, #336A15 0%, #2D5C13 46%, #274F10 100%);
 }
-/* tapiz: contornos orgánicos tenues (evoca los pastizales correntinos) */
+/* tapiz: contornos orgánicos verdes (marca de agua, como el wordmark de obera) */
 .footer-tapiz {
-  position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.55;
-  background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='220'%3E%3Cg%20fill='none'%20stroke='%237BAA39'%20stroke-width='1'%20stroke-opacity='0.10'%3E%3Ccircle%20cx='110'%20cy='110'%20r='26'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='50'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='74'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='98'/%3E%3Ccircle%20cx='0'%20cy='0'%20r='38'/%3E%3Ccircle%20cx='0'%20cy='0'%20r='62'/%3E%3Ccircle%20cx='220'%20cy='220'%20r='38'/%3E%3Ccircle%20cx='220'%20cy='220'%20r='62'/%3E%3Ccircle%20cx='220'%20cy='0'%20r='30'/%3E%3Ccircle%20cx='0'%20cy='220'%20r='30'/%3E%3C/g%3E%3C/svg%3E");
+  position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='220'%3E%3Cg%20fill='none'%20stroke='%23A7D24F'%20stroke-width='1'%20stroke-opacity='0.16'%3E%3Ccircle%20cx='110'%20cy='110'%20r='26'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='50'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='74'/%3E%3Ccircle%20cx='110'%20cy='110'%20r='98'/%3E%3Ccircle%20cx='0'%20cy='0'%20r='38'/%3E%3Ccircle%20cx='0'%20cy='0'%20r='62'/%3E%3Ccircle%20cx='220'%20cy='220'%20r='38'/%3E%3Ccircle%20cx='220'%20cy='220'%20r='62'/%3E%3Ccircle%20cx='220'%20cy='0'%20r='30'/%3E%3Ccircle%20cx='0'%20cy='220'%20r='30'/%3E%3C/g%3E%3C/svg%3E");
   background-size:220px 220px;
-  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.55) 55%,transparent 92%);
-  mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.55) 55%,transparent 92%);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 60%,transparent 95%);
+  mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 60%,transparent 95%);
 }
 /* asegura que el contenido quede sobre el tapiz */
 .site-footer > *:not(.footer-tapiz) { position:relative; z-index:1; }
 
 .footer-hero {
-  padding:46px 24px 30px;
+  padding:48px 24px 34px;
   display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center;
 }
 .footer-kicker {
@@ -936,22 +936,31 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .footer-kicker::before, .footer-kicker::after { content:""; width:30px; height:1px; }
 .footer-kicker::before { background:linear-gradient(90deg,transparent,#F5D98A); }
 .footer-kicker::after  { background:linear-gradient(90deg,#F5D98A,transparent); }
+/* Wordmark "San Roque" con extrusión 3D (letras del cartel en relieve) */
 .sr-wordmark-hero {
   font-size:clamp(52px,11vw,134px); letter-spacing:-.02em;
-  filter:drop-shadow(0 12px 26px rgba(0,0,0,.5));
 }
-.sr-wordmark-hero span { text-shadow:0 3px 0 rgba(0,0,0,.22), 0 6px 14px rgba(0,0,0,.25); }
-.footer-hero-actions { display:flex; align-items:center; gap:14px; margin-top:6px; }
+.sr-wordmark-hero span {
+  text-shadow:
+    1px 1px 0 #1c3d0b, 2px 2px 0 #1c3d0b, 3px 3px 0 #183409,
+    4px 4px 0 #142c08, 5px 5px 0 #102306, 6px 6px 0 #0c1a05,
+    7px 9px 14px rgba(0,0,0,.45);
+}
+.footer-hero-actions { display:flex; align-items:center; gap:14px; margin-top:8px; }
 .footer-hero-actions .footer-brand-mark { width:48px; height:48px; border-radius:14px; }
 .social-icon {
   width:46px; height:46px; display:inline-flex; align-items:center; justify-content:center;
-  border-radius:50%; border:1px solid rgba(245,217,138,.35); color:#fff; font-size:18px;
-  text-decoration:none; background:rgba(255,255,255,.05);
+  border-radius:50%; border:1px solid rgba(245,217,138,.4); color:#fff; font-size:18px;
+  text-decoration:none; background:rgba(255,255,255,.08);
   transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease;
 }
-.social-icon:hover { background:#F5D98A; color:#003633; border-color:#F5D98A; transform:translateY(-3px); }
+.social-icon:hover { background:#F5D98A; color:#274F10; border-color:#F5D98A; transform:translateY(-3px); }
 .social-icon:focus-visible { outline:3px solid #F5D98A; outline-offset:3px; }
-@media (max-width:480px) { .footer-hero { padding:34px 20px 24px; } }
+@media (max-width:480px) { .footer-hero { padding:36px 20px 26px; } }
+
+/* Barra inferior oscura (créditos + legal), como el sub-pie de obera */
+.footer-bottombar { background:#202317; padding:26px 0 6px; }
+.footer-bottombar .academic-credits { border-top:0; padding-top:0; }
 
 /* ── MONJITA DOMINICA: tarjeta interactiva del hero ── */
 .monjita-hero-card { position:absolute;z-index:25;top:96px;left:16px;display:flex;align-items:center;gap:12px;max-width:280px;padding:10px 15px 10px 10px;border:1px solid rgba(245,217,138,.4);border-radius:18px;background:rgba(0,32,29,.42);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-align:left;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.28);transition:transform .25s ease,background .25s ease,box-shadow .25s ease; }
