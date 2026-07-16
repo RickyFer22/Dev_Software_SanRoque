@@ -12,7 +12,15 @@ const helmet = require('helmet');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { SYSTEM_PROMPT, answerLocally, publicBotConfig } = require('./bot-service');
+const {
+  SYSTEM_PROMPT,
+  DEFAULT_SYSTEM_PROMPT,
+  answerLocally,
+  publicBotConfig,
+  normalizeBotSettings,
+  defaultBotSettings,
+  orderedEnabledApis,
+} = require('./bot-service');
 const bruteforce = require('./security');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
@@ -86,6 +94,7 @@ function buildInitialStore() {
     bot_logs: [],
     system_logs: [],
     migrations: [],
+    bot_settings: defaultBotSettings(process.env),
     createdAt: now,
   };
 }
@@ -106,6 +115,9 @@ function normalizeStore(store) {
     bot_logs: Array.isArray(store.bot_logs) ? store.bot_logs.slice(0, BOT_LOG_LIMIT) : [],
     system_logs: Array.isArray(store.system_logs) ? store.system_logs.slice(0, SYSTEM_LOG_LIMIT) : [],
     migrations: Array.isArray(store.migrations) ? store.migrations : [],
+    bot_settings: (store.bot_settings && Array.isArray(store.bot_settings.apis))
+      ? normalizeBotSettings(store.bot_settings, store.bot_settings)
+      : defaultBotSettings(process.env),
     createdAt: store.createdAt || new Date().toISOString(),
   };
 }
@@ -355,6 +367,135 @@ app.get('/api/data', (req, res) => {
   });
 });
 
+// ─────────────────────────────────────────────────────────────────────────
+// Sitemap y robots DINÁMICOS: se regeneran en cada request a partir del store,
+// por lo que crecen solos a medida que se publican alojamientos/gastronomía.
+// El host se toma del request (detrás de Traefik) con fallback al dominio prod.
+// ─────────────────────────────────────────────────────────────────────────
+function publicBaseUrl(req) {
+  if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/+$/, '');
+  const proto = (req.headers['x-forwarded-proto'] || req.protocol || 'https').split(',')[0].trim();
+  const host = req.headers['x-forwarded-host'] || req.headers.host || 'vivisanroque.munisanroque.ar';
+  return `${proto}://${host}`;
+}
+function isPublicItem(item) {
+  if (!item) return false;
+  const status = String(item.status || 'published').toLowerCase();
+  if (status === 'draft' || status === 'archived' || status === 'inactive') return false;
+  if (item.activo === false || item.activo === 0 || item.activo === 'false') return false;
+  return true;
+}
+function xmlEscape(value) {
+  return String(value).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
+}
+
+app.get('/sitemap.xml', (req, res) => {
+  const store = loadStore();
+  const base = publicBaseUrl(req);
+  const today = new Date().toISOString().slice(0, 10);
+  const urls = [
+    { loc: `${base}/`, priority: '1.0', changefreq: 'daily' },
+    { loc: `${base}/gastronomia.html`, priority: '0.8', changefreq: 'weekly' },
+    { loc: `${base}/evento.html`, priority: '0.7', changefreq: 'weekly' },
+  ];
+  (store.alojamientos || []).filter(isPublicItem).forEach((a) => {
+    if (a.id) urls.push({ loc: `${base}/index.html?h=${encodeURIComponent(a.id)}`, priority: '0.6', changefreq: 'weekly' });
+  });
+  (store.gastronomia || []).filter(isPublicItem).forEach((g) => {
+    if (g.id) urls.push({ loc: `${base}/gastronomia.html?g=${encodeURIComponent(g.id)}`, priority: '0.5', changefreq: 'weekly' });
+  });
+  const body = `<?xml version="1.0" encoding="UTF-8"?>\n`
+    + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
+    + urls.map((u) => `  <url>\n    <loc>${xmlEscape(u.loc)}</loc>\n    <lastmod>${today}</lastmod>\n`
+      + `    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')
+    + `\n</urlset>\n`;
+  res.set('Content-Type', 'application/xml; charset=utf-8');
+  res.set('Cache-Control', 'public, max-age=3600');
+  res.send(body);
+});
+
+app.get('/robots.txt', (req, res) => {
+  const base = publicBaseUrl(req);
+  const body = [
+    'User-agent: *',
+    'Allow: /',
+    'Disallow: /admin',
+    'Disallow: /api',
+    '',
+    `Sitemap: ${base}/sitemap.xml`,
+    '',
+  ].join('\n');
+  res.set('Content-Type', 'text/plain; charset=utf-8');
+  res.set('Cache-Control', 'public, max-age=3600');
+  res.send(body);
+});
+
+// Llama a una API del bot según su formato y devuelve el texto de la respuesta.
+// Lanza en caso de error/timeout para permitir el failover a la siguiente API.
+async function callBotApi(api, message, systemPrompt, timeoutMs) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), Number(timeoutMs || 6000));
+  try {
+    const headers = { 'content-type': 'application/json' };
+    let body;
+    switch (api.format) {
+      case 'openai':
+      case 'openrouter':
+        if (api.apiKey) headers.authorization = `Bearer ${api.apiKey}`;
+        body = {
+          model: api.model || 'gpt-4o-mini',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: message },
+          ],
+          temperature: 0.3,
+        };
+        break;
+      case 'anthropic':
+        if (api.apiKey) headers['x-api-key'] = api.apiKey;
+        headers['anthropic-version'] = '2023-06-01';
+        body = {
+          model: api.model || 'claude-3-5-haiku-latest',
+          max_tokens: 1024,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: message }],
+        };
+        break;
+      case 'ollama':
+        body = { model: api.model || 'llama3', prompt: `${systemPrompt}\n\nUsuario: ${message}`, stream: false };
+        break;
+      default: // generic
+        if (api.apiKey) {
+          const header = (api.authHeader || 'Authorization').toLowerCase();
+          const scheme = api.authScheme ? `${api.authScheme} ` : '';
+          headers[header] = `${scheme}${api.apiKey}`;
+        }
+        body = { message, systemPrompt, model: api.model || undefined };
+        break;
+    }
+    const response = await fetch(api.url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`upstream_${response.status}`);
+    const data = await response.json();
+    let text = '';
+    if (data.choices && data.choices[0]) {
+      text = data.choices[0].message ? data.choices[0].message.content : data.choices[0].text;
+    } else if (Array.isArray(data.content) && data.content[0]) {
+      text = data.content[0].text;
+    } else {
+      text = data.reply || data.response || data.message || data.output;
+    }
+    return sanitizeString(text, 5000);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 app.post('/api/bot/chat', async (req, res) => {
   const startedAt = Date.now();
   const message = sanitizeString(req.body && req.body.message, 1000).trim();
@@ -373,31 +514,35 @@ app.post('/api/bot/chat', async (req, res) => {
     if (local) {
       reply = local.reply;
       category = local.category;
-    } else if (process.env.BOT_API_URL) {
-      source = 'external';
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), Number(process.env.BOT_TIMEOUT_MS || 6000));
-      try {
-        const response = await fetch(process.env.BOT_API_URL, {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            ...(process.env.BOT_API_KEY ? { authorization: `Bearer ${process.env.BOT_API_KEY}` } : {}),
-          },
-          body: JSON.stringify({ message, systemPrompt: SYSTEM_PROMPT }),
-          signal: controller.signal,
-        });
-        if (!response.ok) throw new Error(`upstream_${response.status}`);
-        const data = await response.json();
-        reply = sanitizeString(data.reply || data.response || data.message, 5000);
-        if (!reply) throw new Error('upstream_empty');
-      } finally {
-        clearTimeout(timeout);
-      }
     } else {
-      fallback = true;
-      source = 'fallback';
-      reply = 'Puedo ayudarte con remises, alojamientos, gastronomía, eventos y datos útiles de San Roque. ¿Qué necesitás conocer?';
+      const settings = store.bot_settings || defaultBotSettings(process.env);
+      const systemPrompt = settings.systemPrompt || SYSTEM_PROMPT;
+      const apis = orderedEnabledApis(settings);
+      if (apis.length) {
+        source = 'external';
+        let lastError = null;
+        let got = '';
+        for (const api of apis) {
+          try {
+            got = await callBotApi(api, message, systemPrompt, settings.timeoutMs);
+            if (got) { source = `external:${api.label}`; break; }
+          } catch (err) {
+            lastError = err;
+            recordSystemLog('warning', 'bot_upstream_failure', {
+              api: api.label, error: sanitizeString(err && err.message, 200),
+            }, req);
+          }
+        }
+        if (got) {
+          reply = got;
+        } else {
+          throw lastError || new Error('upstream_empty');
+        }
+      } else {
+        fallback = true;
+        source = 'fallback';
+        reply = 'Puedo ayudarte con remises, alojamientos, gastronomía, eventos y datos útiles de San Roque. ¿Qué necesitás conocer?';
+      }
     }
   } catch (err) {
     fallback = true;
@@ -430,7 +575,29 @@ app.post('/api/bot/chat', async (req, res) => {
 
 app.get('/admin/api/bot-config', (req, res) => {
   if (!['super-admin', 'editor'].includes(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
-  res.json(publicBotConfig(process.env));
+  const store = loadStore();
+  res.json(publicBotConfig(store.bot_settings, process.env));
+});
+
+// Guardar configuración del bot: system prompt, timeout, APIs (varias) y la activa.
+// Solo super-admin. Las claves llegan enmascaradas en el GET; si el admin no envía
+// una clave nueva, normalizeBotSettings conserva la existente.
+app.post('/admin/api/bot-config', (req, res) => {
+  if (req.admin.role !== 'super-admin') return sendForbiddenOrUnauthenticated(req, res);
+  try {
+    const store = loadStore();
+    const next = normalizeBotSettings(req.body || {}, store.bot_settings || {});
+    store.bot_settings = next;
+    saveStore(store);
+    recordAudit('update', 'bot_settings', 'bot_settings', req, {
+      apis: next.apis.length,
+      activeApiId: next.activeApiId,
+      promptLength: next.systemPrompt.length,
+    });
+    res.json(publicBotConfig(next, process.env));
+  } catch (e) {
+    res.status(400).json({ error: (e && e.message) || 'No se pudo guardar la configuración del bot' });
+  }
 });
 
 app.get('/admin/api/observability', (req, res) => {

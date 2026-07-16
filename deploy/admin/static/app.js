@@ -7,7 +7,6 @@ const resources = {
   users: { api: '/admin/api/users', title: 'Usuarios' },
   tickets: { api: '/admin/api/tickets', title: 'Tickets' },
   audit: { api: '/admin/api/audit', title: 'Auditoría', isAudit: true },
-  reviews: { api: '/admin/api/reviews', title: 'Reseñas' },
   uploads: { api: '/admin/api/uploads', title: 'Uploads' },
 };
 
@@ -67,7 +66,6 @@ const SECTION_TITLES = {
   users: 'Usuarios',
   tickets: 'Tickets',
   audit: 'Auditoría',
-  reviews: 'Reseñas',
   uploads: 'Uploads',
   backup: 'Backup',
   'bot-config': 'Bot y APIs',
@@ -790,10 +788,10 @@ function toggleSection(sectionId) {
   const title = document.getElementById('page-title');
   if (title) title.textContent = SECTION_TITLES[sectionId] || resources[sectionId]?.title || sectionId;
   closeSidebar();
-  if (sectionId === 'bot-config') loadBotConfig();
+  if (sectionId === 'bot-config') { initBotConfigControls(); loadBotConfig(); }
   if (sectionId === 'observability') loadObservability();
   if (sectionId === 'seguridad') loadSecurity();
-  if (['alojamientos', 'gastronomia', 'eventos', 'datos-utiles', 'users', 'reviews', 'tickets', 'audit', 'uploads'].includes(sectionId)) {
+  if (['alojamientos', 'gastronomia', 'eventos', 'datos-utiles', 'users', 'tickets', 'audit', 'uploads'].includes(sectionId)) {
     loadResource(sectionId).catch(() => {});
   }
 }
@@ -803,21 +801,158 @@ function setText(id, value) {
   if (element) element.textContent = value == null ? '—' : String(value);
 }
 
+let botConfigDefaultPrompt = '';
+
+function botApiRowFrom(api) {
+  const tpl = document.getElementById('bot-api-row-template');
+  const node = tpl.content.firstElementChild.cloneNode(true);
+  const a = api || {};
+  node.dataset.apiId = a.id || '';
+  node.querySelector('.bot-api-label').value = a.label || '';
+  node.querySelector('.bot-api-format').value = a.format || 'openrouter';
+  node.querySelector('.bot-api-model').value = a.model || '';
+  node.querySelector('.bot-api-url').value = a.url || '';
+  node.querySelector('.bot-api-enabled-input').checked = a.enabled !== false;
+  const keyState = node.querySelector('.bot-api-keystate');
+  keyState.textContent = a.keyConfigured ? `Clave guardada: ${a.keyMask}` : 'Sin clave';
+  node.querySelector('.bot-api-remove').addEventListener('click', () => {
+    node.remove();
+    if (!document.querySelector('#bot-apis-list .bot-api-row')) {
+      document.getElementById('bot-apis-list').appendChild(botApiRowFrom(null));
+    }
+  });
+  return node;
+}
+
+function renderBotApis(apis, activeApiId) {
+  const list = document.getElementById('bot-apis-list');
+  if (!list) return;
+  list.innerHTML = '';
+  const rows = (apis && apis.length) ? apis : [null];
+  rows.forEach((api) => list.appendChild(botApiRowFrom(api)));
+  // Marcar la activa (radio)
+  const radios = list.querySelectorAll('.bot-api-active-input');
+  let matched = false;
+  list.querySelectorAll('.bot-api-row').forEach((row, idx) => {
+    const isActive = row.dataset.apiId && row.dataset.apiId === activeApiId;
+    radios[idx].checked = isActive;
+    if (isActive) matched = true;
+  });
+  if (!matched && radios[0]) radios[0].checked = true;
+}
+
+function collectBotConfig() {
+  const rows = Array.from(document.querySelectorAll('#bot-apis-list .bot-api-row'));
+  const apis = rows.map((row, idx) => {
+    const val = (sel) => (row.querySelector(sel) ? row.querySelector(sel).value.trim() : '');
+    const api = {
+      id: row.dataset.apiId || undefined,
+      label: val('.bot-api-label'),
+      format: val('.bot-api-format'),
+      model: val('.bot-api-model'),
+      url: val('.bot-api-url'),
+      enabled: row.querySelector('.bot-api-enabled-input').checked,
+      order: idx,
+    };
+    const key = val('.bot-api-key');
+    if (key) api.apiKey = key;
+    return api;
+  }).filter((api) => api.url || api.label);
+  const activeRow = document.querySelector('#bot-apis-list .bot-api-row .bot-api-active-input:checked');
+  let activeApiId = '';
+  if (activeRow) {
+    const row = activeRow.closest('.bot-api-row');
+    activeApiId = row ? row.dataset.apiId || '' : '';
+  }
+  const timeout = document.getElementById('bot-timeout');
+  const prompt = document.getElementById('bot-system-prompt');
+  return {
+    systemPrompt: prompt ? prompt.value : '',
+    timeoutMs: timeout ? Number(timeout.value) : 6000,
+    activeApiId,
+    apis,
+  };
+}
+
+function updateBotPromptCount() {
+  const prompt = document.getElementById('bot-system-prompt');
+  const counter = document.getElementById('bot-prompt-count');
+  if (prompt && counter) counter.textContent = `${prompt.value.length} caracteres`;
+}
+
+function applyBotConfig(data) {
+  setText('bot-endpoint', data.endpoint);
+  setText('bot-fallback', data.fallback);
+  setText('weather-key-mask', data.weatherKeyMask);
+  const active = (data.apis || []).find((a) => a.id === data.activeApiId);
+  setText('bot-active-label', active ? active.label : (data.apis && data.apis.length ? data.apis[0].label : 'Conocimiento local'));
+  const timeout = document.getElementById('bot-timeout');
+  if (timeout) timeout.value = data.timeoutMs || 6000;
+  const prompt = document.getElementById('bot-system-prompt');
+  if (prompt) prompt.value = data.systemPrompt || '';
+  botConfigDefaultPrompt = data.defaultSystemPrompt || botConfigDefaultPrompt;
+  renderBotApis(data.apis, data.activeApiId);
+  updateBotPromptCount();
+  renderCount('count-bot-apis', (data.apis || []).filter((a) => a.enabled).length);
+}
+
 async function loadBotConfig() {
   const data = await fetchJson('/admin/api/bot-config');
   if (data.error) {
-    setText('bot-provider', `Error: ${data.error}`);
+    setText('bot-active-label', `Error: ${data.error}`);
     return;
   }
-  setText('bot-provider', data.provider);
-  setText('bot-endpoint', data.endpoint);
-  setText('bot-upstream', data.upstreamEndpoint);
-  setText('bot-timeout', `${data.timeoutMs} ms`);
-  setText('bot-fallback', data.fallback);
-  setText('bot-provider-key-mask', data.providerKeyMask);
-  setText('weather-key-mask', data.weatherKeyMask);
+  applyBotConfig(data);
+}
+
+async function saveBotConfig() {
+  const feedback = document.getElementById('bot-config-feedback');
+  const btn = document.getElementById('bot-save-config');
+  const payload = collectBotConfig();
+  if (btn) { btn.disabled = true; }
+  if (feedback) { feedback.textContent = 'Guardando…'; feedback.style.color = ''; }
+  try {
+    const data = await fetchJson('/admin/api/bot-config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (data.error) throw new Error(data.error);
+    applyBotConfig(data);
+    if (feedback) { feedback.textContent = 'Configuración guardada.'; feedback.style.color = 'var(--ok, #2e7d32)'; }
+  } catch (err) {
+    if (feedback) { feedback.textContent = `No se pudo guardar: ${err.message}`; feedback.style.color = 'var(--danger, #b3261e)'; }
+  } finally {
+    if (btn) { btn.disabled = false; }
+  }
+}
+
+function initBotConfigControls() {
+  const addBtn = document.getElementById('bot-add-api');
+  if (addBtn && !addBtn.dataset.bound) {
+    addBtn.dataset.bound = '1';
+    addBtn.addEventListener('click', () => {
+      document.getElementById('bot-apis-list').appendChild(botApiRowFrom(null));
+    });
+  }
+  const saveBtn = document.getElementById('bot-save-config');
+  if (saveBtn && !saveBtn.dataset.bound) {
+    saveBtn.dataset.bound = '1';
+    saveBtn.addEventListener('click', saveBotConfig);
+  }
+  const resetBtn = document.getElementById('bot-reset-prompt');
+  if (resetBtn && !resetBtn.dataset.bound) {
+    resetBtn.dataset.bound = '1';
+    resetBtn.addEventListener('click', () => {
+      const prompt = document.getElementById('bot-system-prompt');
+      if (prompt && botConfigDefaultPrompt) { prompt.value = botConfigDefaultPrompt; updateBotPromptCount(); }
+    });
+  }
   const prompt = document.getElementById('bot-system-prompt');
-  if (prompt) prompt.value = data.systemPrompt || '';
+  if (prompt && !prompt.dataset.bound) {
+    prompt.dataset.bound = '1';
+    prompt.addEventListener('input', updateBotPromptCount);
+  }
 }
 
 let observabilitySnapshot = { metrics: {}, botLogs: [], systemLogs: [] };
@@ -964,7 +1099,6 @@ function canReadResource(resource, role) {
   if (['bot-config', 'observability'].includes(name)) return ['super-admin', 'editor'].includes(role);
   if (name === 'seguridad') return role === 'super-admin';
   if (name === 'users') return role === 'super-admin';
-  if (name === 'reviews') return ['super-admin', 'editor', 'viewer'].includes(role);
   if (name === 'audit') return ['super-admin', 'editor'].includes(role);
   if (name === 'uploads') return ['super-admin', 'editor'].includes(role);
   if (name === 'backup') return role === 'super-admin';
@@ -974,14 +1108,12 @@ function canReadResource(resource, role) {
 function canWriteResource(resource, role) {
   const name = mapResourceToPermissionName(resource);
   if (name === 'users') return role === 'super-admin';
-  if (name === 'reviews') return ['super-admin', 'editor'].includes(role);
   return ['super-admin', 'editor'].includes(role);
 }
 
 function canDeleteResource(resource, role) {
   const name = mapResourceToPermissionName(resource);
   if (name === 'users') return role === 'super-admin';
-  if (name === 'reviews') return role === 'super-admin';
   if (name === 'uploads') return role === 'super-admin';
   return ['super-admin', 'editor'].includes(role);
 }
@@ -1116,26 +1248,6 @@ function renderUsers(item) {
     `;
 }
 
-function renderReviews(item) {
-  if (!item || typeof item !== 'object') return '';
-  const role = getCurrentAdminSession().role;
-  const canModerate = canWriteResource('reviews', role);
-  const canDelete = canDeleteResource('reviews', role);
-  return `
-    <div class="list-row">
-      <div>
-        <strong>${item.id}</strong><br>
-        <div class="small">${item.comment || item.text || 'Sin comentario'}</div>
-        ${renderStatusPill(item.status)}
-      </div>
-      <div class="list-actions">
-        ${canModerate ? `<button data-action="approve" data-resource="reviews" data-id="${item.id}">Aprobar</button><button data-action="reject" data-resource="reviews" data-id="${item.id}">Rechazar</button>` : ''}
-        ${canDelete ? `<button data-action="delete" data-resource="reviews" data-id="${item.id}">Eliminar</button>` : ''}
-      </div>
-    </div>
-  `;
-}
-
 function renderTickets(item) {
   if (!item || typeof item !== 'object') return '';
   const role = getCurrentAdminSession().role;
@@ -1242,15 +1354,15 @@ async function loadCounts() {
   renderSessionOverview();
   const role = getCurrentAdminSession().role;
   const usersRequest = role === 'super-admin' ? fetchJson('/admin/api/users') : Promise.resolve({ users: [], skipped: true });
-  const [data, users, reviews, audit, alojamientos, gastronomia, eventos, tickets] = await Promise.all([
+  const [data, users, audit, alojamientos, gastronomia, eventos, tickets, botConfig] = await Promise.all([
     fetchJson('/api/data'),
     usersRequest,
-    fetchJson('/admin/api/reviews'),
     fetchJson('/admin/api/audit'),
     fetchJson('/admin/api/alojamientos'),
     fetchJson('/admin/api/gastronomia'),
     fetchJson('/admin/api/eventos'),
     fetchJson('/admin/api/tickets'),
+    ['super-admin', 'editor'].includes(role) ? fetchJson('/admin/api/bot-config') : Promise.resolve({ skipped: true }),
   ]);
 
   if (data.error) {
@@ -1268,10 +1380,10 @@ async function loadCounts() {
     renderCount('count-users', (users.users || []).length);
   }
 
-  if (reviews.error) {
-    renderCount('count-reviews', 'sin permiso');
+  if (botConfig && !botConfig.error && !botConfig.skipped) {
+    renderCount('count-bot-apis', (botConfig.apis || []).filter((a) => a.enabled).length);
   } else {
-    renderCount('count-reviews', (reviews.reviews || []).length);
+    renderCount('count-bot-apis', botConfig && botConfig.skipped ? 'sin permiso' : '—');
   }
 
   if (audit.error) {
@@ -1286,17 +1398,10 @@ async function loadCounts() {
   const published = contentItems.filter((item) => item.status === 'published').length;
   const draft = contentItems.filter((item) => item.status === 'draft').length;
   const archived = contentItems.filter((item) => item.status === 'archived').length;
-  const pendingReviews = Array.isArray(reviews.reviews) ? reviews.reviews.filter((item) => item.status !== 'approved').length : 0;
 
   renderCount('count-status-published', published);
   renderCount('count-status-draft', draft);
   renderCount('count-status-archived', archived);
-  renderCount('count-review-pending', pendingReviews);
-  const badge = document.getElementById('nav-badge-reviews');
-  if (badge) {
-    badge.dataset.count = String(pendingReviews);
-    badge.textContent = pendingReviews > 0 ? String(pendingReviews) : '';
-  }
   // Try to render analytics panel if admin analytics are available
   try {
     const storeResp = await fetchJson('/admin/api/store');
@@ -1344,13 +1449,6 @@ async function loadResource(resource) {
     renderList(`${resource}-list`, items, renderAudit);
     renderCount('count-audit', items.length);
     updatePagination(resource, items.length, (result.audit || []).length, query);
-    return;
-  }
-  if (resource === 'reviews') {
-    const items = filterItems(result.reviews || [], query);
-    renderList(`${resource}-list`, items, renderReviews);
-    renderCount('count-reviews', items.length);
-    updatePagination(resource, items.length, (result.reviews || []).length, query);
     return;
   }
   if (resource === 'tickets') {
@@ -1467,9 +1565,6 @@ function handleAction(event) {
   if (action === 'cancel-edit') {
     clearEditState(resource);
     return;
-  }
-  if (action === 'approve' || action === 'reject') {
-    return updateReviewStatus(id, action === 'approve' ? 'approved' : 'rejected');
   }
   if (action === 'view-audit') {
     return viewAudit(id);
@@ -1693,21 +1788,6 @@ async function toggleResourceVisibility(resource, id) {
   showToast(`Elemento ${updated.activo ? 'mostrado' : 'ocultado'} correctamente.`, 'ok');
   notifyPublicDataRefresh();
   await loadResource(resource);
-  await loadCounts();
-}
-
-async function updateReviewStatus(id, status) {
-  if (!id) return;
-  const result = await fetchJson(`/admin/api/reviews/${encodeURIComponent(id)}`, {
-    method: 'PATCH',
-    body: JSON.stringify({ status }),
-  });
-  if (result.error) {
-    showToast(`Error al actualizar reseña: ${result.error}`, 'error');
-    return;
-  }
-  showToast('Reseña actualizada.', 'ok');
-  await loadResource('reviews');
   await loadCounts();
 }
 

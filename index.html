@@ -7,7 +7,7 @@
   <title>Dónde alojarme - San Roque, Corrientes</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="css/tw-base.css" />
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
   <link
@@ -21,12 +21,6 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: { extend: { colors: { "canvas-white": "#FFFFFF", "background": "#f0f4f3", "primary": "#274F10", "river-teal": "#336A15", "golden-sand": "#D4A83C", "sun-haze": "#F5D98A", "surface-container": "#edeeef", "on-surface-variant": "#404847", "outline-variant": "#bfc8c6", "moss-dark": "#16340A", "tertiary-fixed": "#dcedbf" }, fontFamily: { "body-md": ["DM Sans", "sans-serif"], "label-caps": ["JetBrains Mono", "monospace"], "headline-md": ["Syne", "sans-serif"], "display-lg": ["Syne", "sans-serif"] } } }
-    }
-  </script>
 </head>
 
 <body class="bg-background text-neutral-900 font-body-md antialiased overflow-x-hidden">
@@ -61,7 +55,7 @@
       </div>
       <div class="hidden md:block weather-widget group relative" id="weather-widget" tabindex="0">
         <div
-          class="weather-panel absolute top-[calc(100%+12px)] right-0 w-64 bg-primary/95 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-2xl text-white">
+          class="weather-panel weather-sky absolute top-[calc(100%+12px)] right-0 w-64 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-2xl text-white">
           <div class="flex items-center justify-between mb-3">
             <div>
               <div class="flex items-baseline gap-2">
@@ -100,7 +94,7 @@
           </div>
         </div>
         <div
-          class="bg-primary/90 backdrop-blur-md border border-white/20 shadow-lg rounded-full px-3 py-2 flex items-center gap-2 cursor-pointer transition-all duration-300 group-hover:bg-primary group-hover:shadow-xl group-hover:scale-105">
+          class="weather-pill backdrop-blur-md border border-white/20 shadow-lg rounded-full px-3 py-2 flex items-center gap-2 cursor-pointer transition-all duration-300 group-hover:shadow-xl group-hover:scale-105">
           <span class="material-symbols-outlined text-sun-haze text-[20px] group-hover:rotate-12 transition-transform"
             id="weather-icon-top">light_mode</span>
           <span class="text-white font-bold text-sm font-headline-md leading-none" id="weather-temp-top">--°</span>

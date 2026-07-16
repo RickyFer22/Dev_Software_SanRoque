@@ -43,10 +43,6 @@
 
         <div class="nav-group">
           <div class="nav-group-label">Moderación</div>
-          <button type="button" class="nav-item tab" data-section="reviews">
-            <span class="nav-icon">★</span> Reseñas
-            <span class="nav-badge" id="nav-badge-reviews" data-count="0"></span>
-          </button>
           <button type="button" class="nav-item tab" data-section="tickets">
             <span class="nav-icon">⚑</span> Tickets
           </button>
@@ -124,10 +120,10 @@
               <span class="kpi-value" id="count-ev">—</span>
               <span class="kpi-hint">Ir a gestionar</span>
             </button>
-            <button type="button" class="kpi-card" data-goto="reviews">
-              <span class="kpi-label">Reseñas pendientes</span>
-              <span class="kpi-value" id="count-review-pending">—</span>
-              <span class="kpi-hint">Ir a moderar</span>
+            <button type="button" class="kpi-card" data-goto="bot-config">
+              <span class="kpi-label">APIs del bot</span>
+              <span class="kpi-value" id="count-bot-apis">—</span>
+              <span class="kpi-hint">Configurar asistente</span>
             </button>
           </div>
 
@@ -138,7 +134,6 @@
             <div class="status-chip">Datos útiles <strong id="count-du">—</strong></div>
             <div class="status-chip">Usuarios <strong id="count-users">—</strong></div>
             <div class="status-chip">Tickets <strong id="count-tickets">—</strong></div>
-            <div class="status-chip">Reseñas <strong id="count-reviews">—</strong></div>
             <div class="status-chip">Historial <strong id="count-audit">—</strong></div>
           </div>
 
@@ -146,7 +141,7 @@
             <button type="button" class="btn-gold" data-goto="alojamientos" data-create="alojamientos">+ Alojamiento</button>
             <button type="button" class="btn-gold" data-goto="gastronomia" data-create="gastronomia">+ Gastronomía</button>
             <button type="button" class="btn-gold" data-goto="eventos" data-create="eventos">+ Evento</button>
-            <button type="button" class="cancel-button" data-goto="reviews">Moderar reseñas</button>
+            <button type="button" class="cancel-button" data-goto="bot-config">Configurar bot</button>
           </div>
 
           <div class="card">
@@ -410,19 +405,6 @@
         </div>
 
         <!-- RESEÑAS -->
-        <div id="reviews" class="section">
-          <div class="card">
-            <h2>Moderación de reseñas</h2>
-            <p class="small">Aprobá, rechazá o eliminá reseñas del portal.</p>
-          </div>
-          <div class="toolbar">
-            <button type="button" data-action="load" data-resource="reviews">Actualizar</button>
-            <label>Buscar<input data-search-resource="reviews" placeholder="Filtrar reseñas" /></label>
-          </div>
-          <div id="reviews-list"></div>
-          <div id="reviews-pagination" class="small"></div>
-        </div>
-
         <!-- TICKETS -->
         <div id="tickets" class="section">
           <div class="toolbar">
@@ -490,25 +472,79 @@
           <div class="grid">
             <div class="card">
               <h2>Estado del asistente</h2>
-              <div><strong>Proveedor:</strong> <span id="bot-provider">Cargando…</span></div>
               <div><strong>Endpoint público:</strong> <code id="bot-endpoint">—</code></div>
-              <div><strong>Upstream:</strong> <code id="bot-upstream">—</code></div>
-              <div><strong>Timeout:</strong> <span id="bot-timeout">—</span></div>
+              <div><strong>API activa:</strong> <span id="bot-active-label">—</span></div>
               <div><strong>Fallback:</strong> <span id="bot-fallback">—</span></div>
+              <div><strong>Clave meteorológica:</strong> <code id="weather-key-mask">—</code></div>
             </div>
             <div class="card">
-              <h2>Claves y servicios</h2>
-              <div><strong>Clave del proveedor:</strong> <code id="bot-provider-key-mask">—</code></div>
-              <div><strong>Clave meteorológica:</strong> <code id="weather-key-mask">—</code></div>
-              <p class="small">Los secretos se muestran enmascarados.</p>
+              <h2>Parámetros</h2>
+              <label>Timeout por API (ms)
+                <input type="number" id="bot-timeout" min="1000" max="30000" step="500" value="6000" />
+              </label>
+              <p class="small">Si una API falla o se pasa del timeout, el asistente prueba la siguiente habilitada (failover) y, si todas fallan, responde con el conocimiento municipal local.</p>
             </div>
           </div>
+
           <div class="card">
-            <h2>System prompt inmutable</h2>
-            <label>Instrucción efectiva<textarea id="bot-system-prompt" readonly aria-readonly="true" rows="10"></textarea></label>
-            <p class="small">Configuración protegida en el servidor.</p>
+            <div class="bot-card-head">
+              <div>
+                <h2>APIs del bot</h2>
+                <p class="small">Guardá varias APIs (OpenAI, OpenRouter, Anthropic, Ollama o genérica). Elegí cuál es la activa; el resto queda como respaldo por orden.</p>
+              </div>
+              <button type="button" class="btn-gold" id="bot-add-api">+ Agregar API</button>
+            </div>
+            <div id="bot-apis-list" class="bot-apis-list"></div>
+          </div>
+
+          <div class="card">
+            <h2>System prompt</h2>
+            <label>Instrucciones del asistente (identidad, reglas, seguridad)
+              <textarea id="bot-system-prompt" rows="16" spellcheck="false"></textarea>
+            </label>
+            <div class="toolbar">
+              <button type="button" class="cancel-button" id="bot-reset-prompt">Restaurar por defecto</button>
+              <span class="small" id="bot-prompt-count">—</span>
+            </div>
+          </div>
+
+          <div class="bot-save-bar">
+            <span class="small" id="bot-config-feedback" aria-live="polite"></span>
+            <button type="button" class="btn-gold" id="bot-save-config">Guardar configuración</button>
           </div>
         </div>
+
+        <template id="bot-api-row-template">
+          <div class="bot-api-row" data-api-id="">
+            <div class="bot-api-row-top">
+              <label class="bot-api-active">
+                <input type="radio" name="bot-active-api" class="bot-api-active-input" />
+                <span>Activa</span>
+              </label>
+              <label class="bot-api-enabled">
+                <input type="checkbox" class="bot-api-enabled-input" checked />
+                <span>Habilitada</span>
+              </label>
+              <span class="bot-api-keystate small"></span>
+              <button type="button" class="cancel-button bot-api-remove" title="Eliminar API">Eliminar</button>
+            </div>
+            <div class="bot-api-grid">
+              <label>Nombre<input class="bot-api-label" placeholder="Ej: OpenRouter principal" /></label>
+              <label>Formato
+                <select class="bot-api-format">
+                  <option value="openrouter">OpenRouter</option>
+                  <option value="openai">OpenAI</option>
+                  <option value="anthropic">Anthropic</option>
+                  <option value="ollama">Ollama</option>
+                  <option value="generic">Genérica</option>
+                </select>
+              </label>
+              <label>Modelo<input class="bot-api-model" placeholder="Ej: anthropic/claude-3.5-haiku" /></label>
+              <label class="bot-api-url-field">URL del endpoint<input class="bot-api-url" placeholder="https://…/chat/completions" /></label>
+              <label class="bot-api-key-field">Clave / Token<input class="bot-api-key" type="password" placeholder="Dejar vacío para conservar la actual" autocomplete="off" /></label>
+            </div>
+          </div>
+        </template>
 
         <!-- OBSERVABILIDAD -->
         <div id="observability" class="section">

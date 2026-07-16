@@ -788,3 +788,42 @@ pre {
   .topbar { padding: 0 12px; }
   .session-chip { display: none; }
 }
+
+/* ── Configuración del bot: multi-API + system prompt ── */
+.bot-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.bot-card-head h2 { margin: 0 0 4px; }
+.bot-apis-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
+.bot-api-row {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface-2); padding: 14px 16px;
+  box-shadow: inset 3px 0 0 var(--river);
+}
+.bot-api-row-top {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px dashed var(--line);
+}
+.bot-api-active, .bot-api-enabled { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 13px; margin: 0; cursor: pointer; }
+.bot-api-active input, .bot-api-enabled input { width: auto; margin: 0; }
+.bot-api-keystate { color: var(--muted); margin-left: auto; }
+.bot-api-remove { padding: 5px 12px; font-size: 12px; }
+.bot-api-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.bot-api-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: var(--text); margin: 0; }
+.bot-api-grid .bot-api-url-field, .bot-api-grid .bot-api-key-field { grid-column: 1 / -1; }
+.bot-api-grid input, .bot-api-grid select { width: 100%; }
+.bot-save-bar {
+  position: sticky; bottom: 0; z-index: 5; margin-top: 16px;
+  display: flex; align-items: center; justify-content: flex-end; gap: 16px;
+  padding: 14px 16px; border-radius: var(--radius);
+  background: color-mix(in srgb, var(--moss) 6%, var(--surface));
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.bot-save-bar .small { margin-right: auto; }
+#bot-system-prompt { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; line-height: 1.5; }
+@media (max-width: 640px) {
+  .bot-api-grid { grid-template-columns: 1fr; }
+  .bot-save-bar { flex-direction: column; align-items: stretch; }
+}
+
+/* Modo noche para la UI del bot */
+[data-theme="dark"] .bot-api-row { background: color-mix(in srgb, var(--moss) 10%, #12180c); }
+[data-theme="dark"] .bot-save-bar { background: color-mix(in srgb, var(--moss) 14%, #12180c); }

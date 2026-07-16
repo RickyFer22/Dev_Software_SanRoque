@@ -43,7 +43,10 @@
   #hero-section { position:relative;width:100%;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:0; }
   #hero-section .hero-wave { position:absolute;bottom:-2px;left:0;width:100%;z-index:15;line-height:0; }
 
-  /* ── WEATHER WIDGET ── */
+  /* ── WEATHER WIDGET (paleta azul cielo, fuera del oliva) ── */
+  .weather-sky { background:linear-gradient(160deg,#0B4A6F 0%,#12688F 55%,#1E88B8 100%); }
+  .weather-pill { background:linear-gradient(135deg,#12688F 0%,#2E9BC9 100%); }
+  .weather-widget:hover .weather-pill,.weather-widget:focus-within .weather-pill { background:linear-gradient(135deg,#0E5A7D 0%,#39A9D6 100%); }
   .weather-widget { transition:transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);outline:none; }
   .weather-panel { opacity:0;transform:scale(0.95) translateY(10px);pointer-events:none;transition:opacity 0.3s ease,transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);transform-origin:bottom left; }
   .weather-widget:hover .weather-panel,.weather-widget:focus .weather-panel,.weather-widget:focus-within .weather-panel { opacity:1;transform:scale(1) translateY(0);pointer-events:auto; }
@@ -86,12 +89,10 @@
   .social-link i { font-size:18px; }
   .footer-link:focus-visible,.footer-contact:focus-visible,.social-link:focus-visible { outline:3px solid #F5D98A;outline-offset:4px;border-radius:8px; }
 
-  /* ── MAP COLLAPSIBLE ── */
-  .map-collapsible { max-height:88px;overflow:hidden;transition:max-height 0.7s cubic-bezier(.22,1,.36,1);border-radius:24px; }
-  .map-collapsible:hover,.map-collapsible:focus-within { max-height:560px; }
-  .map-peek { display:flex;align-items:center;gap:14px;padding:0 24px;height:88px;cursor:pointer;background:#fff;border-radius:24px;position:relative;z-index:1; }
-  .map-collapsible:hover .map-peek-hint { opacity:0; }
-  .map-peek-hint { transition:opacity 0.35s ease; }
+  /* ── MAPA (siempre visible, sin ocultamiento) ── */
+  .map-collapsible { overflow:hidden;border-radius:24px;box-shadow:0 18px 44px -22px rgba(16,52,10,.55);border:1px solid rgba(39,79,16,.12); }
+  .map-peek { display:flex;align-items:center;gap:14px;padding:16px 24px;background:#fff;border-radius:24px 24px 0 0;position:relative;z-index:1;border-bottom:1px solid rgba(39,79,16,.1); }
+  .map-peek-hint { display:none; }
   #main-map { border-radius:0 0 24px 24px; }
 
   /* ── GEO BADGE en cards ── */
@@ -871,7 +872,7 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .events-banner-date { display:grid;justify-items:center;gap:3px;padding-left:34px;border-left:1px solid rgba(245,217,138,.45);color:#F5D98A;font:600 10px/1 "JetBrains Mono",monospace;letter-spacing:.22em; }
 .events-banner-date strong { color:#fff;font:800 clamp(40px,6vw,74px)/1 "Syne",sans-serif;letter-spacing:-.08em; }
 
-.gastronomy-story-cta { position:relative;margin:clamp(60px,10vw,120px) calc(50% - 50vw) 0;padding:clamp(90px,12vw,160px) 24px;overflow:hidden;isolation:isolate;color:#fff;background:linear-gradient(150deg,#002c29 0%,#003f3a 58%,#0f5d55 100%);text-align:center; }
+.gastronomy-story-cta { position:relative;margin:clamp(60px,10vw,120px) calc(50% - 50vw) 0;padding:clamp(90px,12vw,160px) 24px;overflow:hidden;isolation:isolate;color:#fff;background:linear-gradient(150deg,#16340A 0%,#274F10 58%,#367216 100%);text-align:center; }
 .gastronomy-story-cta::before,.gastronomy-story-cta::after { content:"";position:absolute;left:-5%;width:110%;height:70px;background:#f0f4f3;z-index:1; }
 .gastronomy-story-cta::before { top:-46px;border-radius:0 0 50% 50%; }
 .gastronomy-story-cta::after { bottom:-50px;border-radius:50% 50% 0 0; }
@@ -905,20 +906,20 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .sr-wordmark:hover .sr-l6 { transition-delay:.15s; }
 .sr-wordmark:hover .sr-l7 { transition-delay:.18s; }
 .sr-wordmark:hover .sr-l8 { transition-delay:.21s; }
-.sr-l1 { color:#E23B2E; } /* S rojo */
-.sr-l2 { color:#EE7A1B; } /* a naranja */
-.sr-l3 { color:#F3B21C; } /* n ámbar */
-.sr-l4 { color:#3DA33A; } /* R verde */
-.sr-l5 { color:#17A398; } /* o teal */
-.sr-l6 { color:#2E93C7; } /* q celeste */
-.sr-l7 { color:#2B57A7; } /* u azul */
-.sr-l8 { color:#7E3F98; } /* e violeta */
+.sr-l1 { color:#FF463A; } /* S rojo */
+.sr-l2 { color:#FF9226; } /* a naranja */
+.sr-l3 { color:#FFC72C; } /* n ámbar */
+.sr-l4 { color:#57C64F; } /* R verde */
+.sr-l5 { color:#22C7B8; } /* o teal */
+.sr-l6 { color:#40B4E5; } /* q celeste */
+.sr-l7 { color:#4A78D6; } /* u azul */
+.sr-l8 { color:#A85BC7; } /* e violeta */
 
 /* ── FOOTER estilo obera.tur.ar: verde oliva #2D5C13 + barra oscura #202317 ── */
 .site-footer {
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(163,210,79,.13), transparent 62%),
-    linear-gradient(180deg, #2D5C13 0%, #2D5C13 42%, #26500F 100%);
+    radial-gradient(120% 90% at 50% 0%, rgba(163,210,79,.22), transparent 60%),
+    linear-gradient(180deg, #367216 0%, #2F6414 44%, #275210 100%);
 }
 /* tapiz: contornos orgánicos verdes (marca de agua, como el wordmark de obera) */
 .footer-tapiz {
@@ -932,8 +933,8 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .site-footer > *:not(.footer-tapiz) { position:relative; z-index:1; }
 
 .footer-hero {
-  padding:48px 24px 34px;
-  display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center;
+  padding:32px 24px 22px;
+  display:flex; flex-direction:column; align-items:center; gap:11px; text-align:center;
 }
 .footer-kicker {
   display:inline-flex; align-items:center; gap:10px;
@@ -944,16 +945,18 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .footer-kicker::after  { background:linear-gradient(90deg,#F5D98A,transparent); }
 /* Wordmark "San Roque" gigante con extrusión 3D profunda (letras del cartel en relieve) */
 .sr-wordmark-hero {
-  font-size:clamp(54px,11.2vw,140px); letter-spacing:-.03em; line-height:.94;
+  font-size:clamp(40px,8vw,98px); letter-spacing:-.03em; line-height:.92;
   margin:-2px 0 2px; max-width:100%;
+  -webkit-text-stroke:1px rgba(0,0,0,.28);
 }
 .sr-wordmark-hero span {
+  filter:saturate(1.35) brightness(1.08);
   text-shadow:
-    1px 1px 0 #24500e, 2px 2px 0 #22490d, 3px 3px 0 #1f420c,
-    4px 4px 0 #1c3d0b, 5px 5px 0 #193709, 6px 6px 0 #163208,
-    7px 7px 0 #142c08, 8px 8px 0 #112607, 9px 9px 0 #0f2206,
-    10px 10px 0 #0c1a05, 11px 11px 0 #0a1504,
-    13px 16px 24px rgba(0,0,0,.5);
+    0 -1px 0 rgba(255,255,255,.35),
+    1px 1px 0 #1c3d0b, 2px 2px 0 #193709, 3px 3px 0 #163208,
+    4px 4px 0 #142c08, 5px 5px 0 #112607, 6px 6px 0 #0f2206,
+    7px 7px 0 #0c1a05, 8px 8px 0 #0a1504, 9px 9px 0 #081103,
+    10px 10px 18px rgba(0,0,0,.6);
 }
 .footer-hero-actions { display:flex; align-items:center; gap:14px; margin-top:8px; }
 .footer-hero-actions .footer-brand-mark { width:48px; height:48px; border-radius:14px; }

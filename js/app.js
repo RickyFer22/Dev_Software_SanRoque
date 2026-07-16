@@ -22,8 +22,8 @@ function initMap() {
   });
 
   if (!map) {
-    map = L.map('main-map').setView([-28.5744,-58.7083],15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+    map = L.map('main-map',{scrollWheelZoom:false}).setView([-28.5744,-58.7083],15);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:20,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'}).addTo(map);
   } else {
     map.setView([-28.5744,-58.7083],15);
   }
