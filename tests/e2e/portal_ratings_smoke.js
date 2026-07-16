@@ -68,8 +68,12 @@ function startWeb() {
   const browser = await chromium.launch();
   const page = await browser.newPage();
   const errors = [];
-  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   page.on('pageerror', (e) => errors.push(String(e)));
+  // 404 de recursos, ignorando /api/weather (lo sirve el microservicio weather,
+  // ausente en este harness; en prod nginx lo rutea correctamente).
+  page.on('response', (r) => {
+    if (r.status() === 404 && !r.url().includes('/api/weather')) errors.push('404 ' + r.url());
+  });
   const base = `http://localhost:${WEB_PORT}`;
 
   try {
@@ -104,6 +108,19 @@ function startWeb() {
     await page.goto(`${base}/gastronomia.html?g=estela`, { waitUntil: 'networkidle' });
     await page.waitForSelector('#gastro-estela', { timeout: 6000 });
     ok('permalink ?g=estela ubica el local');
+
+    // 5) Home: banner de eventos removido + tarjeta/modal de la Monjita.
+    await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+    const bannerCount = await page.locator('.events-editorial-banner').count();
+    if (bannerCount === 0) ok('banner editorial de eventos removido'); else bad('banner eventos', 'sigue presente');
+    await page.waitForSelector('#monjita-open', { timeout: 5000 });
+    await page.click('#monjita-open');
+    await page.waitForSelector('#monjita-modal:not([hidden]) #monjita-modal-title', { timeout: 4000 });
+    const thumbCount = await page.locator('#monjita-thumbs .monjita-thumb').count();
+    if (thumbCount >= 5) ok('modal Monjita abre con galería (5 imgs) + nota'); else bad('modal monjita', 'thumbs=' + thumbCount);
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => { const m = document.getElementById('monjita-modal'); return m && m.hidden; }, { timeout: 3000 });
+    ok('modal Monjita cierra con Escape');
 
     if (!errors.length) ok('sin errores de consola'); else bad('errores de consola', errors.slice(0, 3).join(' | '));
   } catch (e) {

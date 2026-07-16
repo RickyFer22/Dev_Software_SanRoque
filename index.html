@@ -177,6 +177,22 @@
           <span class="material-symbols-outlined text-white/70 text-[20px]">expand_more</span>
         </div>
       </div>
+      <!-- Colección interactiva: Monjita Dominica (Monumento Natural de San Roque) -->
+      <button id="monjita-open" type="button" class="monjita-hero-card" aria-haspopup="dialog" aria-controls="monjita-modal">
+        <span class="monjita-hero-imgs" aria-hidden="true">
+          <img src="img/monjita/monjita-1.jpg" alt="" class="monjita-hero-img is-active" loading="lazy" />
+          <img src="img/monjita/monjita-2.jpg" alt="" class="monjita-hero-img" loading="lazy" />
+          <img src="img/monjita/monjita-3.jpg" alt="" class="monjita-hero-img" loading="lazy" />
+          <img src="img/monjita/monjita-4.jpg" alt="" class="monjita-hero-img" loading="lazy" />
+          <img src="img/monjita/monjita-5.jpg" alt="" class="monjita-hero-img" loading="lazy" />
+        </span>
+        <span class="monjita-hero-body">
+          <span class="monjita-hero-kicker"><span class="material-symbols-outlined">eco</span> Monumento Natural</span>
+          <strong class="monjita-hero-title">La Monjita Dominica</strong>
+          <span class="monjita-hero-cta">Conocé su historia <span class="material-symbols-outlined">arrow_forward</span></span>
+        </span>
+      </button>
+
       <div class="hero-wave">
         <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <path d="M0,45 C360,95 1080,5 1440,55 L1440,90 L0,90 Z" fill="#f0f4f3" />
@@ -236,15 +252,6 @@
 
     <section id="agenda" class="max-w-7xl mx-auto px-6 mb-24 fade-in-up">
 
-      <div class="events-editorial-banner mb-10">
-        <img class="events-banner-watermark" src="img/logo-muni.jpg" alt="" aria-hidden="true" />
-        <div class="events-banner-copy">
-          <span class="events-banner-kicker">Agenda abierta · San Roque</span>
-          <h2><span>Disfrutá</span> San Roque</h2>
-          <p>Eventos, cultura y actividades para vivir la ciudad.</p>
-        </div>
-        <div class="events-banner-date" aria-hidden="true"><span>VIVÍ</span><strong>SR</strong><span>2026</span></div>
-      </div>
       <div class="flex items-center justify-between mb-6">
         <div>
           <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Próximos eventos</h2>
@@ -311,7 +318,8 @@
         <div
           class="md:col-span-2 h-[320px] md:h-[440px] rounded-3xl overflow-hidden bg-neutral-200 shadow-md relative group cursor-pointer">
           <img id="det-main-img"
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src=""
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
             alt="Imagen principal" />
         </div>
         <div
@@ -523,10 +531,62 @@
     </div>
     <div class="compact-footer-legal max-w-7xl mx-auto px-6 md:px-8">© 2026 Municipalidad de San Roque. Portal oficial de turismo y cultura. Todos los derechos reservados.</div>
   </footer>
+  <!-- Modal: historia de la Monjita Dominica -->
+  <div id="monjita-modal" class="monjita-modal" role="dialog" aria-modal="true" aria-labelledby="monjita-modal-title" hidden>
+    <div class="monjita-modal-backdrop" data-monjita-close></div>
+    <div class="monjita-modal-panel">
+      <button class="monjita-modal-x" type="button" data-monjita-close aria-label="Cerrar">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="monjita-gallery">
+        <img id="monjita-gallery-main" src="img/monjita/monjita-4.jpg" alt="Monjita dominica posada" />
+        <div class="monjita-thumbs" id="monjita-thumbs"></div>
+      </div>
+      <div class="monjita-article">
+        <span class="monjita-article-kicker">Monumento Natural de San Roque</span>
+        <h2 id="monjita-modal-title">La monjita dominica: una joya natural que convierte a San Roque en destino de observación de aves</h2>
+        <p><em>Naturaleza, educación e historia se unen alrededor de una de las especies más valiosas de los pastizales correntinos.</em></p>
+        <p>San Roque, en el corazón de la provincia de Corrientes, suma a su identidad cultural y paisajística un atractivo natural de enorme valor: la presencia de la <strong>monjita dominica</strong>, un ave poco frecuente, amenazada y considerada uno de los grandes tesoros de los pastizales del nordeste argentino.</p>
+        <p>Su llamativo plumaje blanco y negro, su elegancia al posarse sobre los alambrados y su estrecha relación con los ambientes naturales convierten a esta especie en una verdadera protagonista del turismo de naturaleza.</p>
+        <p>Más que un simple avistamiento, la historia de la monjita dominica en San Roque representa un ejemplo de cómo la educación, la ciencia y el compromiso de una comunidad pueden transformar una observación cotidiana en un símbolo ambiental para toda una ciudad.</p>
+
+        <h3>Un descubrimiento que nació durante una salida educativa</h3>
+        <p>La historia comenzó durante una actividad de campo realizada por estudiantes y docentes de la Escuela Normal “Juan García de Cossio”, en el marco del proyecto educativo <strong>“Escuela sin paredes”</strong>, impulsado por el profesor de Biología Leonardo Amarilla, que propone trasladar el aprendizaje fuera del aula y usar los paisajes naturales de San Roque como espacios de investigación.</p>
+        <p>Durante una recorrida por una zona rural cercana, a unos ocho kilómetros del área urbana, un estudiante observó un ave de aspecto particular: cuerpo claro, alas negras y una cola larga y oscura. El grupo la fotografió y comenzó una tarea de identificación. Tras analizar las imágenes y consultar con especialistas, se confirmó que era una <strong>monjita dominica</strong> (<em>Heteroxolmis dominicana</em>). El registro demostró que los pastizales cercanos a San Roque formaban parte del hábitat de una especie vulnerable y escasamente observada.</p>
+
+        <h3>De un avistamiento escolar a un símbolo de la ciudad</h3>
+        <p>El descubrimiento impulsó nuevas investigaciones, salidas de campo y acciones de concientización. El trabajo trascendió el ámbito escolar y la comunidad comenzó a valorar los pastizales, bañados y pajonales del paisaje local.</p>
+        <p>Como reconocimiento, en noviembre de 2022 el Concejo Deliberante declaró a la monjita dominica <strong>Monumento Natural de la ciudad de San Roque</strong>, convirtiéndola en un emblema ambiental y reforzando el compromiso de proteger los espacios naturales donde vive.</p>
+
+        <h3>Cómo es la monjita dominica</h3>
+        <p>Es inconfundible por su plumaje: el macho tiene gran parte del cuerpo blanco, con alas y cola negras; la hembra muestra tonos más grisáceos. Mide unos 21 cm y mantiene una postura erguida al posarse sobre postes, alambrados o arbustos bajos, desde donde vigila y caza insectos con vuelos ágiles y breves.</p>
+
+        <h3>Un ave ligada a los paisajes de Corrientes</h3>
+        <p>Vive en pastizales naturales, pajonales, bañados, esteros y zonas abiertas con vegetación nativa. Necesita áreas bien conservadas para alimentarse, reproducirse y refugiarse. Su presencia cerca de San Roque es una señal positiva del valor ecológico de la zona: conservar a la monjita significa preservar buena parte del patrimonio natural correntino.</p>
+
+        <h3>Turismo de naturaleza y observación de aves</h3>
+        <p>La especie abre nuevas posibilidades para el aviturismo. Los caminos rurales, humedales y áreas de vegetación nativa de San Roque permiten organizar recorridos interpretativos y salidas fotográficas. La actividad debe ser responsable: respetar distancias, no alterar los nidos y proteger los ambientes.</p>
+
+        <h3>El proyecto “Escuela sin paredes”</h3>
+        <p>La propuesta busca que los estudiantes conozcan su territorio y comprendan que los espacios naturales cercanos también son aulas abiertas. A través de salidas de campo, registros y consultas con especialistas, los jóvenes participan en la producción de conocimiento. El caso de la monjita es uno de sus logros más representativos.</p>
+
+        <h3>Una especie que necesita protección</h3>
+        <p>Enfrenta amenazas: transformación de pastizales, incendios descontrolados, drenaje de humedales, eliminación de vegetación nativa y uso excesivo de agroquímicos. La pérdida del hábitat es su principal problema. Su conservación requiere áreas naturales amplias y la participación de instituciones, productores, vecinos y autoridades.</p>
+
+        <h3>Recomendaciones para los visitantes</h3>
+        <p>Mantené una distancia prudente, usá binoculares o cámaras con zoom y evitá ruidos fuertes. No persigas al ave ni modifiques la vegetación. Si encontrás un nido, no lo toques ni te acerques de forma reiterada, y no difundas públicamente sus coordenadas exactas. Registrar fecha, horario y lugar aproximado ayuda a investigadores y organizaciones de conservación.</p>
+
+        <h3>Un nuevo motivo para conocer San Roque</h3>
+        <p>La monjita dominica se incorpora a la identidad de San Roque como símbolo de naturaleza, educación y compromiso ambiental. Su vuelo blanco y negro se convirtió en una imagen de orgullo para la ciudad y en una nueva razón para conocer, recorrer y valorar este rincón de Corrientes.</p>
+      </div>
+    </div>
+  </div>
+
   <script src="js/data.js"></script>
   <script src="js/ratings.js"></script>
   <script src="js/share.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/monjita.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const grid = document.getElementById('events-grid');

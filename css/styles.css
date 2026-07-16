@@ -885,6 +885,43 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .academic-credits b { color:rgba(255,255,255,.92);font-weight:700; }
 .academic-credits .academic-authors { color:rgba(255,255,255,.82); }
 .academic-credits .academic-institute { margin-top:2px;padding-top:8px;border-top:1px solid rgba(245,217,138,.18);color:rgba(255,255,255,.66);font-style:italic;font-size:11.5px; }
+
+/* ── MONJITA DOMINICA: tarjeta interactiva del hero ── */
+.monjita-hero-card { position:absolute;z-index:25;top:96px;left:16px;display:flex;align-items:center;gap:12px;max-width:280px;padding:10px 15px 10px 10px;border:1px solid rgba(245,217,138,.4);border-radius:18px;background:rgba(0,32,29,.42);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;text-align:left;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.28);transition:transform .25s ease,background .25s ease,box-shadow .25s ease; }
+.monjita-hero-card:hover { transform:translateY(-3px);background:rgba(0,40,36,.62);box-shadow:0 18px 42px rgba(0,0,0,.36); }
+.monjita-hero-card:focus-visible { outline:3px solid #F5D98A;outline-offset:3px; }
+.monjita-hero-imgs { position:relative;width:62px;height:62px;flex:0 0 auto;border-radius:14px;overflow:hidden;border:1px solid rgba(245,217,138,.5); }
+.monjita-hero-img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease; }
+.monjita-hero-img.is-active { opacity:1; }
+.monjita-hero-body { display:flex;flex-direction:column;gap:2px;min-width:0; }
+.monjita-hero-kicker { display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#F5D98A; }
+.monjita-hero-kicker .material-symbols-outlined { font-size:14px; }
+.monjita-hero-title { font:700 16px/1.15 "Syne",sans-serif; }
+.monjita-hero-cta { display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85); }
+.monjita-hero-cta .material-symbols-outlined { font-size:14px;transition:transform .2s ease; }
+.monjita-hero-card:hover .monjita-hero-cta .material-symbols-outlined { transform:translateX(3px); }
+@media (max-width:640px) { .monjita-hero-card { top:78px;left:10px;right:10px;max-width:none; } }
+
+/* ── MONJITA DOMINICA: modal con galería + nota ── */
+.monjita-modal { position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px; }
+.monjita-modal[hidden] { display:none; }
+.monjita-modal-backdrop { position:absolute;inset:0;background:rgba(0,20,18,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px); }
+.monjita-modal-panel { position:relative;z-index:1;width:min(980px,100%);max-height:90vh;overflow:hidden;display:grid;grid-template-columns:minmax(0,42%) minmax(0,58%);background:#fff;border-radius:24px;box-shadow:0 40px 90px rgba(0,0,0,.42);animation:viewFadeIn .35s cubic-bezier(.22,1,.36,1); }
+.monjita-modal-x { position:absolute;top:12px;right:12px;z-index:2;width:40px;height:40px;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;cursor:pointer;transition:background .2s ease; }
+.monjita-modal-x:hover { background:rgba(0,0,0,.78); }
+.monjita-gallery { background:#0A2E2B;padding:16px;display:flex;flex-direction:column;gap:10px; }
+#monjita-gallery-main { width:100%;height:auto;max-height:54vh;object-fit:cover;border-radius:16px; }
+.monjita-thumbs { display:flex;gap:8px;flex-wrap:wrap; }
+.monjita-thumb { width:52px;height:52px;border-radius:10px;overflow:hidden;border:2px solid transparent;padding:0;cursor:pointer;background:none;transition:border-color .2s ease; }
+.monjita-thumb.is-active { border-color:#F5D98A; }
+.monjita-thumb img { width:100%;height:100%;object-fit:cover; }
+.monjita-article { padding:28px 30px;overflow-y:auto;max-height:90vh; }
+.monjita-article-kicker { display:inline-block;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#134E4A;background:#e9f5f1;padding:5px 12px;border-radius:999px;margin-bottom:12px; }
+.monjita-article h2 { font:700 25px/1.22 "Syne",sans-serif;color:#003633;margin:0 0 10px; }
+.monjita-article h3 { font:700 17px/1.3 "Syne",sans-serif;color:#134E4A;margin:20px 0 6px; }
+.monjita-article p { color:#374151;font-size:14.5px;line-height:1.65;margin:0 0 10px; }
+.monjita-article em { color:#134E4A;font-style:italic; }
+@media (max-width:820px) { .monjita-modal-panel { grid-template-columns:1fr;max-height:92vh;overflow-y:auto; } #monjita-gallery-main { max-height:34vh; } .monjita-article { max-height:none;overflow:visible; } }
 .compact-footer-inner { max-width:1280px;margin:auto;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#fff; }
 .compact-footer-inner strong { font:700 22px/1.2 "Syne",sans-serif;color:#F5D98A; }
 .compact-footer-inner p { margin:4px 0 0;color:rgba(255,255,255,.68);font-size:13px; }
