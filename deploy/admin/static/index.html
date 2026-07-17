@@ -44,12 +44,14 @@
           </button>
         </div>
 
+        <!--
         <div class="nav-group">
           <div class="nav-group-label">Moderación</div>
           <button type="button" class="nav-item tab" data-section="tickets">
             <span class="nav-icon">⚑</span> Tickets
           </button>
         </div>
+        -->
 
         <div class="nav-group" data-nav-group="sistema">
           <div class="nav-group-label">Sistema</div>
@@ -136,7 +138,7 @@
             <div class="status-chip">Archivados <strong id="count-status-archived">—</strong></div>
             <div class="status-chip">Datos útiles <strong id="count-du">—</strong></div>
             <div class="status-chip">Usuarios <strong id="count-users">—</strong></div>
-            <div class="status-chip">Tickets <strong id="count-tickets">—</strong></div>
+            <!-- <div class="status-chip">Tickets <strong id="count-tickets">—</strong></div> -->
             <div class="status-chip">Historial <strong id="count-audit">—</strong></div>
           </div>
 
@@ -235,7 +237,7 @@
                     <option value="archived">Archivado</option>
                   </select>
                 </label>
-                <label>Subir imagen (permite múltiples)<input type="file" id="alojamiento-image-file" accept="image/*" multiple /></label>
+                <label>Subir imagen (permite múltiples)<input type="file" id="alojamiento-image-file" accept="image/*" multiple /><span id="alojamiento-upload-spinner" class="spinner" style="display: none;"></span></label>
               </div>
               <img id="alojamiento-image-preview" class="image-preview" src="" alt="Vista previa" />
               <div class="toolbar">
@@ -302,7 +304,7 @@
                     <option value="archived">Archivado</option>
                   </select>
                 </label>
-                <label>Subir imagen (permite múltiples)<input type="file" id="gastronomia-image-file" accept="image/*" multiple /></label>
+                <label>Subir imagen (permite múltiples)<input type="file" id="gastronomia-image-file" accept="image/*" multiple /><span id="gastronomia-upload-spinner" class="spinner" style="display: none;"></span></label>
               </div>
               <img id="gastronomia-image-preview" class="image-preview" src="" alt="Vista previa" />
               <div class="toolbar">
@@ -363,7 +365,7 @@
                     <option value="archived">Archivado</option>
                   </select>
                 </label>
-                <label>Subir imagen<input type="file" id="event-image-file" accept="image/*" /></label>
+                <label>Subir imagen<input type="file" id="event-image-file" accept="image/*" /><span id="event-upload-spinner" class="spinner" style="display: none;"></span></label>
               </div>
               <img id="event-image-preview" class="image-preview" src="" alt="Vista previa" />
               <div class="toolbar">
@@ -428,7 +430,7 @@
               </div>
               <div class="toolbar">
                 <label>Imagen (URL)<input id="actividades-imagen" placeholder="/uploads/…" /></label>
-                <label>Subir imagen<input type="file" id="actividades-image-file" accept="image/*" /></label>
+                 <label>Subir imagen<input type="file" id="actividades-image-file" accept="image/*" /><span id="actividades-upload-spinner" class="spinner" style="display: none;"></span></label>
               </div>
               <img id="actividades-image-preview" class="image-preview" src="" alt="Vista previa" style="max-height: 120px; object-fit: cover; border-radius: 8px; margin-top: 8px; display: none;" />
               <div class="toolbar" style="margin-top: 8px;">
@@ -503,7 +505,7 @@
         </div>
 
         <!-- RESEÑAS -->
-        <!-- TICKETS -->
+        <!--
         <div id="tickets" class="section">
           <div class="toolbar">
             <button type="button" data-action="load" data-resource="tickets">Actualizar</button>
@@ -536,6 +538,7 @@
             </div>
           </div>
         </div>
+        -->
 
         <!-- UPLOADS -->
         <div id="uploads" class="section">

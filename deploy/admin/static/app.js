@@ -467,6 +467,8 @@ function setupImageFileInput(fileInputId, imageFieldId, previewId, galleryFieldI
   const fileInput = document.getElementById(fileInputId);
   const imageField = document.getElementById(imageFieldId);
   const galleryField = galleryFieldId ? document.getElementById(galleryFieldId) : null;
+  const spinnerId = fileInputId.split('-')[0] + '-upload-spinner';
+  const spinner = document.getElementById(spinnerId);
   if (!fileInput || !imageField) return;
 
   fileInput.addEventListener('change', async () => {
@@ -478,59 +480,64 @@ function setupImageFileInput(fileInputId, imageFieldId, previewId, galleryFieldI
       return;
     }
 
+    if (spinner) spinner.style.display = 'inline-block';
     showToast(`Procesando ${files.length} imágenes…`, 'ok');
     const urls = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      if (!ALLOWED_INPUT_TYPES.includes(file.type)) {
-        showToast(`Formato de "${file.name}" no permitido. Usá JPG, PNG o WebP.`, 'error');
-        continue;
-      }
-      if (file.size > IMAGE_MAX_INPUT_BYTES) {
-        showToast(`"${file.name}" es demasiado grande (máx. 12 MB).`, 'error');
-        continue;
-      }
-
-      let webpDataUrl;
-      try {
-        webpDataUrl = await convertImageToWebp(file);
-      } catch (err) {
-        showToast(`No se pudo procesar "${file.name}": ${err.message}`, 'error');
-        continue;
-      }
-
-      // Mostrar previsualización de la primera imagen
-      if (i === 0) {
-        updateImagePreview(fileInputId, previewId, webpDataUrl);
-      }
-
-      try {
-        const result = await fetchJson('/admin/api/upload-image', {
-          method: 'POST',
-          body: JSON.stringify({ dataUrl: webpDataUrl }),
-        });
-        if (result.error) {
-          showToast(`Error al subir "${file.name}": ${result.error}`, 'error');
-        } else if (result.url) {
-          urls.push(result.url);
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!ALLOWED_INPUT_TYPES.includes(file.type)) {
+          showToast(`Formato de "${file.name}" no permitido. Usá JPG, PNG o WebP.`, 'error');
+          continue;
         }
-      } catch (uploadErr) {
-        showToast(`Fallo de conexión al subir "${file.name}"`, 'error');
-      }
-    }
+        if (file.size > IMAGE_MAX_INPUT_BYTES) {
+          showToast(`"${file.name}" es demasiado grande (máx. 12 MB).`, 'error');
+          continue;
+        }
 
-    if (urls.length) {
-      imageField.value = urls[0];
-      updateImagePreview(fileInputId, previewId, urls[0]);
-      
-      if (galleryField) {
-        const currentGallery = galleryField.value ? galleryField.value.split(',').map(s => s.trim()).filter(Boolean) : [];
-        const combined = Array.from(new Set([...currentGallery, ...urls]));
-        galleryField.value = combined.join(', ');
+        let webpDataUrl;
+        try {
+          webpDataUrl = await convertImageToWebp(file);
+        } catch (err) {
+          showToast(`No se pudo procesar "${file.name}": ${err.message}`, 'error');
+          continue;
+        }
+
+        // Mostrar previsualización de la primera imagen
+        if (i === 0) {
+          updateImagePreview(fileInputId, previewId, webpDataUrl);
+        }
+
+        try {
+          const result = await fetchJson('/admin/api/upload-image', {
+            method: 'POST',
+            body: JSON.stringify({ dataUrl: webpDataUrl }),
+          });
+          if (result.error) {
+            showToast(`Error al subir "${file.name}": ${result.error}`, 'error');
+          } else if (result.url) {
+            urls.push(result.url);
+          }
+        } catch (uploadErr) {
+          showToast(`Fallo de conexión al subir "${file.name}"`, 'error');
+        }
       }
-      
-      showToast(`Se subieron ${urls.length} imágenes correctamente.`, 'ok');
+
+      if (urls.length) {
+        imageField.value = urls[0];
+        updateImagePreview(fileInputId, previewId, urls[0]);
+        
+        if (galleryField) {
+          const currentGallery = galleryField.value ? galleryField.value.split(',').map(s => s.trim()).filter(Boolean) : [];
+          const combined = Array.from(new Set([...currentGallery, ...urls]));
+          galleryField.value = combined.join(', ');
+        }
+        
+        showToast(`Se subieron ${urls.length} imágenes correctamente.`, 'ok');
+      }
+    } finally {
+      if (spinner) spinner.style.display = 'none';
     }
   });
 }
