@@ -235,9 +235,21 @@
                     <option value="archived">Archivado</option>
                   </select>
                 </label>
-                <label>Subir imagen<input type="file" id="alojamiento-image-file" accept="image/*" /></label>
+                <label>Subir imagen (permite múltiples)<input type="file" id="alojamiento-image-file" accept="image/*" multiple /></label>
               </div>
               <img id="alojamiento-image-preview" class="image-preview" src="" alt="Vista previa" />
+              <div class="toolbar">
+                <label>Teléfono<input id="alojamiento-telefono" placeholder="3777123456" /></label>
+                <label>WhatsApp<input id="alojamiento-waNumber" placeholder="5493777123456" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Check-in<input id="alojamiento-checkin" placeholder="14:00" /></label>
+                <label>Check-out<input id="alojamiento-checkout" placeholder="10:00" /></label>
+                <label>Cancelación<input id="alojamiento-cancelacion" placeholder="Flexible" /></label>
+              </div>
+              <div class="toolbar">
+                <label>Galería (URLs de fotos separadas por coma)<input id="alojamiento-galeria" placeholder="img/foto1.jpg, img/foto2.jpg" /></label>
+              </div>
               <div class="toolbar">
                 <label>Descripción<textarea id="alojamiento-descripcionLarga" placeholder="Descripción del alojamiento"></textarea></label>
               </div>
@@ -290,7 +302,7 @@
                     <option value="archived">Archivado</option>
                   </select>
                 </label>
-                <label>Subir imagen<input type="file" id="gastronomia-image-file" accept="image/*" /></label>
+                <label>Subir imagen (permite múltiples)<input type="file" id="gastronomia-image-file" accept="image/*" multiple /></label>
               </div>
               <img id="gastronomia-image-preview" class="image-preview" src="" alt="Vista previa" />
               <div class="toolbar">

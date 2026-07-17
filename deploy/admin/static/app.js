@@ -258,6 +258,12 @@ function getAlojamientoForm() {
     status: document.getElementById('alojamiento-status'),
     descripcionLarga: document.getElementById('alojamiento-descripcionLarga'),
     imageFile: document.getElementById('alojamiento-image-file'),
+    telefono: document.getElementById('alojamiento-telefono'),
+    waNumber: document.getElementById('alojamiento-waNumber'),
+    checkin: document.getElementById('alojamiento-checkin'),
+    checkout: document.getElementById('alojamiento-checkout'),
+    cancelacion: document.getElementById('alojamiento-cancelacion'),
+    galeria: document.getElementById('alojamiento-galeria'),
   };
 }
 
@@ -274,6 +280,12 @@ function getAlojamientoPayload() {
     activo: form.activo?.value === '1' ? 1 : 0,
     status: form.status?.value?.trim() || 'published',
     descripcionLarga: form.descripcionLarga?.value?.trim(),
+    telefono: form.telefono?.value?.trim() || '',
+    waNumber: form.waNumber?.value?.trim() || '',
+    checkin: form.checkin?.value?.trim() || '14:00',
+    checkout: form.checkout?.value?.trim() || '10:00',
+    cancelacion: form.cancelacion?.value?.trim() || 'Flexible',
+    galeria: form.galeria?.value ? form.galeria.value.split(',').map(g => g.trim()).filter(Boolean) : [],
   };
 }
 
@@ -290,6 +302,12 @@ function setAlojamientoForm(item = {}) {
   form.activo.value = item.activo ? '1' : '0';
   form.status.value = item.status || 'published';
   form.descripcionLarga.value = item.descripcionLarga || '';
+  if (form.telefono) form.telefono.value = item.telefono || '';
+  if (form.waNumber) form.waNumber.value = item.waNumber || '';
+  if (form.checkin) form.checkin.value = item.checkin || '14:00';
+  if (form.checkout) form.checkout.value = item.checkout || '10:00';
+  if (form.cancelacion) form.cancelacion.value = item.cancelacion || 'Flexible';
+  if (form.galeria) form.galeria.value = Array.isArray(item.galeria) ? item.galeria.join(', ') : '';
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('alojamiento-image-file', 'alojamiento-image-preview', item.mainImg);
 }
@@ -307,6 +325,13 @@ function clearAlojamientoForm() {
   form.activo.value = '1';
   form.status.value = 'published';
   form.descripcionLarga.value = '';
+  if (form.telefono) form.telefono.value = '';
+  if (form.waNumber) form.waNumber.value = '';
+  if (form.checkin) form.checkin.value = '14:00';
+  if (form.checkout) form.checkout.value = '10:00';
+  if (form.cancelacion) form.cancelacion.value = 'Flexible';
+  if (form.galeria) form.galeria.value = '';
+  if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('alojamiento-image-file', 'alojamiento-image-preview', '');
 }
 
@@ -438,54 +463,82 @@ function convertImageToWebp(file) {
   });
 }
 
-function setupImageFileInput(fileInputId, imageFieldId, previewId) {
+function setupImageFileInput(fileInputId, imageFieldId, previewId, galleryFieldId = null) {
   const fileInput = document.getElementById(fileInputId);
   const imageField = document.getElementById(imageFieldId);
+  const galleryField = galleryFieldId ? document.getElementById(galleryFieldId) : null;
   if (!fileInput || !imageField) return;
+
   fileInput.addEventListener('change', async () => {
-    const file = fileInput.files && fileInput.files[0];
-    if (!file) {
+    const files = Array.from(fileInput.files || []);
+    if (!files.length) {
       imageField.value = '';
+      if (galleryField) galleryField.value = '';
       updateImagePreview(fileInputId, previewId, '');
       return;
     }
-    if (!ALLOWED_INPUT_TYPES.includes(file.type)) {
-      showToast('Formato no permitido. Usá JPG, PNG o WebP.', 'error');
-      fileInput.value = '';
-      return;
+
+    showToast(`Procesando ${files.length} imágenes…`, 'ok');
+    const urls = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (!ALLOWED_INPUT_TYPES.includes(file.type)) {
+        showToast(`Formato de "${file.name}" no permitido. Usá JPG, PNG o WebP.`, 'error');
+        continue;
+      }
+      if (file.size > IMAGE_MAX_INPUT_BYTES) {
+        showToast(`"${file.name}" es demasiado grande (máx. 12 MB).`, 'error');
+        continue;
+      }
+
+      let webpDataUrl;
+      try {
+        webpDataUrl = await convertImageToWebp(file);
+      } catch (err) {
+        showToast(`No se pudo procesar "${file.name}": ${err.message}`, 'error');
+        continue;
+      }
+
+      // Mostrar previsualización de la primera imagen
+      if (i === 0) {
+        updateImagePreview(fileInputId, previewId, webpDataUrl);
+      }
+
+      try {
+        const result = await fetchJson('/admin/api/upload-image', {
+          method: 'POST',
+          body: JSON.stringify({ dataUrl: webpDataUrl }),
+        });
+        if (result.error) {
+          showToast(`Error al subir "${file.name}": ${result.error}`, 'error');
+        } else if (result.url) {
+          urls.push(result.url);
+        }
+      } catch (uploadErr) {
+        showToast(`Fallo de conexión al subir "${file.name}"`, 'error');
+      }
     }
-    if (file.size > IMAGE_MAX_INPUT_BYTES) {
-      showToast('La imagen es demasiado grande (máx. 12 MB).', 'error');
-      fileInput.value = '';
-      return;
+
+    if (urls.length) {
+      imageField.value = urls[0];
+      updateImagePreview(fileInputId, previewId, urls[0]);
+      
+      if (galleryField) {
+        const currentGallery = galleryField.value ? galleryField.value.split(',').map(s => s.trim()).filter(Boolean) : [];
+        const combined = Array.from(new Set([...currentGallery, ...urls]));
+        galleryField.value = combined.join(', ');
+      }
+      
+      showToast(`Se subieron ${urls.length} imágenes correctamente.`, 'ok');
     }
-    let webpDataUrl;
-    try {
-      showToast('Optimizando imagen a WebP…', 'ok');
-      webpDataUrl = await convertImageToWebp(file);
-    } catch (err) {
-      showToast(err.message || 'No se pudo procesar la imagen.', 'error');
-      return;
-    }
-    updateImagePreview(fileInputId, previewId, webpDataUrl);
-    const result = await fetchJson('/admin/api/upload-image', {
-      method: 'POST',
-      body: JSON.stringify({ dataUrl: webpDataUrl }),
-    });
-    if (result.error) {
-      showToast('Error subiendo imagen: ' + result.error, 'error');
-      return;
-    }
-    imageField.value = result.url || '';
-    updateImagePreview(fileInputId, previewId, result.url || webpDataUrl);
-    showToast('Imagen subida en WebP.', 'ok');
   });
 }
 
 function setupImageFileInputs() {
   setupImageFileInput('event-image-file', 'event-imagen', 'event-image-preview');
-  setupImageFileInput('alojamiento-image-file', 'alojamiento-mainImg', 'alojamiento-image-preview');
-  setupImageFileInput('gastronomia-image-file', 'gastronomia-imagen', 'gastronomia-image-preview');
+  setupImageFileInput('alojamiento-image-file', 'alojamiento-mainImg', 'alojamiento-image-preview', 'alojamiento-galeria');
+  setupImageFileInput('gastronomia-image-file', 'gastronomia-imagen', 'gastronomia-image-preview', 'gastronomia-galeria');
   setupImageFileInput('actividades-image-file', 'actividades-imagen', 'actividades-image-preview');
 }
 

@@ -981,6 +981,39 @@ function validateAndSanitize(collection, data) {
       out.descripcionLarga = sanitizeString(data.descripcionLarga || data.descripcion || '', 4000);
       out.activo = normalizeActiveValue(data.activo);
       out.status = (sanitizeString(data.status || 'published', 30)).toLowerCase();
+      out.telefono = sanitizeString(data.telefono || '', 40);
+      out.waNumber = sanitizeString(data.waNumber || '', 40);
+      out.checkin = sanitizeString(data.checkin || '14:00', 40);
+      out.checkout = sanitizeString(data.checkout || '10:00', 40);
+      out.cancelacion = sanitizeString(data.cancelacion || 'Flexible', 100);
+      
+      // Parsear galeria (array de strings)
+      if (Array.isArray(data.galeria)) {
+        out.galeria = data.galeria.map(img => sanitizeString(img || '', 300));
+      } else {
+        out.galeria = [];
+      }
+      
+      // Parsear capacidad (array)
+      if (Array.isArray(data.capacidad)) {
+        out.capacidad = data.capacidad.map(c => ({
+          icono: sanitizeString(c?.icono || '', 60),
+          titulo: sanitizeString(c?.titulo || '', 100),
+          desc: sanitizeString(c?.desc || '', 200)
+        }));
+      } else {
+        out.capacidad = [];
+      }
+      
+      // Parsear servicios (array)
+      if (Array.isArray(data.servicios)) {
+        out.servicios = data.servicios.map(s => ({
+          icono: sanitizeString(s?.icono || '', 60),
+          texto: sanitizeString(s?.texto || '', 100)
+        }));
+      } else {
+        out.servicios = [];
+      }
       break;
     case 'gastronomia':
       out.nombre = sanitizeString(data.nombre || '', 200);

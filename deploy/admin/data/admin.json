@@ -319,7 +319,182 @@
       "updatedAt": "2026-07-08T12:30:13.097Z"
     }
   ],
-  "datos_utiles": [],
+  "datos_utiles": [
+    {
+      "id": "du_remises",
+      "categoria": "remises",
+      "titulo": "🚖 Remises",
+      "descripcion": "Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
+      "contenido": {
+        "contactos": [
+          {
+            "nombre": "Remis choro",
+            "tel": "3777721215"
+          },
+          {
+            "nombre": "Romero ale",
+            "tel": "3777476810"
+          },
+          {
+            "nombre": "BALDOVINO",
+            "tel": "3777-711144"
+          },
+          {
+            "nombre": "PAULO",
+            "tel": "1130251880"
+          },
+          {
+            "nombre": "TELLO REMIS",
+            "tel": "3777446545"
+          },
+          {
+            "nombre": "TU REMIS",
+            "tel": "3777697065"
+          },
+          {
+            "nombre": "FONTANA",
+            "tel": "37775202117"
+          },
+          {
+            "nombre": "REMIS",
+            "tel": "37778207866"
+          }
+        ]
+      },
+      "activo": 1
+    },
+    {
+      "id": "du_terminal",
+      "categoria": "terminal",
+      "titulo": "🚌 Terminal de Ómnibus",
+      "descripcion": "Terminal de colectivos de San Roque. Conexiones a Corrientes Capital, Resistencia y otras ciudades.",
+      "contenido": {
+        "ubicacion": "https://www.google.com/maps/search/?api=1&query=-28.5767789,-58.7135694",
+        "horarios": "Consultar en boletería",
+        "empresas": [
+          "Rápido Tata",
+          "Río Uruguay",
+          "El Pulqui",
+          "Silvia"
+        ]
+      },
+      "activo": 1
+    },
+    {
+      "id": "du_municipio",
+      "categoria": "municipio",
+      "titulo": "🏛️ Municipalidad",
+      "descripcion": "Atención al ciudadano y trámites municipales.",
+      "contenido": {
+        "ubicacion": "https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806"
+      },
+      "activo": 1
+    },
+    {
+      "id": "du_iglesias",
+      "categoria": "iglesias",
+      "titulo": "⛪ Iglesias",
+      "descripcion": "Templos religiosos de San Roque.",
+      "contenido": {
+        "lugares": [
+          {
+            "nombre": "Parroquia San Roque de Montpellier",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.571590353744543,-58.711252302690546"
+          },
+          {
+            "nombre": "Iglesia Monte de Sion",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.575815684105844,-58.707426283145196"
+          },
+          {
+            "nombre": "Templo Filadelfia de San Roque",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.57730954160022,-58.70606541439768"
+          },
+          {
+            "nombre": "Salón del Reino de los Testigos de Jehová",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.577110361826733,-58.70697266022936"
+          },
+          {
+            "nombre": "Iglesia Evangélica Asamblea de Dios",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.580856838882077,-58.718072982275054"
+          }
+        ]
+      },
+      "activo": 1
+    },
+    {
+      "id": "du_emergencias",
+      "categoria": "emergencias",
+      "titulo": "🚨 Emergencias",
+      "descripcion": "Servicios de urgencia disponibles en San Roque.",
+      "contenido": {
+        "lugares": [
+          {
+            "nombre": "Policía de San Roque",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.570089924920314,-58.712608217644515"
+          },
+          {
+            "nombre": "Hospital de San Roque",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.577551339214832,-58.711226434897526"
+          },
+          {
+            "nombre": "Bomberos San Roque",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.577904318277724,-58.713826053599384"
+          }
+        ]
+      },
+      "activo": 1
+    },
+    {
+      "id": "du_salud",
+      "categoria": "salud",
+      "titulo": "🏥 Salud",
+      "descripcion": "Farmacias y atención médica.",
+      "contenido": {
+        "lugares": [
+          {
+            "nombre": "Farmar IV",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.57564523967805,-58.7115423787572"
+          },
+          {
+            "nombre": "Farmacia Itatí S.C.S",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.57490350407002,-58.70936387230284"
+          },
+          {
+            "nombre": "Farmacia Tressens II",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.575223851034433,-58.70882743052239"
+          },
+          {
+            "nombre": "Farmacia San Roque",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.57708938162111,-58.711638385451934"
+          }
+        ]
+      },
+      "activo": 1
+    },
+    {
+      "id": "du_servicios",
+      "categoria": "servicios",
+      "titulo": "🏧 Servicios rápidos",
+      "descripcion": "Servicios útiles para visitantes.",
+      "contenido": {
+        "lugares": [
+          {
+            "nombre": "Municipalidad de San Roque",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806"
+          },
+          {
+            "nombre": "C.I.C extensión del municipio",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905"
+          },
+          {
+            "nombre": "Registro Civil",
+            "link": "https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172"
+          }
+        ]
+      },
+      "activo": 1
+    }
+  ],
   "actividades": [
     {
       "id": "capilla-historica",
