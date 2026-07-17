@@ -988,6 +988,25 @@ function validateAndSanitize(collection, data) {
       out.direccion = sanitizeString(data.direccion || '', 200);
       out.horario = sanitizeString(data.horario || '', 120);
       out.imagen = sanitizeString(data.imagen || '', 300);
+      out.descripcion = sanitizeString(data.descripcion || '', 2000);
+      out.telefono = sanitizeString(data.telefono || '', 40);
+      out.whatsapp = sanitizeString(data.whatsapp || '', 40);
+      out.mapsLink = sanitizeString(data.mapsLink || '', 300);
+      
+      // Parsear servicios (array de strings)
+      if (Array.isArray(data.servicios)) {
+        out.servicios = data.servicios.map(s => sanitizeString(s || '', 100));
+      } else {
+        out.servicios = [];
+      }
+      
+      // Parsear galeria (array de strings)
+      if (Array.isArray(data.galeria)) {
+        out.galeria = data.galeria.map(img => sanitizeString(img || '', 300));
+      } else {
+        out.galeria = [];
+      }
+
       out.activo = normalizeActiveValue(data.activo);
       out.status = (sanitizeString(data.status || 'published', 30)).toLowerCase();
       break;

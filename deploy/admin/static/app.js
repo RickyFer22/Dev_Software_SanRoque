@@ -321,6 +321,11 @@ function getGastronomiaForm() {
     status: document.getElementById('gastronomia-status'),
     descripcion: document.getElementById('gastronomia-descripcion'),
     imageFile: document.getElementById('gastronomia-image-file'),
+    telefono: document.getElementById('gastronomia-telefono'),
+    whatsapp: document.getElementById('gastronomia-whatsapp'),
+    mapsLink: document.getElementById('gastronomia-mapsLink'),
+    servicios: document.getElementById('gastronomia-servicios'),
+    galeria: document.getElementById('gastronomia-galeria'),
   };
 }
 
@@ -335,6 +340,11 @@ function getGastronomiaPayload() {
     activo: form.activo?.value === '1' ? 1 : 0,
     status: form.status?.value?.trim() || 'published',
     descripcion: form.descripcion?.value?.trim(),
+    telefono: form.telefono?.value?.trim() || '',
+    whatsapp: form.whatsapp?.value?.trim() || '',
+    mapsLink: form.mapsLink?.value?.trim() || '',
+    servicios: form.servicios?.value ? form.servicios.value.split(',').map(s => s.trim()).filter(Boolean) : [],
+    galeria: form.galeria?.value ? form.galeria.value.split(',').map(g => g.trim()).filter(Boolean) : [],
   };
 }
 
@@ -349,6 +359,11 @@ function setGastronomiaForm(item = {}) {
   form.activo.value = item.activo ? '1' : '0';
   form.status.value = item.status || 'published';
   form.descripcion.value = item.descripcion || '';
+  if (form.telefono) form.telefono.value = item.telefono || '';
+  if (form.whatsapp) form.whatsapp.value = item.whatsapp || '';
+  if (form.mapsLink) form.mapsLink.value = item.mapsLink || '';
+  if (form.servicios) form.servicios.value = Array.isArray(item.servicios) ? item.servicios.join(', ') : '';
+  if (form.galeria) form.galeria.value = Array.isArray(item.galeria) ? item.galeria.join(', ') : '';
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('gastronomia-image-file', 'gastronomia-image-preview', item.imagen);
 }
@@ -364,6 +379,11 @@ function clearGastronomiaForm() {
   form.activo.value = '1';
   form.status.value = 'published';
   form.descripcion.value = '';
+  if (form.telefono) form.telefono.value = '';
+  if (form.whatsapp) form.whatsapp.value = '';
+  if (form.mapsLink) form.mapsLink.value = '';
+  if (form.servicios) form.servicios.value = '';
+  if (form.galeria) form.galeria.value = '';
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('gastronomia-image-file', 'gastronomia-image-preview', '');
 }

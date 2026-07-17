@@ -37,7 +37,7 @@
   <!-- Hero Header -->
   <header class="relative w-full flex items-end" style="padding-top: 140px; padding-bottom: 48px; min-height: 280px;">
     <div class="absolute inset-0 z-0">
-      <img id="gastro-hero-img" src="" alt="" class="w-full h-full object-cover">
+      <img id="gastro-hero-img" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 16 9'%2F%3E" alt="" class="w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/55 to-transparent"></div>
     </div>
     <div class="relative z-10 w-full max-w-5xl mx-auto px-6 text-white">
@@ -59,6 +59,13 @@
 
   <!-- Main Content -->
   <main class="flex-1 w-full max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-12 gap-12">
+    <!-- Gallery Section -->
+    <div id="gastro-gallery-section" class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" style="display: none;">
+      <div class="md:col-span-2 h-[320px] md:h-[440px] rounded-3xl overflow-hidden bg-neutral-200 shadow-md relative group cursor-pointer">
+        <img id="gastro-main-img" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 16 9'%2F%3E" alt="Imagen principal" />
+      </div>
+      <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 h-fit max-h-[440px] hide-scrollbar snap-x snap-mandatory scroll-smooth" id="gastro-gallery-thumbs"></div>
+    </div>
     <!-- Left column: Info & Description -->
     <div class="md:col-span-7 flex flex-col gap-8">
       <div>
@@ -181,6 +188,40 @@
       document.getElementById("gastro-desc").textContent = local.descripcion || "Sin descripción disponible.";
       document.getElementById("gastro-hero-img").src = local.imagen || local.mainImg;
       document.getElementById("gastro-hero-img").alt = local.nombre || local.titulo;
+
+      // Galería de fotos
+      const gallerySec = document.getElementById("gastro-gallery-section");
+      const mainImgEl = document.getElementById("gastro-main-img");
+      const thumbContainer = document.getElementById("gastro-gallery-thumbs");
+      
+      const galeria = Array.isArray(local.galeria) ? local.galeria : (local.imagen || local.mainImg ? [local.imagen || local.mainImg] : []);
+      
+      if (galeria.length > 0) {
+        gallerySec.style.display = "grid";
+        mainImgEl.src = galeria[0];
+        mainImgEl.alt = local.nombre || local.titulo;
+        
+        thumbContainer.innerHTML = "";
+        if (galeria.length > 1) {
+          thumbContainer.style.display = "flex";
+          galeria.forEach((imgUrl, i) => {
+            const btn = document.createElement("button");
+            btn.className = `snap-center w-[130px] md:w-full h-20 rounded-xl overflow-hidden shrink-0 border-[3px] transition-all hover:scale-105 active:scale-95 ${i === 0 ? 'border-primary' : 'border-transparent opacity-80 hover:opacity-100'}`;
+            btn.innerHTML = `<img class="w-full h-full object-cover" src="${imgUrl}"/>`;
+            btn.onclick = () => {
+              mainImgEl.src = imgUrl;
+              Array.from(thumbContainer.children).forEach(b => b.classList.replace('border-primary', 'border-transparent'));
+              btn.classList.replace('border-transparent', 'border-primary');
+            };
+            thumbContainer.appendChild(btn);
+          });
+        } else {
+          thumbContainer.style.display = "none";
+          mainImgEl.parentElement.className = "col-span-full h-[320px] md:h-[480px] rounded-3xl overflow-hidden bg-neutral-200 shadow-md relative group cursor-pointer";
+        }
+      } else {
+        gallerySec.style.display = "none";
+      }
 
       // Servicios
       const servicesUl = document.getElementById("gastro-services");

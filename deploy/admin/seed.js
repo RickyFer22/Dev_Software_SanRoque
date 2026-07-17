@@ -126,6 +126,8 @@ const gastronomia = [
     whatsapp: '',
     mapsLink: '',
     imagen: 'img/Comedor Ariana.jpeg',
+    galeria: ['img/Comedor Ariana.jpeg'],
+    servicios: ['wifi', 'aire_acondicionado'],
   },
   {
     id: 'comidas-estela',
@@ -138,6 +140,8 @@ const gastronomia = [
     whatsapp: '',
     mapsLink: '',
     imagen: 'img/Comidas Estela.jpeg',
+    galeria: ['img/Comidas Estela.jpeg'],
+    servicios: [],
   },
   {
     id: 'cafeteria-plaza',
@@ -150,6 +154,8 @@ const gastronomia = [
     whatsapp: '',
     mapsLink: '',
     imagen: '',
+    galeria: [],
+    servicios: ['wifi'],
   },
 ];
 
@@ -302,8 +308,8 @@ function run() {
   `);
 
   const insertGast = db.prepare(`
-    INSERT OR IGNORE INTO gastronomia (id,nombre,tipo,descripcion,direccion,horario,telefono,whatsapp,mapsLink,imagen)
-    VALUES (?,?,?,?,?,?,?,?,?,?)
+    INSERT OR IGNORE INTO gastronomia (id,nombre,tipo,descripcion,direccion,horario,telefono,whatsapp,mapsLink,imagen,galeria,servicios)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
   `);
 
   const insertEv = db.prepare(`
@@ -335,7 +341,11 @@ function run() {
 
   const txGast = db.transaction(() => {
     for (const g of gastronomia) {
-      insertGast.run(g.id, g.nombre, g.tipo, g.descripcion, g.direccion, g.horario, g.telefono, g.whatsapp, g.mapsLink, g.imagen);
+      insertGast.run(
+        g.id, g.nombre, g.tipo, g.descripcion, g.direccion, g.horario,
+        g.telefono, g.whatsapp, g.mapsLink, g.imagen,
+        JSON.stringify(g.galeria || []), JSON.stringify(g.servicios || [])
+      );
     }
   });
 
@@ -386,7 +396,7 @@ db.exec(`
     id TEXT PRIMARY KEY, nombre TEXT NOT NULL, tipo TEXT DEFAULT 'restaurante',
     descripcion TEXT DEFAULT '', direccion TEXT DEFAULT '', horario TEXT DEFAULT '',
     telefono TEXT DEFAULT '', whatsapp TEXT DEFAULT '', mapsLink TEXT DEFAULT '',
-    imagen TEXT DEFAULT '', activo INTEGER DEFAULT 1,
+    imagen TEXT DEFAULT '', galeria TEXT DEFAULT '[]', servicios TEXT DEFAULT '[]', activo INTEGER DEFAULT 1,
     createdAt TEXT DEFAULT (datetime('now')), updatedAt TEXT DEFAULT (datetime('now'))
   );
   CREATE TABLE IF NOT EXISTS eventos (

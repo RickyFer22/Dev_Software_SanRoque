@@ -223,6 +223,8 @@
       "whatsapp": "3777700082",
       "mapsLink": "",
       "imagen": "img/Comedor Ariana.jpeg",
+      "galeria": ["img/Comedor Ariana.jpeg"],
+      "servicios": ["wifi", "aire_acondicionado"],
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-14T23:45:14.737Z",
@@ -239,6 +241,8 @@
       "whatsapp": "3777674450",
       "mapsLink": "",
       "imagen": "img/Comedor Ariana.jpeg",
+      "galeria": ["img/Comedor Ariana.jpeg"],
+      "servicios": ["wifi"],
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-08T00:00:00.000Z"
@@ -254,6 +258,8 @@
       "whatsapp": "3777674962",
       "mapsLink": "",
       "imagen": "img/Comidas Estela.jpeg",
+      "galeria": ["img/Comidas Estela.jpeg"],
+      "servicios": [],
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-08T00:00:00.000Z"
@@ -269,6 +275,8 @@
       "whatsapp": "3777533524",
       "mapsLink": "",
       "imagen": "img/hero.jpg.jpg",
+      "galeria": ["img/hero.jpg.jpg"],
+      "servicios": ["wifi"],
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-08T00:00:00.000Z"
@@ -284,6 +292,8 @@
       "whatsapp": "3777221199",
       "mapsLink": "",
       "imagen": "img/hero.jpg.jpg",
+      "galeria": ["img/hero.jpg.jpg"],
+      "servicios": [],
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-08T00:00:00.000Z"
@@ -299,6 +309,8 @@
       "whatsapp": "3777672266",
       "mapsLink": "",
       "imagen": "img/hero.jpg.jpg",
+      "galeria": ["img/hero.jpg.jpg"],
+      "servicios": ["wifi"],
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-08T00:00:00.000Z"
