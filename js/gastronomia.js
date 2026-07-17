@@ -29,15 +29,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     return `
       <article id="gastro-${id}" data-gastro-id="${id}" class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[620px] lg:min-h-[430px] card-item fade-in-up">
-        <div class="absolute inset-0 w-full h-[40%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
+        <a href="comercio.html?id=${id}" target="_blank" class="absolute inset-0 w-full h-[40%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
           <img src="${local.imagen || local.mainImg}" alt="${local.nombre || local.titulo}" class="w-full h-full object-cover img-zoom" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
-        </div>
+        </a>
 
         <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Gastronomía</div>
 
         <div class="absolute inset-x-0 bottom-0 top-[40%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-5 sm:p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
-          <h2 class="text-primary text-[21px] sm:text-[22px] font-bold font-headline-md mb-2 leading-tight">${local.nombre || local.titulo}</h2>
+          <h2 class="text-primary text-[21px] sm:text-[22px] font-bold font-headline-md mb-2 leading-tight">
+            <a href="comercio.html?id=${id}" target="_blank" class="hover:text-river-teal hover:underline transition-colors">${local.nombre || local.titulo}</a>
+          </h2>
 
           <div class="flex flex-wrap gap-3 text-[12px] text-neutral-600 font-bold mb-4 leading-tight">
             <span class="inline-flex items-center gap-1.5">
@@ -48,8 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
           <p class="text-neutral-600 text-[14px] mb-3 leading-relaxed">${local.descripcion || ''}</p>
 
-          <div class="mb-2">${ratingBadge}</div>
-          <div class="vsr-interactive mb-4" data-type="gastronomia" data-id="${id}"></div>
+          <div class="mb-4">${ratingBadge}</div>
 
           <ul class="flex flex-wrap gap-1.5 mb-4">${servicios}</ul>
 
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Redirigir a la landing de cada comercio al hacer click en la tarjeta (abre en nueva pestaña)
   grid.querySelectorAll('article[data-gastro-id]').forEach(card => {
     card.addEventListener('click', (e) => {
-      if (e.target.closest('.vsr-interactive, .geo-btn, .gastro-share-btn, a[href*="wa.me"]')) {
+      if (e.target.closest('.vsr-interactive, .geo-btn, .gastro-share-btn, a[href*="wa.me"], a[href^="comercio.html"]')) {
         return;
       }
       const id = card.dataset.gastroId;
