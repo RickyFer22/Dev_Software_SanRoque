@@ -334,20 +334,50 @@
   "datos_utiles": [],
   "actividades": [
     {
-      "id": "balneario",
-      "titulo": "Balneario Municipal",
-      "descripcion": "Hermoso balneario sobre el Río Santa Lucía, ideal para disfrutar de la arena y el sol en verano con servicios completos.",
-      "imagen": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
+      "id": "capilla-historica",
+      "titulo": "Capilla Histórica (Templo Viejo)",
+      "descripcion": "Monumento Histórico Nacional construido en 1783. Alberga el Museo de Arte Sacro con piezas de la época fundacional y testimonios históricos de la Guerra de la Triple Alianza.",
+      "imagen": "img/san-roque-turismo-1.jpg",
       "activo": 1,
       "status": "published",
       "createdAt": "2026-07-16T00:00:00.000Z",
       "updatedAt": "2026-07-16T00:00:00.000Z"
     },
     {
-      "id": "capilla",
-      "titulo": "Capilla Histórica",
-      "descripcion": "Templo histórico fundado por los monjes dominicos, monumento emblemático del patrimonio arquitectónico de la ciudad.",
-      "imagen": "https://images.unsplash.com/photo-1548625361-155deee223cb?w=800&q=80",
+      "id": "balneario-municipal",
+      "titulo": "Balneario Municipal y Costanera",
+      "descripcion": "Disfrutá del sol, las playas de arena limpia sobre el río Santa Lucía y unos atardeceres mágicos. Cuenta con parador, áreas de camping y servicios completos en temporada.",
+      "imagen": "img/costanera 2.jpeg",
+      "activo": 1,
+      "status": "published",
+      "createdAt": "2026-07-16T00:00:00.000Z",
+      "updatedAt": "2026-07-16T00:00:00.000Z"
+    },
+    {
+      "id": "puente-carretero",
+      "titulo": "Puente Carretero Histórico",
+      "descripcion": "Icónico puente de hierro construido entre 1915 y 1917. Un símbolo sanroqueño ideal para paseos, fotografía y contemplación de la naturaleza fluvial.",
+      "imagen": "img/PUENTE HISTORICO 1.jpeg",
+      "activo": 1,
+      "status": "published",
+      "createdAt": "2026-07-16T00:00:00.000Z",
+      "updatedAt": "2026-07-16T00:00:00.000Z"
+    },
+    {
+      "id": "plaza-libertad",
+      "titulo": "Plaza Principal Libertad",
+      "descripcion": "Punto de encuentro central rodeado de frondosa arboleda y monumentos. Un espacio para relajarse, caminar y disfrutar de la tranquilidad local.",
+      "imagen": "img/Plaza San Roque.jpeg",
+      "activo": 1,
+      "status": "published",
+      "createdAt": "2026-07-16T00:00:00.000Z",
+      "updatedAt": "2026-07-16T00:00:00.000Z"
+    },
+    {
+      "id": "peatonal-colores",
+      "titulo": "Peatonal San Roque",
+      "descripcion": "Paseo urbano peatonal decorado con sombrillas de colores, luces cálidas y bancos. Ideal para caminar al atardecer y recorrer los comercios locales.",
+      "imagen": "img/PEATONALL.jpeg",
       "activo": 1,
       "status": "published",
       "createdAt": "2026-07-16T00:00:00.000Z",

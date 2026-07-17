@@ -90,7 +90,26 @@
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">design_services</span>
         <h3 class="text-lg font-bold text-primary mb-2">Servicios</h3>
         <p class="text-xs text-neutral-500">Bancos, cajeros y otros servicios públicos.</p>
-      </a>
+    </div>
+
+    <!-- Dynamic Directory Details Container -->
+    <div id="directory-section" class="mt-12 bg-white border border-outline-variant/30 rounded-3xl p-8 shadow-sm max-w-3xl mx-auto" style="display: none;">
+      <div class="flex items-center justify-between border-b pb-4 mb-6">
+        <div class="flex items-center gap-3">
+          <span id="directory-icon" class="material-symbols-outlined text-3xl text-river-teal">local_taxi</span>
+          <div>
+            <h3 id="directory-title" class="text-xl font-bold text-primary">Remises</h3>
+            <p id="directory-desc" class="text-xs text-neutral-500">Contactos de agencias y choferes locales.</p>
+          </div>
+        </div>
+        <button onclick="document.getElementById('directory-section').style.display='none';" class="text-neutral-400 hover:text-neutral-600 flex items-center justify-center">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      
+      <div id="directory-content" class="space-y-4">
+        <!-- Content will be rendered dynamically -->
+      </div>
     </div>
   </main>
 
@@ -158,6 +177,20 @@
   <script>
     const BOT_API = "/api/bot/chat";
     let chatOpen = false;
+    let datosUtilesGlobal = null;
+
+    // Fetch data on load
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            const res = await fetch("/api/data");
+            if (res.ok) {
+                const payload = await res.json();
+                datosUtilesGlobal = payload.datosUtiles || {};
+            }
+        } catch (err) {
+            console.error("Error loading directory data", err);
+        }
+    });
 
     document.getElementById("chatToggle").onclick = () => {
         chatOpen = !chatOpen;
@@ -170,17 +203,36 @@
         div.style.margin = "10px 0";
         div.style.padding = "12px";
         div.style.borderRadius = "14px";
+        div.style.maxWidth = "85%";
+        div.style.wordBreak = "break-word";
         if(user){
             div.style.background = "#EBE5D8";
             div.style.alignSelf = "flex-end";
             div.style.marginLeft = "30px";
+            div.style.whiteSpace = "pre-wrap";
+            div.textContent = text;
         } else {
             div.style.background = "#FFF";
             div.style.alignSelf = "flex-start";
             div.style.marginRight = "30px";
             div.style.boxShadow = "0 1px 3px rgba(0,0,0,0.1)";
+            
+            // Escape HTML to prevent XSS
+            const escaped = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+                
+            // Restore only allowed safe formatting tags: <b>, </b>, <br>
+            const safeHTML = escaped
+                .replace(/&lt;b&gt;/g, "<b>")
+                .replace(/&lt;\/b&gt;/g, "</b>")
+                .replace(/&lt;br&gt;/g, "<br>");
+                
+            div.innerHTML = safeHTML;
         }
-        div.innerHTML = text;
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
     }
@@ -228,12 +280,134 @@
         }
     }
 
-    function quickAsk(text){
+    function quickAsk(category){
+        // 1. Open Chatbot and ask
         chatOpen = true;
         document.getElementById("chatWindow").style.display = "flex";
-        document.getElementById("chatInput").value = text;
+        document.getElementById("chatInput").value = category;
         sendChat();
+
+        // 2. Render dynamic directory on page
+        showLocalDirectory(category.toLowerCase());
     }
+
+    function showLocalDirectory(catKey) {
+        if (!datosUtilesGlobal) return;
+        
+        // Match key
+        const item = datosUtilesGlobal[catKey];
+        if (!item) return;
+        
+        const section = document.getElementById("directory-section");
+        const titleEl = document.getElementById("directory-title");
+        const descEl = document.getElementById("directory-desc");
+        const iconEl = document.getElementById("directory-icon");
+        const contentEl = document.getElementById("directory-content");
+        
+        titleEl.textContent = item.titulo || catKey;
+        descEl.textContent = item.descripcion || "";
+        
+        // Map icon
+        const iconMap = {
+            remises: 'local_taxi',
+            terminal: 'directions_bus',
+            municipio: 'domain',
+            iglesias: 'church',
+            emergencias: 'emergency',
+            salud: 'medical_services',
+            servicios: 'design_services'
+        };
+        iconEl.textContent = iconMap[catKey] || 'info';
+        
+        let html = '';
+        const content = item.contenido || {};
+        
+        if (catKey === 'remises') {
+            const contactos = content.contactos || [];
+            if (contactos.length) {
+                html = `
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        ${contactos.map(c => `
+                            <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl flex items-center justify-between">
+                                <div>
+                                    <div class="font-bold text-neutral-800 text-sm">${c.nombre}</div>
+                                    <div class="text-xs text-neutral-500 mt-0.5">${c.tel}</div>
+                                </div>
+                                <a href="tel:${c.tel}" class="flex items-center justify-center w-9 h-9 rounded-full bg-river-teal/10 text-river-teal hover:bg-river-teal hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined text-[18px]">phone</span>
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                html = '<p class="text-neutral-500 text-sm">No hay contactos registrados.</p>';
+            }
+        } else if (catKey === 'terminal') {
+            const empresas = content.empresas || [];
+            html = `
+                <div class="space-y-4">
+                    ${content.ubicacion ? `
+                        <a href="${content.ubicacion}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 border border-neutral-200 rounded-lg text-xs font-bold text-neutral-700 hover:bg-neutral-50 transition-colors mb-2">
+                            <span class="material-symbols-outlined text-[16px] text-river-teal">location_on</span> VER UBICACIÓN EN MAPA
+                        </a>
+                    ` : ''}
+                    <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                        <div class="text-xs font-bold uppercase text-neutral-400 tracking-wider">Horarios de boletería</div>
+                        <div class="text-sm text-neutral-800 mt-1 font-medium">${content.horarios || 'Consultar en terminal'}</div>
+                    </div>
+                    ${empresas.length ? `
+                        <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                            <div class="text-xs font-bold uppercase text-neutral-400 tracking-wider mb-2">Empresas que operan</div>
+                            <ul class="list-disc list-inside text-sm text-neutral-700 space-y-1">
+                                ${empresas.map(e => `<li>${e}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        } else if (catKey === 'municipio') {
+            html = `
+                <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl space-y-3">
+                    <p class="text-sm text-neutral-700">Edificio de la Municipalidad de San Roque. Atención al público para consultas generales y trámites oficiales.</p>
+                    ${content.ubicacion ? `
+                        <a href="${content.ubicacion}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-river-teal text-white rounded-lg text-xs font-bold hover:bg-primary transition-colors">
+                            <span class="material-symbols-outlined text-[16px]">location_on</span> VER UBICACIÓN EN MAPA
+                        </a>
+                    ` : ''}
+                </div>
+            `;
+        } else {
+            const lugares = content.lugares || [];
+            if (lugares.length) {
+                html = `
+                    <div class="space-y-3">
+                        ${lugares.map(l => `
+                            <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl flex items-center justify-between">
+                                <span class="font-bold text-neutral-800 text-sm">${l.nombre}</span>
+                                ${l.link ? `
+                                    <a href="${l.link}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-river-teal/10 text-river-teal rounded-lg text-xs font-bold hover:bg-river-teal hover:text-white transition-colors">
+                                        <span class="material-symbols-outlined text-[16px]">location_on</span> VER MAPA
+                                    </a>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                html = '<p class="text-neutral-500 text-sm">No hay registros cargados para esta categoría.</p>';
+            }
+        }
+        
+        contentEl.innerHTML = html;
+        section.style.display = "block";
+        section.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Initial greeting
+    setTimeout(() => {
+        addMsg(`👋 <b>¡Bienvenido a MuniAyuda!</b><br><br>Soy el asistente virtual de Turismo de San Roque.<br><br>Puedo ayudarte con:<br>🏨 Hospedajes<br>🍕 Gastronomía<br>🎉 Eventos<br>🚓 Emergencias<br><br>¿Qué necesitás?`);
+    }, 1000);
   </script>
 </body>
 </html>

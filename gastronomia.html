@@ -419,14 +419,30 @@
                 div.style.background = "#274F10";
                 div.style.color = "white";
                 div.style.borderBottomRightRadius = "2px";
+                div.style.whiteSpace = "pre-wrap";
+                div.textContent = text;
             } else {
                 div.style.background = "white";
                 div.style.color = "#333";
                 div.style.borderBottomLeftRadius = "2px";
                 div.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
+                
+                // Escape HTML to prevent XSS
+                const escaped = text
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+                    
+                // Restore only allowed safe formatting tags: <b>, </b>, <br>
+                const safeHTML = escaped
+                    .replace(/&lt;b&gt;/g, "<b>")
+                    .replace(/&lt;\/b&gt;/g, "</b>")
+                    .replace(/&lt;br&gt;/g, "<br>");
+                    
+                div.innerHTML = safeHTML;
             }
-            div.style.whiteSpace = "pre-wrap";
-            div.textContent = text;
             box.appendChild(div);
             box.scrollTop = box.scrollHeight;
         }
@@ -470,7 +486,7 @@
         }
 
         setTimeout(() => {
-            addMsg(`Bienvenido a MuniAyuda\n\nSoy el asistente virtual de Turismo de San Roque.\n\nPuedo ayudarte con:\nHospedajes\nGastronomía\nEventos\nEmergencias\n\n¿Qué necesitás?`);
+            addMsg(`👋 <b>¡Bienvenido a MuniAyuda!</b><br><br>Soy el asistente virtual de Turismo de San Roque.<br><br>Puedo ayudarte con:<br>🏨 Hospedajes<br>🍕 Gastronomía<br>🎉 Eventos<br>🚓 Emergencias<br><br>¿Qué necesitás?`);
         }, 1000);
         // ═══ TYPEWRITER ═══
         (function(){

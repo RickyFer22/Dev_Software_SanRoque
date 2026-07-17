@@ -780,15 +780,31 @@ function addMsg(text, user=false){
         div.style.background = "#003633";
         div.style.color = "white";
         div.style.borderBottomRightRadius = "2px";
+        div.style.whiteSpace = "pre-wrap";
+        div.textContent = text;
     } else {
         div.style.background = "white";
         div.style.color = "#333";
         div.style.borderBottomLeftRadius = "2px";
         div.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
+        
+        // Escape HTML to prevent XSS
+        const escaped = text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+            
+        // Restore only allowed safe formatting tags: <b>, </b>, <br>
+        const safeHTML = escaped
+            .replace(/&lt;b&gt;/g, "<b>")
+            .replace(/&lt;\/b&gt;/g, "</b>")
+            .replace(/&lt;br&gt;/g, "<br>");
+            
+        div.innerHTML = safeHTML;
     }
 
-    div.style.whiteSpace = "pre-wrap";
-    div.textContent = text;
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
 }
