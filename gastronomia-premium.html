@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<title>San Roque Gastronómico · Sabores con Tradición</title>
+<meta name="description" content="Turismo gastronómico de San Roque, Corrientes: restaurantes, comedores y sabores regionales con identidad. Naturaleza, cultura y cocina local como protagonistas." />
+<meta name="theme-color" content="#355E4A" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Viví San Roque" />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:title" content="San Roque Gastronómico · Sabores con Tradición" />
+<meta property="og:description" content="Gastronomía regional, auténtica y cálida en el corazón de Corrientes." />
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primario:#355E4A;
+    --primario-hover:#2C4F3D;
+    --secundario:#F6F3EE;
+    --texto:#2F2F2F;
+    --acento:#D8A441;
+    --blanco:#FFFFFF;
+    --radio:16px;
+    --sombra:0 10px 30px rgba(47,47,47,.08);
+    --sombra-hover:0 18px 44px rgba(53,94,74,.18);
+    --transicion:300ms cubic-bezier(.4,0,.2,1);
+    --max:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Manrope',system-ui,sans-serif;
+    color:var(--texto);
+    background:var(--blanco);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block;max-width:100%}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-weight:700;line-height:1.15;letter-spacing:-.02em}
+  .kicker{
+    font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;
+    color:var(--acento);display:block;margin-bottom:14px;
+  }
+
+  /* ===== NAV ===== */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    transition:var(--transicion);
+    padding:18px 0;
+  }
+  .nav.solid{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(47,47,47,.06);padding:12px 0}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:800;font-size:1.35rem;color:var(--blanco);letter-spacing:-.03em;transition:var(--transicion)}
+  .nav.solid .brand,.nav.solid .nav-link{color:var(--primario)}
+  .nav-links{display:none;gap:30px;align-items:center}
+  .nav-link{font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--blanco);opacity:.92;transition:var(--transicion)}
+  .nav-link:hover{opacity:1;color:var(--acento)}
+  .nav.solid .nav-link:hover{color:var(--acento)}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--primario);color:#fff;font-weight:700;font-size:.9rem;
+    padding:12px 22px;border-radius:999px;border:none;cursor:pointer;
+    transition:var(--transicion);
+  }
+  .btn:hover{background:var(--primario-hover);transform:translateY(-2px);box-shadow:var(--sombra-hover)}
+  .btn-ghost{background:transparent;border:1.5px solid currentColor;color:var(--primario)}
+  .btn-ghost:hover{background:var(--primario);color:#fff;border-color:var(--primario)}
+  .btn-accent{background:var(--acento);color:#2F2F2F}
+  .btn-accent:hover{background:#c8942f}
+  .menu-toggle{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
+  .menu-toggle span{width:24px;height:2px;background:var(--blanco);border-radius:2px;transition:var(--transicion)}
+  .nav.solid .menu-toggle span{background:var(--primario)}
+  .mobile-panel{display:none;flex-direction:column;gap:4px;margin-top:14px;background:#fff;border-radius:var(--radio);padding:12px;box-shadow:var(--sombra)}
+  .mobile-panel.open{display:flex}
+  .mobile-panel a{padding:12px 14px;border-radius:12px;font-weight:700;color:var(--primario)}
+  .mobile-panel a:hover{background:var(--secundario)}
+
+  /* ===== HERO ===== */
+  .hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,40,30,.55),rgba(20,40,30,.25) 45%,rgba(20,40,30,.65))}
+  .hero-content{position:relative;z-index:2;color:#fff;width:100%;text-align:center;padding-top:90px}
+  .hero h1{font-size:clamp(2.4rem,8vw,4.6rem);font-weight:800;margin-bottom:18px;text-shadow:0 2px 22px rgba(0,0,0,.45)}
+  .hero p{max-width:560px;margin:0 auto 30px;font-size:clamp(1rem,2.5vw,1.18rem);font-weight:500;opacity:.95}
+  .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+  /* ===== BUSCADOR ===== */
+  .finder{margin-top:-46px;position:relative;z-index:5}
+  .finder-card{background:#fff;border-radius:var(--radio);box-shadow:var(--sombra);padding:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .finder input{flex:1;min-width:200px;border:1.5px solid #ececec;border-radius:12px;padding:14px 16px;font-family:inherit;font-size:.95rem;color:var(--texto);outline:none;transition:var(--transicion)}
+  .finder input:focus{border-color:var(--primario)}
+
+  /* ===== SECCIONES ===== */
+  section{padding:80px 0}
+  .sec-head{max-width:620px;margin:0 auto 48px;text-align:center}
+  .sec-head h2{font-size:clamp(1.8rem,5vw,2.6rem);color:var(--primario);margin-bottom:12px}
+  .sec-head p{color:#5d5d5d;font-size:1.05rem}
+
+  /* ===== FILTROS ===== */
+  .filters{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:44px}
+  .chip{
+    border:1.5px solid #e3e3e3;background:#fff;color:var(--primario);
+    font-weight:700;font-size:.82rem;padding:10px 18px;border-radius:999px;cursor:pointer;
+    transition:var(--transicion);
+  }
+  .chip:hover{border-color:var(--acento);transform:translateY(-1px)}
+  .chip.active{background:var(--primario);color:#fff;border-color:var(--primario)}
+
+  /* ===== CARDS ===== */
+  .grid-cards{display:grid;grid-template-columns:1fr;gap:26px}
+  .card{
+    background:#fff;border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);
+    transition:var(--transicion);opacity:0;transform:translateY(28px);
+  }
+  .card.reveal{opacity:1;transform:none}
+  .card:hover{transform:translateY(-8px);box-shadow:var(--sombra-hover)}
+  .card-img{position:relative;aspect-ratio:16/11;overflow:hidden}
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform 500ms cubic-bezier(.4,0,.2,1)}
+  .card:hover .card-img img{transform:scale(1.06)}
+  .badge{position:absolute;top:14px;left:14px;background:var(--acento);color:#2F2F2F;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:6px 12px;border-radius:999px}
+  .card-body{padding:22px}
+  .card-body h3{font-size:1.25rem;color:var(--texto);margin-bottom:6px}
+  .card-meta{display:flex;gap:14px;flex-wrap:wrap;color:#7a7a7a;font-size:.85rem;margin-bottom:14px}
+  .card-meta span{display:inline-flex;align-items:center;gap:5px}
+  .card-desc{color:#5d5d5d;font-size:.95rem;margin-bottom:18px}
+  .card-actions{display:flex;gap:10px;flex-wrap:wrap}
+  .card-actions .btn,.card-actions .btn-ghost{padding:10px 16px;font-size:.82rem}
+
+  /* ===== CARRUSEL ===== */
+  .carousel-section{background:var(--secundario)}
+  .carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:14px;-webkit-overflow-scrolling:touch}
+  .carousel::-webkit-scrollbar{height:8px}
+  .carousel::-webkit-scrollbar-thumb{background:#d9d3c8;border-radius:999px}
+  .slide{flex:0 0 82%;scroll-snap-align:center;border-radius:var(--radio);overflow:hidden;position:relative;aspect-ratio:4/3;box-shadow:var(--sombra)}
+  .slide img{width:100%;height:100%;object-fit:cover}
+  .slide-cap{position:absolute;left:0;right:0;bottom:0;padding:22px;color:#fff;background:linear-gradient(0deg,rgba(20,40,30,.8),transparent);font-weight:700;font-size:1.05rem}
+
+  /* ===== INFO / CONTACTO ===== */
+  .info-grid{display:grid;grid-template-columns:1fr;gap:26px}
+  .info-card{background:var(--secundario);border-radius:var(--radio);padding:30px;box-shadow:var(--sombra)}
+  .info-card h3{color:var(--primario);font-size:1.15rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .info-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(47,47,47,.08);font-size:.95rem}
+  .info-row:last-child{border-bottom:none}
+  .info-row .ic{color:var(--acento);font-weight:800;min-width:22px}
+  .hours{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(47,47,47,.12);font-size:.92rem}
+  .hours:last-child{border-bottom:none}
+  .socials{display:flex;gap:12px;margin-top:8px}
+  .socials a{width:42px;height:42px;border-radius:50%;background:var(--primario);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;transition:var(--transicion)}
+  .socials a:hover{background:var(--acento);color:#2F2F2F;transform:translateY(-3px)}
+
+  /* ===== CTA RESERVA ===== */
+  .cta{background:var(--primario);color:#fff;text-align:center;padding:70px 20px}
+  .cta h2{font-size:clamp(1.8rem,5vw,2.6rem);margin-bottom:14px}
+  .cta p{max-width:520px;margin:0 auto 28px;opacity:.92}
+  .cta .btn{background:#fff;color:var(--primario)}
+  .cta .btn:hover{background:var(--acento);color:#2F2F2F}
+
+  /* ===== FOOTER ===== */
+  footer{background:#243a2f;color:#cfe0d7;padding:54px 0 28px}
+  .foot-top{display:flex;flex-direction:column;gap:30px;margin-bottom:34px}
+  .foot-brand{font-weight:800;font-size:1.5rem;color:#fff;letter-spacing:-.03em}
+  .foot-brand span{color:var(--acento)}
+  .foot-col h4{color:#fff;font-size:.95rem;margin-bottom:14px;text-transform:uppercase;letter-spacing:.08em}
+  .foot-col a{display:block;padding:5px 0;font-size:.9rem;opacity:.85;transition:var(--transicion)}
+  .foot-col a:hover{opacity:1;color:var(--acento)}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12);padding-top:22px;text-align:center;font-size:.82rem;opacity:.7}
+
+  /* ===== REVEAL GLOBAL ===== */
+  .reveal-up{opacity:0;transform:translateY(28px);transition:opacity 600ms ease,transform 600ms ease}
+  .reveal-up.in{opacity:1;transform:none}
+
+  /* ===== RESPONSIVE ===== */
+  @media(min-width:640px){
+    .slide{flex-basis:48%}
+    .grid-cards{grid-template-columns:repeat(2,1fr)}
+    .info-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(min-width:900px){
+    .nav-links{display:flex}
+    .menu-toggle{display:none}
+    .slide{flex-basis:32%}
+    .grid-cards{grid-template-columns:repeat(3,1fr)}
+    .info-grid{grid-template-columns:repeat(3,1fr)}
+    .foot-top{flex-direction:row;justify-content:space-between}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">San&nbsp;Roque</a>
+    <div class="nav-links">
+      <a class="nav-link" href="que-hacer.html">Qué hacer</a>
+      <a class="nav-link" href="index.html">Dónde alojarme</a>
+      <a class="nav-link" href="gastronomia.html">Gastronomía</a>
+      <a class="nav-link" href="agenda.html">Agenda</a>
+      <a class="nav-link" href="guia-practica.html">Guía práctica</a>
+    </div>
+    <a class="btn" href="#reservas">Reservar</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="wrap"><div class="mobile-panel" id="mobilePanel">
+    <a href="que-hacer.html">Qué hacer</a>
+    <a href="index.html">Dónde alojarme</a>
+    <a href="gastronomia.html">Gastronomía</a>
+    <a href="agenda.html">Agenda</a>
+    <a href="guia-practica.html">Guía práctica</a>
+  </div></div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <img src="img/costanera 1.jpeg" alt="Costanera y naturaleza de San Roque al atardecer, escenario de la gastronomía regional" />
+  <div class="hero-content wrap">
+    <span class="kicker" style="color:#F6D98A">Turismo Gastronómico · Corrientes</span>
+    <h1>Sabores con<br>tradición correntina</h1>
+    <p>Una experiencia premium donde la naturaleza, la cultura y la cocina local son los protagonistas. Descubrí los comedores y restaurantes que hacen única a San Roque.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#directorio">Explorar locales</a>
+      <a class="btn btn-accent" href="#reservas">Reservar mesa</a>
+    </div>
+  </div>
+</header>
+
+<!-- BUSCADOR -->
+<div class="finder wrap">
+  <div class="finder-card">
+    <input type="text" id="buscador" placeholder="🔍  Buscar restaurante, comedor o plato típico…" aria-label="Buscar gastronomía" />
+    <a class="btn" href="#directorio">Buscar</a>
+  </div>
+</div>
+
+<!-- DIRECTORIO -->
+<section id="directorio">
+  <div class="wrap">
+    <div class="sec-head reveal-up">
+      <span class="kicker">Experiencia Gastronómica</span>
+      <h2>Nuestros Establecimientos</h2>
+      <p>Comedores y restaurantes con alma regional. Cocina auténtica, luz natural y la calidez de nuestra gente.</p>
+    </div>
+
+    <div class="filters" id="filtros">
+      <button class="chip active" data-cat="todos">Todos</button>
+      <button class="chip" data-cat="tradicional">Tradicional</button>
+      <button class="chip" data-cat="comedor">Comedores</button>
+      <button class="chip" data-cat="parilla">Parrilla</button>
+      <button class="chip" data-cat="celiaco">Celíacos</button>
+      <button class="chip" data-cat="vegetariano">Vegetariano</button>
+    </div>
+
+    <div class="grid-cards" id="grid"></div>
+  </div>
+</section>
+
+<!-- CARRUSEL -->
+<section class="carousel-section">
+  <div class="wrap">
+    <div class="sec-head reveal-up">
+      <span class="kicker">Galería Editorial</span>
+      <h2>Imágenes que cuentan historias</h2>
+      <p>Cocina regional, madera, vegetación y luz natural: la estética de una mesa correntina.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="carousel" id="carousel">
+      <figure class="slide"><img src="img/Comedor Ariana.jpeg" alt="Comedor regional de San Roque"><figcaption class="slide-cap">Comedores con calidez de hogar</figcaption></figure>
+      <figure class="slide"><img src="img/Comidas Estela.jpeg" alt="Plato casero típico de San Roque"><figcaption class="slide-cap">Recetas que se transmiten</figcaption></figure>
+      <figure class="slide"><img src="img/Plaza San Roque.jpeg" alt="Plaza de San Roque"><figcaption class="slide-cap">Plaza y encuentro</figcaption></figure>
+      <figure class="slide"><img src="img/PUENTE HISTORICO 1.jpeg" alt="Puente histórico de San Roque"><figcaption class="slide-cap">Historia y naturaleza</figcaption></figure>
+      <figure class="slide"><img src="img/rio.jpeg" alt="Río en San Roque"><figcaption class="slide-cap">A orillas del río</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- INFO / CONTACTO -->
+<section id="contacto">
+  <div class="wrap">
+    <div class="sec-head reveal-up">
+      <span class="kicker">Información útil</span>
+      <h2>Todo lo que necesitás</h2>
+      <p>Horarios, contacto, ubicación y redes para planificar tu visita gastronómica.</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-card reveal-up">
+        <h3>📍 Contacto & ubicación</h3>
+        <div class="info-row"><span class="ic">◇</span><div>Municipalidad de San Roque, Corrientes</div></div>
+        <div class="info-row"><span class="ic">✆</span><div><a href="tel:+543775000000">+54 3775 000 000</a></div></div>
+        <div class="info-row"><span class="ic">@</span><div><a href="mailto:turismo@sanroque.gov.ar">turismo@sanroque.gov.ar</a></div></div>
+        <a class="btn" style="margin-top:18px;width:100%;justify-content:center" href="https://www.google.com/maps/search/?api=1&query=San%20Roque%20Corrientes" target="_blank" rel="noopener">Abrir en Google Maps</a>
+      </div>
+      <div class="info-card reveal-up">
+        <h3>🕒 Horarios sugeridos</h3>
+        <div class="hours"><span>Desayuno</span><span>07:30 – 11:00</span></div>
+        <div class="hours"><span>Almuerzo</span><span>12:00 – 15:00</span></div>
+        <div class="hours"><span>Merienda</span><span>16:00 – 19:00</span></div>
+        <div class="hours"><span>Cena</span><span>20:00 – 23:30</span></div>
+        <p style="margin-top:14px;font-size:.85rem;color:#7a7a7a">Cada local define su horario. Consultalo en su tarjeta.</p>
+      </div>
+      <div class="info-card reveal-up">
+        <h3>🌿 Redes sociales</h3>
+        <p style="font-size:.95rem;color:#5d5d5d;margin-bottom:6px">Seguí la gastronomía regional y los eventos de San Roque.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/sanroque.municipio" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://www.facebook.com/share/1AW5YTS5oZ/" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+          <a href="https://wa.me/543775000000" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+        </div>
+        <a class="btn btn-ghost" style="margin-top:20px;width:100%;justify-content:center" href="#reservas">Reservar ahora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA RESERVAS -->
+<section class="cta" id="reservas">
+  <div class="wrap">
+    <span class="kicker" style="color:#F6D98A">Reservas</span>
+    <h2>Reservá tu mesa en San Roque</h2>
+    <p>Viví una experiencia culinaria auténtica. Escribinos y coordinamos tu lugar en el comedor o restaurante que elijas.</p>
+    <div class="hero-cta" style="justify-content:center">
+      <a class="btn" href="https://wa.me/543775000000" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+      <a class="btn" href="mailto:turismo@sanroque.gov.ar">Por email</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div style="max-width:300px">
+        <div class="foot-brand">San <span>Roque</span></div>
+        <p style="margin-top:10px;font-size:.9rem;opacity:.8">Naturaleza, cultura e historia en el corazón de Corrientes. Portal oficial de turismo y gastronomía.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Explorar</h4>
+        <a href="que-hacer.html">Qué hacer</a>
+        <a href="index.html">Dónde alojarme</a>
+        <a href="gastronomia.html">Gastronomía</a>
+        <a href="agenda.html">Agenda</a>
+        <a href="guia-practica.html">Guía práctica</a>
+      </div>
+      <div class="foot-col">
+        <h4>Turismo</h4>
+        <a href="#directorio">Restaurantes</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#reservas">Reservas</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=San%20Roque%20Corrientes" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      © 2026 Municipalidad de San Roque · Portal oficial de turismo y cultura · Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ===== DATOS DE LOCALES (fotos reales del repo, nunca logo municipal) =====
+  const locales = [
+    { nombre:"Comedor Ariana", cat:["comedor","tradicional","celiaco"], img:"img/Comedor Ariana.jpeg",
+      meta:["🍽️ Comedor","🌿 Casero","📍 Centro"], desc:"Cocina casera correntina con opciones celíacas. Sabor de hogar en cada plato.",
+      maps:"https://www.google.com/maps/search/?api=1&query=Comedor%20Ariana%20San%20Roque", wa:"543775000000" },
+    { nombre:"Comidas Estela", cat:["comedor","tradicional"], img:"img/Comidas Estela.jpeg",
+      meta:["🍽️ Comedor","🔥 Horno a leña","📍 Centro"], desc:"Platos típicos y guisos de la región, preparados con recetas de toda la vida.",
+      maps:"https://www.google.com/maps/search/?api=1&query=Comidas%20Estela%20San%20Roque", wa:"543775000000" },
+    { nombre:"Parrilla del Río", cat:["parilla","tradicional"], img:"img/costanera 2.jpeg",
+      meta:["🔥 Parrilla","🥩 Carnes","🌳 Aire libre"], desc:"Cortes regionales a las brasas junto a la costanera. Experiencia auténtica.",
+      maps:"https://www.google.com/maps/search/?api=1&query=San%20Roque%20costanera", wa:"543775000000" },
+    { nombre:"Vegetal Montpellier", cat:["vegetariano","celiaco"], img:"img/Plaza San Roque.jpeg",
+      meta:["🥗 Vegetariano","🌿 Orgánico","☀️ Luz natural"], desc:"Propuestas vegetarianas y sin gluten con productos de la huerta local.",
+      maps:"https://www.google.com/maps/search/?api=1&query=Plaza%20San%20Roque", wa:"543775000000" },
+    { nombre:"Cocina de la Plaza", cat:["tradicional","comedor"], img:"img/PUENTE HISTORICO 2.jpeg",
+      meta:["🍽️ Tradicional","🏛️ Céntrico","👨‍👩‍👧 Familiar"], desc:"Gastronomía de barrio frente a la plaza principal. Ambiente familiar y cálido.",
+      maps:"https://www.google.com/maps/search/?api=1&query=Plaza%20San%20Roque", wa:"543775000000" },
+    { nombre:"Puente Histórico Resto", cat:["parilla","tradicional"], img:"img/PUENTE HISTORICO 3.jpeg",
+      meta:["🍷 Restaurante","🌉 Histórico","🌅 Atardecer"], desc:"Cocina regional con vista al puente histórico. Luz natural y madera.",
+      maps:"https://www.google.com/maps/search/?api=1&query=Puente%20Historico%20San%20Roque", wa:"543775000000" }
+  ];
+
+  const grid = document.getElementById('grid');
+  function render(list){
+    grid.innerHTML = '';
+    if(!list.length){ grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#7a7a7a">No encontramos locales con ese criterio.</p>'; return; }
+    list.forEach((l,i)=>{
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.style.transitionDelay = (i*60)+'ms';
+      el.innerHTML = `
+        <div class="card-img">
+          <span class="badge">${l.cat[0]}</span>
+          <img src="${l.img}" alt="${l.nombre}" loading="lazy">
+        </div>
+        <div class="card-body">
+          <h3>${l.nombre}</h3>
+          <div class="card-meta">${l.meta.map(m=>`<span>${m}</span>`).join('')}</div>
+          <p class="card-desc">${l.desc}</p>
+          <div class="card-actions">
+            <a class="btn" href="https://wa.me/${l.wa}" target="_blank" rel="noopener">Reservar</a>
+            <a class="btn btn-ghost" href="${l.maps}" target="_blank" rel="noopener">Maps</a>
+          </div>
+        </div>`;
+      grid.appendChild(el);
+    });
+    observeCards();
+  }
+
+  // Filtros
+  document.getElementById('filtros').addEventListener('click', e=>{
+    const b = e.target.closest('.chip'); if(!b) return;
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    b.classList.add('active');
+    const cat = b.dataset.cat;
+    render(cat==='todos' ? locales : locales.filter(l=>l.cat.includes(cat)));
+  });
+
+  // Buscador
+  document.getElementById('buscador').addEventListener('input', e=>{
+    const q = e.target.value.toLowerCase().trim();
+    render(locales.filter(l=> (l.nombre+l.desc+l.cat.join(' ')).toLowerCase().includes(q)));
+  });
+
+  // Scroll reveal de cards
+  let io;
+  function observeCards(){
+    io = new IntersectionObserver(entries=>{
+      entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('reveal'); io.unobserve(en.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.card').forEach(c=>io.observe(c));
+  }
+
+  // Reveal secciones
+  const ro = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); ro.unobserve(en.target);} });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal-up').forEach(el=>ro.observe(el));
+
+  // Nav sólido
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', ()=> nav.classList.toggle('solid', scrollY>60));
+
+  // Menú móvil
+  const mt = document.getElementById('menuToggle'), mp = document.getElementById('mobilePanel');
+  mt.addEventListener('click', ()=>{
+    const open = mp.classList.toggle('open');
+    mt.setAttribute('aria-expanded', open);
+  });
+  mp.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mp.classList.remove('open')));
+
+  render(locales);
+</script>
+</body>
+</html>

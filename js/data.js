@@ -4,7 +4,8 @@
 // Si la API no está disponible, usa los datos hardcodeados como fallback
 // para que el portal nunca quede en blanco.
 
-const PLACEHOLDER_ALOJ_IMG = 'img/hero.jpg.jpg';
+const PLACEHOLDER_ALOJ_IMG = 'img/placeholder-alojamiento.svg';
+const PLACEHOLDER_LUGAR_IMG = 'img/Plaza San Roque.jpeg';
 const BRAND_LOGO_PATH = 'img/logo-muni.jpg';
 
 // 🏨 Datos hardcodeados (fallback)
@@ -153,24 +154,24 @@ const _fallbackAlojamientos = {
     mapUrl:'https://maps.app.goo.gl/xdS8yyXqYySfMx2d6?g_st=aw'
   },
 
-  // Lugares del mapa
-  'plaza_libertad':{ titulo:'Plaza Principal Libertad', categoria:'lugar', coords:[-28.57098181276159,-58.71209180928368], mainImg:'img/logo-muni.jpg' },
-  'museo':{ titulo:'Museo', categoria:'lugar', coords:[-28.57098181276159,-58.71209180928368], mainImg:'img/logo-muni.jpg' },
-  'policia':{ titulo:'Policía de San Roque', categoria:'servicio', coords:[-28.570089924920314,-58.712608217644515], mainImg:'img/logo-muni.jpg' },
-  'parroquia':{ titulo:'Parroquia San Roque de Montpellier', categoria:'iglesia', coords:[-28.571590353744543,-58.711252302690546], mainImg:'img/logo-muni.jpg' },
-  'monte_sion':{ titulo:'Iglesia Monte de Sion', categoria:'iglesia', coords:[-28.575815684105844,-58.707426283145196], mainImg:'img/logo-muni.jpg' },
-  'filadelfia':{ titulo:'Templo Filadelfia de San Roque', categoria:'iglesia', coords:[-28.57730954160022,-58.70606541439768], mainImg:'img/logo-muni.jpg' },
-  'testigos':{ titulo:'Salón del Reino de los Testigos de Jehová', categoria:'iglesia', coords:[-28.577110361826733,-58.70697266022936], mainImg:'img/logo-muni.jpg' },
-  'asamblea_dios':{ titulo:'Iglesia Evangélica Asamblea de Dios 248', categoria:'iglesia', coords:[-28.580856838882077,-58.718072982275054], mainImg:'img/logo-muni.jpg' },
-  'bomberos':{ titulo:'Bomberos de San Roque', categoria:'servicio', coords:[-28.577904318277724,-58.713826053599384], mainImg:'img/logo-muni.jpg' },
-  'hospital':{ titulo:'Hospital de San Roque', categoria:'salud', coords:[-28.577551339214832,-58.711226434897526], mainImg:'img/logo-muni.jpg' },
-  'farmar':{ titulo:'Farmar IV', categoria:'farmacia', coords:[-28.57564523967805,-28.7115423787572], mainImg:'img/logo-muni.jpg' },
-  'farmacia_itati':{ titulo:'Farmacia Itatí S.C.S', categoria:'farmacia', coords:[-28.57490350407002,-58.70936387230284], mainImg:'img/logo-muni.jpg' },
-  'tressens':{ titulo:'Farmacia Tressens II S.C.S', categoria:'farmacia', coords:[-28.575223851034433,-58.70882743052239], mainImg:'img/logo-muni.jpg' },
-  'farmacia_san_roque':{ titulo:'Farmacia San Roque', categoria:'farmacia', coords:[-28.57708938162111,-58.711638385451934], mainImg:'img/logo-muni.jpg' },
-  'municipalidad':{ titulo:'Municipalidad de San Roque', categoria:'servicio', coords:[-28.57680756168794,-58.708982356874806], mainImg:'img/logo-muni.jpg' },
-  'cic':{ titulo:'C.I.C Extensión del Municipio de San Roque', categoria:'servicio', coords:[-28.575522578502625,-58.70431666637905], mainImg:'img/logo-muni.jpg' },
-  'registro_civil':{ titulo:'Registro Civil', categoria:'servicio', coords:[-28.576534179577525,-58.70901613864172], mainImg:'img/logo-muni.jpg' }
+  // Lugares del mapa — foto local, nunca escudo municipal como contenido
+  'plaza_libertad':{ titulo:'Plaza Principal Libertad', categoria:'lugar', coords:[-28.57098181276159,-58.71209180928368], mainImg:'img/Plaza San Roque.jpeg' },
+  'museo':{ titulo:'Museo', categoria:'lugar', coords:[-28.57098181276159,-58.71209180928368], mainImg:'img/Museo San roque.jpeg' },
+  'policia':{ titulo:'Policía de San Roque', categoria:'servicio', coords:[-28.570089924920314,-58.712608217644515], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'parroquia':{ titulo:'Parroquia San Roque de Montpellier', categoria:'iglesia', coords:[-28.571590353744543,-58.711252302690546], mainImg:'img/PLAZA E HIGLESIA.jpeg' },
+  'monte_sion':{ titulo:'Iglesia Monte de Sion', categoria:'iglesia', coords:[-28.575815684105844,-58.707426283145196], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'filadelfia':{ titulo:'Templo Filadelfia de San Roque', categoria:'iglesia', coords:[-28.57730954160022,-58.70606541439768], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'testigos':{ titulo:'Salón del Reino de los Testigos de Jehová', categoria:'iglesia', coords:[-28.577110361826733,-58.70697266022936], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'asamblea_dios':{ titulo:'Iglesia Evangélica Asamblea de Dios 248', categoria:'iglesia', coords:[-28.580856838882077,-58.718072982275054], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'bomberos':{ titulo:'Bomberos de San Roque', categoria:'servicio', coords:[-28.577904318277724,-58.713826053599384], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'hospital':{ titulo:'Hospital de San Roque', categoria:'salud', coords:[-28.577551339214832,-58.711226434897526], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'farmar':{ titulo:'Farmar IV', categoria:'farmacia', coords:[-28.57564523967805,-58.7115423787572], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'farmacia_itati':{ titulo:'Farmacia Itatí S.C.S', categoria:'farmacia', coords:[-28.57490350407002,-58.70936387230284], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'tressens':{ titulo:'Farmacia Tressens II S.C.S', categoria:'farmacia', coords:[-28.575223851034433,-58.70882743052239], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'farmacia_san_roque':{ titulo:'Farmacia San Roque', categoria:'farmacia', coords:[-28.57708938162111,-58.711638385451934], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'municipalidad':{ titulo:'Municipalidad de San Roque', categoria:'servicio', coords:[-28.57680756168794,-58.708982356874806], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'cic':{ titulo:'C.I.C Extensión del Municipio de San Roque', categoria:'servicio', coords:[-28.575522578502625,-58.70431666637905], mainImg:PLACEHOLDER_LUGAR_IMG },
+  'registro_civil':{ titulo:'Registro Civil', categoria:'servicio', coords:[-28.576534179577525,-58.70901613864172], mainImg:PLACEHOLDER_LUGAR_IMG }
 };
 
 // ── Variable global accesible por app.js ──────────────────────────────────────

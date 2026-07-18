@@ -39,3 +39,13 @@ PLAN_MEJORAS.md
 # ===== Artefactos locales de pruebas visuales =====
 .playwright-cli/
 output/playwright/
+
+# Screenshots de validación
+footer-validacion-*.png
+mapa-validacion-*.png
+mapa-local-*.png
+mapa-produccion-*.png
+
+# Artefactos de tests E2E / playwright
+.playwright-mcp/
+test-results/

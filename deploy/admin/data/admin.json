@@ -9,8 +9,8 @@
       "rating": "4.8",
       "reviewsCount": "0 reseñas",
       "ubicacion": "San Roque",
-      "mainImg": "img/hero.jpg.jpg",
-      "galeria": "[\"img/hero.jpg.jpg\"]",
+      "mainImg": "img/placeholder-alojamiento.svg",
+      "galeria": "[\"img/placeholder-alojamiento.svg\"]",
       "descripcionLarga": "Hotel y hospedaje Ariadna ofrece comodidad y tranquilidad para visitantes de San Roque.",
       "capacidad": "[{\"icono\":\"hotel\",\"titulo\":\"Habitaciones disponibles\"}]",
       "servicios": "[{\"icono\":\"wifi\",\"texto\":\"WiFi\"}, {\"icono\":\"bed\",\"texto\":\"Habitaciones cómodas\"}]",
@@ -57,8 +57,8 @@
       "rating": "4.8",
       "reviewsCount": "14 reseñas",
       "ubicacion": "San Roque",
-      "mainImg": "img/hero.jpg.jpg",
-      "galeria": "[\"img/hero.jpg.jpg\"]",
+      "mainImg": "img/placeholder-alojamiento.svg",
+      "galeria": "[\"img/placeholder-alojamiento.svg\"]",
       "descripcionLarga": "Hospedaje San Martín ofrece comodidad para familias y grupos.",
       "capacidad": "[{\"icono\":\"bed\",\"titulo\":\"Habitaciones disponibles\"}]",
       "servicios": "[{\"icono\":\"ac_unit\",\"texto\":\"Aire acondicionado\"}, {\"icono\":\"family_restroom\",\"texto\":\"Apto familias\"}]",
@@ -127,8 +127,8 @@
       "rating": "4.7",
       "reviewsCount": "19 reseñas",
       "ubicacion": "San Roque",
-      "mainImg": "img/hero.jpg.jpg",
-      "galeria": "[\"img/hero.jpg.jpg\"]",
+      "mainImg": "img/placeholder-alojamiento.svg",
+      "galeria": "[\"img/placeholder-alojamiento.svg\"]",
       "descripcionLarga": "Departamentos modernos y totalmente equipados.",
       "capacidad": "[{\"icono\":\"apartment\",\"titulo\":\"Departamentos\"}]",
       "servicios": "[{\"icono\":\"tv\",\"texto\":\"Televisión\"}, {\"icono\":\"coffee\",\"texto\":\"Desayuno\"}]",
@@ -268,7 +268,7 @@
       "telefono": "",
       "whatsapp": "3777533524",
       "mapsLink": "",
-      "imagen": "img/hero.jpg.jpg",
+      "imagen": "img/placeholder-gastro.svg",
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-08T00:00:00.000Z"
@@ -283,7 +283,7 @@
       "telefono": "",
       "whatsapp": "3777221199",
       "mapsLink": "",
-      "imagen": "img/hero.jpg.jpg",
+      "imagen": "img/placeholder-gastro.svg",
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-08T00:00:00.000Z"
@@ -298,7 +298,7 @@
       "telefono": "",
       "whatsapp": "3777672266",
       "mapsLink": "",
-      "imagen": "img/hero.jpg.jpg",
+      "imagen": "img/placeholder-gastro.svg",
       "activo": 1,
       "createdAt": "2026-07-08T00:00:00.000Z",
       "updatedAt": "2026-07-08T00:00:00.000Z"
@@ -695,7 +695,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "descripcionLarga": "Hotel y hospedaje Ariadna ofrece comodidad y tranquilidad para visitantes de San Roque.",
         "activo": 1,
         "status": "published"
@@ -715,7 +715,7 @@
         "tipo": "comedor",
         "direccion": "x",
         "horario": "x",
-        "imagen": "x",
+        "imagen": "img/placeholder-gastro.svg",
         "activo": 1,
         "status": "published"
       },
@@ -747,7 +747,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 0,
         "status": "published"
       },
@@ -766,7 +766,7 @@
         "tipo": "comedor",
         "direccion": "x",
         "horario": "x",
-        "imagen": "x",
+        "imagen": "img/placeholder-gastro.svg",
         "activo": 0,
         "status": "published"
       },
@@ -785,7 +785,7 @@
         "tipo": "comedor",
         "direccion": "x",
         "horario": "x",
-        "imagen": "x",
+        "imagen": "img/placeholder-gastro.svg",
         "activo": 1,
         "status": "published"
       },
@@ -804,7 +804,7 @@
         "tipo": "comedor",
         "direccion": "x",
         "horario": "x",
-        "imagen": "x",
+        "imagen": "img/placeholder-gastro.svg",
         "activo": 0,
         "status": "published"
       },
@@ -823,7 +823,7 @@
         "tipo": "comedor",
         "direccion": "x",
         "horario": "x",
-        "imagen": "x",
+        "imagen": "img/placeholder-gastro.svg",
         "activo": 1,
         "status": "published"
       },
@@ -860,7 +860,7 @@
         "tipo": "comedor",
         "direccion": "x",
         "horario": "x",
-        "imagen": "x",
+        "imagen": "img/placeholder-gastro.svg",
         "activo": 0,
         "status": "published"
       },
@@ -977,7 +977,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 0,
         "status": "published"
       },
@@ -1017,7 +1017,7 @@
         "lon": -58.70867259115471,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hospedajesanmartin.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 0,
         "status": "published"
       },
@@ -1038,7 +1038,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 1,
         "status": "published"
       },
@@ -1059,7 +1059,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 0,
         "status": "published"
       },
@@ -1101,7 +1101,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 1,
         "status": "published"
       },
@@ -1143,7 +1143,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 0,
         "status": "published"
       },
@@ -1164,7 +1164,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 1,
         "status": "published"
       },
@@ -1185,7 +1185,7 @@
         "lon": -58.72157750594606,
         "rating": "4.8",
         "ubicacion": "San Roque",
-        "mainImg": "fotos/hotelariadna.png",
+        "mainImg": "img/placeholder-alojamiento.svg",
         "activo": 1,
         "status": "published"
       },

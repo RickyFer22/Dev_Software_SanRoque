@@ -1087,7 +1087,10 @@ function validateAndSanitize(collection, data) {
 
 function isInvalidPublishedImage(value) {
   const img = sanitizeString(value || '', 300).trim();
-  return !img || img === 'x' || img.includes('logo-muni');
+  if (!img || img === 'x') return true;
+  if (img.includes('logo-muni')) return true;
+  if (img.startsWith('fotos/')) return true;
+  return false;
 }
 
 function assertPublishedImage(collection, payload) {

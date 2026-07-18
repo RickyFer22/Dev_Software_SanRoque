@@ -7,7 +7,7 @@
   <title>Dónde alojarme - San Roque, Corrientes</title>
   <meta name="description" content="Alojamientos, gastronomía, eventos y servicios oficiales de San Roque, Corrientes. Portal municipal de turismo: dónde dormir, qué hacer y cómo llegar." />
   <link rel="canonical" href="https://vivisanroque.munisanroque.ar/" />
-  <meta name="theme-color" content="#274F10" />
+  <meta name="theme-color" content="#355E4A" />
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Viví San Roque" />
@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@500&family=Syne:wght@600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@500&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
@@ -39,15 +39,15 @@
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 </head>
 
-<body class="bg-background text-neutral-900 font-body-md antialiased overflow-x-hidden">
+<body class="bg-[#F6F3EE] text-neutral-900 font-body-md antialiased overflow-x-hidden">
 
   <div id="intro-splash" aria-hidden="true">
     <div id="splash-logo">
       <img class="splash-crest" src="img/logo-muni.jpg" alt="" width="220" height="220" />
     </div>
     <div id="splash-text" class="text-center">
-      <div class="font-display-lg text-4xl font-bold text-white tracking-tight">San Roque</div>
-      <div class="text-[#A7D24F] font-label-caps text-xs tracking-[0.25em] uppercase mt-1">Municipio · Corrientes</div>
+      <div class="splash-title font-display-lg text-4xl font-bold tracking-tight" style="color:#2F2F2F">San Roque</div>
+      <div class="splash-subtitle font-label-caps text-xs tracking-[0.25em] uppercase mt-1" style="color:#5C5C5C">Municipio · Corrientes</div>
     </div>
   </div>
 
@@ -122,11 +122,11 @@
     </div>
     <div id="mobile-nav-panel" class="md:hidden hidden px-4 pt-3 pb-2">
       <div class="rounded-[24px] border border-white/20 bg-primary/95 p-3 shadow-2xl backdrop-blur-md">
-        <a class="mobile-nav-link" href="#">Qué hacer</a>
+        <a class="mobile-nav-link" href="que-hacer.html">Qué hacer</a>
         <a class="mobile-nav-link active" onclick="backToGrid()">Dónde alojarme</a>
         <a class="mobile-nav-link" href="gastronomia.html">Gastronomía</a>
-        <a class="mobile-nav-link" href="#agenda">Agenda</a>
-        <a class="mobile-nav-link" href="#datos-utiles">Guía práctica</a>
+        <a class="mobile-nav-link" href="agenda.html">Agenda</a>
+        <a class="mobile-nav-link" href="guia-practica.html">Guía práctica</a>
       </div>
     </div>
   </nav>
@@ -159,10 +159,10 @@
 
     <section id="hero-section">
       <div class="absolute inset-0 z-0 hero-rotor-monjita">
-        <img alt="Monjita dominica en su hábitat" class="hero-slide" src="img/monjita/monjita-1.jpg" />
-        <img alt="Monjita dominica" class="hero-slide" src="img/monjita/monjita-2.jpg" />
-        <img alt="Monjita dominica posada" class="hero-slide" src="img/monjita/monjita-5.jpg" />
-        <img alt="Monjita dominica de cerca" class="hero-slide" src="img/monjita/monjita-4.jpg" />
+        <img alt="Monjita dominica en su hábitat" class="hero-slide" src="img/monjita/monjita-1.jpg" loading="lazy" />
+        <img alt="Monjita dominica" class="hero-slide" src="img/monjita/monjita-2.jpg" loading="lazy" />
+        <img alt="Monjita dominica posada" class="hero-slide" src="img/monjita/monjita-5.jpg" loading="lazy" />
+        <img alt="Monjita dominica de cerca" class="hero-slide" src="img/monjita/monjita-4.jpg" loading="lazy" />
       </div>
       <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
         <div
@@ -177,9 +177,22 @@
         <p class="text-canvas-white/85 text-lg md:text-xl max-w-xl mx-auto hero-text-shadow">
           Explorá hospedajes validados y departamentos equipados con atención directa de sus dueños.
         </p>
-        <div class="mt-12 flex flex-col items-center gap-1 opacity-60 animate-bounce">
-          <span class="text-white/70 text-[11px] font-label-caps tracking-widest uppercase">Explorá</span>
-          <span class="material-symbols-outlined text-white/70 text-[20px]">expand_more</span>
+        <!-- Buscador tipo pill -->
+        <div class="mt-10 mx-auto max-w-xl w-full">
+          <div class="flex items-center gap-2 bg-white/15 backdrop-blur-md border border-white/25 rounded-full px-5 py-3 shadow-xl transition-all duration-300 hover:bg-white/20 focus-within:bg-white/20 focus-within:border-white/40">
+            <span class="material-symbols-outlined text-sun-haze text-[20px]">search</span>
+            <input id="hero-search-input" type="text" placeholder="Buscar alojamiento, plato o lugar…"
+              class="flex-1 bg-transparent border-none outline-none text-white placeholder:text-white/50 font-medium text-[15px]"
+              aria-label="Buscar en el portal" />
+            <button onclick="window.location.href='gastronomia.html'"
+              class="hidden sm:inline-flex items-center gap-1.5 bg-white/20 hover:bg-white/30 text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full transition-all">
+              Explorar
+            </button>
+          </div>
+        </div>
+        <div class="mt-8 flex flex-col items-center gap-1 opacity-50 animate-bounce">
+          <span class="text-white/60 text-[10px] font-label-caps tracking-widest uppercase">Descubrí San Roque</span>
+          <span class="material-symbols-outlined text-white/60 text-[18px]">expand_more</span>
         </div>
       </div>
       <!-- Colección interactiva: Monjita Dominica (Monumento Natural de San Roque) -->
@@ -228,6 +241,12 @@
         <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Hospedajes</h2>
         <p class="text-neutral-500 text-sm mt-1">Opciones cómodas y bien ubicadas para tu estadía en San Roque</p>
       </div>
+      <!-- Filtros por categoría -->
+      <div class="flex flex-wrap items-center gap-2.5 mb-8" id="accommodation-filters">
+        <button type="button" class="filter-btn bg-surface-container text-on-surface-variant px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider shadow-sm transition-all duration-200" data-filter="all">Todos</button>
+        <button type="button" class="filter-btn bg-surface-container text-on-surface-variant px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider shadow-sm transition-all duration-200" data-filter="hotel">Hoteles</button>
+        <button type="button" class="filter-btn bg-surface-container text-on-surface-variant px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider shadow-sm transition-all duration-200" data-filter="hospedaje">Hospedajes</button>
+      </div>
       <div class="rounded-[32px]">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="accommodations-carousel"></div>
       </div>
@@ -275,7 +294,7 @@
       
     </section>
   </div>
-  <div id="detailed-accommodation-view" class="hidden pt-[110px] pb-28 lg:pb-16 bg-background min-h-screen">
+  <div id="detailed-accommodation-view" class="hidden pt-[110px] pb-28 lg:pb-16 min-h-screen" style="background:#F6F3EE">
     <div class="max-w-6xl mx-auto px-6">
       <button onclick="backToGrid()"
         class="inline-flex items-center gap-2 text-neutral-600 hover:text-primary font-bold text-sm mb-6 transition-colors hover:scale-105 active:scale-95">
@@ -483,7 +502,7 @@
 
   </div>
 
-  <footer id="contacto" class="site-footer w-full mt-10 relative z-10 overflow-hidden">
+  <footer id="contacto" class="site-footer w-full mt-10 relative z-10 overflow-hidden" style="background:#F6F1E7">
     <div class="footer-cream-crown" aria-hidden="true"></div>
     <div class="footer-wordmark-wrap max-w-7xl mx-auto px-6">
       <span class="sr-wordmark sr-wordmark-hero" aria-label="San Roque"><span class="sr-l1">S</span><span class="sr-l2">a</span><span class="sr-l3">n</span>&nbsp;<span class="sr-l4">R</span><span class="sr-l5">o</span><span class="sr-l6">q</span><span class="sr-l7">u</span><span class="sr-l8">e</span></span>

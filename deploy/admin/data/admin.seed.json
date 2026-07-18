@@ -9,8 +9,8 @@
       "rating": "4.8",
       "reviewsCount": "0 reseñas",
       "ubicacion": "San Roque",
-      "mainImg": "img/hero.jpg.jpg",
-      "galeria": "[\"img/hero.jpg.jpg\"]",
+      "mainImg": "img/placeholder-alojamiento.svg",
+      "galeria": "[\"img/placeholder-alojamiento.svg\"]",
       "descripcionLarga": "Hotel y hospedaje Ariadna ofrece comodidad y tranquilidad para visitantes de San Roque.",
       "capacidad": "[{\"icono\":\"hotel\",\"titulo\":\"Habitaciones disponibles\"}]",
       "servicios": "[{\"icono\":\"wifi\",\"texto\":\"WiFi\"}, {\"icono\":\"bed\",\"texto\":\"Habitaciones cómodas\"}]",
@@ -57,8 +57,8 @@
       "rating": "4.8",
       "reviewsCount": "14 reseñas",
       "ubicacion": "San Roque",
-      "mainImg": "img/hero.jpg.jpg",
-      "galeria": "[\"img/hero.jpg.jpg\"]",
+      "mainImg": "img/placeholder-alojamiento.svg",
+      "galeria": "[\"img/placeholder-alojamiento.svg\"]",
       "descripcionLarga": "Hospedaje San Martín ofrece comodidad para familias y grupos.",
       "capacidad": "[{\"icono\":\"bed\",\"titulo\":\"Habitaciones disponibles\"}]",
       "servicios": "[{\"icono\":\"ac_unit\",\"texto\":\"Aire acondicionado\"}, {\"icono\":\"family_restroom\",\"texto\":\"Apto familias\"}]",
@@ -127,8 +127,8 @@
       "rating": "4.7",
       "reviewsCount": "19 reseñas",
       "ubicacion": "San Roque",
-      "mainImg": "img/hero.jpg.jpg",
-      "galeria": "[\"img/hero.jpg.jpg\"]",
+      "mainImg": "img/placeholder-alojamiento.svg",
+      "galeria": "[\"img/placeholder-alojamiento.svg\"]",
       "descripcionLarga": "Departamentos modernos y totalmente equipados.",
       "capacidad": "[{\"icono\":\"apartment\",\"titulo\":\"Departamentos\"}]",
       "servicios": "[{\"icono\":\"tv\",\"texto\":\"Televisión\"}, {\"icono\":\"coffee\",\"texto\":\"Desayuno\"}]",
@@ -285,9 +285,9 @@
       "telefono": "",
       "whatsapp": "3777533524",
       "mapsLink": "",
-      "imagen": "img/hero.jpg.jpg",
+      "imagen": "img/placeholder-alojamiento.svg",
       "galeria": [
-        "img/hero.jpg.jpg"
+        "img/placeholder-alojamiento.svg"
       ],
       "servicios": [
         "wifi"
@@ -306,9 +306,9 @@
       "telefono": "",
       "whatsapp": "3777221199",
       "mapsLink": "",
-      "imagen": "img/hero.jpg.jpg",
+      "imagen": "img/placeholder-alojamiento.svg",
       "galeria": [
-        "img/hero.jpg.jpg"
+        "img/placeholder-alojamiento.svg"
       ],
       "servicios": [],
       "activo": 1,
@@ -325,9 +325,9 @@
       "telefono": "",
       "whatsapp": "3777672266",
       "mapsLink": "",
-      "imagen": "img/hero.jpg.jpg",
+      "imagen": "img/placeholder-alojamiento.svg",
       "galeria": [
-        "img/hero.jpg.jpg"
+        "img/placeholder-alojamiento.svg"
       ],
       "servicios": [
         "wifi"

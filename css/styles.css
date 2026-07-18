@@ -1,4 +1,29 @@
-.material-symbols-outlined { font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased; }
+/* ══ DESIGN TOKENS · Paleta Viví San Roque ══ */
+:root {
+  --brand-primary: #355E4A;
+  --brand-primary-hover: #2C4F3D;
+  --brand-primary-light: rgba(53,94,74,0.09);
+  --surface: #F6F3EE;
+  --surface-elevated: #FFFFFF;
+  --text: #2F2F2F;
+  --text-muted: #5C5C5C;
+  --accent: #D8A441;
+  --accent-light: rgba(216,164,65,0.12);
+  --border: rgba(47,47,47,0.08);
+  --shadow: 0 8px 24px rgba(47,47,47,0.08);
+  --shadow-hover: 0 16px 40px rgba(47,47,47,0.12);
+  --radius-card: 16px;
+  --motion: 300ms;
+  --color-river-teal: #355E4A;
+  --color-primary: #355E4A;
+  --color-on-primary: #FFFFFF;
+  --color-golden-sand: #D8A441;
+  --color-sun-haze: #F5D98A;
+  --color-text-primary: #355E4A;
+  --color-bg-surface: #F6F3EE;
+}
+
+  .material-symbols-outlined { font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased; }
   .material-symbols-outlined.filled { font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24; }
 
   .fade-in-up { opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1); }
@@ -21,8 +46,8 @@
   .card-item:focus-within,
   .card-item.touch-active {
     transform: translateY(-8px) scale(1.01);
-    box-shadow: 0 18px 40px rgba(39,79,16,0.14);
-    border-color: rgba(51,106,21,0.24);
+    box-shadow: 0 18px 40px rgba(53,94,74,0.14);
+    border-color: rgba(53,94,74,0.2);
   }
   .card-item:hover img,
   .card-item:focus-within img,
@@ -60,28 +85,30 @@
   .weather-panel { opacity:0;transform:scale(0.95) translateY(10px);pointer-events:none;transition:opacity 0.3s ease,transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);transform-origin:bottom left; }
   .weather-widget:hover .weather-panel,.weather-widget:focus .weather-panel,.weather-widget:focus-within .weather-panel { opacity:1;transform:scale(1) translateY(0);pointer-events:auto; }
 
-  .service-badge { display:flex;align-items:center;gap:6px;background:rgba(51,106,21,0.06);border:1px solid rgba(51,106,21,0.14);border-radius:12px;padding:11px 14px;font-size:13px;font-weight:650;color:#336a15;transition:transform .15s ease,box-shadow .15s ease,background .15s ease; }
-  .service-badge:hover { transform:translateY(-2px);background:rgba(51,106,21,0.1);box-shadow:0 8px 18px rgba(39,79,16,.12); }
-  /* Título de sección con acento oliva (detalle de alojamiento) */
+  .service-badge { display:flex;align-items:center;gap:6px;background:var(--brand-primary-light);border:1px solid rgba(53,94,74,0.14);border-radius:12px;padding:11px 14px;font-size:13px;font-weight:650;color:var(--brand-primary);transition:transform .15s ease,box-shadow .15s ease,background .15s ease; }
+  .service-badge:hover { transform:translateY(-2px);background:rgba(53,94,74,0.1);box-shadow:0 8px 18px rgba(53,94,74,.12); }
+  /* Título de sección con acento brand (detalle de alojamiento) */
   .det-section-title { position:relative;padding-left:15px; }
-  .det-section-title::before { content:"";position:absolute;left:0;top:1px;height:22px;width:4px;border-radius:3px;background:linear-gradient(180deg,#3DA33A,#274F10); }
+  .det-section-title::before { content:"";position:absolute;left:0;top:1px;height:22px;width:4px;border-radius:3px;background:linear-gradient(180deg,#D8A441,#355E4A); }
   .capacity-row { transition:background .15s ease;border-radius:10px; }
   .capacity-row:hover { background:rgba(51,106,21,0.05); }
   .capacity-row { display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(0,0,0,0.05); }
   .capacity-row:last-child { border-bottom:none; }
 
-  .leaflet-container { z-index:10 !important;font-family:'DM Sans',sans-serif; }
+  .leaflet-container { z-index:10 !important;font-family:'Manrope','DM Sans',sans-serif; }
   .leaflet-popup-content-wrapper { border-radius:16px;padding:8px;box-shadow:0 10px 25px rgba(0,0,0,0.1); }
   .leaflet-popup-content { margin:8px; }
 
   /* ── INTRO SPLASH ── */
-  #intro-splash { position:fixed;inset:0;z-index:9999;background:#274F10;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.65s ease,visibility 0.65s ease; }
+  #intro-splash { position:fixed;inset:0;z-index:9999;background:#F6F3EE;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity 0.65s ease,visibility 0.65s ease; }
   #intro-splash.hidden-out { opacity:0;visibility:hidden;pointer-events:none; }
   #splash-logo { opacity:0;transform:scale(0.72);transition:opacity 0.9s cubic-bezier(.22,1,.36,1),transform 0.9s cubic-bezier(.22,1,.36,1); }
   #splash-logo.show { opacity:1;transform:scale(1); }
   #splash-text { opacity:0;transform:translateY(12px);transition:opacity 0.7s ease 0.6s,transform 0.7s ease 0.6s; }
+  #intro-splash .splash-title { color:#2F2F2F; }
+  #intro-splash .splash-subtitle { color:#5C5C5C; }
   #splash-text.show { opacity:1;transform:translateY(0); }
-  .splash-crest { width:clamp(164px,22vw,220px);aspect-ratio:1;display:block;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px rgba(245,217,138,.35),0 24px 60px rgba(0,0,0,.28); }
+  .splash-crest { width:clamp(164px,22vw,220px);aspect-ratio:1;display:block;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px rgba(216,164,65,.25),0 24px 60px rgba(0,0,0,.18); }
 
   /* ── FOOTER INSTITUCIONAL ── */
   .site-footer { overflow:hidden;box-shadow:0 -18px 50px rgba(39,79,16,.08); }
@@ -163,7 +190,7 @@
     bottom:20px;
     right:20px;
     z-index:9999;
-    font-family:'DM Sans',sans-serif;
+    font-family:'Manrope','DM Sans',sans-serif;
 }
 
 
@@ -643,6 +670,46 @@ bottom:15px;
 }
 
 }
+/* ══ TAILWIND COLOR OVERRIDES · Paleta Viví San Roque ══ */
+/* Estas reglas sobreescriben las utilidades Tailwind hardcodeadas en tw-base.css */
+.bg-primary { background-color: var(--brand-primary) !important; }
+.bg-primary\/95 { background-color: rgba(53,94,74,0.95) !important; }
+.bg-primary\/90 { background-color: rgba(53,94,74,0.9) !important; }
+.bg-river-teal { background-color: var(--brand-primary) !important; }
+.text-primary { color: var(--brand-primary) !important; }
+.text-river-teal { color: var(--brand-primary) !important; }
+.border-primary { border-color: var(--brand-primary) !important; }
+.border-river-teal\/20 { border-color: rgba(53,94,74,0.2) !important; }
+.border-river-teal\/30 { border-color: rgba(53,94,74,0.3) !important; }
+.hover\:text-primary:hover { color: var(--brand-primary) !important; }
+.hover\:text-river-teal:hover { color: var(--brand-primary) !important; }
+.hover\:bg-primary:hover { background-color: var(--brand-primary-hover) !important; }
+.hover\:bg-river-teal:hover { background-color: var(--brand-primary-hover) !important; }
+.hover\:border-river-teal:hover { border-color: var(--brand-primary) !important; }
+/* Gradient overrides — paleta brand-primary en vez de oliva */
+.from-primary\/95 { --tw-gradient-from: rgba(53,94,74,0.95) var(--tw-gradient-from-position); }
+.via-primary\/50 { --tw-gradient-stops: var(--tw-gradient-from),rgba(53,94,74,0.5) var(--tw-gradient-via-position),var(--tw-gradient-to); }
+.via-primary\/55 { --tw-gradient-stops: var(--tw-gradient-from),rgba(53,94,74,0.55) var(--tw-gradient-via-position),var(--tw-gradient-to); }
+.via-primary\/60 { --tw-gradient-stops: var(--tw-gradient-from),rgba(53,94,74,0.6) var(--tw-gradient-via-position),var(--tw-gradient-to); }
+.bg-teal-50 { background-color: rgba(53,94,74,0.06) !important; }
+.text-on-background { color: var(--text) !important; }
+/* Font overrides para tw-gastronomia.css (minificado con DM Sans hardcodeado) */
+.font-body-md, .font-body-lg { font-family: 'Manrope', 'DM Sans', sans-serif !important; }
+.font-display-lg, .font-headline-md { font-family: 'Manrope', 'Syne', sans-serif !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+@media (max-width: 480px) {
+  .chat-window{
+    width:calc(100vw - 30px);
+    height:520px;
+    right:-5px;
+  }
+  .chatbot{ right:15px; bottom:15px; }
+}
+
   /* =========================================
      CSS BANNER DE EVENTOS (NUEVO AGREGADO)
      ========================================= */
@@ -867,8 +934,7 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
   .site-footer .social-link { flex:1;max-width:150px; }
 }
 
-/* Experiencias editoriales 2026 */
-.events-editorial-banner {
+/* Experiencias editoriales 2026 */  .events-editorial-banner {
   position: relative;
   min-height: 310px;
   display: grid;
@@ -879,8 +945,8 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
   padding: clamp(34px, 6vw, 76px);
   color: #fff;
   border-radius: 30px 10px 30px 10px;
-  background: linear-gradient(112deg, #274F10 0%, #3A6B18 65%, #4d8322 100%);
-  box-shadow: 0 24px 54px rgba(39,79,16,.22);
+  background: linear-gradient(112deg, var(--brand-primary) 0%, #456D55 65%, #568469 100%);
+  box-shadow: 0 24px 54px rgba(53,94,74,.18);
 }
 .events-editorial-banner::before {
   content: "";

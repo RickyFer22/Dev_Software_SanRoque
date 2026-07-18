@@ -36,7 +36,7 @@ window.gastronomiaData = [
     descripcion: "Especialistas en pastas. Delivery gratuito y ambiente climatizado para disfrutar.",
     ubicacion: "Martínez de Ibarra 654",
     whatsapp: "3777533524",
-    imagen: "img/hero.jpg.jpg",
+    imagen: "img/placeholder-gastro.svg",
     servicios: ["wifi", "pets", "delivery", "ac_unit"]
   },
   {
@@ -46,7 +46,7 @@ window.gastronomiaData = [
     descripcion: "Viandas al mediodía y atención nocturna. Delivery sin cargo en la zona.",
     ubicacion: "Plácido Martínez 308",
     whatsapp: "3777221199",
-    imagen: "img/hero.jpg.jpg",
+    imagen: "img/placeholder-gastro.svg",
     servicios: ["wifi", "pets", "delivery"]
   },
   {
@@ -56,7 +56,7 @@ window.gastronomiaData = [
     descripcion: "Horario extendido ideal para trasnochadores. Ambiente con TV y amplia variedad de menús.",
     ubicacion: "Juan García de Cossio 704",
     whatsapp: "3777672266",
-    imagen: "img/hero.jpg.jpg",
+    imagen: "img/placeholder-gastro.svg",
     servicios: ["wifi", "pets", "tv", "restaurant"]
   }
 ];

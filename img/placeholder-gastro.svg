@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Placeholder gastronómico">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F6F3EE"/>
+      <stop offset="100%" stop-color="#EDE6DA"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <ellipse cx="600" cy="430" rx="220" ry="40" fill="#E4DCCE"/>
+  <circle cx="600" cy="360" r="140" fill="#FFFFFF" stroke="#D8CFC0" stroke-width="3"/>
+  <circle cx="600" cy="360" r="90" fill="#F6F3EE"/>
+  <path d="M480 360 Q600 250 720 360" fill="none" stroke="#355E4A" stroke-width="10" stroke-linecap="round" opacity="0.35"/>
+  <circle cx="560" cy="340" r="14" fill="#D8A441"/>
+  <circle cx="640" cy="350" r="10" fill="#355E4A" opacity="0.5"/>
+  <circle cx="600" cy="390" r="12" fill="#C47A4A" opacity="0.7"/>
+  <text x="600" y="680" text-anchor="middle" font-family="Manrope, system-ui, sans-serif" font-size="28" font-weight="600" fill="#5C5C5C">Gastronomía · San Roque</text>
+</svg>

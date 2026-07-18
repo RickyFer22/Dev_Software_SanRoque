@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Placeholder de alojamiento">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8E2D6"/>
+      <stop offset="100%" stop-color="#F6F3EE"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <rect x="0" y="520" width="1200" height="280" fill="#E4DCCE"/>
+  <rect x="340" y="280" width="520" height="320" rx="16" fill="#FFFFFF" stroke="#D8CFC0" stroke-width="2"/>
+  <rect x="380" y="320" width="140" height="100" rx="8" fill="#F0EBE2"/>
+  <rect x="560" y="320" width="140" height="100" rx="8" fill="#F0EBE2"/>
+  <rect x="740" y="320" width="80" height="100" rx="8" fill="#F0EBE2"/>
+  <rect x="540" y="480" width="120" height="120" rx="8" fill="#355E4A"/>
+  <circle cx="900" cy="160" r="48" fill="#D8A441" opacity="0.55"/>
+  <text x="600" y="700" text-anchor="middle" font-family="Manrope, system-ui, sans-serif" font-size="28" font-weight="600" fill="#5C5C5C">Alojamiento · San Roque</text>
+</svg>
