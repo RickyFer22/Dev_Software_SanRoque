@@ -22,9 +22,16 @@
   <link rel="stylesheet" href="css/tw-base.css" />
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts: non-blocking -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" /></noscript>
+  <!-- Material Symbols: non-blocking -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" /></noscript>
+  <!-- Font Awesome: non-blocking -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /></noscript>
+  <!-- Critical CSS -->
   <link rel="stylesheet" href="css/styles.css" />
 <script type="application/ld+json">
 {
@@ -46,16 +53,16 @@
 <body class="bg-[#FDFBF7] text-neutral-900 font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
 
   <!-- Navbar -->
-  <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-primary/95 backdrop-blur-md shadow-md py-4">
+  <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-white/95 backdrop-blur-md shadow-md py-4">
     <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
-      <a href="index.html" class="font-display-lg text-[26px] leading-none text-sun-haze tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer">
+      <a href="index.html" class="font-display-lg text-[26px] leading-none text-primary tracking-tighter hover:scale-105 transition-transform cursor-pointer">
         San Roque
       </a>
       <div class="hidden md:flex items-center gap-8">
-        <a class="text-white hover:text-sun-haze font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Inicio</a>
-        <a class="text-white hover:text-sun-haze font-medium text-[13px] uppercase tracking-wide transition-all" href="gastronomia.html">Gastronomía</a>
+        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Inicio</a>
+        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="gastronomia.html">Gastronomía</a>
       </div>
-      <a href="index.html" class="flex items-center gap-2 text-white font-bold text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-colors">
+      <a href="index.html" class="flex items-center gap-2 text-primary font-bold text-sm bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-full transition-colors">
         <span class="material-symbols-outlined text-[18px]">arrow_back</span> Volver
       </a>
     </div>
