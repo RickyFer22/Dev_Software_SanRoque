@@ -1,17 +1,23 @@
 /* Vivi San Roque · Panel Admin — tokens y layout institucional */
 :root {
-  --moss: #274F10;        /* verde oliva profundo (obera.tur.ar) */
-  --moss-deep: #1c3d0b;
-  --river: #336A15;       /* oliva medio */
-  --river-hover: #2b5a12;
-  --gold: #d4a83c;
+  --admin-canvas: #F3F2EE;
+  --admin-sidebar: #17211D;
+  --admin-primary: #355E4A;
+  --admin-accent: #D8A441;
+  --admin-radius: 16px;
+  --admin-motion: 300ms;
+  --moss: #355E4A;
+  --moss-deep: #17211D;
+  --river: #355E4A;
+  --river-hover: #2C4F3D;
+  --gold: #D8A441;
   --sun: #f5d98a;
-  --canvas: #eef3e8;      /* lienzo con leve tinte oliva */
+  --canvas: var(--admin-canvas);
   --surface: #ffffff;
-  --surface-2: #f6f9f0;
-  --text: #1e2a15;
-  --muted: #6b7860;
-  --line: #dbe3d1;
+  --surface-2: #F8F7F4;
+  --text: #2F2F2F;
+  --muted: #6F716F;
+  --line: #E4E3DE;
   --danger: #a83232;
   --ok: #2f7d18;
   --warn: #b45309;
@@ -22,10 +28,10 @@
   --kpi-4a: #E2603B; --kpi-4b: #B23A2E;
   --sidebar-w: 260px;
   --topbar-h: 64px;
-  --radius: 14px;
+  --radius: var(--admin-radius);
   --radius-sm: 10px;
-  --shadow: 0 8px 28px rgba(24, 52, 9, 0.10);
-  --font: "Segoe UI", "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --shadow: 0 12px 34px rgba(23, 33, 29, 0.08);
+  --font: "Manrope", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   color-scheme: light;
 }
 
@@ -70,7 +76,7 @@ button, input, textarea, select { font: inherit; }
   height: 100svh;
   display: flex;
   flex-direction: column;
-  background: var(--moss);
+  background: var(--admin-sidebar);
   color: #fff;
   padding: 18px 14px;
   z-index: 40;
@@ -218,7 +224,7 @@ button, input, textarea, select { font: inherit; }
   justify-content: space-between;
   gap: 16px;
   padding: 0 22px;
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  background: rgba(255, 255, 255, .92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -995,4 +1001,79 @@ pre {
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* ══ CONSOLA MUNICIPAL PREMIUM 2026 ══ */
+body { background-image:radial-gradient(circle at 78% 0,rgba(216,164,65,.08),transparent 28rem); }
+.sidebar { padding:20px 14px;background:var(--admin-sidebar);box-shadow:10px 0 34px rgba(15,24,20,.12); }
+.sidebar-brand { padding:8px 10px 22px;border-bottom-color:rgba(255,255,255,.1); }
+.sidebar-brand img { width:48px;height:48px;border-radius:14px;border-color:rgba(255,255,255,.26);box-shadow:0 8px 24px rgba(0,0,0,.22); }
+.sidebar-brand span,.nav-group-label { color:rgba(255,255,255,.52); }
+.nav-item { min-height:44px;border-radius:12px;transition:background var(--admin-motion) ease,color var(--admin-motion) ease,transform var(--admin-motion) ease; }
+.nav-item:hover { background:rgba(255,255,255,.09);transform:translateX(3px); }
+.nav-item.active { background:rgba(255,255,255,.14);box-shadow:inset 3px 0 0 var(--admin-accent); }
+.nav-item.active .nav-icon { color:#F3CF7C; }
+
+.topbar { min-height:72px;height:auto;padding:12px clamp(16px,2.4vw,32px);background:rgba(255,255,255,.92);backdrop-filter:blur(18px);box-shadow:0 8px 30px rgba(23,33,29,.05); }
+.topbar h1 { font-size:clamp(1.12rem,2vw,1.42rem);font-weight:800;color:var(--text); }
+.content { width:min(100%,1520px);margin:0 auto;padding:clamp(18px,2.8vw,38px); }
+.section.active { animation:fadeIn var(--admin-motion) ease; }
+
+.card { padding:clamp(18px,2vw,24px);border-color:rgba(47,47,47,.07);border-radius:var(--admin-radius);box-shadow:var(--shadow); }
+.card:hover { border-color:rgba(53,94,74,.14); }
+.kpi-grid { gap:16px; }
+.kpi-card { min-height:148px;padding:22px;border-radius:var(--admin-radius);background:var(--surface) !important;color:var(--text);border:1px solid rgba(47,47,47,.07);box-shadow:var(--shadow);transition:transform var(--admin-motion) ease,box-shadow var(--admin-motion) ease,border-color var(--admin-motion) ease; }
+.kpi-card::before { content:"";position:absolute;inset:0 auto 0 0;width:5px;background:var(--admin-primary); }
+.kpi-grid > .kpi-card:nth-child(2)::before { background:var(--admin-accent); }
+.kpi-grid > .kpi-card:nth-child(3)::before { background:#2E93C7; }
+.kpi-grid > .kpi-card:nth-child(4)::before { background:#E2603B; }
+.kpi-card::after { background:rgba(53,94,74,.055); }
+.kpi-card:hover { transform:translateY(-5px);box-shadow:0 20px 44px rgba(23,33,29,.12);border-color:rgba(53,94,74,.18); }
+.kpi-card .kpi-label,.kpi-card .kpi-hint { color:var(--muted);text-shadow:none; }
+.kpi-card .kpi-value { color:var(--text);text-shadow:none; }
+
+button,.portal-preview-open { transition:background var(--admin-motion) ease,color var(--admin-motion) ease,border-color var(--admin-motion) ease,transform var(--admin-motion) ease,box-shadow var(--admin-motion) ease; }
+button:not(.nav-item):not(.kpi-card):hover,.portal-preview-open:hover { transform:translateY(-2px); }
+input,textarea,select { border-radius:12px !important;border-color:var(--line) !important;background:#fff;transition:border-color var(--admin-motion) ease,box-shadow var(--admin-motion) ease; }
+input:focus,textarea:focus,select:focus { border-color:var(--admin-primary) !important;box-shadow:0 0 0 4px rgba(53,94,74,.1) !important;outline:0; }
+
+.crud-toolbar,.status-filters,.subnav { padding:6px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line); }
+.status-filters button.active,.subnav [aria-current="page"] { background:var(--admin-primary);color:#fff;border-color:var(--admin-primary); }
+.list-row,.list-row-with-thumb { border-radius:14px;margin-bottom:8px;background:var(--surface);transition:transform var(--admin-motion) ease,border-color var(--admin-motion) ease,box-shadow var(--admin-motion) ease; }
+.list-row:hover,.list-row-with-thumb:hover { transform:translateY(-2px);border-color:rgba(53,94,74,.2);box-shadow:0 12px 28px rgba(23,33,29,.07); }
+
+.editor-drawer { width:min(620px,calc(100vw - 24px));border-radius:24px 0 0 24px;box-shadow:-28px 0 70px rgba(15,24,20,.2); }
+.editor-global-close { position:fixed;right:min(632px,calc(100vw - 12px));top:18px;z-index:84;width:44px;height:44px;border:0;border-radius:50%;background:var(--admin-sidebar);color:#fff;font-size:26px;line-height:1;box-shadow:0 12px 28px rgba(0,0,0,.24);cursor:pointer; }
+.editor-global-close[hidden] { display:none; }
+.editor-backdrop { background:rgba(12,20,17,.46);backdrop-filter:blur(4px); }
+
+.settings-disclosure,.bot-api-row { border:1px solid var(--line);border-radius:var(--admin-radius);background:var(--surface);box-shadow:var(--shadow);overflow:hidden; }
+.settings-disclosure > summary,.bot-api-row > summary { display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 20px;cursor:pointer;list-style:none;font-weight:800; }
+.settings-disclosure > summary::-webkit-details-marker,.bot-api-row > summary::-webkit-details-marker { display:none; }
+.settings-disclosure > summary small,.bot-api-row > summary small { display:block;margin-top:4px;color:var(--muted);font-weight:500; }
+.settings-disclosure[open] > summary,.bot-api-row[open] > summary { border-bottom:1px solid var(--line); }
+.bot-api-row { padding:0;box-shadow:none; }
+.bot-api-row-top,.bot-api-grid { margin:0;padding:16px 18px; }
+.more-actions { position:relative; }
+.more-actions > summary { display:grid;place-items:center;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;list-style:none; }
+.more-actions > summary::-webkit-details-marker { display:none; }
+.action-menu { position:absolute;right:0;top:calc(100% + 6px);z-index:20;display:grid;min-width:150px;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 18px 40px rgba(23,33,29,.16); }
+.action-menu button { justify-content:flex-start;width:100%;border:0;background:transparent;text-align:left; }
+
+@media (max-width:860px) {
+  .sidebar { transition:transform var(--admin-motion) ease; }
+  .topbar-actions #refreshAll,.topbar-actions #theme-toggle { display:none; }
+  .editor-drawer { width:min(100%,620px);border-radius:22px 22px 0 0; }
+  .editor-global-close { right:12px;top:12px; }
+  .list-row,.list-row-with-thumb { padding:16px; }
+}
+@media (max-width:520px) {
+  .content { padding:14px; }
+  .topbar { min-height:64px;padding:10px 12px; }
+  .card { padding:16px; }
+  .kpi-card { min-height:124px; }
+  .crud-toolbar,.status-filters { overflow-x:auto;flex-wrap:nowrap; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .nav-item,.kpi-card,button,input,textarea,select,.list-row,.list-row-with-thumb,.sidebar { transition:none !important; }
 }
