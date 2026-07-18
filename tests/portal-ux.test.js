@@ -6,6 +6,29 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
+const publicPages = [
+  'index.html',
+  'agenda.html',
+  'comercio.html',
+  'evento.html',
+  'gastronomia.html',
+  'gastronomia-premium.html',
+  'guia-practica.html',
+  'que-hacer.html',
+];
+
+test('public pages invalidate stale stylesheets and nginx revalidates CSS and JS', () => {
+  for (const file of publicPages) {
+    assert.match(read(file), /href="css\/styles\.css\?v=20260718-footer"/, file);
+  }
+
+  const nginx = read('deploy/nginx.conf');
+  const revalidationBlock = nginx.match(/# CSS y JavaScript[\s\S]*?# Cache prolongada/)?.[0] || '';
+  assert.match(revalidationBlock, /location ~\* \\\.\(\?:css\|js\)\$/);
+  assert.match(revalidationBlock, /expires -1;/);
+  assert.match(revalidationBlock, /Cache-Control "no-cache, must-revalidate"/);
+});
+
 test('public footer is Spanish, useful and does not expose admin', () => {
   const html = read('index.html');
   const css = read('css/styles.css');
