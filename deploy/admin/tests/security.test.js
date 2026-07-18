@@ -154,7 +154,9 @@ async function test(name, fn) {
     const r = await req('GET', '/admin/api/session', { cookie: adminCookie });
     assert.strictEqual(r.status, 200);
     assert.ok(r.headers['content-security-policy'], 'CSP presente');
-    assert.ok(/frame-ancestors 'none'/.test(r.headers['content-security-policy']), 'anti-clickjacking');
+    // 'self' (no 'none'): la vista previa del portal se embebe en el Resumen del
+    // panel; el framing por terceros sigue bloqueado, igual que en el nginx de prod.
+    assert.ok(/frame-ancestors 'self'/.test(r.headers['content-security-policy']), 'anti-clickjacking');
   });
 
   await test('upload: SVG (XSS) rechazado por firma de contenido', async () => {

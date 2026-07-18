@@ -20,7 +20,28 @@ const resources = ADMIN_SECTIONS;
 let currentEdit = null;
 let currentAdminSession = { user: 'anonymous', role: 'guest' };
 const resourceFilters = new Map();
+const resourceSort = new Map();
+const resourceCache = new Map();
 let mediaLibrary = [];
+
+// Ítems guardados antes del gestor multimedia: reconstruye la galería desde
+// los campos legados (imagen/mainImg + galeria) para que el editor las muestre.
+function legacyMediaFromItem(item, coverField) {
+  const gallery = [];
+  const cover = item?.[coverField];
+  if (cover) gallery.push({ url: cover, role: 'cover' });
+  const extra = Array.isArray(item?.galeria) ? item.galeria : [];
+  extra.forEach((url) => {
+    if (url && url !== cover) gallery.push({ url, role: 'gallery' });
+  });
+  return gallery;
+}
+
+function editorMediaFor(item, coverField) {
+  return (Array.isArray(item?.mediaGallery) && item.mediaGallery.length)
+    ? item.mediaGallery
+    : legacyMediaFromItem(item, coverField);
+}
 
 function redirectToLogin(reason) {
   const next = encodeURIComponent(window.location.pathname + window.location.search);
@@ -38,9 +59,13 @@ function resolvePublicAssetUrl(imagePath) {
   return `/${trimmed.replace(/^\.\//, '')}`;
 }
 
+// Placeholder neutro (data URI, permitido por la CSP) para fotos ausentes o rotas.
+const IMG_PLACEHOLDER = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 72"><rect width="96" height="72" rx="8" fill="%23e8e6df"/><path d="M20 52l16-18 12 13 8-9 20 22H20z" fill="%23b9b6ab"/><circle cx="34" cy="26" r="7" fill="%23b9b6ab"/></svg>'.replace(/%23/g, '#')
+);
+
 function renderListThumb(imagePath) {
-  const src = resolvePublicAssetUrl(imagePath);
-  if (!src) return '';
+  const src = resolvePublicAssetUrl(imagePath) || IMG_PLACEHOLDER;
   return `<img class="list-thumb" src="${escapeLog(src)}" alt="" loading="lazy" />`;
 }
 
@@ -48,6 +73,14 @@ function bindImageFallbacks(root = document) {
   root.querySelectorAll('img:not([data-image-fallback-bound])').forEach((image) => {
     image.dataset.imageFallbackBound = 'true';
     image.addEventListener('error', () => {
+      // Miniaturas de contenido: mostrar placeholder en vez de desaparecer.
+      if (image.classList.contains('list-thumb') || image.closest('.media-editor-item, .upload-card, .media-choice, .image-preview-host')) {
+        if (image.getAttribute('src') !== IMG_PLACEHOLDER) {
+          image.src = IMG_PLACEHOLDER;
+          image.classList.add('img-missing');
+        }
+        return;
+      }
       image.hidden = true;
       image.removeAttribute('src');
     });
@@ -371,7 +404,7 @@ function setAlojamientoForm(item = {}) {
   if (form.seoDescription) form.seoDescription.value = item.seoDescription || '';
   if (form.publishAt) form.publishAt.value = item.publishAt ? item.publishAt.slice(0, 16) : '';
   if (form.featured) form.featured.checked = Boolean(item.featured);
-  window.MediaManager?.setGallery('alojamientos', item.mediaGallery || []);
+  window.MediaManager?.setGallery('alojamientos', editorMediaFor(item, 'mainImg'));
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('alojamiento-image-file', 'alojamiento-image-preview', item.mainImg);
 }
@@ -496,7 +529,7 @@ function setGastronomiaForm(item = {}) {
   if (form.seoDescription) form.seoDescription.value = item.seoDescription || '';
   if (form.publishAt) form.publishAt.value = item.publishAt ? item.publishAt.slice(0, 16) : '';
   if (form.featured) form.featured.checked = Boolean(item.featured);
-  window.MediaManager?.setGallery('gastronomia', item.mediaGallery || []);
+  window.MediaManager?.setGallery('gastronomia', editorMediaFor(item, 'imagen'));
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('gastronomia-image-file', 'gastronomia-image-preview', item.imagen);
 }
@@ -1373,13 +1406,13 @@ function renderWorkQueue({ content, tickets, botConfig }) {
   const host = document.getElementById('work-queue');
   if (!host) return;
   const drafts = content.filter((item) => item.status === 'draft').length;
-  const archived = content.filter((item) => item.status === 'archived').length;
-  const openTickets = (tickets || []).filter((item) => !['closed', 'resolved'].includes(item.status)).length;
+  const review = content.filter((item) => item.status === 'review').length;
+  const missingPhoto = content.filter((item) => item.status === 'published' && !(item.mainImg || item.imagen)).length;
   const activeApis = (botConfig?.apis || []).filter((item) => item.enabled).length;
   const items = [
     { label: 'Borradores para publicar', value: drafts, section: 'alojamientos' },
-    { label: 'Tickets abiertos', value: openTickets, section: 'tickets' },
-    { label: 'Contenido archivado', value: archived, section: 'alojamientos' },
+    { label: 'Contenido en revisión', value: review, section: 'gastronomia' },
+    { label: 'Publicados sin fotografía', value: missingPhoto, section: 'gastronomia' },
     { label: 'APIs activas del asistente', value: activeApis, section: 'bot-config' },
   ];
   host.innerHTML = items.map((item) => `
@@ -1832,55 +1865,159 @@ async function loadResource(resource) {
     updatePagination(resource, items.length, items.length, getSearchQuery(resource));
     return;
   }
-  const items = filterResourceItems(resource, Array.isArray(result) ? result : []);
+  const source = Array.isArray(result) ? result : [];
+  resourceCache.set(resource, source);
+  renderFilterCounts(resource, source);
+  const items = sortResourceItems(resource, filterResourceItems(resource, source));
   const role = getCurrentAdminSession().role;
   const canWrite = canWriteResource(resource, role);
-  const key = resource === 'gastronomia' ? 'nombre' : resource === 'eventos' ? 'titulo' : 'titulo';
-  document.getElementById(`${resource}-list`).innerHTML = items.map((item) => {
-    const statusHtml = item.status ? renderStatusPill(item.status) : '';
-    const active = item.activo !== undefined ? item.activo : 1;
-    const activeHtml = item.activo !== undefined ? `<span class="pill">${active ? 'Activo' : 'Inactivo'}</span>` : '';
-    const hideLabel = active ? 'Ocultar' : 'Mostrar';
-    const details = resource === 'gastronomia'
-      ? [item.tipo, item.direccion, item.horario].filter(Boolean).join(' · ')
-      : resource === 'alojamientos'
-        ? [item.categoria, item.ubicacion, item.rating].filter(Boolean).join(' · ')
-        : resource === 'eventos'
-          ? [item.tipo, item.lugar, item.fecha].filter(Boolean).join(' · ')
-          : resource === 'actividades'
-            ? (item.descripcion || '').slice(0, 100) + '...'
-            : item[key] || '';
-    const imagePath = resource === 'gastronomia' ? item.imagen : (item.mainImg || item.imagen);
-    const thumb = ['alojamientos', 'gastronomia', 'eventos', 'actividades'].includes(resource)
-      ? renderListThumb(imagePath)
-      : '';
-    const rowActions = canWrite ? `
-      <div class="row-actions">
-        <button type="button" data-action="edit" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Editar</button>
-        <details class="more-actions">
-          <summary aria-label="Más acciones">•••</summary>
-          <div class="action-menu">
-            <button type="button" data-action="preview-item" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Vista previa</button>
-            <button type="button" data-action="duplicate" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Duplicar</button>
-            <button type="button" data-action="hide" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">${hideLabel}</button>
-            <button type="button" class="danger-text" data-action="delete" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Eliminar</button>
-          </div>
-        </details>
-      </div>` : '';
-    return `
-      <div class="list-row list-row-with-thumb">
-        ${thumb}
-        <div style="flex:1">
-          <strong>${escapeLog(item[key] || item.id || 'Sin nombre')}</strong>
-          <span class="small">ID: ${escapeLog(item.id || '—')}</span>
-          ${details ? `<div class="small" style="margin-top:4px;">${escapeLog(details)}</div>` : ''}
-          <div class="meta-row">${statusHtml}${activeHtml}</div>
+  const container = document.getElementById(`${resource}-list`);
+  if (!items.length) {
+    container.innerHTML = `
+      <div class="empty-state card">
+        <p>${source.length ? 'Ningún registro coincide con la búsqueda o el filtro elegido.' : 'No hay elementos cargados.'}</p>
+        ${!source.length && canWrite ? `<button type="button" data-action="create" data-resource="${escapeLog(resource)}">Agregar el primero</button>` : ''}
+      </div>`;
+    updatePagination(resource, 0, source.length, getSearchQuery(resource));
+    return;
+  }
+  container.innerHTML = items.map((item) => contentRowHtml(resource, item, canWrite)).join('');
+  updatePagination(resource, items.length, source.length, getSearchQuery(resource));
+}
+
+const CONTENT_STATUSES = {
+  default: ['draft', 'review', 'published', 'hidden', 'archived'],
+  eventos: ['draft', 'published', 'archived'],
+};
+
+function renderFilterCounts(resource, items) {
+  document.querySelectorAll(`[data-filter-resource="${resource}"]`).forEach((button) => {
+    const filter = button.dataset.statusFilter;
+    let count;
+    if (filter === 'all') count = items.length;
+    else if (filter === 'active') count = items.filter((item) => item.activo !== 0).length;
+    else if (filter === 'inactive') count = items.filter((item) => item.activo === 0).length;
+    else count = items.filter((item) => item.status === filter).length;
+    button.dataset.count = String(count);
+  });
+}
+
+function sortResourceItems(resource, items) {
+  const mode = resourceSort.get(resource) || 'recientes';
+  const sorted = [...items];
+  if (mode === 'nombre') {
+    sorted.sort((a, b) => String(a.titulo || a.nombre || '').localeCompare(String(b.titulo || b.nombre || ''), 'es'));
+  } else if (mode === 'estado') {
+    const order = CONTENT_STATUSES.default;
+    sorted.sort((a, b) => order.indexOf(String(a.status)) - order.indexOf(String(b.status)));
+  } else {
+    sorted.sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
+  }
+  return sorted;
+}
+
+function formatShortDate(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function quickStatusControl(resource, item, canWrite) {
+  if (!item.status) return '';
+  if (!canWrite) return renderStatusPill(item.status);
+  const statuses = CONTENT_STATUSES[resource] || CONTENT_STATUSES.default;
+  const current = statuses.includes(item.status) ? item.status : String(item.status);
+  const options = (statuses.includes(current) ? statuses : [current, ...statuses])
+    .map((status) => `<option value="${escapeLog(status)}" ${status === current ? 'selected' : ''}>${escapeLog(STATUS_LABELS[status] || status)}</option>`)
+    .join('');
+  return `<select class="quick-status is-${escapeLog(current)}" data-quick-status data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}" aria-label="Cambiar estado">${options}</select>`;
+}
+
+function contentRowHtml(resource, item, canWrite) {
+  const title = item.titulo || item.nombre || item.id || 'Sin nombre';
+  const active = item.activo !== undefined ? item.activo : 1;
+  const hideLabel = active ? 'Ocultar' : 'Mostrar';
+  const details = resource === 'gastronomia'
+    ? [item.tipo, item.direccion, item.horario].filter(Boolean).join(' · ')
+    : resource === 'alojamientos'
+      ? [item.categoria, item.ubicacion].filter(Boolean).join(' · ')
+      : resource === 'eventos'
+        ? [item.tipo, item.lugar, [item.fecha, item.hora].filter(Boolean).join(' ')].filter(Boolean).join(' · ')
+        : (item.descripcion || '').slice(0, 110);
+  const phone = item.telefono || '';
+  const whatsapp = item.whatsapp || item.waNumber || '';
+  const chips = ['gastronomia', 'alojamientos'].includes(resource)
+    ? [
+        phone ? `<span class="contact-chip" title="Teléfono">☎ ${escapeLog(phone)}</span>` : '',
+        whatsapp ? `<span class="contact-chip" title="WhatsApp">WA ${escapeLog(whatsapp)}</span>` : '',
+        !phone && !whatsapp ? '<span class="contact-chip warn" title="Falta información de contacto">Sin contacto</span>' : '',
+      ].filter(Boolean).join('')
+    : '';
+  const imagePath = resource === 'gastronomia' ? item.imagen : (item.mainImg || item.imagen);
+  const updated = formatShortDate(item.updatedAt || item.createdAt);
+  const visibilityControl = item.activo !== undefined
+    ? `<label class="switch" title="Visible en el portal público">
+        <input type="checkbox" data-quick-activo data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}" ${active ? 'checked' : ''} ${canWrite ? '' : 'disabled'} />
+        <span class="switch-track" aria-hidden="true"></span><em>Visible</em>
+      </label>`
+    : '';
+  const rowActions = canWrite ? `
+    <div class="row-actions">
+      <button type="button" data-action="edit" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Editar</button>
+      <details class="more-actions">
+        <summary aria-label="Más acciones">•••</summary>
+        <div class="action-menu">
+          <button type="button" data-action="preview-item" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Vista previa</button>
+          <button type="button" data-action="duplicate" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Duplicar</button>
+          ${item.activo !== undefined ? `<button type="button" data-action="hide" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">${hideLabel}</button>` : ''}
+          <button type="button" class="danger-text" data-action="delete" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Eliminar</button>
         </div>
-        ${rowActions}
+      </details>
+    </div>` : '';
+  return `
+    <div class="list-row list-row-with-thumb crm-row">
+      ${renderListThumb(imagePath)}
+      <div class="crm-main">
+        <div class="crm-title-line">
+          <strong>${escapeLog(title)}</strong>
+          ${item.featured ? '<span class="pill featured-pill" title="Destacado en el portal">★ Destacado</span>' : ''}
+        </div>
+        ${details ? `<div class="small crm-meta">${escapeLog(details)}</div>` : ''}
+        ${chips ? `<div class="crm-chips">${chips}</div>` : ''}
       </div>
-    `;
-  }).join('');
-  updatePagination(resource, items.length, items.length, getSearchQuery(resource));
+      <div class="crm-side">
+        ${quickStatusControl(resource, item, canWrite)}
+        ${visibilityControl}
+        ${updated ? `<span class="small crm-updated">Act. ${escapeLog(updated)}</span>` : ''}
+      </div>
+      ${rowActions}
+    </div>
+  `;
+}
+
+async function quickStatusChange(resource, id, status) {
+  const info = resources[resource];
+  if (!info || !id) return;
+  const item = await fetchJson(`${info.api}/${encodeURIComponent(id)}`);
+  if (item.error) {
+    showToast(`Error cargando el registro: ${item.error}`, 'error');
+    await loadResource(resource);
+    return;
+  }
+  const updated = Object.assign({}, item, { status });
+  if (['hidden', 'archived'].includes(status)) updated.activo = 0;
+  else if (status === 'published' && updated.activo === undefined) updated.activo = 1;
+  const result = await fetchJson(`${info.api}/${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify(updated) });
+  if (result.error) {
+    showToast(`No se pudo cambiar el estado: ${result.error}`, 'error');
+    await loadResource(resource);
+    return;
+  }
+  showToast(`Estado actualizado a «${STATUS_LABELS[status] || status}».`, 'ok');
+  notifyPublicDataRefresh();
+  await loadResource(resource);
+  await loadCounts();
 }
 
 async function loadHealth() {
@@ -1898,7 +2035,7 @@ async function refreshAll() {
   await loadSessionInfo();
   await loadCounts();
   const role = getCurrentAdminSession().role;
-  const permitted = Object.keys(resources).filter((key) => key !== 'overview' && canReadResource(key, role));
+  const permitted = Object.keys(resources).filter((key) => resources[key].api && canReadResource(key, role));
   await Promise.all(permitted.map(loadResource));
   await loadHealth();
   if (['super-admin', 'editor'].includes(role)) await Promise.all([loadBotConfig(), loadObservability()]);
@@ -2279,6 +2416,34 @@ document.addEventListener('DOMContentLoaded', () => {
       button.parentElement.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
       loadResource(resource);
     });
+  });
+
+  // Búsqueda en vivo de cada listado (con debounce para no re-renderizar por tecla).
+  const searchTimers = new Map();
+  document.querySelectorAll('input[data-search-resource]').forEach((input) => {
+    input.addEventListener('input', () => {
+      const resource = input.dataset.searchResource;
+      clearTimeout(searchTimers.get(resource));
+      searchTimers.set(resource, setTimeout(() => loadResource(resource), 250));
+    });
+  });
+
+  document.querySelectorAll('select[data-sort-resource]').forEach((select) => {
+    select.addEventListener('change', () => {
+      resourceSort.set(select.dataset.sortResource, select.value);
+      loadResource(select.dataset.sortResource);
+    });
+  });
+
+  // Acciones rápidas de las filas CRM: estado y visibilidad sin abrir el editor.
+  document.body.addEventListener('change', (event) => {
+    const statusSelect = event.target.closest('select[data-quick-status]');
+    if (statusSelect) {
+      quickStatusChange(statusSelect.dataset.resource, statusSelect.dataset.id, statusSelect.value);
+      return;
+    }
+    const activoToggle = event.target.closest('input[data-quick-activo]');
+    if (activoToggle) toggleResourceVisibility(activoToggle.dataset.resource, activoToggle.dataset.id);
   });
 
   document.querySelectorAll('[data-media-target]').forEach((button) => {

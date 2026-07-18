@@ -265,6 +265,22 @@ app.set('trust proxy', 1);
 
 // Cabeceras de seguridad. CSP estricta: el panel admin es autocontenido
 // (solo /admin/static/*). Se permite data: e https: para imágenes (logo/uploads).
+// SOLO DESARROLLO: servir el portal público (img/css/js/html) igual que lo hace
+// nginx en producción, para que el admin local muestre miniaturas y la vista
+// previa. Va ANTES de helmet: el portal tiene su propia CSP en nginx (prod) y
+// no debe heredar la CSP estricta del panel en dev.
+if (!IS_PROD) {
+  const PORTAL_DIR = path.join(__dirname, '..', '..');
+  ['img', 'css', 'js'].forEach((dir) => {
+    app.use(`/${dir}`, express.static(path.join(PORTAL_DIR, dir), { fallthrough: true }));
+  });
+  app.get(['/', '/index.html', '/gastronomia.html', '/evento.html'], (req, res, next) => {
+    const file = path.join(PORTAL_DIR, req.path === '/' ? 'index.html' : req.path.replace(/^\//, ''));
+    if (fs.existsSync(file)) return res.sendFile(file);
+    return next();
+  });
+}
+
 app.use(helmet({
   contentSecurityPolicy: {
     useDefaults: true,
@@ -276,7 +292,9 @@ app.use(helmet({
       'font-src': ["'self'", 'data:'],
       'connect-src': ["'self'"],
       'object-src': ["'none'"],
-      'frame-ancestors': ["'none'"],
+      // 'self' (igual que el nginx del portal): permite la vista previa del
+      // portal embebida en el Resumen del panel; terceros siguen bloqueados.
+      'frame-ancestors': ["'self'"],
       'base-uri': ["'self'"],
       'form-action': ["'self'"],
       'upgrade-insecure-requests': IS_PROD ? [] : null,
@@ -1781,8 +1799,10 @@ app.use((error, req, res, next) => {
     const status = error.code === 'LIMIT_FILE_SIZE' ? 413 : 400;
     return res.status(status).json({ error: error.code === 'LIMIT_FILE_SIZE' ? 'Una imagen supera el peso máximo permitido.' : (error.message || 'Carga multimedia inválida.') });
   }
+  const status = Number(error.status || error.statusCode) || 500;
+  if (status === 404) return res.status(404).json({ error: 'Not found' });
   recordSystemLog('error', 'request_error', { message: error.message || 'Error', path: req.path }, req);
-  return res.status(500).json({ error: 'No se pudo completar la operación.' });
+  return res.status(status >= 400 && status < 600 ? status : 500).json({ error: 'No se pudo completar la operación.' });
 });
 
 // Fallback 404

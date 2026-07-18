@@ -6,12 +6,20 @@
   const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
   const galleryHost = (resource) => document.querySelector(`[data-media-gallery="${resource}"]`);
 
+  // El admin vive bajo /admin: las rutas legadas del portal ("img/foto.jpeg")
+  // deben volverse absolutas ("/img/foto.jpeg") o el navegador pide /admin/img/… (404).
+  function resolveUrl(value) {
+    const trimmed = String(value || '').trim();
+    if (!trimmed || trimmed.startsWith('data:') || /^https?:\/\//i.test(trimmed) || trimmed.startsWith('/')) return trimmed;
+    return `/${trimmed.replace(/^\.\//, '')}`;
+  }
+
   function normalizeEntry(item, index) {
-    const url = item.url || item.variants?.large?.url || item.variants?.hero?.url || '';
+    const url = resolveUrl(item.url || item.variants?.large?.url || item.variants?.hero?.url || '');
     return {
       mediaId: item.mediaId || item.id || '',
       url,
-      thumb: item.thumb || item.variants?.thumb?.url || url,
+      thumb: resolveUrl(item.thumb || item.variants?.thumb?.url || '') || url,
       alt: item.alt || '',
       caption: item.caption || '',
       role: item.role || (index === 0 ? 'cover' : 'gallery'),
