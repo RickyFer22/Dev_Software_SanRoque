@@ -13,6 +13,8 @@ const resources = {
 
 let currentEdit = null;
 let currentAdminSession = { user: 'anonymous', role: 'guest' };
+const resourceFilters = new Map();
+let mediaLibrary = [];
 
 function redirectToLogin(reason) {
   const next = encodeURIComponent(window.location.pathname + window.location.search);
@@ -719,79 +721,43 @@ function setEditState(resource, item) {
   if (resource === 'users') {
     setUserForm(item);
     if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
-    const form = getUserForm();
-    if (form.username) {
-      form.username.focus();
-      form.username.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
     return;
   }
   if (resource === 'eventos') {
     setEventForm(item);
     if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
-    const form = getEventForm();
-    if (form.titulo) {
-      form.titulo.focus();
-      form.titulo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
     return;
   }
   if (resource === 'actividades') {
     setActividadesForm(item);
     if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
-    const form = getActividadesForm();
-    if (form.titulo) {
-      form.titulo.focus();
-      form.titulo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
     return;
   }
   if (resource === 'alojamientos') {
     setAlojamientoForm(item);
     if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
-    const form = getAlojamientoForm();
-    if (form.titulo) {
-      form.titulo.focus();
-      form.titulo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
     return;
   }
   if (resource === 'gastronomia') {
     setGastronomiaForm(item);
     if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
-    const form = getGastronomiaForm();
-    if (form.nombre) {
-      form.nombre.focus();
-      form.nombre.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
     return;
   }
   if (resource === 'datos-utiles') {
     setDatosUtilesForm(item);
     if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
     const form = getDatosUtilesForm();
-    if (form.categoria) {
-      form.categoria.readOnly = true;
-      form.categoria.focus();
-      form.categoria.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    if (form.categoria) form.categoria.readOnly = true;
     return;
   }
   if (resource === 'tickets') {
     setTicketForm(item);
     if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
-    const form = getTicketForm();
-    if (form.title) {
-      form.title.focus();
-      form.title.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
     return;
   }
   const textarea = getEditorTextarea(resource);
   if (!textarea) return;
   textarea.value = JSON.stringify(item, null, 2);
-  textarea.focus();
-  textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
   if (state) state.textContent = `Editando ${resource}: ${currentEdit.id}`;
 }
 
@@ -854,71 +820,48 @@ function setCreateState(resource) {
   if (resource === 'users') {
     clearUserForm();
     if (state) state.textContent = `Creando nuevo ${resource}`;
-    const form = getUserForm();
-    if (form.username) {
-      form.username.focus();
-      form.username.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    window.AdminUI.openEditor(resource, 'Nuevo usuario');
     return;
   }
   if (resource === 'eventos') {
     clearEventForm();
     if (state) state.textContent = `Creando nuevo ${resource}`;
-    const form = getEventForm();
-    if (form.titulo) {
-      form.titulo.focus();
-      form.titulo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    window.AdminUI.openEditor(resource, 'Nuevo evento');
     return;
   }
   if (resource === 'alojamientos') {
     clearAlojamientoForm();
     if (state) state.textContent = `Creando nuevo ${resource}`;
-    const form = getAlojamientoForm();
-    if (form.titulo) {
-      form.titulo.focus();
-      form.titulo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    window.AdminUI.openEditor(resource, 'Nuevo alojamiento');
     return;
   }
   if (resource === 'gastronomia') {
     clearGastronomiaForm();
     if (state) state.textContent = `Creando nuevo ${resource}`;
-    const form = getGastronomiaForm();
-    if (form.nombre) {
-      form.nombre.focus();
-      form.nombre.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    window.AdminUI.openEditor(resource, 'Nuevo local gastronómico');
     return;
   }
   if (resource === 'datos-utiles') {
     clearDatosUtilesForm();
     if (state) state.textContent = `Creando nuevo ${resource}`;
-    const form = getDatosUtilesForm();
-    if (form.categoria) {
-      form.categoria.readOnly = false;
-      form.categoria.focus();
-      form.categoria.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    window.AdminUI.openEditor(resource, 'Nuevo dato útil');
     return;
   }
   if (resource === 'tickets') {
     clearTicketForm();
     if (state) state.textContent = `Creando nuevo ${resource}`;
-    const form = getTicketForm();
-    if (form.title) {
-      form.title.focus();
-      form.title.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    window.AdminUI.openEditor(resource, 'Nuevo ticket');
+    return;
+  }
+  if (resource === 'actividades') {
+    clearActividadesForm();
+    if (state) state.textContent = `Creando nuevo ${resource}`;
+    window.AdminUI.openEditor(resource, 'Nueva actividad');
     return;
   }
   const textarea = getEditorTextarea(resource);
   if (textarea) textarea.value = '';
   if (state) state.textContent = `Creando nuevo ${resource}`;
-  if (textarea) {
-    textarea.focus();
-    textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
 }
 
 function getAdminSessionHeaders() {
@@ -999,6 +942,10 @@ function toggleSection(sectionId) {
     tab.classList.toggle('active', active);
     if (active) tab.setAttribute('aria-current', 'page');
     else tab.removeAttribute('aria-current');
+  });
+  document.querySelectorAll('.subnav [data-goto]').forEach((button) => {
+    const active = button.dataset.goto === sectionId;
+    button.toggleAttribute('aria-current', active);
   });
   const target = document.getElementById(sectionId);
   if (target) target.classList.add('active');
@@ -1285,6 +1232,69 @@ function normalizeAdminRole(role) {
 function getSearchQuery(resource) {
   const input = document.querySelector(`input[data-search-resource="${resource}"]`);
   return (input?.value || '').trim().toLowerCase();
+}
+
+function getStatusFilter(resource) {
+  return resourceFilters.get(resource) || 'all';
+}
+
+function filterResourceItems(resource, items) {
+  const query = getSearchQuery(resource).toLocaleLowerCase('es');
+  const status = getStatusFilter(resource);
+  return items.filter((item) => {
+    const text = JSON.stringify(item).toLocaleLowerCase('es');
+    const matchesText = !query || text.includes(query);
+    const matchesStatus = status === 'all' || item.status === status || (status === 'active' && item.activo !== 0) || (status === 'inactive' && item.activo === 0);
+    return matchesText && matchesStatus;
+  });
+}
+
+function renderWorkQueue({ content, tickets, botConfig }) {
+  const host = document.getElementById('work-queue');
+  if (!host) return;
+  const drafts = content.filter((item) => item.status === 'draft').length;
+  const archived = content.filter((item) => item.status === 'archived').length;
+  const openTickets = (tickets || []).filter((item) => !['closed', 'resolved'].includes(item.status)).length;
+  const activeApis = (botConfig?.apis || []).filter((item) => item.enabled).length;
+  const items = [
+    { label: 'Borradores para publicar', value: drafts, section: 'alojamientos' },
+    { label: 'Tickets abiertos', value: openTickets, section: 'tickets' },
+    { label: 'Contenido archivado', value: archived, section: 'alojamientos' },
+    { label: 'APIs activas del asistente', value: activeApis, section: 'bot-config' },
+  ];
+  host.innerHTML = items.map((item) => `
+    <button type="button" class="queue-item" data-goto="${item.section}">
+      <span>${item.label}</span><strong>${item.value}</strong>
+    </button>`).join('') || '<div class="empty-state"><p>No hay pendientes.</p></div>';
+}
+
+function renderRecentActivity(entries) {
+  const host = document.getElementById('recent-activity');
+  if (!host) return;
+  host.innerHTML = entries.slice(0, 5).map((entry) => `
+    <div class="activity-item">
+      <span class="activity-dot" aria-hidden="true"></span>
+      <div><strong>${escapeLog(entry.action || 'Cambio')}</strong><span>${escapeLog(entry.adminUser || 'Sistema')} · ${new Date(entry.createdAt).toLocaleString('es-AR')}</span></div>
+    </div>`).join('') || '<div class="empty-state"><p>Todavía no hay actividad registrada.</p></div>';
+}
+
+function renderMediaPicker(items) {
+  const grid = document.getElementById('media-picker-grid');
+  if (!grid) return;
+  grid.innerHTML = items.length ? items.map((item) => {
+    const url = resolvePublicAssetUrl(item.url || item.path);
+    const name = item.name || url.split('/').pop();
+    return `<button type="button" class="media-choice" data-media-url="${escapeLog(url)}">
+      <img src="${escapeLog(url)}" alt="" loading="lazy">
+      <span>${escapeLog(name)}</span>
+    </button>`;
+  }).join('') : '<div class="empty-state"><p>No hay imágenes cargadas.</p></div>';
+}
+
+async function ensureMediaLibrary() {
+  const data = await fetchJson('/admin/api/uploads');
+  mediaLibrary = data.items || data.uploads || [];
+  renderMediaPicker(mediaLibrary);
 }
 
 function filterItems(items, query) {
@@ -1611,7 +1621,18 @@ async function loadCounts() {
   if (!tickets.error) renderCount('count-tickets', (Array.isArray(tickets) ? tickets.length : (tickets.length || (tickets.tickets || []).length)));
   else renderCount('count-tickets', 'sin permiso');
 
-  const contentItems = [alojamientos, gastronomia, eventos].reduce((acc, items) => acc.concat(Array.isArray(items) ? items : []), []);
+  const contentItems = [
+    ...(alojamientos.items || alojamientos.alojamientos || alojamientos || []),
+    ...(gastronomia.items || gastronomia.gastronomia || gastronomia || []),
+    ...(eventos.items || eventos.eventos || eventos || []),
+  ];
+  renderWorkQueue({
+    content: contentItems,
+    tickets: tickets.items || tickets.tickets || tickets || [],
+    botConfig: botConfig || { apis: [] },
+  });
+  renderRecentActivity(audit.items || audit.audit || []);
+
   const published = contentItems.filter((item) => item.status === 'published').length;
   const draft = contentItems.filter((item) => item.status === 'draft').length;
   const archived = contentItems.filter((item) => item.status === 'archived').length;
@@ -1653,42 +1674,41 @@ async function loadResource(resource) {
     if (resource === 'uploads') updatePagination(resource, 0, 0, '');
     return;
   }
-  const query = getSearchQuery(resource);
   if (resource === 'users') {
-    const items = filterItems(result.users || [], query);
+    const items = filterResourceItems(resource, result.users || []);
     renderList(`${resource}-list`, items, renderUsers);
     renderCount('count-users', items.length);
-    updatePagination(resource, items.length, (result.users || []).length, query);
+    updatePagination(resource, items.length, (result.users || []).length, getSearchQuery(resource));
     return;
   }
   if (resource === 'audit') {
-    const items = filterItems(result.audit || [], query);
+    const items = filterResourceItems(resource, result.audit || []);
     renderList(`${resource}-list`, items, renderAudit);
     renderCount('count-audit', items.length);
-    updatePagination(resource, items.length, (result.audit || []).length, query);
+    updatePagination(resource, items.length, (result.audit || []).length, getSearchQuery(resource));
     return;
   }
   if (resource === 'tickets') {
-    const items = filterItems(Array.isArray(result) ? result : (result.tickets || []), query);
+    const items = filterResourceItems(resource, Array.isArray(result) ? result : (result.tickets || []));
     renderList(`${resource}-list`, items, renderTickets);
     renderCount('count-tickets', items.length);
-    updatePagination(resource, items.length, (Array.isArray(result) ? result.length : (result.tickets || []).length), query);
+    updatePagination(resource, items.length, (Array.isArray(result) ? result.length : (result.tickets || []).length), getSearchQuery(resource));
     return;
   }
   if (resource === 'uploads') {
-    const items = filterItems(result.uploads || [], query);
+    const items = filterItems(result.uploads || [], getSearchQuery(resource));
     renderList(`${resource}-list`, items, renderUploads);
-    updatePagination(resource, items.length, (result.uploads || []).length, query);
+    updatePagination(resource, items.length, (result.uploads || []).length, getSearchQuery(resource));
     return;
   }
   if (resource === 'datos-utiles') {
-    const items = filterItems(Array.isArray(result) ? result : [], query);
+    const items = filterResourceItems(resource, Array.isArray(result) ? result : []);
     document.getElementById(`${resource}-list`).innerHTML = renderDataUtiles(items);
     renderCount('count-du', items.length);
-    updatePagination(resource, items.length, items.length, query);
+    updatePagination(resource, items.length, items.length, getSearchQuery(resource));
     return;
   }
-  const items = filterItems(Array.isArray(result) ? result : [], query);
+  const items = filterResourceItems(resource, Array.isArray(result) ? result : []);
   const role = getCurrentAdminSession().role;
   const canWrite = canWriteResource(resource, role);
   const key = resource === 'gastronomia' ? 'nombre' : resource === 'eventos' ? 'titulo' : 'titulo';
@@ -1710,6 +1730,17 @@ async function loadResource(resource) {
     const thumb = ['alojamientos', 'gastronomia', 'eventos', 'actividades'].includes(resource)
       ? renderListThumb(imagePath)
       : '';
+    const rowActions = canWrite ? `
+      <div class="row-actions">
+        <button type="button" data-action="edit" data-resource="${resource}" data-id="${item.id}">Editar</button>
+        <details class="more-actions">
+          <summary aria-label="Más acciones">•••</summary>
+          <div class="action-menu">
+            <button type="button" data-action="hide" data-resource="${resource}" data-id="${item.id}">${hideLabel}</button>
+            <button type="button" class="danger-text" data-action="delete" data-resource="${resource}" data-id="${item.id}">Eliminar</button>
+          </div>
+        </details>
+      </div>` : '';
     return `
       <div class="list-row list-row-with-thumb">
         ${thumb}
@@ -1719,15 +1750,11 @@ async function loadResource(resource) {
           ${details ? `<div class="small" style="margin-top:4px;">${details}</div>` : ''}
           <div class="meta-row">${statusHtml}${activeHtml}</div>
         </div>
-        <div class="list-actions">
-          ${canWrite ? `<button data-action="edit" data-resource="${resource}" data-id="${item.id}">Editar</button>` : ''}
-          ${canWrite ? `<button data-action="hide" data-resource="${resource}" data-id="${item.id}">${hideLabel}</button>` : ''}
-          ${canDeleteResource(resource, role) ? `<button data-action="delete" data-resource="${resource}" data-id="${item.id}">Eliminar</button>` : ''}
-        </div>
+        ${rowActions}
       </div>
     `;
   }).join('');
-  updatePagination(resource, items.length, items.length, query);
+  updatePagination(resource, items.length, items.length, getSearchQuery(resource));
 }
 
 async function loadHealth() {
@@ -1783,6 +1810,7 @@ function handleAction(event) {
   }
   if (action === 'cancel-edit') {
     clearEditState(resource);
+    window.AdminUI.closeEditor();
     return;
   }
   if (action === 'view-audit') {
@@ -1880,7 +1908,16 @@ async function loadItemForEdit(resource, id) {
   if (resource === 'datos-utiles') setDatosUtilesForm(item);
   if (resource === 'actividades') setActividadesForm(item);
   setEditState(resource, item);
-  toggleSection(resource);
+  const titles = {
+    alojamientos: 'Editar alojamiento',
+    gastronomia: 'Editar local gastronómico',
+    eventos: 'Editar evento',
+    'datos-utiles': 'Editar dato útil',
+    users: 'Editar usuario',
+    tickets: 'Editar ticket',
+    actividades: 'Editar actividad',
+  };
+  window.AdminUI.openEditor(resource, titles[resource] || 'Editar registro');
 }
 
 async function sendCreate(resource) {
@@ -1969,13 +2006,20 @@ async function sendCreate(resource) {
   }
   showToast('Guardado correctamente.', 'ok');
   clearEditState(resource);
+  window.AdminUI.closeEditor();
   notifyPublicDataRefresh();
   await loadResource(resource);
   await loadCounts();
 }
 
 async function sendDelete(resource, id) {
-  if (!confirm('¿Confirmar eliminar este elemento?')) return;
+  const confirmed = await window.AdminUI.confirmAction({
+    title: 'Eliminar registro',
+    message: 'Esta acción quita el registro del panel y no se puede deshacer.',
+    confirmLabel: 'Eliminar',
+    danger: true,
+  });
+  if (!confirmed) return;
   const info = resources[resource];
   if (!info || !id) return;
   let path = `${info.api}/${encodeURIComponent(id)}`;
@@ -2031,6 +2075,51 @@ document.addEventListener('DOMContentLoaded', () => {
   initPortalPreview();
   document.querySelectorAll('.nav-item, .tab').forEach((tab) => {
     tab.addEventListener('click', () => toggleSection(tab.dataset.section));
+  });
+
+  document.querySelectorAll('[data-editor-close]').forEach((button) => {
+    button.addEventListener('click', () => window.AdminUI.closeEditor());
+  });
+  document.getElementById('editor-backdrop')?.addEventListener('click', () => window.AdminUI.closeEditor());
+
+  document.querySelectorAll('[data-status-filter]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const resource = button.dataset.filterResource;
+      resourceFilters.set(resource, button.dataset.statusFilter);
+      button.parentElement.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
+      loadResource(resource);
+    });
+  });
+
+  document.querySelectorAll('[data-media-target]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      await ensureMediaLibrary();
+      window.AdminUI.openMediaPicker({
+        onSelect(url) {
+          const input = document.getElementById(button.dataset.mediaTarget);
+          const preview = document.getElementById(button.dataset.previewTarget);
+          if (input) input.value = url;
+          if (preview) {
+            preview.src = resolvePublicAssetUrl(url);
+            preview.hidden = false;
+          }
+          input?.dispatchEvent(new Event('input', { bubbles: true }));
+        },
+      });
+    });
+  });
+
+  document.getElementById('media-picker-grid')?.addEventListener('click', (event) => {
+    const choice = event.target.closest('[data-media-url]');
+    if (choice) window.AdminUI.chooseMedia(choice.dataset.mediaUrl);
+  });
+
+  document.querySelectorAll('[data-close-media]').forEach((button) => {
+    button.addEventListener('click', () => window.AdminUI.closeMediaPicker());
+  });
+
+  document.querySelectorAll('.subnav [data-goto]').forEach((button) => {
+    button.addEventListener('click', () => toggleSection(button.dataset.goto));
   });
 
   document.body.addEventListener('click', (event) => {

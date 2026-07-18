@@ -97,3 +97,16 @@ test('premium login exposes accessible interaction states without browser alerts
   assert.match(html, /href="\/"/);
   assert.doesNotMatch(html, /alert\(/);
 });
+
+test('tourism design system exposes the approved palette and interaction tokens', () => {
+  const css = read('css/styles.css');
+
+  assert.match(css, /--brand-primary:\s*#355E4A/i);
+  assert.match(css, /--brand-primary-hover:\s*#2C4F3D/i);
+  assert.match(css, /--surface:\s*#F6F3EE/i);
+  assert.match(css, /--surface-elevated:\s*#FFFFFF/i);
+  assert.match(css, /--text:\s*#2F2F2F/i);
+  assert.match(css, /--accent:\s*#D8A441/i);
+  assert.match(css, /--radius-card:\s*16px/i);
+  assert.match(css, /--motion-base:\s*300ms/i);
+});

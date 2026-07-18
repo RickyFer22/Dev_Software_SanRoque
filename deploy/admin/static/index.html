@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#355E4A" />
   <title>Vivi San Roque · Admin</title>
-  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" href="/img/favicon.ico" />
   <link rel="stylesheet" href="/admin/static/admin.css" />
 </head>
 <body>
@@ -59,7 +59,7 @@
             <span class="nav-icon">◎</span> Usuarios
           </button>
           <button type="button" class="nav-item tab" data-section="uploads">
-            <span class="nav-icon">☁</span> Uploads
+            <span class="nav-icon">☁</span> Archivos
           </button>
           <button type="button" class="nav-item tab" data-section="audit">
             <span class="nav-icon">☰</span> Auditoría
@@ -149,7 +149,18 @@
             <button type="button" class="cancel-button" data-goto="bot-config">Configurar bot</button>
           </div>
 
-          <section class="card portal-preview-card" aria-labelledby="portal-preview-title">
+          <div class="dashboard-grid">
+            <section class="card">
+              <div class="panel-title"><h2>Para revisar</h2><span class="small">Prioridades del portal</span></div>
+              <div id="work-queue" class="work-queue" aria-live="polite"></div>
+            </section>
+            <section class="card">
+              <div class="panel-title"><h2>Actividad reciente</h2><button type="button" class="link-button" data-goto="audit">Ver historial</button></div>
+              <div id="recent-activity" class="activity-list"></div>
+            </section>
+          </div>
+
+          <div class="card portal-preview-card" aria-labelledby="portal-preview-title">
             <div class="portal-preview-head">
               <div>
                 <span class="portal-preview-eyebrow">Página pública</span>
@@ -204,10 +215,22 @@
               <div class="toolbar">
                 <label>Buscar<input data-search-resource="alojamientos" placeholder="Título, categoría…" /></label>
               </div>
+              <div class="segmented" role="group" aria-label="Filtrar por estado">
+                <button type="button" class="active" data-status-filter="all" data-filter-resource="alojamientos">Todos</button>
+                <button type="button" data-status-filter="published" data-filter-resource="alojamientos">Publicados</button>
+                <button type="button" data-status-filter="draft" data-filter-resource="alojamientos">Borradores</button>
+                <button type="button" data-status-filter="archived" data-filter-resource="alojamientos">Archivados</button>
+              </div>
               <div id="alojamientos-list"></div>
             </div>
-            <div class="card crud-form-panel">
-              <h2>Alojamiento</h2>
+            <aside class="card crud-form-panel editor-drawer" data-editor="alojamientos" hidden aria-label="Editor de alojamiento">
+              <div class="editor-head">
+                <div>
+                  <span class="eyebrow">Contenido</span>
+                  <h2 data-editor-title>Nuevo alojamiento</h2>
+                </div>
+                <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
+              </div>
               <div class="toolbar">
                 <label>Título<input id="alojamiento-titulo" placeholder="Nuevo hotel" /></label>
                 <label>Categoría<input id="alojamiento-categoria" placeholder="hotel / hospedaje" /></label>
@@ -222,6 +245,7 @@
               </div>
               <div class="toolbar">
                 <label>Imagen (URL)<input id="alojamiento-mainImg" placeholder="img/Hospedaje JR.jpeg" /></label>
+                <button type="button" class="cancel-button" data-media-target="alojamiento-mainImg" data-preview-target="alojamiento-image-preview">Elegir de Archivos</button>
                 <label>Visible en portal
                   <select id="alojamiento-activo">
                     <option value="1">Sí</option>
@@ -275,10 +299,22 @@
               <div class="toolbar">
                 <label>Buscar<input data-search-resource="gastronomia" placeholder="Nombre, tipo…" /></label>
               </div>
+              <div class="segmented" role="group" aria-label="Filtrar por estado">
+                <button type="button" class="active" data-status-filter="all" data-filter-resource="gastronomia">Todos</button>
+                <button type="button" data-status-filter="published" data-filter-resource="gastronomia">Publicados</button>
+                <button type="button" data-status-filter="draft" data-filter-resource="gastronomia">Borradores</button>
+                <button type="button" data-status-filter="archived" data-filter-resource="gastronomia">Archivados</button>
+              </div>
               <div id="gastronomia-list"></div>
             </div>
-            <div class="card crud-form-panel">
-              <h2>Local gastronómico</h2>
+            <aside class="card crud-form-panel editor-drawer" data-editor="gastronomia" hidden aria-label="Editor de local gastronómico">
+              <div class="editor-head">
+                <div>
+                  <span class="eyebrow">Contenido</span>
+                  <h2 data-editor-title>Nuevo local gastronómico</h2>
+                </div>
+                <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
+              </div>
               <div class="toolbar">
                 <label>Nombre<input id="gastronomia-nombre" placeholder="Nuevo comedor" /></label>
                 <label>Tipo<input id="gastronomia-tipo" placeholder="comedor" /></label>
@@ -289,6 +325,7 @@
               </div>
               <div class="toolbar">
                 <label>Imagen (URL)<input id="gastronomia-imagen" placeholder="img/Comedor Ariana.jpeg" /></label>
+                <button type="button" class="cancel-button" data-media-target="gastronomia-imagen" data-preview-target="gastronomia-image-preview">Elegir de Archivos</button>
                 <label>Visible en portal
                   <select id="gastronomia-activo">
                     <option value="1">Sí</option>
@@ -341,10 +378,22 @@
               <div class="toolbar">
                 <label>Buscar<input data-search-resource="eventos" placeholder="Título, lugar…" /></label>
               </div>
+              <div class="segmented" role="group" aria-label="Filtrar por estado">
+                <button type="button" class="active" data-status-filter="all" data-filter-resource="eventos">Todos</button>
+                <button type="button" data-status-filter="published" data-filter-resource="eventos">Publicados</button>
+                <button type="button" data-status-filter="draft" data-filter-resource="eventos">Borradores</button>
+                <button type="button" data-status-filter="archived" data-filter-resource="eventos">Archivados</button>
+              </div>
               <div id="eventos-list"></div>
             </div>
-            <div class="card crud-form-panel">
-              <h2>Evento</h2>
+            <aside class="card crud-form-panel editor-drawer" data-editor="eventos" hidden aria-label="Editor de evento">
+              <div class="editor-head">
+                <div>
+                  <span class="eyebrow">Contenido</span>
+                  <h2 data-editor-title>Nuevo evento</h2>
+                </div>
+                <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
+              </div>
               <div class="toolbar">
                 <label>Título<input id="event-titulo" placeholder="Nuevo evento" /></label>
                 <label>Tipo<input id="event-tipo" placeholder="cultural" /></label>
@@ -355,7 +404,8 @@
               </div>
               <div class="toolbar">
                 <label>Lugar<input id="event-lugar" placeholder="Plaza Principal" /></label>
-                <label>Imagen<input id="event-imagen" placeholder="img/PLAZA E HIGLESIA.jpeg" /></label>
+                 <label>Imagen<input id="event-imagen" placeholder="img/PLAZA E HIGLESIA.jpeg" /></label>
+                <button type="button" class="cancel-button" data-media-target="event-imagen" data-preview-target="event-image-preview">Elegir de Archivos</button>
               </div>
               <div class="toolbar">
                 <label>Estado
@@ -388,10 +438,22 @@
                 <h2>Categorías</h2>
                 <button type="button" data-action="create" data-resource="datos-utiles">+ Nuevo</button>
               </div>
+              <div class="segmented" role="group" aria-label="Filtrar por estado">
+                <button type="button" class="active" data-status-filter="all" data-filter-resource="datos-utiles">Todos</button>
+                <button type="button" data-status-filter="published" data-filter-resource="datos-utiles">Publicados</button>
+                <button type="button" data-status-filter="draft" data-filter-resource="datos-utiles">Borradores</button>
+                <button type="button" data-status-filter="archived" data-filter-resource="datos-utiles">Archivados</button>
+              </div>
               <div id="datos-utiles-list"></div>
             </div>
-            <div class="card crud-form-panel">
-               <h2>Dato útil</h2>
+            <aside class="card crud-form-panel editor-drawer" data-editor="datos-utiles" hidden aria-label="Editor de dato útil">
+              <div class="editor-head">
+                <div>
+                  <span class="eyebrow">Contenido</span>
+                  <h2 data-editor-title>Nuevo dato útil</h2>
+                </div>
+                <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
+              </div>
                <div class="toolbar">
                  <label>Categoría<input id="datos-utiles-categoria" placeholder="remises" /></label>
                  <label>Título<input id="datos-utiles-titulo" placeholder="Remises" /></label>
@@ -423,13 +485,20 @@
               </div>
               <div id="actividades-list"></div>
             </div>
-            <div class="card crud-form-panel">
-              <h2>Actividad / Atractivo</h2>
+            <aside class="card crud-form-panel editor-drawer" data-editor="actividades" hidden aria-label="Editor de actividad">
+              <div class="editor-head">
+                <div>
+                  <span class="eyebrow">Contenido</span>
+                  <h2 data-editor-title>Nueva actividad</h2>
+                </div>
+                <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
+              </div>
               <div class="toolbar">
                 <label>Título<input id="actividades-titulo" placeholder="Ej: Balneario Municipal" /></label>
               </div>
               <div class="toolbar">
-                <label>Imagen (URL)<input id="actividades-imagen" placeholder="/uploads/…" /></label>
+                 <label>Imagen (URL)<input id="actividades-imagen" placeholder="/uploads/…" /></label>
+                <button type="button" class="cancel-button" data-media-target="actividades-imagen" data-preview-target="actividades-image-preview">Elegir de Archivos</button>
                  <label>Subir imagen<input type="file" id="actividades-image-file" accept="image/*" /><span id="actividades-upload-spinner" class="spinner" style="display: none;"></span></label>
               </div>
               <img id="actividades-image-preview" class="image-preview" src="" alt="Vista previa" style="max-height: 120px; object-fit: cover; border-radius: 8px; margin-top: 8px; display: none;" />
@@ -453,10 +522,23 @@
                 <h2>Usuarios</h2>
                 <button type="button" data-action="create" data-resource="users">+ Usuario</button>
               </div>
+              <div class="segmented" role="group" aria-label="Filtrar por estado">
+                <button type="button" class="active" data-status-filter="all" data-filter-resource="users">Todos</button>
+                <button type="button" data-status-filter="active" data-filter-resource="users">Activos</button>
+                <button type="button" data-status-filter="inactive" data-filter-resource="users">Inactivos</button>
+                <button type="button" data-status-filter="pending" data-filter-resource="users">Pendientes</button>
+                <button type="button" data-status-filter="banned" data-filter-resource="users">Bloqueados</button>
+              </div>
               <div id="users-list"></div>
             </div>
-            <div class="card crud-form-panel">
-              <h2>Usuario</h2>
+            <aside class="card crud-form-panel editor-drawer" data-editor="users" hidden aria-label="Editor de usuario">
+              <div class="editor-head">
+                <div>
+                  <span class="eyebrow">Sistema</span>
+                  <h2 data-editor-title>Nuevo usuario</h2>
+                </div>
+                <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
+              </div>
               <div class="toolbar">
                 <label>Usuario<input id="user-username" placeholder="editor" /></label>
                 <label>Nombre<input id="user-name" placeholder="Editor" /></label>
@@ -587,27 +669,43 @@
             </div>
           </div>
 
-          <div class="card">
-            <div class="bot-card-head">
-              <div>
-                <h2>APIs del bot</h2>
-                <p class="small">Guardá varias APIs (OpenAI, OpenRouter, Anthropic, Ollama o genérica). Elegí cuál es la activa; el resto queda como respaldo por orden.</p>
+          <details class="settings-disclosure" open>
+            <summary>
+              <span><strong>Comportamiento del asistente</strong><small>Prompt e instrucciones institucionales</small></span>
+              <span aria-hidden="true">⌄</span>
+            </summary>
+            <div class="disclosure-body">
+              <div class="card">
+                <h2>System prompt</h2>
+                <label>Instrucciones del asistente (identidad, reglas, seguridad)
+                  <textarea id="bot-system-prompt" rows="16" spellcheck="false"></textarea>
+                </label>
+                <div class="toolbar">
+                  <button type="button" class="cancel-button" id="bot-reset-prompt">Restaurar por defecto</button>
+                  <span class="small" id="bot-prompt-count">—</span>
+                </div>
               </div>
-              <button type="button" class="btn-gold" id="bot-add-api">+ Agregar API</button>
             </div>
-            <div id="bot-apis-list" class="bot-apis-list"></div>
-          </div>
+          </details>
 
-          <div class="card">
-            <h2>System prompt</h2>
-            <label>Instrucciones del asistente (identidad, reglas, seguridad)
-              <textarea id="bot-system-prompt" rows="16" spellcheck="false"></textarea>
-            </label>
-            <div class="toolbar">
-              <button type="button" class="cancel-button" id="bot-reset-prompt">Restaurar por defecto</button>
-              <span class="small" id="bot-prompt-count">—</span>
+          <details class="settings-disclosure">
+            <summary>
+              <span><strong>APIs del bot</strong><small>Proveedores y modelos configurados</small></span>
+              <span aria-hidden="true">⌄</span>
+            </summary>
+            <div class="disclosure-body">
+              <div class="card">
+                <div class="bot-card-head">
+                  <div>
+                    <h2>APIs del bot</h2>
+                    <p class="small">Guardá varias APIs (OpenAI, OpenRouter, Anthropic, Ollama o genérica). Elegí cuál es la activa; el resto queda como respaldo por orden.</p>
+                  </div>
+                  <button type="button" class="btn-gold" id="bot-add-api">+ Agregar API</button>
+                </div>
+                <div id="bot-apis-list" class="bot-apis-list"></div>
+              </div>
             </div>
-          </div>
+          </details>
 
           <div class="bot-save-bar">
             <span class="small" id="bot-config-feedback" aria-live="polite"></span>
@@ -649,6 +747,12 @@
 
         <!-- OBSERVABILIDAD -->
         <div id="observability" class="section">
+          <nav class="subnav" aria-label="Operación del sistema">
+            <button type="button" data-goto="observability" aria-current="page">Observabilidad</button>
+            <button type="button" data-goto="seguridad">Seguridad</button>
+            <button type="button" data-goto="audit">Auditoría</button>
+            <button type="button" data-goto="analytics">Analytics</button>
+          </nav>
           <div class="toolbar">
             <button type="button" data-action="refresh-observability">Actualizar registros</button>
             <button type="button" data-action="export-observability" class="cancel-button">Exportar JSON</button>
@@ -666,6 +770,12 @@
 
         <!-- SEGURIDAD (solo super-admin) -->
         <div id="seguridad" class="section">
+          <nav class="subnav" aria-label="Operación del sistema">
+            <button type="button" data-goto="observability">Observabilidad</button>
+            <button type="button" data-goto="seguridad" aria-current="page">Seguridad</button>
+            <button type="button" data-goto="audit">Auditoría</button>
+            <button type="button" data-goto="analytics">Analytics</button>
+          </nav>
           <div class="toolbar">
             <button type="button" data-action="refresh-security">Actualizar</button>
             <span class="small">Panel de seguridad · solo super-administrador</span>
@@ -686,6 +796,32 @@
   </div>
 
   <div class="toast-host" id="toast-host" aria-live="polite"></div>
+
+  <button type="button" id="editor-backdrop" class="editor-backdrop" hidden aria-label="Cerrar editor"></button>
+  <dialog id="confirm-dialog" class="confirm-dialog">
+    <form method="dialog">
+      <h2 data-confirm-title>Confirmar acción</h2>
+      <p data-confirm-message></p>
+      <div class="dialog-actions">
+        <button value="cancel" class="cancel-button">Cancelar</button>
+        <button value="confirm" data-confirm-accept>Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <section id="media-picker" class="media-picker" hidden aria-label="Seleccionar archivo">
+    <div class="media-picker-head">
+      <div>
+        <span class="eyebrow">Biblioteca</span>
+        <h2>Elegir una imagen</h2>
+      </div>
+      <button type="button" class="icon-button" data-close-media aria-label="Cerrar biblioteca">×</button>
+    </div>
+    <label class="media-search-label">Buscar archivo<input id="media-picker-search" type="search" placeholder="Nombre o ruta" /></label>
+    <div id="media-picker-grid" class="uploads-grid"></div>
+  </section>
+
+  <script src="/admin/static/admin-ui.js"></script>
   <script src="/admin/static/app.js"></script>
 </body>
 </html>

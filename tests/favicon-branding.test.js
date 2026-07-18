@@ -8,13 +8,13 @@ const root = path.join(__dirname, '..');
 test('the site declares the official San Roque favicon assets', () => {
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 
-  assert.match(html, /rel="icon"[^>]+href="favicon\.ico"/);
-  assert.match(html, /rel="apple-touch-icon"[^>]+href="apple-touch-icon\.png"/);
-  assert.ok(fs.existsSync(path.join(root, 'apple-touch-icon.png')));
+  assert.match(html, /rel="icon"[^>]+href="img\/favicon\.ico"/);
+  assert.match(html, /rel="apple-touch-icon"[^>]+href="img\/apple-touch-icon\.png"/);
+  assert.ok(fs.existsSync(path.join(root, 'img/apple-touch-icon.png')));
 });
 
 test('favicon.ico contains the common browser icon sizes', () => {
-  const icon = fs.readFileSync(path.join(root, 'favicon.ico'));
+  const icon = fs.readFileSync(path.join(root, 'img/favicon.ico'));
   assert.equal(icon.readUInt16LE(0), 0, 'ICO reserved field');
   assert.equal(icon.readUInt16LE(2), 1, 'ICO image type');
 

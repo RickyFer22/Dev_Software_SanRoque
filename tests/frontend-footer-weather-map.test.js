@@ -41,3 +41,12 @@ test('accommodation map renders a visible urban trace and accessible legend', ()
   assert.match(css, /\.map-urban-trace/);
   assert.match(css, /\.accommodation-map-marker/);
 });
+
+test('footer uses light tourism surfaces instead of broad olive fields', () => {
+  const css = read('css/styles.css');
+
+  assert.match(css, /\.site-footer\s*\{[^}]*background:\s*var\(--surface\)/s);
+  assert.match(css, /\.footer-social-band\s*\{[^}]*background:\s*var\(--surface-elevated\)/s);
+  assert.match(css, /\.footer-bottombar\s*\{[^}]*background:\s*#E8E2D4/s);
+  assert.doesNotMatch(css, /--footer-olive(?:-deep)?:/);
+});
