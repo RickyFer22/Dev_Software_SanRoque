@@ -40,7 +40,9 @@
 <script src="js/gastronomiaData.js" defer></script>
 <script src="js/ratings.js" defer></script>
 <script src="js/share.js" defer></script>
-<script src="js/gastronomia.js?v=1.0.2" defer></script>
+<script src="js/gallery.js?v=20260718" defer></script>
+<script src="js/detail-pages.js?v=20260718" defer></script>
+<script src="js/gastronomia.js?v=20260718" defer></script>
 <style>.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
     vertical-align: middle
@@ -72,6 +74,7 @@
 </script>
 </head>
 <body class="tourism-page gastronomy-page bg-[#F6F3EE] text-on-background font-body-md">
+<a class="tourism-skip-link" href="#main-content">Saltar al contenido principal</a>
 <!-- TopNavBar -->
 <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-gradient-to-b from-black/60 to-transparent pt-6 pb-6">
   <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
@@ -158,7 +161,7 @@
   </a>
 </nav>
 
-<main>
+<main id="main-content" tabindex="-1">
 <!-- Hero Section -->
 <section id="hero-section" class="relative h-[819px] flex items-center justify-center text-center px-gutter overflow-hidden">
 <div class="absolute inset-0 z-0">
@@ -221,6 +224,7 @@
 <!-- Restaurant Grid -->
 <div id="gastronomia-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 </div>
+<section id="gastronomy-detail" class="gastronomy-detail" hidden aria-live="polite"></section>
 
 <!-- Artisanal CTA Section -->
 <section class="gastronomy-story-cta" aria-labelledby="gastronomy-story-title">

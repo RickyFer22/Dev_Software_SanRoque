@@ -18,6 +18,9 @@ con un asistente (chatbot) para consultas frecuentes.
 - **Clima en vivo**: widget que consume `/api/weather` (proxy a OpenWeatherMap, key server-side).
 - **Chatbot**: respuestas rápidas locales + integración con un bot externo.
 - **Eventos**, **galería** con lightbox, **diseño responsive** y accesible.
+- **Fichas turísticas editoriales** de alojamientos y gastronomía, con SEO dinámico, contenido relacionado y acciones de contacto sólo cuando existen datos publicados.
+- **Panel editorial** con borradores, revisión, publicación, vista previa y recuperación local de cambios sin guardar.
+- **Biblioteca multimedia** con carga múltiple, metadatos, orden de galería y variantes automáticas WebP/AVIF para miniatura, tarjeta, ficha, hero y redes.
 
 ## 🧱 Stack
 
@@ -29,6 +32,12 @@ con un asistente (chatbot) para consultas frecuentes.
 | Chatbot | API externa (Railway) |
 | Infraestructura | Docker + Nginx + Traefik (Let's Encrypt) — ver `deploy/` |
 | CI/CD | GitHub Actions (deploy automático al VPS en cada push a `main`) |
+
+## 🖼️ Flujo multimedia del admin
+
+El panel en `/admin` acepta JPG, PNG, WebP y AVIF de hasta 5 MB por archivo. El backend valida el contenido real, corrige orientación y genera variantes optimizadas; los editores de alojamientos y gastronomía permiten asignar portada, imagen social, texto alternativo, epígrafe y orden de galería sin almacenar imágenes en base64.
+
+Los endpoints principales son `GET /admin/api/media`, `POST /admin/api/media/upload`, `PATCH /admin/api/media/:id` y `DELETE /admin/api/media/:id`. La eliminación se bloquea mientras una imagen esté referenciada por contenido publicado o editorial.
 
 ## 📁 Estructura
 

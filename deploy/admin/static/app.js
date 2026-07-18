@@ -1,15 +1,21 @@
-const resources = {
-  overview: { title: 'Resumen' },
-  alojamientos: { api: '/admin/api/alojamientos', title: 'Alojamientos' },
-  gastronomia: { api: '/admin/api/gastronomia', title: 'Gastronomía' },
-  eventos: { api: '/admin/api/eventos', title: 'Eventos' },
-  actividades: { api: '/admin/api/actividades', title: 'Qué hacer' },
-  'datos-utiles': { api: '/admin/api/datos-utiles', title: 'Datos útiles', isDataUtil: true },
-  users: { api: '/admin/api/users', title: 'Usuarios' },
-  tickets: { api: '/admin/api/tickets', title: 'Tickets' },
-  audit: { api: '/admin/api/audit', title: 'Auditoría', isAudit: true },
-  uploads: { api: '/admin/api/uploads', title: 'Uploads' },
-};
+const ADMIN_SECTIONS = Object.freeze({
+  overview: { title: 'Resumen', description: 'Estado general del portal turístico.', icon: 'dashboard', group: 'Contenido' },
+  alojamientos: { api: '/admin/api/alojamientos', title: 'Alojamientos', description: 'Hospedajes, servicios, fotografías y publicación.', icon: 'bed', group: 'Contenido' },
+  gastronomia: { api: '/admin/api/gastronomia', title: 'Gastronomía', description: 'Restaurantes, comedores y experiencias culinarias.', icon: 'utensils', group: 'Contenido' },
+  eventos: { api: '/admin/api/eventos', title: 'Eventos', description: 'Agenda cultural y turística municipal.', icon: 'calendar', group: 'Contenido' },
+  actividades: { api: '/admin/api/actividades', title: 'Lugares y experiencias', description: 'Atractivos, recorridos y propuestas para visitar.', icon: 'compass', group: 'Contenido' },
+  'datos-utiles': { api: '/admin/api/datos-utiles', title: 'Servicios y datos útiles', description: 'Remises, contactos y asistencia al visitante.', icon: 'info', group: 'Contenido', isDataUtil: true },
+  users: { api: '/admin/api/users', title: 'Usuarios', description: 'Accesos y roles del equipo municipal.', icon: 'users', group: 'Sistema' },
+  tickets: { api: '/admin/api/tickets', title: 'Tickets', description: 'Solicitudes de atención y seguimiento.', icon: 'info', group: 'Atención' },
+  audit: { api: '/admin/api/audit', title: 'Auditoría', description: 'Historial verificable de modificaciones.', icon: 'history', group: 'Sistema', isAudit: true },
+  uploads: { api: '/admin/api/media', title: 'Multimedia', description: 'Biblioteca de fotografías optimizadas.', icon: 'image', group: 'Sistema' },
+  backup: { title: 'Copias de seguridad', description: 'Respaldo y restauración del contenido.', icon: 'backup', group: 'Sistema' },
+  'bot-config': { title: 'Bot y APIs', description: 'Asistente turístico e integraciones.', icon: 'bot', group: 'Sistema' },
+  observability: { title: 'Observabilidad', description: 'Salud técnica y registros operativos.', icon: 'activity', group: 'Sistema' },
+  seguridad: { title: 'Seguridad', description: 'Sesiones, accesos y alertas.', icon: 'shield', group: 'Sistema' },
+  analytics: { title: 'Analítica', description: 'Uso del portal y contenidos destacados.', icon: 'chart', group: 'Sistema' },
+});
+const resources = ADMIN_SECTIONS;
 
 let currentEdit = null;
 let currentAdminSession = { user: 'anonymous', role: 'guest' };
@@ -35,12 +41,24 @@ function resolvePublicAssetUrl(imagePath) {
 function renderListThumb(imagePath) {
   const src = resolvePublicAssetUrl(imagePath);
   if (!src) return '';
-  return `<img class="list-thumb" src="${src}" alt="" loading="lazy" onerror="this.style.visibility='hidden'" />`;
+  return `<img class="list-thumb" src="${escapeLog(src)}" alt="" loading="lazy" />`;
+}
+
+function bindImageFallbacks(root = document) {
+  root.querySelectorAll('img:not([data-image-fallback-bound])').forEach((image) => {
+    image.dataset.imageFallbackBound = 'true';
+    image.addEventListener('error', () => {
+      image.hidden = true;
+      image.removeAttribute('src');
+    });
+  });
 }
 
 const STATUS_LABELS = {
   published: 'Publicado',
   draft: 'Borrador',
+  review: 'En revisión',
+  hidden: 'Oculto',
   archived: 'Archivado',
   approved: 'Aprobada',
   rejected: 'Rechazada',
@@ -58,23 +76,6 @@ const ROLE_LABELS = {
   editor: 'Editor',
   viewer: 'Solo lectura',
   guest: 'Invitado',
-};
-
-const SECTION_TITLES = {
-  overview: 'Resumen',
-  alojamientos: 'Alojamientos',
-  gastronomia: 'Gastronomía',
-  eventos: 'Eventos',
-  'datos-utiles': 'Datos útiles',
-  users: 'Usuarios',
-  tickets: 'Tickets',
-  audit: 'Auditoría',
-  uploads: 'Uploads',
-  backup: 'Backup',
-  'bot-config': 'Bot y APIs',
-  observability: 'Observabilidad',
-  seguridad: 'Seguridad',
-  analytics: 'Analytics',
 };
 
 function showToast(message, type = 'ok') {
@@ -143,6 +144,29 @@ function openSidebar() {
   document.body.classList.add('sidebar-open');
   const backdrop = document.getElementById('sidebar-backdrop');
   if (backdrop) backdrop.hidden = false;
+}
+
+function renderAdminIcons() {
+  if (!window.AdminIcons) return;
+  document.querySelectorAll('[data-icon]').forEach((host) => {
+    host.innerHTML = window.AdminIcons.icon(host.dataset.icon);
+  });
+  document.querySelectorAll('.nav-item[data-section]').forEach((item) => {
+    const section = ADMIN_SECTIONS[item.dataset.section];
+    if (!section) return;
+    item.title = section.title;
+    item.setAttribute('aria-label', section.title);
+  });
+}
+
+function setSidebarCollapsed(collapsed) {
+  document.body.classList.toggle('sidebar-collapsed', collapsed);
+  const button = document.getElementById('sidebar-collapse');
+  if (button) {
+    button.setAttribute('aria-expanded', String(!collapsed));
+    button.setAttribute('aria-label', collapsed ? 'Expandir menú' : 'Contraer menú');
+  }
+  localStorage.setItem('admin_sidebar_collapsed', collapsed ? '1' : '0');
 }
 
 function getEditorTextarea(resource) {
@@ -266,6 +290,18 @@ function getAlojamientoForm() {
     checkout: document.getElementById('alojamiento-checkout'),
     cancelacion: document.getElementById('alojamiento-cancelacion'),
     galeria: document.getElementById('alojamiento-galeria'),
+    summary: document.getElementById('alojamiento-summary'),
+    mapsLink: document.getElementById('alojamiento-mapsLink'),
+    website: document.getElementById('alojamiento-website'),
+    instagram: document.getElementById('alojamiento-instagram'),
+    facebook: document.getElementById('alojamiento-facebook'),
+    serviciosText: document.getElementById('alojamiento-serviciosText'),
+    tags: document.getElementById('alojamiento-tags'),
+    slug: document.getElementById('alojamiento-slug'),
+    seoTitle: document.getElementById('alojamiento-seoTitle'),
+    seoDescription: document.getElementById('alojamiento-seoDescription'),
+    publishAt: document.getElementById('alojamiento-publishAt'),
+    featured: document.getElementById('alojamiento-featured'),
   };
 }
 
@@ -276,7 +312,7 @@ function getAlojamientoPayload() {
     categoria: form.categoria?.value?.trim(),
     lat: form.lat?.value ? Number(form.lat.value) : undefined,
     lon: form.lon?.value ? Number(form.lon.value) : undefined,
-    rating: form.rating?.value?.trim(),
+    rating: form.rating?.value?.trim() || '',
     ubicacion: form.ubicacion?.value?.trim(),
     mainImg: form.mainImg?.value?.trim(),
     activo: form.activo?.value === '1' ? 1 : 0,
@@ -284,10 +320,23 @@ function getAlojamientoPayload() {
     descripcionLarga: form.descripcionLarga?.value?.trim(),
     telefono: form.telefono?.value?.trim() || '',
     waNumber: form.waNumber?.value?.trim() || '',
-    checkin: form.checkin?.value?.trim() || '14:00',
-    checkout: form.checkout?.value?.trim() || '10:00',
-    cancelacion: form.cancelacion?.value?.trim() || 'Flexible',
+    checkin: form.checkin?.value?.trim() || '',
+    checkout: form.checkout?.value?.trim() || '',
+    cancelacion: form.cancelacion?.value?.trim() || '',
     galeria: form.galeria?.value ? form.galeria.value.split(',').map(g => g.trim()).filter(Boolean) : [],
+    summary: form.summary?.value?.trim() || '',
+    mapsLink: form.mapsLink?.value?.trim() || '',
+    website: form.website?.value?.trim() || '',
+    instagram: form.instagram?.value?.trim() || '',
+    facebook: form.facebook?.value?.trim() || '',
+    servicios: (form.serviciosText?.value || '').split(',').map((value) => value.trim()).filter(Boolean).map((texto) => ({ icono: '', texto })),
+    tags: (form.tags?.value || '').split(',').map((value) => value.trim()).filter(Boolean),
+    slug: form.slug?.value?.trim() || '',
+    seoTitle: form.seoTitle?.value?.trim() || '',
+    seoDescription: form.seoDescription?.value?.trim() || '',
+    publishAt: form.publishAt?.value || '',
+    featured: Boolean(form.featured?.checked),
+    mediaGallery: window.MediaManager?.getGallery('alojamientos') || [],
   };
 }
 
@@ -298,7 +347,7 @@ function setAlojamientoForm(item = {}) {
   form.categoria.value = item.categoria || '';
   form.lat.value = item.lat || '';
   form.lon.value = item.lon || '';
-  form.rating.value = item.rating || '';
+  if (form.rating) form.rating.value = item.rating || '';
   form.ubicacion.value = item.ubicacion || '';
   form.mainImg.value = item.mainImg || '';
   form.activo.value = item.activo ? '1' : '0';
@@ -306,10 +355,23 @@ function setAlojamientoForm(item = {}) {
   form.descripcionLarga.value = item.descripcionLarga || '';
   if (form.telefono) form.telefono.value = item.telefono || '';
   if (form.waNumber) form.waNumber.value = item.waNumber || '';
-  if (form.checkin) form.checkin.value = item.checkin || '14:00';
-  if (form.checkout) form.checkout.value = item.checkout || '10:00';
-  if (form.cancelacion) form.cancelacion.value = item.cancelacion || 'Flexible';
+  if (form.checkin) form.checkin.value = item.checkin || '';
+  if (form.checkout) form.checkout.value = item.checkout || '';
+  if (form.cancelacion) form.cancelacion.value = item.cancelacion || '';
   if (form.galeria) form.galeria.value = Array.isArray(item.galeria) ? item.galeria.join(', ') : '';
+  if (form.summary) form.summary.value = item.summary || '';
+  if (form.mapsLink) form.mapsLink.value = item.mapsLink || '';
+  if (form.website) form.website.value = item.website || '';
+  if (form.instagram) form.instagram.value = item.instagram || '';
+  if (form.facebook) form.facebook.value = item.facebook || '';
+  if (form.serviciosText) form.serviciosText.value = Array.isArray(item.servicios) ? item.servicios.map((service) => typeof service === 'string' ? service : service.texto).filter(Boolean).join(', ') : '';
+  if (form.tags) form.tags.value = Array.isArray(item.tags) ? item.tags.join(', ') : '';
+  if (form.slug) form.slug.value = item.slug || '';
+  if (form.seoTitle) form.seoTitle.value = item.seoTitle || '';
+  if (form.seoDescription) form.seoDescription.value = item.seoDescription || '';
+  if (form.publishAt) form.publishAt.value = item.publishAt ? item.publishAt.slice(0, 16) : '';
+  if (form.featured) form.featured.checked = Boolean(item.featured);
+  window.MediaManager?.setGallery('alojamientos', item.mediaGallery || []);
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('alojamiento-image-file', 'alojamiento-image-preview', item.mainImg);
 }
@@ -321,7 +383,7 @@ function clearAlojamientoForm() {
   form.categoria.value = '';
   form.lat.value = '';
   form.lon.value = '';
-  form.rating.value = '';
+  if (form.rating) form.rating.value = '';
   form.ubicacion.value = '';
   form.mainImg.value = '';
   form.activo.value = '1';
@@ -329,10 +391,13 @@ function clearAlojamientoForm() {
   form.descripcionLarga.value = '';
   if (form.telefono) form.telefono.value = '';
   if (form.waNumber) form.waNumber.value = '';
-  if (form.checkin) form.checkin.value = '14:00';
-  if (form.checkout) form.checkout.value = '10:00';
-  if (form.cancelacion) form.cancelacion.value = 'Flexible';
+  if (form.checkin) form.checkin.value = '';
+  if (form.checkout) form.checkout.value = '';
+  if (form.cancelacion) form.cancelacion.value = '';
   if (form.galeria) form.galeria.value = '';
+  ['summary', 'mapsLink', 'website', 'instagram', 'facebook', 'serviciosText', 'tags', 'slug', 'seoTitle', 'seoDescription', 'publishAt'].forEach((key) => { if (form[key]) form[key].value = ''; });
+  if (form.featured) form.featured.checked = false;
+  window.MediaManager?.setGallery('alojamientos', []);
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('alojamiento-image-file', 'alojamiento-image-preview', '');
 }
@@ -353,6 +418,19 @@ function getGastronomiaForm() {
     mapsLink: document.getElementById('gastronomia-mapsLink'),
     servicios: document.getElementById('gastronomia-servicios'),
     galeria: document.getElementById('gastronomia-galeria'),
+    summary: document.getElementById('gastronomia-summary'),
+    lat: document.getElementById('gastronomia-lat'),
+    lon: document.getElementById('gastronomia-lon'),
+    website: document.getElementById('gastronomia-website'),
+    instagram: document.getElementById('gastronomia-instagram'),
+    facebook: document.getElementById('gastronomia-facebook'),
+    specialties: document.getElementById('gastronomia-specialties'),
+    tags: document.getElementById('gastronomia-tags'),
+    slug: document.getElementById('gastronomia-slug'),
+    seoTitle: document.getElementById('gastronomia-seoTitle'),
+    seoDescription: document.getElementById('gastronomia-seoDescription'),
+    publishAt: document.getElementById('gastronomia-publishAt'),
+    featured: document.getElementById('gastronomia-featured'),
   };
 }
 
@@ -372,6 +450,20 @@ function getGastronomiaPayload() {
     mapsLink: form.mapsLink?.value?.trim() || '',
     servicios: form.servicios?.value ? form.servicios.value.split(',').map(s => s.trim()).filter(Boolean) : [],
     galeria: form.galeria?.value ? form.galeria.value.split(',').map(g => g.trim()).filter(Boolean) : [],
+    summary: form.summary?.value?.trim() || '',
+    lat: form.lat?.value ? Number(form.lat.value) : undefined,
+    lon: form.lon?.value ? Number(form.lon.value) : undefined,
+    website: form.website?.value?.trim() || '',
+    instagram: form.instagram?.value?.trim() || '',
+    facebook: form.facebook?.value?.trim() || '',
+    specialties: (form.specialties?.value || '').split(',').map((value) => value.trim()).filter(Boolean),
+    tags: (form.tags?.value || '').split(',').map((value) => value.trim()).filter(Boolean),
+    slug: form.slug?.value?.trim() || '',
+    seoTitle: form.seoTitle?.value?.trim() || '',
+    seoDescription: form.seoDescription?.value?.trim() || '',
+    publishAt: form.publishAt?.value || '',
+    featured: Boolean(form.featured?.checked),
+    mediaGallery: window.MediaManager?.getGallery('gastronomia') || [],
   };
 }
 
@@ -391,6 +483,20 @@ function setGastronomiaForm(item = {}) {
   if (form.mapsLink) form.mapsLink.value = item.mapsLink || '';
   if (form.servicios) form.servicios.value = Array.isArray(item.servicios) ? item.servicios.join(', ') : '';
   if (form.galeria) form.galeria.value = Array.isArray(item.galeria) ? item.galeria.join(', ') : '';
+  if (form.summary) form.summary.value = item.summary || '';
+  if (form.lat) form.lat.value = item.lat || '';
+  if (form.lon) form.lon.value = item.lon || '';
+  if (form.website) form.website.value = item.website || '';
+  if (form.instagram) form.instagram.value = item.instagram || '';
+  if (form.facebook) form.facebook.value = item.facebook || '';
+  if (form.specialties) form.specialties.value = Array.isArray(item.specialties) ? item.specialties.join(', ') : '';
+  if (form.tags) form.tags.value = Array.isArray(item.tags) ? item.tags.join(', ') : '';
+  if (form.slug) form.slug.value = item.slug || '';
+  if (form.seoTitle) form.seoTitle.value = item.seoTitle || '';
+  if (form.seoDescription) form.seoDescription.value = item.seoDescription || '';
+  if (form.publishAt) form.publishAt.value = item.publishAt ? item.publishAt.slice(0, 16) : '';
+  if (form.featured) form.featured.checked = Boolean(item.featured);
+  window.MediaManager?.setGallery('gastronomia', item.mediaGallery || []);
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('gastronomia-image-file', 'gastronomia-image-preview', item.imagen);
 }
@@ -411,6 +517,9 @@ function clearGastronomiaForm() {
   if (form.mapsLink) form.mapsLink.value = '';
   if (form.servicios) form.servicios.value = '';
   if (form.galeria) form.galeria.value = '';
+  ['summary', 'lat', 'lon', 'website', 'instagram', 'facebook', 'specialties', 'tags', 'slug', 'seoTitle', 'seoDescription', 'publishAt'].forEach((key) => { if (form[key]) form[key].value = ''; });
+  if (form.featured) form.featured.checked = false;
+  window.MediaManager?.setGallery('gastronomia', []);
   if (form.imageFile) form.imageFile.value = '';
   updateImagePreview('gastronomia-image-file', 'gastronomia-image-preview', '');
 }
@@ -420,10 +529,13 @@ function updateImagePreview(fileInputId, previewId, imageUrl) {
   if (!preview) return;
   const resolved = resolvePublicAssetUrl(imageUrl);
   if (resolved) {
-    preview.src = resolved;
+    preview.hidden = false;
     preview.style.display = 'block';
+    bindImageFallbacks(preview.parentElement || document);
+    preview.src = resolved;
   } else {
-    preview.src = '';
+    preview.removeAttribute('src');
+    preview.hidden = true;
     preview.style.display = 'none';
   }
 }
@@ -546,8 +658,6 @@ function setupImageFileInput(fileInputId, imageFieldId, previewId, galleryFieldI
 
 function setupImageFileInputs() {
   setupImageFileInput('event-image-file', 'event-imagen', 'event-image-preview');
-  setupImageFileInput('alojamiento-image-file', 'alojamiento-mainImg', 'alojamiento-image-preview', 'alojamiento-galeria');
-  setupImageFileInput('gastronomia-image-file', 'gastronomia-imagen', 'gastronomia-image-preview', 'gastronomia-galeria');
   setupImageFileInput('actividades-image-file', 'actividades-imagen', 'actividades-image-preview');
 }
 
@@ -717,6 +827,7 @@ function clearTicketForm() {
 function setEditState(resource, item) {
   const identifier = resource === 'datos-utiles' ? item.categoria : item.id || item.categoria;
   currentEdit = { resource, id: identifier };
+  window.currentEdit = currentEdit;
   const state = document.getElementById(`edit-state-${resource}`);
   if (resource === 'users') {
     setUserForm(item);
@@ -764,6 +875,7 @@ function setEditState(resource, item) {
 function clearEditState(resource) {
   if (currentEdit && currentEdit.resource !== resource) return;
   currentEdit = null;
+  window.currentEdit = null;
   if (resource === 'users') {
     clearUserForm();
     const state = document.getElementById(`edit-state-${resource}`);
@@ -816,6 +928,7 @@ function clearEditState(resource) {
 
 function setCreateState(resource) {
   currentEdit = null;
+  window.currentEdit = null;
   const state = document.getElementById(`edit-state-${resource}`);
   if (resource === 'users') {
     clearUserForm();
@@ -949,8 +1062,13 @@ function toggleSection(sectionId) {
   });
   const target = document.getElementById(sectionId);
   if (target) target.classList.add('active');
+  const section = ADMIN_SECTIONS[sectionId] || { title: sectionId, description: '' };
   const title = document.getElementById('page-title');
-  if (title) title.textContent = SECTION_TITLES[sectionId] || resources[sectionId]?.title || sectionId;
+  if (title) title.textContent = section.title;
+  const description = document.getElementById('page-description');
+  if (description) description.textContent = section.description;
+  const breadcrumb = document.getElementById('admin-breadcrumb');
+  if (breadcrumb) breadcrumb.innerHTML = `<span>Panel</span><span aria-hidden="true">/</span><strong>${section.title}</strong>`;
   closeSidebar();
   if (sectionId === 'bot-config') { initBotConfigControls(); loadBotConfig(); }
   if (sectionId === 'observability') loadObservability();
@@ -1216,12 +1334,14 @@ function renderCount(id, value) {
 
 function renderRolePill(role) {
   const normalized = (role || 'guest').toString().toLowerCase();
-  return `<span class="pill role-pill ${normalized}">${ROLE_LABELS[normalized] || normalized}</span>`;
+  const cssClass = normalized.replace(/[^a-z0-9_-]/g, '') || 'guest';
+  return `<span class="pill role-pill ${cssClass}">${escapeLog(ROLE_LABELS[normalized] || normalized)}</span>`;
 }
 
 function renderStatusPill(status) {
   const normalized = (status || 'pending').toString().toLowerCase();
-  return `<span class="pill status-pill ${normalized}">${STATUS_LABELS[normalized] || normalized}</span>`;
+  const cssClass = normalized.replace(/[^a-z0-9_-]/g, '') || 'pending';
+  return `<span class="pill status-pill ${cssClass}">${escapeLog(STATUS_LABELS[normalized] || normalized)}</span>`;
 }
 
 function normalizeAdminRole(role) {
@@ -1282,8 +1402,8 @@ function renderMediaPicker(items) {
   const grid = document.getElementById('media-picker-grid');
   if (!grid) return;
   grid.innerHTML = items.length ? items.map((item) => {
-    const url = resolvePublicAssetUrl(item.url || item.path);
-    const name = item.name || url.split('/').pop();
+    const url = resolvePublicAssetUrl(item.variants?.thumb?.url || item.url || item.path);
+    const name = item.filename || item.name || url.split('/').pop();
     return `<button type="button" class="media-choice" data-media-url="${escapeLog(url)}">
       <img src="${escapeLog(url)}" alt="" loading="lazy">
       <span>${escapeLog(name)}</span>
@@ -1292,8 +1412,8 @@ function renderMediaPicker(items) {
 }
 
 async function ensureMediaLibrary() {
-  const data = await fetchJson('/admin/api/uploads');
-  mediaLibrary = data.items || data.uploads || [];
+  const data = await fetchJson('/admin/api/media');
+  mediaLibrary = data.media || data.items || data.uploads || [];
   renderMediaPicker(mediaLibrary);
 }
 
@@ -1519,16 +1639,19 @@ function renderAudit(entry) {
 
 function renderUploads(item) {
   if (!item || typeof item !== 'object') return '';
-  const url = resolvePublicAssetUrl(item.url || item.name);
+  const url = resolvePublicAssetUrl(item.variants?.card?.url || item.variants?.thumb?.url || item.url || item.name);
   return `
     <div class="upload-card">
-      <img src="${url}" alt="" loading="lazy" onerror="this.style.opacity='0.3'" />
+      ${url ? `<img src="${escapeLog(url)}" alt="${escapeLog(item.alt || '')}" loading="lazy" />` : ''}
       <div class="upload-meta">
-        <strong>${item.name}</strong>
-        <code>${url}</code>
+        <strong>${escapeLog(item.filename || item.name || 'Imagen')}</strong>
+        <span class="small">${item.width || '—'} × ${item.height || '—'} px · ${item.usage?.length || 0} usos</span>
+        <label>Texto alternativo<input data-media-meta-alt="${escapeLog(item.id || '')}" value="${escapeLog(item.alt || '')}" /></label>
+        <label>Epígrafe<input data-media-meta-caption="${escapeLog(item.id || '')}" value="${escapeLog(item.caption || '')}" /></label>
         <div class="list-actions">
           <button type="button" data-action="copy-url" data-url="${url}">Copiar URL</button>
-          <button type="button" data-action="delete" data-resource="uploads" data-id="${encodeURIComponent(item.name)}">Eliminar</button>
+          <button type="button" data-action="save-media" data-id="${escapeLog(item.id || '')}">Guardar datos</button>
+          <button type="button" class="danger-button" data-action="delete" data-resource="uploads" data-id="${escapeLog(item.id || '')}">Eliminar</button>
         </div>
       </div>
     </div>
@@ -1696,9 +1819,10 @@ async function loadResource(resource) {
     return;
   }
   if (resource === 'uploads') {
-    const items = filterItems(result.uploads || [], getSearchQuery(resource));
+    const source = result.media || result.uploads || [];
+    const items = filterItems(source, getSearchQuery(resource));
     renderList(`${resource}-list`, items, renderUploads);
-    updatePagination(resource, items.length, (result.uploads || []).length, getSearchQuery(resource));
+    updatePagination(resource, items.length, source.length, getSearchQuery(resource));
     return;
   }
   if (resource === 'datos-utiles') {
@@ -1732,12 +1856,14 @@ async function loadResource(resource) {
       : '';
     const rowActions = canWrite ? `
       <div class="row-actions">
-        <button type="button" data-action="edit" data-resource="${resource}" data-id="${item.id}">Editar</button>
+        <button type="button" data-action="edit" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Editar</button>
         <details class="more-actions">
           <summary aria-label="Más acciones">•••</summary>
           <div class="action-menu">
-            <button type="button" data-action="hide" data-resource="${resource}" data-id="${item.id}">${hideLabel}</button>
-            <button type="button" class="danger-text" data-action="delete" data-resource="${resource}" data-id="${item.id}">Eliminar</button>
+            <button type="button" data-action="preview-item" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Vista previa</button>
+            <button type="button" data-action="duplicate" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Duplicar</button>
+            <button type="button" data-action="hide" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">${hideLabel}</button>
+            <button type="button" class="danger-text" data-action="delete" data-resource="${escapeLog(resource)}" data-id="${escapeLog(item.id)}">Eliminar</button>
           </div>
         </details>
       </div>` : '';
@@ -1745,9 +1871,9 @@ async function loadResource(resource) {
       <div class="list-row list-row-with-thumb">
         ${thumb}
         <div style="flex:1">
-          <strong>${item.id}</strong><br>
-          <span class="small">${item[key] || JSON.stringify(item).slice(0, 80)}</span>
-          ${details ? `<div class="small" style="margin-top:4px;">${details}</div>` : ''}
+          <strong>${escapeLog(item[key] || item.id || 'Sin nombre')}</strong>
+          <span class="small">ID: ${escapeLog(item.id || '—')}</span>
+          ${details ? `<div class="small" style="margin-top:4px;">${escapeLog(details)}</div>` : ''}
           <div class="meta-row">${statusHtml}${activeHtml}</div>
         </div>
         ${rowActions}
@@ -1789,6 +1915,18 @@ function handleAction(event) {
   if (action === 'export-observability') { exportObservability(); return; }
   if (action === 'load') {
     loadResource(resource);
+    return;
+  }
+  if (action === 'save-media') {
+    saveMediaMetadata(id);
+    return;
+  }
+  if (action === 'preview-item') {
+    previewItem(resource, id);
+    return;
+  }
+  if (action === 'duplicate') {
+    duplicateItem(resource, id);
     return;
   }
   if (action === 'create') {
@@ -2006,10 +2144,36 @@ async function sendCreate(resource) {
   }
   showToast('Guardado correctamente.', 'ok');
   clearEditState(resource);
-  window.AdminUI.closeEditor();
+  document.dispatchEvent(new CustomEvent('editor:saved', { detail: { resource, item: result } }));
+  window.AdminUI.closeEditor(true);
   notifyPublicDataRefresh();
   await loadResource(resource);
   await loadCounts();
+}
+
+function previewItem(resource, id) {
+  const url = resource === 'gastronomia'
+    ? `/gastronomia.html?g=${encodeURIComponent(id)}`
+    : resource === 'alojamientos'
+      ? `/index.html?h=${encodeURIComponent(id)}`
+      : resource === 'eventos'
+        ? `/evento.html?id=${encodeURIComponent(id)}` : '/';
+  window.open(url, '_blank', 'noopener');
+}
+
+async function duplicateItem(resource, id) {
+  const info = resources[resource];
+  if (!info?.api) return;
+  const source = await fetchJson(`${info.api}/${encodeURIComponent(id)}`);
+  if (source.error) return showToast(`No se pudo duplicar: ${source.error}`, 'error');
+  const copy = { ...source, status: 'draft', activo: 0, slug: '', featured: false };
+  delete copy.id; delete copy.createdAt; delete copy.updatedAt; delete copy.history; delete copy.revision; delete copy.publishedAt;
+  if (copy.titulo) copy.titulo = `${copy.titulo} (copia)`;
+  if (copy.nombre) copy.nombre = `${copy.nombre} (copia)`;
+  const result = await fetchJson(info.api, { method: 'POST', body: JSON.stringify(copy) });
+  if (result.error) return showToast(`No se pudo duplicar: ${result.error}`, 'error');
+  showToast('Copia creada como borrador.', 'ok');
+  await loadResource(resource);
 }
 
 async function sendDelete(resource, id) {
@@ -2071,7 +2235,33 @@ async function copyUploadUrl(url) {
   }
 }
 
+async function saveMediaMetadata(id) {
+  const escapedId = window.CSS && CSS.escape ? CSS.escape(id) : id.replace(/[^a-zA-Z0-9_-]/g, '');
+  const alt = document.querySelector(`[data-media-meta-alt="${escapedId}"]`)?.value || '';
+  const caption = document.querySelector(`[data-media-meta-caption="${escapedId}"]`)?.value || '';
+  const result = await fetchJson(`/admin/api/media/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify({ alt, caption }) });
+  if (result.error) {
+    showToast(`No se pudieron guardar los datos: ${result.error}`, 'error');
+    return;
+  }
+  showToast('Datos de la fotografía actualizados.', 'ok');
+  await loadResource('uploads');
+}
+
+window.showToast = showToast;
+window.loadResource = loadResource;
+
 document.addEventListener('DOMContentLoaded', () => {
+  renderAdminIcons();
+  bindImageFallbacks();
+  const imageObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => mutation.addedNodes.forEach((node) => {
+      if (node.nodeType !== Node.ELEMENT_NODE) return;
+      bindImageFallbacks(node.matches?.('img') ? (node.parentElement || document) : node);
+    }));
+  });
+  imageObserver.observe(document.body, { childList: true, subtree: true });
+  setSidebarCollapsed(localStorage.getItem('admin_sidebar_collapsed') === '1');
   initPortalPreview();
   document.querySelectorAll('.nav-item, .tab').forEach((tab) => {
     tab.addEventListener('click', () => toggleSection(tab.dataset.section));
@@ -2157,6 +2347,12 @@ document.addEventListener('DOMContentLoaded', () => {
     else openSidebar();
   });
   if (backdrop) backdrop.addEventListener('click', closeSidebar);
+  document.getElementById('sidebar-collapse')?.addEventListener('click', () => {
+    setSidebarCollapsed(!document.body.classList.contains('sidebar-collapsed'));
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && document.body.classList.contains('sidebar-open')) closeSidebar();
+  });
 
   setupImageFileInputs();
   const btnAddContact = document.getElementById('btn-add-contact');

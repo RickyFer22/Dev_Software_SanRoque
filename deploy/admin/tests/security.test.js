@@ -13,6 +13,7 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const { spawn } = require('child_process');
+const sharp = require('sharp');
 
 const PORT = 4123;
 const BASE = `http://127.0.0.1:${PORT}`;
@@ -166,6 +167,46 @@ async function test(name, fn) {
     const r = await req('POST', '/admin/api/upload-image', { cookie: adminCookie, body: { dataUrl: `data:image/png;base64,${PNG_1x1}` } });
     assert.strictEqual(r.status, 200);
     assert.ok(/^\/admin\/uploads\/[a-f0-9]{32}\.png$/.test(r.body.url), 'nombre aleatorio: ' + r.body.url);
+  });
+
+  let professionalMedia = null;
+  await test('media: carga multipart genera variantes WebP y AVIF', async () => {
+    const image = await sharp({ create: { width: 960, height: 640, channels: 3, background: '#355E4A' } }).png().toBuffer();
+    const form = new FormData();
+    form.append('files', new Blob([image], { type: 'image/png' }), 'turismo-prueba.png');
+    const response = await fetch(BASE + '/admin/api/media/upload', { method: 'POST', headers: { Cookie: adminCookie }, body: form });
+    const payload = await response.json();
+    assert.strictEqual(response.status, 201, JSON.stringify(payload));
+    professionalMedia = payload.media[0];
+    assert.match(professionalMedia.id, /^media_/);
+    assert.match(professionalMedia.variants.hero.url, /hero\.webp$/);
+    assert.match(professionalMedia.variants.social.avifUrl, /social\.avif$/);
+  });
+
+  await test('media: alt y epígrafe se editan y persisten', async () => {
+    const r = await req('PATCH', `/admin/api/media/${professionalMedia.id}`, { cookie: adminCookie, body: { alt: 'Patio gastronómico con vegetación', caption: 'Experiencia local' } });
+    assert.strictEqual(r.status, 200);
+    assert.strictEqual(r.body.alt, 'Patio gastronómico con vegetación');
+    const list = await req('GET', '/admin/api/media', { cookie: adminCookie });
+    assert.ok(list.body.media.some((item) => item.id === professionalMedia.id && item.caption === 'Experiencia local'));
+  });
+
+  let mediaAccommodationId = null;
+  await test('media: una imagen referenciada no se elimina', async () => {
+    const url = professionalMedia.variants.large.url;
+    const created = await req('POST', '/admin/api/alojamientos', { cookie: adminCookie, body: { titulo: 'Prueba multimedia', categoria: 'hotel', status: 'draft', mainImg: url, mediaGallery: [{ mediaId: professionalMedia.id, url, role: 'cover', order: 0 }] } });
+    assert.strictEqual(created.status, 201);
+    mediaAccommodationId = created.body.id;
+    const blocked = await req('DELETE', `/admin/api/media/${professionalMedia.id}`, { cookie: adminCookie });
+    assert.strictEqual(blocked.status, 409);
+    assert.ok(blocked.body.references.length >= 1);
+  });
+
+  await test('media: se elimina de forma segura al quedar huérfana', async () => {
+    const removedContent = await req('DELETE', `/admin/api/alojamientos/${mediaAccommodationId}`, { cookie: adminCookie });
+    assert.strictEqual(removedContent.status, 200);
+    const removedMedia = await req('DELETE', `/admin/api/media/${professionalMedia.id}`, { cookie: adminCookie });
+    assert.strictEqual(removedMedia.status, 200);
   });
 
   await test('publicar alojamiento con logo municipal => 400', async () => {

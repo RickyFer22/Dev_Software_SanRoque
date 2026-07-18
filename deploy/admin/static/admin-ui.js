@@ -11,8 +11,6 @@
     document.body.classList.toggle('editor-open', locked);
     const backdrop = document.getElementById('editor-backdrop');
     if (backdrop) backdrop.hidden = !locked;
-    const globalClose = document.getElementById('editor-close');
-    if (globalClose) globalClose.hidden = !locked;
   }
 
   function openEditor(resource, title) {
@@ -26,6 +24,7 @@
     panel.hidden = false;
     panel.dataset.state = 'open';
     panel.setAttribute('aria-hidden', 'false');
+    document.dispatchEvent(new CustomEvent('editor:opened', { detail: { resource } }));
     const heading = panel.querySelector('[data-editor-title]');
     if (heading && title) heading.textContent = title;
     setPageLocked(true);
@@ -34,7 +33,11 @@
     return true;
   }
 
-  function closeEditor() {
+  function closeEditor(force = false) {
+    if (!force && activeEditor && window.EditorWorkflow) {
+      window.EditorWorkflow.requestClose().then((allowed) => { if (allowed) closeEditor(true); });
+      return;
+    }
     if (activeEditor) {
       activeEditor.hidden = true;
       activeEditor.dataset.state = 'closed';

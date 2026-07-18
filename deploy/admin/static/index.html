@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/admin/static/admin.css" />
 </head>
 <body>
+  <a class="skip-link" href="#admin-main">Saltar al contenido principal</a>
   <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
 
   <div class="app-shell">
@@ -19,28 +20,29 @@
           <strong>Vivi San Roque</strong>
           <span>Panel admin</span>
         </div>
+        <button type="button" id="sidebar-collapse" class="sidebar-collapse" aria-label="Contraer menú" aria-expanded="true"><span data-icon="chevronLeft"></span></button>
       </div>
 
       <nav class="sidebar-nav">
         <div class="nav-group">
           <div class="nav-group-label">Contenido</div>
           <button type="button" class="nav-item tab active" data-section="overview" aria-current="page">
-            <span class="nav-icon">▣</span> Resumen
+            <span class="nav-icon" data-icon="dashboard"></span><span class="nav-label">Resumen</span>
           </button>
           <button type="button" class="nav-item tab" data-section="alojamientos">
-            <span class="nav-icon">⌂</span> Alojamientos
+            <span class="nav-icon" data-icon="bed"></span><span class="nav-label">Alojamientos</span>
           </button>
           <button type="button" class="nav-item tab" data-section="gastronomia">
-            <span class="nav-icon">◉</span> Gastronomía
+            <span class="nav-icon" data-icon="utensils"></span><span class="nav-label">Gastronomía</span>
           </button>
           <button type="button" class="nav-item tab" data-section="eventos">
-            <span class="nav-icon">◇</span> Eventos
+            <span class="nav-icon" data-icon="calendar"></span><span class="nav-label">Eventos</span>
           </button>
           <button type="button" class="nav-item tab" data-section="actividades">
-            <span class="nav-icon">☼</span> Qué hacer
+            <span class="nav-icon" data-icon="compass"></span><span class="nav-label">Lugares y experiencias</span>
           </button>
           <button type="button" class="nav-item tab" data-section="datos-utiles">
-            <span class="nav-icon">ℹ</span> Datos útiles
+            <span class="nav-icon" data-icon="info"></span><span class="nav-label">Servicios y datos útiles</span>
           </button>
         </div>
 
@@ -48,7 +50,7 @@
         <div class="nav-group">
           <div class="nav-group-label">Moderación</div>
           <button type="button" class="nav-item tab" data-section="tickets">
-            <span class="nav-icon">⚑</span> Tickets
+            <span class="nav-icon" data-icon="info"></span><span class="nav-label">Tickets</span>
           </button>
         </div>
         -->
@@ -56,28 +58,28 @@
         <div class="nav-group" data-nav-group="sistema">
           <div class="nav-group-label">Sistema</div>
           <button type="button" class="nav-item tab" data-section="users">
-            <span class="nav-icon">◎</span> Usuarios
+            <span class="nav-icon" data-icon="users"></span><span class="nav-label">Usuarios</span>
           </button>
           <button type="button" class="nav-item tab" data-section="uploads">
-            <span class="nav-icon">☁</span> Archivos
+            <span class="nav-icon" data-icon="image"></span><span class="nav-label">Multimedia</span>
           </button>
           <button type="button" class="nav-item tab" data-section="audit">
-            <span class="nav-icon">☰</span> Auditoría
+            <span class="nav-icon" data-icon="history"></span><span class="nav-label">Auditoría</span>
           </button>
           <button type="button" class="nav-item tab" data-section="bot-config">
-            <span class="nav-icon">◈</span> Bot y APIs
+            <span class="nav-icon" data-icon="bot"></span><span class="nav-label">Bot y APIs</span>
           </button>
           <button type="button" class="nav-item tab" data-section="observability">
-            <span class="nav-icon">◎</span> Observabilidad
+            <span class="nav-icon" data-icon="activity"></span><span class="nav-label">Observabilidad</span>
           </button>
           <button type="button" class="nav-item tab" data-section="seguridad">
-            <span class="nav-icon">⛨</span> Seguridad
+            <span class="nav-icon" data-icon="shield"></span><span class="nav-label">Seguridad</span>
           </button>
           <button type="button" class="nav-item tab" data-section="backup">
-            <span class="nav-icon">⇩</span> Backup
+            <span class="nav-icon" data-icon="backup"></span><span class="nav-label">Copias de seguridad</span>
           </button>
           <button type="button" class="nav-item tab" data-section="analytics">
-            <span class="nav-icon">▤</span> Analytics
+            <span class="nav-icon" data-icon="chart"></span><span class="nav-label">Analítica</span>
           </button>
         </div>
       </nav>
@@ -90,9 +92,11 @@
     <div class="main">
       <header class="topbar header">
         <div class="topbar-left">
-          <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰</button>
+          <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Abrir menú"><span data-icon="menu"></span></button>
           <div>
+            <nav id="admin-breadcrumb" class="admin-breadcrumb" aria-label="Ruta de navegación"><span>Panel</span><span aria-hidden="true">/</span><strong>Resumen</strong></nav>
             <h1 id="page-title">Resumen</h1>
+            <p id="page-description" class="page-description">Estado general del portal turístico.</p>
           </div>
         </div>
         <div class="topbar-actions">
@@ -106,7 +110,7 @@
         </div>
       </header>
 
-      <main class="content">
+      <main class="content" id="admin-main" tabindex="-1">
         <!-- RESUMEN -->
         <div id="overview" class="section active">
           <div class="kpi-grid">
@@ -219,69 +223,89 @@
                 <button type="button" class="active" data-status-filter="all" data-filter-resource="alojamientos">Todos</button>
                 <button type="button" data-status-filter="published" data-filter-resource="alojamientos">Publicados</button>
                 <button type="button" data-status-filter="draft" data-filter-resource="alojamientos">Borradores</button>
+                <button type="button" data-status-filter="review" data-filter-resource="alojamientos">En revisión</button>
+                <button type="button" data-status-filter="hidden" data-filter-resource="alojamientos">Ocultos</button>
                 <button type="button" data-status-filter="archived" data-filter-resource="alojamientos">Archivados</button>
               </div>
               <div id="alojamientos-list"></div>
             </div>
-            <aside class="card crud-form-panel editor-drawer" data-editor="alojamientos" hidden aria-label="Editor de alojamiento">
+            <aside class="card crud-form-panel editor-drawer premium-editor" data-editor="alojamientos" hidden aria-label="Editor de alojamiento">
               <div class="editor-head">
                 <div>
                   <span class="eyebrow">Contenido</span>
                   <h2 data-editor-title>Nuevo alojamiento</h2>
+                  <span class="unsaved-indicator" data-unsaved-indicator aria-live="polite">Todos los cambios guardados</span>
                 </div>
                 <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
               </div>
+              <div class="editor-tabs" data-editor-tabs="alojamiento" role="tablist" aria-label="Secciones del alojamiento">
+                <button type="button" role="tab" aria-selected="true" data-editor-tab="general">General</button>
+                <button type="button" role="tab" aria-selected="false" data-editor-tab="ubicacion">Ubicación</button>
+                <button type="button" role="tab" aria-selected="false" data-editor-tab="contacto">Contacto</button>
+                <button type="button" role="tab" aria-selected="false" data-editor-tab="detalles">Detalles</button>
+                <button type="button" role="tab" aria-selected="false" data-editor-tab="fotografias">Fotografías</button>
+                <button type="button" role="tab" aria-selected="false" data-editor-tab="seo">SEO y redes</button>
+                <button type="button" role="tab" aria-selected="false" data-editor-tab="publicacion">Publicación</button>
+              </div>
+              <div class="form-errors" data-form-errors hidden role="alert"></div>
+              <section class="editor-tab-panel active" data-editor-panel="general">
               <div class="toolbar">
                 <label>Título<input id="alojamiento-titulo" placeholder="Nuevo hotel" /></label>
-                <label>Categoría<input id="alojamiento-categoria" placeholder="hotel / hospedaje" /></label>
+                <label>Categoría<select id="alojamiento-categoria"><option value="">Seleccionar</option><option value="hotel">Hotel</option><option value="cabaña">Cabaña</option><option value="hospedaje">Hospedaje</option><option value="camping">Camping</option><option value="casa de alquiler">Casa de alquiler</option><option value="otro">Otro</option></select></label>
               </div>
+              <label>Descripción breve<input id="alojamiento-summary" maxlength="360" placeholder="Una frase clara para las tarjetas y la portada" /></label>
+              <label>Descripción completa<textarea id="alojamiento-descripcionLarga" placeholder="Contá la experiencia y la propuesta del alojamiento"></textarea></label>
+              </section>
+              <section class="editor-tab-panel" data-editor-panel="ubicacion" hidden>
               <div class="toolbar">
                 <label>Latitud<input id="alojamiento-lat" type="number" step="any" placeholder="-28.57" /></label>
                 <label>Longitud<input id="alojamiento-lon" type="number" step="any" placeholder="-58.71" /></label>
               </div>
               <div class="toolbar">
-                <label>Rating<input id="alojamiento-rating" placeholder="4.5" /></label>
-                <label>Ubicación<input id="alojamiento-ubicacion" placeholder="San Roque" /></label>
+                <label>Dirección o referencia<input id="alojamiento-ubicacion" placeholder="Dirección confirmada por el establecimiento" /></label>
+                <label>Google Maps<input id="alojamiento-mapsLink" type="url" placeholder="https://maps.google.com/…" /></label>
+              </div>
+              <p class="field-help">No se publicará un mapa si no hay coordenadas o enlace confirmado.</p>
+              </section>
+              <section class="editor-tab-panel" data-editor-panel="contacto" hidden>
+              <div class="toolbar">
+                <label>Teléfono<input id="alojamiento-telefono" inputmode="tel" placeholder="Número confirmado" /></label>
+                <label>WhatsApp<input id="alojamiento-waNumber" inputmode="tel" placeholder="549…" /></label>
               </div>
               <div class="toolbar">
-                <label>Imagen (URL)<input id="alojamiento-mainImg" placeholder="img/Hospedaje JR.jpeg" /></label>
-                <button type="button" class="cancel-button" data-media-target="alojamiento-mainImg" data-preview-target="alojamiento-image-preview">Elegir de Archivos</button>
-                <label>Visible en portal
-                  <select id="alojamiento-activo">
-                    <option value="1">Sí</option>
-                    <option value="0">No</option>
-                  </select>
-                </label>
+                <label>Sitio web<input id="alojamiento-website" type="url" placeholder="https://…" /></label>
+                <label>Instagram<input id="alojamiento-instagram" type="url" placeholder="https://instagram.com/…" /></label>
+                <label>Facebook<input id="alojamiento-facebook" type="url" placeholder="https://facebook.com/…" /></label>
               </div>
-              <div class="toolbar">
-                <label>Estado
-                  <select id="alojamiento-status">
-                    <option value="published">Publicado</option>
-                    <option value="draft">Borrador</option>
-                    <option value="archived">Archivado</option>
-                  </select>
-                </label>
-                <label>Subir imagen (permite múltiples)<input type="file" id="alojamiento-image-file" accept="image/*" multiple /><span id="alojamiento-upload-spinner" class="spinner" style="display: none;"></span></label>
-              </div>
-              <img id="alojamiento-image-preview" class="image-preview" src="" alt="Vista previa" />
-              <div class="toolbar">
-                <label>Teléfono<input id="alojamiento-telefono" placeholder="3777123456" /></label>
-                <label>WhatsApp<input id="alojamiento-waNumber" placeholder="5493777123456" /></label>
-              </div>
+              </section>
+              <section class="editor-tab-panel" data-editor-panel="detalles" hidden>
               <div class="toolbar">
                 <label>Check-in<input id="alojamiento-checkin" placeholder="14:00" /></label>
                 <label>Check-out<input id="alojamiento-checkout" placeholder="10:00" /></label>
-                <label>Cancelación<input id="alojamiento-cancelacion" placeholder="Flexible" /></label>
+                <label>Condiciones<input id="alojamiento-cancelacion" placeholder="Sólo información confirmada" /></label>
               </div>
-              <div class="toolbar">
-                <label>Galería (URLs de fotos separadas por coma)<input id="alojamiento-galeria" placeholder="img/foto1.jpg, img/foto2.jpg" /></label>
-              </div>
-              <div class="toolbar">
-                <label>Descripción<textarea id="alojamiento-descripcionLarga" placeholder="Descripción del alojamiento"></textarea></label>
-              </div>
+              <label>Servicios confirmados<input id="alojamiento-serviciosText" placeholder="Wi-Fi, estacionamiento, desayuno…" /></label>
+              <label>Etiquetas<input id="alojamiento-tags" placeholder="naturaleza, familiar, céntrico" /></label>
+              </section>
+              <section class="editor-tab-panel" data-editor-panel="fotografias" hidden>
+                <div class="media-guidance"><strong>Portada recomendada: 16:9 y al menos 1600 × 900 px.</strong><span>Subí JPG, PNG, WebP o AVIF. Podés ordenar, describir y elegir la portada.</span></div>
+                <input type="hidden" id="alojamiento-mainImg" /><input type="hidden" id="alojamiento-galeria" />
+                <input type="file" id="alojamiento-image-file" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden />
+                <div class="content-media-gallery" data-media-gallery="alojamientos" aria-live="polite"></div>
+              </section>
+              <section class="editor-tab-panel" data-editor-panel="seo" hidden>
+                <div class="toolbar"><label>Slug<input id="alojamiento-slug" placeholder="nombre-del-alojamiento" /></label><label>Título SEO<input id="alojamiento-seoTitle" maxlength="70" /></label></div>
+                <label>Descripción SEO<textarea id="alojamiento-seoDescription" maxlength="170"></textarea></label>
+              </section>
+              <section class="editor-tab-panel" data-editor-panel="publicacion" hidden>
+                <div class="toolbar"><label>Estado<select id="alojamiento-status"><option value="draft">Borrador</option><option value="review">En revisión</option><option value="published">Publicado</option><option value="hidden">Oculto</option><option value="archived">Archivado</option></select></label><label>Visible en portal<select id="alojamiento-activo"><option value="1">Sí</option><option value="0">No</option></select></label><label>Programar publicación<input id="alojamiento-publishAt" type="datetime-local" /></label></div>
+                <label class="checkbox-field"><input id="alojamiento-featured" type="checkbox" /> Destacar en el portal</label>
+                <button type="button" class="cancel-button" data-preview-content="alojamientos">Vista previa</button>
+              </section>
+              <img id="alojamiento-image-preview" class="image-preview" src="" alt="Vista previa de portada" hidden />
               <div id="edit-state-alojamientos" class="small"></div>
-              <div class="toolbar">
-                <button type="button" data-action="submit" data-resource="alojamientos">Guardar</button>
+              <div class="toolbar editor-actions">
+                <button type="button" data-action="submit" data-resource="alojamientos">Guardar cambios</button>
                 <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="alojamientos">Cancelar</button>
               </div>
             </div>
@@ -303,64 +327,58 @@
                 <button type="button" class="active" data-status-filter="all" data-filter-resource="gastronomia">Todos</button>
                 <button type="button" data-status-filter="published" data-filter-resource="gastronomia">Publicados</button>
                 <button type="button" data-status-filter="draft" data-filter-resource="gastronomia">Borradores</button>
+                <button type="button" data-status-filter="review" data-filter-resource="gastronomia">En revisión</button>
+                <button type="button" data-status-filter="hidden" data-filter-resource="gastronomia">Ocultos</button>
                 <button type="button" data-status-filter="archived" data-filter-resource="gastronomia">Archivados</button>
               </div>
               <div id="gastronomia-list"></div>
             </div>
-            <aside class="card crud-form-panel editor-drawer" data-editor="gastronomia" hidden aria-label="Editor de local gastronómico">
+            <aside class="card crud-form-panel editor-drawer premium-editor" data-editor="gastronomia" hidden aria-label="Editor de local gastronómico">
               <div class="editor-head">
                 <div>
                   <span class="eyebrow">Contenido</span>
                   <h2 data-editor-title>Nuevo local gastronómico</h2>
+                  <span class="unsaved-indicator" data-unsaved-indicator aria-live="polite">Todos los cambios guardados</span>
                 </div>
                 <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
               </div>
+              <div class="editor-tabs" data-editor-tabs="gastronomia" role="tablist" aria-label="Secciones del local gastronómico"><button type="button" role="tab" aria-selected="true" data-editor-tab="general">General</button><button type="button" role="tab" aria-selected="false" data-editor-tab="ubicacion">Ubicación</button><button type="button" role="tab" aria-selected="false" data-editor-tab="contacto">Contacto</button><button type="button" role="tab" aria-selected="false" data-editor-tab="detalles">Propuesta</button><button type="button" role="tab" aria-selected="false" data-editor-tab="fotografias">Fotografías</button><button type="button" role="tab" aria-selected="false" data-editor-tab="seo">SEO y redes</button><button type="button" role="tab" aria-selected="false" data-editor-tab="publicacion">Publicación</button></div>
+              <div class="form-errors" data-form-errors hidden role="alert"></div>
+              <section class="editor-tab-panel active" data-editor-panel="general">
               <div class="toolbar">
                 <label>Nombre<input id="gastronomia-nombre" placeholder="Nuevo comedor" /></label>
-                <label>Tipo<input id="gastronomia-tipo" placeholder="comedor" /></label>
+                <label>Tipo<select id="gastronomia-tipo"><option value="">Seleccionar</option><option value="restaurante">Restaurante</option><option value="comedor">Comedor</option><option value="bar">Bar</option><option value="cafetería">Cafetería</option><option value="emprendimiento">Emprendimiento</option><option value="otro">Otro</option></select></label>
               </div>
+              <label>Descripción breve<input id="gastronomia-summary" maxlength="360" placeholder="Especialidad o propuesta principal" /></label><label>Descripción completa<textarea id="gastronomia-descripcion" placeholder="Historia, cocina y experiencia"></textarea></label>
+              </section><section class="editor-tab-panel" data-editor-panel="ubicacion" hidden>
               <div class="toolbar">
                 <label>Dirección<input id="gastronomia-direccion" placeholder="Dirección" /></label>
-                <label>Horario<input id="gastronomia-horario" placeholder="08:00 - 22:00" /></label>
+                <label>Enlace de Google Maps<input id="gastronomia-mapsLink" type="url" placeholder="https://maps.google.com/…" /></label>
+                <label>Latitud<input id="gastronomia-lat" type="number" step="any" /></label><label>Longitud<input id="gastronomia-lon" type="number" step="any" /></label>
               </div>
+              </section><section class="editor-tab-panel" data-editor-panel="contacto" hidden>
               <div class="toolbar">
-                <label>Imagen (URL)<input id="gastronomia-imagen" placeholder="img/Comedor Ariana.jpeg" /></label>
-                <button type="button" class="cancel-button" data-media-target="gastronomia-imagen" data-preview-target="gastronomia-image-preview">Elegir de Archivos</button>
-                <label>Visible en portal
-                  <select id="gastronomia-activo">
-                    <option value="1">Sí</option>
-                    <option value="0">No</option>
-                  </select>
-                </label>
+                <label>Teléfono<input id="gastronomia-telefono" inputmode="tel" /></label><label>WhatsApp<input id="gastronomia-whatsapp" inputmode="tel" /></label><label>Sitio web<input id="gastronomia-website" type="url" /></label>
               </div>
+              <div class="toolbar"><label>Instagram<input id="gastronomia-instagram" type="url" /></label><label>Facebook<input id="gastronomia-facebook" type="url" /></label></div>
+              </section><section class="editor-tab-panel" data-editor-panel="detalles" hidden>
               <div class="toolbar">
-                <label>Estado
-                  <select id="gastronomia-status">
-                    <option value="published">Publicado</option>
-                    <option value="draft">Borrador</option>
-                    <option value="archived">Archivado</option>
-                  </select>
-                </label>
-                <label>Subir imagen (permite múltiples)<input type="file" id="gastronomia-image-file" accept="image/*" multiple /><span id="gastronomia-upload-spinner" class="spinner" style="display: none;"></span></label>
+                <label>Horarios<input id="gastronomia-horario" placeholder="Información confirmada" /></label><label>Especialidades<input id="gastronomia-specialties" placeholder="Platos regionales, pastas…" /></label>
               </div>
-              <img id="gastronomia-image-preview" class="image-preview" src="" alt="Vista previa" />
-              <div class="toolbar">
-                <label>Teléfono<input id="gastronomia-telefono" placeholder="3777123456" /></label>
-                <label>WhatsApp<input id="gastronomia-whatsapp" placeholder="5493777123456" /></label>
-              </div>
-              <div class="toolbar">
-                <label>Enlace de Google Maps<input id="gastronomia-mapsLink" placeholder="https://maps.google.com/?q=..." /></label>
-              </div>
-              <div class="toolbar">
-                <label>Servicios (Separados por coma)<input id="gastronomia-servicios" placeholder="wifi, aire_acondicionado" /></label>
-                <label>Galería (URLs de fotos separadas por coma)<input id="gastronomia-galeria" placeholder="img/foto1.jpg, img/foto2.jpg" /></label>
-              </div>
-              <div class="toolbar">
-                <label>Descripción<textarea id="gastronomia-descripcion" placeholder="Descripción"></textarea></label>
-              </div>
+              <label>Servicios y opciones<input id="gastronomia-servicios" placeholder="En el lugar, para llevar, reservas, Wi-Fi…" /></label><label>Etiquetas<input id="gastronomia-tags" placeholder="regional, familiar, meriendas" /></label>
+              </section><section class="editor-tab-panel" data-editor-panel="fotografias" hidden>
+                <div class="media-guidance"><strong>Mostrá platos y el ambiente con luz natural.</strong><span>Portada horizontal de al menos 1600 × 900 px.</span></div>
+                <input type="hidden" id="gastronomia-imagen" /><input type="hidden" id="gastronomia-galeria" /><input type="file" id="gastronomia-image-file" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden />
+                <div class="content-media-gallery" data-media-gallery="gastronomia" aria-live="polite"></div>
+              </section><section class="editor-tab-panel" data-editor-panel="seo" hidden>
+                <div class="toolbar"><label>Slug<input id="gastronomia-slug" /></label><label>Título SEO<input id="gastronomia-seoTitle" maxlength="70" /></label></div><label>Descripción SEO<textarea id="gastronomia-seoDescription" maxlength="170"></textarea></label>
+              </section><section class="editor-tab-panel" data-editor-panel="publicacion" hidden>
+                <div class="toolbar"><label>Estado<select id="gastronomia-status"><option value="draft">Borrador</option><option value="review">En revisión</option><option value="published">Publicado</option><option value="hidden">Oculto</option><option value="archived">Archivado</option></select></label><label>Visible en portal<select id="gastronomia-activo"><option value="1">Sí</option><option value="0">No</option></select></label><label>Programar publicación<input id="gastronomia-publishAt" type="datetime-local" /></label></div><label class="checkbox-field"><input id="gastronomia-featured" type="checkbox" /> Destacar en el portal</label><button type="button" class="cancel-button" data-preview-content="gastronomia">Vista previa</button>
+              </section>
+              <img id="gastronomia-image-preview" class="image-preview" src="" alt="Vista previa de portada" hidden />
               <div id="edit-state-gastronomia" class="small"></div>
-              <div class="toolbar">
-                <button type="button" data-action="submit" data-resource="gastronomia">Guardar</button>
+              <div class="toolbar editor-actions">
+                <button type="button" data-action="submit" data-resource="gastronomia">Guardar cambios</button>
                 <button type="button" class="cancel-button" data-action="cancel-edit" data-resource="gastronomia">Cancelar</button>
               </div>
             </div>
@@ -624,11 +642,19 @@
 
         <!-- UPLOADS -->
         <div id="uploads" class="section">
-          <div class="card">
-            <h2>Archivos subidos</h2>
-            <p class="small">Miniaturas y rutas públicas. Copiá la URL para usarla en alojamientos o gastronomía.</p>
+          <div class="card media-uploader-card">
+            <div class="panel-title"><div><span class="eyebrow">Biblioteca multimedia</span><h2>Fotografías del portal</h2></div><span class="media-limit">Hasta 12 imágenes · 5 MB cada una</span></div>
+            <label id="media-dropzone" class="media-dropzone" tabindex="0">
+              <input id="media-upload-input" type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden />
+              <span class="media-dropzone-icon" data-icon="image"></span>
+              <strong>Arrastrá fotografías aquí</strong>
+              <span>o presioná para elegir JPG, PNG, WebP o AVIF</span>
+              <small>Recomendado: 1600 px de ancho o más. El sistema genera automáticamente seis tamaños WebP y AVIF.</small>
+            </label>
+            <div id="media-upload-queue" class="media-upload-queue" aria-live="polite"></div>
           </div>
           <div class="toolbar">
+            <label>Buscar<input id="media-library-search" data-search-resource="uploads" type="search" placeholder="Nombre, alt o epígrafe" /></label>
             <button type="button" data-action="load" data-resource="uploads">Actualizar lista</button>
           </div>
           <div id="uploads-list" class="uploads-grid"></div>
@@ -798,7 +824,6 @@
 
   <div class="toast-host" id="toast-host" aria-live="polite"></div>
 
-  <button type="button" id="editor-close" class="editor-global-close" data-editor-close hidden aria-label="Cerrar editor">×</button>
   <button type="button" id="editor-backdrop" class="editor-backdrop" hidden aria-label="Cerrar editor"></button>
   <template id="row-actions-menu-template">
     <details class="more-actions">
@@ -829,7 +854,10 @@
     <div id="media-picker-grid" class="uploads-grid"></div>
   </section>
 
+  <script src="/admin/static/icons.js"></script>
   <script src="/admin/static/admin-ui.js"></script>
+  <script src="/admin/static/media-manager.js"></script>
+  <script src="/admin/static/editor-workflow.js"></script>
   <script src="/admin/static/app.js"></script>
 </body>
 </html>

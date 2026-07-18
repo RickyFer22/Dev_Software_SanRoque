@@ -9,6 +9,8 @@ const cors = require('cors');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const helmet = require('helmet');
+const multer = require('multer');
+const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -31,8 +33,19 @@ const IMAGE_SIGNATURES = [
   { mime: 'image/webp', test: (b) => b.length > 12 && b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP' },
   { mime: 'image/jpeg', test: (b) => b.length > 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
   { mime: 'image/png', test: (b) => b.length > 8 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 },
+  { mime: 'image/avif', test: (b) => b.length > 16 && b.toString('ascii', 4, 12).includes('ftyp') && /avif|avis/.test(b.toString('ascii', 8, 32)) },
 ];
 const MAX_UPLOAD_BYTES = parseInt(process.env.MAX_UPLOAD_BYTES || String(5 * 1024 * 1024), 10); // 5 MB
+const MAX_UPLOAD_BATCH = 12;
+const STORE_SCHEMA_VERSION = 2;
+const MEDIA_VARIANTS = Object.freeze({
+  thumb: { width: 320, height: 240, fit: 'cover' },
+  card: { width: 720, height: 540, fit: 'cover' },
+  medium: { width: 1080, height: 810, fit: 'inside' },
+  large: { width: 1600, height: 1200, fit: 'inside' },
+  hero: { width: 1920, height: 1080, fit: 'cover' },
+  social: { width: 1200, height: 630, fit: 'cover' },
+});
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '4000', 10);
@@ -76,11 +89,48 @@ if (process.env.NODE_ENV === 'production' && process.env.ADMIN_DEV_PASSWORD) {
 
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-app.use('/admin/uploads', express.static(UPLOAD_DIR));
+app.use('/admin/uploads', express.static(UPLOAD_DIR, {
+  maxAge: IS_PROD ? '365d' : 0,
+  immutable: IS_PROD,
+  fallthrough: false,
+}));
+
+const mediaUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: MAX_UPLOAD_BYTES, files: MAX_UPLOAD_BATCH, fields: 20 },
+  fileFilter: (_req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+    cb(allowed.includes(String(file.mimetype).toLowerCase()) ? null : new Error('Formato no admitido.'), allowed.includes(String(file.mimetype).toLowerCase()));
+  },
+});
+
+function legacyGalleryToMedia(item) {
+  if (Array.isArray(item.mediaGallery)) return item.mediaGallery;
+  const cover = item.mainImg || item.imagen || '';
+  const gallery = Array.isArray(item.galeria) ? item.galeria : [];
+  return [...new Set([cover, ...gallery].filter(Boolean))].map((url, order) => ({
+    mediaId: '', url, alt: '', caption: '', role: order === 0 ? 'cover' : 'gallery', order,
+  }));
+}
+
+function normalizeEditorialRecord(item) {
+  if (!item || typeof item !== 'object') return item;
+  const next = Object.assign({}, item);
+  next.mediaGallery = legacyGalleryToMedia(next);
+  next.slug = next.slug || '';
+  next.seoTitle = next.seoTitle || '';
+  next.seoDescription = next.seoDescription || '';
+  next.tags = Array.isArray(next.tags) ? next.tags : [];
+  next.history = Array.isArray(next.history) ? next.history : [];
+  next.status = ['draft', 'review', 'published', 'hidden', 'archived'].includes(String(next.status).toLowerCase())
+    ? String(next.status).toLowerCase() : 'published';
+  return next;
+}
 
 function buildInitialStore() {
   const now = new Date().toISOString();
   return {
+    schemaVersion: STORE_SCHEMA_VERSION,
     alojamientos: [],
     gastronomia: [],
     eventos: [],
@@ -94,6 +144,7 @@ function buildInitialStore() {
     audit: [],
     bot_logs: [],
     system_logs: [],
+    media: [],
     migrations: [],
     bot_settings: defaultBotSettings(process.env),
     createdAt: now,
@@ -103,9 +154,11 @@ function buildInitialStore() {
 function normalizeStore(store) {
   if (!store || typeof store !== 'object') return buildInitialStore();
   return {
-    alojamientos: Array.isArray(store.alojamientos) ? store.alojamientos : [],
-    gastronomia: Array.isArray(store.gastronomia) ? store.gastronomia : [],
-    eventos: Array.isArray(store.eventos) ? store.eventos : [],
+    ...store,
+    schemaVersion: STORE_SCHEMA_VERSION,
+    alojamientos: Array.isArray(store.alojamientos) ? store.alojamientos.map(normalizeEditorialRecord) : [],
+    gastronomia: Array.isArray(store.gastronomia) ? store.gastronomia.map(normalizeEditorialRecord) : [],
+    eventos: Array.isArray(store.eventos) ? store.eventos.map(normalizeEditorialRecord) : [],
     datos_utiles: Array.isArray(store.datos_utiles) ? store.datos_utiles : [],
     actividades: Array.isArray(store.actividades) ? store.actividades : [],
     users: Array.isArray(store.users) ? store.users : [],
@@ -116,6 +169,7 @@ function normalizeStore(store) {
     audit: Array.isArray(store.audit) ? store.audit : [],
     bot_logs: Array.isArray(store.bot_logs) ? store.bot_logs.slice(0, BOT_LOG_LIMIT) : [],
     system_logs: Array.isArray(store.system_logs) ? store.system_logs.slice(0, SYSTEM_LOG_LIMIT) : [],
+    media: Array.isArray(store.media) ? store.media : [],
     migrations: Array.isArray(store.migrations) ? store.migrations : [],
     bot_settings: (store.bot_settings && Array.isArray(store.bot_settings.apis))
       ? normalizeBotSettings(store.bot_settings, store.bot_settings)
@@ -362,11 +416,11 @@ app.use((req, res, next) => {
 app.get('/api/data', (req, res) => {
   const store = loadStore();
   res.json({
-    alojamientos: store.alojamientos || [],
-    gastronomia: store.gastronomia || [],
-    eventos: store.eventos || [],
+    alojamientos: (store.alojamientos || []).filter(isPublicItem).map((item) => hydratePublicItem(store, item)),
+    gastronomia: (store.gastronomia || []).filter(isPublicItem).map((item) => hydratePublicItem(store, item)),
+    eventos: (store.eventos || []).filter(isPublicItem).map((item) => hydratePublicItem(store, item)),
     datosUtiles: transformDatosUtilesForPublic(store.datos_utiles || []),
-    actividades: store.actividades || [],
+    actividades: (store.actividades || []).filter(isPublicItem).map((item) => hydratePublicItem(store, item)),
     ratings: computeRatings(store),
   });
 });
@@ -385,7 +439,8 @@ function publicBaseUrl(req) {
 function isPublicItem(item) {
   if (!item) return false;
   const status = String(item.status || 'published').toLowerCase();
-  if (status === 'draft' || status === 'archived' || status === 'inactive') return false;
+  if (['draft', 'review', 'hidden', 'archived', 'inactive'].includes(status)) return false;
+  if (item.publishAt && new Date(item.publishAt).getTime() > Date.now()) return false;
   if (item.activo === false || item.activo === 0 || item.activo === 'false') return false;
   return true;
 }
@@ -800,6 +855,138 @@ app.post('/admin/api/upload-image', (req, res) => {
   res.json({ url: `/admin/uploads/${fileName}`, mime: detected.mime, webp: detected.mime === 'image/webp' });
 });
 
+function hydratePublicItem(store, item) {
+  const mediaById = new Map((store.media || []).map((media) => [media.id, media]));
+  return {
+    ...item,
+    mediaGallery: (item.mediaGallery || []).map((entry) => {
+      const media = mediaById.get(entry.mediaId);
+      return media ? { ...entry, variants: media.variants, width: media.width, height: media.height, mime: media.mime } : entry;
+    }),
+  };
+}
+
+async function createMediaRecord(file, req) {
+  if (!file || !Buffer.isBuffer(file.buffer)) throw new Error('No se recibió una imagen.');
+  const detected = IMAGE_SIGNATURES.find((sig) => sig.test(file.buffer));
+  if (!detected) throw new Error('El archivo no es una imagen JPG, PNG, WebP o AVIF válida.');
+
+  const image = sharp(file.buffer, { failOn: 'warning', limitInputPixels: 40_000_000 }).rotate();
+  const metadata = await image.metadata();
+  if (!metadata.width || !metadata.height) throw new Error('No se pudieron leer las dimensiones de la imagen.');
+  if (metadata.width < 480 || metadata.height < 320) throw new Error('La imagen es demasiado pequeña. Mínimo recomendado: 480 × 320 px.');
+
+  const id = `media_${crypto.randomUUID()}`;
+  const mediaDir = path.join(UPLOAD_DIR, id);
+  if (!path.resolve(mediaDir).startsWith(`${path.resolve(UPLOAD_DIR)}${path.sep}`)) throw new Error('Ruta multimedia inválida.');
+  fs.mkdirSync(mediaDir, { recursive: true });
+
+  const variants = {};
+  try {
+    for (const [name, options] of Object.entries(MEDIA_VARIANTS)) {
+      const webpName = `${name}.webp`;
+      const avifName = `${name}.avif`;
+      const resize = { width: options.width, height: options.height, fit: options.fit, withoutEnlargement: true, position: 'attention' };
+      const webpInfo = await sharp(file.buffer).rotate().resize(resize).webp({ quality: name === 'thumb' ? 76 : 84, effort: 4 }).toFile(path.join(mediaDir, webpName));
+      const avifInfo = await sharp(file.buffer).rotate().resize(resize).avif({ quality: name === 'thumb' ? 48 : 56, effort: 4 }).toFile(path.join(mediaDir, avifName));
+      variants[name] = {
+        url: `/admin/uploads/${id}/${webpName}`,
+        avifUrl: `/admin/uploads/${id}/${avifName}`,
+        width: webpInfo.width,
+        height: webpInfo.height,
+        bytes: webpInfo.size,
+        avifBytes: avifInfo.size,
+        mime: 'image/webp',
+      };
+    }
+  } catch (error) {
+    fs.rmSync(mediaDir, { recursive: true, force: true });
+    throw error;
+  }
+
+  return {
+    id,
+    filename: sanitizeString(file.originalname || 'imagen', 180),
+    mime: detected.mime,
+    width: metadata.width,
+    height: metadata.height,
+    aspectRatio: Number((metadata.width / metadata.height).toFixed(4)),
+    bytes: file.size,
+    alt: '',
+    caption: '',
+    credit: '',
+    variants,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    createdBy: req.admin.user,
+  };
+}
+
+function mediaReferences(store, mediaId) {
+  const refs = [];
+  ['alojamientos', 'gastronomia', 'eventos', 'actividades'].forEach((collection) => {
+    (store[collection] || []).forEach((item) => {
+      if ((item.mediaGallery || []).some((entry) => entry.mediaId === mediaId)) refs.push({ collection, id: item.id });
+    });
+  });
+  return refs;
+}
+
+function requireMediaManager(req, res, next) {
+  if (!canManageUploads(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  next();
+}
+
+app.get('/admin/api/media', (req, res) => {
+  if (!canManageUploads(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const store = loadStore();
+  res.json({ media: (store.media || []).map((item) => ({ ...item, usage: mediaReferences(store, item.id) })) });
+});
+
+app.post('/admin/api/media/upload', requireMediaManager, mediaUpload.array('files', MAX_UPLOAD_BATCH), async (req, res) => {
+  if (!req.files || !req.files.length) return res.status(400).json({ error: 'Seleccioná al menos una imagen.' });
+  const created = [];
+  try {
+    for (const file of req.files) created.push(await createMediaRecord(file, req));
+    const store = loadStore();
+    store.media = [...created, ...(store.media || [])];
+    saveStore(store);
+    created.forEach((item) => recordAudit('upload', 'media', item.id, req, { filename: item.filename, bytes: item.bytes }));
+    return res.status(201).json({ media: created });
+  } catch (error) {
+    created.forEach((item) => fs.rmSync(path.join(UPLOAD_DIR, item.id), { recursive: true, force: true }));
+    return res.status(415).json({ error: error.message || 'No se pudo procesar la imagen.' });
+  }
+});
+
+app.patch('/admin/api/media/:id', (req, res) => {
+  if (!canManageUploads(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const store = loadStore();
+  const item = (store.media || []).find((entry) => entry.id === req.params.id);
+  if (!item) return sendNotFound(res);
+  item.alt = sanitizeString(req.body.alt ?? item.alt, 240);
+  item.caption = sanitizeString(req.body.caption ?? item.caption, 500);
+  item.credit = sanitizeString(req.body.credit ?? item.credit, 180);
+  item.updatedAt = new Date().toISOString();
+  saveStore(store);
+  recordAudit('update', 'media', item.id, req, { alt: item.alt, caption: item.caption, credit: item.credit });
+  res.json(item);
+});
+
+app.delete('/admin/api/media/:id', (req, res) => {
+  if (!canDelete('uploads', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const store = loadStore();
+  const index = (store.media || []).findIndex((entry) => entry.id === req.params.id);
+  if (index < 0) return sendNotFound(res);
+  const references = mediaReferences(store, req.params.id);
+  if (references.length) return res.status(409).json({ error: 'La imagen está en uso y no puede eliminarse.', references });
+  const [item] = store.media.splice(index, 1);
+  fs.rmSync(path.join(UPLOAD_DIR, item.id), { recursive: true, force: true });
+  saveStore(store);
+  recordAudit('delete', 'media', item.id, req, { filename: item.filename });
+  res.json({ success: true });
+});
+
 // --- Authentication endpoints ---
 // Hash señuelo para comparar en tiempo constante cuando el usuario no existe
 // (mitiga enumeración por temporización). Se calcula una vez al arrancar.
@@ -983,9 +1170,9 @@ function validateAndSanitize(collection, data) {
       out.status = (sanitizeString(data.status || 'published', 30)).toLowerCase();
       out.telefono = sanitizeString(data.telefono || '', 40);
       out.waNumber = sanitizeString(data.waNumber || '', 40);
-      out.checkin = sanitizeString(data.checkin || '14:00', 40);
-      out.checkout = sanitizeString(data.checkout || '10:00', 40);
-      out.cancelacion = sanitizeString(data.cancelacion || 'Flexible', 100);
+      out.checkin = sanitizeString(data.checkin || '', 40);
+      out.checkout = sanitizeString(data.checkout || '', 40);
+      out.cancelacion = sanitizeString(data.cancelacion || '', 100);
       
       // Parsear galeria (array de strings)
       if (Array.isArray(data.galeria)) {
@@ -1081,6 +1268,52 @@ function validateAndSanitize(collection, data) {
         else if (typeof v === 'number' || typeof v === 'boolean') out[k] = v;
         else if (typeof v === 'object') out[k] = v;
       }
+  }
+
+  if (['alojamientos', 'gastronomia', 'eventos', 'actividades'].includes(collection)) {
+    const validStatuses = ['draft', 'review', 'published', 'hidden', 'archived'];
+    out.status = validStatuses.includes(String(out.status || data.status).toLowerCase())
+      ? String(out.status || data.status).toLowerCase() : 'draft';
+    if (['hidden', 'archived'].includes(out.status)) out.activo = 0;
+    out.summary = sanitizeString(data.summary || data.descripcionBreve || '', 360);
+    out.tags = Array.isArray(data.tags) ? data.tags.map((tag) => sanitizeString(tag, 60)).filter(Boolean).slice(0, 20) : [];
+    out.featured = Boolean(data.featured);
+    out.featuredOrder = Math.max(0, Math.round(toNumber(data.featuredOrder, 0)));
+    out.slug = sanitizeString(data.slug || '', 120).toLowerCase().replace(/[^a-z0-9áéíóúñü-]+/gi, '-').replace(/^-+|-+$/g, '');
+    out.seoTitle = sanitizeString(data.seoTitle || '', 70);
+    out.seoDescription = sanitizeString(data.seoDescription || '', 170);
+    out.canonical = sanitizeString(data.canonical || '', 300);
+    out.socialImage = sanitizeString(data.socialImage || '', 400);
+    out.publishAt = sanitizeString(data.publishAt || '', 40);
+    out.website = sanitizeString(data.website || '', 300);
+    out.mapsLink = sanitizeString(data.mapsLink || out.mapsLink || '', 300);
+    out.instagram = sanitizeString(data.instagram || '', 300);
+    out.facebook = sanitizeString(data.facebook || '', 300);
+    out.paymentMethods = Array.isArray(data.paymentMethods) ? data.paymentMethods.map((value) => sanitizeString(value, 60)).filter(Boolean) : [];
+    out.specialties = Array.isArray(data.specialties) ? data.specialties.map((value) => sanitizeString(value, 100)).filter(Boolean) : [];
+    out.consumptionOptions = Array.isArray(data.consumptionOptions) ? data.consumptionOptions.map((value) => sanitizeString(value, 60)).filter(Boolean) : [];
+    out.accessibility = Array.isArray(data.accessibility) ? data.accessibility.map((value) => sanitizeString(value, 100)).filter(Boolean) : [];
+    out.mediaGallery = Array.isArray(data.mediaGallery) ? data.mediaGallery.slice(0, 60).map((entry, index) => ({
+      mediaId: sanitizeString(entry?.mediaId || '', 100),
+      url: sanitizeString(entry?.url || '', 400),
+      alt: sanitizeString(entry?.alt || '', 240),
+      caption: sanitizeString(entry?.caption || '', 500),
+      role: ['cover', 'card', 'gallery', 'social'].includes(entry?.role) ? entry.role : 'gallery',
+      order: Number.isFinite(Number(entry?.order)) ? Number(entry.order) : index,
+      focalPoint: {
+        x: Math.min(100, Math.max(0, toNumber(entry?.focalPoint?.x, 50))),
+        y: Math.min(100, Math.max(0, toNumber(entry?.focalPoint?.y, 50))),
+      },
+    })).filter((entry) => entry.url) : legacyGalleryToMedia(data);
+    out.mediaGallery.sort((a, b) => a.order - b.order);
+    const cover = out.mediaGallery.find((entry) => entry.role === 'cover') || out.mediaGallery[0];
+    const social = out.mediaGallery.find((entry) => entry.role === 'social');
+    if (cover) {
+      if (collection === 'alojamientos') out.mainImg = cover.url;
+      else out.imagen = cover.url;
+    }
+    if (!out.socialImage && social) out.socialImage = social.url;
+    out.galeria = out.mediaGallery.filter((entry) => entry !== cover).map((entry) => entry.url);
   }
   return out;
 }
@@ -1237,6 +1470,12 @@ function resourceRoutes(basePath, name) {
     try {
       const payload = validateAndSanitize(name, req.body || {});
       assertPublishedImage(name, payload);
+      if (['alojamientos', 'gastronomia', 'eventos', 'actividades'].includes(name)) {
+        payload.revision = 1;
+        payload.updatedBy = req.admin.user;
+        payload.history = [{ action: 'create', status: payload.status, user: req.admin.user, at: new Date().toISOString(), revision: 1 }];
+        if (payload.status === 'published') payload.publishedAt = new Date().toISOString();
+      }
       const item = createResource(name, payload);
       recordAudit('create', name, item.id, req, item);
       return res.status(201).json(item);
@@ -1250,6 +1489,21 @@ function resourceRoutes(basePath, name) {
     try {
       const payload = validateAndSanitize(name, req.body || {});
       assertPublishedImage(name, payload);
+      const previous = getResource(name, req.params.id);
+      if (previous && ['alojamientos', 'gastronomia', 'eventos', 'actividades'].includes(name)) {
+        payload.revision = Number(previous.revision || 0) + 1;
+        payload.updatedBy = req.admin.user;
+        payload.history = [...(Array.isArray(previous.history) ? previous.history : []), {
+          action: previous.status === payload.status ? 'update' : 'status-change',
+          from: previous.status,
+          status: payload.status,
+          user: req.admin.user,
+          at: new Date().toISOString(),
+          revision: payload.revision,
+        }].slice(-50);
+        if (payload.status === 'published' && !previous.publishedAt) payload.publishedAt = new Date().toISOString();
+        else if (previous.publishedAt) payload.publishedAt = previous.publishedAt;
+      }
       const result = updateResource(name, req.params.id, payload);
       if (!result) return sendNotFound(res);
       recordAudit('update', name, req.params.id, req, payload);
@@ -1520,6 +1774,16 @@ function serveAdminSpa(req, res) {
 }
 app.get('/admin', serveAdminSpa);
 app.get('/admin/*', serveAdminSpa);
+
+app.use((error, req, res, next) => {
+  if (!error) return next();
+  if (error instanceof multer.MulterError || /Formato no admitido/.test(error.message || '')) {
+    const status = error.code === 'LIMIT_FILE_SIZE' ? 413 : 400;
+    return res.status(status).json({ error: error.code === 'LIMIT_FILE_SIZE' ? 'Una imagen supera el peso máximo permitido.' : (error.message || 'Carga multimedia inválida.') });
+  }
+  recordSystemLog('error', 'request_error', { message: error.message || 'Error', path: req.path }, req);
+  return res.status(500).json({ error: 'No se pudo completar la operación.' });
+});
 
 // Fallback 404
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));

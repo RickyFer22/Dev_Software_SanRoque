@@ -8,7 +8,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
 test('admin carga el controlador visual antes de la aplicacion', () => {
   const html = read('deploy/admin/static/index.html');
-  assert.match(html, /<script src="\/admin\/static\/admin-ui\.js"><\/script>\s*<script src="\/admin\/static\/app\.js"><\/script>/);
+  assert.match(html, /<script src="\/admin\/static\/icons\.js"><\/script>\s*<script src="\/admin\/static\/admin-ui\.js"><\/script>\s*<script src="\/admin\/static\/media-manager\.js"><\/script>\s*<script src="\/admin\/static\/editor-workflow\.js"><\/script>\s*<script src="\/admin\/static\/app\.js"><\/script>/);
 });
 
 test('los CRUD usan editores bajo demanda', () => {
@@ -17,7 +17,7 @@ test('los CRUD usan editores bajo demanda', () => {
     assert.match(html, new RegExp(`data-editor="${resource}"[\\s\\S]*hidden`));
   }
   assert.match(html, /id="editor-backdrop"/);
-  assert.match(html, /id="editor-close"/);
+  assert.doesNotMatch(html, /id="editor-close"/, 'the editor must expose a single close control inside each drawer');
 });
 
 test('la biblioteca se presenta en español y puede seleccionar un archivo', () => {
@@ -81,9 +81,9 @@ test('las acciones destructivas estan en submenu', () => {
 
 test('los campos de imagen tienen boton de biblioteca', () => {
   const html = read('deploy/admin/static/index.html');
-  assert.match(html, /data-media-target="alojamiento-mainImg"/);
-  assert.match(html, /data-media-target="gastronomia-imagen"/);
-  assert.match(html, /Elegir de Archivos/);
+  assert.match(html, /data-media-gallery="alojamientos"/);
+  assert.match(html, /data-media-gallery="gastronomia"/);
+  assert.match(html, /id="media-dropzone"/);
 });
 
 test('el admin usa una consola neutra con sidebar grafito y movimiento consistente', () => {

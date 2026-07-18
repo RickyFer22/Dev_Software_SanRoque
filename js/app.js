@@ -167,6 +167,7 @@ function navigateToDetails(id, skipPush) {
   const data = alojamientosData[id]; if(!data) return;
   document.getElementById('main-explorer-view').classList.replace('block','hidden');
   const detView = document.getElementById('detailed-accommodation-view');
+  document.querySelector('.tourism-skip-link')?.setAttribute('href', '#detailed-accommodation-view');
   detView.classList.replace('hidden','block');
   detView.classList.remove('animate-view-in'); void detView.offsetWidth; detView.classList.add('animate-view-in');
   document.getElementById('mobile-sticky-contact').classList.replace('hidden','block');
@@ -176,15 +177,21 @@ function navigateToDetails(id, skipPush) {
   document.getElementById('det-location').textContent=data.ubicacion;
   const detMapLink = document.getElementById('det-map-link');
   if (detMapLink) {
-    if (data.mapUrl) {
-      detMapLink.href = data.mapUrl;
+    if (data.mapsLink || data.mapUrl) {
+      detMapLink.href = data.mapsLink || data.mapUrl;
+      detMapLink.style.display = '';
     } else if (data.coords && data.coords.length === 2) {
       detMapLink.href = `https://www.google.com/maps/search/?api=1&query=${data.coords[0]},${data.coords[1]}`;
+      detMapLink.style.display = '';
     } else {
-      detMapLink.href = "#";
+      detMapLink.removeAttribute('href');
+      detMapLink.style.display = 'none';
     }
   }
-  document.getElementById('det-long-desc').textContent=data.descripcionLarga || `${data.titulo} ofrece alojamiento en San Roque. Consultá disponibilidad, tarifas y detalles directamente con el anfitrión.`;
+  const description = data.descripcionLarga || data.descripcion || '';
+  document.getElementById('det-long-desc').textContent=description;
+  const descriptionSection=document.getElementById('det-description-section');
+  if(descriptionSection) descriptionSection.hidden=!description;
   document.getElementById('det-main-img').src=data.mainImg;
   const detStars=document.getElementById('det-interactive-stars');
   // Reemplaza el widget viejo por el módulo compartido de calificaciones.
@@ -202,8 +209,9 @@ function navigateToDetails(id, skipPush) {
   };
   if (!skipPush && window.VsrShare) { try { history.pushState({h:id}, '', VsrShare.buildUrl('h', id)); } catch(_){} }
   const thumbContainer=document.getElementById('det-gallery-thumbs'); thumbContainer.innerHTML='';
-  const galeria=Array.isArray(data.galeria)?data.galeria:[];
-  galeria.forEach((imgUrl,i)=>{const btn=document.createElement('button');btn.className=`snap-center w-[130px] md:w-full h-20 rounded-xl overflow-hidden shrink-0 border-[3px] transition-all hover:scale-105 active:scale-95 ${i===0?'border-primary':'border-transparent opacity-80 hover:opacity-100'}`;btn.innerHTML=`<img class="w-full h-full object-cover" src="${imgUrl}"/>`;btn.onclick=()=>{document.getElementById('det-main-img').src=imgUrl;Array.from(thumbContainer.children).forEach(b=>b.classList.replace('border-primary','border-transparent'));btn.classList.replace('border-transparent','border-primary');};thumbContainer.appendChild(btn);});
+  const richGallery=Array.isArray(data.mediaGallery)?data.mediaGallery:[];
+  const galeria=[...new Set(richGallery.length?richGallery.map((entry)=>entry.variants?.large?.url||entry.url).filter(Boolean):[data.mainImg,...(Array.isArray(data.galeria)?data.galeria:[])].filter(Boolean))];
+  galeria.forEach((imgUrl,i)=>{const btn=document.createElement('button');btn.className=`snap-center w-[130px] md:w-full h-20 rounded-xl overflow-hidden shrink-0 border-[3px] transition-all hover:scale-105 active:scale-95 ${i===0?'border-primary':'border-transparent opacity-80 hover:opacity-100'}`;btn.setAttribute('aria-label',`Ver fotografía ${i+1}`);const img=document.createElement('img');img.className='w-full h-full object-cover';img.src=imgUrl;img.alt='';img.loading='lazy';btn.appendChild(img);btn.onclick=()=>{document.getElementById('det-main-img').src=imgUrl;Array.from(thumbContainer.children).forEach(b=>b.classList.replace('border-primary','border-transparent'));btn.classList.replace('border-transparent','border-primary');};thumbContainer.appendChild(btn);});
   // Distribución/Capacidad y Servicios: ocultar la sección si no hay datos (evita headers huérfanos).
   const capList=Array.isArray(data.capacidad)?data.capacidad:[];
   const capSec=document.getElementById('det-capacity-section');
@@ -213,7 +221,9 @@ function navigateToDetails(id, skipPush) {
   const svcSec=document.getElementById('det-services-section');
   document.getElementById('det-services-grid').innerHTML=svcList.map(s=>`<div class="service-badge"><span class="material-symbols-outlined text-[18px] text-river-teal">${s.icono||'check_circle'}</span><span>${s.texto||s}</span></div>`).join('');
   if (svcSec) svcSec.style.display = svcList.length ? '' : 'none';
-  document.getElementById('det-checkin').textContent=data.checkin; document.getElementById('det-checkout').textContent=data.checkout; document.getElementById('det-cancellation').textContent=data.cancelacion;
+  document.getElementById('det-checkin').textContent=data.checkin||''; document.getElementById('det-checkout').textContent=data.checkout||''; document.getElementById('det-cancellation').textContent=data.cancelacion||'';
+  const policiesSection=document.getElementById('det-policies-section');
+  if(policiesSection) policiesSection.hidden=![data.checkin,data.checkout,data.cancelacion].some(Boolean);
   setContactButtons(data);
 }
 
@@ -243,6 +253,7 @@ function backToGrid() {
   document.getElementById('mobile-sticky-contact').classList.replace('block','hidden');
   try { history.pushState({}, '', location.pathname); } catch(_){}
   const mainView=document.getElementById('main-explorer-view');
+  document.querySelector('.tourism-skip-link')?.setAttribute('href', '#main-explorer-view');
   mainView.classList.replace('hidden','block');
   mainView.classList.remove('animate-view-in'); void mainView.offsetWidth; mainView.classList.add('animate-view-in');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -405,8 +416,9 @@ document.addEventListener("DOMContentLoaded",()=>{
   };
 
   const openFromPermalink = () => {
-    const id = window.VsrShare && VsrShare.paramFromUrl('h');
-    if (id && alojamientosData[id]) navigateToDetails(id, true);
+    const requested = window.VsrShare && VsrShare.paramFromUrl('h');
+    const id = requested && (alojamientosData[requested] ? requested : Object.keys(alojamientosData).find((key) => alojamientosData[key]?.slug === requested));
+    if (id) navigateToDetails(id, true);
   };
 
   document.addEventListener('appDataReady', async (e) => {
@@ -428,8 +440,17 @@ document.addEventListener("DOMContentLoaded",()=>{
     openFromPermalink();
   });
 
+  // La API local puede responder antes de que este controlador termine de
+  // registrarse; inicializar también desde el snapshot ya disponible evita
+  // perder el permalink en conexiones rápidas o durante el fallback.
+  if (window.appData && window.appData.alojamientos) {
+    initUI();
+    openFromPermalink();
+  }
+
   window.addEventListener('popstate', () => {
-    const id = window.VsrShare && VsrShare.paramFromUrl('h');
+    const requested = window.VsrShare && VsrShare.paramFromUrl('h');
+    const id = requested && (alojamientosData[requested] ? requested : Object.keys(alojamientosData).find((key) => alojamientosData[key]?.slug === requested));
     if (id && alojamientosData[id]) navigateToDetails(id, true);
     else backToGrid();
   });
