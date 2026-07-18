@@ -9,7 +9,11 @@ const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 test('el resumen incluye una vista integrada del portal público', () => {
   const html = read('deploy/admin/static/index.html');
 
-  assert.match(html, /class="[^"]*portal-preview-card/);
+  assert.match(
+    html,
+    /<section class="[^"]*portal-preview-card[^"]*"[\s\S]*?<\/section>/,
+    'la vista previa debe usar una etiqueta section balanceada para no anidar los CRUD dentro del resumen',
+  );
   assert.match(html, /<h2[^>]*>Vista del portal<\/h2>/);
   assert.match(html, /id="portal-preview-frame"/);
   assert.match(html, /src="\/"/);
