@@ -85,3 +85,16 @@ test('los campos de imagen tienen boton de biblioteca', () => {
   assert.match(html, /data-media-target="gastronomia-imagen"/);
   assert.match(html, /Elegir de Archivos/);
 });
+
+test('el admin usa una consola neutra con sidebar grafito y movimiento consistente', () => {
+  const css = read('deploy/admin/static/admin.css');
+
+  assert.match(css, /--admin-canvas:\s*#F3F2EE/i);
+  assert.match(css, /--admin-sidebar:\s*#17211D/i);
+  assert.match(css, /--admin-primary:\s*#355E4A/i);
+  assert.match(css, /--admin-accent:\s*#D8A441/i);
+  assert.match(css, /--admin-radius:\s*16px/i);
+  assert.match(css, /--admin-motion:\s*300ms/i);
+  assert.match(css, /\.sidebar\s*\{[^}]*background:\s*var\(--admin-sidebar\)/s);
+  assert.match(css, /\.topbar\s*\{[^}]*background:\s*rgba\(255,\s*255,\s*255,\s*\.92\)/s);
+});

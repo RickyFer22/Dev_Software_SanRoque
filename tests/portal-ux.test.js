@@ -110,3 +110,34 @@ test('tourism design system exposes the approved palette and interaction tokens'
   assert.match(css, /--radius-card:\s*16px/i);
   assert.match(css, /--motion-base:\s*300ms/i);
 });
+
+test('public pages share the editorial tourism composition without losing dynamic hooks', () => {
+  const home = read('index.html');
+  const gastro = read('gastronomia.html');
+  const premium = read('gastronomia-premium.html');
+  const listings = ['agenda.html', 'que-hacer.html', 'guia-practica.html'].map(read);
+  const details = ['comercio.html', 'evento.html'].map(read);
+
+  assert.match(home, /id="hero-section"[^>]*class="[^"]*tourism-hero/);
+  assert.match(home, /id="hero-search-input"/);
+  assert.match(home, /id="accommodation-filters"/);
+  assert.match(home, /id="accommodations-carousel"/);
+  assert.match(home, /id="main-map"/);
+  assert.match(home, /id="events-grid"/);
+  assert.match(gastro, /<body[^>]*class="[^"]*tourism-page/);
+  assert.match(gastro, /id="gastronomia-grid"/);
+  assert.match(premium, /<body[^>]*class="[^"]*tourism-page/);
+  assert.match(premium, /id="buscador"/);
+  assert.match(premium, /id="filtros"/);
+  assert.match(premium, /id="carousel"/);
+  listings.forEach((html) => assert.match(html, /<header[^>]*class="[^"]*internal-hero/));
+  details.forEach((html) => assert.match(html, /<header[^>]*class="[^"]*detail-hero/));
+});
+
+test('public navigation becomes a neutral glass surface after scrolling', () => {
+  const css = read('css/styles.css');
+
+  assert.match(css, /#main-nav\.bg-primary\\\/95\s*\{[^}]*background:\s*rgba\(255,255,255,\.94\)\s*!important/s);
+  assert.match(css, /#main-nav\.bg-primary\\\/95[^}]*color:\s*var\(--text\)\s*!important/s);
+  assert.match(css, /#mobile-nav-panel[^}]*background:\s*var\(--surface-elevated\)/s);
+});

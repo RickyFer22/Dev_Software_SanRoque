@@ -11,6 +11,8 @@
     document.body.classList.toggle('editor-open', locked);
     const backdrop = document.getElementById('editor-backdrop');
     if (backdrop) backdrop.hidden = !locked;
+    const globalClose = document.getElementById('editor-close');
+    if (globalClose) globalClose.hidden = !locked;
   }
 
   function openEditor(resource, title) {
@@ -23,6 +25,7 @@
     activeEditor = panel;
     panel.hidden = false;
     panel.dataset.state = 'open';
+    panel.setAttribute('aria-hidden', 'false');
     const heading = panel.querySelector('[data-editor-title]');
     if (heading && title) heading.textContent = title;
     setPageLocked(true);
@@ -35,6 +38,7 @@
     if (activeEditor) {
       activeEditor.hidden = true;
       activeEditor.dataset.state = 'closed';
+      activeEditor.setAttribute('aria-hidden', 'true');
     }
     activeEditor = null;
     setPageLocked(false);

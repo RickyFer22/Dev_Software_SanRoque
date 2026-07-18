@@ -50,3 +50,11 @@ test('footer uses light tourism surfaces instead of broad olive fields', () => {
   assert.match(css, /\.footer-bottombar\s*\{[^}]*background:\s*#E8E2D4/s);
   assert.doesNotMatch(css, /--footer-olive(?:-deep)?:/);
 });
+
+test('footer closes with a thin institutional accent instead of a dark field', () => {
+  const css = read('css/styles.css');
+
+  assert.match(css, /\.site-footer::after\s*\{[^}]*height:\s*4px[^}]*background:\s*var\(--brand-primary\)/s);
+  assert.match(css, /\.site-footer \.footer-bottombar\s*\{[^}]*background:\s*var\(--surface\)/s);
+  assert.doesNotMatch(css, /\.footer-bottombar\s*\{[^}]*background:\s*var\(--footer-night\)/s);
+});
