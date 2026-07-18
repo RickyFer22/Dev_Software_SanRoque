@@ -5,6 +5,14 @@ const path = require('node:path');
 
 const root = path.join(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+const publicFooterPages = [
+  'index.html',
+  'agenda.html',
+  'comercio.html',
+  'gastronomia.html',
+  'guia-practica.html',
+  'que-hacer.html',
+];
 
 test('footer exposes the approved institutional information architecture', () => {
   const html = read('index.html');
@@ -12,6 +20,28 @@ test('footer exposes the approved institutional information architecture', () =>
   assert.match(html, /class="footer-social-band"/);
   assert.match(html, /Portal oficial de turismo y cultura/);
   assert.match(html, /Proyecto educativo · tecnología local/i);
+});
+
+test('public footers remove obsolete legal copy while preserving institutional credits', () => {
+  for (const file of publicFooterPages) {
+    const html = read(file);
+    assert.doesNotMatch(html, /Política de privacidad|Términos y condiciones/i, file);
+    assert.match(html, /Proyecto educativo · tecnología local/i, file);
+    assert.match(html, /Daniel Almirón · Lucas Sánchez · Milca Martínez · Román Rossi · Tomás Rolet/, file);
+    assert.match(html, /<b>Ayudante:<\/b> Javier Legal[\s\S]*<b>Profesora:<\/b> Yésica Ponce/, file);
+  }
+});
+
+test('footer compact layout halves its main vertical dimensions and uses olive credits', () => {
+  const css = read('css/styles.css');
+
+  assert.match(css, /\.footer-cream-crown\s*\{[^}]*height:\s*54px/s);
+  assert.match(css, /\.footer-social-band\s*\{[^}]*padding:\s*36px 0 17px/s);
+  assert.match(css, /\.site-footer \.footer-bottombar\s*\{[^}]*padding:\s*14px 0 0/s);
+  assert.match(css, /\.site-footer \.academic-credits[^}]*color:\s*var\(--brand-primary\)/s);
+  assert.match(css, /\.site-footer \.compact-footer-legal\s*\{[^}]*padding:\s*7px 24px 9px/s);
+  assert.match(css, /\.site-footer \.academic-credits\s*\{[^}]*background:\s*transparent[^}]*color:\s*var\(--brand-primary\)/s);
+  assert.doesNotMatch(css, /\.site-footer \.academic-credits,\s*\.site-footer \.compact-footer-legal\s*\{[^}]*color:\s*var\(--text-muted\)/s);
 });
 
 test('weather uses the warm complementary palette without blue surfaces', () => {
