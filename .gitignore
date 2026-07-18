@@ -49,3 +49,6 @@ mapa-produccion-*.png
 # Artefactos de tests E2E / playwright
 .playwright-mcp/
 test-results/
+
+# Reportes Lighthouse generados localmente
+output/
