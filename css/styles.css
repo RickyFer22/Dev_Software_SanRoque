@@ -1633,3 +1633,43 @@ body {
   .visita-fab { bottom:86px;left:12px;padding:12px 15px; }
   .visita-panel { bottom:148px;left:12px; }
 }
+
+/* ══ WORDMARK "San Roque" DEL FOOTER: +30 %, sin aplastar, brillante y vivo ══ */
+.site-footer .sr-wordmark-hero {
+  /* antes: clamp(34px,4.1vw,56px) con line-height .88 — se veía chico y aplastado */
+  font-size: clamp(44px, 5.4vw, 73px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  filter: drop-shadow(0 9px 12px rgba(6, 22, 5, 0.3));
+}
+.site-footer .sr-wordmark-hero span {
+  filter: saturate(1.4) brightness(1.1);
+  text-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.8),
+    0 0 16px rgba(255, 255, 255, 0.38),
+    1px 1px 0 rgba(0, 0, 0, 0.15),
+    3px 3px 0 rgba(0, 0, 0, 0.1),
+    5px 5px 10px rgba(0, 0, 0, 0.12);
+  animation: srWave 3.4s ease-in-out infinite, srShine 3.4s ease-in-out infinite;
+}
+@keyframes srWave {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(-1.2deg); }
+}
+@keyframes srShine {
+  0%, 100% { filter: saturate(1.4) brightness(1.08); }
+  50% { filter: saturate(1.75) brightness(1.32) drop-shadow(0 0 12px rgba(255, 244, 200, 0.55)); }
+}
+/* Ola arcoíris: cada letra entra a la danza con un pequeño retraso */
+.site-footer .sr-wordmark-hero .sr-l1 { animation-delay: 0s, 0s; }
+.site-footer .sr-wordmark-hero .sr-l2 { animation-delay: 0.14s, 0.14s; }
+.site-footer .sr-wordmark-hero .sr-l3 { animation-delay: 0.28s, 0.28s; }
+.site-footer .sr-wordmark-hero .sr-l4 { animation-delay: 0.42s, 0.42s; }
+.site-footer .sr-wordmark-hero .sr-l5 { animation-delay: 0.56s, 0.56s; }
+.site-footer .sr-wordmark-hero .sr-l6 { animation-delay: 0.7s, 0.7s; }
+.site-footer .sr-wordmark-hero .sr-l7 { animation-delay: 0.84s, 0.84s; }
+.site-footer .sr-wordmark-hero .sr-l8 { animation-delay: 0.98s, 0.98s; }
+/* Accesibilidad: sin animación para quien la desactivó en su sistema */
+@media (prefers-reduced-motion: reduce) {
+  .site-footer .sr-wordmark-hero span { animation: none; }
+}
