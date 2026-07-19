@@ -1365,6 +1365,14 @@ function renderCount(id, value) {
   if (element) element.textContent = value;
 }
 
+function setNavBadge(section, value) {
+  const badge = document.querySelector(`.nav-item[data-section="${section}"] .nav-badge`);
+  if (!badge) return;
+  const count = Number(value) || 0;
+  badge.textContent = count ? String(count) : '';
+  badge.dataset.count = String(count);
+}
+
 function renderRolePill(role) {
   const normalized = (role || 'guest').toString().toLowerCase();
   const cssClass = normalized.replace(/[^a-z0-9_-]/g, '') || 'guest';
@@ -1756,6 +1764,9 @@ async function loadCounts() {
   renderCount('count-gast', (data.gastronomia || []).length);
   renderCount('count-ev', (data.eventos || []).length);
   renderCount('count-du', Object.keys(data.datosUtiles || {}).length);
+  setNavBadge('alojamientos', (Array.isArray(alojamientos) ? alojamientos : []).length || (data.alojamientos || []).length);
+  setNavBadge('gastronomia', (Array.isArray(gastronomia) ? gastronomia : []).length || (data.gastronomia || []).length);
+  setNavBadge('eventos', (Array.isArray(eventos) ? eventos : []).length || (data.eventos || []).length);
 
   if (users.error || users.skipped) {
     renderCount('count-users', 'sin permiso');

@@ -465,35 +465,6 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll('.interactive-stars').forEach(initVotingForContainer);
   loadWeather();
 
-  // ═══ HERO SEARCH BAR — Filtra cards de alojamiento en vivo ═══
-  const heroSearch = document.getElementById('hero-search-input');
-  if (heroSearch) {
-    heroSearch.addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase().trim();
-      const items = document.querySelectorAll('#accommodations-carousel .card-item');
-      let matchCount = 0;
-      items.forEach(card => {
-        const text = (card.textContent || '').toLowerCase();
-        const match = !q || text.includes(q);
-        const wrapper = card.closest('.w-full') || card.parentElement;
-        if (wrapper) wrapper.style.display = match ? '' : 'none';
-        if (match && q) matchCount++;
-      });
-      // Si no hay matching en alojamiento, mostrar sugerencia
-      const emptyMsg = document.getElementById('search-empty-msg');
-      if (q && matchCount === 0) {
-        if (!emptyMsg) {
-          const msg = document.createElement('div');
-          msg.id = 'search-empty-msg';
-          msg.className = 'col-span-full text-center rounded-2xl border border-dashed border-neutral-300 bg-white/70 px-6 py-10 text-neutral-500 text-sm mt-4';
-          msg.innerHTML = `No encontramos "${q}" en alojamientos. <a href="gastronomia.html" class="text-primary font-bold underline">Explorá gastronomía</a>`;
-          document.getElementById('accommodations-carousel')?.parentElement?.appendChild(msg);
-        }
-      } else if (emptyMsg) {
-        emptyMsg.remove();
-      }
-    });
-  }
 });
 
 

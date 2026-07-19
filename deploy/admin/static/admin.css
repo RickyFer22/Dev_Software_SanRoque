@@ -1400,3 +1400,7 @@ input:focus,textarea:focus,select:focus { border-color:var(--admin-primary) !imp
 .activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--admin-accent); margin-top: 6px; flex-shrink: 0; }
 .activity-item strong { display: block; font-size: 13.5px; text-transform: capitalize; }
 .activity-item div span { display: block; color: var(--muted); font-size: 12.5px; }
+
+/* Badges de conteo del menú lateral */
+body.sidebar-collapsed .nav-badge { display: none; }
+.nav-item .nav-badge { margin-left: auto; }
