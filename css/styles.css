@@ -1673,3 +1673,39 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .site-footer .sr-wordmark-hero span { animation: none; }
 }
+
+/* ══ WORDMARK v2: letras corpóreas de cartel, artísticas (adiós WordArt) ══
+   Cada letra extruye en 3D con la sombra de SU propio color (como letras
+   físicas de madera pintada), lleva una inclinación fija tipo rótulo pintado
+   a mano y flota apenas. Sin halos blancos ni destellos plásticos. */
+.site-footer .sr-wordmark-hero { letter-spacing: 0.015em; }
+.site-footer .sr-wordmark-hero .sr-l1 { --sr-dk: #9c1013; --sr-tilt: -2.6deg; animation-delay: 0s; }
+.site-footer .sr-wordmark-hero .sr-l2 { --sr-dk: #a34a0e; --sr-tilt: 1.8deg; animation-delay: 0.12s; }
+.site-footer .sr-wordmark-hero .sr-l3 { --sr-dk: #a87b06; --sr-tilt: -1.3deg; animation-delay: 0.24s; }
+.site-footer .sr-wordmark-hero .sr-l4 { --sr-dk: #276d18; --sr-tilt: 2.3deg; animation-delay: 0.36s; }
+.site-footer .sr-wordmark-hero .sr-l5 { --sr-dk: #0a6289; --sr-tilt: -2.1deg; animation-delay: 0.48s; }
+.site-footer .sr-wordmark-hero .sr-l6 { --sr-dk: #3f2363; --sr-tilt: 1.5deg; animation-delay: 0.6s; }
+.site-footer .sr-wordmark-hero .sr-l7 { --sr-dk: #7e1a3f; --sr-tilt: -1.9deg; animation-delay: 0.72s; }
+.site-footer .sr-wordmark-hero .sr-l8 { --sr-dk: #9e3510; --sr-tilt: 2.5deg; animation-delay: 0.84s; }
+.site-footer .sr-wordmark-hero span {
+  animation: srFloat 5.4s ease-in-out infinite;
+  filter: saturate(1.25) brightness(1.05);
+  text-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.45),
+    1px 1px 0 var(--sr-dk),
+    2px 2px 0 var(--sr-dk),
+    3px 3px 0 var(--sr-dk),
+    4px 4px 0 var(--sr-dk),
+    5px 5px 0 var(--sr-dk),
+    6px 6px 0 var(--sr-dk),
+    7px 7px 0 color-mix(in srgb, var(--sr-dk) 72%, #000),
+    9px 11px 2px rgba(0, 0, 0, 0.18),
+    14px 20px 22px rgba(6, 22, 5, 0.34);
+}
+@keyframes srFloat {
+  0%, 100% { transform: rotate(var(--sr-tilt, 0deg)) translateY(0); }
+  50% { transform: rotate(var(--sr-tilt, 0deg)) translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-footer .sr-wordmark-hero span { animation: none; transform: rotate(var(--sr-tilt, 0deg)); }
+}

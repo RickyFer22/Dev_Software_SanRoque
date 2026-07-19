@@ -2,6 +2,18 @@
   const galleries = new Map();
   const ALLOWED = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/avif']);
   const MAX_BYTES = 5 * 1024 * 1024;
+  const MAX_PHOTOS = 5; // tope por contenido; el servidor guarda todo en WebP
+
+  // Posiciones disponibles para cada fotografía dentro de la página del lugar
+  const POSITIONS = [
+    ['cover', 'Portada (principal)'],
+    ['top', 'Arriba'],
+    ['bottom', 'Abajo'],
+    ['side', 'Al costado'],
+    ['rotor', 'Rotor (carrusel)'],
+  ];
+  const POSITION_LABELS = Object.fromEntries(POSITIONS);
+  const normalizeRole = (role) => (POSITION_LABELS[role] ? role : 'rotor');
 
   const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
   const galleryHost = (resource) => document.querySelector(`[data-media-gallery="${resource}"]`);
@@ -22,7 +34,7 @@
       thumb: resolveUrl(item.thumb || item.variants?.thumb?.url || '') || url,
       alt: item.alt || '',
       caption: item.caption || '',
-      role: item.role || (index === 0 ? 'cover' : 'gallery'),
+      role: normalizeRole(item.role || (index === 0 ? 'cover' : 'rotor')),
       order: index,
       focalPoint: item.focalPoint || { x: 50, y: 50 },
     };
@@ -44,28 +56,32 @@
     if (!host) return;
     const items = getGallery(resource);
     const prefix = resource === 'alojamientos' ? 'alojamiento' : 'gastronomia';
+    const full = items.length >= MAX_PHOTOS;
     host.innerHTML = `
       <div class="media-gallery-toolbar">
-        <button type="button" data-media-upload-trigger="${resource}">Subir fotografías</button>
-        <button type="button" class="cancel-button" data-media-library-trigger="${resource}">Elegir de la biblioteca</button>
-        <span>${items.length} ${items.length === 1 ? 'fotografía' : 'fotografías'}</span>
+        <button type="button" data-media-upload-trigger="${resource}" ${full ? 'disabled title="Máximo 5 fotografías"' : ''}>Subir fotografías</button>
+        <button type="button" class="cancel-button" data-media-library-trigger="${resource}" ${full ? 'disabled title="Máximo 5 fotografías"' : ''}>Elegir de la biblioteca</button>
+        <span>${items.length} de ${MAX_PHOTOS} ${items.length === 1 ? 'fotografía' : 'fotografías'}</span>
       </div>
       <div class="media-gallery-list" role="list">
         ${items.map((item, index) => `<article class="media-editor-item" draggable="true" role="listitem" data-media-index="${index}">
           ${(item.thumb || item.url) ? `<img src="${esc(item.thumb || item.url)}" alt="" loading="lazy">` : ''}
           <div class="media-editor-copy">
-            <div class="media-editor-top"><strong>${item.role === 'cover' ? 'Portada' : item.role === 'social' ? 'Redes' : 'Galería'}</strong><span>${index + 1}</span></div>
+            <div class="media-editor-top"><strong>${POSITION_LABELS[normalizeRole(item.role)]}</strong><span>${index + 1}</span></div>
+            <label>Ubicación de la foto
+              <select data-media-pos="${index}">
+                ${POSITIONS.map(([value, label]) => `<option value="${value}" ${normalizeRole(item.role) === value ? 'selected' : ''}>${label}</option>`).join('')}
+              </select>
+            </label>
             <label>Texto alternativo<input data-media-alt="${index}" value="${esc(item.alt)}" placeholder="Describí lo que se ve" /></label>
             <label>Epígrafe<input data-media-caption="${index}" value="${esc(item.caption)}" placeholder="Opcional" /></label>
             <div class="media-editor-actions">
-              <button type="button" class="cancel-button" data-media-role="cover" data-media-index="${index}">Usar de portada</button>
-              <button type="button" class="cancel-button" data-media-role="social" data-media-index="${index}">Usar en redes</button>
               <button type="button" class="cancel-button" data-media-move="up" data-media-index="${index}" aria-label="Mover imagen hacia arriba">↑</button>
               <button type="button" class="cancel-button" data-media-move="down" data-media-index="${index}" aria-label="Mover imagen hacia abajo">↓</button>
               <button type="button" class="danger-button" data-media-remove="${index}">Quitar</button>
             </div>
           </div>
-        </article>`).join('') || '<div class="empty-state"><strong>La fotografía vende la experiencia.</strong><p>Subí una portada horizontal y después agregá detalles del lugar.</p></div>'}
+        </article>`).join('') || '<div class="empty-state"><strong>La fotografía vende la experiencia.</strong><p>Subí hasta 5 fotos y elegí dónde va cada una: portada, arriba, abajo, al costado o rotor.</p></div>'}
       </div>`;
     const fileInput = document.getElementById(`${prefix}-image-file`);
     host.querySelector('[data-media-upload-trigger]')?.addEventListener('click', () => fileInput?.click());
@@ -81,10 +97,12 @@
     host.querySelectorAll('[data-media-caption]').forEach((input) => input.addEventListener('input', () => {
       galleries.get(resource)[Number(input.dataset.mediaCaption)].caption = input.value;
     }));
-    host.querySelectorAll('[data-media-role]').forEach((button) => button.addEventListener('click', () => {
-      const role = button.dataset.mediaRole;
-      const selected = galleries.get(resource)[Number(button.dataset.mediaIndex)];
-      galleries.get(resource).forEach((item) => { if (item.role === role) item.role = 'gallery'; });
+    host.querySelectorAll('[data-media-pos]').forEach((select) => select.addEventListener('change', () => {
+      const list = galleries.get(resource);
+      const selected = list[Number(select.dataset.mediaPos)];
+      const role = normalizeRole(select.value);
+      // La portada es única: si otra foto la tenía, pasa al rotor.
+      if (role === 'cover') list.forEach((item) => { if (item.role === 'cover') item.role = 'rotor'; });
       selected.role = role;
       renderGallery(resource);
     }));
@@ -121,7 +139,7 @@
   }
 
   function setGallery(resource, items) {
-    galleries.set(resource, (Array.isArray(items) ? items : []).map(normalizeEntry));
+    galleries.set(resource, (Array.isArray(items) ? items : []).slice(0, MAX_PHOTOS).map(normalizeEntry));
     renderGallery(resource);
   }
 
@@ -134,7 +152,18 @@
   }
 
   function uploadFiles(files, resource) {
-    const accepted = validateFiles(files);
+    let accepted = validateFiles(files);
+    if (resource) {
+      const remaining = MAX_PHOTOS - getGallery(resource).length;
+      if (remaining <= 0) {
+        window.showToast?.('Este contenido ya tiene el máximo de 5 fotografías.', 'error');
+        return;
+      }
+      if (accepted.length > remaining) {
+        window.showToast?.(`Se agregan solo ${remaining} fotografías (máximo 5 por contenido).`, 'warn');
+        accepted = accepted.slice(0, remaining);
+      }
+    }
     if (!accepted.length) return;
     const queue = document.getElementById('media-upload-queue') || galleryHost(resource);
     if (queue) queue.setAttribute('aria-live', 'polite');
@@ -177,6 +206,11 @@
     }).join('') || '<div class="empty-state"><p>No hay fotografías cargadas.</p></div>';
     picker.hidden = false;
     grid.querySelectorAll('[data-media-id]').forEach((button) => button.addEventListener('click', () => {
+      if (getGallery(resource).length >= MAX_PHOTOS) {
+        window.showToast?.('Este contenido ya tiene el máximo de 5 fotografías.', 'error');
+        picker.hidden = true;
+        return;
+      }
       const item = data.media.find((entry) => entry.id === button.dataset.mediaId);
       setGallery(resource, [...getGallery(resource), normalizeEntry(item, getGallery(resource).length)]);
       picker.hidden = true;

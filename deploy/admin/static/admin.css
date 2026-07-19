@@ -1498,3 +1498,8 @@ body.sidebar-collapsed .nav-badge { display: none; }
 [data-theme="dark"] .quick-status.is-review { background: #322a4a !important; border-color: #4d3f73 !important; color: #cfc0f0; }
 [data-theme="dark"] .quick-status.is-hidden { background: #2a332d !important; border-color: #445247 !important; color: #aebbb1; }
 [data-theme="dark"] .quick-status.is-archived { background: #2b323b !important; border-color: #46525f !important; color: #b9c6d4; }
+
+/* Menú lateral: texto alineado a la izquierda (la regla global de button centraba el contenido) */
+.nav-item { justify-content: flex-start; }
+.nav-item .nav-label { flex: 1; text-align: left; }
+body.sidebar-collapsed .nav-item { justify-content: center; }

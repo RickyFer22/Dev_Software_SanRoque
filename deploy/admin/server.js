@@ -1311,12 +1311,14 @@ function validateAndSanitize(collection, data) {
     out.specialties = Array.isArray(data.specialties) ? data.specialties.map((value) => sanitizeString(value, 100)).filter(Boolean) : [];
     out.consumptionOptions = Array.isArray(data.consumptionOptions) ? data.consumptionOptions.map((value) => sanitizeString(value, 60)).filter(Boolean) : [];
     out.accessibility = Array.isArray(data.accessibility) ? data.accessibility.map((value) => sanitizeString(value, 100)).filter(Boolean) : [];
-    out.mediaGallery = Array.isArray(data.mediaGallery) ? data.mediaGallery.slice(0, 60).map((entry, index) => ({
+    // Máx. 5 fotos por contenido; role = posición en la página pública
+    // (cover=portada, top=arriba, bottom=abajo, side=al costado, rotor=carrusel).
+    out.mediaGallery = Array.isArray(data.mediaGallery) ? data.mediaGallery.slice(0, 5).map((entry, index) => ({
       mediaId: sanitizeString(entry?.mediaId || '', 100),
       url: sanitizeString(entry?.url || '', 400),
       alt: sanitizeString(entry?.alt || '', 240),
       caption: sanitizeString(entry?.caption || '', 500),
-      role: ['cover', 'card', 'gallery', 'social'].includes(entry?.role) ? entry.role : 'gallery',
+      role: ['cover', 'top', 'bottom', 'side', 'rotor', 'card', 'gallery', 'social'].includes(entry?.role) ? entry.role : 'rotor',
       order: Number.isFinite(Number(entry?.order)) ? Number(entry.order) : index,
       focalPoint: {
         x: Math.min(100, Math.max(0, toNumber(entry?.focalPoint?.x, 50))),

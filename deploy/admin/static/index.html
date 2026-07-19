@@ -245,8 +245,6 @@
                 <button type="button" role="tab" aria-selected="false" data-editor-tab="contacto">Contacto</button>
                 <button type="button" role="tab" aria-selected="false" data-editor-tab="detalles">Detalles</button>
                 <button type="button" role="tab" aria-selected="false" data-editor-tab="fotografias">Fotografías</button>
-                <button type="button" role="tab" aria-selected="false" data-editor-tab="seo">SEO y redes</button>
-                <button type="button" role="tab" aria-selected="false" data-editor-tab="publicacion">Publicación</button>
               </div>
               <div class="form-errors" data-form-errors hidden role="alert"></div>
               <section class="editor-tab-panel active" data-editor-panel="general">
@@ -256,6 +254,11 @@
               </div>
               <label>Descripción breve<input id="alojamiento-summary" maxlength="360" placeholder="Una frase clara para las tarjetas y la portada" /></label>
               <label>Descripción completa<textarea id="alojamiento-descripcionLarga" placeholder="Contá la experiencia y la propuesta del alojamiento"></textarea></label>
+              <div class="toolbar">
+                <label>Estado<select id="alojamiento-status"><option value="draft">Borrador</option><option value="review">En revisión</option><option value="published">Publicado</option><option value="hidden">Oculto</option><option value="archived">Archivado</option></select></label>
+                <label>Visible en portal<select id="alojamiento-activo"><option value="1">Sí</option><option value="0">No</option></select></label>
+                <label class="checkbox-field"><input id="alojamiento-featured" type="checkbox" /> Destacar</label>
+              </div>
               </section>
               <section class="editor-tab-panel" data-editor-panel="ubicacion" hidden>
               <div class="toolbar">
@@ -289,19 +292,11 @@
               <label>Etiquetas<input id="alojamiento-tags" placeholder="naturaleza, familiar, céntrico" /></label>
               </section>
               <section class="editor-tab-panel" data-editor-panel="fotografias" hidden>
-                <div class="media-guidance"><strong>Portada recomendada: 16:9 y al menos 1600 × 900 px.</strong><span>Subí JPG, PNG, WebP o AVIF. Podés ordenar, describir y elegir la portada.</span></div>
+                <div class="media-guidance"><strong>Hasta 5 fotografías · se guardan optimizadas en WebP.</strong><span>Elegí dónde va cada una: portada, arriba, abajo, al costado o en el rotor (carrusel).</span></div>
                 <input type="hidden" id="alojamiento-mainImg" /><input type="hidden" id="alojamiento-galeria" />
                 <input type="file" id="alojamiento-image-file" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden />
                 <div class="content-media-gallery" data-media-gallery="alojamientos" aria-live="polite"></div>
-              </section>
-              <section class="editor-tab-panel" data-editor-panel="seo" hidden>
-                <div class="toolbar"><label>Slug<input id="alojamiento-slug" placeholder="nombre-del-alojamiento" /></label><label>Título SEO<input id="alojamiento-seoTitle" maxlength="70" /></label></div>
-                <label>Descripción SEO<textarea id="alojamiento-seoDescription" maxlength="170"></textarea></label>
-              </section>
-              <section class="editor-tab-panel" data-editor-panel="publicacion" hidden>
-                <div class="toolbar"><label>Estado<select id="alojamiento-status"><option value="draft">Borrador</option><option value="review">En revisión</option><option value="published">Publicado</option><option value="hidden">Oculto</option><option value="archived">Archivado</option></select></label><label>Visible en portal<select id="alojamiento-activo"><option value="1">Sí</option><option value="0">No</option></select></label><label>Programar publicación<input id="alojamiento-publishAt" type="datetime-local" /></label></div>
-                <label class="checkbox-field"><input id="alojamiento-featured" type="checkbox" /> Destacar en el portal</label>
-                <button type="button" class="cancel-button" data-preview-content="alojamientos">Vista previa</button>
+                <button type="button" class="cancel-button" data-preview-content="alojamientos">Vista previa en el portal</button>
               </section>
               <img id="alojamiento-image-preview" class="image-preview" src="" alt="Vista previa de portada" hidden />
               <div id="edit-state-alojamientos" class="small"></div>
@@ -344,7 +339,7 @@
                 </div>
                 <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
               </div>
-              <div class="editor-tabs" data-editor-tabs="gastronomia" role="tablist" aria-label="Secciones del local gastronómico"><button type="button" role="tab" aria-selected="true" data-editor-tab="general">General</button><button type="button" role="tab" aria-selected="false" data-editor-tab="ubicacion">Ubicación</button><button type="button" role="tab" aria-selected="false" data-editor-tab="contacto">Contacto</button><button type="button" role="tab" aria-selected="false" data-editor-tab="detalles">Propuesta</button><button type="button" role="tab" aria-selected="false" data-editor-tab="fotografias">Fotografías</button><button type="button" role="tab" aria-selected="false" data-editor-tab="seo">SEO y redes</button><button type="button" role="tab" aria-selected="false" data-editor-tab="publicacion">Publicación</button></div>
+              <div class="editor-tabs" data-editor-tabs="gastronomia" role="tablist" aria-label="Secciones del local gastronómico"><button type="button" role="tab" aria-selected="true" data-editor-tab="general">General</button><button type="button" role="tab" aria-selected="false" data-editor-tab="ubicacion">Ubicación</button><button type="button" role="tab" aria-selected="false" data-editor-tab="contacto">Contacto</button><button type="button" role="tab" aria-selected="false" data-editor-tab="detalles">Propuesta</button><button type="button" role="tab" aria-selected="false" data-editor-tab="fotografias">Fotografías</button></div>
               <div class="form-errors" data-form-errors hidden role="alert"></div>
               <section class="editor-tab-panel active" data-editor-panel="general">
               <div class="toolbar">
@@ -352,6 +347,11 @@
                 <label>Tipo<select id="gastronomia-tipo"><option value="">Seleccionar</option><option value="restaurante">Restaurante</option><option value="comedor">Comedor</option><option value="bar">Bar</option><option value="cafetería">Cafetería</option><option value="emprendimiento">Emprendimiento</option><option value="otro">Otro</option></select></label>
               </div>
               <label>Descripción breve<input id="gastronomia-summary" maxlength="360" placeholder="Especialidad o propuesta principal" /></label><label>Descripción completa<textarea id="gastronomia-descripcion" placeholder="Historia, cocina y experiencia"></textarea></label>
+              <div class="toolbar">
+                <label>Estado<select id="gastronomia-status"><option value="draft">Borrador</option><option value="review">En revisión</option><option value="published">Publicado</option><option value="hidden">Oculto</option><option value="archived">Archivado</option></select></label>
+                <label>Visible en portal<select id="gastronomia-activo"><option value="1">Sí</option><option value="0">No</option></select></label>
+                <label class="checkbox-field"><input id="gastronomia-featured" type="checkbox" /> Destacar</label>
+              </div>
               </section><section class="editor-tab-panel" data-editor-panel="ubicacion" hidden>
               <div class="toolbar">
                 <label>Dirección<input id="gastronomia-direccion" placeholder="Dirección" /></label>
@@ -369,13 +369,10 @@
               </div>
               <label>Servicios y opciones<input id="gastronomia-servicios" placeholder="En el lugar, para llevar, reservas, Wi-Fi…" /></label><label>Etiquetas<input id="gastronomia-tags" placeholder="regional, familiar, meriendas" /></label>
               </section><section class="editor-tab-panel" data-editor-panel="fotografias" hidden>
-                <div class="media-guidance"><strong>Mostrá platos y el ambiente con luz natural.</strong><span>Portada horizontal de al menos 1600 × 900 px.</span></div>
+                <div class="media-guidance"><strong>Hasta 5 fotografías · se guardan optimizadas en WebP.</strong><span>Elegí dónde va cada una: portada, arriba, abajo, al costado o en el rotor (carrusel).</span></div>
                 <input type="hidden" id="gastronomia-imagen" /><input type="hidden" id="gastronomia-galeria" /><input type="file" id="gastronomia-image-file" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden />
                 <div class="content-media-gallery" data-media-gallery="gastronomia" aria-live="polite"></div>
-              </section><section class="editor-tab-panel" data-editor-panel="seo" hidden>
-                <div class="toolbar"><label>Slug<input id="gastronomia-slug" /></label><label>Título SEO<input id="gastronomia-seoTitle" maxlength="70" /></label></div><label>Descripción SEO<textarea id="gastronomia-seoDescription" maxlength="170"></textarea></label>
-              </section><section class="editor-tab-panel" data-editor-panel="publicacion" hidden>
-                <div class="toolbar"><label>Estado<select id="gastronomia-status"><option value="draft">Borrador</option><option value="review">En revisión</option><option value="published">Publicado</option><option value="hidden">Oculto</option><option value="archived">Archivado</option></select></label><label>Visible en portal<select id="gastronomia-activo"><option value="1">Sí</option><option value="0">No</option></select></label><label>Programar publicación<input id="gastronomia-publishAt" type="datetime-local" /></label></div><label class="checkbox-field"><input id="gastronomia-featured" type="checkbox" /> Destacar en el portal</label><button type="button" class="cancel-button" data-preview-content="gastronomia">Vista previa</button>
+                <button type="button" class="cancel-button" data-preview-content="gastronomia">Vista previa en el portal</button>
               </section>
               <img id="gastronomia-image-preview" class="image-preview" src="" alt="Vista previa de portada" hidden />
               <div id="edit-state-gastronomia" class="small"></div>
