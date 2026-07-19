@@ -211,20 +211,48 @@ function applyBundledSeedIfEmpty(store) {
   return merged;
 }
 
+// Módulos de «Servicios y datos útiles» que el panel trae por defecto.
+// Coinciden con el asistente del portal público (categoría + ícono Material).
+const DEFAULT_DATOS_UTILES = [
+  { categoria: 'remises', icono: 'local_taxi', titulo: 'Remises', descripcion: 'Contactos de agencias y choferes locales.' },
+  { categoria: 'terminal', icono: 'directions_bus', titulo: 'Terminal', descripcion: 'Información sobre colectivos y boleterías.' },
+  { categoria: 'municipio', icono: 'domain', titulo: 'Municipio', descripcion: 'Horarios de atención y trámites oficiales.' },
+  { categoria: 'iglesias', icono: 'church', titulo: 'Iglesias', descripcion: 'Horarios de misas y templos de la ciudad.' },
+  { categoria: 'emergencias', icono: 'emergency', titulo: 'Emergencias', descripcion: 'Bomberos, policía y defensa civil.' },
+  { categoria: 'salud', icono: 'medical_services', titulo: 'Salud', descripcion: 'Hospitales, clínicas y farmacias de turno.' },
+  { categoria: 'servicios', icono: 'design_services', titulo: 'Servicios', descripcion: 'Bancos, cajeros y otros servicios públicos.' },
+];
+
+// Completa las categorías faltantes sin tocar las existentes (ni su contenido).
+function ensureDefaultDatosUtiles(store) {
+  const existing = new Set((store.datos_utiles || []).map((d) => String(d.categoria || '').toLowerCase()));
+  let added = false;
+  DEFAULT_DATOS_UTILES.forEach((def) => {
+    if (existing.has(def.categoria)) return;
+    store.datos_utiles.push(Object.assign({}, def, { contenido: {}, activo: 1, createdAt: new Date().toISOString() }));
+    added = true;
+  });
+  return added;
+}
+
 function loadStore() {
   try {
     if (!fs.existsSync(DATA_FILE)) {
       const initial = applyBundledSeedIfEmpty(buildInitialStore());
-      if (isTourismContentEmpty(initial)) {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2));
-      }
+      ensureDefaultDatosUtiles(initial);
+      fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2));
       return initial;
     }
     const raw = fs.readFileSync(DATA_FILE, 'utf8');
-    return applyBundledSeedIfEmpty(normalizeStore(JSON.parse(raw || '{}')));
+    const store = applyBundledSeedIfEmpty(normalizeStore(JSON.parse(raw || '{}')));
+    if (ensureDefaultDatosUtiles(store)) {
+      try { fs.writeFileSync(DATA_FILE, JSON.stringify(store, null, 2)); } catch (er) {}
+    }
+    return store;
   } catch (e) {
     console.error('[admin] error loading store', e);
     const initial = applyBundledSeedIfEmpty(buildInitialStore());
+    ensureDefaultDatosUtiles(initial);
     try { fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2)); } catch (er){}
     return initial;
   }
@@ -274,7 +302,7 @@ if (!IS_PROD) {
   ['img', 'css', 'js'].forEach((dir) => {
     app.use(`/${dir}`, express.static(path.join(PORTAL_DIR, dir), { fallthrough: true }));
   });
-  app.get(['/', '/index.html', '/gastronomia.html', '/evento.html'], (req, res, next) => {
+  app.get(['/', '/index.html', '/gastronomia.html', '/evento.html', '/guia-practica.html', '/agenda.html', '/que-hacer.html', '/comercio.html'], (req, res, next) => {
     const file = path.join(PORTAL_DIR, req.path === '/' ? 'index.html' : req.path.replace(/^\//, ''));
     if (fs.existsSync(file)) return res.sendFile(file);
     return next();
@@ -1270,6 +1298,7 @@ function validateAndSanitize(collection, data) {
       out.categoria = sanitizeString(data.categoria || '', 120);
       out.titulo = sanitizeString(data.titulo || '', 200);
       out.descripcion = sanitizeString(data.descripcion || '', 2000);
+      out.icono = sanitizeString(data.icono || '', 60);
       out.activo = normalizeActiveValue(data.activo);
       // contenido should be an object — try to parse if string
       if (typeof data.contenido === 'string') {
@@ -1564,6 +1593,8 @@ app.put('/admin/api/datos-utiles/:categoria', (req, res) => {
     const idx = items.findIndex((item) => String(item.categoria) === String(req.params.categoria));
     const sanitized = validateAndSanitize('datos_utiles', Object.assign({ categoria: req.params.categoria }, req.body || {}));
     const payload = Object.assign({}, sanitized, { updatedAt: new Date().toISOString() });
+    // El panel no envía "icono": conservar el existente si el payload viene vacío.
+    if (idx >= 0 && !payload.icono && items[idx].icono) payload.icono = items[idx].icono;
     if (idx >= 0) {
       items[idx] = Object.assign({}, items[idx], payload);
     } else {

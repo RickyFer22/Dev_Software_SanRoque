@@ -243,12 +243,13 @@
     <div id="chatWindow" class="chat-window">
         <div class="chat-header">
             <div class="chat-logo">
-                <img src="img/turisbot-logo.png">
+                <img src="img/turisbot-logo.png" alt="">
             </div>
             <div>
                 <h3>MuniAyuda</h3>
                 <p>Asistente turístico de San Roque</p>
             </div>
+            <button type="button" class="chat-close" data-chat-close aria-label="Minimizar asistente">✕</button>
         </div>
         <div id="chatBox" class="chat-box"></div>
         <div class="chat-quick">
@@ -428,7 +429,16 @@
         document.getElementById("chatToggle").onclick = () => {
             chatOpen = !chatOpen;
             document.getElementById("chatWindow").style.display = chatOpen ? "flex" : "none";
+            document.getElementById("chatToggle").setAttribute("aria-expanded", String(chatOpen));
         };
+        // Minimizar con el botón ✕ del encabezado o con Escape.
+        function closeChatWindow(){
+            chatOpen = false;
+            document.getElementById("chatWindow").style.display = "none";
+            document.getElementById("chatToggle").setAttribute("aria-expanded", "false");
+        }
+        document.querySelectorAll("[data-chat-close]").forEach((b) => b.addEventListener("click", closeChatWindow));
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && chatOpen) closeChatWindow(); });
 
         function quickAsk(text){
             document.getElementById("chatInput").value = text;

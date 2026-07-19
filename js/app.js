@@ -54,10 +54,22 @@ function initMap() {
 
   if (!map) {
     map = L.map('main-map', { scrollWheelZoom: false, zoomControl: true }).setView([-28.5744, -58.7083], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Vista satelital con etiquetas (por defecto) + plano ilustrado CARTO.
+    const sateliteBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+      attribution: 'Imágenes &copy; Esri &amp; colaboradores'
+    });
+    const sateliteEtiquetas = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19,
+      attribution: '&copy; CARTO &copy; OpenStreetMap'
+    });
+    const vistaSatelite = L.layerGroup([sateliteBase, sateliteEtiquetas]);
+    const vistaPlano = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19,
+      attribution: '&copy; CARTO &copy; OpenStreetMap'
+    });
+    vistaSatelite.addTo(map);
+    L.control.layers({ 'Satélite': vistaSatelite, 'Plano': vistaPlano }, null, { position: 'topright', collapsed: false }).addTo(map);
     L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(map);
   }
 
@@ -65,11 +77,11 @@ function initMap() {
   mapUrbanLayer = L.geoJSON(SAN_ROQUE_URBAN_TRACE, {
     style: {
       className: 'map-urban-trace',
-      color: '#9A4D24',
+      color: '#F2C14E',
       weight: 4,
-      opacity: 0.95,
-      fillColor: '#D6A645',
-      fillOpacity: 0.1,
+      opacity: 0.98,
+      fillColor: '#F5D98A',
+      fillOpacity: 0.08,
       dashArray: '10 7'
     }
   }).addTo(map);
@@ -776,6 +788,16 @@ chatToggleBtn.onclick = () => {
 chatToggleBtn.addEventListener("animationend", () => {
     chatToggleBtn.classList.remove("clicked");
 });
+
+// Minimizar el asistente: botón ✕ del encabezado y tecla Escape.
+function closeChatWindow() {
+    chatOpen = false;
+    const win = document.getElementById("chatWindow");
+    if (win) win.style.display = "none";
+    chatToggleBtn.setAttribute("aria-expanded", "false");
+}
+document.querySelectorAll("[data-chat-close]").forEach((btn) => btn.addEventListener("click", closeChatWindow));
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && chatOpen) closeChatWindow(); });
 
 // Escucha de clicks en los botones de Datos Útiles
 document.querySelectorAll('#lista-datos-utiles a').forEach(btn => {

@@ -972,18 +972,36 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .events-banner-date { display:grid;justify-items:center;gap:3px;padding-left:34px;border-left:1px solid rgba(245,217,138,.45);color:#F5D98A;font:600 10px/1 "JetBrains Mono",monospace;letter-spacing:.22em; }
 .events-banner-date strong { color:#fff;font:800 clamp(40px,6vw,74px)/1 "Syne",sans-serif;letter-spacing:-.08em; }
 
-.gastronomy-story-cta { position:relative;margin:clamp(60px,10vw,120px) calc(50% - 50vw) 0;padding:clamp(90px,12vw,160px) 24px;overflow:hidden;isolation:isolate;color:#fff;background:linear-gradient(150deg,#16340A 0%,#274F10 58%,#367216 100%);text-align:center; }
+.gastronomy-story-cta {
+  position:relative;margin:clamp(60px,10vw,120px) calc(50% - 50vw) 0;padding:clamp(90px,12vw,160px) 24px;overflow:hidden;isolation:isolate;color:#fff;text-align:center;
+  /* Verde vivo con amaneceres dorados que respiran (adiós al verde apagado) */
+  background:
+    radial-gradient(58rem 32rem at 12% 6%, rgba(245,217,138,.38), transparent 58%),
+    radial-gradient(48rem 32rem at 90% 94%, rgba(238,154,27,.42), transparent 62%),
+    radial-gradient(40rem 26rem at 55% 45%, rgba(76,181,68,.55), transparent 70%),
+    linear-gradient(120deg,#2E9433 0%,#4CB544 40%,#3DA33A 62%,#1E7A2F 100%);
+  background-size:160% 160%,160% 160%,140% 140%,100% 100%;
+  animation:ctaBreath 16s ease-in-out infinite;
+}
+@keyframes ctaBreath {
+  0%,100% { background-position:0% 20%,100% 80%,50% 50%,0% 0%; }
+  50% { background-position:40% 0%,60% 100%,45% 60%,0% 0%; }
+}
 .gastronomy-story-cta::before,.gastronomy-story-cta::after { content:"";position:absolute;left:-5%;width:110%;height:70px;background:#f0f4f3;z-index:1; }
 .gastronomy-story-cta::before { top:-46px;border-radius:0 0 50% 50%; }
 .gastronomy-story-cta::after { bottom:-50px;border-radius:50% 50% 0 0; }
 .gastronomy-story-inner { position:relative;z-index:2;max-width:980px;margin:auto; }
 .gastronomy-story-kicker { display:block;margin-bottom:25px;color:#F5D98A;font:600 11px/1.2 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase; }
 .gastronomy-story-cta h2 { min-height:2.1em;margin:0;color:#fff;font:700 clamp(40px,7vw,76px)/1.03 "Syne",sans-serif;letter-spacing:-.04em; }
-.gastronomy-story-cta p { max-width:680px;margin:28px auto 0;color:rgba(255,255,255,.78);font-size:clamp(17px,2vw,21px);line-height:1.65; }
-.gastronomy-story-orbit { position:absolute;left:50%;top:50%;width:min(82vw,850px);aspect-ratio:1;border:1px solid rgba(245,217,138,.2);border-radius:50%;transform:translate(-50%,-50%); }
-.gastronomy-story-orbit::before,.gastronomy-story-orbit::after { content:"";position:absolute;inset:12%;border:1px solid rgba(245,217,138,.12);border-radius:50%; }
+.gastronomy-story-cta p { max-width:680px;margin:28px auto 0;color:rgba(255,255,255,.92);font-size:clamp(17px,2vw,21px);line-height:1.65;text-shadow:0 1px 8px rgba(10,30,8,.35); }
+.gastronomy-story-orbit { position:absolute;left:50%;top:50%;width:min(82vw,850px);aspect-ratio:1;border:1.5px solid rgba(245,217,138,.38);border-radius:50%;transform:translate(-50%,-50%);animation:ctaOrbit 46s linear infinite; }
+.gastronomy-story-orbit::before { content:"";position:absolute;inset:12%;border:1px solid rgba(245,217,138,.18);border-radius:50%; }
+/* Lucero dorado que recorre la órbita */
+.gastronomy-story-orbit::after { content:"";position:absolute;top:-7px;left:calc(50% - 7px);width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff6da,#F5D98A 55%,#EE9A1B);box-shadow:0 0 22px rgba(245,217,138,.95),0 0 44px rgba(238,154,27,.5); }
+@keyframes ctaOrbit { to { transform:translate(-50%,-50%) rotate(360deg); } }
+@media (prefers-reduced-motion:reduce) { .gastronomy-story-cta,.gastronomy-story-orbit { animation:none; } }
 .gastronomy-story-orbit::after { inset:28%; }
-.gastronomy-story-mark { position:absolute;right:4%;bottom:2%;color:rgba(245,217,138,.07);font:800 min(26vw,340px)/1 "Syne",sans-serif;letter-spacing:-.12em; }
+.gastronomy-story-mark { position:absolute;right:4%;bottom:2%;color:rgba(245,217,138,.14);font:800 min(26vw,340px)/1 "Syne",sans-serif;letter-spacing:-.12em;text-shadow:0 0 60px rgba(245,217,138,.25); }
 .gastronomy-story-detail { display:flex;align-items:center;justify-content:center;gap:18px;margin-top:42px;color:#F5D98A;font:500 10px/1.4 "JetBrains Mono",monospace;letter-spacing:.15em;text-transform:uppercase; }
 .gastronomy-story-detail span { width:54px;height:1px;background:#D4A83C; }
 
@@ -1312,11 +1330,12 @@ body.lightbox-open { overflow:hidden; }
 .monjita-modal-panel { position:relative;z-index:1;width:min(980px,100%);max-height:90vh;overflow:hidden;display:grid;grid-template-columns:minmax(0,42%) minmax(0,58%);background:#fff;border-radius:24px;box-shadow:0 40px 90px rgba(0,0,0,.42);animation:viewFadeIn .35s cubic-bezier(.22,1,.36,1); }
 .monjita-modal-x { position:absolute;top:12px;right:12px;z-index:2;width:40px;height:40px;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;cursor:pointer;transition:background .2s ease; }
 .monjita-modal-x:hover { background:rgba(0,0,0,.78); }
-.monjita-gallery { background:#16340A;padding:16px;display:flex;flex-direction:column;gap:10px; }
+.monjita-gallery { background:linear-gradient(175deg,#fbf8ef 0%,#f3edda 70%,#eee5cc 100%);border-right:1px solid rgba(212,168,60,.25);padding:16px;display:flex;flex-direction:column;gap:10px; }
 #monjita-gallery-main { width:100%;height:auto;max-height:54vh;object-fit:cover;border-radius:16px; }
 .monjita-thumbs { display:flex;gap:8px;flex-wrap:wrap; }
-.monjita-thumb { width:52px;height:52px;border-radius:10px;overflow:hidden;border:2px solid transparent;padding:0;cursor:pointer;background:none;transition:border-color .2s ease; }
-.monjita-thumb.is-active { border-color:#F5D98A; }
+.monjita-thumb { width:52px;height:52px;border-radius:10px;overflow:hidden;border:2px solid rgba(212,168,60,.25);padding:0;cursor:pointer;background:none;transition:border-color .2s ease,transform .2s ease; }
+.monjita-thumb:hover { transform:translateY(-2px); }
+.monjita-thumb.is-active { border-color:#D4A83C;box-shadow:0 4px 12px rgba(212,168,60,.35); }
 .monjita-thumb img { width:100%;height:100%;object-fit:cover; }
 .monjita-article { padding:28px 30px;overflow-y:auto;max-height:90vh; }
 .monjita-article-kicker { display:inline-block;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#336A15;background:#eef4e4;padding:5px 12px;border-radius:999px;margin-bottom:12px; }
@@ -1441,7 +1460,15 @@ body:has(.detail-hero) main > aside { border-radius:var(--radius-card); }
 .gastronomy-page #hero-section { height:min(78svh,720px) !important;min-height:560px;border-radius:0 0 clamp(28px,5vw,64px) clamp(28px,5vw,64px); }
 .gastronomy-page #directory { padding-top:clamp(72px,9vw,120px);padding-bottom:clamp(72px,9vw,120px); }
 .gastronomy-page #gastronomia-grid { gap:clamp(20px,3vw,34px); }
-.gastronomy-page .gastronomy-story-cta { margin-top:0;background:linear-gradient(145deg,#284738,#355E4A 62%,#466E5A); }
+.gastronomy-page .gastronomy-story-cta {
+  margin-top:0;
+  background:
+    radial-gradient(58rem 32rem at 12% 6%, rgba(245,217,138,.38), transparent 58%),
+    radial-gradient(48rem 32rem at 90% 94%, rgba(238,154,27,.42), transparent 62%),
+    radial-gradient(40rem 26rem at 55% 45%, rgba(76,181,68,.55), transparent 70%),
+    linear-gradient(120deg,#2E9433 0%,#4CB544 40%,#3DA33A 62%,#1E7A2F 100%);
+  background-size:160% 160%,160% 160%,140% 140%,100% 100%;
+}
 
 .gastronomy-premium-page { --green:#355E4A !important;--green-dark:#2C4F3D !important;--cream:#F6F3EE !important;--gold:#D8A441 !important; }
 .gastronomy-premium-page .hero { min-height:min(82svh,760px);border-radius:0 0 clamp(28px,5vw,64px) clamp(28px,5vw,64px); }
@@ -1709,3 +1736,15 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .site-footer .sr-wordmark-hero span { animation: none; transform: rotate(var(--sr-tilt, 0deg)); }
 }
+
+/* Botón minimizar del asistente MuniAyuda */
+.chat-header { position:relative; }
+.chat-close {
+  position:absolute;top:10px;right:10px;
+  width:32px;height:32px;display:grid;place-items:center;
+  border:0;border-radius:50%;cursor:pointer;
+  background:rgba(255,255,255,.18);color:#fff;font-size:14px;line-height:1;
+  transition:background .2s ease,transform .2s ease;
+}
+.chat-close:hover { background:rgba(255,255,255,.32);transform:scale(1.08); }
+.chat-close:focus-visible { outline:3px solid #F5D98A;outline-offset:2px; }
