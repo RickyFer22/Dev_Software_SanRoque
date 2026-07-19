@@ -200,6 +200,10 @@
 
 .chat-button{
 
+    border:0;
+    padding:0;
+    font-family:inherit;
+
     width:75px;
     height:75px;
 
@@ -1489,3 +1493,59 @@ body:has(.detail-hero) main > aside { border-radius:var(--radius-card); }
 .site-footer .footer-bottombar { background:var(--surface); }
 .site-footer .academic-credits { background:transparent;color:var(--brand-primary); }
 .site-footer .compact-footer-legal { background:transparent;color:var(--text-muted); }
+
+/* ══ ACCESIBILIDAD (auditoría WCAG corta) ══ */
+/* WhatsApp: blanco sobre #25D366 daba ~2:1 — verde accesible (≥4.5:1) */
+#det-wa-btn-desktop, #det-wa-btn-mobile { background-color:#0E7C3F !important; }
+#det-wa-btn-desktop:hover, #det-wa-btn-mobile:active { background-color:#0A6633 !important; }
+/* Anillo de foco visible para todo control sin foco propio */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline:3px solid #C88A2B; outline-offset:2px;
+}
+.chat-button:focus-visible { outline:3px solid #F5D98A; outline-offset:3px; }
+.quick-btn:focus-visible, .chat-input-area button:focus-visible { outline:3px solid #274F10; outline-offset:2px; }
+
+/* ══ BRILLO Y VIDA (la página se sentía apagada) ══ */
+/* Fondo con luz: washes suaves de verde, dorado y cielo en vez del beige plano */
+body {
+  background:
+    radial-gradient(60rem 40rem at 8% 22%, rgba(61,163,58,.075), transparent 60%),
+    radial-gradient(52rem 36rem at 94% 12%, rgba(245,217,138,.16), transparent 62%),
+    radial-gradient(64rem 44rem at 50% 88%, rgba(46,147,199,.07), transparent 65%),
+    var(--surface);
+  background-attachment: fixed;
+}
+
+/* Subrayado dorado luminoso en los títulos de sección */
+#main-explorer-view section h2.font-display-lg::after {
+  content:""; display:block; width:72px; height:4px; margin-top:10px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#D4A83C,#F5D98A 45%,#EE9A1B);
+  box-shadow:0 2px 10px rgba(212,168,60,.45);
+}
+#main-explorer-view section .text-center h2.font-display-lg::after { margin-inline:auto; }
+
+/* Datos útiles: chips con calidez y glow dorado al pasar */
+.datos-utiles-lista li a { background:linear-gradient(180deg,#ffffff,#fffaf0); }
+.datos-utiles-lista li a:hover {
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:0 12px 30px rgba(212,168,60,.28);
+  border-bottom-color:#EE9A1B;
+}
+
+/* Cards de hospedaje: elevación con luz cálida */
+.card-item { transition:transform .35s ease, box-shadow .35s ease !important; }
+.card-item:hover {
+  transform:translateY(-6px);
+  box-shadow:0 24px 55px rgba(32,52,43,.16), 0 10px 30px rgba(212,168,60,.18) !important;
+}
+
+/* Chips del hero con un toque más de luz */
+.hero-chip { background:rgba(255,255,255,.18); }
+.hero-chip:hover { background:rgba(255,255,255,.3); }
+
+/* Botón "Ver más": presencia dorada */
+#btn-ver-mas-alojamientos:hover {
+  background:linear-gradient(180deg,#F5D98A,#D4A83C);
+  border-color:#D4A83C; color:#274F10;
+}

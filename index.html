@@ -449,7 +449,7 @@
   </div>
   <div id="chatbot" class="chatbot fade-in-up">
 
-    <div id="chatWindow" class="chat-window">
+    <div id="chatWindow" class="chat-window" role="dialog" aria-label="MuniAyuda, asistente turístico de San Roque">
 
       <div class="chat-header">
 
@@ -466,7 +466,7 @@
       </div>
 
 
-      <div id="chatBox" class="chat-box"></div>
+      <div id="chatBox" class="chat-box" role="log" aria-live="polite"></div>
 
 
       <!-- BOTONES RAPIDOS -->
@@ -502,10 +502,10 @@
 
       <div class="chat-input-area">
 
-        <input id="chatInput" placeholder="Escribe tu consulta..." onkeypress="if(event.key==='Enter')sendChat()">
+        <input id="chatInput" placeholder="Escribe tu consulta..." aria-label="Escribí tu consulta para MuniAyuda" onkeypress="if(event.key==='Enter')sendChat()">
 
 
-        <button onclick="sendChat()">
+        <button onclick="sendChat()" aria-label="Enviar consulta">
           ➤
         </button>
 
@@ -516,14 +516,14 @@
 
 
 
-    <div id="chatToggle" class="chat-button" title="MuniAyuda - Asistente turístico">
+    <button type="button" id="chatToggle" class="chat-button" title="MuniAyuda - Asistente turístico" aria-haspopup="dialog" aria-controls="chatWindow" aria-expanded="false">
 
       <img
-        src="img/turisbot-logo.png" alt="MuniAyuda">
+        src="img/turisbot-logo.png" alt="">
 
       <span>MuniAyuda</span>
 
-    </div>
+    </button>
 
 
   </div>

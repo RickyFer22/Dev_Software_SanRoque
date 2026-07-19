@@ -761,6 +761,7 @@ const chatToggleBtn = document.getElementById("chatToggle");
 chatToggleBtn.onclick = () => {
     chatOpen = !chatOpen;
     document.getElementById("chatWindow").style.display = chatOpen ? "flex" : "none";
+    chatToggleBtn.setAttribute("aria-expanded", String(chatOpen));
 
     // Animación de click: el botón nunca se oculta, solo se anima
     chatToggleBtn.classList.remove("clicked");

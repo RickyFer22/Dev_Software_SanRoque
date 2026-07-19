@@ -1404,3 +1404,97 @@ input:focus,textarea:focus,select:focus { border-color:var(--admin-primary) !imp
 /* Badges de conteo del menú lateral */
 body.sidebar-collapsed .nav-badge { display: none; }
 .nav-item .nav-badge { margin-left: auto; }
+
+/* ══ Diálogo de confirmación y biblioteca de imágenes (no tenían estilos) ══ */
+.confirm-dialog {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px 24px;
+  width: min(430px, calc(100vw - 40px));
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+.confirm-dialog::backdrop { background: rgba(12, 20, 17, 0.5); backdrop-filter: blur(3px); }
+.confirm-dialog h2 { margin: 0 0 8px; font-size: 1.08rem; }
+.confirm-dialog p { margin: 0 0 18px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+.media-picker {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  margin: auto;
+  width: min(760px, calc(100vw - 32px));
+  height: min(560px, calc(100vh - 60px));
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px 22px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
+}
+.media-picker[hidden] { display: none; }
+.media-picker-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.media-picker-head h2 { margin: 2px 0 0; font-size: 1.12rem; }
+.media-search-label { display: block; margin-bottom: 14px; font-size: 13px; font-weight: 650; color: var(--muted); }
+.media-search-label input { width: 100%; margin-top: 6px; padding: 10px 12px; border: 1px solid var(--line); }
+
+/* ══ MODO NOCHE COMPLETO ══ */
+[data-theme="dark"] {
+  --canvas: #0f1712;
+  --surface: #18231c;
+  --surface-2: #1f2d24;
+  --text: #e9f0e9;
+  --muted: #a3b4a8;
+  --line: #2e3d33;
+}
+[data-theme="dark"] body { background-image: radial-gradient(circle at 78% 0, rgba(216, 164, 65, 0.12), transparent 30rem); }
+[data-theme="dark"] .topbar { background: rgba(17, 25, 20, 0.92); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
+[data-theme="dark"] .card,
+[data-theme="dark"] .kpi-card { border-color: var(--line); }
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select { background: var(--surface-2); color: var(--text); }
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder { color: var(--muted); }
+[data-theme="dark"] .editor-tabs button[aria-selected="true"] { background: var(--surface); color: var(--sun); box-shadow: 0 5px 16px rgba(0, 0, 0, 0.45); }
+[data-theme="dark"] .editor-actions { background: rgba(20, 29, 24, 0.95); }
+[data-theme="dark"] .media-editor-item,
+[data-theme="dark"] .media-upload-row { background: var(--surface-2); }
+[data-theme="dark"] .media-upload-row.complete { border-color: #3f6b4d; background: #1c3124; }
+[data-theme="dark"] .media-upload-row.error { border-color: #7a4038; background: #33201c; }
+[data-theme="dark"] .media-dropzone { background: linear-gradient(145deg, #1c2921, #17221b); border-color: #3c4f42; }
+[data-theme="dark"] .media-dropzone:hover,
+[data-theme="dark"] .media-dropzone.dragover,
+[data-theme="dark"] .media-dropzone:focus-visible { background: #223229; border-color: var(--gold); }
+[data-theme="dark"] .media-guidance { background: #2b2414; border-color: #4c3f1d; color: #e7d193; }
+[data-theme="dark"] .form-errors { background: #331c17; border-color: #6d3931; color: #f2b6ac; }
+[data-theme="dark"] .portal-preview-browserbar { background: #22302a; color: var(--muted); }
+[data-theme="dark"] .switch .switch-track { background: #3c4c41; }
+[data-theme="dark"] .queue-item:hover { background: color-mix(in srgb, var(--gold) 10%, var(--surface-2)); border-color: var(--gold); }
+
+/* Pills de estado y rol en noche */
+[data-theme="dark"] .status-pill { background: #263229; color: #c6d4c8; }
+[data-theme="dark"] .status-pill.published { background: color-mix(in srgb, var(--ok) 32%, var(--surface)); color: #bfe8ad; }
+[data-theme="dark"] .status-pill.draft { background: color-mix(in srgb, var(--warn) 30%, var(--surface)); color: #f2d492; }
+[data-theme="dark"] .status-pill.review { background: #322a4a; color: #cfc0f0; }
+[data-theme="dark"] .status-pill.hidden { background: #2a332d; color: #aebbb1; }
+[data-theme="dark"] .status-pill.archived { background: #2b323b; color: #b9c6d4; }
+[data-theme="dark"] .status-pill.approved { background: color-mix(in srgb, var(--ok) 32%, var(--surface)); color: #bfe8ad; }
+[data-theme="dark"] .status-pill.rejected { background: #3b211d; color: #f0b3aa; }
+[data-theme="dark"] .status-pill.pending { background: #1d3240; color: #a9d3ec; }
+[data-theme="dark"] .role-pill { background: #1d3240; color: #a9d3ec; }
+[data-theme="dark"] .role-pill.super-admin { background: #223046; color: #b6cdf2; }
+[data-theme="dark"] .role-pill.editor { background: color-mix(in srgb, var(--ok) 26%, var(--surface)); color: #bfe8ad; }
+[data-theme="dark"] .role-pill.viewer { background: #2a333c; color: #c2cdd6; }
+[data-theme="dark"] .role-pill.guest { background: #2a3038; color: #aab6c2; }
+
+/* Selector rápido de estado en noche (published/draft ya definidos arriba) */
+[data-theme="dark"] .quick-status { background: var(--surface-2) !important; border-color: var(--line) !important; }
+[data-theme="dark"] .quick-status.is-published { background: color-mix(in srgb, var(--ok) 30%, var(--surface-2)) !important; border-color: #4c7a4a !important; color: #c9f2bd; }
+[data-theme="dark"] .quick-status.is-draft { background: color-mix(in srgb, var(--warn) 28%, var(--surface-2)) !important; border-color: #7a5c22 !important; color: #f5d98a; }
+[data-theme="dark"] .quick-status.is-review { background: #322a4a !important; border-color: #4d3f73 !important; color: #cfc0f0; }
+[data-theme="dark"] .quick-status.is-hidden { background: #2a332d !important; border-color: #445247 !important; color: #aebbb1; }
+[data-theme="dark"] .quick-status.is-archived { background: #2b323b !important; border-color: #46525f !important; color: #b9c6d4; }
