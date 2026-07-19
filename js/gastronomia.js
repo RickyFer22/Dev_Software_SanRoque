@@ -11,21 +11,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     pets: "Pet friendly",
     parking: "Estacionamiento",
     videocam: "Cámaras",
-    celiac: "Celíacos",
-    restaurant: "Comedor",
+    celiac: "Sin TACC",
+    restaurant: "En el lugar",
     shower: "Duchas",
     delivery: "Delivery",
     ac_unit: "Climatizado",
     tv: "TV"
   };
+  // Nunca mostrar claves internas: si no está mapeada, se humaniza.
+  const serviceLabel = (s) => serviceLabels[s] || String(s).replace(/[_-]+/g, " ").replace(/^\w/, (c) => c.toUpperCase());
 
   function crearCard(local) {
     const id = local.id || String(local.nombre || local.titulo || '').toLowerCase().replace(/\s+/g, '-');
     const nombre = local.nombre || local.titulo || 'Local';
     const servicios = (local.servicios || [])
-      .map(servicio => `<li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider leading-tight">${serviceLabels[servicio] || servicio}</li>`)
+      .map(servicio => `<li class="bg-neutral-100 px-3 py-1.5 rounded-md text-[11px] font-bold text-neutral-700 uppercase tracking-wider leading-tight">${serviceLabel(servicio)}</li>`)
       .join("");
     const ratingBadge = window.VsrRatings ? VsrRatings.averageBadgeHtml('gastronomia', id, 16) : '';
+    const estadoBadge = window.VsrHorario ? VsrHorario.badgeHtml(local.horario || local.hora) : '';
 
     return `
       <article id="gastro-${id}" data-gastro-id="${id}" class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[620px] lg:min-h-[500px] card-item fade-in-up">
@@ -34,12 +37,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
         </a>
 
-        <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">Gastronomía</div>
+        <div class="absolute top-4 left-4 z-20 bg-moss-dark/90 text-canvas-white text-[10px] font-label-caps uppercase px-3 py-1.5 rounded-full tracking-wider font-bold shadow-md">${local.tipo ? String(local.tipo).replace(/^\w/, (c) => c.toUpperCase()) : 'Gastronomía'}</div>
 
         <div class="absolute inset-x-0 bottom-0 top-[40%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-5 sm:p-6 md:p-8 flex flex-col justify-start lg:justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
           <h2 class="text-primary text-[21px] sm:text-[22px] font-bold font-headline-md mb-2 leading-tight">
             <a href="gastronomia.html?g=${encodeURIComponent(id)}" class="hover:text-river-teal hover:underline transition-colors">${local.nombre || local.titulo}</a>
           </h2>
+
+          ${estadoBadge ? `<div class="mb-2">${estadoBadge}</div>` : ''}
 
           <div class="flex flex-wrap gap-3 text-[12px] text-neutral-600 font-bold mb-4 leading-tight">
             <span class="inline-flex items-center gap-1.5">
@@ -72,8 +77,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
   }
 
+  // ── Carga de datos (API con fallback local) ────────────────────
   let data = Array.isArray(window.gastronomiaData) ? window.gastronomiaData : [];
   let ratingsLoaded = false;
+  let loadError = false;
   try {
     const res = await fetch(`/api/data`);
     if (res.ok) {
@@ -82,42 +89,137 @@ document.addEventListener("DOMContentLoaded", async () => {
         data = payload.gastronomia;
       }
       if (window.VsrRatings && payload.ratings) { VsrRatings.setRatings(payload.ratings); ratingsLoaded = true; }
+    } else {
+      loadError = true;
     }
   } catch (err) {
+    loadError = true;
     console.info('Usando gastronomía local por fallback', err.message);
   }
   if (window.VsrRatings && !ratingsLoaded) { try { await VsrRatings.load(); } catch (_) {} }
 
-  const items = Array.isArray(data) ? data : Object.values(data || {});
-  grid.innerHTML = items.map(crearCard).join("");
-  window.VsrVisita?.refresh();
+  const items = (Array.isArray(data) ? data : Object.values(data || {}))
+    .filter((local) => local && (local.nombre || local.titulo));
 
-  // Redirigir a la landing de cada comercio al hacer click en la tarjeta (abre en nueva pestaña)
-  grid.querySelectorAll('article[data-gastro-id]').forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.vsr-interactive, .geo-btn, .gastro-share-btn, .visita-add, a[href*="wa.me"], a[href*="gastronomia.html?g="]')) {
-        return;
-      }
-      const id = card.dataset.gastroId;
-      window.location.href = `gastronomia.html?g=${encodeURIComponent(id)}`;
+  // Error real: sin API y sin datos locales.
+  if (!items.length) {
+    grid.innerHTML = `
+      <div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/80 px-6 py-14 text-neutral-600">
+        <p class="font-bold text-primary text-lg mb-2">${loadError ? 'No pudimos cargar la información.' : 'Todavía no hay establecimientos publicados.'}</p>
+        ${loadError ? '<button type="button" class="mt-2 px-6 py-3 rounded-full bg-river-teal text-white font-bold text-sm" onclick="location.reload()">Reintentar</button>' : ''}
+      </div>`;
+    return;
+  }
+
+  // ── Explorador: buscador, categorías y filtros ─────────────────
+  const state = { q: '', cat: 'todas', filtros: new Set() };
+  const norm = (v) => String(v || '').toLocaleLowerCase('es').normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+  const categorias = [...new Set(items.map((l) => norm(l.tipo)).filter(Boolean))];
+  const serviciosDisponibles = [...new Set(items.flatMap((l) => Array.isArray(l.servicios) ? l.servicios : []))];
+
+  const FILTROS = [
+    { id: 'abierto', label: 'Abierto ahora', test: (l) => { const e = window.VsrHorario && VsrHorario.estado(l.horario || l.hora); return Boolean(e && e.open); } },
+    ...serviciosDisponibles.map((s) => ({ id: `serv:${s}`, label: serviceLabel(s), test: (l) => (l.servicios || []).includes(s) })),
+  ];
+
+  const catsHost = document.getElementById('gastro-cats');
+  const filtersHost = document.getElementById('gastro-filters');
+  const searchInput = document.getElementById('gastro-search');
+  const resultsInfo = document.getElementById('gastro-results-info');
+
+  function renderChips() {
+    if (catsHost) {
+      const chips = [['todas', `Todos (${items.length})`], ...categorias.map((c) => [c, `${c.replace(/^\w/, (x) => x.toUpperCase())} (${items.filter((l) => norm(l.tipo) === c).length})`])];
+      catsHost.innerHTML = chips.map(([value, label]) => `<button type="button" class="gastro-chip ${state.cat === value ? 'active' : ''}" data-cat="${value}" aria-pressed="${state.cat === value}">${label}</button>`).join('');
+      catsHost.querySelectorAll('[data-cat]').forEach((b) => b.addEventListener('click', () => { state.cat = b.dataset.cat; aplicar(); }));
+    }
+    if (filtersHost) {
+      filtersHost.innerHTML = FILTROS.map((f) => `<button type="button" class="gastro-chip gastro-chip-filter ${state.filtros.has(f.id) ? 'active' : ''}" data-filtro="${f.id}" aria-pressed="${state.filtros.has(f.id)}">${f.id === 'abierto' ? '<i class="gastro-dot" aria-hidden="true"></i>' : ''}${f.label}${state.filtros.has(f.id) ? ' ✕' : ''}</button>`).join('');
+      filtersHost.querySelectorAll('[data-filtro]').forEach((b) => b.addEventListener('click', () => {
+        const id = b.dataset.filtro;
+        state.filtros.has(id) ? state.filtros.delete(id) : state.filtros.add(id);
+        aplicar();
+      }));
+    }
+  }
+
+  function coincide(local) {
+    if (state.cat !== 'todas' && norm(local.tipo) !== state.cat) return false;
+    for (const fid of state.filtros) {
+      const filtro = FILTROS.find((f) => f.id === fid);
+      if (filtro && !filtro.test(local)) return false;
+    }
+    if (state.q) {
+      const texto = norm([local.nombre, local.titulo, local.tipo, local.descripcion, local.direccion, local.ubicacion, (local.servicios || []).map(serviceLabel).join(' '), (local.specialties || []).join(' ')].join(' '));
+      if (!texto.includes(norm(state.q))) return false;
+    }
+    return true;
+  }
+
+  function bindGrid() {
+    grid.querySelectorAll('article[data-gastro-id]').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.vsr-interactive, .geo-btn, .gastro-share-btn, .visita-add, a[href*="wa.me"], a[href*="gastronomia.html?g="]')) {
+          return;
+        }
+        const id = card.dataset.gastroId;
+        window.location.href = `gastronomia.html?g=${encodeURIComponent(id)}`;
+      });
     });
+    if (window.VsrRatings) VsrRatings.mountAllInteractive(grid);
+    window.VsrVisita?.refresh();
+    grid.querySelectorAll('.gastro-share-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (!window.VsrShare) return;
+        const r = await VsrShare.share('g', btn.dataset.shareId, btn.dataset.shareName);
+        if (r && r.method === 'clipboard') {
+          const original = btn.innerHTML;
+          btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span> ¡Copiado!';
+          setTimeout(() => { btn.innerHTML = original; }, 1800);
+        }
+      });
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.05 });
+    grid.querySelectorAll('.fade-in-up').forEach(card => observer.observe(card));
+  }
+
+  function aplicar() {
+    const visibles = items.filter(coincide);
+    if (!visibles.length) {
+      grid.innerHTML = `
+        <div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/80 px-6 py-14 text-neutral-600">
+          <p class="font-bold text-primary text-lg mb-2">No encontramos establecimientos con esos filtros.</p>
+          <p class="text-sm mb-4">Probá eliminando alguna opción o buscando otra cosa.</p>
+          <button type="button" id="gastro-clear-filters" class="px-6 py-3 rounded-full bg-river-teal text-white font-bold text-sm">Quitar filtros</button>
+        </div>`;
+      document.getElementById('gastro-clear-filters')?.addEventListener('click', () => {
+        state.q = ''; state.cat = 'todas'; state.filtros.clear();
+        if (searchInput) searchInput.value = '';
+        aplicar();
+      });
+    } else {
+      grid.innerHTML = visibles.map(crearCard).join("");
+      bindGrid();
+    }
+    renderChips();
+    if (resultsInfo) {
+      const activos = state.filtros.size + (state.cat !== 'todas' ? 1 : 0) + (state.q ? 1 : 0);
+      resultsInfo.textContent = activos ? `${visibles.length} de ${items.length} establecimientos` : '';
+    }
+  }
+
+  let searchTimer = 0;
+  searchInput?.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { state.q = searchInput.value.trim(); aplicar(); }, 220);
   });
 
-  // Calificaciones interactivas por local.
-  if (window.VsrRatings) VsrRatings.mountAllInteractive(grid);
-
-  // Botón compartir por tarjeta (permalink ?g=<id>).
-  grid.querySelectorAll('.gastro-share-btn').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      if (!window.VsrShare) return;
-      const r = await VsrShare.share('g', btn.dataset.shareId, btn.dataset.shareName);
-      if (r && r.method === 'clipboard') {
-        const original = btn.innerHTML;
-        btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span> ¡Copiado!';
-        setTimeout(() => { btn.innerHTML = original; }, 1800);
-      }
-    });
-  });
+  aplicar();
 
   // Si se abrió con ?g=<id>, resaltar y desplazar a ese local.
   const focusId = window.VsrShare && VsrShare.paramFromUrl('g');
@@ -129,12 +231,4 @@ document.addEventListener("DOMContentLoaded", async () => {
       setTimeout(() => el.classList.remove('vsr-highlight'), 3000);
     }
   }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add("visible");
-    });
-  }, { threshold: 0.05 });
-
-  document.querySelectorAll("#gastronomia-grid .fade-in-up").forEach(card => observer.observe(card));
 });

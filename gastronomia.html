@@ -41,6 +41,7 @@
 <script src="js/ratings.js" defer></script>
 <script src="js/share.js" defer></script>
 <script src="js/visita.js" defer></script>
+<script src="js/horario-estado.js" defer></script>
 <script src="js/gallery.js?v=20260718" defer></script>
 <script src="js/detail-pages.js?v=20260718" defer></script>
 <script src="js/gastronomia.js?v=20260718" defer></script>
@@ -204,22 +205,21 @@
 
 <!-- Filters & Intro -->
 <section class="py-section-padding px-gutter max-w-container-max mx-auto" id="directory">
-<div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+<div class="flex flex-col gap-8 mb-10">
 <div class="max-w-2xl">
 <span class="font-label-caps text-label-caps text-secondary uppercase block mb-4">Experiencia Gastronómica</span>
-<h2 class="font-headline-md text-headline-md text-primary mb-4">Nuestros Establecimientos</h2>
-<p class="text-on-surface-variant">Explorá la variedad de comedores y bufets que San Roque tiene para ofrecer. Desde opciones celíacas hasta menús tradicionales de mediodía.</p>
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Sabores de San Roque</h2>
+<p class="text-on-surface-variant">Descubrí restaurantes, comedores y sabores locales. Buscá por nombre, tipo de comida o servicio, y filtrá lo que necesitás.</p>
 </div>
-<div class="flex flex-wrap gap-3">
-<span class="px-4 py-2 border border-outline-variant text-primary font-label-caps text-label-caps flex items-center gap-2 cursor-pointer hover:border-secondary transition-all">
-<span class="material-symbols-outlined text-[18px]">wifi</span> WIFI
-                    </span>
-<span class="px-4 py-2 border border-outline-variant text-primary font-label-caps text-label-caps flex items-center gap-2 cursor-pointer hover:border-secondary transition-all">
-<span class="material-symbols-outlined text-[18px]">pets</span> PET FRIENDLY
-                    </span>
-<span class="px-4 py-2 border border-outline-variant text-primary font-label-caps text-label-caps flex items-center gap-2 cursor-pointer hover:border-secondary transition-all">
-<span class="material-symbols-outlined text-[18px]">restaurant</span> CELÍACOS
-                    </span>
+<!-- Explorador gastronómico: buscador + categorías + filtros funcionales -->
+<div class="gastro-explorer">
+  <label class="gastro-search">
+    <span class="material-symbols-outlined" aria-hidden="true">search</span>
+    <input id="gastro-search" type="search" placeholder="¿Qué querés comer hoy?" aria-label="Buscar establecimiento, comida o servicio" />
+  </label>
+  <div id="gastro-cats" class="gastro-chips" role="group" aria-label="Categorías gastronómicas"></div>
+  <div id="gastro-filters" class="gastro-chips gastro-chips-filters" role="group" aria-label="Filtros"></div>
+  <div id="gastro-results-info" class="gastro-results-info" aria-live="polite"></div>
 </div>
 </div>
 <!-- Restaurant Grid -->

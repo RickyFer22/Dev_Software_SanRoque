@@ -115,13 +115,15 @@
     const phone = digits(item.telefono);
     const whatsapp = digits(item.whatsapp || item.waNumber);
     const map = item.mapsLink || (Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lon)) ? `https://www.google.com/maps/search/?api=1&query=${item.lat},${item.lon}` : '');
-    const services = asList(item.servicios).map((service) => typeof service === 'string' ? (serviceNames[service] || service) : service.texto).filter(Boolean);
+    const services = asList(item.servicios).map((service) => typeof service === 'string' ? (serviceNames[service] || String(service).replace(/[_-]+/g, ' ').replace(/^\w/, (c) => c.toUpperCase())) : service.texto).filter(Boolean);
     const matches = related(all, item);
+    const estadoBadge = window.VsrHorario ? VsrHorario.badgeHtml(item.horario) : '';
+    const waHref = whatsapp ? `https://wa.me/${whatsapp.replace(/^\+/, '')}` : '';
     host.innerHTML = `
       <button type="button" class="detail-back" data-gastro-back>Volver a gastronomía</button>
       <header class="tourism-detail-hero">
         <div class="detail-hero-media">${window.TourismGallery.responsivePicture(mainImage || {}, '', 'eager')}<button type="button" data-open-gastro-gallery>Ver todas las fotos <span>${images.length}</span></button></div>
-        <div class="detail-hero-copy"><span>${esc(item.tipo || 'Gastronomía')}</span><h1>${esc(item.nombre || item.titulo)}</h1>${item.summary ? `<p>${esc(item.summary)}</p>` : ''}<div class="tourism-actions">${contactLink(phone ? `tel:${phone}` : '', 'Llamar')}${contactLink(whatsapp ? `https://wa.me/${whatsapp.replace(/^\+/, '')}` : '', 'WhatsApp', 'primary')}${contactLink(map, 'Cómo llegar')}${contactLink(item.instagram, 'Instagram')}</div></div>
+        <div class="detail-hero-copy"><span>${esc(item.tipo || 'Gastronomía')}</span><h1>${esc(item.nombre || item.titulo)}</h1>${estadoBadge ? `<div class="detail-estado-line">${estadoBadge}</div>` : ''}${item.summary ? `<p>${esc(item.summary)}</p>` : ''}<div class="vsr-interactive detail-rating" data-type="gastronomia" data-id="${esc(item.id)}"></div><div class="tourism-actions">${contactLink(phone ? `tel:${phone}` : '', 'Llamar')}${contactLink(waHref, 'WhatsApp', 'primary')}${contactLink(map, 'Cómo llegar')}${contactLink(item.instagram, 'Instagram')}<button type="button" class="tourism-action" data-gastro-share>Compartir</button></div></div>
       </header>
       <div class="tourism-detail-layout">
         <article class="tourism-detail-main">
@@ -129,9 +131,14 @@
           ${services.length ? `<section><span class="detail-kicker">Servicios</span><h2>Lo que ofrece</h2><div class="detail-service-grid">${services.map((service) => `<span>${esc(service)}</span>`).join('')}</div></section>` : ''}
           ${images.length > 1 ? `<section><span class="detail-kicker">Galería</span><h2>Conocé el lugar</h2><div class="editorial-gallery">${images.slice(0, 5).map((image, index) => `<button type="button" data-gallery-index="${index}" aria-label="Abrir fotografía ${index + 1}">${window.TourismGallery.responsivePicture(image, '', 'lazy')}</button>`).join('')}</div></section>` : ''}
         </article>
-        <aside class="tourism-practical-card"><span class="detail-kicker">Información práctica</span><h2>Planificá tu visita</h2>${item.direccion || item.ubicacion ? `<div><strong>Dirección</strong><p>${esc(item.direccion || item.ubicacion)}</p></div>` : ''}${item.horario ? `<div><strong>Horarios</strong><p>${esc(item.horario)}</p></div>` : ''}${item.specialties?.length ? `<div><strong>Especialidades</strong><p>${esc(item.specialties.join(' · '))}</p></div>` : ''}${contactLink(map, 'Abrir en Google Maps', 'primary')}</aside>
+        <aside class="tourism-practical-card"><span class="detail-kicker">Información práctica</span><h2>Planificá tu visita</h2>${estadoBadge ? `<div><strong>Estado</strong><p class="detail-estado-line">${estadoBadge}</p></div>` : ''}${item.direccion || item.ubicacion ? `<div><strong>Dirección</strong><p>${esc(item.direccion || item.ubicacion)}</p></div>` : ''}${item.horario ? `<div><strong>Horarios</strong><p>${esc(item.horario)}</p></div>` : ''}${item.specialties?.length ? `<div><strong>Especialidades</strong><p>${esc(item.specialties.join(' · '))}</p></div>` : ''}${contactLink(map, 'Abrir en Google Maps', 'primary')}</aside>
       </div>
-      ${matches.length ? `<section class="tourism-related"><div class="tourism-section-heading"><span>Más mesas locales</span><h2>También puede interesarte</h2></div><div class="tourism-related-grid">${relatedCards(matches, 'gastronomia')}</div></section>` : ''}`;
+      ${matches.length ? `<section class="tourism-related"><div class="tourism-section-heading"><span>Más mesas locales</span><h2>También puede interesarte</h2></div><div class="tourism-related-grid">${relatedCards(matches, 'gastronomia')}</div></section>` : ''}
+      <nav class="gastro-action-bar" aria-label="Acciones rápidas">
+        ${phone ? `<a href="tel:${esc(phone)}"><span class="material-symbols-outlined" aria-hidden="true">call</span>Llamar</a>` : ''}
+        ${waHref ? `<a class="is-wa" href="${esc(waHref)}" target="_blank" rel="noopener"><span class="material-symbols-outlined" aria-hidden="true">chat</span>WhatsApp</a>` : ''}
+        ${map ? `<a href="${esc(map)}" target="_blank" rel="noopener"><span class="material-symbols-outlined" aria-hidden="true">near_me</span>Cómo llegar</a>` : ''}
+      </nav>`;
     host.hidden = false;
     ['hero-section', 'datos-utiles', 'gastronomia-grid'].forEach((id) => { const node = document.getElementById(id); if (node) { node.hidden = true; node.style.display = 'none'; } });
     [document.querySelector('#directory > div'), document.querySelector('.gastronomy-story-cta')].forEach((node) => { if (node) { node.hidden = true; node.style.display = 'none'; } });
@@ -140,6 +147,17 @@
     host.querySelector('[data-gastro-back]')?.addEventListener('click', () => { location.href = 'gastronomia.html'; });
     host.querySelector('[data-open-gastro-gallery]')?.addEventListener('click', (event) => window.TourismGallery.open(images, 0, event.currentTarget));
     host.querySelectorAll('[data-gallery-index]').forEach((button) => button.addEventListener('click', (event) => window.TourismGallery.open(images, Number(button.dataset.galleryIndex), event.currentTarget)));
+    // Calificaciones: promedio + "Tu calificación" (1 voto por visitante).
+    const ratingHost = host.querySelector('.detail-rating');
+    if (ratingHost && window.VsrRatings) VsrRatings.mountInteractive(ratingHost);
+    host.querySelector('[data-gastro-share]')?.addEventListener('click', async (event) => {
+      if (!window.VsrShare) return;
+      const result = await VsrShare.share('g', item.id, item.nombre || item.titulo);
+      if (result && result.method === 'clipboard') {
+        event.target.textContent = '¡Enlace copiado!';
+        setTimeout(() => { event.target.textContent = 'Compartir'; }, 1800);
+      }
+    });
     setMeta(item, 'gastronomia');
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
@@ -153,8 +171,10 @@
       if (response.ok) {
         const data = await response.json();
         if (asList(data.gastronomia).length) items = asList(data.gastronomia);
+        if (data.ratings && window.VsrRatings) VsrRatings.setRatings(data.ratings);
       }
     } catch (_) {}
+    if (window.VsrRatings && !VsrRatings.getAverage('gastronomia', id)) { try { await VsrRatings.load(); } catch (_) {} }
     const item = items.find((entry) => String(entry.id) === id || entry.slug === id);
     if (item) renderGastronomy(item, items);
   }
