@@ -613,6 +613,7 @@
   <script src="js/data.js"></script>
   <script src="js/ratings.js"></script>
   <script src="js/share.js"></script>
+  <script src="js/visita.js"></script>
   <script src="js/gallery.js?v=20260718"></script>
   <script src="js/detail-pages.js?v=20260718"></script>
   <script src="js/app.js"></script>
@@ -657,9 +658,11 @@
                 <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">schedule</span> ${evento.hora || 'Horario a confirmar'}</div>
                 <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">location_on</span> ${evento.lugar || 'San Roque'}</div>
               </div>
+              <div class="mt-4">${window.VsrVisita ? VsrVisita.buttonHtml('e', evento.id || evento.titulo, evento.titulo, formatDate(evento.fecha)) : ''}</div>
             </div>
           </article>
         `).join('');
+        window.VsrVisita?.refresh();
       } catch (error) {
         console.info('No se pudieron cargar los eventos desde la API', error.message);
         grid.innerHTML = '<div class="md:col-span-2 lg:col-span-3 text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-10 text-neutral-600">No hay eventos disponibles por el momento.</div>';

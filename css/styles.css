@@ -1549,3 +1549,87 @@ body {
   background:linear-gradient(180deg,#F5D98A,#D4A83C);
   border-color:#D4A83C; color:#274F10;
 }
+
+/* ══ ARMÁ TU VISITA — planificador de itinerario ══ */
+.visita-add {
+  display:inline-flex;align-items:center;gap:5px;
+  padding:8px 13px;border-radius:999px;
+  border:1.5px solid #D4A83C;background:#fff;color:#8a6512;
+  font:700 11px/1 "Manrope",sans-serif;text-transform:uppercase;letter-spacing:.06em;
+  cursor:pointer;transition:background .2s ease,color .2s ease,transform .2s ease,box-shadow .2s ease;
+}
+.visita-add .material-symbols-outlined { font-size:15px; }
+.visita-add:hover { background:#fdf6e3;transform:translateY(-1px);box-shadow:0 6px 16px rgba(212,168,60,.25); }
+.visita-add.is-added { background:linear-gradient(180deg,#F5D98A,#D4A83C);border-color:#C08F1F;color:#274F10; }
+.visita-add.is-added .visita-add-label { font-weight:800; }
+
+.visita-fab {
+  position:fixed;left:18px;bottom:20px;z-index:1500;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 18px;border:0;border-radius:999px;cursor:pointer;
+  background:linear-gradient(135deg,#2D5C13,#3DA33A);color:#fff;
+  font:800 13.5px/1 "Manrope",sans-serif;letter-spacing:.02em;
+  box-shadow:0 14px 34px rgba(24,52,9,.4), 0 0 0 3px rgba(245,217,138,.35);
+  transition:transform .22s ease,box-shadow .22s ease;
+  animation:visitaFabIn .5s cubic-bezier(.22,1,.36,1) both;
+}
+.visita-fab:hover { transform:translateY(-3px);box-shadow:0 20px 44px rgba(24,52,9,.5), 0 0 0 3px rgba(245,217,138,.55); }
+.visita-fab .material-symbols-outlined { font-size:19px;color:#F5D98A; }
+.visita-fab-count {
+  min-width:22px;height:22px;display:grid;place-items:center;
+  padding:0 6px;border-radius:999px;background:#F5D98A;color:#274F10;
+  font-size:12px;font-weight:800;
+}
+@keyframes visitaFabIn { from { opacity:0;transform:translateY(16px); } to { opacity:1;transform:none; } }
+
+.visita-panel {
+  position:fixed;left:18px;bottom:86px;z-index:1600;
+  width:min(360px,calc(100vw - 36px));max-height:min(560px,72vh);
+  display:flex;flex-direction:column;overflow:hidden;
+  background:#fff;border:1px solid rgba(212,168,60,.4);border-radius:22px;
+  box-shadow:0 34px 80px rgba(23,33,29,.32);
+  animation:visitaFabIn .3s ease both;
+}
+.visita-panel[hidden] { display:none; }
+.visita-panel-head {
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  padding:16px 18px 12px;border-bottom:1px solid rgba(47,47,47,.08);
+  background:linear-gradient(180deg,#fdf9ee,#fff);
+}
+.visita-panel-kicker { display:block;font:800 10px/1.2 "Manrope",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#C08F1F; }
+.visita-panel-head strong { font:800 17px/1.25 "Syne",sans-serif;color:#274F10; }
+.visita-panel-x { width:32px;height:32px;border:0;border-radius:50%;background:#f2efe8;color:#5C5C5C;cursor:pointer;font-size:13px; }
+.visita-panel-x:hover { background:#e7e2d6; }
+.visita-panel-body { flex:1;overflow-y:auto;padding:12px 18px; }
+.visita-empty { margin:8px 0;color:#5C5C5C;font-size:13.5px;line-height:1.55; }
+.visita-group { margin-bottom:12px; }
+.visita-group-title { font:800 12px/1 "Manrope",sans-serif;text-transform:uppercase;letter-spacing:.08em;color:#2D5C13;margin-bottom:7px; }
+.visita-item {
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:8px 10px;margin-bottom:6px;border-radius:12px;
+  background:#faf8f2;border:1px solid rgba(47,47,47,.07);
+}
+.visita-item-name { font-size:13.5px;font-weight:700;color:#2F2F2F;min-width:0; }
+.visita-item-name small { display:block;font-weight:600;color:#8a8a85;font-size:11.5px; }
+.visita-item-x { width:26px;height:26px;flex:0 0 auto;border:0;border-radius:50%;background:#f0e9e2;color:#a83232;cursor:pointer;font-size:12px; }
+.visita-item-x:hover { background:#f5d9d3; }
+.visita-panel-actions { padding:12px 18px 16px;border-top:1px solid rgba(47,47,47,.08);display:grid;gap:8px; }
+.visita-panel-row { display:flex;gap:8px; }
+.visita-btn {
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:12px 16px;border-radius:999px;border:0;cursor:pointer;
+  font:800 13px/1 "Manrope",sans-serif;text-decoration:none;
+  transition:filter .15s ease,transform .15s ease;
+}
+.visita-btn:hover { filter:brightness(1.06);transform:translateY(-1px); }
+.visita-btn-wa { background:#0E7C3F;color:#fff;box-shadow:0 8px 22px rgba(14,124,63,.35); }
+.visita-btn-wa.is-disabled { pointer-events:none;opacity:.45; }
+.visita-btn-wa .material-symbols-outlined { font-size:17px; }
+.visita-btn-ghost { flex:1;background:#f2efe8;color:#2F2F2F; }
+.visita-btn-danger { color:#a83232; }
+
+@media (max-width:768px) {
+  /* la barra de navegación inferior móvil mide ~64px: el FAB va arriba de ella */
+  .visita-fab { bottom:86px;left:12px;padding:12px 15px; }
+  .visita-panel { bottom:148px;left:12px; }
+}

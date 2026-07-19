@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <button type="button" class="gastro-share-btn inline-flex w-fit items-center gap-1.5 px-5 py-3 bg-white text-river-teal border border-neutral-200 rounded-full font-bold text-xs uppercase tracking-wider hover:bg-river-teal hover:text-white transition-all shadow-sm" data-share-id="${id}" data-share-name="${nombre.replace(/"/g, '&quot;')}" onclick="event.stopPropagation()">
               <span class="material-symbols-outlined text-[16px]">share</span> Compartir
             </button>
+            ${window.VsrVisita ? VsrVisita.buttonHtml('g', id, nombre, local.tipo || '') : ''}
           </div>
         </div>
       </article>
@@ -89,11 +90,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const items = Array.isArray(data) ? data : Object.values(data || {});
   grid.innerHTML = items.map(crearCard).join("");
+  window.VsrVisita?.refresh();
 
   // Redirigir a la landing de cada comercio al hacer click en la tarjeta (abre en nueva pestaña)
   grid.querySelectorAll('article[data-gastro-id]').forEach(card => {
     card.addEventListener('click', (e) => {
-      if (e.target.closest('.vsr-interactive, .geo-btn, .gastro-share-btn, a[href*="wa.me"], a[href*="gastronomia.html?g="]')) {
+      if (e.target.closest('.vsr-interactive, .geo-btn, .gastro-share-btn, .visita-add, a[href*="wa.me"], a[href*="gastronomia.html?g="]')) {
         return;
       }
       const id = card.dataset.gastroId;

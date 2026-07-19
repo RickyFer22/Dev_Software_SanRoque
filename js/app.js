@@ -288,7 +288,10 @@ function createAccommodationCard(id, data) {
         <div class="text-sm text-neutral-500 mt-3">${services}</div>
         <div class="flex items-center justify-between mt-6">
           <div class="text-sm text-neutral-500">📍 ${data.ubicacion || 'San Roque'}</div>
-          <button onclick="event.stopPropagation(); navigateToDetails('${id}')" class="px-4 py-2 rounded-full bg-river-teal text-white text-xs font-bold uppercase tracking-wider hover:bg-primary transition-all">Ver detalle</button>
+          <div class="flex items-center gap-2">
+            ${window.VsrVisita ? VsrVisita.buttonHtml('h', id, data.titulo || 'Alojamiento', data.categoria || '') : ''}
+            <button onclick="event.stopPropagation(); navigateToDetails('${id}')" class="px-4 py-2 rounded-full bg-river-teal text-white text-xs font-bold uppercase tracking-wider hover:bg-primary transition-all">Ver detalle</button>
+          </div>
         </div>
       </div>
     </article>
@@ -314,6 +317,7 @@ function renderAccommodationCards() {
 
   const renderCards = (list) => {
     carousel.innerHTML = list.map(({ id, item }) => `<div class="w-full">${createAccommodationCard(id, item)}</div>`).join('');
+    window.VsrVisita?.refresh();
 
     document.querySelectorAll('.card-item').forEach((card) => {
       card.addEventListener('touchstart', () => card.classList.add('touch-active'), { passive: true });
