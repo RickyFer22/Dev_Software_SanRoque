@@ -2,6 +2,10 @@
 
 <html class="light" lang="es"><head>
 <meta charset="utf-8"/>
+<!-- La URL amigable /gastronomia/<id> hace que el navegador vea la página
+     como si viviera en un subdirectorio; sin <base>, todo href/src relativo
+     (css/, js/, img/…) resolvería contra /gastronomia/ y daría 404. -->
+<base href="/" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>San Roque Gastronómico - Sabores con Tradición</title>
 <meta name="description" content="Gastronomía de San Roque, Corrientes: restaurantes, comedores y sabores locales con tradición. Direcciones, horarios y contacto oficiales del portal municipal." />
@@ -42,6 +46,7 @@
 <script src="js/share.js" defer></script>
 <script src="js/visita.js" defer></script>
 <script src="js/horario-estado.js" defer></script>
+<script src="js/track.js" defer></script>
 <script src="js/gallery.js?v=20260718" defer></script>
 <script src="js/detail-pages.js?v=20260718" defer></script>
 <script src="js/gastronomia.js?v=20260718" defer></script>
@@ -76,7 +81,17 @@
 </script>
 </head>
 <body class="tourism-page gastronomy-page bg-[#F6F3EE] text-on-background font-body-md">
-<a class="tourism-skip-link" href="#main-content">Saltar al contenido principal</a>
+<a class="tourism-skip-link" href="#main-content" id="gastro-skip-link">Saltar al contenido principal</a>
+<script>
+  // Con <base href="/"> (necesario para la URL amigable /gastronomia/<id>),
+  // un href="#main-content" nativo navegaría a "/" en vez de saltar dentro
+  // de esta misma página. Se fuerza el salto+foco a mano.
+  document.getElementById('gastro-skip-link').addEventListener('click', function (e) {
+    e.preventDefault();
+    var target = document.getElementById('main-content');
+    if (target) { target.focus(); target.scrollIntoView(); }
+  });
+</script>
 <!-- TopNavBar -->
 <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-gradient-to-b from-black/60 to-transparent pt-6 pb-6">
   <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
@@ -222,6 +237,8 @@
   <div id="gastro-results-info" class="gastro-results-info" aria-live="polite"></div>
 </div>
 </div>
+<!-- Destacados: rotan entre los establecimientos marcados "Destacar" en el admin -->
+<div id="gastro-featured" class="gastro-featured" hidden></div>
 <!-- Restaurant Grid -->
 <div id="gastronomia-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 </div>

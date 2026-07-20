@@ -307,6 +307,12 @@ if (!IS_PROD) {
     if (fs.existsSync(file)) return res.sendFile(file);
     return next();
   });
+  // URL amigable /gastronomia/<id> (en prod la reescribe nginx)
+  app.get('/gastronomia/:gid', (req, res, next) => {
+    const file = path.join(PORTAL_DIR, 'gastronomia.html');
+    if (fs.existsSync(file)) return res.sendFile(file);
+    return next();
+  });
 }
 
 app.use(helmet({
@@ -508,7 +514,7 @@ app.get('/sitemap.xml', (req, res) => {
     if (a.id) urls.push({ loc: `${base}/index.html?h=${encodeURIComponent(a.id)}`, priority: '0.6', changefreq: 'weekly' });
   });
   (store.gastronomia || []).filter(isPublicItem).forEach((g) => {
-    if (g.id) urls.push({ loc: `${base}/gastronomia.html?g=${encodeURIComponent(g.id)}`, priority: '0.5', changefreq: 'weekly' });
+    if (g.id) urls.push({ loc: `${base}/gastronomia/${encodeURIComponent(g.id)}`, priority: '0.5', changefreq: 'weekly' });
   });
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n`
     + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
@@ -800,6 +806,23 @@ function computeRatings(store) {
 }
 
 // Ratings agregados (público).
+// ── Analítica de clics del portal (WhatsApp / teléfono / mapa / compartir / ficha) ──
+const TRACK_EVENTS = new Set(['whatsapp', 'telefono', 'mapa', 'compartir', 'ficha']);
+app.post('/api/track', (req, res) => {
+  const body = req.body || {};
+  const event = String(body.event || '').toLowerCase();
+  const id = String(body.id || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 80);
+  if (!TRACK_EVENTS.has(event) || !id) return res.status(400).json({ error: 'Invalid event' });
+  const store = loadStore();
+  store.analytics = (typeof store.analytics === 'object' && store.analytics) || {};
+  const clicks = store.analytics.gastroClicks = store.analytics.gastroClicks || {};
+  const key = `${event}:${id}`;
+  clicks[key] = (Number(clicks[key]) || 0) + 1;
+  store.analytics.gastroClicksTotal = (Number(store.analytics.gastroClicksTotal) || 0) + 1;
+  saveStore(store);
+  res.json({ ok: true });
+});
+
 app.get('/api/ratings', (req, res) => {
   res.json({ ratings: computeRatings(loadStore()) });
 });
@@ -1384,6 +1407,20 @@ function assertPublishedImage(collection, payload) {
   }
 }
 
+// Validación de publicación de gastronomía: nunca publicar sin un medio de
+// contacto ni sin dirección/referencia. (Solo gastronomía: hay alojamientos
+// históricos sin teléfono que no deben romperse al editarlos.)
+function assertPublishableGastro(collection, payload) {
+  if (collection !== 'gastronomia' || !payload || payload.status !== 'published') return;
+  const contacto = payload.telefono || payload.whatsapp || payload.instagram || payload.facebook || payload.website;
+  if (!contacto) {
+    throw new Error('No se puede publicar sin al menos un medio de contacto (teléfono, WhatsApp, red social o sitio web).');
+  }
+  if (!payload.direccion && !payload.ubicacion) {
+    throw new Error('No se puede publicar sin una dirección o referencia de ubicación.');
+  }
+}
+
 function getCollection(name) {
   const store = loadStore();
   return store[name] || [];
@@ -1519,6 +1556,7 @@ function resourceRoutes(basePath, name) {
     try {
       const payload = validateAndSanitize(name, req.body || {});
       assertPublishedImage(name, payload);
+      assertPublishableGastro(name, payload);
       if (['alojamientos', 'gastronomia', 'eventos', 'actividades'].includes(name)) {
         payload.revision = 1;
         payload.updatedBy = req.admin.user;
@@ -1538,6 +1576,7 @@ function resourceRoutes(basePath, name) {
     try {
       const payload = validateAndSanitize(name, req.body || {});
       assertPublishedImage(name, payload);
+      assertPublishableGastro(name, payload);
       const previous = getResource(name, req.params.id);
       if (previous && ['alojamientos', 'gastronomia', 'eventos', 'actividades'].includes(name)) {
         payload.revision = Number(previous.revision || 0) + 1;
@@ -1750,8 +1789,12 @@ app.get('/admin/api/audit', (req, res) => {
 app.get('/admin/api/store', (req, res) => {
   if (!canRead('audit', req.admin.role) && !['super-admin','editor'].includes(req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
   const store = loadStore();
-  // enviar solo analytics y metadatos mínimos
-  return res.json({ store: { analytics: store.analytics || {}, createdAt: store.createdAt } });
+  // Enviar solo analytics + metadatos mínimos (nunca el store completo).
+  // gastronomiaNames: id→nombre, solo para poner nombre a los clics de
+  // /api/track en el panel (ya es información pública vía /api/data).
+  const gastronomiaNames = {};
+  (store.gastronomia || []).forEach((g) => { if (g.id) gastronomiaNames[g.id] = g.nombre || g.titulo || g.id; });
+  return res.json({ store: { analytics: store.analytics || {}, createdAt: store.createdAt, gastronomiaNames } });
 });
 
 app.get('/admin/api/uploads', (req, res) => {

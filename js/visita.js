@@ -10,7 +10,7 @@
   const STORE_KEY = 'vsr_visita_v1';
   const TYPES = {
     h: { label: 'Dónde duermo', emoji: '🛏', link: (id) => `${location.origin}/index.html?h=${encodeURIComponent(id)}` },
-    g: { label: 'Dónde como', emoji: '🍽', link: (id) => `${location.origin}/gastronomia.html?g=${encodeURIComponent(id)}` },
+    g: { label: 'Dónde como', emoji: '🍽', link: (id) => `${location.origin}/gastronomia/${encodeURIComponent(id)}` },
     e: { label: 'Agenda', emoji: '🎉', link: () => `${location.origin}/index.html#agenda` },
   };
 

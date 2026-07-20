@@ -1814,3 +1814,28 @@ body {
   /* que el contenido no quede tapado por la barra */
   .gastronomy-detail { padding-bottom:140px; }
 }
+
+/* ══ DESTACADOS ROTATIVOS: tira horizontal, misma tarjeta que el listado ══ */
+.gastro-featured { margin:0 0 44px; }
+.gastro-featured[hidden] { display:none; }
+.gastro-featured-head { display:flex;flex-direction:column;gap:4px;margin-bottom:18px; }
+.gastro-featured-kicker {
+  display:inline-flex;align-items:center;gap:7px;
+  font:800 11px/1 "Manrope",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#B8862A;
+}
+.gastro-featured-kicker::before { content:"";width:16px;height:2px;border-radius:2px;background:#D4A83C; }
+.gastro-featured-head h2 { margin:0;font:800 clamp(22px,2.6vw,30px)/1.1 "Syne",sans-serif;color:var(--brand-primary);letter-spacing:-.02em; }
+.gastro-featured-track {
+  display:flex;gap:20px;overflow-x:auto;padding:6px 6px 14px;
+  scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;scrollbar-color:#D4A83C transparent;
+}
+.gastro-featured-track::-webkit-scrollbar { height:7px; }
+.gastro-featured-track::-webkit-scrollbar-thumb { background:#D4A83C;border-radius:99px; }
+.gastro-featured-card {
+  flex:0 0 min(86vw,360px);scroll-snap-align:start;
+  border-radius:20px;box-shadow:0 0 0 2px #F5D98A,0 14px 34px rgba(184,134,42,.18);
+}
+.gastro-featured-card .card-item,
+.gastro-featured-card article { min-height:520px !important;height:100%; }
+@media (min-width:1024px) { .gastro-featured-card { flex-basis:400px; } }

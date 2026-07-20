@@ -1106,6 +1106,7 @@ function toggleSection(sectionId) {
   if (sectionId === 'bot-config') { initBotConfigControls(); loadBotConfig(); }
   if (sectionId === 'observability') loadObservability();
   if (sectionId === 'seguridad') loadSecurity();
+  if (sectionId === 'analytics') loadAnalytics();
   if (['alojamientos', 'gastronomia', 'eventos', 'datos-utiles', 'users', 'tickets', 'audit', 'uploads'].includes(sectionId)) {
     loadResource(sectionId).catch(() => {});
   }
@@ -1807,24 +1808,23 @@ async function loadCounts() {
   renderCount('count-status-published', published);
   renderCount('count-status-draft', draft);
   renderCount('count-status-archived', archived);
-  // Try to render analytics panel if admin analytics are available
-  try {
-    const storeResp = await fetchJson('/admin/api/store');
-    if (!storeResp.error && storeResp.store) {
-      await loadAndRenderAnalytics(storeResp.store);
-    }
-  } catch (e) {}
+  loadAnalytics();
 }
 
-// Load analytics renderer dynamically
-async function loadAndRenderAnalytics(store) {
+// Trae /admin/api/store (analytics + clics de gastronomía) y renderiza el
+// panel. Se llama tanto al cargar el Resumen como cada vez que se entra a
+// la sección Analítica (antes solo cargaba una vez, al login, y quedaba
+// desactualizada aunque hubiera clics nuevos).
+async function loadAnalytics() {
   try {
+    const storeResp = await fetchJson('/admin/api/store');
+    if (storeResp.error || !storeResp.store) return;
     if (!window.renderAnalyticsPanel) {
       const mod = await import('./analytics.js');
       window.renderAnalyticsPanel = mod.renderAnalyticsPanel;
     }
-    const analytics = store.analytics || {};
-    window.renderAnalyticsPanel('analytics-panel', analytics);
+    const analytics = storeResp.store.analytics || {};
+    window.renderAnalyticsPanel('analytics-panel', analytics, storeResp.store.gastronomiaNames || {});
   } catch (e) {
     const el = document.getElementById('analytics-panel');
     if (el) el.innerHTML = `<div class="card"><p>Error cargando analytics: ${e.message}</p></div>`;

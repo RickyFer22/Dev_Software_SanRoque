@@ -8,6 +8,12 @@
   'use strict';
 
   function buildUrl(param, id) {
+    // Gastronomía tiene URL amigable propia (/gastronomia/<id>); el resto
+    // sigue usando el parámetro de query sobre la página actual.
+    if (param === 'g') {
+      const u = new URL('/gastronomia/' + encodeURIComponent(id), global.location.origin);
+      return u.toString();
+    }
     const u = new URL(global.location.href);
     u.hash = '';
     u.searchParams.set(param, id);
@@ -34,9 +40,19 @@
     }
   }
 
-  // Lee el parámetro (?h= / ?g=) de la URL actual.
+  // Lee el parámetro (?h= / ?g=) de la URL actual. Para 'g' también acepta
+  // la URL amigable /gastronomia/<id> (sin query string).
   function paramFromUrl(param) {
-    try { return new URL(global.location.href).searchParams.get(param); } catch (_) { return null; }
+    try {
+      const url = new URL(global.location.href);
+      const fromQuery = url.searchParams.get(param);
+      if (fromQuery) return fromQuery;
+      if (param === 'g') {
+        const match = url.pathname.match(/^\/gastronomia\/([a-zA-Z0-9_-]+)\/?$/);
+        if (match) return decodeURIComponent(match[1]);
+      }
+      return null;
+    } catch (_) { return null; }
   }
 
   global.VsrShare = { buildUrl, share, paramFromUrl };
