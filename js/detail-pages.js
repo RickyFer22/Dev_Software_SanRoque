@@ -24,9 +24,10 @@
     set('meta[name="twitter:title"]', name);
     set('meta[name="twitter:description"]', description);
     set('meta[name="twitter:image"]', image);
-    // Gastronomía: canonical siempre en su URL amigable /gastronomia/<id>,
-    // sin importar si se llegó por ?g= o por la ruta amigable.
-    const friendlyCanonical = kind === 'gastronomia' && window.VsrShare ? VsrShare.buildUrl('g', item.id) : '';
+    // Canonical siempre en la URL amigable propia (/gastronomia/<id> o
+    // /hospedajes/<id>), sin importar si se llegó por ?g=/?h= o por la ruta.
+    const shareParam = kind === 'gastronomia' ? 'g' : kind === 'alojamiento' ? 'h' : '';
+    const friendlyCanonical = shareParam && window.VsrShare ? VsrShare.buildUrl(shareParam, item.id) : '';
     const canonical = item.canonical || friendlyCanonical || location.href.split('#')[0];
     set('link[rel="canonical"]', canonical, 'href');
     let structured = document.getElementById('dynamic-tourism-schema');
@@ -62,13 +63,14 @@
     return items.map((item) => {
       const name = item.titulo || item.nombre;
       const image = galleryItems(item)[0];
-      const url = kind === 'gastronomia' ? `/gastronomia/${encodeURIComponent(item.id)}` : `index.html?h=${encodeURIComponent(item.id)}`;
+      const url = kind === 'gastronomia' ? `/gastronomia/${encodeURIComponent(item.id)}` : `/hospedajes/${encodeURIComponent(item.id)}`;
       return `<a class="tourism-related-card" href="${url}">${window.TourismGallery.responsivePicture(image || {}, '', 'lazy')}<div><span>${esc(item.categoria || item.tipo || '')}</span><h3>${esc(name)}</h3><p>${esc(item.summary || item.ubicacion || item.direccion || '')}</p></div></a>`;
     }).join('');
   }
 
   function enhanceAccommodation(data) {
-    const id = new URLSearchParams(location.search).get('h');
+    // Acepta tanto ?h=<id> como la URL amigable /hospedajes/<id>.
+    const id = window.VsrShare ? VsrShare.paramFromUrl('h') : new URLSearchParams(location.search).get('h');
     if (!id) return;
     const all = Object.entries(data || {}).map(([key, value]) => ({ ...value, id: value.id || key }));
     const item = all.find((entry) => String(entry.id) === id || entry.slug === id);

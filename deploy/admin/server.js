@@ -307,9 +307,14 @@ if (!IS_PROD) {
     if (fs.existsSync(file)) return res.sendFile(file);
     return next();
   });
-  // URL amigable /gastronomia/<id> (en prod la reescribe nginx)
+  // URL amigable /gastronomia/<id> y /hospedajes/<id> (en prod las reescribe nginx)
   app.get('/gastronomia/:gid', (req, res, next) => {
     const file = path.join(PORTAL_DIR, 'gastronomia.html');
+    if (fs.existsSync(file)) return res.sendFile(file);
+    return next();
+  });
+  app.get('/hospedajes/:hid', (req, res, next) => {
+    const file = path.join(PORTAL_DIR, 'index.html');
     if (fs.existsSync(file)) return res.sendFile(file);
     return next();
   });
@@ -511,7 +516,7 @@ app.get('/sitemap.xml', (req, res) => {
     { loc: `${base}/evento.html`, priority: '0.7', changefreq: 'weekly' },
   ];
   (store.alojamientos || []).filter(isPublicItem).forEach((a) => {
-    if (a.id) urls.push({ loc: `${base}/index.html?h=${encodeURIComponent(a.id)}`, priority: '0.6', changefreq: 'weekly' });
+    if (a.id) urls.push({ loc: `${base}/hospedajes/${encodeURIComponent(a.id)}`, priority: '0.6', changefreq: 'weekly' });
   });
   (store.gastronomia || []).filter(isPublicItem).forEach((g) => {
     if (g.id) urls.push({ loc: `${base}/gastronomia/${encodeURIComponent(g.id)}`, priority: '0.5', changefreq: 'weekly' });

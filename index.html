@@ -3,6 +3,10 @@
 
 <head>
   <meta charset="utf-8" />
+  <!-- La URL amigable /hospedajes/<id> hace que el navegador vea la página
+       como si viviera en un subdirectorio; sin <base>, todo href/src relativo
+       (css/, js/, img/…) resolvería contra /hospedajes/ y daría 404. -->
+  <base href="/" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Dónde alojarme - San Roque, Corrientes</title>
   <link rel="preload" as="image" href="img/monjita/monjita-1.jpg" fetchpriority="high" />
@@ -70,7 +74,19 @@
 </head>
 
 <body class="tourism-page bg-[#F6F3EE] text-neutral-900 font-body-md antialiased overflow-x-hidden">
-  <a class="tourism-skip-link" href="#main-explorer-view">Saltar al contenido principal</a>
+  <a class="tourism-skip-link" href="#main-explorer-view" id="home-skip-link">Saltar al contenido principal</a>
+  <script>
+    // Con <base href="/"> (necesario para la URL amigable /hospedajes/<id>),
+    // un href="#..." nativo navegaría a "/" en vez de saltar dentro de esta
+    // misma página. Se fuerza el salto+foco a mano; el href puede apuntar a
+    // main-explorer-view o a detailed-accommodation-view según la vista
+    // activa (navigateToDetails()/backToGrid() lo actualizan dinámicamente).
+    document.getElementById('home-skip-link').addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.getElementById(this.getAttribute('href').slice(1));
+      if (target) { target.focus(); target.scrollIntoView(); }
+    });
+  </script>
 
   <div id="intro-splash" aria-hidden="true">
     <div id="splash-logo">

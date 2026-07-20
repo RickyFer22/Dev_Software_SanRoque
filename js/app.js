@@ -263,7 +263,10 @@ function setContactButtons(data) {
 function backToGrid() {
   document.getElementById('detailed-accommodation-view').classList.replace('block','hidden');
   document.getElementById('mobile-sticky-contact').classList.replace('block','hidden');
-  try { history.pushState({}, '', location.pathname); } catch(_){}
+  // Antes reusaba location.pathname: con la URL amigable /hospedajes/<id>
+  // eso dejaba la barra en /hospedajes/<id> aunque la grilla ya estuviera
+  // visible. Al cerrar el detalle siempre se vuelve a la home.
+  try { history.pushState({}, '', '/'); } catch(_){}
   const mainView=document.getElementById('main-explorer-view');
   document.querySelector('.tourism-skip-link')?.setAttribute('href', '#main-explorer-view');
   mainView.classList.replace('hidden','block');

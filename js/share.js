@@ -1,17 +1,21 @@
 // js/share.js
 // Compartir un ítem del portal con enlace propio (permalink).
-// - buildUrl(param, id): arma la URL absoluta con ?param=id sobre la página actual.
+// - buildUrl(param, id): arma la URL amigable /<seccion>/<id> (alojamientos y
+//   gastronomía) o, para el resto, ?param=id sobre la página actual.
 // - share(param, id, title): usa la Web Share API nativa; si no está, copia al portapapeles.
-// Reutilizado por alojamientos (?h=) y gastronomía (?g=).
+// Reutilizado por alojamientos (?h= / /hospedajes/<id>) y gastronomía (?g= / /gastronomia/<id>).
 
 (function (global) {
   'use strict';
 
+  // Un único mapa gobierna tanto la construcción de la URL amigable como su
+  // lectura — agregar una sección nueva con link propio es sumar una línea acá.
+  const FRIENDLY_SECTIONS = { g: 'gastronomia', h: 'hospedajes' };
+
   function buildUrl(param, id) {
-    // Gastronomía tiene URL amigable propia (/gastronomia/<id>); el resto
-    // sigue usando el parámetro de query sobre la página actual.
-    if (param === 'g') {
-      const u = new URL('/gastronomia/' + encodeURIComponent(id), global.location.origin);
+    const section = FRIENDLY_SECTIONS[param];
+    if (section) {
+      const u = new URL('/' + section + '/' + encodeURIComponent(id), global.location.origin);
       return u.toString();
     }
     const u = new URL(global.location.href);
@@ -40,15 +44,16 @@
     }
   }
 
-  // Lee el parámetro (?h= / ?g=) de la URL actual. Para 'g' también acepta
-  // la URL amigable /gastronomia/<id> (sin query string).
+  // Lee el parámetro (?h= / ?g=) de la URL actual. También acepta la URL
+  // amigable correspondiente (/hospedajes/<id>, /gastronomia/<id>).
   function paramFromUrl(param) {
     try {
       const url = new URL(global.location.href);
       const fromQuery = url.searchParams.get(param);
       if (fromQuery) return fromQuery;
-      if (param === 'g') {
-        const match = url.pathname.match(/^\/gastronomia\/([a-zA-Z0-9_-]+)\/?$/);
+      const section = FRIENDLY_SECTIONS[param];
+      if (section) {
+        const match = url.pathname.match(new RegExp('^/' + section + '/([a-zA-Z0-9_-]+)/?$'));
         if (match) return decodeURIComponent(match[1]);
       }
       return null;
