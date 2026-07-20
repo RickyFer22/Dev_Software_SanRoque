@@ -235,17 +235,43 @@ function ensureDefaultDatosUtiles(store) {
   return added;
 }
 
+// Atractivos base de "Qué hacer" (categorizados para el submenú del nav y los
+// filtros de la página). isTourismContentEmpty() solo mira alojamientos/
+// gastronomia/eventos, así que actividades puede quedar vacío para siempre
+// aunque el seed bundled tenga contenido — esta función lo autocompleta
+// igual que ensureDefaultDatosUtiles, sin pisar ediciones ya hechas desde el admin.
+const DEFAULT_ACTIVIDADES = [
+  { id: 'capilla-historica', categoria: 'patrimonio', titulo: 'Capilla Histórica (Templo Viejo)', descripcion: 'Monumento Histórico Nacional construido en 1783. Alberga el Museo de Arte Sacro con piezas de la época fundacional y testimonios históricos de la Guerra de la Triple Alianza.', imagen: 'img/san-roque-turismo-1.jpg' },
+  { id: 'balneario-municipal', categoria: 'naturaleza', titulo: 'Balneario Municipal y Costanera', descripcion: 'Disfrutá del sol, las playas de arena limpia sobre el río Santa Lucía y unos atardeceres mágicos. Cuenta con parador, áreas de camping y servicios completos en temporada.', imagen: 'img/costanera 2.jpeg' },
+  { id: 'puente-carretero', categoria: 'patrimonio', titulo: 'Puente Carretero Histórico', descripcion: 'Icónico puente de hierro construido entre 1915 y 1917. Un símbolo sanroqueño ideal para paseos, fotografía y contemplación de la naturaleza fluvial.', imagen: 'img/PUENTE HISTORICO 1.jpeg' },
+  { id: 'plaza-libertad', categoria: 'plazas', titulo: 'Plaza Principal Libertad', descripcion: 'Punto de encuentro central rodeado de frondosa arboleda y monumentos. Un espacio para relajarse, caminar y disfrutar de la tranquilidad local.', imagen: 'img/Plaza San Roque.jpeg' },
+  { id: 'peatonal-colores', categoria: 'plazas', titulo: 'Peatonal San Roque', descripcion: 'Paseo urbano peatonal decorado con sombrillas de colores, luces cálidas y bancos. Ideal para caminar al atardecer y recorrer los comercios locales.', imagen: 'img/PEATONALL.jpeg' },
+];
+
+function ensureDefaultActividades(store) {
+  if (store.actividades && store.actividades.length) return false;
+  store.actividades = DEFAULT_ACTIVIDADES.map((def) => Object.assign({}, def, {
+    activo: 1,
+    status: 'published',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  }));
+  return true;
+}
+
 function loadStore() {
   try {
     if (!fs.existsSync(DATA_FILE)) {
       const initial = applyBundledSeedIfEmpty(buildInitialStore());
       ensureDefaultDatosUtiles(initial);
+      ensureDefaultActividades(initial);
       fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2));
       return initial;
     }
     const raw = fs.readFileSync(DATA_FILE, 'utf8');
     const store = applyBundledSeedIfEmpty(normalizeStore(JSON.parse(raw || '{}')));
-    if (ensureDefaultDatosUtiles(store)) {
+    const dirty = [ensureDefaultDatosUtiles(store), ensureDefaultActividades(store)].some(Boolean);
+    if (dirty) {
       try { fs.writeFileSync(DATA_FILE, JSON.stringify(store, null, 2)); } catch (er) {}
     }
     return store;
@@ -253,6 +279,7 @@ function loadStore() {
     console.error('[admin] error loading store', e);
     const initial = applyBundledSeedIfEmpty(buildInitialStore());
     ensureDefaultDatosUtiles(initial);
+    ensureDefaultActividades(initial);
     try { fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2)); } catch (er){}
     return initial;
   }
@@ -1327,6 +1354,7 @@ function validateAndSanitize(collection, data) {
       out.titulo = sanitizeString(data.titulo || '', 200);
       out.descripcion = sanitizeString(data.descripcion || '', 2000);
       out.imagen = sanitizeString(data.imagen || '', 300);
+      out.categoria = sanitizeString(data.categoria || '', 60);
       out.activo = normalizeActiveValue(data.activo);
       out.status = (sanitizeString(data.status || 'published', 30)).toLowerCase();
       break;

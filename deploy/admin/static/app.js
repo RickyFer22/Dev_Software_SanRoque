@@ -778,6 +778,7 @@ function clearDatosUtilesForm() {
 function getActividadesForm() {
   return {
     titulo: document.getElementById('actividades-titulo'),
+    categoria: document.getElementById('actividades-categoria'),
     imagen: document.getElementById('actividades-imagen'),
     descripcion: document.getElementById('actividades-descripcion'),
     preview: document.getElementById('actividades-image-preview'),
@@ -789,6 +790,7 @@ function getActividadesPayload() {
   const form = getActividadesForm();
   return {
     titulo: form.titulo?.value?.trim(),
+    categoria: form.categoria?.value || 'patrimonio',
     imagen: form.imagen?.value?.trim(),
     descripcion: form.descripcion?.value?.trim(),
   };
@@ -798,6 +800,7 @@ function setActividadesForm(item = {}) {
   const form = getActividadesForm();
   if (!form.titulo) return;
   form.titulo.value = item.titulo || '';
+  if (form.categoria) form.categoria.value = item.categoria || 'patrimonio';
   form.imagen.value = item.imagen || '';
   form.descripcion.value = item.descripcion || '';
   if (form.preview) {
@@ -814,6 +817,7 @@ function clearActividadesForm() {
   const form = getActividadesForm();
   if (!form.titulo) return;
   form.titulo.value = '';
+  if (form.categoria) form.categoria.value = 'patrimonio';
   form.imagen.value = '';
   form.descripcion.value = '';
   if (form.preview) form.preview.style.display = 'none';

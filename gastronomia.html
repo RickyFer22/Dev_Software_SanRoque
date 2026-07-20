@@ -97,7 +97,18 @@
   <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
     <a class="font-display-lg text-[30px] md:text-[36px] leading-none text-on-primary tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer" href="index.html">San Roque</a>
     <div class="hidden md:flex items-center bg-white/95 backdrop-blur-sm rounded-full px-8 py-3.5 shadow-lg gap-8 hover:shadow-xl transition-shadow">
-      <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="que-hacer.html">Qué hacer</a>
+      <div class="nav-dropdown">
+        <a class="nav-dropdown-trigger text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="que-hacer.html" aria-haspopup="true">Qué hacer <span class="material-symbols-outlined" aria-hidden="true">expand_more</span></a>
+        <div class="nav-dropdown-menu">
+          <div>
+            <a href="que-hacer.html#patrimonio"><span class="material-symbols-outlined" aria-hidden="true">account_balance</span>Patrimonio Histórico</a>
+            <a href="que-hacer.html#naturaleza"><span class="material-symbols-outlined" aria-hidden="true">water</span>Naturaleza y Costanera</a>
+            <a href="que-hacer.html#plazas"><span class="material-symbols-outlined" aria-hidden="true">park</span>Plazas y Paseos</a>
+            <hr />
+            <a href="que-hacer.html" class="nav-dropdown-all">Ver todos <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+          </div>
+        </div>
+      </div>
       <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Dónde alojarme</a>
       <a class="text-primary font-bold text-[13px] hover:scale-105 uppercase tracking-wide transition-all cursor-pointer" href="gastronomia.html">Gastronomía</a>
       <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="agenda.html">Agenda</a>

@@ -144,15 +144,16 @@
     const waHref = whatsapp ? `https://wa.me/${whatsapp.replace(/^\+/, '')}` : '';
     host.innerHTML = `
       <button type="button" class="detail-back" data-gastro-back>Volver a gastronomía</button>
-      <header class="tourism-detail-hero">
-        <div class="detail-hero-media">
-          ${window.TourismGallery.responsivePicture(mainImage || {}, '', 'eager')}
-          <div class="detail-hero-scrim" aria-hidden="true"></div>
-          <div class="detail-hero-overlay"><span>${esc(item.tipo || 'Gastronomía')}</span><h1>${esc(item.nombre || item.titulo)}</h1>${estadoBadge ? `<div class="detail-estado-line">${estadoBadge}</div>` : ''}</div>
-          <button type="button" data-open-gastro-gallery>Ver todas las fotos <span>${images.length}</span></button>
-        </div>
-        <div class="detail-hero-copy">${item.summary ? `<p>${esc(item.summary)}</p>` : ''}<div class="vsr-interactive detail-rating" data-type="gastronomia" data-id="${esc(item.id)}"></div><div class="tourism-actions">${contactLink(phone ? `tel:${phone}` : '', 'Llamar', '', 'telefono')}${contactLink(waHref, 'WhatsApp', 'primary', 'whatsapp')}${contactLink(map, 'Cómo llegar', '', 'mapa')}${contactLink(item.instagram, 'Instagram')}<button type="button" class="tourism-action" data-gastro-share>Compartir</button></div></div>
-      </header>
+      <div class="tourism-detail-hero-wrap">
+        <header class="tourism-detail-hero">
+          <div class="detail-hero-media">
+            ${window.TourismGallery.responsivePicture(mainImage || {}, '', 'eager')}
+            <button type="button" data-open-gastro-gallery>Ver todas las fotos <span>${images.length}</span></button>
+            <div class="detail-hero-card"><span>${esc(item.tipo || 'Gastronomía')}</span><h1>${esc(item.nombre || item.titulo)}</h1>${estadoBadge ? `<div class="detail-estado-line">${estadoBadge}</div>` : ''}</div>
+          </div>
+          <div class="detail-hero-copy">${item.summary ? `<p>${esc(item.summary)}</p>` : ''}<div class="vsr-interactive detail-rating" data-type="gastronomia" data-id="${esc(item.id)}"></div><div class="tourism-actions">${contactLink(phone ? `tel:${phone}` : '', 'Llamar', '', 'telefono')}${contactLink(waHref, 'WhatsApp', 'primary', 'whatsapp')}${contactLink(map, 'Cómo llegar', '', 'mapa')}${contactLink(item.instagram, 'Instagram')}<button type="button" class="tourism-action" data-gastro-share>Compartir</button></div></div>
+        </header>
+      </div>
       <div class="tourism-detail-layout">
         <article class="tourism-detail-main">
           ${item.descripcion ? `<section><span class="detail-kicker">La experiencia</span><h2>Sabores de San Roque</h2><p>${esc(item.descripcion)}</p></section>` : ''}
@@ -243,25 +244,26 @@
     const icon = EVENT_TYPE_ICONS[String(item.tipo || '').toLowerCase()] || 'celebration';
     host.innerHTML = `
       <button type="button" class="detail-back" data-evento-back>Volver a la agenda</button>
-      <header class="tourism-detail-hero">
-        <div class="detail-hero-media">
-          ${window.TourismGallery.responsivePicture(mainImage || {}, '', 'eager')}
-          <div class="detail-hero-scrim" aria-hidden="true"></div>
-          <div class="detail-hero-overlay">
-            <span><span class="material-symbols-outlined" aria-hidden="true" style="font-size:15px;vertical-align:-2px;margin-right:4px">${icon}</span>${esc(item.tipo ? item.tipo.replace(/^\w/, (c) => c.toUpperCase()) : 'Evento')}</span>
-            <h1>${esc(item.titulo)}</h1>
-            ${estadoBadge ? `<div class="detail-estado-line">${estadoBadge}</div>` : ''}
+      <div class="tourism-detail-hero-wrap">
+        <header class="tourism-detail-hero">
+          <div class="detail-hero-media">
+            ${window.TourismGallery.responsivePicture(mainImage || {}, '', 'eager')}
+            ${images.length > 1 ? `<button type="button" data-open-evento-gallery>Ver todas las fotos <span>${images.length}</span></button>` : ''}
+            <div class="detail-hero-card">
+              <span><span class="material-symbols-outlined" aria-hidden="true" style="font-size:15px;vertical-align:-2px;margin-right:4px">${icon}</span>${esc(item.tipo ? item.tipo.replace(/^\w/, (c) => c.toUpperCase()) : 'Evento')}</span>
+              <h1>${esc(item.titulo)}</h1>
+              ${estadoBadge ? `<div class="detail-estado-line">${estadoBadge}</div>` : ''}
+            </div>
           </div>
-          ${images.length > 1 ? `<button type="button" data-open-evento-gallery>Ver todas las fotos <span>${images.length}</span></button>` : ''}
-        </div>
-        <div class="detail-hero-copy">
-          <div class="tourism-actions">
-            ${map ? `<a class="tourism-action primary" href="${esc(map)}" target="_blank" rel="noopener" data-track="mapa">Cómo llegar</a>` : ''}
-            <button type="button" class="tourism-action" data-evento-share>Compartir</button>
+          <div class="detail-hero-copy">
+            <div class="tourism-actions">
+              ${map ? `<a class="tourism-action primary" href="${esc(map)}" target="_blank" rel="noopener" data-track="mapa">Cómo llegar</a>` : ''}
+              <button type="button" class="tourism-action" data-evento-share>Compartir</button>
+            </div>
+            <div>${window.VsrVisita ? VsrVisita.buttonHtml('e', item.id, item.titulo, fechaTexto) : ''}</div>
           </div>
-          <div>${window.VsrVisita ? VsrVisita.buttonHtml('e', item.id, item.titulo, fechaTexto) : ''}</div>
-        </div>
-      </header>
+        </header>
+      </div>
       <div class="tourism-detail-layout">
         <article class="tourism-detail-main">
           ${item.descripcion ? `<section><span class="detail-kicker">Sobre el evento</span><h2>${esc(item.titulo)}</h2><p>${esc(item.descripcion)}</p></section>` : ''}
