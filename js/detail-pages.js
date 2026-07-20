@@ -24,25 +24,43 @@
     set('meta[name="twitter:title"]', name);
     set('meta[name="twitter:description"]', description);
     set('meta[name="twitter:image"]', image);
-    // Canonical siempre en la URL amigable propia (/gastronomia/<id> o
-    // /hospedajes/<id>), sin importar si se llegó por ?g=/?h= o por la ruta.
-    const shareParam = kind === 'gastronomia' ? 'g' : kind === 'alojamiento' ? 'h' : '';
+    // Canonical siempre en la URL amigable propia (/gastronomia/<id>,
+    // /hospedajes/<id> o /agenda/<id>), sin importar si se llegó por
+    // ?g=/?h=/?e= o por la ruta.
+    const shareParam = kind === 'gastronomia' ? 'g' : kind === 'alojamiento' ? 'h' : kind === 'evento' ? 'e' : '';
     const friendlyCanonical = shareParam && window.VsrShare ? VsrShare.buildUrl(shareParam, item.id) : '';
     const canonical = item.canonical || friendlyCanonical || location.href.split('#')[0];
     set('link[rel="canonical"]', canonical, 'href');
     let structured = document.getElementById('dynamic-tourism-schema');
     if (!structured) { structured = document.createElement('script'); structured.id = 'dynamic-tourism-schema'; structured.type = 'application/ld+json'; document.head.appendChild(structured); }
-    const schema = {
-      '@context': 'https://schema.org',
-      '@type': kind === 'gastronomia' ? 'Restaurant' : 'LodgingBusiness',
-      name,
-      description: description || undefined,
-      image: galleryItems(item).map((entry) => entry.variants?.large?.url || entry.url).filter(Boolean),
-      address: item.direccion || item.ubicacion || undefined,
-      telephone: item.telefono || undefined,
-      url: canonical,
-    };
-    if (Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lon))) schema.geo = { '@type': 'GeoCoordinates', latitude: Number(item.lat), longitude: Number(item.lon) };
+    const images = galleryItems(item).map((entry) => entry.variants?.large?.url || entry.url).filter(Boolean);
+    let schema;
+    if (kind === 'evento') {
+      schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name,
+        description: description || undefined,
+        image: images,
+        startDate: item.fecha ? `${item.fecha}${item.hora ? 'T' + item.hora : ''}` : undefined,
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        eventStatus: 'https://schema.org/EventScheduled',
+        location: item.lugar ? { '@type': 'Place', name: item.lugar, address: 'San Roque, Corrientes, Argentina' } : undefined,
+        url: canonical,
+      };
+    } else {
+      schema = {
+        '@context': 'https://schema.org',
+        '@type': kind === 'gastronomia' ? 'Restaurant' : 'LodgingBusiness',
+        name,
+        description: description || undefined,
+        image: images,
+        address: item.direccion || item.ubicacion || undefined,
+        telephone: item.telefono || undefined,
+        url: canonical,
+      };
+      if (Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lon))) schema.geo = { '@type': 'GeoCoordinates', latitude: Number(item.lat), longitude: Number(item.lon) };
+    }
     structured.textContent = JSON.stringify(schema);
   }
 
@@ -190,9 +208,116 @@
     if (item) renderGastronomy(item, items);
   }
 
+  const EVENT_TYPE_ICONS = { religioso: 'church', cultural: 'theater_comedy', deportivo: 'sports_soccer', feria: 'storefront', musical: 'music_note', gastronomico: 'restaurant' };
+
+  function formatEventDate(value) {
+    if (!value) return 'Próximamente';
+    const date = new Date(`${value}T12:00:00`);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // "Próximo" (incluye hoy) vs "Ya pasó", comparando solo por día (sin horas).
+  function eventTimeState(fecha) {
+    if (!fecha) return null;
+    const date = new Date(`${fecha}T00:00:00`);
+    if (Number.isNaN(date.getTime())) return null;
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    return date.getTime() >= today.getTime() ? 'upcoming' : 'past';
+  }
+
+  function renderEvento(item, all) {
+    const host = document.getElementById('evento-detail');
+    if (!host) return;
+    const images = galleryItems(item);
+    const mainImage = images.find((entry) => entry.role === 'cover') || images[0];
+    const map = item.mapsLink || (item.lugar ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.lugar + ', San Roque, Corrientes')}` : '');
+    const fechaTexto = formatEventDate(item.fecha);
+    const timeState = eventTimeState(item.fecha);
+    const estadoBadge = timeState ? `<span class="gastro-estado ${timeState === 'upcoming' ? 'is-open' : 'is-closed'}"><i aria-hidden="true"></i>${timeState === 'upcoming' ? 'Próximo evento' : 'Ya se realizó'}</span>` : '';
+    const icon = EVENT_TYPE_ICONS[String(item.tipo || '').toLowerCase()] || 'celebration';
+    host.innerHTML = `
+      <button type="button" class="detail-back" data-evento-back>Volver a la agenda</button>
+      <header class="tourism-detail-hero">
+        <div class="detail-hero-media">${window.TourismGallery.responsivePicture(mainImage || {}, '', 'eager')}${images.length > 1 ? `<button type="button" data-open-evento-gallery>Ver todas las fotos <span>${images.length}</span></button>` : ''}</div>
+        <div class="detail-hero-copy">
+          <span><span class="material-symbols-outlined" aria-hidden="true" style="font-size:15px;vertical-align:-2px;margin-right:4px">${icon}</span>${esc(item.tipo ? item.tipo.replace(/^\w/, (c) => c.toUpperCase()) : 'Evento')}</span>
+          <h1>${esc(item.titulo)}</h1>
+          ${estadoBadge ? `<div class="detail-estado-line">${estadoBadge}</div>` : ''}
+          <div class="tourism-actions" style="margin-top:14px">
+            ${map ? `<a class="tourism-action primary" href="${esc(map)}" target="_blank" rel="noopener" data-track="mapa">Cómo llegar</a>` : ''}
+            <button type="button" class="tourism-action" data-evento-share>Compartir</button>
+          </div>
+          <div style="margin-top:14px">${window.VsrVisita ? VsrVisita.buttonHtml('e', item.id, item.titulo, fechaTexto) : ''}</div>
+        </div>
+      </header>
+      <div class="tourism-detail-layout">
+        <article class="tourism-detail-main">
+          ${item.descripcion ? `<section><span class="detail-kicker">Sobre el evento</span><h2>${esc(item.titulo)}</h2><p>${esc(item.descripcion)}</p></section>` : ''}
+          ${images.length > 1 ? `<section><span class="detail-kicker">Galería</span><h2>Momentos</h2><div class="editorial-gallery">${images.slice(0, 5).map((image, index) => `<button type="button" data-gallery-index="${index}" aria-label="Abrir fotografía ${index + 1}">${window.TourismGallery.responsivePicture(image, '', 'lazy')}</button>`).join('')}</div></section>` : ''}
+        </article>
+        <aside class="tourism-practical-card"><span class="detail-kicker">Información práctica</span><h2>Datos del evento</h2>
+          <div><strong>Fecha</strong><p>${esc(fechaTexto)}</p></div>
+          ${item.hora ? `<div><strong>Horario</strong><p>${esc(item.hora)} hs</p></div>` : ''}
+          ${item.lugar ? `<div><strong>Lugar</strong><p>${esc(item.lugar)}</p></div>` : ''}
+          ${map ? `<a class="tourism-action primary" href="${esc(map)}" target="_blank" rel="noopener" data-track="mapa" style="margin-top:8px">Abrir en Google Maps</a>` : ''}
+        </aside>
+      </div>`;
+    host.hidden = false;
+    ['agenda-hero', 'agenda-explorer'].forEach((id) => { const node = document.getElementById(id); if (node) { node.hidden = true; node.style.display = 'none'; } });
+    host.querySelector('[data-evento-back]')?.addEventListener('click', () => { location.href = 'agenda.html'; });
+    host.querySelector('[data-open-evento-gallery]')?.addEventListener('click', (event) => window.TourismGallery.open(images, 0, event.currentTarget));
+    host.querySelectorAll('[data-gallery-index]').forEach((button) => button.addEventListener('click', (event) => window.TourismGallery.open(images, Number(button.dataset.galleryIndex), event.currentTarget)));
+    host.querySelectorAll('[data-track]').forEach((el) => el.addEventListener('click', () => window.VsrTrack?.click(el.dataset.track, item.id)));
+    window.VsrTrack?.click('ficha', item.id);
+    host.querySelector('[data-evento-share]')?.addEventListener('click', async (event) => {
+      if (!window.VsrShare) return;
+      window.VsrTrack?.click('compartir', item.id);
+      const result = await VsrShare.share('e', item.id, item.titulo);
+      if (result && result.method === 'clipboard') {
+        event.target.textContent = '¡Enlace copiado!';
+        setTimeout(() => { event.target.textContent = 'Compartir'; }, 1800);
+      }
+    });
+    setMeta(item, 'evento');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  async function initEventoDetail() {
+    // Acepta tanto ?e=<id> como la URL amigable /agenda/<id>.
+    const id = window.VsrShare ? VsrShare.paramFromUrl('e') : new URLSearchParams(location.search).get('e');
+    const host = document.getElementById('evento-detail');
+    if (!id || !host) return;
+    let items = [];
+    try {
+      const response = await fetch('/api/data', { cache: 'no-store' });
+      if (response.ok) {
+        const data = await response.json();
+        items = asList(data.eventos);
+      }
+    } catch (_) {}
+    const item = items.find((entry) => String(entry.id) === id || entry.slug === id);
+    if (item) {
+      renderEvento(item, items);
+    } else {
+      // Id inexistente (evento borrado/despublicado o link viejo): no mostrar
+      // contenido de otro evento por error, avisar y ofrecer volver.
+      host.hidden = false;
+      host.innerHTML = `
+        <div style="max-width:640px;margin:140px auto 80px;padding:0 24px;text-align:center">
+          <span class="material-symbols-outlined" style="font-size:52px;color:#D4A83C">event_busy</span>
+          <h1 style="font:800 28px/1.2 'Syne',sans-serif;color:var(--brand-primary);margin:16px 0 10px">No encontramos ese evento</h1>
+          <p style="color:#6b6b66;margin-bottom:24px">Puede que ya haya pasado, se haya dado de baja o el enlace esté desactualizado.</p>
+          <a href="agenda.html" class="tourism-action primary">Ver toda la agenda</a>
+        </div>`;
+      ['agenda-hero', 'agenda-explorer'].forEach((elId) => { const node = document.getElementById(elId); if (node) { node.hidden = true; node.style.display = 'none'; } });
+    }
+  }
+
   document.addEventListener('appDataReady', (event) => enhanceAccommodation(event.detail?.alojamientos || window.alojamientosData));
   document.addEventListener('DOMContentLoaded', () => {
     if (window.appData?.alojamientos) enhanceAccommodation(window.appData.alojamientos);
     initGastronomyDetail();
+    initEventoDetail();
   });
 })();

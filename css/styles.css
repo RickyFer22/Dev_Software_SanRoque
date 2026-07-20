@@ -1839,3 +1839,96 @@ body {
 .gastro-featured-card .card-item,
 .gastro-featured-card article { min-height:520px !important;height:100%; }
 @media (min-width:1024px) { .gastro-featured-card { flex-basis:400px; } }
+
+/* ══ AGENDA: tarjetas de evento, esqueleto de carga y toggle de pasados ══ */
+.agenda-card {
+  display:flex;flex-direction:column;overflow:hidden;
+  background:#fff;border:1px solid rgba(53,94,74,.14);border-radius:22px;
+  box-shadow:0 8px 24px rgba(35,45,40,.06);
+  transition:transform .28s ease,box-shadow .28s ease;
+}
+.agenda-card:hover { transform:translateY(-4px);box-shadow:0 20px 44px rgba(35,45,40,.13); }
+.agenda-card.is-past { opacity:.82; }
+.agenda-card-media { position:relative;display:block;height:220px;overflow:hidden; }
+.agenda-card-media img { width:100%;height:100%;object-fit:cover;transition:transform .5s ease; }
+.agenda-card:hover .agenda-card-media img { transform:scale(1.05); }
+.agenda-card-flag {
+  position:absolute;top:14px;left:14px;z-index:2;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;
+  background:rgba(20,40,15,.72);backdrop-filter:blur(6px);
+  color:#fff;font:800 10.5px/1 "Manrope",sans-serif;letter-spacing:.06em;text-transform:uppercase;
+}
+.agenda-card-flag i { width:7px;height:7px;border-radius:50%;background:#3DA33A;box-shadow:0 0 7px #3DA33A; }
+.agenda-card-body { padding:24px;display:flex;flex-direction:column;gap:10px;flex:1; }
+.agenda-card-date { display:flex;align-items:center;gap:7px;font:800 11px/1 "Manrope",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#2E93C7; }
+.agenda-card-body h2 { margin:0;font:800 20px/1.25 "Syne",sans-serif;color:var(--brand-primary); }
+.agenda-card-body h2 a { color:inherit;text-decoration:none; }
+.agenda-card-body h2 a:hover { text-decoration:underline; }
+.agenda-card-body p { margin:0;color:#6b6b66;font-size:14px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+.agenda-card-foot { display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:6px; }
+.agenda-card-place { display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#8a8a85; }
+.agenda-card-cta { display:inline-flex;align-items:center;gap:4px;font:800 12.5px/1 "Manrope",sans-serif;color:var(--brand-primary);text-decoration:none;white-space:nowrap; }
+.agenda-card-cta:hover { text-decoration:underline; }
+.agenda-card-visita { margin-top:2px; }
+
+.agenda-skeleton {
+  height:360px;border-radius:22px;
+  background:linear-gradient(100deg,#f1efe8 30%,#f8f6f0 50%,#f1efe8 70%);
+  background-size:220% 100%;animation:agendaShimmer 1.4s ease-in-out infinite;
+}
+@keyframes agendaShimmer { 0% { background-position:120% 0; } 100% { background-position:-20% 0; } }
+@media (prefers-reduced-motion:reduce) { .agenda-skeleton { animation:none; } }
+
+.agenda-past-toggle {
+  display:flex;align-items:center;gap:10px;width:100%;margin:36px 0 20px;
+  padding:14px 18px;border:1px dashed rgba(53,94,74,.3);border-radius:16px;
+  background:transparent;color:var(--brand-primary);font-weight:800;font-size:13.5px;
+  cursor:pointer;transition:background .2s ease;
+}
+.agenda-past-toggle:hover { background:rgba(53,94,74,.05); }
+.agenda-past-toggle .agenda-past-chevron { margin-left:auto;transition:transform .25s ease; }
+.agenda-past-toggle.is-open .agenda-past-chevron { transform:rotate(180deg); }
+
+/* Agenda: espacio para que la barra móvil inferior no tape la última tarjeta */
+@media (max-width:767px) { #agenda-explorer { padding-bottom:112px; } }
+
+/* ══ GUÍA PRÁCTICA: tarjetas de categoría y contenido del directorio ══
+   (varias utilidades de Tailwind usadas acá — hover:shadow-lg, bg-color/10,
+   sm:*, list-disc, rounded-lg, etc. — no están en el build estático
+   css/tw-base.css porque nunca se usaron en el HTML que se escaneó al
+   compilarlo; se reemplazan por clases propias en vez de parchear cada
+   utilidad suelta.) */
+.guia-cat-card { position:relative; }
+.guia-cat-card:hover { transform:translateY(-4px);box-shadow:0 16px 34px rgba(35,45,40,.12); }
+.guia-cat-card.is-active { border-color:#D4A83C;box-shadow:0 0 0 2px #F5D98A,0 14px 30px rgba(184,134,42,.16); }
+.guia-cat-card.is-active .material-symbols-outlined { color:#B8862A; }
+
+.guia-contact-row {
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px;border-radius:14px;background:#fafaf8;border:1px solid rgba(47,47,47,.06);
+}
+.guia-icon-btn {
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(46,147,199,.1);color:#2E93C7;
+  transition:background .2s ease,color .2s ease;
+}
+.guia-icon-btn:hover { background:#2E93C7;color:#fff; }
+
+.guia-btn {
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:12px;
+  font-size:12px;font-weight:800;text-decoration:none;
+  transition:background .2s ease,transform .15s ease;
+}
+.guia-btn:hover { transform:translateY(-1px); }
+.guia-btn-outline { border:1px solid rgba(47,47,47,.14);color:#3a3a36;background:#fff; }
+.guia-btn-outline:hover { background:#fafaf8; }
+.guia-btn-primary { background:#2E93C7;color:#fff; }
+.guia-btn-primary:hover { background:#276f96; }
+
+.guia-list { list-style:disc;list-style-position:inside;font-size:13.5px;color:#4d4d48;display:flex;flex-direction:column;gap:5px; }
+
+/* Guía Práctica: espacio para que la barra móvil inferior no tape contenido */
+@media (max-width:767px) { #guia-main { padding-bottom:112px; } }

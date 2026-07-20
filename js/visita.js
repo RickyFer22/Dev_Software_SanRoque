@@ -11,7 +11,7 @@
   const TYPES = {
     h: { label: 'Dónde duermo', emoji: '🛏', link: (id) => `${location.origin}/hospedajes/${encodeURIComponent(id)}` },
     g: { label: 'Dónde como', emoji: '🍽', link: (id) => `${location.origin}/gastronomia/${encodeURIComponent(id)}` },
-    e: { label: 'Agenda', emoji: '🎉', link: () => `${location.origin}/index.html#agenda` },
+    e: { label: 'Agenda', emoji: '🎉', link: (id) => `${location.origin}/agenda/${encodeURIComponent(id)}` },
   };
 
   function load() {

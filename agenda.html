@@ -2,9 +2,18 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
+  <!-- La URL amigable /agenda/<id> (ficha de evento) hace que el navegador
+       vea la página como si viviera en un subdirectorio; sin <base>, toda
+       ruta relativa (css/, js/, img/…) resolvería contra /agenda/ y daría
+       404. La propia agenda.html vive en /agenda.html, sin afectarse. -->
+  <base href="/" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Agenda de Eventos - San Roque</title>
   <meta name="description" content="Agenda oficial de eventos, festivales y celebraciones en San Roque, Corrientes." />
+  <!-- setMeta() (js/detail-pages.js) actualiza este href a la URL amigable
+       del evento cuando se abre una ficha; sin este tag base no tiene nada
+       que actualizar (solo escribe el atributo, no crea el elemento). -->
+  <link rel="canonical" href="https://vivisanroque.munisanroque.ar/agenda.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Viví San Roque" />
   <meta property="og:locale" content="es_AR" />
@@ -50,7 +59,7 @@
 }
 </script>
 </head>
-<body class="bg-[#FDFBF7] text-neutral-900 font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
+<body class="text-neutral-900 font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
 
   <!-- Navbar -->
   <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-white/95 backdrop-blur-md shadow-md py-4">
@@ -60,18 +69,22 @@
       </a>
       <div class="hidden md:flex items-center gap-8">
         <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Inicio</a>
+        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="que-hacer.html">Qué hacer</a>
+        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html#hospedajes">Dónde alojarme</a>
         <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="gastronomia.html">Gastronomía</a>
+        <a class="text-primary font-bold text-[13px] uppercase tracking-wide transition-all" href="agenda.html" aria-current="page">Agenda</a>
+        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="guia-practica.html">Guía práctica</a>
       </div>
-      <a href="index.html" class="flex items-center gap-2 text-primary font-bold text-sm bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-full transition-colors">
+      <a href="index.html" class="hidden md:flex items-center gap-2 text-primary font-bold text-sm bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-full transition-colors">
         <span class="material-symbols-outlined text-[18px]">arrow_back</span> Volver
       </a>
     </div>
   </nav>
 
   <!-- Hero Header -->
-  <header class="internal-hero relative w-full flex items-end" style="padding-top: 140px; padding-bottom: 48px; min-height: 280px;">
+  <header id="agenda-hero" class="internal-hero relative w-full flex items-end" style="padding-top: 140px; padding-bottom: 48px; min-height: 280px;">
     <div class="absolute inset-0 z-0">
-      <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600<img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&q=80" alt="Agenda de Eventos" class="w-full h-full object-cover">q=80" alt="Agenda de Eventos" class="w-full h-full object-cover" loading="lazy">
+      <img src="img/Plaza San Roque.jpeg" alt="Plaza de San Roque" class="w-full h-full object-cover" loading="eager" fetchpriority="high" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent"></div>
     </div>
     <div class="relative z-10 w-full max-w-5xl mx-auto px-6 text-white">
@@ -85,11 +98,80 @@
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 w-full max-w-5xl mx-auto px-6 py-16">
-    <div id="eventos-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Loaded dynamically -->
+  <main id="agenda-explorer" class="flex-1 w-full max-w-5xl mx-auto px-6 py-16">
+    <div id="agenda-upcoming">
+      <div id="eventos-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8" aria-live="polite">
+        <!-- Esqueleto de carga mientras llega /api/data -->
+        <div class="agenda-skeleton" aria-hidden="true"></div>
+        <div class="agenda-skeleton" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div id="agenda-past-wrap" hidden>
+      <button type="button" id="agenda-past-toggle" class="agenda-past-toggle">
+        <span class="material-symbols-outlined" aria-hidden="true">history</span>
+        <span id="agenda-past-label">Ver eventos que ya pasaron</span>
+        <span class="material-symbols-outlined agenda-past-chevron" aria-hidden="true">expand_more</span>
+      </button>
+      <div id="eventos-grid-past" class="grid grid-cols-1 md:grid-cols-2 gap-8" hidden></div>
     </div>
   </main>
+  <section id="evento-detail" class="gastronomy-detail" hidden aria-live="polite"></section>
+
+  <!-- Chatbot Window Markup -->
+  <div id="chatbot" class="chatbot">
+      <div id="chatWindow" class="chat-window">
+          <div class="chat-header">
+              <div class="chat-logo">
+                  <img src="img/turisbot-logo.png" alt="">
+              </div>
+              <div>
+                  <h3>MuniAyuda</h3>
+                  <p>Asistente turístico de San Roque</p>
+              </div>
+              <button type="button" class="chat-close" data-chat-close aria-label="Minimizar asistente">✕</button>
+          </div>
+          <div id="chatBox" class="chat-box"></div>
+          <div class="chat-quick">
+              <button class="quick-btn" onclick="quickAsk('hospedajes')">Turismo y Alojamiento</button>
+              <button class="quick-btn" onclick="quickAsk('comer')">Gastronomía</button>
+              <button class="quick-btn" onclick="quickAsk('eventos')">Eventos</button>
+              <button class="quick-btn" onclick="quickAsk('informacion')">Información</button>
+              <button class="quick-btn" onclick="quickAsk('municipio')">Municipio</button>
+          </div>
+          <div class="chat-input-area">
+              <input id="chatInput" placeholder="Escribe tu consulta..." onkeypress="if(event.key==='Enter')sendChat()">
+              <button onclick="sendChat()">&gt;</button>
+          </div>
+      </div>
+      <button type="button" id="chatToggle" class="chat-button" title="MuniAyuda - Asistente turístico" aria-haspopup="dialog" aria-controls="chatWindow" aria-expanded="false">
+          <img src="img/turisbot-logo.png" alt="">
+          <span>MuniAyuda</span>
+      </button>
+  </div>
+
+  <!-- Navegación móvil -->
+  <nav id="mobile-bottom-nav" class="mobile-bottom-nav md:hidden" aria-label="Navegación móvil">
+    <a class="bottom-nav-item" href="que-hacer.html">
+      <span class="material-symbols-outlined">explore</span>
+      <span>Qué hacer</span>
+    </a>
+    <a class="bottom-nav-item" href="index.html">
+      <span class="material-symbols-outlined">hotel</span>
+      <span>Alojarme</span>
+    </a>
+    <a class="bottom-nav-item" href="gastronomia.html">
+      <span class="material-symbols-outlined">restaurant</span>
+      <span>Comer</span>
+    </a>
+    <a class="bottom-nav-item active" href="agenda.html" aria-current="page">
+      <span class="material-symbols-outlined">event</span>
+      <span>Agenda</span>
+    </a>
+    <a class="bottom-nav-item" href="guia-practica.html">
+      <span class="material-symbols-outlined">menu_book</span>
+      <span>Guía</span>
+    </a>
+  </nav>
 
   <!-- Compact Footer -->
   <footer class="site-footer w-full mt-auto relative z-10 overflow-hidden">
@@ -120,45 +202,221 @@
     </div>
   </footer>
 
+  <script src="js/ratings.js"></script>
+  <script src="js/share.js"></script>
+  <script src="js/visita.js"></script>
+  <script src="js/track.js"></script>
+  <script src="js/gallery.js?v=20260718"></script>
+  <script src="js/detail-pages.js?v=20260718"></script>
   <script>
+    const EVENT_TYPE_ICONS = { religioso: 'church', cultural: 'theater_comedy', deportivo: 'sports_soccer', feria: 'storefront', musical: 'music_note', gastronomico: 'restaurant' };
+
+    function formatEventDate(value) {
+      if (!value) return 'Próximamente';
+      const date = new Date(`${value}T12:00:00`);
+      if (Number.isNaN(date.getTime())) return value;
+      return date.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function isUpcoming(fecha) {
+      if (!fecha) return true; // sin fecha cargada: se trata como "próximo" para no esconderlo
+      const date = new Date(`${fecha}T00:00:00`);
+      if (Number.isNaN(date.getTime())) return true;
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      return date.getTime() >= today.getTime();
+    }
+
+    function eventoCard(evento, isPast) {
+      const icon = EVENT_TYPE_ICONS[String(evento.tipo || '').toLowerCase()] || 'celebration';
+      const id = evento.id || evento.titulo;
+      const detailUrl = `/agenda/${encodeURIComponent(id)}`;
+      return `
+        <article class="agenda-card${isPast ? ' is-past' : ''}" data-agenda-id="${id}">
+          <a href="${detailUrl}" class="agenda-card-media">
+            <img src="${evento.imagen || 'img/hero.jpg.jpg'}" alt="${evento.titulo}" loading="lazy" />
+            ${!isPast ? '<span class="agenda-card-flag"><i aria-hidden="true"></i>Próximo</span>' : ''}
+          </a>
+          <div class="agenda-card-body">
+            <div class="agenda-card-date">
+              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">${icon}</span>
+              ${formatEventDate(evento.fecha)}${evento.hora ? ` · ${evento.hora} hs` : ''}
+            </div>
+            <h2><a href="${detailUrl}">${evento.titulo}</a></h2>
+            <p>${evento.descripcion || 'Consultá la agenda local para más información.'}</p>
+            <div class="agenda-card-foot">
+              <span class="agenda-card-place"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">location_on</span>${evento.lugar || 'San Roque'}</span>
+              <a href="${detailUrl}" class="agenda-card-cta">Ver detalle <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+            </div>
+            <div class="agenda-card-visita">${window.VsrVisita ? VsrVisita.buttonHtml('e', id, evento.titulo, formatEventDate(evento.fecha)) : ''}</div>
+          </div>
+        </article>`;
+    }
+
     document.addEventListener("DOMContentLoaded", async () => {
       const grid = document.getElementById("eventos-grid");
+      const pastWrap = document.getElementById("agenda-past-wrap");
+      const pastGrid = document.getElementById("eventos-grid-past");
+      const pastToggle = document.getElementById("agenda-past-toggle");
+      const pastLabel = document.getElementById("agenda-past-label");
+
+      pastToggle?.addEventListener('click', () => {
+        const open = pastGrid.hidden;
+        pastGrid.hidden = !open;
+        pastToggle.classList.toggle('is-open', open);
+        pastLabel.textContent = open ? 'Ocultar eventos que ya pasaron' : 'Ver eventos que ya pasaron';
+      });
+
+      const renderError = () => {
+        grid.innerHTML = `
+          <div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-12 text-neutral-600">
+            <p class="font-bold text-primary text-lg mb-2">No pudimos cargar la agenda.</p>
+            <button type="button" class="mt-2 px-6 py-3 rounded-full bg-river-teal text-white font-bold text-sm" onclick="location.reload()">Reintentar</button>
+          </div>`;
+      };
+
       try {
         const res = await fetch("/api/data");
-        if (res.ok) {
-          const payload = await res.json();
-          const items = payload.eventos || [];
-          if (items.length) {
-            grid.innerHTML = items.map(item => `
-              <article class="bg-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="window.location.href='evento.html'">
-                <div class="h-56 overflow-hidden">
-                  <img src="${item.imagen || 'img/hero.jpg.jpg'}" alt="${item.titulo}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-6">
-                  <div class="flex items-center gap-2 text-xs font-bold text-river-teal uppercase mb-2">
-                    <span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                    <span>${item.fecha || ''}</span>
-                    <span class="mx-1">•</span>
-                    <span>${item.hora || ''}</span>
-                  </div>
-                  <h2 class="text-xl font-bold text-primary mb-3">${item.titulo}</h2>
-                  <p class="text-neutral-600 text-sm leading-relaxed mb-4">${item.descripcion || ''}</p>
-                  <div class="flex items-center gap-1.5 text-xs text-neutral-500 font-bold">
-                    <span class="material-symbols-outlined text-[16px] text-golden-sand">location_on</span>
-                    <span>${item.lugar || 'San Roque'}</span>
-                  </div>
-                </div>
-              </article>
-            `).join("");
-          } else {
-            grid.innerHTML = `<div class="col-span-full text-center py-12 text-neutral-500">No hay eventos programados en este momento.</div>`;
-          }
+        if (!res.ok) throw new Error('http ' + res.status);
+        const payload = await res.json();
+        const items = (payload.eventos || []).filter(Boolean);
+
+        if (!items.length) {
+          grid.innerHTML = `
+            <div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-12 text-neutral-600">
+              <p class="font-bold text-primary text-lg mb-1">Todavía no hay eventos publicados.</p>
+              <p class="text-sm">Muy pronto vas a encontrar acá la agenda cultural de San Roque.</p>
+            </div>`;
+          return;
         }
+
+        const sorted = [...items].sort((a, b) => String(a.fecha || '9999').localeCompare(String(b.fecha || '9999')));
+        const upcoming = sorted.filter((e) => isUpcoming(e.fecha));
+        const past = sorted.filter((e) => !isUpcoming(e.fecha)).reverse(); // más reciente primero
+
+        grid.innerHTML = upcoming.length
+          ? upcoming.map((e) => eventoCard(e, false)).join('')
+          : `<div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-12 text-neutral-600">
+               <p class="font-bold text-primary text-lg mb-1">No hay eventos próximos por ahora.</p>
+               <p class="text-sm">Revisá los eventos que ya pasaron o volvé a visitarnos pronto.</p>
+             </div>`;
+
+        if (past.length) {
+          pastWrap.hidden = false;
+          pastGrid.innerHTML = past.map((e) => eventoCard(e, true)).join('');
+        }
+
+        window.VsrVisita?.refresh();
       } catch (err) {
         console.error("Error loading events", err);
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-neutral-500">Error al cargar la agenda.</div>`;
+        renderError();
       }
     });
+  </script>
+  <script>
+    const BOT_API = "/api/bot/chat";
+    let chatOpen = false;
+
+    document.getElementById("chatToggle").onclick = () => {
+        chatOpen = !chatOpen;
+        document.getElementById("chatWindow").style.display = chatOpen ? "flex" : "none";
+        document.getElementById("chatToggle").setAttribute("aria-expanded", String(chatOpen));
+    };
+    function closeChatWindow(){
+        chatOpen = false;
+        document.getElementById("chatWindow").style.display = "none";
+        document.getElementById("chatToggle").setAttribute("aria-expanded", "false");
+    }
+    document.querySelectorAll("[data-chat-close]").forEach((b) => b.addEventListener("click", closeChatWindow));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && chatOpen) closeChatWindow(); });
+
+    function addMsg(text, user=false){
+        const box = document.getElementById("chatBox");
+        const div = document.createElement("div");
+        div.style.margin = "10px 0";
+        div.style.padding = "12px";
+        div.style.borderRadius = "14px";
+        div.style.maxWidth = "85%";
+        div.style.wordBreak = "break-word";
+        if(user){
+            div.style.background = "#EBE5D8";
+            div.style.alignSelf = "flex-end";
+            div.style.marginLeft = "30px";
+            div.style.whiteSpace = "pre-wrap";
+            div.textContent = text;
+        } else {
+            div.style.background = "#FFF";
+            div.style.alignSelf = "flex-start";
+            div.style.marginRight = "30px";
+            div.style.boxShadow = "0 1px 3px rgba(0,0,0,0.1)";
+            const escaped = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+            const safeHTML = escaped
+                .replace(/&lt;b&gt;/g, "<b>")
+                .replace(/&lt;\/b&gt;/g, "</b>")
+                .replace(/&lt;br&gt;/g, "<br>");
+            div.innerHTML = safeHTML;
+        }
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function showTyping(){
+        const box = document.getElementById("chatBox");
+        const div = document.createElement("div");
+        div.id = "typing";
+        div.style.margin = "10px 0";
+        div.style.padding = "12px";
+        div.style.background = "#FFF";
+        div.style.borderRadius = "14px";
+        div.style.alignSelf = "flex-start";
+        div.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function hideTyping(){
+        const t = document.getElementById("typing");
+        if(t) t.remove();
+    }
+
+    async function sendChat(){
+        const input = document.getElementById("chatInput");
+        const text = input.value.trim();
+        if(!text) return;
+        addMsg(text, true);
+        input.value = "";
+        showTyping();
+        try {
+            const response = await fetch(BOT_API, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text })
+            });
+            if(!response.ok) throw new Error("Status: " + response.status);
+            const data = await response.json();
+            hideTyping();
+            addMsg(data.reply || data.response || "No tengo una respuesta para esa consulta.");
+        } catch (err) {
+            console.error(err);
+            hideTyping();
+            addMsg("Lo siento, estoy experimentando dificultades técnicas. Reintente más tarde.");
+        }
+    }
+
+    function quickAsk(category){
+        chatOpen = true;
+        document.getElementById("chatWindow").style.display = "flex";
+        document.getElementById("chatInput").value = category;
+        sendChat();
+    }
+
+    setTimeout(() => {
+        addMsg(`👋 <b>¡Bienvenido a MuniAyuda!</b><br><br>Soy el asistente virtual de Turismo de San Roque.<br><br>Puedo ayudarte con:<br>🏨 Hospedajes<br>🍕 Gastronomía<br>🎉 Eventos<br>🚓 Emergencias<br><br>¿Qué necesitás?`);
+    }, 1000);
   </script>
 </body>
 </html>

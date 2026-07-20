@@ -50,7 +50,7 @@
 }
 </script>
 </head>
-<body class="bg-[#F6F3EE] text-neutral-900 font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
+<body class="text-neutral-900 font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
 
   <!-- Navbar -->
   <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-white/95 backdrop-blur-md shadow-md py-4">
@@ -60,7 +60,11 @@
       </a>
       <div class="hidden md:flex items-center gap-8">
         <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Inicio</a>
+        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="que-hacer.html">Qué hacer</a>
+        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html#hospedajes">Dónde alojarme</a>
         <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="gastronomia.html">Gastronomía</a>
+        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="agenda.html">Agenda</a>
+        <a class="text-primary font-bold text-[13px] uppercase tracking-wide transition-all" href="guia-practica.html" aria-current="page">Guía práctica</a>
       </div>
       <a href="index.html" class="flex items-center gap-2 text-primary font-bold text-sm bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-full transition-colors">
         <span class="material-symbols-outlined text-[18px]">arrow_back</span> Volver
@@ -71,7 +75,7 @@
   <!-- Hero Header -->
   <header class="internal-hero relative w-full flex items-end" style="padding-top: 140px; padding-bottom: 48px; min-height: 280px;">
     <div class="absolute inset-0 z-0">
-      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600<img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=80" alt="Guía Práctica de Servicios" class="w-full h-full object-cover">q=80" alt="Guía Práctica de Servicios" class="w-full h-full object-cover" loading="lazy">
+      <img src="img/Museo San roque.jpeg" alt="Museo de San Roque" class="w-full h-full object-cover" loading="eager" fetchpriority="high" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent"></div>
     </div>
     <div class="relative z-10 w-full max-w-5xl mx-auto px-6 text-white">
@@ -85,47 +89,48 @@
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 w-full max-w-5xl mx-auto px-6 py-16">
+  <main id="guia-main" class="flex-1 w-full max-w-5xl mx-auto px-6 py-16">
     <div class="text-center mb-12">
       <h2 class="text-2xl font-bold text-primary font-headline-md">¿Qué servicio estás buscando?</h2>
       <p class="text-neutral-500 text-sm mt-2">Hacé click en cualquier categoría para iniciar el asistente y ver la información de contacto.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-      <a href="#" onclick="event.preventDefault(); quickAsk('Remises');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" id="guia-cat-grid">
+      <a href="#" data-cat="remises" onclick="event.preventDefault(); quickAsk('Remises', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">local_taxi</span>
         <h3 class="text-lg font-bold text-primary mb-2">Remises</h3>
         <p class="text-xs text-neutral-500">Contactos de agencias y choferes locales.</p>
       </a>
-      <a href="#" onclick="event.preventDefault(); quickAsk('Terminal');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+      <a href="#" data-cat="terminal" onclick="event.preventDefault(); quickAsk('Terminal', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">directions_bus</span>
         <h3 class="text-lg font-bold text-primary mb-2">Terminal</h3>
         <p class="text-xs text-neutral-500">Información sobre colectivos y boleterías.</p>
       </a>
-      <a href="#" onclick="event.preventDefault(); quickAsk('Municipio');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+      <a href="#" data-cat="municipio" onclick="event.preventDefault(); quickAsk('Municipio', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">domain</span>
         <h3 class="text-lg font-bold text-primary mb-2">Municipio</h3>
         <p class="text-xs text-neutral-500">Horarios de atención y trámites oficiales.</p>
       </a>
-      <a href="#" onclick="event.preventDefault(); quickAsk('Iglesias');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+      <a href="#" data-cat="iglesias" onclick="event.preventDefault(); quickAsk('Iglesias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">church</span>
         <h3 class="text-lg font-bold text-primary mb-2">Iglesias</h3>
         <p class="text-xs text-neutral-500">Horarios de misas y templos de la ciudad.</p>
       </a>
-      <a href="#" onclick="event.preventDefault(); quickAsk('Emergencias');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+      <a href="#" data-cat="emergencias" onclick="event.preventDefault(); quickAsk('Emergencias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">emergency</span>
         <h3 class="text-lg font-bold text-primary mb-2">Emergencias</h3>
         <p class="text-xs text-neutral-500">Bomberos, policía y defensa civil.</p>
       </a>
-      <a href="#" onclick="event.preventDefault(); quickAsk('Salud');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+      <a href="#" data-cat="salud" onclick="event.preventDefault(); quickAsk('Salud', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">medical_services</span>
         <h3 class="text-lg font-bold text-primary mb-2">Salud</h3>
         <p class="text-xs text-neutral-500">Hospitales, clínicas y farmacias de turno.</p>
       </a>
-      <a href="#" onclick="event.preventDefault(); quickAsk('Servicios');" class="p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm hover:shadow-lg transition-all duration-300">
+      <a href="#" data-cat="servicios" onclick="event.preventDefault(); quickAsk('Servicios', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">design_services</span>
         <h3 class="text-lg font-bold text-primary mb-2">Servicios</h3>
         <p class="text-xs text-neutral-500">Bancos, cajeros y otros servicios públicos.</p>
+      </a>
     </div>
 
     <!-- Dynamic Directory Details Container -->
@@ -138,7 +143,7 @@
             <p id="directory-desc" class="text-xs text-neutral-500">Contactos de agencias y choferes locales.</p>
           </div>
         </div>
-        <button onclick="document.getElementById('directory-section').style.display='none';" class="text-neutral-400 hover:text-neutral-600 flex items-center justify-center">
+        <button onclick="document.getElementById('directory-section').style.display='none'; document.querySelectorAll('#guia-cat-grid .guia-cat-card').forEach((el) => { el.classList.remove('is-active'); el.setAttribute('aria-pressed', 'false'); });" class="text-neutral-400 hover:text-primary flex items-center justify-center">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
@@ -181,6 +186,30 @@
       </button>
   </div>
 
+  <!-- Navegación móvil -->
+  <nav id="mobile-bottom-nav" class="mobile-bottom-nav md:hidden" aria-label="Navegación móvil">
+    <a class="bottom-nav-item" href="que-hacer.html">
+      <span class="material-symbols-outlined">explore</span>
+      <span>Qué hacer</span>
+    </a>
+    <a class="bottom-nav-item" href="index.html">
+      <span class="material-symbols-outlined">hotel</span>
+      <span>Alojarme</span>
+    </a>
+    <a class="bottom-nav-item" href="gastronomia.html">
+      <span class="material-symbols-outlined">restaurant</span>
+      <span>Comer</span>
+    </a>
+    <a class="bottom-nav-item" href="agenda.html">
+      <span class="material-symbols-outlined">event</span>
+      <span>Agenda</span>
+    </a>
+    <a class="bottom-nav-item active" href="guia-practica.html" aria-current="page">
+      <span class="material-symbols-outlined">menu_book</span>
+      <span>Guía</span>
+    </a>
+  </nav>
+
   <!-- Compact Footer -->
   <footer class="site-footer w-full mt-auto relative z-10 overflow-hidden">
     <div class="footer-cream-crown" aria-hidden="true"></div>
@@ -215,8 +244,11 @@
     let chatOpen = false;
     let datosUtilesGlobal = null;
 
-    // Fetch data on load
-    document.addEventListener("DOMContentLoaded", async () => {
+    // Promesa única de carga: si se clickea una categoría ANTES de que
+    // /api/data responda (conexión lenta), quickAsk() espera esta misma
+    // promesa en vez de fallar en silencio (antes: showLocalDirectory
+    // retornaba de inmediato sin avisar nada al usuario).
+    const datosUtilesReady = (async () => {
         try {
             const res = await fetch("/api/data");
             if (res.ok) {
@@ -226,7 +258,8 @@
         } catch (err) {
             console.error("Error loading directory data", err);
         }
-    });
+        return datosUtilesGlobal;
+    })();
 
     document.getElementById("chatToggle").onclick = () => {
         chatOpen = !chatOpen;
@@ -325,25 +358,43 @@
         }
     }
 
-    function quickAsk(category){
+    async function quickAsk(category, cardEl){
         // 1. Open Chatbot and ask
         chatOpen = true;
         document.getElementById("chatWindow").style.display = "flex";
         document.getElementById("chatInput").value = category;
         sendChat();
 
-        // 2. Render dynamic directory on page
+        // Estado visual: qué categoría está seleccionada.
+        if (cardEl) {
+            document.querySelectorAll('#guia-cat-grid .guia-cat-card').forEach((el) => {
+                const active = el === cardEl;
+                el.classList.toggle('is-active', active);
+                el.setAttribute('aria-pressed', String(active));
+            });
+        }
+
+        // 2. Render dynamic directory on page (espera los datos si todavía
+        // no llegaron, en vez de fallar en silencio).
+        await datosUtilesReady;
         showLocalDirectory(category.toLowerCase());
     }
 
     function showLocalDirectory(catKey) {
-        if (!datosUtilesGlobal) return;
-        
-        // Match key
-        const item = datosUtilesGlobal[catKey];
-        if (!item) return;
-        
         const section = document.getElementById("directory-section");
+        const item = datosUtilesGlobal ? datosUtilesGlobal[catKey] : null;
+        if (!item) {
+            const titleEl = document.getElementById("directory-title");
+            const descEl = document.getElementById("directory-desc");
+            const contentEl = document.getElementById("directory-content");
+            titleEl.textContent = catKey.charAt(0).toUpperCase() + catKey.slice(1);
+            descEl.textContent = '';
+            contentEl.innerHTML = '<p class="text-neutral-500 text-sm">Todavía no hay información cargada para esta categoría. Preguntale a MuniAyuda o volvé a intentar más tarde.</p>';
+            section.style.display = "block";
+            section.scrollIntoView({ behavior: "smooth" });
+            return;
+        }
+
         const titleEl = document.getElementById("directory-title");
         const descEl = document.getElementById("directory-desc");
         const iconEl = document.getElementById("directory-icon");
@@ -371,14 +422,14 @@
             const contactos = content.contactos || [];
             if (contactos.length) {
                 html = `
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         ${contactos.map(c => `
-                            <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl flex items-center justify-between">
+                            <div class="guia-contact-row">
                                 <div>
                                     <div class="font-bold text-neutral-800 text-sm">${c.nombre}</div>
                                     <div class="text-xs text-neutral-500 mt-0.5">${c.tel}</div>
                                 </div>
-                                <a href="tel:${c.tel}" class="flex items-center justify-center w-9 h-9 rounded-full bg-river-teal/10 text-river-teal hover:bg-river-teal hover:text-white transition-colors">
+                                <a href="tel:${c.tel}" class="guia-icon-btn" aria-label="Llamar a ${c.nombre}">
                                     <span class="material-symbols-outlined text-[18px]">phone</span>
                                 </a>
                             </div>
@@ -393,7 +444,7 @@
             html = `
                 <div class="space-y-4">
                     ${content.ubicacion ? `
-                        <a href="${content.ubicacion}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 border border-neutral-200 rounded-lg text-xs font-bold text-neutral-700 hover:bg-neutral-50 transition-colors mb-2">
+                        <a href="${content.ubicacion}" target="_blank" class="guia-btn guia-btn-outline">
                             <span class="material-symbols-outlined text-[16px] text-river-teal">location_on</span> VER UBICACIÓN EN MAPA
                         </a>
                     ` : ''}
@@ -404,7 +455,7 @@
                     ${empresas.length ? `
                         <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
                             <div class="text-xs font-bold uppercase text-neutral-400 tracking-wider mb-2">Empresas que operan</div>
-                            <ul class="list-disc list-inside text-sm text-neutral-700 space-y-1">
+                            <ul class="guia-list">
                                 ${empresas.map(e => `<li>${e}</li>`).join('')}
                             </ul>
                         </div>
@@ -416,7 +467,7 @@
                 <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl space-y-3">
                     <p class="text-sm text-neutral-700">Edificio de la Municipalidad de San Roque. Atención al público para consultas generales y trámites oficiales.</p>
                     ${content.ubicacion ? `
-                        <a href="${content.ubicacion}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-river-teal text-white rounded-lg text-xs font-bold hover:bg-primary transition-colors">
+                        <a href="${content.ubicacion}" target="_blank" class="guia-btn guia-btn-primary">
                             <span class="material-symbols-outlined text-[16px]">location_on</span> VER UBICACIÓN EN MAPA
                         </a>
                     ` : ''}
@@ -428,10 +479,10 @@
                 html = `
                     <div class="space-y-3">
                         ${lugares.map(l => `
-                            <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl flex items-center justify-between">
+                            <div class="guia-contact-row">
                                 <span class="font-bold text-neutral-800 text-sm">${l.nombre}</span>
                                 ${l.link ? `
-                                    <a href="${l.link}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-river-teal/10 text-river-teal rounded-lg text-xs font-bold hover:bg-river-teal hover:text-white transition-colors">
+                                    <a href="${l.link}" target="_blank" class="guia-btn guia-btn-outline">
                                         <span class="material-symbols-outlined text-[16px]">location_on</span> VER MAPA
                                     </a>
                                 ` : ''}

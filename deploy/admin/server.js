@@ -307,7 +307,8 @@ if (!IS_PROD) {
     if (fs.existsSync(file)) return res.sendFile(file);
     return next();
   });
-  // URL amigable /gastronomia/<id> y /hospedajes/<id> (en prod las reescribe nginx)
+  // URL amigable /gastronomia/<id>, /hospedajes/<id> y /agenda/<id>
+  // (en prod las reescribe nginx a su mismo archivo listado+ficha).
   app.get('/gastronomia/:gid', (req, res, next) => {
     const file = path.join(PORTAL_DIR, 'gastronomia.html');
     if (fs.existsSync(file)) return res.sendFile(file);
@@ -315,6 +316,11 @@ if (!IS_PROD) {
   });
   app.get('/hospedajes/:hid', (req, res, next) => {
     const file = path.join(PORTAL_DIR, 'index.html');
+    if (fs.existsSync(file)) return res.sendFile(file);
+    return next();
+  });
+  app.get('/agenda/:eid', (req, res, next) => {
+    const file = path.join(PORTAL_DIR, 'agenda.html');
     if (fs.existsSync(file)) return res.sendFile(file);
     return next();
   });
@@ -513,13 +519,16 @@ app.get('/sitemap.xml', (req, res) => {
   const urls = [
     { loc: `${base}/`, priority: '1.0', changefreq: 'daily' },
     { loc: `${base}/gastronomia.html`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${base}/evento.html`, priority: '0.7', changefreq: 'weekly' },
+    { loc: `${base}/agenda.html`, priority: '0.7', changefreq: 'weekly' },
   ];
   (store.alojamientos || []).filter(isPublicItem).forEach((a) => {
     if (a.id) urls.push({ loc: `${base}/hospedajes/${encodeURIComponent(a.id)}`, priority: '0.6', changefreq: 'weekly' });
   });
   (store.gastronomia || []).filter(isPublicItem).forEach((g) => {
     if (g.id) urls.push({ loc: `${base}/gastronomia/${encodeURIComponent(g.id)}`, priority: '0.5', changefreq: 'weekly' });
+  });
+  (store.eventos || []).filter(isPublicItem).forEach((e) => {
+    if (e.id) urls.push({ loc: `${base}/agenda/${encodeURIComponent(e.id)}`, priority: '0.5', changefreq: 'weekly' });
   });
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n`
     + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`

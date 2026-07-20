@@ -3,14 +3,15 @@
 // - buildUrl(param, id): arma la URL amigable /<seccion>/<id> (alojamientos y
 //   gastronomía) o, para el resto, ?param=id sobre la página actual.
 // - share(param, id, title): usa la Web Share API nativa; si no está, copia al portapapeles.
-// Reutilizado por alojamientos (?h= / /hospedajes/<id>) y gastronomía (?g= / /gastronomia/<id>).
+// Reutilizado por alojamientos (?h= / /hospedajes/<id>), gastronomía
+// (?g= / /gastronomia/<id>) y agenda (?e= / /agenda/<id>).
 
 (function (global) {
   'use strict';
 
   // Un único mapa gobierna tanto la construcción de la URL amigable como su
   // lectura — agregar una sección nueva con link propio es sumar una línea acá.
-  const FRIENDLY_SECTIONS = { g: 'gastronomia', h: 'hospedajes' };
+  const FRIENDLY_SECTIONS = { g: 'gastronomia', h: 'hospedajes', e: 'agenda' };
 
   function buildUrl(param, id) {
     const section = FRIENDLY_SECTIONS[param];
