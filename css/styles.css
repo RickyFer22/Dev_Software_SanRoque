@@ -546,6 +546,106 @@ transform:translateY(0);
 
 /* TARJETAS DENTRO DEL CHAT */
 
+.chat-card{
+    margin: 10px 0;
+    border-radius: 18px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 28px rgba(15,23,42,0.06);
+}
+
+.chat-card-header{
+    padding: 16px 16px 10px 16px;
+    background: linear-gradient(135deg, rgba(53,94,74,0.08), rgba(216,164,65,0.12));
+}
+
+.chat-card-title{
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.chat-card-subtitle{
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.chat-card-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px 16px;
+}
+
+.chat-card-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 4px 10px rgba(15,23,42,0.05);
+}
+
+.chat-card-item-info{
+    min-width: 0;
+}
+
+.chat-card-item-title{
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.chat-card-item-subtitle{
+    font-size: 12px;
+    color: #475569;
+}
+
+.chat-card-actions{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.chat-card-button{
+    background: #274F10;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease;
+}
+
+.chat-card-button:hover{
+    background: #1f3f33;
+    transform: translateY(-1px);
+}
+
+.chat-card-button[type="button"]{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-box .bot-with-cards{
+    padding: 0;
+    box-shadow: none;
+    border: none;
+}
+
 .chat-options{
 
     display:flex;

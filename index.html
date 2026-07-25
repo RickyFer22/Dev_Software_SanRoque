@@ -7,6 +7,11 @@
        como si viviera en un subdirectorio; sin <base>, todo href/src relativo
        (css/, js/, img/…) resolvería contra /hospedajes/ y daría 404. -->
   <base href="/" />
+  <script>
+    if (window.location.protocol === 'file:') {
+      document.querySelector('base').setAttribute('href', './');
+    }
+  </script>
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Dónde alojarme - San Roque, Corrientes</title>
   <link rel="preload" as="image" href="img/monjita/monjita-1.jpg" fetchpriority="high" />
@@ -292,12 +297,6 @@
         <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Hospedajes</h2>
         <p class="text-neutral-500 text-sm mt-1">Opciones cómodas y bien ubicadas para tu estadía en San Roque</p>
       </div>
-      <!-- Filtros por categoría -->
-      <div class="flex flex-wrap items-center gap-2.5 mb-8" id="accommodation-filters">
-        <button type="button" class="filter-btn bg-surface-container text-on-surface-variant px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider shadow-sm transition-all duration-200" data-filter="all">Todos</button>
-        <button type="button" class="filter-btn bg-surface-container text-on-surface-variant px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider shadow-sm transition-all duration-200" data-filter="hotel">Hoteles</button>
-        <button type="button" class="filter-btn bg-surface-container text-on-surface-variant px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider shadow-sm transition-all duration-200" data-filter="hospedaje">Hospedajes</button>
-      </div>
       <div class="rounded-[32px]">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="accommodations-carousel"></div>
       </div>
@@ -332,9 +331,10 @@
           <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Próximos eventos</h2>
           <p class="text-neutral-500 text-sm mt-1">Actividades deportivas, culturales y festivas de San Roque</p>
         </div>
-        <span
+        <span id="events-period-label"
           class="hidden md:flex items-center gap-1.5 text-river-teal font-bold text-xs uppercase tracking-wider border border-river-teal/30 px-4 py-2 rounded-full bg-teal-50">
-          <span class="material-symbols-outlined text-[15px]">calendar_month</span> Junio – Julio 2026
+          <span class="material-symbols-outlined text-[15px]">calendar_month</span>
+          <span id="events-period-text">Próximamente</span>
         </span>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="events-grid">
@@ -638,6 +638,7 @@
     </div>
   </div>
 
+  <script src="js/gastronomiaData.js"></script>
   <script src="js/data.js"></script>
   <script src="js/ratings.js"></script>
   <script src="js/share.js"></script>
@@ -670,7 +671,23 @@
           return;
         }
 
-        grid.innerHTML = eventos.map((evento) => `
+        const periodText = eventos.reduce((range, evento) => {
+          const date = new Date(`${evento.fecha}T00:00:00`);
+          if (Number.isNaN(date.getTime())) return range;
+          const month = date.toLocaleDateString('es-AR', { month: 'long' });
+          const year = date.getFullYear();
+          range.add(`${month} ${year}`);
+          return range;
+        }, new Set());
+
+        const periodLabel = document.getElementById('events-period-text');
+        if (periodLabel) {
+          periodLabel.textContent = Array.from(periodText).join(' / ') || 'Próximamente';
+        }
+
+        grid.innerHTML = eventos.map((evento) => {
+          const detailUrl = `/agenda/${encodeURIComponent(evento.id || evento.titulo)}`;
+          return `
           <article class="bg-white rounded-3xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-xl transition-all duration-300">
             <div class="h-40 overflow-hidden">
               <img src="${evento.imagen || 'img/hero.jpg.jpg'}" alt="${evento.titulo}" class="w-full h-full object-cover" loading="lazy" />
@@ -686,10 +703,14 @@
                 <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">schedule</span> ${evento.hora || 'Horario a confirmar'}</div>
                 <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">location_on</span> ${evento.lugar || 'San Roque'}</div>
               </div>
-              <div class="mt-4">${window.VsrVisita ? VsrVisita.buttonHtml('e', evento.id || evento.titulo, evento.titulo, formatDate(evento.fecha)) : ''}</div>
+              <div class="mt-4 flex flex-wrap items-center gap-3">
+                ${window.VsrVisita ? VsrVisita.buttonHtml('e', evento.id || evento.titulo, evento.titulo, formatDate(evento.fecha)) : ''}
+                <a href="${detailUrl}" class="inline-flex items-center justify-center rounded-full bg-river-teal text-white px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-primary transition-all">Ver detalle</a>
+              </div>
             </div>
           </article>
-        `).join('');
+        `;
+        }).join('');
         window.VsrVisita?.refresh();
       } catch (error) {
         console.info('No se pudieron cargar los eventos desde la API', error.message);

@@ -771,8 +771,12 @@ const datosUtilesInfo = {
     }
 
 };
+window.datosUtilesInfo = datosUtilesInfo;
 
-const BOT_API = "/api/bot/chat";
+const BOT_API = (window.location.protocol === 'file:')
+    ? 'http://127.0.0.1:4000/api/bot/chat'
+    : '/api/bot/chat';
+window.BOT_API = BOT_API;
 let chatOpen = false;
 
 const chatToggleBtn = document.getElementById("chatToggle");
@@ -817,7 +821,80 @@ function quickAsk(text){
     sendChat();
 }
 
-function addMsg(text, user=false){
+function detectDatosUtilesCategoryFromText(text){
+  if(!text) return null;
+  const t = String(text).toLowerCase();
+  if(/polic|comisar|comisaria|policia/.test(t)) return 'emergencias';
+  if(/hospital|salud|clinica/.test(t)) return 'emergencias';
+  if(/remis|taxi|traslado/.test(t)) return 'remises';
+  if(/municipio|intendencia|municipalidad/.test(t)) return 'municipio';
+  if(/banco|cajero|corrientes/.test(t)) return 'servicios';
+  if(/terminal|colectivo|ómnibus|omnibus/.test(t)) return 'terminal';
+  return null;
+}
+
+function escapeHtml(text) {
+    return String(text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function sanitizeBotHtml(text) {
+    return String(text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/&lt;b&gt;/g, '<b>')
+        .replace(/&lt;\/b&gt;/g, '</b>')
+        .replace(/&lt;br&gt;/g, '<br>');
+}
+
+function answerLocally(message) {
+    const text = String(message || '').toLowerCase();
+    if (/\b(fiesta patronal|fiestas patronales|patronal)\b/.test(text)) {
+        return {
+            reply: 'La Fiesta Patronal de San Roque se celebra el 16 de agosto de 2026 en la Parroquia San Roque de Montpellier. Habrá misa solemne, procesión y actividades culturales.',
+            category: 'eventos'
+        };
+    }
+    if (/\b(historia|cu[eé]ntame sobre la historia|origen de san roque|cómo nació san roque|cómo se fund[oó])\b/.test(text)) {
+        return {
+            reply: 'La historia de San Roque forma parte de su identidad como ciudad correntina. El portal municipal documenta su patrimonio, la tradición religiosa y el valor turístico de su comunidad.',
+            category: 'general'
+        };
+    }
+    if (/\b(remis|taxi|traslado|transporte)\b/.test(text)) {
+        return { reply: 'Te comparto los remises oficiales de San Roque.', category: 'remises' };
+    }
+    if (/\b(comer|gastronom|restaurant|comedor|comida|sabores|restaurante)\b/.test(text)) {
+        return { reply: 'Acá están las opciones gastronómicas disponibles en San Roque.', category: 'gastronomia' };
+    }
+    if (/\b(aloj|hotel|hospedaje|dormir|quedarse|estad[ií]a|estancia)\b/.test(text)) {
+        return { reply: 'Estos son los alojamientos disponibles en San Roque.', category: 'alojamientos' };
+    }
+    if (/\b(evento|agenda|actividad|show|concierto|feria)\b/.test(text)) {
+        return { reply: 'Estos son los próximos eventos publicados en San Roque.', category: 'eventos' };
+    }
+    const duMatch = text.match(/\b(terminal|municipio|iglesia|iglesias|emergencia|emergencias|salud|servicio|servicios|remis|remises|municipio|banco)\b/);
+    if (duMatch) {
+      // return specific category so sendChat can render datos útiles
+      const key = duMatch[1];
+      // normalize some plural forms
+      if (key === 'iglesias') return { reply: 'Te paso información de las iglesias y templos de San Roque.', category: 'iglesias' };
+      if (key === 'emergencia' || key === 'emergencias') return { reply: 'Te paso información de servicios de emergencias en San Roque.', category: 'emergencias' };
+      if (key === 'remis' || key === 'remises') return { reply: 'Te comparto los remises oficiales de San Roque.', category: 'remises' };
+      if (key === 'banco' || key === 'servicio' || key === 'servicios') return { reply: 'Te paso información de servicios oficiales y datos útiles de San Roque.', category: 'servicios' };
+      return { reply: 'Te paso información de servicios oficiales y datos útiles de San Roque.', category: key };
+    }
+    return { reply: 'Soy el asistente turístico de San Roque. Puedo ayudarte con alojamientos, gastronomía, eventos y datos útiles oficiales.', category: 'general' };
+}
+
+function addMsg(text, user=false, options={html:false}){
     const box = document.getElementById("chatBox");
     const div = document.createElement("div");
 
@@ -826,35 +903,25 @@ function addMsg(text, user=false){
     div.style.borderRadius = "14px";
     div.style.maxWidth = "85%";
     div.style.wordBreak = "break-word";
+    div.style.whiteSpace = "pre-wrap";
 
     if(user){
         div.style.marginLeft = "auto";
         div.style.background = "#003633";
         div.style.color = "white";
         div.style.borderBottomRightRadius = "2px";
-        div.style.whiteSpace = "pre-wrap";
         div.textContent = text;
     } else {
         div.style.background = "white";
         div.style.color = "#333";
         div.style.borderBottomLeftRadius = "2px";
         div.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
-        
-        // Escape HTML to prevent XSS
-        const escaped = text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-            
-        // Restore only allowed safe formatting tags: <b>, </b>, <br>
-        const safeHTML = escaped
-            .replace(/&lt;b&gt;/g, "<b>")
-            .replace(/&lt;\/b&gt;/g, "</b>")
-            .replace(/&lt;br&gt;/g, "<br>");
-            
-        div.innerHTML = safeHTML;
+        if (options.html) {
+            div.classList.add('bot-with-cards');
+            div.innerHTML = text;
+        } else {
+            div.innerHTML = sanitizeBotHtml(text);
+        }
     }
 
     box.appendChild(div);
@@ -878,37 +945,243 @@ function hideTyping(){
 function responderDatosUtiles(tipo) {
     const item = datosUtilesInfo[tipo];
     if(!item) return;
+  const content = item.contenido || item;
 
-    let html = `<b>${item.titulo}</b><br>`;
-    html += `<p style="margin-top:4px; font-size:13px; color:#475569;">${item.descripcion}</p>`;
+  let html = `<b>${item.titulo || content.titulo || ''}</b><br>`;
+  html += `<p style="margin-top:4px; font-size:13px; color:#475569;">${item.descripcion || content.descripcion || ''}</p>`;
 
-    if(item.ubicacion){
-        html += `<p style="margin-top:8px;"><a target="_blank" href="${item.ubicacion}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">📍 Ver ubicación en mapa</a></p>`;
-    }
+  if (content.ubicacion) {
+    html += `<p style="margin-top:8px;"><a target="_blank" href="${content.ubicacion}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">📍 Ver ubicación en mapa</a></p>`;
+  }
 
-    if(item.lugares){
-        html += `<ul style="margin-top:8px; padding-left:14px; list-style-type:disc; font-size:13px;">`;
-        item.lugares.forEach(l => {
-            html += `<li style="margin-top:4px;"><a target="_blank" href="${l.link}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">${l.nombre}</a></li>`;
-        });
-        html += `</ul>`;
-    }
+  const lugares = content.lugares || content.lugares || content.lugares;
+  if (Array.isArray(lugares) && lugares.length) {
+    html += `<ul style="margin-top:8px; padding-left:14px; list-style-type:disc; font-size:13px;">`;
+    lugares.forEach(l => {
+      const link = l.link || l.url || l.mapsLink || '';
+      const label = l.nombre || l.titulo || l.label || '';
+      if (link) html += `<li style="margin-top:4px;"><a target="_blank" href="${link}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">${label}</a></li>`;
+      else html += `<li style="margin-top:4px;">${label}</li>`;
+    });
+    html += `</ul>`;
+  }
 
-    if(item.contactos){
-        html += `<div style="margin-top:8px; font-size:13px;"><b>Contactos directos:</b><ul style="padding-left:0; list-style-type:none; margin-top:4px;">`;
-        item.contactos.forEach(c => {
-            html += `<li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                    <div><strong>${c.nombre}</strong></div>
-                    <a href="tel:${String(c.tel).replace(/\D/g,'')}" style="background:#003633; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
-                        📞 ${c.tel}
-                    </a>
-                </li>`;
-        });
-        html += `</ul></div>`;
-    }
+  const contactos = content.contactos || content.contactos || [];
+  if (Array.isArray(contactos) && contactos.length) {
+    html += `<div style="margin-top:8px; font-size:13px;"><b>Contactos directos:</b><ul style="padding-left:0; list-style-type:none; margin-top:4px;">`;
+    contactos.forEach(c => {
+      const tel = String(c.tel || c.telefono || c.phone || '').replace(/\D/g,'');
+      const wa = c.whatsapp || c.wa || c.waNumber || '';
+      html += `<li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div><strong>${c.nombre || c.label || ''}</strong></div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            ${wa ? `<a class="chat-card-button" href="https://wa.me/${String(wa).replace(/^\+/, '')}?text=${encodeURIComponent('Hola') }" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+            ${tel ? `<a href="tel:${tel}" style="background:#003633; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">📞 ${c.tel || c.telefono || tel}</a>` : ''}
+          </div>
+        </li>`;
+    });
+    html += `</ul></div>`;
+  }
 
-    addMsg(html.replace(/<[^>]*>/g, ''));
+  addMsg(html, false, { html: true });
 }
+
+function buildWaLink(rawNumber, text = 'Hola!') {
+    const digits = String(rawNumber || '').replace(/[^\d+]/g, '');
+    if (!digits) return '';
+    const clean = digits.replace(/^\+/, '');
+    return `https://wa.me/${clean}?text=${encodeURIComponent(text)}`;
+}
+
+function renderChatCards(category) {
+    const cardHeader = {
+        remises: { title: 'Remises disponibles', subtitle: 'Contactos locales con WhatsApp directo' },
+        alojamientos: { title: 'Alojamientos', subtitle: 'Consultá disponibilidad y detalles' },
+        gastronomia: { title: 'Gastronomía recomendada', subtitle: 'Reservá o escribí por WhatsApp' },
+    }[category];
+
+    if (!cardHeader) return '';
+
+    // If category is alojamientos, render a placeholder and hydrate it asynchronously
+    if (category === 'alojamientos') {
+      return `<div class="chat-card">
+      <div class="chat-card-header">
+        <div class="chat-card-title">${cardHeader.title}</div>
+        <div class="chat-card-subtitle">${cardHeader.subtitle}</div>
+      </div>
+      <div class="chat-card-list"><div class="chat-card-placeholder" data-category="alojamientos"></div></div>
+    </div>`;
+    }
+
+    // If category is gastronomia, render a placeholder and hydrate it asynchronously
+    if (category === 'gastronomia') {
+      return `<div class="chat-card">
+      <div class="chat-card-header">
+        <div class="chat-card-title">${cardHeader.title}</div>
+        <div class="chat-card-subtitle">${cardHeader.subtitle}</div>
+      </div>
+      <div class="chat-card-list"><div class="chat-card-placeholder" data-category="gastronomia"></div></div>
+    </div>`;
+    }
+
+    const items = category === 'remises'
+        ? (Array.isArray(datosUtilesInfo.remises?.contactos) ? datosUtilesInfo.remises.contactos : [])
+        : category === 'alojamientos'
+            ? Object.entries(alojamientosData || {}).slice(0, 6).map(([id, item]) => ({ id, ...item }))
+            : Array.isArray(window.gastronomiaData) ? window.gastronomiaData.slice(0, 6) : [];
+
+    if (!items.length) return '';
+
+    const rows = items.map((item) => {
+        if (category === 'remises') {
+            const name = escapeHtml(item.nombre || '');
+            const tel = escapeHtml(item.tel || '');
+            const wa = buildWaLink(item.tel, `Hola! Quiero coordinar un remis con ${item.nombre} desde el portal de San Roque.`);
+            return `<div class="chat-card-item">
+                <div class="chat-card-item-info">
+                    <div class="chat-card-item-title">${name}</div>
+                    <div class="chat-card-item-subtitle">${tel}</div>
+                </div>
+                <div class="chat-card-actions">
+                    ${wa ? `<a class="chat-card-button" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+                </div>
+            </div>`;
+        }
+
+        if (category === 'alojamientos') {
+            const title = escapeHtml(item.titulo || '');
+            const location = escapeHtml(item.ubicacion || 'San Roque');
+            const wa = buildWaLink(item.waNumber || item.telefono, `Hola! Quiero consultar disponibilidad de ${item.titulo} en San Roque.`);
+            return `<div class="chat-card-item">
+                <div class="chat-card-item-info">
+                    <div class="chat-card-item-title">${title}</div>
+                    <div class="chat-card-item-subtitle">${location}</div>
+                </div>
+                <div class="chat-card-actions">
+                    <button class="chat-card-button" type="button" onclick="navigateToDetails('${item.id}')">Ver detalle</button>
+                    ${wa ? `<a class="chat-card-button" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+                </div>
+            </div>`;
+        }
+
+        const name = escapeHtml(item.nombre || '');
+        const location = escapeHtml(item.ubicacion || 'San Roque');
+        const wa = buildWaLink(item.whatsapp || item.telefono, `Hola! Quiero consultar sobre ${item.nombre} en San Roque.`);
+        return `<div class="chat-card-item">
+            <div class="chat-card-item-info">
+                <div class="chat-card-item-title">${name}</div>
+                <div class="chat-card-item-subtitle">${location}</div>
+            </div>
+            <div class="chat-card-actions">
+                ${wa ? `<a class="chat-card-button" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+            </div>
+        </div>`;
+    }).join('');
+
+    return `<div class="chat-card">
+        <div class="chat-card-header">
+            <div class="chat-card-title">${cardHeader.title}</div>
+            <div class="chat-card-subtitle">${cardHeader.subtitle}</div>
+        </div>
+        <div class="chat-card-list">${rows}</div>
+    </div>`;
+}
+
+// Fetch alojamientos from API (/api/data) with graceful fallback to in-memory data
+async function fetchAlojamientosFromApi() {
+  try {
+    const res = await fetch('/api/data');
+    if (!res.ok) throw new Error('API no disponible');
+    const json = await res.json();
+    // API may return object with alojamientos map or array
+    let alojamientos = [];
+    if (Array.isArray(json.alojamientos)) alojamientos = json.alojamientos;
+    else if (json.alojamientos && typeof json.alojamientos === 'object') alojamientos = Object.entries(json.alojamientos).map(([id, v]) => ({ id, ...v }));
+    return alojamientos;
+  } catch (err) {
+    // fallback to global data if available
+    try {
+      if (window.alojamientosData) return Object.entries(window.alojamientosData).map(([id, v]) => ({ id, ...v }));
+    } catch (e) {}
+    return [];
+  }
+}
+
+// Fetch gastronomia from API (/api/data) with graceful fallback to in-memory data
+async function fetchGastronomiaFromApi() {
+  try {
+    const res = await fetch('/api/data');
+    if (!res.ok) throw new Error('API no disponible');
+    const json = await res.json();
+    let gastronomia = [];
+    if (Array.isArray(json.gastronomia)) gastronomia = json.gastronomia;
+    return gastronomia;
+  } catch (err) {
+    try {
+      if (Array.isArray(window.gastronomiaData)) return window.gastronomiaData;
+    } catch (e) {}
+    return [];
+  }
+}
+
+function renderGastronomiaItem(item) {
+  const title = escapeHtml(item.titulo || item.nombre || '');
+  const location = escapeHtml(item.ubicacion || 'San Roque');
+  const wa = buildWaLink(item.whatsapp || item.telefono || item.waNumber, `Hola! Quiero consultar sobre ${item.titulo || item.nombre} en San Roque.`);
+  return `<div class="chat-card-item">
+        <div class="chat-card-item-info">
+          <div class="chat-card-item-title">${title}</div>
+          <div class="chat-card-item-subtitle">${location}</div>
+        </div>
+        <div class="chat-card-actions">
+          ${wa ? `<a class="chat-card-button" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+        </div>
+      </div>`;
+}
+
+// Replace placeholder inside the last bot message with real gastronomia fetched from API
+async function hydrateGastronomiaInMessage(messageDiv) {
+  if (!messageDiv) return;
+  const placeholder = messageDiv.querySelector('.chat-card-placeholder[data-category="gastronomia"]');
+  if (!placeholder) return;
+  const items = await fetchGastronomiaFromApi();
+  const list = (items || []).slice(0, 8).map(renderGastronomiaItem).join('');
+  const wrapper = document.createElement('div');
+  wrapper.className = 'chat-card';
+  wrapper.innerHTML = `<div class="chat-card-header"><div class="chat-card-title">Gastronomía</div><div class="chat-card-subtitle">Reservá o escribí por WhatsApp</div></div><div class="chat-card-list">${list}</div>`;
+  placeholder.replaceWith(wrapper.querySelector('.chat-card-list'));
+}
+
+function renderAlojamientoItem(item) {
+  const title = escapeHtml(item.titulo || item.nombre || '');
+  const location = escapeHtml(item.ubicacion || 'San Roque');
+  const wa = buildWaLink(item.waNumber || item.telefono || item.whatsapp, `Hola! Quiero consultar disponibilidad de ${item.titulo || item.nombre} en San Roque.`);
+  return `<div class="chat-card-item">
+        <div class="chat-card-item-info">
+          <div class="chat-card-item-title">${title}</div>
+          <div class="chat-card-item-subtitle">${location}</div>
+        </div>
+        <div class="chat-card-actions">
+          <button class="chat-card-button" type="button" onclick="navigateToDetails('${item.id}')">Ver detalle</button>
+          ${wa ? `<a class="chat-card-button" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+        </div>
+      </div>`;
+}
+
+// Replace placeholder inside the last bot message with real alojamientos fetched from API
+async function hydrateAlojamientosInMessage(messageDiv) {
+  if (!messageDiv) return;
+  const placeholder = messageDiv.querySelector('.chat-card-placeholder');
+  if (!placeholder) return;
+  const items = await fetchAlojamientosFromApi();
+  const list = (items || []).slice(0, 8).map(renderAlojamientoItem).join('');
+  const wrapper = document.createElement('div');
+  wrapper.className = 'chat-card';
+  wrapper.innerHTML = `<div class="chat-card-header"><div class="chat-card-title">Alojamientos</div><div class="chat-card-subtitle">Consultá disponibilidad y detalles</div></div><div class="chat-card-list">${list}</div>`;
+  placeholder.replaceWith(wrapper.querySelector('.chat-card-list'));
+}
+
+const CHAT_API_URL = window.BOT_API || '/api/bot/chat';
 
 async function sendChat(){
     const input = document.getElementById("chatInput");
@@ -917,28 +1190,84 @@ async function sendChat(){
 
     addMsg(text, true);
     input.value = "";
-    showTyping();       
+    showTyping();
 
-    // Todas las consultas pasan por la API del mismo origen para quedar observadas.
+    const localResponse = answerLocally(text);
+
     try {
-        const response = await fetch(BOT_API, {
-            method: "POST", 
+        const response = await fetch(CHAT_API_URL, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ message: text }) 
+            body: JSON.stringify({ message: text })
         });
 
         const data = await response.json();
         hideTyping();
 
-        const botResponse = data.reply || data.response || data.message || "Respuesta recibida";
-        addMsg(botResponse);
+        const botResponse = data.reply || data.response || data.message || localResponse.reply || "Respuesta recibida";
+        const category = data.category || localResponse.category || 'general';
+        // If user asked about datos útiles (policía/hospital/municipio/banco), prefer structured datosUtiles
+        const duFromText = detectDatosUtilesCategoryFromText(text);
+        if (duFromText && datosUtilesInfo && datosUtilesInfo[duFromText]) {
+          responderDatosUtiles(duFromText);
+          hideTyping();
+          return;
+        }
+        const safeBotResponse = sanitizeBotHtml(botResponse);
+        // If it's a datos utiles category, render the detailed block with map/phone
+        if (datosUtilesInfo && datosUtilesInfo[category]) {
+          // For datos útiles we render the structured block only (avoid duplicate titles)
+          responderDatosUtiles(category);
+        } else {
+          const cards = renderChatCards(category);
+          if (cards) {
+            addMsg(`${safeBotResponse}<br>${cards}`, false, { html: true });
+            if (category === 'alojamientos') {
+              const box = document.getElementById('chatBox');
+              const last = box && box.lastElementChild;
+              hydrateAlojamientosInMessage(last).catch(() => {});
+            } else if (category === 'gastronomia') {
+              const box = document.getElementById('chatBox');
+              const last = box && box.lastElementChild;
+              hydrateGastronomiaInMessage(last).catch(() => {});
+            }
+          } else {
+            addMsg(safeBotResponse);
+          }
+        }
 
     } catch (error) {
         console.error("Error al conectar con la API:", error);
         hideTyping();
-        addMsg("⚠️ Lo siento, tuve un problema de conexión con el servidor.");
+
+        if (localResponse) {
+            const safeBotResponse = sanitizeBotHtml(localResponse.reply);
+            // If localResponse maps to datos utiles, render that detailed block
+            if (datosUtilesInfo && datosUtilesInfo[localResponse.category]) {
+              // Avoid duplicating the textual title; render structured block only
+              responderDatosUtiles(localResponse.category);
+            } else {
+                const cards = renderChatCards(localResponse.category);
+                if (cards) {
+                    addMsg(`${safeBotResponse}<br>${cards}`, false, { html: true });
+                    if (localResponse.category === 'alojamientos') {
+                      const box = document.getElementById('chatBox');
+                      const last = box && box.lastElementChild;
+                      hydrateAlojamientosInMessage(last).catch(() => {});
+                    } else if (localResponse.category === 'gastronomia') {
+                      const box = document.getElementById('chatBox');
+                      const last = box && box.lastElementChild;
+                      hydrateGastronomiaInMessage(last).catch(() => {});
+                    }
+                } else {
+                    addMsg(safeBotResponse);
+                }
+            }
+        } else {
+            addMsg("⚠️ Lo siento, tuve un problema de conexión con el servidor.");
+        }
     }
 }
 

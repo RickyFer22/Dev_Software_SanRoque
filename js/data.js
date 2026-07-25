@@ -176,6 +176,7 @@ const _fallbackAlojamientos = {
 
 // ── Variable global accesible por app.js ──────────────────────────────────────
 let alojamientosData = _fallbackAlojamientos;
+window.alojamientosData = alojamientosData;
 
 function normalizeAccommodationItem(item, fallbackId = '') {
   if (!item || typeof item !== 'object') return null;
@@ -255,7 +256,7 @@ const BACKEND_BASE = '';
 function buildFallbackAppData() {
   return {
     alojamientos: _fallbackAlojamientos,
-    gastronomia: [],
+    gastronomia: window.gastronomiaData || [],
     eventos: [],
     datosUtiles: null,
   };
@@ -294,12 +295,16 @@ async function refreshAppData({ silent = false } = {}) {
       alojamientosData = _fallbackAlojamientos;
     }
 
-    window.appData = { ...data, alojamientos: alojamientosData };
+    window.alojamientosData = alojamientosData;
+    const apiGastronomia = Array.isArray(data.gastronomia) && data.gastronomia.length > 0 ? data.gastronomia : window.gastronomiaData || [];
+    window.gastronomiaData = apiGastronomia;
+    window.appData = { ...data, alojamientos: alojamientosData, gastronomia: window.gastronomiaData };
   } catch (err) {
     if (!silent) {
       console.info('[data] API no disponible, usando datos locales.', err.message);
     }
     alojamientosData = fallbackAppData.alojamientos;
+    window.alojamientosData = alojamientosData;
     window.appData = fallbackAppData;
   }
 
@@ -317,8 +322,8 @@ async function refreshAppData({ silent = false } = {}) {
 (function initAppData() {
   window.appData = buildFallbackAppData();
   alojamientosData = window.appData.alojamientos;
-  window.refreshAppData = refreshAppData;
-  document.dispatchEvent(new CustomEvent('appDataReady', { detail: window.appData }));
+  window.alojamientosData = alojamientosData;
+  window.gastronomiaData = window.gastronomiaData || [];
 
   refreshAppData({ silent: true });
 
