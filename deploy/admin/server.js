@@ -597,8 +597,12 @@ async function callBotApi(api, message, systemPrompt, timeoutMs) {
       case 'openai':
       case 'openrouter':
         if (api.apiKey) headers.authorization = `Bearer ${api.apiKey}`;
+        if (api.format === 'openrouter') {
+          headers['HTTP-Referer'] = 'https://vivisanroque.munisanroque.ar';
+          headers['X-Title'] = 'MuniAyuda San Roque';
+        }
         body = {
-          model: api.model || 'gpt-4o-mini',
+          model: api.model || (api.format === 'openrouter' ? 'openai/gpt-4o-mini' : 'gpt-4o-mini'),
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: message },
