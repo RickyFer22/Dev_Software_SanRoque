@@ -28,6 +28,11 @@ jobs:
           # La API key viaja como variable de entorno del runner y se inyecta
           # en la sesión SSH vía 'envs'. Nunca se imprime en los logs.
           OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
+          # Secreto del bot para OpenRouter o el proveedor configurado.
+          BOT_API_KEY: ${{ secrets.BOT_API_KEY }}
+          BOT_API_URL: ${{ secrets.BOT_API_URL }}
+          BOT_PROVIDER: ${{ secrets.BOT_PROVIDER }}
+          BOT_TIMEOUT_MS: ${{ secrets.BOT_TIMEOUT_MS }}
           # Opcional: si se define el secreto SESSION_SECRET, las sesiones del panel
           # admin persisten entre reinicios. Si no, el server genera uno aleatorio.
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
@@ -36,7 +41,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          envs: OWM_API_KEY,SESSION_SECRET
+          envs: OWM_API_KEY,BOT_API_KEY,BOT_API_URL,BOT_PROVIDER,BOT_TIMEOUT_MS,SESSION_SECRET
           script: |
             set -e
             PROJECT_PATH="/opt/projects/vivisanroque"
@@ -73,6 +78,10 @@ jobs:
             OWM_UNITS=metric
             OWM_LANG=es
             WEATHER_CACHE_TTL_MS=600000
+            BOT_API_URL=${BOT_API_URL:-https://openrouter.ai/api/v1/chat/completions}
+            BOT_API_KEY=${BOT_API_KEY:-}
+            BOT_PROVIDER=${BOT_PROVIDER:-openrouter}
+            BOT_TIMEOUT_MS=${BOT_TIMEOUT_MS:-8000}
             SESSION_SECRET=${SESSION_SECRET:-}
             ADMIN_ALLOWED_ORIGINS=https://vivisanroque.munisanroque.ar
             ENVEOF

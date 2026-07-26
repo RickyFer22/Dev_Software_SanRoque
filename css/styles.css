@@ -947,9 +947,12 @@ bottom:15px;
   }
 
 /* Gastronomía: ajustes mobile y paquete standalone */
-html, body { max-width: 100%; overflow-x: hidden; }
+html, body { max-width: 100%; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { min-height: 100vh; }
 #gastronomia-grid .card-item { width: 100%; }
 .chatbot img { max-width: 100%; object-fit: contain; }
+img, svg, video { max-width: 100%; height: auto; }
+a, button, input, select, textarea { min-height: 44px; }
 
 @media (max-width: 768px) {
   #main-nav { padding-top: 10px !important; padding-bottom: 10px !important; }
@@ -979,6 +982,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     left: 8px;
     right: 8px;
     bottom: max(8px, env(safe-area-inset-bottom));
+    max-width: calc(100vw - 16px);
     z-index: 40;
     display: flex;
     justify-content: space-around;
@@ -991,13 +995,14 @@ html, body { max-width: 100%; overflow-x: hidden; }
     box-shadow: 0 16px 40px rgba(39,79,16,0.18);
   }
   .bottom-nav-item {
-    flex: 1;
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 3px;
     min-height: 52px;
+    min-width: 0;
     padding: 7px 4px;
     border-radius: 14px;
     color: #64748b;
@@ -1028,16 +1033,16 @@ html, body { max-width: 100%; overflow-x: hidden; }
   #gastronomia-grid .card-item li,
   #gastronomia-grid .card-item a,
   #gastronomia-grid .card-item span { overflow-wrap: anywhere; }
-  .chatbot { right: 12px; bottom: calc(88px + env(safe-area-inset-bottom)); }
-  .chat-button { width: 64px; height: 64px; font-size: 10px; }
+  .chatbot { right: 12px; bottom: calc(88px + env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); }
+  .chat-button { width: 64px; height: 64px; font-size: 10px; flex-shrink: 0; }
   .chat-button img { width: 100%; height: 100%; }
-  .chat-window { width: calc(100vw - 24px); height: min(78vh, 560px); right: -2px; bottom: 74px; border-radius: 18px; }
+  .chat-window { width: min(calc(100vw - 24px), 420px); height: min(78vh, 560px); right: 0; bottom: 74px; border-radius: 18px; }
   .chat-quick { max-height: 118px; overflow-y: auto; }
   .quick-btn { padding: 8px 10px; font-size: 11px; }
   .chat-input-area input { min-width: 0; }
 footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
   .site-footer { text-align:left; }
-  .site-footer .social-link { flex:1;max-width:150px; }
+  .site-footer .social-link { flex:1;max-width:150px; min-height: 44px; }
 }
 
 /* Experiencias editoriales 2026 */  .events-editorial-banner {
