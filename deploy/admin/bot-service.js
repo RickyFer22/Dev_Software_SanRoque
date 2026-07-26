@@ -159,14 +159,24 @@ function clampNumber(value, min, max, fallbackValue) {
   return Math.min(max, Math.max(min, Math.round(n)));
 }
 
+function isPlaceholderApiKey(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return true;
+  if (/^\*+$/.test(raw)) return true;
+  if (/^x+$/i.test(raw)) return true;
+  if (/^(placeholder|xxx|no[-_ ]?key|sin[-_ ]?clave)$/i.test(raw)) return true;
+  return false;
+}
+
 // Normaliza una entrada de API del bot. Mantiene la clave existente si el
 // admin no envía una nueva (los GET devuelven la clave enmascarada).
 function normalizeBotApi(input = {}, previous = null) {
   const prev = previous || {};
   const format = String(input.format || prev.format || 'generic').toLowerCase();
   const allowedFormats = ['generic', 'openai', 'anthropic', 'openrouter', 'ollama'];
-  let apiKey = prev.apiKey || '';
-  if (typeof input.apiKey === 'string' && input.apiKey.trim() && !/•/.test(input.apiKey)) {
+  const prevApiKey = isPlaceholderApiKey(prev.apiKey) ? '' : String(prev.apiKey || '');
+  let apiKey = prevApiKey;
+  if (typeof input.apiKey === 'string' && input.apiKey.trim() && !isPlaceholderApiKey(input.apiKey) && !/•/.test(input.apiKey)) {
     apiKey = input.apiKey.trim();
   }
   return {
@@ -181,6 +191,57 @@ function normalizeBotApi(input = {}, previous = null) {
     enabled: input.enabled != null ? Boolean(input.enabled) : (prev.enabled != null ? prev.enabled : true),
     order: clampNumber(input.order != null ? input.order : prev.order, 0, 999, 0),
   };
+}
+
+function collectEnvBotApis(env = process.env) {
+  const apis = [];
+  const slots = ['', '_1', '_2', '_3', '_4'];
+  slots.forEach((suffix, index) => {
+    const url = env[`BOT_API_URL${suffix}`] || env[`BOT_URL${suffix}`];
+    if (!url) return;
+    apis.push(normalizeBotApi({
+      id: `env-${index}-${Math.random().toString(36).slice(2, 6)}`,
+      label: safeInline(env[`BOT_API_LABEL${suffix}`] || `Proveedor env ${index + 1}`, 80),
+      url,
+      apiKey: env[`BOT_API_KEY${suffix}`] || '',
+      format: env[`BOT_PROVIDER${suffix}`] || env.BOT_PROVIDER || 'generic',
+      enabled: true,
+      order: index,
+    }));
+  });
+  return apis.filter((api) => api.url);
+}
+
+function mergeBotSettingsWithEnv(settings, env = process.env) {
+  const envApis = collectEnvBotApis(env);
+  if (!envApis.length) return settings;
+  const merged = {
+    ...settings,
+    apis: Array.isArray(settings.apis) ? [...settings.apis] : [],
+  };
+  const storedByUrl = new Map(merged.apis.filter((a) => a.url).map((a) => [a.url, a]));
+  envApis.forEach((envApi) => {
+    const stored = storedByUrl.get(envApi.url);
+    if (stored) {
+      if (!stored.apiKey || isPlaceholderApiKey(stored.apiKey)) {
+        stored.apiKey = envApi.apiKey;
+      }
+      stored.label = stored.label || envApi.label;
+      stored.format = stored.format || envApi.format;
+      stored.authHeader = stored.authHeader || envApi.authHeader;
+      stored.authScheme = stored.authScheme || envApi.authScheme;
+      stored.model = stored.model || envApi.model;
+    } else {
+      merged.apis.push({
+        ...envApi,
+        order: merged.apis.length,
+      });
+      storedByUrl.set(envApi.url, envApi);
+    }
+  });
+  const ids = new Set(merged.apis.map((a) => a.id));
+  if (!ids.has(merged.activeApiId)) merged.activeApiId = merged.apis.length ? merged.apis[0].id : '';
+  return merged;
 }
 
 // Normaliza el objeto completo de configuración del bot que se persiste en el store.
@@ -210,17 +271,7 @@ function normalizeBotSettings(input = {}, previous = {}) {
 // Config por defecto cuando el store todavía no tiene nada guardado.
 // Toma la clave de entorno legacy (BOT_API_KEY/BOT_API_URL) como primera API.
 function defaultBotSettings(env = process.env) {
-  const apis = [];
-  if (env.BOT_API_URL) {
-    apis.push(normalizeBotApi({
-      label: 'Proveedor externo (env)',
-      url: env.BOT_API_URL,
-      apiKey: env.BOT_API_KEY || '',
-      format: env.BOT_PROVIDER || 'generic',
-      enabled: true,
-      order: 0,
-    }));
-  }
+  const apis = collectEnvBotApis(env);
   return {
     systemPrompt: DEFAULT_SYSTEM_PROMPT,
     activeApiId: apis.length ? apis[0].id : '',
@@ -240,9 +291,19 @@ function orderedEnabledApis(settings) {
   return list;
 }
 
+let roundRobinBotApiIndex = 0;
+function rotatedEnabledApis(settings) {
+  const list = orderedEnabledApis(settings);
+  if (list.length <= 1) return list;
+  const index = roundRobinBotApiIndex % list.length;
+  roundRobinBotApiIndex = (roundRobinBotApiIndex + 1) % list.length;
+  return [...list.slice(index), ...list.slice(0, index)];
+}
+
 // Vista pública (para el admin): enmascara las claves y agrega flags.
 function publicBotConfig(settings, env = process.env) {
-  const s = settings && settings.apis ? settings : defaultBotSettings(env);
+  const mergedSettings = mergeBotSettingsWithEnv(settings && settings.apis ? settings : defaultBotSettings(env), env);
+  const s = mergedSettings;
   return {
     endpoint: '/api/bot/chat',
     fallback: 'Conocimiento municipal local',
@@ -278,4 +339,6 @@ module.exports = {
   normalizeBotSettings,
   defaultBotSettings,
   orderedEnabledApis,
+  rotatedEnabledApis,
+  mergeBotSettingsWithEnv,
 };

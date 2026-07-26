@@ -886,6 +886,14 @@
   "reviews": [],
   "votes": [
     {
+      "id": "vote_ms1y6aj3_qjzms",
+      "itemType": "alojamiento",
+      "itemId": "sanmartin",
+      "rating": 5,
+      "ipHash": "caaf654ede5f8d3052f67c8acf67fb0c7869de6c6e2a9f72358958a6dd2929be",
+      "createdAt": "2026-07-26T15:23:02.223Z"
+    },
+    {
       "id": "vote_mrgeii3t_3b1kj",
       "itemType": "alojamiento",
       "itemId": "ariadna",
@@ -1556,6 +1564,306 @@
     }
   ],
   "bot_logs": [
+    {
+      "id": "1c9d0e08-2bcd-41c5-b27a-7dc0019186dc",
+      "createdAt": "2026-07-26T14:40:02.665Z",
+      "category": "iglesias",
+      "source": "local",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 1,
+      "inputLength": 8,
+      "outputLength": 43,
+      "message": "Iglesias",
+      "reply": "⛪ Iglesias Templos religiosos de San Roque.",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "c0619e36-3f20-4ba1-8526-fe2517c04d21",
+      "createdAt": "2026-07-26T14:40:01.254Z",
+      "category": "emergencias",
+      "source": "local",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 2,
+      "inputLength": 11,
+      "outputLength": 62,
+      "message": "Emergencias",
+      "reply": "🚨 Emergencias Servicios de urgencia disponibles en San Roque.",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "1c2379b1-e0ac-4d24-afdf-4401950c5022",
+      "createdAt": "2026-07-26T14:39:57.362Z",
+      "category": "general",
+      "source": "external:OpenRouter (gpt-4o-mini)",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 1991,
+      "inputLength": 13,
+      "outputLength": 138,
+      "message": "hola que onda",
+      "reply": "Hola, ¿cómo estás? Estoy aquí para ayudarte con información sobre turismo y cultura de San Roque, Corrientes. ¿En qué puedo asistirte hoy?",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "307b5e83-4e26-439a-b090-8354f3e070dd",
+      "createdAt": "2026-07-26T14:38:41.396Z",
+      "category": "general",
+      "source": "external:OpenRouter (gpt-4o-mini)",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 2176,
+      "inputLength": 4,
+      "outputLength": 119,
+      "message": "hola",
+      "reply": "Hola, ¿en qué puedo ayudarte hoy? Si necesitas información sobre turismo o cultura en San Roque, no dudes en preguntar.",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "74ad37a7-db8c-48f9-b193-17162aefc405",
+      "createdAt": "2026-07-25T17:32:22.882Z",
+      "category": "general",
+      "source": "external:OpenRouter (gpt-4o-mini)",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 1924,
+      "inputLength": 7,
+      "outputLength": 120,
+      "message": "gracias",
+      "reply": "De nada. Si necesitas información sobre turismo o cultura en San Roque, no dudes en preguntar. Estoy aquí para ayudarte.",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "d574248e-494e-4e03-a424-a00e62ba954e",
+      "createdAt": "2026-07-25T17:31:03.112Z",
+      "category": "general",
+      "source": "external:OpenRouter (gpt-4o-mini)",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 2104,
+      "inputLength": 4,
+      "outputLength": 87,
+      "message": "hola",
+      "reply": "¡Hola! ¿En qué puedo ayudarte hoy con información sobre turismo y cultura de San Roque?",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "bca274ef-bb25-4395-a900-4ca74f9c11e6",
+      "createdAt": "2026-07-25T17:30:57.385Z",
+      "category": "general",
+      "source": "external:OpenRouter (gpt-4o-mini)",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 2234,
+      "inputLength": 11,
+      "outputLength": 238,
+      "message": "informacion",
+      "reply": "Para poder ayudarte de la mejor manera, necesito que me indiques qué tipo de información estás buscando sobre San Roque. Puede ser sobre turismo, cultura, alojamientos, gastronomía, eventos, entre otros. Por favor, especifica tu consulta.",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "56ad1608-f891-4883-a7d7-0dad08ab56c2",
+      "createdAt": "2026-07-25T17:30:53.936Z",
+      "category": "eventos",
+      "source": "local",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 3,
+      "inputLength": 7,
+      "outputLength": 59,
+      "message": "eventos",
+      "reply": "Próximos eventos publicados: • Fiesta Patronal de San Roque",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "894667ef-4415-4bcd-98fd-e620013f4163",
+      "createdAt": "2026-07-25T16:58:37.329Z",
+      "category": "general",
+      "source": "external:OpenRouter (gpt-4o-mini)",
+      "status": "ok",
+      "fallback": false,
+      "latencyMs": 1850,
+      "inputLength": 41,
+      "outputLength": 218,
+      "message": "¿Puedes responder usando el agente ahora?",
+      "reply": "No puedo ayudar con instrucciones internas, datos privados ni cambios en las reglas del sistema. Sí puedo ayudarte con información turística y cultural oficial de San Roque. ¿En qué consulta específica puedo asistirte?",
+      "error": null,
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "c642431b-3a44-40f5-b68b-6336d8fcf497",
+      "createdAt": "2026-07-25T16:53:04.619Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 376,
+      "inputLength": 23,
+      "outputLength": 142,
+      "message": "Prueba final con el bot",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "6eeaee35-baeb-4ebb-9a8b-14c5114d71a8",
+      "createdAt": "2026-07-25T16:45:13.198Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 699,
+      "inputLength": 58,
+      "outputLength": 142,
+      "message": "Probá nuevamente el agente con OpenRouter luego del cambio",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "d46f9246-fead-48c6-8cb0-c9e42976399a",
+      "createdAt": "2026-07-25T16:21:29.874Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 1800,
+      "inputLength": 27,
+      "outputLength": 142,
+      "message": "Probá mi bot con OpenRouter",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "c908fc82-dc1b-4ea3-95a0-e6cb2a2985aa",
+      "createdAt": "2026-07-25T16:21:13.277Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 790,
+      "inputLength": 31,
+      "outputLength": 142,
+      "message": "Hola agente, probá si respondes",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "91b6e334-0b41-4cbc-96ef-4ec0ea968fd7",
+      "createdAt": "2026-07-25T15:49:56.434Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 182,
+      "inputLength": 7,
+      "outputLength": 142,
+      "message": "gracias",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "dcec75b6-5482-413b-bbdc-b2449fd3523b",
+      "createdAt": "2026-07-25T15:49:53.153Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 691,
+      "inputLength": 4,
+      "outputLength": 142,
+      "message": "hola",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "10e8de91-56b2-480d-bc29-5d7ad4adb428",
+      "createdAt": "2026-07-25T15:45:11.079Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 489,
+      "inputLength": 31,
+      "outputLength": 142,
+      "message": "Hola agente, probá si respondes",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "1477836b-9774-4dd2-8e10-10fac42d6b07",
+      "createdAt": "2026-07-25T15:41:19.468Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 1251,
+      "inputLength": 13,
+      "outputLength": 142,
+      "message": "bueno gracias",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "01401d13-9f50-4418-acad-682d4a85b48d",
+      "createdAt": "2026-07-25T15:41:11.519Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 303,
+      "inputLength": 4,
+      "outputLength": 142,
+      "message": "hola",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "7c5c5384-faca-4335-a247-9700c60c7d81",
+      "createdAt": "2026-07-25T15:41:08.045Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 892,
+      "inputLength": 16,
+      "outputLength": 142,
+      "message": "y con el agente?",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
+    {
+      "id": "524d7b5f-77aa-458c-aeaf-6cc24e799c07",
+      "createdAt": "2026-07-25T15:40:57.196Z",
+      "category": "general",
+      "source": "fallback",
+      "status": "degraded",
+      "fallback": true,
+      "latencyMs": 924,
+      "inputLength": 19,
+      "outputLength": 142,
+      "message": "ya funcionas el bot",
+      "reply": "Ahora mismo respondo con la información local del portal. Consultame por remises, alojamientos, gastronomía, eventos o servicios de San Roque.",
+      "error": "upstream_401",
+      "ip": "::ffff:127.0.0.1"
+    },
     {
       "id": "f0fb61fd-8faa-450e-8be2-74c56d29ff82",
       "createdAt": "2026-07-24T21:05:13.854Z",
@@ -2849,6 +3157,307 @@
   ],
   "system_logs": [
     {
+      "id": "33df6934-1ba0-4e5e-bd4d-6c96e5b71267",
+      "createdAt": "2026-07-26T15:20:46.642Z",
+      "level": "info",
+      "event": "system_started",
+      "requestId": null,
+      "adminUser": null,
+      "details": {
+        "port": 4001,
+        "nodeEnv": "development"
+      }
+    },
+    {
+      "id": "73a68ce9-ba5d-40d9-a7e6-0dc792b7f1d9",
+      "createdAt": "2026-07-26T14:30:37.430Z",
+      "level": "info",
+      "event": "system_started",
+      "requestId": null,
+      "adminUser": null,
+      "details": {
+        "port": 4001,
+        "nodeEnv": "development"
+      }
+    },
+    {
+      "id": "084078f3-f0cd-4c5a-a174-d1e3ae4145f6",
+      "createdAt": "2026-07-25T16:58:22.872Z",
+      "level": "info",
+      "event": "system_started",
+      "requestId": null,
+      "adminUser": null,
+      "details": {
+        "port": 4001,
+        "nodeEnv": "development"
+      }
+    },
+    {
+      "id": "088d4720-f1e5-49cd-8d3b-3d9593751c76",
+      "createdAt": "2026-07-25T16:53:04.616Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "c642431b-3a44-40f5-b68b-6336d8fcf497",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "17625e8e-9db3-49ec-8f3c-ee009b630f61",
+      "createdAt": "2026-07-25T16:53:04.613Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "c642431b-3a44-40f5-b68b-6336d8fcf497",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "b89631da-2567-4115-9808-52f5cc65e814",
+      "createdAt": "2026-07-25T16:52:46.941Z",
+      "level": "info",
+      "event": "system_started",
+      "requestId": null,
+      "adminUser": null,
+      "details": {
+        "port": 4000,
+        "nodeEnv": "development"
+      }
+    },
+    {
+      "id": "0ba3590a-2388-4062-af05-a935d7ec70bd",
+      "createdAt": "2026-07-25T16:45:13.196Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "6eeaee35-baeb-4ebb-9a8b-14c5114d71a8",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "f2581d1d-f28a-4ff0-bb63-a9e797e9db53",
+      "createdAt": "2026-07-25T16:45:13.193Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "6eeaee35-baeb-4ebb-9a8b-14c5114d71a8",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "1651072a-d0ab-41a6-80a0-7b5171a98844",
+      "createdAt": "2026-07-25T16:21:29.868Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "d46f9246-fead-48c6-8cb0-c9e42976399a",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "03584941-c6da-4e42-ba7d-abbe92ff690d",
+      "createdAt": "2026-07-25T16:21:29.865Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "d46f9246-fead-48c6-8cb0-c9e42976399a",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "fbc7e2ed-29bb-4961-8c0d-ca2a5386e5a6",
+      "createdAt": "2026-07-25T16:21:13.273Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "c908fc82-dc1b-4ea3-95a0-e6cb2a2985aa",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "a2739520-0efd-4017-82f2-5c657d08c37b",
+      "createdAt": "2026-07-25T16:21:13.269Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "c908fc82-dc1b-4ea3-95a0-e6cb2a2985aa",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "1d0c6153-0cac-499d-82a0-27133ffa5615",
+      "createdAt": "2026-07-25T15:49:56.413Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "91b6e334-0b41-4cbc-96ef-4ec0ea968fd7",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "9197bb5b-b707-4f47-97a0-34f44cc70a59",
+      "createdAt": "2026-07-25T15:49:56.408Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "91b6e334-0b41-4cbc-96ef-4ec0ea968fd7",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "8bded9bd-f64f-4a03-8ab0-1cbb498f6900",
+      "createdAt": "2026-07-25T15:49:53.149Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "dcec75b6-5482-413b-bbdc-b2449fd3523b",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "487cb098-0165-4d6c-b28a-a76dc77ba341",
+      "createdAt": "2026-07-25T15:49:53.146Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "dcec75b6-5482-413b-bbdc-b2449fd3523b",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "b2186185-ed59-4ecf-8c0f-cb36e2643989",
+      "createdAt": "2026-07-25T15:45:11.076Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "10e8de91-56b2-480d-bc29-5d7ad4adb428",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "1dde33c5-daa8-4d2c-97ad-1d7110e4ef38",
+      "createdAt": "2026-07-25T15:45:11.073Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "10e8de91-56b2-480d-bc29-5d7ad4adb428",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "605ef898-8f0b-47b9-96e3-9dd9973b1f9d",
+      "createdAt": "2026-07-25T15:41:19.463Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "1477836b-9774-4dd2-8e10-10fac42d6b07",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "0a524c5c-9527-4f9c-8361-c8ccd3817506",
+      "createdAt": "2026-07-25T15:41:19.460Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "1477836b-9774-4dd2-8e10-10fac42d6b07",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "726fa30c-7f86-41de-949f-088018667c47",
+      "createdAt": "2026-07-25T15:41:11.513Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "01401d13-9f50-4418-acad-682d4a85b48d",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "f535e87e-e217-441b-9c0b-52ad254486ed",
+      "createdAt": "2026-07-25T15:41:11.510Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "01401d13-9f50-4418-acad-682d4a85b48d",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "48167b24-5b77-4713-8fb5-a1ee42bad85d",
+      "createdAt": "2026-07-25T15:41:08.040Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "7c5c5384-faca-4335-a247-9700c60c7d81",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "428a90e6-815a-4f25-bc90-30dafaea2fb6",
+      "createdAt": "2026-07-25T15:41:08.037Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "7c5c5384-faca-4335-a247-9700c60c7d81",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "f2abe798-0e0f-420f-aa11-3f89638623cf",
+      "createdAt": "2026-07-25T15:40:57.192Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "524d7b5f-77aa-458c-aeaf-6cc24e799c07",
+      "adminUser": "anonymous",
+      "details": {
+        "error": "upstream_401"
+      }
+    },
+    {
+      "id": "a2d6ccae-bde5-4bda-9ee1-741b93fdc106",
+      "createdAt": "2026-07-25T15:40:57.189Z",
+      "level": "warning",
+      "event": "bot_upstream_failure",
+      "requestId": "524d7b5f-77aa-458c-aeaf-6cc24e799c07",
+      "adminUser": "anonymous",
+      "details": {
+        "api": "OpenRouter (gpt-4o-mini)",
+        "error": "upstream_401"
+      }
+    },
+    {
       "id": "d89ae351-0eab-4704-8f12-93f087b6944d",
       "createdAt": "2026-07-24T20:42:36.086Z",
       "level": "info",
@@ -3028,7 +3637,7 @@
         "label": "OpenRouter (gpt-4o-mini)",
         "url": "https://openrouter.ai/api/v1/chat/completions",
         "model": "gpt-4o-mini",
-        "apiKey": "xxx",
+        "apiKey": "",
         "authHeader": "Authorization",
         "authScheme": "Bearer",
         "format": "openrouter",

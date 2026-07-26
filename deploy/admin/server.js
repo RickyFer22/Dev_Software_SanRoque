@@ -22,6 +22,8 @@ const {
   normalizeBotSettings,
   defaultBotSettings,
   orderedEnabledApis,
+  rotatedEnabledApis,
+  mergeBotSettingsWithEnv,
 } = require('./bot-service');
 const bruteforce = require('./security');
 
@@ -667,9 +669,9 @@ app.post('/api/bot/chat', async (req, res) => {
       reply = local.reply;
       category = local.category;
     } else {
-      const settings = store.bot_settings || defaultBotSettings(process.env);
+      const settings = mergeBotSettingsWithEnv(store.bot_settings || defaultBotSettings(process.env), process.env);
       const systemPrompt = settings.systemPrompt || SYSTEM_PROMPT;
-      const apis = orderedEnabledApis(settings);
+      const apis = rotatedEnabledApis(settings);
       if (apis.length) {
         source = 'external';
         let lastError = null;

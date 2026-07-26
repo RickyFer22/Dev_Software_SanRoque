@@ -106,7 +106,17 @@
     }
 
     const paint = (n) => buttons.forEach((b, i) => b.classList.toggle('on', i < n));
-    const refreshAvg = () => { avgEl.innerHTML = averageBadgeHtml(type, id, 16); };
+    const refreshAvg = () => {
+      const a = getAverage(type, id);
+      const hasVotes = !!(a && a.count > 0);
+      if (!hasVotes) {
+        avgEl.innerHTML = '';
+        if (avgEl.parentNode) avgEl.parentNode.removeChild(avgEl);
+        return;
+      }
+      if (!avgEl.parentNode) container.insertBefore(avgEl, row);
+      avgEl.innerHTML = averageBadgeHtml(type, id, 16);
+    };
 
     const mine = yourVote(type, id);
     const lock = (n) => {
@@ -137,7 +147,6 @@
 
     row.appendChild(label);
     row.appendChild(starsWrap);
-    container.appendChild(avgEl);
     container.appendChild(row);
     refreshAvg();
   }

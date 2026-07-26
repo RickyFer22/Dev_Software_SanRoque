@@ -168,10 +168,18 @@ function updateDetailRating(id) {
   const starsEl = document.getElementById('det-rating-stars');
   const numEl = document.getElementById('det-rating-number');
   const revEl = document.getElementById('det-reviews-count');
-  // Solo se muestran calificaciones REALES del sistema de votos; sin votos → aviso honesto.
+  const summaryEl = document.getElementById('det-rating-summary');
+  // Solo se muestran calificaciones REALES del sistema de votos; sin votos → el bloque queda oculto.
+  if (summaryEl) summaryEl.style.display = hasVotes ? '' : 'none';
   if (starsEl) starsEl.innerHTML = window.VsrRatings ? VsrRatings.starsHtml(hasVotes ? avg.average : 0, 20) : renderStars(hasVotes ? avg.average : 0);
   if (numEl) numEl.textContent = hasVotes ? avg.average.toFixed(1) : '';
-  if (revEl) revEl.textContent = hasVotes ? `${avg.count} ${avg.count === 1 ? 'voto' : 'votos'}` : 'Sin calificaciones aún';
+  if (revEl) revEl.textContent = hasVotes ? `${avg.count} ${avg.count === 1 ? 'voto' : 'votos'}` : '';
+  if (starsEl && !hasVotes) {
+    starsEl.innerHTML = '';
+  }
+  if (numEl && !hasVotes) {
+    numEl.textContent = '';
+  }
 }
 
 // ═══ SPA NAV ═══
