@@ -2106,8 +2106,26 @@ body {
    visual entre el link y la tarjeta siga siendo parte del área "hoverable"
    — si fuera margin, mover el mouse en diagonal perdería el :hover a mitad
    de camino y el menú se cerraría solo. ══ */
-.nav-dropdown { position:relative; }
-.nav-dropdown-trigger { display:inline-flex;align-items:center;gap:3px; }
+#main-nav .hidden.md\:flex { align-items:center; }
+#main-nav .hidden.md\:flex > a,
+#main-nav .hidden.md\:flex > .nav-dropdown {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:24px;
+  line-height:1;
+  padding-block:0;
+  vertical-align:middle;
+  white-space:nowrap;
+}
+#main-nav .hidden.md\:flex > .nav-dropdown .nav-dropdown-trigger {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+}
+.nav-dropdown { position:relative;display:inline-flex;align-items:center; }
+.nav-dropdown-trigger { display:inline-flex;align-items:center;gap:3px;line-height:1; }
 .nav-dropdown-trigger .material-symbols-outlined { font-size:16px;transition:transform .18s ease; }
 .nav-dropdown:hover .nav-dropdown-trigger .material-symbols-outlined,
 .nav-dropdown:focus-within .nav-dropdown-trigger .material-symbols-outlined { transform:rotate(180deg); }
