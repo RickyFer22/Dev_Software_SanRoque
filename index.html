@@ -58,7 +58,60 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" /></noscript>
   <!-- Critical CSS -->
-  <link rel="stylesheet" href="css/styles.css?v=20260718-footer">
+  <link rel="stylesheet" href="css/styles.css?v=20260804-navfix">
+  <style>
+    .main-nav-buttons { gap: 0.75rem !important; }
+    .main-nav-buttons > a {
+      background: rgba(255,255,255,0.95) !important;
+      border-radius: 9999px !important;
+      padding: 0.75rem 1rem !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      white-space: nowrap !important;
+      margin: 0 !important;
+      min-height: 44px !important;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08) !important;
+      color: #274F10 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.12em !important;
+    }
+    .main-nav-buttons > .nav-dropdown {
+      padding: 0 !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+    .main-nav-buttons > .nav-dropdown .nav-dropdown-trigger {
+      background: rgba(255,255,255,0.95) !important;
+      border-radius: 9999px !important;
+      padding: 0.75rem 1rem !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.3rem !important;
+      white-space: nowrap !important;
+      margin: 0 !important;
+      min-height: 44px !important;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08) !important;
+      color: #274F10 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.12em !important;
+    }
+    #main-nav { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+    @media (min-width: 900px) {
+      .tourism-hero#hero-section { height: 560px !important; min-height: 560px !important; align-items: flex-start !important; justify-content: center !important; padding-top: 5rem !important; padding-bottom: 0 !important; }
+      .tourism-hero#hero-section .hero-slide { object-position: center 30% !important; }
+    }
+    @media (max-width: 767px) {
+      #main-nav { display: none !important; }
+      .hero-quick-links { display: none !important; }
+      .hero-quick-links + div { margin-top: 0 !important; }
+      .hero-brand-badge { position:absolute !important; top:14px !important; right:14px !important; }
+      .tourism-hero#hero-section { align-items:center !important; }
+    }
+
+    .hero-brand-badge { position:absolute !important; top:18px !important; right:18px !important; z-index:30 !important; }
+  </style>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
 <script type="application/ld+json">
 {
@@ -104,12 +157,12 @@
   </div>
 
   <nav id="main-nav"
-    class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-gradient-to-b from-black/60 to-transparent pt-4 pb-3 md:pt-6 md:pb-6">
+    class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-gradient-to-b from-black/60 to-transparent pt-2 pb-2 md:pt-3 md:pb-3">
     <div class="flex items-center justify-between px-4 md:px-6 max-w-7xl mx-auto gap-3">
       <a class="font-display-lg text-[24px] md:text-[36px] leading-none text-white tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer"
         onclick="backToGrid()">San Roque</a>
       <div
-        class="hidden md:flex items-center bg-white/95 backdrop-blur-sm rounded-full px-8 py-3.5 shadow-lg gap-8 hover:shadow-xl transition-shadow">
+        class="hidden md:flex items-center main-nav-buttons gap-3">
         <div class="nav-dropdown">
           <a class="nav-dropdown-trigger text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all" href="que-hacer.html" aria-haspopup="true">Qué hacer <span class="material-symbols-outlined" aria-hidden="true">expand_more</span></a>
           <div class="nav-dropdown-menu">
@@ -340,10 +393,9 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="events-grid">
          <!-- Eventos se cargan dinámicamente aquí -->
       </div>
-      
 
-      
     </section>
+
   </div>
   <div id="detailed-accommodation-view" class="hidden pt-[110px] pb-28 lg:pb-16 min-h-screen tourism-detail-view" style="background:#F6F3EE" tabindex="-1">
     <div id="tourism-detail" class="max-w-6xl mx-auto px-6">
