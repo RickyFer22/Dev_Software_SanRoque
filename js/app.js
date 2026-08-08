@@ -31,6 +31,13 @@ function isAccommodationVisible(item) {
   return true;
 }
 
+// alojamientosData también contiene lugares y servicios (farmacias, iglesias,
+// policía, museos): solo los hospedajes van al listado, al mapa y al asistente.
+const NON_LODGING_CATEGORIES = ['lugar', 'servicio', 'iglesia', 'salud', 'farmacia'];
+function isLodging(item) {
+  return !!item && !NON_LODGING_CATEGORIES.includes(item.categoria);
+}
+
 function isSanRoqueCoordinate(coords) {
   if (!Array.isArray(coords) || coords.length < 2) return false;
   const latitude = Number(coords[0]);
@@ -87,7 +94,7 @@ function initMap() {
   }).addTo(map);
   mapUrbanLayer.bindTooltip('Traza urbana de San Roque', { sticky: true, className: 'map-trace-tooltip' });
 
-  const visibleBounds = mapUrbanLayer.getBounds();
+  const lodgingBounds = L.latLngBounds([]);
   const accommodationIcon = L.divIcon({
     className: 'accommodation-map-marker',
     html: '<span class="material-symbols-outlined" aria-hidden="true">bed</span>',
@@ -97,9 +104,9 @@ function initMap() {
   });
 
   for(const [id,data] of Object.entries(alojamientosData)) {
-    if(isSanRoqueCoordinate(data.coords) && isAccommodationVisible(data)) {
+    if(isSanRoqueCoordinate(data.coords) && isAccommodationVisible(data) && isLodging(data)) {
       const marker = L.marker(data.coords, { icon: accommodationIcon, title: data.titulo }).addTo(map);
-      visibleBounds.extend(data.coords);
+      lodgingBounds.extend(data.coords);
       const mAvg = window.VsrRatings && VsrRatings.getAverage('alojamiento', id);
       const mRating = (mAvg && mAvg.count > 0)
         ? `<div class="text-golden-sand text-[11px] mb-3 font-bold">★ ${mAvg.average.toFixed(1)} <span class="text-neutral-400 font-medium">(${mAvg.count})</span></div>`
@@ -109,7 +116,9 @@ function initMap() {
     }
   }
 
-  if (visibleBounds.isValid()) map.fitBounds(visibleBounds, { padding: [28, 28], maxZoom: 15 });
+  // Encuadre sobre los hospedajes; si todavía no hay ninguno, sobre la traza urbana.
+  const bounds = lodgingBounds.isValid() ? lodgingBounds : mapUrbanLayer.getBounds();
+  if (bounds.isValid()) map.fitBounds(bounds, { padding: [56, 56], maxZoom: 16 });
 }
 
 function renderStars(ratingStr) {
@@ -273,8 +282,8 @@ function backToGrid() {
   document.getElementById('mobile-sticky-contact').classList.replace('block','hidden');
   // Antes reusaba location.pathname: con la URL amigable /hospedajes/<id>
   // eso dejaba la barra en /hospedajes/<id> aunque la grilla ya estuviera
-  // visible. Al cerrar el detalle siempre se vuelve a la home.
-  try { history.pushState({}, '', '/'); } catch(_){}
+  // visible. Al cerrar el detalle se vuelve al listado, que tiene URL propia.
+  try { history.pushState({}, '', '/donde-alojarme'); } catch(_){}
   const mainView=document.getElementById('main-explorer-view');
   document.querySelector('.tourism-skip-link')?.setAttribute('href', '#main-explorer-view');
   mainView.classList.replace('hidden','block');
@@ -327,7 +336,7 @@ function renderAccommodationCards() {
   if (!carousel) return;
 
   const items = Object.entries(alojamientosData || {})
-    .filter(([id, item]) => item && item.coords && isAccommodationVisible(item) && !['lugar','servicio','iglesia','salud','farmacia'].includes(item.categoria))
+    .filter(([id, item]) => item && item.coords && isAccommodationVisible(item) && isLodging(item))
     .map(([id, item]) => ({ id, item }));
 
   if (!items.length) {
@@ -1035,7 +1044,7 @@ function renderChatCards(category) {
     const items = category === 'remises'
         ? (Array.isArray(datosUtilesInfo.remises?.contactos) ? datosUtilesInfo.remises.contactos : [])
         : category === 'alojamientos'
-            ? Object.entries(alojamientosData || {}).slice(0, 6).map(([id, item]) => ({ id, ...item }))
+            ? Object.entries(alojamientosData || {}).filter(([, item]) => isLodging(item)).slice(0, 6).map(([id, item]) => ({ id, ...item }))
             : Array.isArray(window.gastronomiaData) ? window.gastronomiaData.slice(0, 6) : [];
 
     if (!items.length) return '';

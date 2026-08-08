@@ -1280,6 +1280,9 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 
 .footer-bottombar { background:var(--surface);padding:0 0 8px; }
 .footer-bottombar .academic-credits { border-top:0; }
+.footer-photo-credit { padding:10px 24px 0;color:#99ac77;font-size:11px;line-height:1.5;text-align:center; }
+.footer-photo-credit a { color:#7d9455;font-weight:700;text-decoration:underline;text-underline-offset:2px; }
+.footer-photo-credit a:hover { color:var(--brand-primary); }
 .compact-footer-legal { padding:14px 24px 18px;border-top:1px solid rgba(180,199,138,.28);color:#99ac77;font-size:11px;line-height:1.5;text-align:center; }
 
 @media (max-width:900px) {

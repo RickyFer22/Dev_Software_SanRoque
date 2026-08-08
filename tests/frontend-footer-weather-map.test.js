@@ -72,6 +72,34 @@ test('accommodation map renders a visible urban trace and accessible legend', ()
   assert.match(css, /\.accommodation-map-marker/);
 });
 
+test('public footers credit the photographer', () => {
+  for (const file of publicFooterPages) {
+    const html = read(file);
+    assert.match(html, /class="footer-photo-credit/, file);
+    assert.match(html, /instagram\.com\/claritysanroque/, file);
+  }
+  assert.match(read('css/styles.css'), /\.footer-photo-credit\s*\{/);
+});
+
+test('the map only plots lodgings, never places or services', () => {
+  const app = read('js/app.js');
+
+  // alojamientosData mezcla hospedajes con lugares y servicios (farmacias,
+  // iglesias, policía): sin este filtro el mapa los dibuja con ícono de cama.
+  assert.match(app, /const NON_LODGING_CATEGORIES = \[[^\]]*'farmacia'[^\]]*\]/);
+  const initMap = app.match(/function initMap\(\)[\s\S]*?\n\}/)?.[0] || '';
+  assert.match(initMap, /isLodging\(data\)/);
+  assert.match(initMap, /lodgingBounds/);
+});
+
+test('the lodging section is reachable through its own URL', () => {
+  assert.match(read('deploy/nginx.conf'), /location = \/donde-alojarme/);
+  assert.match(read('js/app.js'), /pushState\(\{\}, '', '\/donde-alojarme'\)/);
+  for (const file of ['index.html', 'agenda.html', 'gastronomia.html', 'guia-practica.html', 'que-hacer.html']) {
+    assert.match(read(file), /href="\/donde-alojarme"/, file);
+  }
+});
+
 test('footer uses light tourism surfaces instead of broad olive fields', () => {
   const css = read('css/styles.css');
 
