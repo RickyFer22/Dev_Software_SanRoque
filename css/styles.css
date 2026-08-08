@@ -2250,16 +2250,24 @@ body {
 /* El ancho vive acá y no en una utilidad Tailwind: tw-base.css está compilado
    con las clases en uso y no incluye max-w-3xl, la medida de lectura correcta. */
 .long-read { max-width:760px;padding-top:clamp(28px,4vw,44px);color:#4a4a45;font-size:1.02rem;line-height:1.75; }
-.long-read section { margin-top:clamp(30px,4vw,44px); }
-.long-read h2 { margin:0 0 12px;color:var(--brand-primary);font-family:'Syne',sans-serif;font-size:clamp(1.35rem,2.4vw,1.75rem);line-height:1.2;letter-spacing:-.01em; }
-.long-read p { margin:0 0 14px; }
+.long-read section { margin-top:clamp(38px,5vw,58px); }
+.long-read h2 { position:relative;margin:0 0 14px;padding-left:18px;color:var(--brand-primary);font-family:'Syne',sans-serif;font-size:clamp(1.35rem,2.4vw,1.75rem);line-height:1.2;letter-spacing:-.01em; }
+/* Barra de acento: el mismo recurso que encabeza las secciones de las fichas. */
+.long-read h2::before { content:'';position:absolute;left:0;top:.16em;bottom:.16em;width:5px;border-radius:3px;background:var(--accent); }
+/* Justificado con partición de palabras (lang="es"): sin hyphens el texto
+   justificado abre "ríos" de espacio en las líneas con palabras largas. */
+.long-read p { margin:0 0 14px;text-align:justify;text-justify:inter-word;hyphens:auto; }
+/* La entradilla arranca la lectura con más presencia que el cuerpo. */
+.long-read section:first-of-type > p:first-of-type { color:#3f3f3a;font-size:1.12rem;line-height:1.7; }
 .long-read strong { color:#2f2f2b;font-weight:800; }
 .long-read-facts { display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:0;padding:0;list-style:none; }
 .long-read-facts li { padding:16px 14px;border-radius:16px;background:#fff;border:1px solid rgba(53,94,74,.10);box-shadow:0 10px 26px rgba(33,45,39,.06);text-align:center; }
 .long-read-facts strong { display:block;color:var(--brand-primary);font-family:'Syne',sans-serif;font-size:1.5rem;line-height:1.1; }
 .long-read-facts span { display:block;margin-top:4px;color:#7d7d76;font-size:.76rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase; }
-.long-read-gallery { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:22px 0 0; }
+.long-read-gallery { margin:24px 0 0; }
+.long-read-gallery-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px; }
 .long-read-gallery img { width:100%;height:230px;object-fit:cover;border-radius:18px;box-shadow:0 16px 38px rgba(33,45,39,.12); }
+.long-read-gallery figcaption { margin-top:10px;color:#8d8d86;font-size:.82rem;line-height:1.5;text-align:left; }
 .long-read-warning { display:flex;gap:14px;margin-top:22px;padding:18px 20px;border-radius:18px;background:#FDF4E3;border:1px solid rgba(242,193,78,.5); }
 .long-read-warning .material-symbols-outlined { color:#B8801F;font-size:24px;flex:none; }
 .long-read-warning strong { display:block;margin-bottom:4px;color:#7a5410; }
@@ -2269,7 +2277,12 @@ body {
 .long-read-cta-btn:hover { background:var(--brand-primary-hover);color:#fff; }
 .long-read-cta-link { color:var(--brand-primary);font-weight:700;font-size:.92rem;text-decoration:underline;text-underline-offset:3px; }
 .long-read-source { margin-top:26px;padding-top:16px;border-top:1px solid rgba(53,94,74,.12);color:#8d8d86;font-size:.82rem; }
-@media (max-width:640px) { .long-read-gallery img { height:190px; } }
+/* En pantallas angostas el justificado abre huecos entre palabras: se alinea
+   a la izquierda, que es lo legible cuando entran pocas palabras por línea. */
+@media (max-width:560px) {
+  .long-read p { text-align:left;hyphens:manual; }
+  .long-read-gallery img { height:190px; }
+}
 @media (max-width:640px) {
   .section-hero-media { min-height:52vw; }
   .section-hero-card { right:12px;max-width:none;bottom:-40px;padding:20px 22px 24px;border-radius:18px; }
