@@ -844,6 +844,10 @@ bottom:15px;
 .hover\:bg-primary:hover { background-color: var(--brand-primary-hover) !important; }
 .hover\:bg-river-teal:hover { background-color: var(--brand-primary-hover) !important; }
 .hover\:border-river-teal:hover { border-color: var(--brand-primary) !important; }
+/* tw-base.css define hover:text-white sin !important, así que .text-river-teal
+   (!important) ganaba y el texto quedaba verde sobre el fondo verde del hover.
+   Afecta a los botones "Ver ubicación en mapa", "Compartir" y similares. */
+.hover\:text-white:hover, .hover\:text-white:hover .material-symbols-outlined { color: #fff !important; }
 /* Gradient overrides — paleta brand-primary en vez de oliva */
 .from-primary\/95 { --tw-gradient-from: rgba(53,94,74,0.95) var(--tw-gradient-from-position); }
 .via-primary\/50 { --tw-gradient-stops: var(--tw-gradient-from),rgba(53,94,74,0.5) var(--tw-gradient-via-position),var(--tw-gradient-to); }
