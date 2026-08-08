@@ -21,6 +21,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Nunca mostrar claves internas: si no está mapeada, se humaniza.
   const serviceLabel = (s) => serviceLabels[s] || String(s).replace(/[_-]+/g, " ").replace(/^\w/, (c) => c.toUpperCase());
 
+  // Varias fichas quedaron cargadas con la foto genérica del portal (una vista
+  // nocturna de la iglesia, además de baja resolución): antes que mostrar algo
+  // que no es el local, va el placeholder vectorial, nítido a cualquier tamaño.
+  const GENERIC_IMAGES = ['hero.jpg.jpg', 'og-image.jpg', 'logo-muni.jpg'];
+  const localImage = (local) => {
+    const src = String(local.imagen || local.mainImg || '').trim();
+    const file = src.split('/').pop();
+    return (!src || GENERIC_IMAGES.includes(file)) ? 'img/placeholder-gastronomia.svg' : src;
+  };
+
   function crearCard(local) {
     const id = local.id || String(local.nombre || local.titulo || '').toLowerCase().replace(/\s+/g, '-');
     const nombre = local.nombre || local.titulo || 'Local';
@@ -33,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `
       <article id="gastro-${id}" data-gastro-id="${id}" class="relative group bg-canvas-white rounded-2xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[620px] lg:min-h-[500px] card-item fade-in-up">
         <a href="/gastronomia/${encodeURIComponent(id)}" class="absolute inset-0 w-full h-[40%] lg:h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] lg:group-hover:w-[45%] z-0">
-          <img src="${local.imagen || local.mainImg}" alt="${local.nombre || local.titulo}" class="w-full h-full object-cover img-zoom" loading="lazy" />
+          <img src="${localImage(local)}" alt="${local.nombre || local.titulo}" class="w-full h-full object-cover img-zoom" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
         </a>
 

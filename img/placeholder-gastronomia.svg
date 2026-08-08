@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Placeholder de local gastronómico">
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8E2D6"/>
+      <stop offset="100%" stop-color="#F6F3EE"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#fondo)"/>
+  <rect x="0" y="560" width="1200" height="240" fill="#E4DCCE"/>
+  <circle cx="900" cy="170" r="48" fill="#D8A441" opacity="0.55"/>
+  <!-- Plato -->
+  <ellipse cx="600" cy="430" rx="190" ry="190" fill="#FFFFFF" stroke="#D8CFC0" stroke-width="2"/>
+  <ellipse cx="600" cy="430" rx="130" ry="130" fill="#F0EBE2"/>
+  <ellipse cx="600" cy="430" rx="62" ry="62" fill="#355E4A" opacity="0.85"/>
+  <!-- Tenedor -->
+  <rect x="322" y="300" width="14" height="260" rx="7" fill="#355E4A"/>
+  <rect x="300" y="300" width="10" height="90" rx="5" fill="#355E4A"/>
+  <rect x="348" y="300" width="10" height="90" rx="5" fill="#355E4A"/>
+  <rect x="300" y="380" width="58" height="14" rx="7" fill="#355E4A"/>
+  <!-- Cuchillo -->
+  <rect x="864" y="300" width="14" height="260" rx="7" fill="#355E4A"/>
+  <path d="M864 300c32 10 46 46 46 88s-14 78-46 88z" fill="#355E4A"/>
+  <text x="600" y="710" text-anchor="middle" font-family="Manrope, system-ui, sans-serif" font-size="28" font-weight="600" fill="#5C5C5C">Gastronomía · San Roque</text>
+</svg>

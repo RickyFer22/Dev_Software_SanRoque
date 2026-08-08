@@ -230,12 +230,14 @@
 <!-- Hero Section -->
 <section id="hero-section" class="tourism-hero relative flex items-center justify-center text-center px-gutter overflow-hidden">
   <div class="absolute inset-0 z-0 hero-rotor-monjita">
-    <img class="w-full h-full object-cover hero-slide" src="img/hero.jpg.jpg" alt="Gastronomía y sabores de San Roque" loading="eager" fetchpriority="high" />
+    <!-- Única foto del portal con resolución suficiente para el hero (1600 px):
+         la anterior medía 735 px y se ampliaba al doble, de ahí el pixelado. -->
+    <img class="w-full h-full object-cover hero-slide" src="img/san-roque-turismo-1.jpg" alt="Atardecer sobre el río Santa Lucía en San Roque" loading="eager" fetchpriority="high" />
   </div>
   <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
     <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
       <span class="material-symbols-outlined text-sun-haze text-[14px]">location_on</span>
-      <span class="text-white/90 text-xs font-label-caps tracking-widest uppercase">San Roque · Corrientes</span>
+      <span class="hero-eyebrow text-white/90 text-xs font-label-caps tracking-widest uppercase">San Roque · Corrientes</span>
     </div>
     <h1 class="font-display-lg text-[46px] md:text-[68px] text-canvas-white mb-6 hero-text-shadow tracking-tight leading-tight min-h-[1.2em]">
       <span id="hero-typewriter-text"></span><span class="typewriter-cursor"></span>
@@ -244,13 +246,13 @@
       Un viaje sensorial a través de la tradición correntina. Desde recetas ancestrales hasta la calidez de nuestra gente, cada mesa cuenta una historia de herencia y pasión culinaria.
     </p>
     <nav class="hero-quick-links" aria-label="Accesos rápidos del portal">
-      <a class="hero-chip" href="index.html#hospedajes"><span class="material-symbols-outlined" aria-hidden="true">hotel</span>Hospedajes</a>
+      <a class="hero-chip" href="/donde-alojarme"><span class="material-symbols-outlined" aria-hidden="true">hotel</span>Hospedajes</a>
       <a class="hero-chip" href="gastronomia.html"><span class="material-symbols-outlined" aria-hidden="true">restaurant</span>Sabores locales</a>
       <a class="hero-chip" href="agenda.html"><span class="material-symbols-outlined" aria-hidden="true">event</span>Agenda</a>
       <a class="hero-chip" href="#datos-utiles"><span class="material-symbols-outlined" aria-hidden="true">info</span>Datos útiles</a>
     </nav>
     <div class="mt-6">
-      <a class="hero-action-btn" href="index.html#hospedajes">Volver a hospedajes</a>
+      <a class="hero-action-btn" href="/donde-alojarme">Volver a hospedajes</a>
     </div>
   </div>
   <div class="hero-wave">
