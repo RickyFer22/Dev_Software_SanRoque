@@ -56,7 +56,9 @@ test('el backend declara modelo multimedia y variantes optimizadas', () => {
 });
 
 test('el portal incluye galería editorial, lightbox, relacionados y SEO dinámico', () => {
-  const home = read('index.html');
+  // La ficha de alojamiento vive en alojamientos.html desde que la sección
+  // dejó de compartir página con la portada.
+  const home = read('alojamientos.html');
   const gastro = read('gastronomia.html');
   const details = read('js/detail-pages.js');
   const gallery = read('js/gallery.js');

@@ -102,7 +102,8 @@ test('splash uses the official municipal crest and mobile navigation exposes sta
   const css = read('css/styles.css');
 
   assert.match(html, /class="splash-crest"[^>]+src="img\/logo-muni\.jpg"/);
-  assert.match(html, /class="bottom-nav-item active"[^>]+aria-current="page"/);
+  // El estado activo se marca en la página de la sección, no en la portada.
+  assert.match(read('alojamientos.html'), /class="bottom-nav-item active"[^>]+aria-current="page"/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /safe-area-inset-bottom/);
   assert.match(css, /\.chatbot\s*\{[^}]*bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom\)\)/s);

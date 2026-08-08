@@ -605,9 +605,12 @@ async function loadWeather() {
 
 // ═══ TYPEWRITER ═══
 (function(){
-  const phrases=['Dónde alojarme\nen San Roque','Hospedajes\ncon alma local','Tu lugar\nbajo el sol correntino','Bienvenido a\nSan Roque','Descubrí\nlo mejor de tu país'];
   const el=document.getElementById('hero-typewriter-text');
   if(!el) return;
+  // Cada página define sus frases en data-phrases ("|" separa, "\n" corta línea);
+  // sin ese atributo se usan las de la portada.
+  const custom=(el.dataset.phrases||'').split('|').map((s)=>s.trim().replace(/\\n/g,'\n')).filter(Boolean);
+  const phrases=custom.length?custom:['Bienvenido a\nSan Roque','Naturaleza, cultura\ne historia','Descubrí\nlo mejor de Corrientes'];
   let phraseIdx=0,charIdx=0,deleting=false,pauseTimer=null;
   function type(){
     if(!deleting){

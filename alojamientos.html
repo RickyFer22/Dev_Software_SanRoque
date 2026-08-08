@@ -13,18 +13,18 @@
     }
   </script>
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Viví San Roque · Turismo y Cultura</title>
-  <link rel="preload" as="image" href="img/monjita/monjita-1.jpg" fetchpriority="high" />
+  <title>Dónde alojarme en San Roque, Corrientes</title>
+  <link rel="preload" as="image" href="img/alojamientos/fortune-01-fachada.webp" fetchpriority="high" />
   <meta name="description" content="Alojamientos, gastronomía, eventos y servicios oficiales de San Roque, Corrientes. Portal municipal de turismo: dónde dormir, qué hacer y cómo llegar." />
-  <link rel="canonical" href="https://vivisanroque.munisanroque.ar/" />
+  <link rel="canonical" href="https://vivisanroque.munisanroque.ar/donde-alojarme" />
   <meta name="theme-color" content="#355E4A" />
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Viví San Roque" />
   <meta property="og:locale" content="es_AR" />
-  <meta property="og:title" content="Viví San Roque · Turismo y Cultura" />
+  <meta property="og:title" content="Dónde alojarme en San Roque, Corrientes" />
   <meta property="og:description" content="Alojamientos, gastronomía, eventos y servicios oficiales de San Roque, Corrientes." />
-  <meta property="og:url" content="https://vivisanroque.munisanroque.ar/" />
+  <meta property="og:url" content="https://vivisanroque.munisanroque.ar/donde-alojarme" />
   <meta property="og:image" content="https://vivisanroque.munisanroque.ar/img/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -175,8 +175,8 @@
             </div>
           </div>
         </div>
-        <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all"
-          href="/donde-alojarme">Dónde alojarme</a>
+        <a class="text-primary font-bold text-[13px] hover:scale-105 uppercase tracking-wide transition-all cursor-pointer"
+          href="/donde-alojarme" onclick="backToGrid(); return false;">Dónde alojarme</a>
         <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all"
           href="gastronomia.html">Gastronomía</a>
         <a class="text-neutral-600 hover:text-primary hover:scale-105 font-medium text-[13px] uppercase tracking-wide transition-all"
@@ -238,7 +238,7 @@
     <div id="mobile-nav-panel" class="md:hidden hidden px-4 pt-3 pb-2">
       <div class="rounded-[24px] border border-white/20 bg-primary/95 p-3 shadow-2xl backdrop-blur-md">
         <a class="mobile-nav-link" href="que-hacer.html">Qué hacer</a>
-        <a class="mobile-nav-link" href="/donde-alojarme">Dónde alojarme</a>
+        <a class="mobile-nav-link active" href="/donde-alojarme" onclick="backToGrid(); return false;">Dónde alojarme</a>
         <a class="mobile-nav-link" href="gastronomia.html">Gastronomía</a>
         <a class="mobile-nav-link" href="agenda.html">Agenda</a>
         <a class="mobile-nav-link" href="guia-practica.html">Guía práctica</a>
@@ -252,7 +252,7 @@
       <span class="material-symbols-outlined">explore</span>
       <span>Qué hacer</span>
     </a>
-    <a class="bottom-nav-item" href="/donde-alojarme">
+    <a class="bottom-nav-item active" aria-current="page" href="/donde-alojarme" onclick="backToGrid(); return false;">
       <span class="material-symbols-outlined">hotel</span>
       <span>Alojarme</span>
     </a>
@@ -270,135 +270,181 @@
     </a>
   </nav>
 
-  <div id="main-explorer-view" class="block animate-view-in" tabindex="-1">
+    <div id="main-explorer-view" class="block animate-view-in" tabindex="-1">
 
-    <section id="hero-section" class="tourism-hero">
-      <div class="absolute inset-0 z-0 hero-rotor-monjita">
-        <img alt="Monjita dominica en su hábitat" class="hero-slide" src="img/monjita/monjita-1.jpg" loading="eager" fetchpriority="high" />
-        <img alt="Monjita dominica" class="hero-slide" src="img/monjita/monjita-2.jpg" loading="lazy" />
-        <img alt="Monjita dominica posada" class="hero-slide" src="img/monjita/monjita-5.jpg" loading="lazy" />
-        <img alt="Monjita dominica de cerca" class="hero-slide" src="img/monjita/monjita-4.jpg" loading="lazy" />
-      </div>
-      <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
-        <div
-          class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
-          <span class="material-symbols-outlined text-sun-haze text-[14px]">location_on</span>
-          <span class="text-white/90 text-xs font-label-caps tracking-widest uppercase">San Roque · Corrientes</span>
+    <div class="section-hero-wrap long-read-hero" style="margin-top:110px">
+      <header class="section-hero">
+        <div class="section-hero-media">
+          <img src="img/alojamientos/fortune-01-fachada.webp" alt="Fachada de un alojamiento de San Roque" loading="eager" fetchpriority="high" />
         </div>
-        <h1
-          class="font-display-lg text-[46px] md:text-[68px] text-canvas-white mb-6 hero-text-shadow tracking-tight leading-tight min-h-[1.2em]">
-          <span id="hero-typewriter-text" data-phrases="Bienvenido a
-San Roque|Naturaleza, cultura
-e historia|Descubrí
-lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
-        </h1>
-        <p class="text-canvas-white/85 text-lg md:text-xl max-w-xl mx-auto hero-text-shadow">
-          Hospedajes, sabores, agenda cultural y servicios de la ciudad, en un solo lugar.
-        </p>
-        <!-- Accesos rápidos del hero -->
-        <nav class="hero-quick-links" aria-label="Accesos rápidos del portal">
-          <a class="hero-chip" href="/donde-alojarme"><span class="material-symbols-outlined" aria-hidden="true">hotel</span>Hospedajes</a>
-          <a class="hero-chip" href="gastronomia.html"><span class="material-symbols-outlined" aria-hidden="true">restaurant</span>Sabores locales</a>
-          <a class="hero-chip" href="#agenda"><span class="material-symbols-outlined" aria-hidden="true">event</span>Agenda</a>
-          <a class="hero-chip" href="#datos-utiles"><span class="material-symbols-outlined" aria-hidden="true">info</span>Datos útiles</a>
-        </nav>
-        <div class="mt-8 flex flex-col items-center gap-1 opacity-50 animate-bounce">
-          <span class="text-white/60 text-[10px] font-label-caps tracking-widest uppercase">Descubrí San Roque</span>
-          <span class="material-symbols-outlined text-white/60 text-[18px]">expand_more</span>
+        <div class="section-hero-card">
+          <span><span class="material-symbols-outlined" aria-hidden="true" style="font-size:15px;vertical-align:-2px">hotel</span>Hospedajes y departamentos</span>
+          <h1>Dónde alojarme</h1>
+          <p>Hoteles, hospedajes y departamentos equipados en San Roque, con atención directa de sus dueños y contacto por WhatsApp.</p>
         </div>
+      </header>
+    </div>
+
+<section id="hospedajes" class="max-w-7xl mx-auto px-6 mb-12">
+      <div class="mb-8">
+        <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Hospedajes</h2>
+        <p class="text-neutral-500 text-sm mt-1">Opciones cómodas y bien ubicadas para tu estadía en San Roque</p>
       </div>
-      <!-- Colección interactiva: Monjita Dominica (Monumento Natural de San Roque) -->
-      <button id="monjita-open" type="button" class="monjita-hero-card" aria-haspopup="dialog" aria-controls="monjita-modal">
-        <span class="monjita-hero-imgs" aria-hidden="true">
-          <img src="img/monjita/monjita-1.jpg" alt="" class="monjita-hero-img is-active" loading="lazy" />
-          <img src="img/monjita/monjita-2.jpg" alt="" class="monjita-hero-img" loading="lazy" />
-          <img src="img/monjita/monjita-3.jpg" alt="" class="monjita-hero-img" loading="lazy" />
-          <img src="img/monjita/monjita-4.jpg" alt="" class="monjita-hero-img" loading="lazy" />
-          <img src="img/monjita/monjita-5.jpg" alt="" class="monjita-hero-img" loading="lazy" />
-        </span>
-        <span class="monjita-hero-body">
-          <span class="monjita-hero-kicker"><span class="material-symbols-outlined">eco</span> Monumento Natural</span>
-          <strong class="monjita-hero-title">La Monjita Dominica</strong>
-          <span class="monjita-hero-cta">Conocé su historia <span class="material-symbols-outlined">arrow_forward</span></span>
-        </span>
+      <div class="rounded-[32px]">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="accommodations-carousel"></div>
+      </div>
+      <div class="mt-6 flex justify-center">
+        <button id="btn-ver-mas-alojamientos" class="hidden px-5 py-2.5 rounded-full border border-outline-variant/70 bg-white text-primary font-semibold text-sm shadow-sm hover:border-river-teal hover:text-river-teal hover:scale-[1.02] active:scale-95 transition-all duration-300">
+          Ver más
+        </button>
+      </div>
+    </section>
+
+<section class="max-w-7xl mx-auto px-6 mb-12 fade-in-up">
+      <div class="bg-white border border-outline-variant/30 shadow-md map-collapsible" tabindex="0">
+        <div class="map-peek">
+          <span class="map-heading-icon material-symbols-outlined">map</span>
+          <div class="flex-1">
+            <div class="font-bold text-primary text-[15px] font-headline-md">Ubicación de los alojamientos</div>
+            <div class="text-neutral-500 text-xs mt-0.5">Calles, accesos y alojamientos de San Roque</div>
+          </div>
+          <div class="map-legend" aria-label="Referencias del mapa">
+            <span><i class="map-legend-trace" aria-hidden="true"></i> Traza urbana</span>
+            <span><i class="map-legend-stay" aria-hidden="true"></i> Alojamientos</span>
+          </div>
+        </div>
+        <div id="main-map" class="w-full h-[420px] md:h-[500px]" aria-label="Mapa interactivo de alojamientos en San Roque"></div>
+      </div>
+    </section>
+
+  </div>
+<div id="detailed-accommodation-view" class="hidden pt-[110px] pb-28 lg:pb-16 min-h-screen tourism-detail-view" style="background:#F6F3EE" tabindex="-1">
+    <div id="tourism-detail" class="max-w-6xl mx-auto px-6">
+      <button onclick="backToGrid()"
+        class="inline-flex items-center gap-2 text-neutral-600 hover:text-primary font-bold text-sm mb-6 transition-colors hover:scale-105 active:scale-95">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span> Volver a los alojamientos
       </button>
-
-      <div class="hero-wave">
-        <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <path d="M0,45 C360,95 1080,5 1440,55 L1440,90 L0,90 Z" fill="#f0f4f3" />
-        </svg>
-      </div>
-    </section>
-
-    <!-- Accesos principales del portal (la portada ya no lista hospedajes) -->
-    <section class="portal-shortcuts max-w-7xl mx-auto px-6 mb-12 fade-in-up" aria-label="Secciones del portal">
-      <a class="portal-shortcut" href="/donde-alojarme">
-        <img src="img/alojamientos/fortune-01-fachada.webp" alt="" loading="lazy" />
-        <span class="portal-shortcut-body">
-          <span class="portal-shortcut-kicker"><span class="material-symbols-outlined" aria-hidden="true">hotel</span>Hospedajes</span>
-          <strong>Dónde alojarme</strong>
-          <span class="portal-shortcut-desc">Hoteles, hospedajes y departamentos con contacto directo.</span>
-        </span>
-      </a>
-      <a class="portal-shortcut" href="gastronomia.html">
-        <img src="img/Comedor Ariana.jpeg" alt="" loading="lazy" />
-        <span class="portal-shortcut-body">
-          <span class="portal-shortcut-kicker"><span class="material-symbols-outlined" aria-hidden="true">restaurant</span>Sabores</span>
-          <strong>Gastronomía</strong>
-          <span class="portal-shortcut-desc">Comedores y restaurantes de la ciudad.</span>
-        </span>
-      </a>
-      <a class="portal-shortcut" href="que-hacer.html">
-        <img src="img/PEATONALL.jpeg" alt="" loading="lazy" />
-        <span class="portal-shortcut-body">
-          <span class="portal-shortcut-kicker"><span class="material-symbols-outlined" aria-hidden="true">explore</span>Paseos</span>
-          <strong>Qué hacer</strong>
-          <span class="portal-shortcut-desc">Patrimonio, naturaleza, plazas y costanera.</span>
-        </span>
-      </a>
-    </section>
-
-    <section id="datos-utiles" class="max-w-7xl mx-auto px-6 mb-12 fade-in-up">
-      <div class="text-center mb-10">
-        <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight uppercase">Datos Útiles
-        </h2>
-        <p class="text-neutral-500 text-sm mt-2">Información rápida y de servicio para tu estadía en la ciudad.</p>
-      </div>
-
-      <ul id="lista-datos-utiles" class="datos-utiles-lista">
-        <li><a href="#" data-tipo="remises"><i class="fas fa-taxi"></i> Remises</a></li>
-        <li><a href="#" data-tipo="terminal"><i class="fas fa-bus"></i> Terminal</a></li>
-        <li><a href="#" data-tipo="municipio"><i class="fas fa-landmark"></i> Municipio</a></li>
-        <li><a href="#" data-tipo="iglesias"><i class="fas fa-church"></i> Iglesias</a></li>
-        <li><a href="#" data-tipo="emergencias"><i class="fas fa-ambulance"></i> Emergencias</a></li>
-        <li><a href="#" data-tipo="salud"><i class="fas fa-hospital"></i> Salud</a></li>
-        <li><a href="#" data-tipo="servicios"><i class="fas fa-university"></i> Servicios</a></li>
-      </ul>
-    </section>
-
-    
-
-    
-
-    <section id="agenda" class="max-w-7xl mx-auto px-6 mb-24 fade-in-up">
-
-      <div class="flex items-center justify-between mb-6">
+      <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Próximos eventos</h2>
-          <p class="text-neutral-500 text-sm mt-1">Actividades deportivas, culturales y festivas de San Roque</p>
+          <h1 id="det-title" class="text-3xl md:text-4xl font-bold text-primary font-headline-md leading-tight"></h1>
+          <div id="det-rating-summary" class="flex flex-wrap items-center gap-4 mt-2 text-sm text-neutral-600">
+            <div class="flex items-center gap-1.5 text-neutral-900 font-bold">
+              <div id="det-rating-stars" class="flex text-golden-sand"></div>
+              <span id="det-rating-number"></span>
+            </div>
+            <span id="det-reviews-count" class="underline font-medium"></span>
+            <span class="text-neutral-300">|</span>
+            <span class="flex items-center gap-1"><span
+                class="material-symbols-outlined text-[16px] text-neutral-400">location_on</span> <span
+                id="det-location"></span></span>
+          </div>
         </div>
-        <span id="events-period-label"
-          class="hidden md:flex items-center gap-1.5 text-river-teal font-bold text-xs uppercase tracking-wider border border-river-teal/30 px-4 py-2 rounded-full bg-teal-50">
-          <span class="material-symbols-outlined text-[15px]">calendar_month</span>
-          <span id="events-period-text">Próximamente</span>
-        </span>
+        <div class="flex items-center gap-3">
+          <button id="det-share-btn" type="button"
+            class="inline-flex items-center gap-1.5 bg-white text-river-teal px-4 py-2 rounded-full border border-neutral-200 shadow-sm text-xs font-bold uppercase tracking-wider hover:bg-river-teal hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">share</span> <span id="det-share-label">Compartir</span>
+          </button>
+          <div
+            class="flex items-center gap-1 interactive-stars bg-white px-3 py-1.5 rounded-full border border-neutral-200 shadow-sm transition-colors"
+            id="det-interactive-stars" data-id="">
+            <span
+              class="vote-label text-[11px] text-neutral-400 font-bold uppercase mr-1 tracking-wider hidden">Votar</span>
+            <button class="star-btn transition-transform hover:scale-125"><span
+                class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+            <button class="star-btn transition-transform hover:scale-125"><span
+                class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+            <button class="star-btn transition-transform hover:scale-125"><span
+                class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+            <button class="star-btn transition-transform hover:scale-125"><span
+                class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+            <button class="star-btn transition-transform hover:scale-125"><span
+                class="material-symbols-outlined text-[22px] text-neutral-300 transition-colors">star</span></button>
+          </div>
+        </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="events-grid">
-         <!-- Eventos se cargan dinámicamente aquí -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+        <div
+          class="md:col-span-2 h-[320px] md:h-[440px] rounded-3xl overflow-hidden bg-neutral-200 shadow-md relative group cursor-pointer">
+          <img id="det-main-img"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            alt="Imagen principal" />
+        </div>
+        <div
+          class="flex md:flex-col gap-3 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 h-fit max-h-[440px] hide-scrollbar snap-x snap-mandatory scroll-smooth"
+          id="det-gallery-thumbs"></div>
       </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start relative">
+        <div class="lg:col-span-2 space-y-8">
+          <div id="det-description-section">
+            <h3 class="det-section-title text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Sobre este alojamiento</h3>
+            <p id="det-long-desc" class="text-neutral-700 leading-relaxed text-base"></p>
+          </div>
+          <div id="det-capacity-section">
+            <h3 class="det-section-title text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Distribución y Capacidad</h3>
+            <div id="det-capacity-list" class="divide-y divide-neutral-100"></div>
+          </div>
+          <div id="det-services-section">
+            <h3 class="det-section-title text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Servicios e Instalaciones
+            </h3>
+            <div id="det-services-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+          </div>
+          <div id="det-policies-section">
+            <h3 class="det-section-title text-xl font-bold text-primary font-headline-md border-b pb-3 mb-4">Normas y Políticas</h3>
+            <div class="bg-neutral-50 border border-neutral-200 rounded-2xl p-5 space-y-4 text-sm text-neutral-700">
+              <div class="flex justify-between border-b border-neutral-200 pb-2"><span
+                  class="font-bold">Check-in:</span><span id="det-checkin"></span></div>
+              <div class="flex justify-between border-b border-neutral-200 pb-2"><span
+                  class="font-bold">Check-out:</span><span id="det-checkout"></span></div>
+              <div class="flex flex-col gap-1 pt-1"><span class="font-bold text-neutral-900">Cancelación:</span>
+                <p id="det-cancellation" class="text-neutral-600 text-[13px] leading-relaxed"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white border border-neutral-200 rounded-3xl p-6 shadow-xl lg:sticky lg:top-[120px] space-y-5">
+          <div>
+            <span
+              class="text-[11px] font-bold text-river-teal bg-tertiary-fixed px-2 py-1 rounded-md font-label-caps uppercase tracking-wider block w-fit mb-2">Contacto
+              directo</span>
+            <div class="text-2xl font-bold text-primary font-headline-md">Coordiná con el anfitrión</div>
+            <p class="text-neutral-500 text-[13px] mt-1 leading-tight">Consultá disponibilidad y tarifas directamente con
+              el alojamiento.</p>
+          </div>
+          <div class="space-y-3 pt-2">
+            <a id="det-wa-btn-desktop" href="#" target="_blank"
+              class="hidden lg:flex w-full items-center justify-center gap-2.5 py-4 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full font-bold text-[13px] tracking-wide transition-all shadow-md transform hover:scale-105 active:scale-95">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path
+                  d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.66.986 3.288 1.48 4.888 1.481 5.462 0 9.906-4.443 9.909-9.911.002-2.648-1.02-5.138-2.878-6.999-1.859-1.86-4.35-2.883-6.995-2.884-5.468 0-9.914 4.444-9.918 9.913-.002 1.706.47 3.313 1.366 4.748L1.875 22.13l4.772-1.253z" />
+              </svg>
+              CONTACTAR POR WHATSAPP
+            </a>
+            <a id="det-phone-btn" href="#"
+              class="flex w-full items-center justify-center gap-2 py-4 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 rounded-full font-bold text-[13px] tracking-wide transition-all border transform hover:scale-105 active:scale-95">
+              <span class="material-symbols-outlined text-[18px]">phone</span> LLAMAR POR TELÉFONO
+            </a>
+            <a id="det-map-link" href="#" target="_blank"
+              class="flex w-full items-center justify-center gap-2 py-4 bg-tertiary-fixed/40 hover:bg-river-teal hover:text-white text-river-teal rounded-full font-bold text-[13px] tracking-wide transition-all transform hover:scale-105 active:scale-95 border border-river-teal/20">
+              <span class="material-symbols-outlined text-[18px]">location_on</span> VER UBICACIÓN EN MAPA
+            </a>
+          </div>
+        </div>
+      </div>
+      <section id="accommodation-related" class="tourism-related" aria-labelledby="accommodation-related-title"></section>
+    </div>
+  </div>
 
-    </section>
-
+  <div id="mobile-sticky-contact"
+    class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 p-4 z-50 lg:hidden shadow-[0_-10px_20px_rgba(0,0,0,0.06)] hidden animate-view-in">
+    <a id="det-wa-btn-mobile" href="#" target="_blank"
+      class="flex w-full items-center justify-center gap-2 py-3.5 bg-[#25D366] active:bg-[#20ba5a] text-white rounded-full font-bold text-[14px] tracking-wide shadow-md transition-transform active:scale-95">
+      <svg class="w-[22px] h-[22px] fill-current" viewBox="0 0 24 24">
+        <path
+          d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.66.986 3.288 1.48 4.888 1.481 5.462 0 9.906-4.443 9.909-9.911.002-2.648-1.02-5.138-2.878-6.999-1.859-1.86-4.35-2.883-6.995-2.884-5.468 0-9.914 4.444-9.918 9.913-.002 1.706.47 3.313 1.366 4.748L1.875 22.13l4.772-1.253z" />
+      </svg>
+      CONTACTAR POR WHATSAPP
+    </a>
   </div>
   <div id="chatbot" class="chatbot fade-in-up">
 

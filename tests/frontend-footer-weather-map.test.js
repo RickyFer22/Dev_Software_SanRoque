@@ -92,9 +92,23 @@ test('the map only plots lodgings, never places or services', () => {
   assert.match(initMap, /lodgingBounds/);
 });
 
-test('the lodging section is reachable through its own URL', () => {
-  assert.match(read('deploy/nginx.conf'), /location = \/donde-alojarme/);
+test('the lodging section lives in its own page, not in the home', () => {
+  const nginx = read('deploy/nginx.conf');
+  assert.match(nginx, /location = \/donde-alojarme \{\s*rewrite \^ \/alojamientos\.html last;/);
+  assert.match(nginx, /\/hospedajes\/\(\[a-zA-Z0-9_-\]\+\)\/\?\$ \/alojamientos\.html last;/);
   assert.match(read('js/app.js'), /pushState\(\{\}, '', '\/donde-alojarme'\)/);
+
+  const aloj = read('alojamientos.html');
+  assert.match(aloj, /id="accommodations-carousel"/);
+  assert.match(aloj, /id="main-map"/);
+  assert.match(aloj, /id="detailed-accommodation-view"/);
+
+  // La portada ya no duplica el listado ni la ficha.
+  const home = read('index.html');
+  assert.doesNotMatch(home, /id="accommodations-carousel"/);
+  assert.doesNotMatch(home, /id="detailed-accommodation-view"/);
+  assert.match(home, /class="portal-shortcut"/);
+
   for (const file of ['index.html', 'agenda.html', 'gastronomia.html', 'guia-practica.html', 'que-hacer.html']) {
     assert.match(read(file), /href="\/donde-alojarme"/, file);
   }
