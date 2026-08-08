@@ -171,21 +171,31 @@
       plazas: { label: 'Plazas y Paseos', icon: 'park' },
     };
 
+    // Atractivos con ficha editorial propia; el resto solo enlaza a Maps.
+    const PAGINAS = { 'puente-carretero': 'puente-carretero.html' };
+
     function atractivoCard(item) {
       const cat = CATEGORIAS[item.categoria] || { label: 'San Roque', icon: 'place' };
       const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((item.titulo || '') + ', San Roque, Corrientes')}`;
+      const pagina = PAGINAS[item.id];
+      const mediaHref = pagina ? `href="${pagina}"` : `href="${mapHref}" target="_blank" rel="noopener"`;
       return `
         <article class="atractivo-card" data-categoria="${item.categoria || ''}">
-          <a class="atractivo-card-media" href="${mapHref}" target="_blank" rel="noopener">
+          <a class="atractivo-card-media" ${mediaHref}>
             <img src="${item.imagen || 'img/hero.jpg.jpg'}" alt="${item.titulo}" loading="lazy" />
             <span class="atractivo-card-pill cat-${item.categoria || ''}">${cat.label}</span>
           </a>
           <div class="atractivo-card-body">
             <h2>${item.titulo}</h2>
             <p>${item.descripcion || ''}</p>
-            <a class="atractivo-card-cta" href="${mapHref}" target="_blank" rel="noopener">
-              Cómo llegar <span class="material-symbols-outlined text-[16px]" aria-hidden="true">near_me</span>
-            </a>
+            <div class="atractivo-card-actions">
+              ${pagina ? `<a class="atractivo-card-cta" href="${pagina}">
+                Conocer su historia <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
+              </a>` : ''}
+              <a class="atractivo-card-cta${pagina ? ' is-secondary' : ''}" href="${mapHref}" target="_blank" rel="noopener">
+                Cómo llegar <span class="material-symbols-outlined text-[16px]" aria-hidden="true">near_me</span>
+              </a>
+            </div>
           </div>
         </article>`;
     }
