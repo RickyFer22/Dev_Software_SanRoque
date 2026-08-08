@@ -100,6 +100,24 @@ test('the lodging section is reachable through its own URL', () => {
   }
 });
 
+test('event descriptions keep their line breaks end to end', () => {
+  // El programa de un evento (novena, día central, horarios) se carga como
+  // texto con saltos: si el servidor los colapsa, la ficha vuelve al ladrillo.
+  const server = read('deploy/admin/server.js');
+  assert.match(server, /function sanitizeMultiline/);
+  assert.match(server, /out\.descripcion = sanitizeMultiline\(data\.descripcion \|\| '', 4000\)/);
+
+  const details = read('js/detail-pages.js');
+  assert.match(details, /function richText\(value\)/);
+  assert.match(details, /esc\(line\.slice\(3\)\)/);   // "## " → h3, escapado
+  assert.match(details, /esc\(line\.slice\(2\)\)/);   // "- "  → li, escapado
+  assert.match(details, /class="detail-rich">\$\{richText\(item\.descripcion\)\}/);
+  assert.match(read('css/styles.css'), /\.detail-rich h3/);
+
+  // La tarjeta de la agenda muestra solo la entradilla, no el programa entero.
+  assert.match(read('agenda.html'), /const resumen = /);
+});
+
 test('the Puente Carretero long read exists and is linked from Qué hacer', () => {
   const page = read('puente-carretero.html');
   assert.match(page, /<h1>Puente Carretero<\/h1>/);

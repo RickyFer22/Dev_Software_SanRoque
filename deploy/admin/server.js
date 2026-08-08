@@ -1242,6 +1242,17 @@ function sanitizeString(v, maxLen = 2000) {
   return s;
 }
 
+// Igual que sanitizeString pero conserva los saltos de línea: los programas de
+// eventos (novena, día central, horarios) son ilegibles como párrafo corrido.
+function sanitizeMultiline(v, maxLen = 4000) {
+  if (v === undefined || v === null) return '';
+  let s = String(v).replace(/<[^>]*>/g, '').replace(/\r\n?/g, '\n');
+  s = s.split('\n').map((line) => line.replace(/[^\S\n]+/g, ' ').trim()).join('\n');
+  s = s.replace(/\n{3,}/g, '\n\n').trim();
+  if (s.length > maxLen) s = s.slice(0, maxLen);
+  return s;
+}
+
 function toNumber(v, fallback = undefined) {
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
@@ -1348,7 +1359,7 @@ function validateAndSanitize(collection, data) {
       break;
     case 'eventos':
       out.titulo = sanitizeString(data.titulo || '', 200);
-      out.descripcion = sanitizeString(data.descripcion || '', 2000);
+      out.descripcion = sanitizeMultiline(data.descripcion || '', 4000);
       out.fecha = sanitizeString(data.fecha || '', 40);
       out.hora = sanitizeString(data.hora || '', 40);
       out.lugar = sanitizeString(data.lugar || '', 200);

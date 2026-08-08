@@ -1,6 +1,25 @@
 (function () {
   const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
   const asList = (value) => Array.isArray(value) ? value : [];
+
+  // Texto plano del panel → HTML legible. Sintaxis mínima, la que un editor
+  // municipal puede escribir sin pensar: línea en blanco separa párrafos,
+  // "## " es un subtítulo y "- " una viñeta. Todo se escapa antes de armar.
+  function richText(value) {
+    const text = String(value ?? '').replace(/\r\n?/g, '\n').trim();
+    if (!text) return '';
+    if (!text.includes('\n')) return `<p>${esc(text)}</p>`;
+    return text.split(/\n{2,}/).map((block) => {
+      const lines = block.split('\n').map((line) => line.trim()).filter(Boolean);
+      if (!lines.length) return '';
+      if (lines.every((line) => line.startsWith('- '))) {
+        return `<ul>${lines.map((line) => `<li>${esc(line.slice(2))}</li>`).join('')}</ul>`;
+      }
+      return lines.map((line) => line.startsWith('## ')
+        ? `<h3>${esc(line.slice(3))}</h3>`
+        : `<p>${esc(line)}</p>`).join('');
+    }).join('');
+  }
   const digits = (value) => String(value || '').replace(/[^\d+]/g, '');
   const serviceNames = { wifi: 'Wi-Fi', pets: 'Acepta mascotas', parking: 'Estacionamiento', videocam: 'Seguridad', celiac: 'Opciones para celíacos', restaurant: 'Consumo en el lugar', shower: 'Duchas', delivery: 'Delivery', ac_unit: 'Aire acondicionado', tv: 'Televisión' };
 
@@ -266,12 +285,12 @@
       </div>
       <div class="tourism-detail-layout">
         <article class="tourism-detail-main">
-          ${item.descripcion ? `<section><span class="detail-kicker">Sobre el evento</span><h2>${esc(item.titulo)}</h2><p>${esc(item.descripcion)}</p></section>` : ''}
+          ${item.descripcion ? `<section><span class="detail-kicker">Sobre el evento</span><h2>${esc(item.titulo)}</h2><div class="detail-rich">${richText(item.descripcion)}</div></section>` : ''}
           ${images.length > 1 ? `<section><span class="detail-kicker">Galería</span><h2>Momentos</h2><div class="editorial-gallery">${images.slice(0, 5).map((image, index) => `<button type="button" data-gallery-index="${index}" aria-label="Abrir fotografía ${index + 1}">${window.TourismGallery.responsivePicture(image, '', 'lazy')}</button>`).join('')}</div></section>` : ''}
         </article>
         <aside class="tourism-practical-card"><span class="detail-kicker">Información práctica</span><h2>Datos del evento</h2>
           <div><strong>Fecha</strong><p>${esc(fechaTexto)}</p></div>
-          ${item.hora ? `<div><strong>Horario</strong><p>${esc(item.hora)} hs</p></div>` : ''}
+          ${item.hora ? `<div><strong>Horario</strong><p>${esc(/^\d{1,2}[:.]\d{2}$/.test(String(item.hora).trim()) ? `${item.hora} hs` : item.hora)}</p></div>` : ''}
           ${item.lugar ? `<div><strong>Lugar</strong><p>${esc(item.lugar)}</p></div>` : ''}
           ${map ? `<a class="tourism-action primary" href="${esc(map)}" target="_blank" rel="noopener" data-track="mapa" style="margin-top:8px">Abrir en Google Maps</a>` : ''}
         </aside>

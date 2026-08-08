@@ -238,10 +238,16 @@
       return date.getTime() >= today.getTime();
     }
 
+    const escHtml = (value) => String(value ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    // La descripción puede traer el programa completo en varias líneas: en la
+    // tarjeta solo entra la entradilla, el detalle lo muestra formateado.
+    const resumen = (texto) => String(texto || '').split('\n').find((line) => line.trim() && !line.trim().startsWith('## ')) || '';
+
     function eventoCard(evento, isPast) {
       const icon = EVENT_TYPE_ICONS[String(evento.tipo || '').toLowerCase()] || 'celebration';
       const id = evento.id || evento.titulo;
       const detailUrl = `/agenda/${encodeURIComponent(id)}`;
+      const hora = String(evento.hora || '').trim();
       return `
         <article class="agenda-card${isPast ? ' is-past' : ''}" data-agenda-id="${id}">
           <a href="${detailUrl}" class="agenda-card-media">
@@ -251,10 +257,10 @@
           <div class="agenda-card-body">
             <div class="agenda-card-date">
               <span class="material-symbols-outlined text-[16px]" aria-hidden="true">${icon}</span>
-              ${formatEventDate(evento.fecha)}${evento.hora ? ` · ${evento.hora} hs` : ''}
+              ${formatEventDate(evento.fecha)}${hora ? ` · ${escHtml(/^\d{1,2}[:.]\d{2}$/.test(hora) ? `${hora} hs` : hora)}` : ''}
             </div>
-            <h2><a href="${detailUrl}">${evento.titulo}</a></h2>
-            <p>${evento.descripcion || 'Consultá la agenda local para más información.'}</p>
+            <h2><a href="${detailUrl}">${escHtml(evento.titulo)}</a></h2>
+            <p>${escHtml(resumen(evento.descripcion) || 'Consultá la agenda local para más información.')}</p>
             <div class="agenda-card-foot">
               <span class="agenda-card-place"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">location_on</span>${evento.lugar || 'San Roque'}</span>
               <a href="${detailUrl}" class="agenda-card-cta">Ver detalle <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
