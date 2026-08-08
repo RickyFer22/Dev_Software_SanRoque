@@ -83,21 +83,21 @@
     </div>
   </nav>
 
-  <!-- Hero Header -->
-  <header class="internal-hero relative w-full flex items-end" style="padding-top: 140px; padding-bottom: 48px; min-height: 280px;">
-    <div class="absolute inset-0 z-0">
-      <img src="img/Museo San roque.jpeg" alt="Museo de San Roque" class="w-full h-full object-cover" loading="eager" fetchpriority="high" />
-      <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent"></div>
-    </div>
-    <div class="relative z-10 w-full max-w-5xl mx-auto px-6 text-white">
-      <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-4 py-1.5 mb-4 text-sun-haze">
-        <span class="material-symbols-outlined text-[16px]">info</span>
-        <span class="text-xs font-bold uppercase tracking-wider">Información y Servicios</span>
+  <!-- Hero: tarjeta clara flotando sobre la foto (mismo patrón que Qué hacer).
+       El texto blanco sobre esta foto —paredes encaladas del museo— quedaba
+       ilegible aun con el degradado oscuro encima. -->
+  <div class="section-hero-wrap" style="margin-top:110px">
+    <header class="section-hero">
+      <div class="section-hero-media">
+        <img src="img/Museo San roque.jpeg" alt="Museo de San Roque" loading="eager" fetchpriority="high" />
       </div>
-      <h1 class="text-4xl md:text-5xl font-display-lg font-bold mb-4 leading-tight drop-shadow-md">Guía Práctica</h1>
-      <p class="text-white/80 max-w-2xl text-sm md:text-base">Accedé a los contactos de remises, terminal, iglesias, emergencias y servicios municipales de manera rápida y asistida.</p>
-    </div>
-  </header>
+      <div class="section-hero-card">
+        <span><span class="material-symbols-outlined" aria-hidden="true" style="font-size:15px;vertical-align:-2px">info</span>Información y Servicios</span>
+        <h1>Guía Práctica</h1>
+        <p>Accedé a los contactos de remises, terminal, iglesias, emergencias y servicios municipales de manera rápida y asistida.</p>
+      </div>
+    </header>
+  </div>
 
   <!-- Main Content -->
   <main id="guia-main" class="flex-1 w-full max-w-5xl mx-auto px-6 py-16">

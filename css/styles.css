@@ -2272,6 +2272,11 @@ body {
    visual entre el link y la tarjeta siga siendo parte del área "hoverable"
    — si fuera margin, mover el mouse en diagonal perdería el :hover a mitad
    de camino y el menú se cerraría solo. ══ */
+/* El min-height:44px del área táctil deja el texto pegado al borde superior en
+   los enlaces normales, mientras que el trigger del desplegable lo centra por
+   ser inline-flex: "Qué hacer" quedaba 12 px más abajo que el resto del menú. */
+#main-nav a { display:inline-flex;align-items:center; }
+#main-nav .nav-dropdown-menu a { display:flex; }
 .nav-dropdown { position:relative; }
 .nav-dropdown-trigger { display:inline-flex;align-items:center;gap:3px; }
 .nav-dropdown-trigger .material-symbols-outlined { font-size:16px;transition:transform .18s ease; }
