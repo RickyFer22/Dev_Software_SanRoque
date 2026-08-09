@@ -251,7 +251,7 @@
       return `
         <article class="agenda-card${isPast ? ' is-past' : ''}" data-agenda-id="${id}">
           <a href="${detailUrl}" class="agenda-card-media">
-            <img src="${evento.imagen || 'img/hero.jpg.jpg'}" alt="${evento.titulo}" loading="lazy" />
+            <img src="${evento.imagen || 'img/hero.jpg'}" alt="${evento.titulo}" loading="lazy" />
             ${!isPast ? '<span class="agenda-card-flag"><i aria-hidden="true"></i>Próximo</span>' : ''}
           </a>
           <div class="agenda-card-body">

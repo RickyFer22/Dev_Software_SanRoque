@@ -293,7 +293,7 @@ function backToGrid() {
 }
 
 function createAccommodationCard(id, data) {
-  const image = data.mainImg || (Array.isArray(data.galeria) && data.galeria[0]) || 'img/hero.jpg.jpg';
+  const image = data.mainImg || (Array.isArray(data.galeria) && data.galeria[0]) || 'img/hero.jpg';
   const categoryLabel = data.categoria === 'hotel' ? 'Hotel' : data.categoria === 'hospedaje' ? 'Hospedaje' : 'Alojamiento';
   const description = data.descripcionLarga || 'Alojamiento cómodo y bien ubicado en San Roque.';
   const services = Array.isArray(data.servicios) && data.servicios.length

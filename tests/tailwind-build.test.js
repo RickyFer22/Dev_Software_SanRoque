@@ -52,6 +52,32 @@ test('el bundle compilado cubre las utilidades que usan las páginas', () => {
   assert.deepEqual(faltantes, [], `Clases sin definir: falta correr "npm run build:css"\n  ${faltantes.join('\n  ')}`);
 });
 
+test('las páginas no llevan CSS suelto con !important', () => {
+  // El bloque del nav vivía repetido en tres páginas con !important en cada
+  // propiedad; ahora está en styles.css apoyado en la especificidad del id.
+  const paginas = fs.readdirSync(root)
+    .filter((f) => f.endsWith('.html') && f !== 'gastronomia-premium.html');
+  for (const file of paginas) {
+    const inline = [...read(file).matchAll(/<style>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('');
+    assert.equal(inline.match(/!important/g), null, `${file} volvió a tener !important en un <style>`);
+  }
+});
+
+test('el menú móvil informa su estado y se cierra con Escape', () => {
+  const conMenu = ['index.html', 'alojamientos.html', 'gastronomia.html'];
+  for (const file of conMenu) {
+    const html = read(file);
+    assert.match(html, /id="mobile-menu-toggle"[^>]*aria-expanded="false"/, file);
+    assert.match(html, /aria-controls="mobile-nav-panel"/, file);
+  }
+  for (const source of ['js/app.js', 'gastronomia.html']) {
+    const src = read(source);
+    assert.match(src, /aria-expanded/, source);
+    assert.match(src, /Escape/, source);
+    assert.match(src, /toggle\.focus\(\)|mobileToggle\.focus\(\)/, source);
+  }
+});
+
 test('hay un único bundle de utilidades y se genera desde el repositorio', () => {
   const pkg = JSON.parse(read('package.json'));
   assert.match(pkg.scripts['build:css'], /tailwindcss -c tailwind\.config\.js/);

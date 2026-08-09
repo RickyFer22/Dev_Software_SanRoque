@@ -59,59 +59,6 @@
   <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" /></noscript>
   <!-- Critical CSS -->
   <link rel="stylesheet" href="css/styles.css?v=20260804-navfix">
-  <style>
-    .main-nav-buttons { gap: 0.75rem !important; }
-    .main-nav-buttons > a {
-      background: rgba(255,255,255,0.95) !important;
-      border-radius: 9999px !important;
-      padding: 0.75rem 1rem !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      white-space: nowrap !important;
-      margin: 0 !important;
-      min-height: 44px !important;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.08) !important;
-      color: #274F10 !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.12em !important;
-    }
-    .main-nav-buttons > .nav-dropdown {
-      padding: 0 !important;
-      background: none !important;
-      box-shadow: none !important;
-    }
-    .main-nav-buttons > .nav-dropdown .nav-dropdown-trigger {
-      background: rgba(255,255,255,0.95) !important;
-      border-radius: 9999px !important;
-      padding: 0.75rem 1rem !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 0.3rem !important;
-      white-space: nowrap !important;
-      margin: 0 !important;
-      min-height: 44px !important;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.08) !important;
-      color: #274F10 !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.12em !important;
-    }
-    #main-nav { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
-    @media (min-width: 900px) {
-      .tourism-hero#hero-section { height: 560px !important; min-height: 560px !important; align-items: flex-start !important; justify-content: center !important; padding-top: 5rem !important; padding-bottom: 0 !important; }
-      .tourism-hero#hero-section .hero-slide { object-position: center 30% !important; }
-    }
-    @media (max-width: 767px) {
-      #main-nav { display: none !important; }
-      .hero-quick-links { display: none !important; }
-      .hero-quick-links + div { margin-top: 0 !important; }
-      .hero-brand-badge { position:absolute !important; top:14px !important; right:14px !important; }
-      .tourism-hero#hero-section { align-items:center !important; }
-    }
-
-    .hero-brand-badge { position:absolute !important; top:18px !important; right:18px !important; z-index:30 !important; }
-  </style>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
 <script type="application/ld+json">
 {
@@ -664,7 +611,7 @@
           return `
           <article class="bg-white rounded-3xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-xl transition-all duration-300">
             <div class="h-40 overflow-hidden">
-              <img src="${evento.imagen || 'img/hero.jpg.jpg'}" alt="${evento.titulo}" class="w-full h-full object-cover" loading="lazy" />
+              <img src="${evento.imagen || 'img/hero.jpg'}" alt="${evento.titulo}" class="w-full h-full object-cover" loading="lazy" />
             </div>
             <div class="p-6">
               <div class="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-river-teal font-bold mb-3">

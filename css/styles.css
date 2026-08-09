@@ -2250,6 +2250,60 @@ body {
 .section-hero-card h1 { margin:8px 0 10px;color:var(--brand-primary);font-size:clamp(1.9rem,3.4vw,3rem);line-height:1.06;letter-spacing:-.02em;overflow-wrap:break-word; }
 .section-hero-card p { margin:0;color:#5b5b56;font-size:.98rem;line-height:1.6; }
 
+/* ══ NAVEGACIÓN SOBRE EL HERO ══
+   Estas reglas vivían en un <style> dentro de index.html, alojamientos.html y
+   gastronomia.html, repetidas y con !important en cada propiedad para ganarle
+   a las utilidades del propio elemento. Acá alcanza con la especificidad del
+   id #main-nav, y styles.css se carga después del bundle. */
+#main-nav { padding-top:.5rem;padding-bottom:.5rem; }
+#main-nav .main-nav-buttons { gap:.75rem; }
+#main-nav .main-nav-buttons > a,
+#main-nav .main-nav-buttons > .nav-dropdown .nav-dropdown-trigger {
+  display:inline-flex;align-items:center;justify-content:center;margin:0;
+  min-height:44px;padding:.75rem 1rem;border-radius:9999px;
+  background:rgba(255,255,255,.95);box-shadow:0 10px 24px rgba(0,0,0,.08);
+  /* El valor suelto era #274F10; se usa el token de marca para que el nav no
+     quede desalineado del resto del sistema si cambia la paleta. */
+  color:var(--brand-primary);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap;
+}
+#main-nav .main-nav-buttons > .nav-dropdown .nav-dropdown-trigger { gap:.3rem; }
+#main-nav .main-nav-buttons > .nav-dropdown { padding:0;background:none;box-shadow:none; }
+.tourism-hero .hero-brand-badge { position:absolute;top:18px;right:18px;z-index:30; }
+
+@media (min-width:900px) {
+  .tourism-hero#hero-section { height:560px;min-height:560px;align-items:flex-start;justify-content:center;padding-top:5rem;padding-bottom:0; }
+  .tourism-hero#hero-section .hero-slide { object-position:center 30%; }
+}
+@media (max-width:767px) {
+  /* En móvil manda la barra inferior y el panel desplegable. */
+  #main-nav { display:none; }
+  .hero-quick-links { display:none; }
+  .hero-quick-links + div { margin-top:0; }
+  .tourism-hero .hero-brand-badge { top:14px;right:14px; }
+  .tourism-hero#hero-section { align-items:center; }
+}
+
+/* Gastronomía: hero fijo y sin rotación (una sola foto) y chapa de marca. */
+.gastronomy-page .hero-slide { opacity:1;animation:none; }
+.gastronomy-page .hero-rotor-monjita { position:absolute;inset:0; }
+.tourism-hero .hero-brand-badge {
+  display:inline-flex;align-items:center;gap:8px;padding:8px 10px;
+  border:1px solid rgba(255,255,255,.32);border-radius:999px;
+  background:rgba(255,255,255,.18);box-shadow:0 16px 35px rgba(0,0,0,.2);
+  color:#fff;font-size:12px;text-decoration:none;
+}
+.tourism-hero .hero-brand-badge img { width:24px;height:24px; }
+.tourism-hero .hero-brand-badge-label { display:inline-block; }
+@media (min-width:900px) {
+  .gastronomy-page#hero-section,
+  .gastronomy-page #hero-section { height:560px;min-height:560px;align-items:flex-start;justify-content:center;padding-top:5rem;padding-bottom:0; }
+  .gastronomy-page #hero-section .hero-slide { object-position:center 30%; }
+}
+@media (max-width:900px) {
+  .tourism-hero .hero-brand-badge-label { display:none; }
+  .tourism-hero .hero-brand-badge { padding:10px; }
+}
+
 /* ══ ACCESOS DE PORTADA ══ */
 .portal-shortcuts { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px; }
 .portal-shortcut { position:relative;display:block;border-radius:24px;overflow:hidden;min-height:260px;background:#e9ebe7;box-shadow:0 18px 44px rgba(33,45,39,.12);text-decoration:none;transition:transform .35s ease,box-shadow .35s ease; }

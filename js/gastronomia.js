@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Varias fichas quedaron cargadas con la foto genérica del portal (una vista
   // nocturna de la iglesia, además de baja resolución): antes que mostrar algo
   // que no es el local, va el placeholder vectorial, nítido a cualquier tamaño.
-  const GENERIC_IMAGES = ['hero.jpg.jpg', 'og-image.jpg', 'logo-muni.jpg'];
+  const GENERIC_IMAGES = ['hero.jpg', 'hero.jpg.jpg', 'og-image.jpg', 'logo-muni.jpg'];
   const localImage = (local) => {
     const src = String(local.imagen || local.mainImg || '').trim();
     const file = src.split('/').pop();
