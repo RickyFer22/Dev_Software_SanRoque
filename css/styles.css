@@ -855,9 +855,8 @@ bottom:15px;
 .via-primary\/60 { --tw-gradient-stops: var(--tw-gradient-from),rgba(53,94,74,0.6) var(--tw-gradient-via-position),var(--tw-gradient-to); }
 .bg-teal-50 { background-color: rgba(53,94,74,0.06) !important; }
 .text-on-background { color: var(--text) !important; }
-/* Font overrides para tw-gastronomia.css (minificado con DM Sans hardcodeado) */
-.font-body-md, .font-body-lg { font-family: 'Manrope', 'DM Sans', sans-serif !important; }
-.font-display-lg, .font-headline-md { font-family: 'Manrope', 'Syne', sans-serif !important; }
+/* Las familias tipográficas salen del build (tailwind.config.js): ya no hace
+   falta el parche que corregía el DM Sans del bundle de gastronomía. */
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }

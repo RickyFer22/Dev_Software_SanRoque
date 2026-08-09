@@ -1,0 +1,5 @@
+/* Entrada del build de Tailwind. El resultado es css/tw-base.css, que NO se
+   edita a mano: se regenera con `npm run build:css`. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

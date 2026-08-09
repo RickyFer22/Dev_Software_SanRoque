@@ -71,6 +71,22 @@ docker compose --env-file deploy/.env -f deploy/docker-compose.yml up --build
 > El widget de clima necesita `OWM_API_KEY` (OpenWeatherMap). Sin él, el sitio funciona igual
 > y el clima degrada de forma silenciosa.
 
+### Estilos
+
+`css/tw-base.css` es **generado**: no se edita a mano. Cuando agregues una clase de Tailwind
+en un HTML o en una plantilla de `js/`, regenerá el bundle:
+
+```bash
+npm install        # sólo la primera vez
+npm run build:css  # o npm run watch:css mientras trabajás
+```
+
+Las clases propias del portal (`.atractivo-card`, `.long-read`, `.portal-shortcut`…) viven en
+`css/styles.css`, que sí se edita a mano. Los colores y tipografías de marca están en
+`tailwind.config.js`.
+
+`npm test` avisa si quedó una clase usada sin compilar.
+
 ## ☁️ Despliegue
 
 El despliegue al VPS (`vivisanroque.munisanroque.ar`) está documentado en
