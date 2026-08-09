@@ -299,7 +299,7 @@ const actividades = [
   },
   {
     id: 'puente-carretero',
-    titulo: 'Puente Carretero Histórico',
+    titulo: 'Puente de la Vía',
     descripcion: 'Icónico puente de hierro construido entre 1915 y 1917. Un símbolo sanroqueño ideal para paseos, fotografía y contemplación de la naturaleza fluvial.',
     imagen: 'img/PUENTE HISTORICO 1.jpeg'
   },

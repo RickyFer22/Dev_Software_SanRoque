@@ -132,14 +132,16 @@ test('event descriptions keep their line breaks end to end', () => {
   assert.match(read('agenda.html'), /const resumen = /);
 });
 
-test('the Puente Carretero long read exists and is linked from Qué hacer', () => {
-  const page = read('puente-carretero.html');
-  assert.match(page, /<h1>Puente Carretero<\/h1>/);
+test('the Puente de la Vía long read exists and is linked from Qué hacer', () => {
+  const page = read('puente-de-la-via.html');
+  assert.match(page, /<h1>Puente de la Vía<\/h1>/);
   assert.match(page, /class="long-read/);
   // El ancho de lectura no puede depender de max-w-3xl: tw-base.css no la trae.
   assert.doesNotMatch(page, /max-w-3xl/);
   assert.match(read('css/styles.css'), /\.long-read \{[^}]*max-width:760px/s);
-  assert.match(read('que-hacer.html'), /PAGINAS = \{ 'puente-carretero': 'puente-carretero\.html' \}/);
+  assert.match(read('que-hacer.html'), /PAGINAS = \{ 'puente-carretero': 'puente-de-la-via\.html' \}/);
+  // La URL vieja ya se compartió: tiene que seguir llegando a la ficha.
+  assert.match(read('deploy/nginx.conf'), /location = \/puente-carretero\.html \{\s*return 301 \/puente-de-la-via\.html;/);
 });
 
 test('footer uses light tourism surfaces instead of broad olive fields', () => {
