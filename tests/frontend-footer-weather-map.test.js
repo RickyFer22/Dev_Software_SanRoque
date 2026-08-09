@@ -55,7 +55,7 @@ test('weather uses the warm complementary palette without blue surfaces', () => 
 });
 
 test('accommodation map renders a visible urban trace and accessible legend', () => {
-  const html = read('index.html');
+  const html = read('alojamientos.html');
   const app = read('js/app.js');
   const css = read('css/styles.css');
 
@@ -64,7 +64,9 @@ test('accommodation map renders a visible urban trace and accessible legend', ()
   assert.match(html, /Calles, accesos y alojamientos/);
   assert.match(app, /SAN_ROQUE_URBAN_TRACE/);
   assert.match(app, /L\.geoJSON/);
-  assert.match(app, /tile\.openstreetmap\.org/);
+  // Base satelital de Esri con etiquetas de CARTO (el mapa dejó de usar OSM).
+  assert.match(app, /server\.arcgisonline\.com/);
+  assert.match(app, /basemaps\.cartocdn\.com/);
   assert.match(app, /L\.control\.scale/);
   assert.match(app, /fitBounds/);
   assert.match(app, /isSanRoqueCoordinate/);
@@ -141,7 +143,7 @@ test('the Puente de la Vía long read exists and is linked from Qué hacer', () 
   assert.match(read('css/styles.css'), /\.long-read \{[^}]*max-width:760px/s);
   assert.match(read('que-hacer.html'), /PAGINAS = \{ 'puente-carretero': 'puente-de-la-via\.html' \}/);
   // La URL vieja ya se compartió: tiene que seguir llegando a la ficha.
-  assert.match(read('deploy/nginx.conf'), /location = \/puente-carretero\.html \{\s*return 301 \/puente-de-la-via\.html;/);
+  assert.match(read('deploy/nginx.conf'), /location = \/puente-carretero\.html \{[\s\S]*?return 301 \/puente-de-la-via\.html;/);
 });
 
 test('footer uses light tourism surfaces instead of broad olive fields', () => {

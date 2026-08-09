@@ -244,6 +244,7 @@
                 <button type="button" role="tab" aria-selected="false" data-editor-tab="ubicacion">Ubicación</button>
                 <button type="button" role="tab" aria-selected="false" data-editor-tab="contacto">Contacto</button>
                 <button type="button" role="tab" aria-selected="false" data-editor-tab="detalles">Detalles</button>
+                <button type="button" role="tab" aria-selected="false" data-editor-tab="seo">Publicación</button>
                 <button type="button" role="tab" aria-selected="false" data-editor-tab="fotografias">Fotografías</button>
               </div>
               <div class="form-errors" data-form-errors hidden role="alert"></div>
@@ -290,6 +291,17 @@
               </div>
               <label>Servicios confirmados<input id="alojamiento-serviciosText" placeholder="Wi-Fi, estacionamiento, desayuno…" /></label>
               <label>Etiquetas<input id="alojamiento-tags" placeholder="naturaleza, familiar, céntrico" /></label>
+              </section>
+              <!-- Estos campos ya viajaban en el formulario y los guarda el
+                   servidor, pero no tenían dónde escribirse: al guardar se
+                   enviaban vacíos y borraban el slug y el SEO cargados. -->
+              <section class="editor-tab-panel" data-editor-panel="seo" hidden>
+              <div class="toolbar">
+                <label>URL amigable (slug)<input id="alojamiento-slug" placeholder="hotel-leguiza" /></label>
+                <label>Publicar el<input id="alojamiento-publishAt" type="date" /></label>
+              </div>
+              <label>Título para buscadores<input id="alojamiento-seoTitle" maxlength="70" placeholder="Hasta 70 caracteres" /></label>
+              <label>Descripción para buscadores<input id="alojamiento-seoDescription" maxlength="170" placeholder="Hasta 170 caracteres" /></label>
               </section>
               <section class="editor-tab-panel" data-editor-panel="fotografias" hidden>
                 <div class="media-guidance"><strong>Hasta 5 fotografías · se guardan optimizadas en WebP.</strong><span>Elegí dónde va cada una: portada, arriba, abajo, al costado o en el rotor (carrusel).</span></div>
@@ -339,7 +351,7 @@
                 </div>
                 <button type="button" class="icon-button" data-editor-close aria-label="Cerrar editor">×</button>
               </div>
-              <div class="editor-tabs" data-editor-tabs="gastronomia" role="tablist" aria-label="Secciones del local gastronómico"><button type="button" role="tab" aria-selected="true" data-editor-tab="general">General</button><button type="button" role="tab" aria-selected="false" data-editor-tab="ubicacion">Ubicación</button><button type="button" role="tab" aria-selected="false" data-editor-tab="contacto">Contacto</button><button type="button" role="tab" aria-selected="false" data-editor-tab="detalles">Propuesta</button><button type="button" role="tab" aria-selected="false" data-editor-tab="fotografias">Fotografías</button></div>
+              <div class="editor-tabs" data-editor-tabs="gastronomia" role="tablist" aria-label="Secciones del local gastronómico"><button type="button" role="tab" aria-selected="true" data-editor-tab="general">General</button><button type="button" role="tab" aria-selected="false" data-editor-tab="ubicacion">Ubicación</button><button type="button" role="tab" aria-selected="false" data-editor-tab="contacto">Contacto</button><button type="button" role="tab" aria-selected="false" data-editor-tab="detalles">Propuesta</button><button type="button" role="tab" aria-selected="false" data-editor-tab="seo">Publicación</button><button type="button" role="tab" aria-selected="false" data-editor-tab="fotografias">Fotografías</button></div>
               <div class="form-errors" data-form-errors hidden role="alert"></div>
               <section class="editor-tab-panel active" data-editor-panel="general">
               <div class="toolbar">
@@ -368,6 +380,14 @@
                 <label>Horarios<input id="gastronomia-horario" placeholder="Información confirmada" /></label><label>Especialidades<input id="gastronomia-specialties" placeholder="Platos regionales, pastas…" /></label>
               </div>
               <label>Servicios y opciones<input id="gastronomia-servicios" placeholder="En el lugar, para llevar, reservas, Wi-Fi…" /></label><label>Etiquetas<input id="gastronomia-tags" placeholder="regional, familiar, meriendas" /></label>
+              </section>
+              <section class="editor-tab-panel" data-editor-panel="seo" hidden>
+              <div class="toolbar">
+                <label>URL amigable (slug)<input id="gastronomia-slug" placeholder="comedor-ariana" /></label>
+                <label>Publicar el<input id="gastronomia-publishAt" type="date" /></label>
+              </div>
+              <label>Título para buscadores<input id="gastronomia-seoTitle" maxlength="70" placeholder="Hasta 70 caracteres" /></label>
+              <label>Descripción para buscadores<input id="gastronomia-seoDescription" maxlength="170" placeholder="Hasta 170 caracteres" /></label>
               </section><section class="editor-tab-panel" data-editor-panel="fotografias" hidden>
                 <div class="media-guidance"><strong>Hasta 5 fotografías · se guardan optimizadas en WebP.</strong><span>Elegí dónde va cada una: portada, arriba, abajo, al costado o en el rotor (carrusel).</span></div>
                 <input type="hidden" id="gastronomia-imagen" /><input type="hidden" id="gastronomia-galeria" /><input type="file" id="gastronomia-image-file" accept="image/jpeg,image/png,image/webp,image/avif" multiple hidden />

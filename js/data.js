@@ -319,11 +319,22 @@ async function refreshAppData({ silent = false } = {}) {
   return window.appData;
 }
 
+// Gancho público para volver a pedir los datos sin esperar al evento de
+// storage (lo usan el panel al guardar y las pruebas del cargador).
+window.refreshAppData = refreshAppData;
+
 (function initAppData() {
   window.appData = buildFallbackAppData();
   alojamientosData = window.appData.alojamientos;
   window.alojamientosData = alojamientosData;
   window.gastronomiaData = window.gastronomiaData || [];
+
+  // appDataReady solo se emitía dentro de refreshAppData, es decir, después
+  // del fetch: con el backend lento la página quedaba vacía aunque los datos
+  // de respaldo ya estuvieran en memoria. Se avisa primero con el respaldo y
+  // refreshAppData vuelve a emitir cuando llegan los datos reales.
+  lastAppDataSignature = JSON.stringify(window.appData);
+  document.dispatchEvent(new CustomEvent('appDataReady', { detail: window.appData }));
 
   refreshAppData({ silent: true });
 

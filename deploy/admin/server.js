@@ -331,7 +331,7 @@ if (!IS_PROD) {
   ['img', 'css', 'js'].forEach((dir) => {
     app.use(`/${dir}`, express.static(path.join(PORTAL_DIR, dir), { fallthrough: true }));
   });
-  app.get(['/', '/index.html', '/gastronomia.html', '/evento.html', '/guia-practica.html', '/agenda.html', '/que-hacer.html', '/comercio.html'], (req, res, next) => {
+  app.get(['/', '/index.html', '/gastronomia.html', '/guia-practica.html', '/agenda.html', '/que-hacer.html', '/comercio.html'], (req, res, next) => {
     const file = path.join(PORTAL_DIR, req.path === '/' ? 'index.html' : req.path.replace(/^\//, ''));
     if (fs.existsSync(file)) return res.sendFile(file);
     return next();

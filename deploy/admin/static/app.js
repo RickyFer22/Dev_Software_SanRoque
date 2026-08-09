@@ -2303,13 +2303,13 @@ async function sendCreate(resource) {
   await loadCounts();
 }
 
+// Vista previa por la URL amigable que ve el visitante. Antes apuntaba a
+// /index.html?h= (la portada dejó de listar alojamientos) y a /evento.html,
+// que ya no muestra el evento pedido.
+const PREVIEW_PATHS = { gastronomia: 'gastronomia', alojamientos: 'hospedajes', eventos: 'agenda' };
 function previewItem(resource, id) {
-  const url = resource === 'gastronomia'
-    ? `/gastronomia.html?g=${encodeURIComponent(id)}`
-    : resource === 'alojamientos'
-      ? `/index.html?h=${encodeURIComponent(id)}`
-      : resource === 'eventos'
-        ? `/evento.html?id=${encodeURIComponent(id)}` : '/';
+  const base = PREVIEW_PATHS[resource];
+  const url = base ? `/${base}/${encodeURIComponent(id)}` : '/';
   window.open(url, '_blank', 'noopener');
 }
 

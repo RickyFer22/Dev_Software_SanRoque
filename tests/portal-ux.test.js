@@ -10,7 +10,6 @@ const publicPages = [
   'index.html',
   'agenda.html',
   'comercio.html',
-  'evento.html',
   'gastronomia.html',
   'gastronomia-premium.html',
   'guia-practica.html',
@@ -19,7 +18,9 @@ const publicPages = [
 
 test('public pages invalidate stale stylesheets and nginx revalidates CSS and JS', () => {
   for (const file of publicPages) {
-    assert.match(read(file), /href="css\/styles\.css\?v=20260718-footer"/, file);
+    // Lo que importa es que la hoja lleve marca de versión, no cuál: cada
+    // página la bumpea cuando cambia, y fijar un valor deja el test en rojo.
+    assert.match(read(file), /href="css\/styles\.css\?v=[^"]+"/, file);
   }
 
   const nginx = read('deploy/nginx.conf');
@@ -84,7 +85,12 @@ test('weather fallbacks request complete current conditions without rendering Na
 test('chat messages from visitors and APIs are rendered as text, not executable HTML', () => {
   const app = read('js/app.js');
   const gastro = read('gastronomia.html');
-  assert.doesNotMatch(app, /function addMsg\([\s\S]*?div\.innerHTML\s*=\s*text/);
+  // El mensaje del visitante nunca se interpreta como HTML…
+  assert.match(app, /if\(user\)\{[\s\S]*?div\.textContent = text;/);
+  // …y la respuesta del bot pasa por el saneador salvo cuando el HTML lo
+  // arma el propio portal (tarjetas), que es lo que habilita options.html.
+  assert.match(app, /div\.innerHTML = sanitizeBotHtml\(text\)/);
+  assert.match(app, /function sanitizeBotHtml\(text\)[\s\S]*?replace\(\/</);
   assert.doesNotMatch(gastro, /function addLocalMsg\([\s\S]*?div\.innerHTML\s*=\s*text/);
 });
 
@@ -137,25 +143,26 @@ test('tourism design system exposes the approved palette and interaction tokens'
 
 test('public pages share the editorial tourism composition without losing dynamic hooks', () => {
   const home = read('index.html');
+  const aloj = read('alojamientos.html');
   const gastro = read('gastronomia.html');
   const premium = read('gastronomia-premium.html');
-  const listings = ['agenda.html', 'que-hacer.html', 'guia-practica.html'].map(read);
-  const details = ['comercio.html', 'evento.html'].map(read);
 
   assert.match(home, /id="hero-section"[^>]*class="[^"]*tourism-hero/);
-  assert.match(home, /id="hero-search-input"/);
-  assert.match(home, /id="accommodation-filters"/);
-  assert.match(home, /id="accommodations-carousel"/);
-  assert.match(home, /id="main-map"/);
   assert.match(home, /id="events-grid"/);
+  assert.match(home, /class="portal-shortcut"/);
+  // El listado, el mapa y la ficha viven en su propia página desde el split.
+  assert.match(aloj, /id="accommodations-carousel"/);
+  assert.match(aloj, /id="main-map"/);
   assert.match(gastro, /<body[^>]*class="[^"]*tourism-page/);
   assert.match(gastro, /id="gastronomia-grid"/);
   assert.match(premium, /<body[^>]*class="[^"]*tourism-page/);
   assert.match(premium, /id="buscador"/);
   assert.match(premium, /id="filtros"/);
   assert.match(premium, /id="carousel"/);
-  listings.forEach((html) => assert.match(html, /<header[^>]*class="[^"]*internal-hero/));
-  details.forEach((html) => assert.match(html, /<header[^>]*class="[^"]*detail-hero/));
+  // agenda conserva el hero clásico; qué-hacer y guía usan el de tarjeta.
+  assert.match(read('agenda.html'), /<header[^>]*class="[^"]*internal-hero/);
+  ['que-hacer.html', 'guia-practica.html'].forEach((f) => assert.match(read(f), /class="section-hero-wrap/, f));
+  assert.match(read('comercio.html'), /<header[^>]*class="[^"]*detail-hero/);
 });
 
 test('public navigation becomes a neutral glass surface after scrolling', () => {

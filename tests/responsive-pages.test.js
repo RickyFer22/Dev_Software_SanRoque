@@ -8,7 +8,6 @@ const pages = [
   'index.html',
   'agenda.html',
   'comercio.html',
-  'evento.html',
   'gastronomia.html',
   'gastronomia-premium.html',
   'guia-practica.html',
@@ -22,7 +21,11 @@ test('the main public pages include a viewport meta tag for mobile devices', () 
   pages.forEach((file) => {
     const fullPath = path.join(root, file);
     const html = fs.readFileSync(fullPath, 'utf8');
-    assert.match(html, /<meta\s+name=["']viewport["'][^>]*width=device-width/i, `${file} should include a viewport meta tag`);
+    // El orden de los atributos no importa: varias páginas escriben
+    // content="…" antes de name="viewport".
+    const viewport = html.match(/<meta[^>]*name=["']viewport["'][^>]*>/i);
+    assert.ok(viewport, `${file} should include a viewport meta tag`);
+    assert.match(viewport[0], /width=device-width/i, `${file} viewport should scale to the device`);
   });
 });
 
