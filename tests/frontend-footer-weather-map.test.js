@@ -125,8 +125,10 @@ test('event descriptions keep their line breaks end to end', () => {
 
   const details = read('js/detail-pages.js');
   assert.match(details, /function richText\(value\)/);
-  assert.match(details, /esc\(line\.slice\(3\)\)/);   // "## " → h3, escapado
-  assert.match(details, /esc\(line\.slice\(2\)\)/);   // "- "  → li, escapado
+  assert.match(details, /inlineText\(line\.slice\(3\)\)/);   // "## " → h3
+  assert.match(details, /inlineText\(line\.slice\(2\)\)/);   // "- "  → li
+  // El resaltado se resuelve sobre el texto ya escapado, nunca antes.
+  assert.match(details, /const inlineText = \(value\) => esc\(value\)\.replace\(\/\\\*\\\*/);
   assert.match(details, /class="detail-rich">\$\{richText\(item\.descripcion\)\}/);
   assert.match(read('css/styles.css'), /\.detail-rich h3/);
 

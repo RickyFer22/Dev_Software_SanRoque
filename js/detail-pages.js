@@ -4,20 +4,23 @@
 
   // Texto plano del panel → HTML legible. Sintaxis mínima, la que un editor
   // municipal puede escribir sin pensar: línea en blanco separa párrafos,
-  // "## " es un subtítulo y "- " una viñeta. Todo se escapa antes de armar.
+  // "## " es un subtítulo, "- " una viñeta y **así** se resalta un dato.
+  // El escape va primero; los asteriscos se resuelven sobre el texto ya seguro.
+  const inlineText = (value) => esc(value).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
   function richText(value) {
     const text = String(value ?? '').replace(/\r\n?/g, '\n').trim();
     if (!text) return '';
-    if (!text.includes('\n')) return `<p>${esc(text)}</p>`;
+    if (!text.includes('\n')) return `<p>${inlineText(text)}</p>`;
     return text.split(/\n{2,}/).map((block) => {
       const lines = block.split('\n').map((line) => line.trim()).filter(Boolean);
       if (!lines.length) return '';
       if (lines.every((line) => line.startsWith('- '))) {
-        return `<ul>${lines.map((line) => `<li>${esc(line.slice(2))}</li>`).join('')}</ul>`;
+        return `<ul>${lines.map((line) => `<li>${inlineText(line.slice(2))}</li>`).join('')}</ul>`;
       }
       return lines.map((line) => line.startsWith('## ')
-        ? `<h3>${esc(line.slice(3))}</h3>`
-        : `<p>${esc(line)}</p>`).join('');
+        ? `<h3>${inlineText(line.slice(3))}</h3>`
+        : `<p>${inlineText(line)}</p>`).join('');
     }).join('');
   }
   const digits = (value) => String(value || '').replace(/[^\d+]/g, '');
