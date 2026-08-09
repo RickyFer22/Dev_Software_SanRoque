@@ -300,7 +300,7 @@ const actividades = [
   {
     id: 'puente-carretero',
     titulo: 'Puente de la Vía',
-    descripcion: 'Icónico puente de hierro construido entre 1915 y 1917. Un símbolo sanroqueño ideal para paseos, fotografía y contemplación de la naturaleza fluvial.',
+    descripcion: 'Proyectado en 1874 y en servicio desde 1896: una inundación obligó a dividir la obra en dos puentes unidos por un terraplén. Hoy es un mirador panorámico de 360° sobre el río Santa Lucía, ideal para paseos y fotografía.',
     imagen: 'img/PUENTE HISTORICO 1.jpeg'
   },
   {
