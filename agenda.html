@@ -239,9 +239,9 @@
     }
 
     const escHtml = (value) => String(value ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    // La descripción puede traer el programa completo en varias líneas: en la
-    // tarjeta solo entra la entradilla, el detalle lo muestra formateado.
-    const resumen = (texto) => String(texto || '').split('\n').find((line) => line.trim() && !line.trim().startsWith('## ')) || '';
+    // La entradilla la resuelve VsrText (js/detail-pages.js), compartido con
+    // las tarjetas de la portada: así "##" y "**" nunca llegan al listado.
+    const resumen = (texto) => (window.VsrText ? VsrText.resumen(texto) : String(texto || '').split('\n')[0]);
 
     function eventoCard(evento, isPast) {
       const icon = EVENT_TYPE_ICONS[String(evento.tipo || '').toLowerCase()] || 'celebration';

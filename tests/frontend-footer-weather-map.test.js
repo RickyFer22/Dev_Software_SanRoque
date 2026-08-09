@@ -132,8 +132,14 @@ test('event descriptions keep their line breaks end to end', () => {
   assert.match(details, /class="detail-rich">\$\{richText\(item\.descripcion\)\}/);
   assert.match(read('css/styles.css'), /\.detail-rich h3/);
 
-  // La tarjeta de la agenda muestra solo la entradilla, no el programa entero.
-  assert.match(read('agenda.html'), /const resumen = /);
+  // Las tarjetas muestran la entradilla sin marcas de formato: si el "##" o
+  // los "**" llegan al listado, el visitante ve la sintaxis en pantalla.
+  assert.match(details, /window\.VsrText = \{ richText, resumen: resumenTexto, esc \}/);
+  for (const file of ['index.html', 'alojamientos.html', 'agenda.html']) {
+    assert.match(read(file), /VsrText\.resumen\(/, file);
+    assert.doesNotMatch(read(file), /\$\{evento\.descripcion \|\|/, file);
+  }
+  assert.match(read('css/styles.css'), /\.evento-card-resumen[^}]*line-clamp:3/s);
 });
 
 test('the Puente de la Vía long read exists and is linked from Qué hacer', () => {

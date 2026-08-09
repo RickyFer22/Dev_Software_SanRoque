@@ -23,6 +23,16 @@
         : `<p>${inlineText(line)}</p>`).join('');
     }).join('');
   }
+  // Para las tarjetas: la primera línea con contenido, sin subtítulos, viñetas
+  // ni marcas de resaltado. Sin esto la portada mostraba el "##" y los "**".
+  function resumenTexto(value) {
+    const linea = String(value ?? '').replace(/\r\n?/g, '\n').split('\n')
+      .map((l) => l.trim())
+      .find((l) => l && !l.startsWith('## ') && !l.startsWith('- ')) || '';
+    return linea.replace(/\*\*([^*]+)\*\*/g, '$1');
+  }
+  window.VsrText = { richText, resumen: resumenTexto, esc };
+
   const digits = (value) => String(value || '').replace(/[^\d+]/g, '');
   const serviceNames = { wifi: 'Wi-Fi', pets: 'Acepta mascotas', parking: 'Estacionamiento', videocam: 'Seguridad', celiac: 'Opciones para celíacos', restaurant: 'Consumo en el lugar', shower: 'Duchas', delivery: 'Delivery', ac_unit: 'Aire acondicionado', tv: 'Televisión' };
 

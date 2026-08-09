@@ -2309,6 +2309,9 @@ body {
   .tourism-hero .hero-brand-badge { padding:10px; }
 }
 
+/* La entradilla del evento no puede estirar la tarjeta: se corta a tres líneas. */
+.evento-card-resumen { display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden; }
+
 /* ══ ACCESOS DE PORTADA ══ */
 .portal-shortcuts { display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px; }
 .portal-shortcut { position:relative;display:block;border-radius:24px;overflow:hidden;min-height:260px;background:#e9ebe7;box-shadow:0 18px 44px rgba(33,45,39,.12);text-decoration:none;transition:transform .35s ease,box-shadow .35s ease; }
