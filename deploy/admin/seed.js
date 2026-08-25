@@ -272,6 +272,14 @@ const datosUtiles = [
     }
   },
   {
+    id: 'du_talleres-repuesteras', categoria: 'talleres-repuesteras',
+    titulo: '🔧 Talleres / Repuesteras',
+    descripcion: 'Talleres mecánicos y comercios de repuestos en San Roque.',
+    contenido: {
+      lugares: []
+    }
+  },
+  {
     id: 'du_turismo', categoria: 'turismo',
     titulo: '📍 Lugares turísticos',
     descripcion: 'Puntos importantes de San Roque.',

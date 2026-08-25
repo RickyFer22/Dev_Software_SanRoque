@@ -526,6 +526,16 @@
         ]
       },
       "activo": 1
+    },
+    {
+      "id": "du_talleres-repuesteras",
+      "categoria": "talleres-repuesteras",
+      "titulo": "🔧 Talleres / Repuesteras",
+      "descripcion": "Talleres mecánicos y comercios de repuestos en San Roque.",
+      "contenido": {
+        "lugares": []
+      },
+      "activo": 1
     }
   ],
   "actividades": [

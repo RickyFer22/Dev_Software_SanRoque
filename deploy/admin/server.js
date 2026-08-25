@@ -223,6 +223,7 @@ const DEFAULT_DATOS_UTILES = [
   { categoria: 'emergencias', icono: 'emergency', titulo: 'Emergencias', descripcion: 'Bomberos, policía y defensa civil.' },
   { categoria: 'salud', icono: 'medical_services', titulo: 'Salud', descripcion: 'Hospitales, clínicas y farmacias de turno.' },
   { categoria: 'servicios', icono: 'design_services', titulo: 'Servicios', descripcion: 'Bancos, cajeros y otros servicios públicos.' },
+  { categoria: 'talleres-repuesteras', icono: 'build', titulo: 'Talleres / Repuesteras', descripcion: 'Talleres mecánicos y comercios de repuestos.' },
 ];
 
 // Completa las categorías faltantes sin tocar las existentes (ni su contenido).
