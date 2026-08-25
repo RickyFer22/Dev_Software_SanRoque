@@ -224,6 +224,8 @@ const DEFAULT_DATOS_UTILES = [
   { categoria: 'salud', icono: 'medical_services', titulo: 'Salud', descripcion: 'Hospitales, clínicas y farmacias de turno.' },
   { categoria: 'servicios', icono: 'design_services', titulo: 'Servicios', descripcion: 'Bancos, cajeros y otros servicios públicos.' },
   { categoria: 'talleres-repuesteras', icono: 'build', titulo: 'Talleres / Repuesteras', descripcion: 'Talleres mecánicos y comercios de repuestos.' },
+  { categoria: 'estacion-servicios', icono: 'local_gas_station', titulo: 'Estación de servicios', descripcion: 'Estaciones de servicio y combustibles.' },
+  { categoria: 'registro-civil', icono: 'badge', titulo: 'Registro Civil', descripcion: 'Información y trámites del Registro Civil.' },
 ];
 
 // Completa las categorías faltantes sin tocar las existentes (ni su contenido).

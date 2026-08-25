@@ -147,6 +147,16 @@
         <h3 class="text-lg font-bold text-primary mb-2">Talleres / Repuesteras</h3>
         <p class="text-xs text-neutral-500">Talleres mecánicos y comercios de repuestos.</p>
       </a>
+      <a href="#" data-cat="estacion-servicios" onclick="event.preventDefault(); quickAsk('Estación de servicios', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">local_gas_station</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Estación de servicios</h3>
+        <p class="text-xs text-neutral-500">Estaciones de servicio y combustibles.</p>
+      </a>
+      <a href="#" data-cat="registro-civil" onclick="event.preventDefault(); quickAsk('Registro Civil', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">badge</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Registro Civil</h3>
+        <p class="text-xs text-neutral-500">Información y trámites del Registro Civil.</p>
+      </a>
     </div>
 
     <!-- Dynamic Directory Details Container -->
@@ -394,7 +404,7 @@
         // 2. Render dynamic directory on page (espera los datos si todavía
         // no llegaron, en vez de fallar en silencio).
         await datosUtilesReady;
-        showLocalDirectory(category.toLowerCase());
+        showLocalDirectory(cardEl?.dataset.cat || category.toLowerCase());
     }
 
     function showLocalDirectory(catKey) {
@@ -429,7 +439,9 @@
             emergencias: 'emergency',
             salud: 'medical_services',
             servicios: 'design_services',
-            'talleres-repuesteras': 'build'
+            'talleres-repuesteras': 'build',
+            'estacion-servicios': 'local_gas_station',
+            'registro-civil': 'badge'
         };
         iconEl.textContent = iconMap[catKey] || 'info';
         

@@ -280,6 +280,24 @@ const datosUtiles = [
     }
   },
   {
+    id: 'du_estacion-servicios', categoria: 'estacion-servicios',
+    titulo: '⛽ Estación de servicios',
+    descripcion: 'Estaciones de servicio y combustibles.',
+    contenido: {
+      lugares: []
+    }
+  },
+  {
+    id: 'du_registro-civil', categoria: 'registro-civil',
+    titulo: '🪪 Registro Civil',
+    descripcion: 'Información y trámites del Registro Civil.',
+    contenido: {
+      lugares: [
+        { nombre: 'Registro Civil', link: 'https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172' }
+      ]
+    }
+  },
+  {
     id: 'du_turismo', categoria: 'turismo',
     titulo: '📍 Lugares turísticos',
     descripcion: 'Puntos importantes de San Roque.',
