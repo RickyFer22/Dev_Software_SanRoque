@@ -44,6 +44,9 @@ services:
       - PORT=3000
     expose:
       - "3000"
+    # Publicar el puerto del backend de weather para acceso desde el host
+    ports:
+      - "3000:3000"
     deploy:
       resources:
         limits:
@@ -79,6 +82,9 @@ services:
       - NODE_ENV=production
     expose:
       - "4000"
+    # Publicar el puerto del panel admin para acceso desde el host (temporal)
+    ports:
+      - "4000:4000"
     volumes:
       - admin_data:/data
     deploy:
