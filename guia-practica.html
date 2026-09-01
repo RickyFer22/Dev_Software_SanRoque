@@ -275,6 +275,41 @@
     let chatOpen = false;
     let datosUtilesGlobal = null;
 
+    // ── Renderizado dinámico del grid de categorías ──────────────────────
+    function escapeAttr(str) {
+        return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function renderCategoryGrid(categories) {
+        const grid = document.getElementById('guia-cat-grid');
+        if (!grid || !categories.length) return;
+        const fallbackIcons = {
+            remises: 'local_taxi', terminal: 'directions_bus', municipio: 'domain',
+            iglesias: 'church', emergencias: 'emergency', salud: 'medical_services',
+            servicios: 'design_services', 'talleres-repuesteras': 'build',
+            'estacion-servicios': 'local_gas_station', 'registro-civil': 'badge'
+        };
+        grid.innerHTML = categories.filter(c => c.activo !== 0).map(cat => {
+            const key = escapeAttr(cat.categoria);
+            const title = escapeAttr(cat.titulo || cat.categoria);
+            const iconVal = cat.icono || fallbackIcons[cat.categoria] || 'info';
+            const isImage = iconVal.includes('/') || iconVal.includes('.');
+            const iconHtml = isImage ? 
+                `<img src="${escapeAttr(iconVal)}" alt="" class="w-10 h-10 object-contain mb-4" />` : 
+                `<span class="material-symbols-outlined text-4xl text-river-teal mb-4">${escapeAttr(iconVal)}</span>`;
+            const desc = escapeAttr(cat.descripcion || '');
+            return `<a href="#" data-cat="${key}" data-titulo="${title}"
+                onclick="event.preventDefault(); quickAsk(this.dataset.titulo, this);"
+                aria-pressed="false"
+                class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+                ${iconHtml}
+                <h3 class="text-lg font-bold text-primary mb-2">${title}</h3>
+                <p class="text-xs text-neutral-500">${desc}</p>
+            </a>`;
+        }).join('');
+    }
+
     // Promesa única de carga: si se clickea una categoría ANTES de que
     // /api/data responda (conexión lenta), quickAsk() espera esta misma
     // promesa en vez de fallar en silencio (antes: showLocalDirectory
@@ -285,6 +320,12 @@
             if (res.ok) {
                 const payload = await res.json();
                 datosUtilesGlobal = payload.datosUtiles || {};
+                // Re-renderizar el grid con categorías de la API
+                // (incluye nuevas categorías agregadas desde el admin)
+                const apiCategories = Object.values(datosUtilesGlobal);
+                if (apiCategories.length) {
+                    renderCategoryGrid(apiCategories);
+                }
             }
         } catch (err) {
             console.error("Error loading directory data", err);
@@ -434,20 +475,20 @@
         titleEl.textContent = item.titulo || catKey;
         descEl.textContent = item.descripcion || "";
         
-        // Map icon
-        const iconMap = {
-            remises: 'local_taxi',
-            terminal: 'directions_bus',
-            municipio: 'domain',
-            iglesias: 'church',
-            emergencias: 'emergency',
-            salud: 'medical_services',
-            servicios: 'design_services',
-            'talleres-repuesteras': 'build',
-            'estacion-servicios': 'local_gas_station',
-            'registro-civil': 'badge'
+        // Usar ícono de los datos, con fallback para categorías conocidas
+        const fallbackIcons = {
+            remises: 'local_taxi', terminal: 'directions_bus', municipio: 'domain',
+            iglesias: 'church', emergencias: 'emergency', salud: 'medical_services',
+            servicios: 'design_services', 'talleres-repuesteras': 'build',
+            'estacion-servicios': 'local_gas_station', 'registro-civil': 'badge'
         };
-        iconEl.textContent = iconMap[catKey] || 'info';
+        const iconVal = item.icono || fallbackIcons[catKey] || 'info';
+        const isImage = iconVal.includes('/') || iconVal.includes('.');
+        if (isImage) {
+            iconEl.outerHTML = `<img id="directory-icon" src="${escapeAttr(iconVal)}" alt="" class="w-8 h-8 object-contain" />`;
+        } else {
+            iconEl.outerHTML = `<span id="directory-icon" class="material-symbols-outlined text-3xl text-river-teal">${escapeAttr(iconVal)}</span>`;
+        }
         
         let html = '';
         const content = item.contenido || {};

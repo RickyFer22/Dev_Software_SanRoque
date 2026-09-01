@@ -692,6 +692,7 @@ function setupImageFileInput(fileInputId, imageFieldId, previewId, galleryFieldI
 function setupImageFileInputs() {
   setupImageFileInput('event-image-file', 'event-imagen', 'event-image-preview');
   setupImageFileInput('actividades-image-file', 'actividades-imagen', 'actividades-image-preview');
+  setupImageFileInput('datos-utiles-icono-file', 'datos-utiles-icono', null);
 }
 
 function addContactRow(name = '', value = '') {
@@ -714,6 +715,7 @@ function getDatosUtilesForm() {
     categoria: document.getElementById('datos-utiles-categoria'),
     titulo: document.getElementById('datos-utiles-titulo'),
     descripcion: document.getElementById('datos-utiles-descripcion'),
+    icono: document.getElementById('datos-utiles-icono'),
   };
 }
 
@@ -742,6 +744,7 @@ function getDatosUtilesPayload() {
     categoria,
     titulo: form.titulo?.value?.trim(),
     descripcion: form.descripcion?.value?.trim(),
+    icono: form.icono?.value?.trim(),
     contenido,
   };
 }
@@ -752,6 +755,7 @@ function setDatosUtilesForm(item = {}) {
   form.categoria.value = item.categoria || '';
   form.titulo.value = item.titulo || '';
   form.descripcion.value = item.descripcion || '';
+  if (form.icono) form.icono.value = item.icono || '';
 
   const container = document.getElementById('datos-utiles-contacts-container');
   if (container) container.innerHTML = '';
@@ -768,6 +772,8 @@ function clearDatosUtilesForm() {
   const form = getDatosUtilesForm();
   if (!form.categoria) return;
   form.categoria.value = '';
+  form.categoria.readOnly = false;
+  if (form.icono) form.icono.value = '';
   form.titulo.value = '';
   form.descripcion.value = '';
   const container = document.getElementById('datos-utiles-contacts-container');

@@ -495,6 +495,17 @@
                <div class="toolbar">
                  <label>Categoría<input id="datos-utiles-categoria" placeholder="remises" /></label>
                  <label>Título<input id="datos-utiles-titulo" placeholder="Remises" /></label>
+                 <label>Ícono <small style="font-weight:normal;color:#888">(Material Symbol o Imagen)</small>
+                   <div style="display: flex; gap: 8px; align-items: center;">
+                     <input id="datos-utiles-icono" placeholder="info" style="flex: 1;" />
+                     <button type="button" data-media-target="datos-utiles-icono" class="btn-gold" style="padding: 0 10px; font-size: 11px; min-height: 24px;">Galería</button>
+                     <label for="datos-utiles-icono-file" class="btn-gold" style="margin: 0; padding: 4px 10px; font-size: 11px; cursor: pointer; display: flex; align-items: center; min-height: 24px; box-sizing: border-box;">
+                       Mi PC<span id="datos-utiles-upload-spinner" class="spinner" style="display: none; width: 10px; height: 10px; margin-left: 4px; border-width: 2px;"></span>
+                     </label>
+                     <input type="file" id="datos-utiles-icono-file" accept="image/*" hidden />
+                   </div>
+                   <small style="display:block;color:#888;font-size:11px;margin-top:2px">Ej: local_taxi o subí tu propio ícono · <a href="https://fonts.google.com/icons" target="_blank" style="color:#5ba">Ver íconos</a></small>
+                 </label>
                </div>
                <div class="toolbar">
                  <label>Descripción<textarea id="datos-utiles-descripcion" placeholder="Información actualizada"></textarea></label>

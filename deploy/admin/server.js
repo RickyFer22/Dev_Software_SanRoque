@@ -296,9 +296,12 @@ function saveStore(store) {
 
 function transformDatosUtilesForPublic(datosUtiles) {
   if (!Array.isArray(datosUtiles)) return {};
+  const defaultIcons = DEFAULT_DATOS_UTILES.reduce((m, d) => { m[d.categoria] = d.icono; return m; }, {});
   return datosUtiles.reduce((acc, entry) => {
-    if (entry && entry.categoria) {
-      acc[entry.categoria] = entry;
+    if (entry && entry.categoria && entry.activo !== 0) {
+      acc[entry.categoria] = Object.assign({}, entry, {
+        icono: entry.icono || defaultIcons[entry.categoria] || 'info',
+      });
     }
     return acc;
   }, {});
@@ -1383,7 +1386,7 @@ function validateAndSanitize(collection, data) {
       out.categoria = sanitizeString(data.categoria || '', 120);
       out.titulo = sanitizeString(data.titulo || '', 200);
       out.descripcion = sanitizeString(data.descripcion || '', 2000);
-      out.icono = sanitizeString(data.icono || '', 60);
+      out.icono = sanitizeString(data.icono || '', 300);
       out.activo = normalizeActiveValue(data.activo);
       // contenido should be an object — try to parse if string
       if (typeof data.contenido === 'string') {
@@ -1691,7 +1694,8 @@ app.put('/admin/api/datos-utiles/:categoria', (req, res) => {
   if (!canWrite('datos_utiles', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
   try {
     const items = getCollection('datos_utiles');
-    const idx = items.findIndex((item) => String(item.categoria) === String(req.params.categoria));
+    const reqId = String(req.params.categoria);
+    const idx = items.findIndex((item) => String(item.categoria) === reqId || String(item.id) === reqId);
     const sanitized = validateAndSanitize('datos_utiles', Object.assign({ categoria: req.params.categoria }, req.body || {}));
     const payload = Object.assign({}, sanitized, { updatedAt: new Date().toISOString() });
     // El panel no envía "icono": conservar el existente si el payload viene vacío.
@@ -1713,7 +1717,8 @@ app.put('/admin/api/datos-utiles/:categoria', (req, res) => {
 app.delete('/admin/api/datos-utiles/:categoria', (req, res) => {
   if (!canDelete('datos_utiles', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
   const items = getCollection('datos_utiles');
-  const idx = items.findIndex((item) => String(item.categoria) === String(req.params.categoria));
+  const reqId = String(req.params.categoria);
+  const idx = items.findIndex((item) => String(item.categoria) === reqId || String(item.id) === reqId);
   if (idx < 0) return sendNotFound(res);
   items.splice(idx, 1);
   setCollection('datos_utiles', items);
