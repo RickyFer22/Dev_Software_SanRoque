@@ -790,6 +790,15 @@
         ]
       },
       "activo": 1
+    },
+    {
+      "categoria": "talleres-repuesteras",
+      "icono": "build",
+      "titulo": "Talleres / Repuesteras",
+      "descripcion": "Talleres mecánicos y comercios de repuestos.",
+      "contenido": {},
+      "activo": 1,
+      "createdAt": "2026-09-01T05:41:01.459Z"
     }
   ],
   "actividades": [
