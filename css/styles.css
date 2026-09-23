@@ -1566,7 +1566,18 @@ body.lightbox-open { overflow:hidden; }
 }
 .hero-action-btn:hover { background:rgba(255,255,255,0.28);transform:translateY(-1px);box-shadow:0 18px 38px rgba(0,0,0,.18); }
 .hero-quick-links + div { margin-top:24px; }
+.sports-links { display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:24px;width:min(100%,520px); }
+.sports-link {
+  display:inline-flex;align-items:center;gap:8px;padding:8px 0;border-bottom:2px solid #D8A441;
+  color:#355E4A;font:700 13px/1.2 "Manrope",sans-serif;letter-spacing:.02em;text-align:left;text-decoration:none;
+  transition:color .2s ease,border-color .2s ease,transform .2s ease;
+}
+.sports-link:hover { color:#2C4F3D;border-color:#355E4A;transform:translateY(-2px); }
+.sports-link:focus-visible { outline:3px solid #D8A441;outline-offset:3px; }
+.sports-link .material-symbols-outlined { flex:0 0 auto;font-size:18px;color:#D8A441; }
+.sports-link-arrow { font-size:16px !important;color:#355E4A !important;opacity:.8; }
 @media (max-width:640px) { .hero-quick-links { display:none !important; gap:8px; } .hero-chip { padding:10px 15px;font-size:12.5px; } .hero-action-btn { width:100%; padding:0.95rem 1.2rem; } }
+@media (max-width:640px) { .sports-links { justify-content:flex-start;width:100%;gap:14px 22px; } }
 
 /* ── MONJITA DOMINICA: modal con galería + nota ── */
 .monjita-modal { position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px; }
