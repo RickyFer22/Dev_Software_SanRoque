@@ -213,15 +213,6 @@
     <p class="text-canvas-white/85 text-lg md:text-xl max-w-xl mx-auto hero-text-shadow">
       Un viaje sensorial a través de la tradición correntina. Desde recetas ancestrales hasta la calidez de nuestra gente, cada mesa cuenta una historia de herencia y pasión culinaria.
     </p>
-    <nav class="hero-quick-links" aria-label="Accesos rápidos del portal">
-      <a class="hero-chip" href="/donde-alojarme"><span class="material-symbols-outlined" aria-hidden="true">hotel</span>Hospedajes</a>
-      <a class="hero-chip" href="gastronomia.html"><span class="material-symbols-outlined" aria-hidden="true">restaurant</span>Sabores locales</a>
-      <a class="hero-chip" href="agenda.html"><span class="material-symbols-outlined" aria-hidden="true">event</span>Agenda</a>
-      <a class="hero-chip" href="#datos-utiles"><span class="material-symbols-outlined" aria-hidden="true">info</span>Datos útiles</a>
-    </nav>
-    <div class="mt-6">
-      <a class="hero-action-btn" href="/donde-alojarme">Volver a hospedajes</a>
-    </div>
   </div>
   <div class="hero-wave">
     <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -229,25 +220,6 @@
     </svg>
   </div>
 </section>
-<!-- Datos Utiles Section -->
-<section id="datos-utiles" class="max-w-7xl mx-auto px-6 mb-12 mt-12">
-  <div class="text-center mb-10">
-    <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight uppercase">Datos Útiles
-    </h2>
-    <p class="text-neutral-500 text-sm mt-2">Información rápida y de servicio para tu estadía en la ciudad.</p>
-  </div>
-
-  <ul id="lista-datos-utiles" class="datos-utiles-lista">
-    <li><a href="#" data-tipo="remises"><i class="fas fa-taxi"></i> Remises</a></li>
-    <li><a href="#" data-tipo="terminal"><i class="fas fa-bus"></i> Terminal</a></li>
-    <li><a href="#" data-tipo="municipio"><i class="fas fa-landmark"></i> Municipio</a></li>
-    <li><a href="#" data-tipo="iglesias"><i class="fas fa-church"></i> Iglesias</a></li>
-    <li><a href="#" data-tipo="emergencias"><i class="fas fa-ambulance"></i> Emergencias</a></li>
-    <li><a href="#" data-tipo="salud"><i class="fas fa-hospital"></i> Salud</a></li>
-    <li><a href="#" data-tipo="servicios"><i class="fas fa-university"></i> Servicios</a></li>
-  </ul>
-</section>
-
 <!-- Filters & Intro -->
 <section class="py-section-padding px-gutter max-w-container-max mx-auto" id="directory">
 <div class="flex flex-col gap-8 mb-10">
@@ -644,8 +616,16 @@
     municipio: 'Municipio\nPara trámites o consultas oficiales, acercate a la Municipalidad de San Roque o consultá sus canales de contacto.'
   };
 
+  function formatLocalRemises(){
+    const list = (datosUtilesInfo.remises && datosUtilesInfo.remises.contactos) || (datosUtilesInfo.servicios && datosUtilesInfo.servicios.contactos) || [];
+    if (!list.length) return 'Todavía no hay remises registrados.';
+    const lines = list.map(c => `• ${c.nombre}: ${c.tel}`);
+    return `Estos son los remises publicados en San Roque:\n${lines.join('\n')}\nPodés tocar el número desde el portal para comunicarte.`;
+  }
+
   function localReply(text){
     const t = (text || '').toLowerCase();
+    if (t.includes('remis') || t.includes('taxi') || t.includes('traslado') || t.includes('chofer')) return formatLocalRemises();
     if (t.includes('hosp') || t.includes('hotel') || t.includes('aloj')) return localAnswers.hospedajes;
     if (t.includes('com') || t.includes('gastr') || t.includes('comedor') || t.includes('rest')) return localAnswers.comer;
     if (t.includes('evento') || t.includes('agenda')) return localAnswers.eventos;
@@ -776,12 +756,27 @@
           ]
       },
       servicios:{
-          titulo:"🏧 Servicios rápidos",
-          descripcion:"Servicios útiles para visitantes.",
+          titulo:"🏧 Servicios",
+          descripcion:"Bancos, cajeros, trámites y servicios útiles para visitantes.",
           lugares:[
               { nombre:"Municipalidad de San Roque", link:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806" },
+              { nombre:"Banco de Corrientes", link:"https://www.google.com/maps/search/?api=1&query=-28.57573154360633,-58.708639876601616" },
               { nombre:"C.I.C extensión del municipio", link:"https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905" },
               { nombre:"Registro Civil", link:"https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172" }
+          ]
+      },
+      remises:{
+          titulo:"🚖 Remises",
+          descripcion:"Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
+          contactos:[
+              {nombre:"Remis choro", tel:"3777721215"},
+              {nombre:"Romero ale", tel:"3777476810"},
+              {nombre:"BALDOVINO", tel:"3777-711144"},
+              {nombre:"PAULO", tel:"1130251880"},
+              {nombre:"TELLO REMIS", tel:"3777446545"},
+              {nombre:"TU REMIS", tel:"3777697065"},
+              {nombre:"FONTANA", tel:"37775202117"},
+              {nombre:"REMIS", tel:"37778207866"}
           ]
       },
       turismo:{
@@ -813,20 +808,34 @@
           html += `</ul>`;
       }
 
+      if(tipo === 'servicios'){
+          html += `<div style="margin-top:12px; padding-top:10px; border-top:1px solid #e2e8f0;">
+              <button type="button" onclick="responderDatosUtiles('remises')" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; background:#274F10; color:white; padding:8px 14px; border-radius:8px; font-weight:bold; border:none; font-size:12px;">
+                  🚖 Ver remises con toda la lista
+              </button>
+          </div>`;
+      }
+
       if(item.contactos){
           html += `<div style="margin-top:8px; font-size:13px;"><b>Contactos directos:</b><ul style="padding-left:0; list-style-type:none; margin-top:4px;">`;
           item.contactos.forEach(c => {
+              const telDigits = String(c.tel).replace(/\D/g,'');
               html += `<li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                       <div><strong>${c.nombre}</strong></div>
-                      <a href="tel:${String(c.tel).replace(/\D/g,'')}" style="background:#274F10; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
-                          📞 ${c.tel}
-                      </a>
+                      <div style="display:flex; gap:6px; align-items:center;">
+                          <a href="https://wa.me/${telDigits}?text=${encodeURIComponent('Hola! Necesito un remis.')}" target="_blank" rel="noopener" style="background:#25D366; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
+                              WhatsApp
+                          </a>
+                          <a href="tel:${telDigits}" style="background:#274F10; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">
+                              📞 ${c.tel}
+                          </a>
+                      </div>
                   </li>`;
           });
           html += `</ul></div>`;
       }
 
-      addLocalMsg(html.replace(/<[^>]*>/g, ''), false);
+      addLocalMsg(html, false);
   }
 
   function initDatosUtilesListeners() {

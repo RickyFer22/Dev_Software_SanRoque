@@ -107,52 +107,32 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" id="guia-cat-grid">
-      <a href="#" data-cat="remises" onclick="event.preventDefault(); quickAsk('Remises', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
-        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">local_taxi</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Remises</h3>
-        <p class="text-xs text-neutral-500">Contactos de agencias y choferes locales.</p>
+    <a href="#" data-cat="servicios" onclick="event.preventDefault(); openGuideCategory('Servicios', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">design_services</span>
+        <h3 class="text-lg font-bold text-primary mb-2">Servicios</h3>
+        <p class="text-xs text-neutral-500">Bancos, cajeros, remises, terminal, talleres y estación de servicio.</p>
       </a>
-      <a href="#" data-cat="terminal" onclick="event.preventDefault(); quickAsk('Terminal', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
-        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">directions_bus</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Terminal</h3>
-        <p class="text-xs text-neutral-500">Información sobre colectivos y boleterías.</p>
-      </a>
-      <a href="#" data-cat="municipio" onclick="event.preventDefault(); quickAsk('Municipio', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+    <a href="#" data-cat="municipio" onclick="event.preventDefault(); openGuideCategory('Municipio', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">domain</span>
         <h3 class="text-lg font-bold text-primary mb-2">Municipio</h3>
         <p class="text-xs text-neutral-500">Horarios de atención y trámites oficiales.</p>
       </a>
-      <a href="#" data-cat="iglesias" onclick="event.preventDefault(); quickAsk('Iglesias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+    <a href="#" data-cat="iglesias" onclick="event.preventDefault(); openGuideCategory('Iglesias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">church</span>
         <h3 class="text-lg font-bold text-primary mb-2">Iglesias</h3>
         <p class="text-xs text-neutral-500">Horarios de misas y templos de la ciudad.</p>
       </a>
-      <a href="#" data-cat="emergencias" onclick="event.preventDefault(); quickAsk('Emergencias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+    <a href="#" data-cat="emergencias" onclick="event.preventDefault(); openGuideCategory('Emergencias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">emergency</span>
         <h3 class="text-lg font-bold text-primary mb-2">Emergencias</h3>
         <p class="text-xs text-neutral-500">Bomberos, policía y defensa civil.</p>
       </a>
-      <a href="#" data-cat="salud" onclick="event.preventDefault(); quickAsk('Salud', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+    <a href="#" data-cat="salud" onclick="event.preventDefault(); openGuideCategory('Salud', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">medical_services</span>
         <h3 class="text-lg font-bold text-primary mb-2">Salud</h3>
         <p class="text-xs text-neutral-500">Hospitales, clínicas y farmacias de turno.</p>
       </a>
-      <a href="#" data-cat="servicios" onclick="event.preventDefault(); quickAsk('Servicios', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
-        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">design_services</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Servicios</h3>
-        <p class="text-xs text-neutral-500">Bancos, cajeros y otros servicios públicos.</p>
-      </a>
-      <a href="#" data-cat="talleres-repuesteras" onclick="event.preventDefault(); quickAsk('Talleres y repuesteras', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
-        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">build</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Talleres / Repuesteras</h3>
-        <p class="text-xs text-neutral-500">Talleres mecánicos y comercios de repuestos.</p>
-      </a>
-      <a href="#" data-cat="estacion-servicios" onclick="event.preventDefault(); quickAsk('Estación de servicios', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
-        <span class="material-symbols-outlined text-4xl text-river-teal mb-4">local_gas_station</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Estación de servicios</h3>
-        <p class="text-xs text-neutral-500">Estaciones de servicio y combustibles.</p>
-      </a>
-      <a href="#" data-cat="registro-civil" onclick="event.preventDefault(); quickAsk('Registro Civil', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+    <a href="#" data-cat="registro-civil" onclick="event.preventDefault(); openGuideCategory('Registro Civil', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">badge</span>
         <h3 class="text-lg font-bold text-primary mb-2">Registro Civil</h3>
         <p class="text-xs text-neutral-500">Información y trámites del Registro Civil.</p>
@@ -290,17 +270,18 @@
             servicios: 'design_services', 'talleres-repuesteras': 'build',
             'estacion-servicios': 'local_gas_station', 'registro-civil': 'badge'
         };
-        grid.innerHTML = categories.filter(c => c.activo !== 0).map(cat => {
+        const embeddedInServicios = ['remises', 'terminal', 'talleres-repuesteras', 'estacion-servicios'];
+        grid.innerHTML = categories.filter(c => c.activo !== 0 && !embeddedInServicios.includes(c.categoria)).map(cat => {
             const key = escapeAttr(cat.categoria);
-            const title = escapeAttr(cat.titulo || cat.categoria);
+            const title = escapeAttr(cat.categoria === 'servicios' ? (cat.titulo || 'Servicios') : (cat.titulo || cat.categoria));
             const iconVal = cat.icono || fallbackIcons[cat.categoria] || 'info';
             const isImage = iconVal.includes('/') || iconVal.includes('.');
             const iconHtml = isImage ? 
                 `<img src="${escapeAttr(iconVal)}" alt="" class="w-10 h-10 object-contain mb-4" />` : 
                 `<span class="material-symbols-outlined text-4xl text-river-teal mb-4">${escapeAttr(iconVal)}</span>`;
-            const desc = escapeAttr(cat.descripcion || '');
+            const desc = escapeAttr(cat.categoria === 'servicios' ? (cat.descripcion || 'Bancos, cajeros, remises, terminal, talleres y estación de servicio.') : (cat.descripcion || ''));
             return `<a href="#" data-cat="${key}" data-titulo="${title}"
-                onclick="event.preventDefault(); quickAsk(this.dataset.titulo, this);"
+                onclick="event.preventDefault(); openGuideCategory(this.dataset.titulo, this);"
                 aria-pressed="false"
                 class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
                 ${iconHtml}
@@ -430,14 +411,8 @@
         }
     }
 
-    async function quickAsk(category, cardEl){
-        // 1. Open Chatbot and ask
-        chatOpen = true;
-        document.getElementById("chatWindow").style.display = "flex";
-        document.getElementById("chatInput").value = category;
-        sendChat();
-
-        // Estado visual: qué categoría está seleccionada.
+    async function openGuideCategory(category, cardEl){
+        // Seleccionar una categoría muestra el directorio sin abrir el chatbot.
         if (cardEl) {
             document.querySelectorAll('#guia-cat-grid .guia-cat-card').forEach((el) => {
                 const active = el === cardEl;
@@ -446,43 +421,224 @@
             });
         }
 
-        // 2. Render dynamic directory on page (espera los datos si todavía
+        // Renderizar el directorio (espera los datos si todavía
         // no llegaron, en vez de fallar en silencio).
         await datosUtilesReady;
         showLocalDirectory(cardEl?.dataset.cat || category.toLowerCase());
     }
 
-    function showLocalDirectory(catKey) {
-        const section = document.getElementById("directory-section");
-        const item = datosUtilesGlobal ? datosUtilesGlobal[catKey] : null;
-        if (!item) {
-            const titleEl = document.getElementById("directory-title");
-            const descEl = document.getElementById("directory-desc");
-            const contentEl = document.getElementById("directory-content");
-            titleEl.textContent = catKey.charAt(0).toUpperCase() + catKey.slice(1);
-            descEl.textContent = '';
-            contentEl.innerHTML = '<p class="text-neutral-500 text-sm">Todavía no hay información cargada para esta categoría. Preguntale a MuniAyuda o volvé a intentar más tarde.</p>';
-            section.style.display = "block";
-            section.scrollIntoView({ behavior: "smooth" });
-            return;
+    async function quickAsk(category, cardEl){
+        chatOpen = true;
+        document.getElementById("chatWindow").style.display = "flex";
+        document.getElementById("chatInput").value = category;
+        sendChat();
+        await openGuideCategory(category, cardEl);
+    }
+
+    // ── Catálogo completo predeterminado de Datos Útiles y Guía Práctica ──
+    const defaultDirectoryCatalog = {
+        servicios: {
+            titulo: "🏧 Servicios",
+            descripcion: "Bancos, cajeros automáticos, trámites y servicios útiles para residentes y visitantes.",
+            icono: "design_services",
+            lugares: [
+                { nombre: "Banco de Corrientes (Sucursal y Cajeros 24 hs)", link: "https://www.google.com/maps/search/?api=1&query=-28.57573154360633,-58.708639876601616", detalle: "Cajeros automáticos Red Link y Banelco disponibles las 24 hs." },
+                { nombre: "Municipalidad de San Roque", link: "https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806", detalle: "Atención al vecino, mesa de entradas y trámites públicos." },
+                { nombre: "C.I.C. Extensión Municipal", link: "https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905", detalle: "Centro Integrador Comunitario y asistencia social." },
+                { nombre: "Registro Civil", link: "https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172", detalle: "DNI, Pasaportes y trámites de identidad." },
+                { nombre: "Correo Argentino", link: "https://www.google.com/maps/search/?api=1&query=-28.5760,-58.7090", detalle: "Envíos postales, paquetería y giros monetarios." }
+            ],
+            contactos: [
+                { nombre: "Remis choro", tel: "3777721215" },
+                { nombre: "Romero ale", tel: "3777476810" },
+                { nombre: "BALDOVINO", tel: "3777-711144" },
+                { nombre: "PAULO", tel: "1130251880" },
+                { nombre: "TELLO REMIS", tel: "3777446545" },
+                { nombre: "TU REMIS", tel: "3777697065" },
+                { nombre: "FONTANA", tel: "37775202117" },
+                { nombre: "REMIS", tel: "37778207866" }
+            ]
+        },
+        terminal: {
+            titulo: "🚌 Terminal de Ómnibus",
+            descripcion: "Terminal de colectivos de San Roque. Conexiones a Corrientes Capital, Goya, Bella Vista, Buenos Aires y toda la región.",
+            icono: "directions_bus",
+            ubicacion: "https://www.google.com/maps/search/?api=1&query=-28.5767789,-58.7135694",
+            horarios: "Boleterías abiertas todos los días de 06:00 a 23:00 hs (consultar horarios según cada empresa).",
+            empresas: [
+                "Rápido Tata (Larga distancia / Buenos Aires / Retiro)",
+                "Río Uruguay (Conexiones provinciales y nacionales)",
+                "El Pulqui (Servicio interurbano y regional)",
+                "Silvia (Corrientes Capital, Goya, Bella Vista y localidades vecinas)",
+                "Empresa Itatí / Ersa (Servicios de media distancia)"
+            ],
+            servicios: ["Boleterías", "Sala de espera techada", "Kiosco y cafetería", "Parada de remises", "Sanitarios públicos"]
+        },
+        municipio: {
+            titulo: "🏛️ Municipalidad de San Roque",
+            descripcion: "Edificio municipal central, dependencias oficiales y atención ciudadana.",
+            icono: "domain",
+            ubicacion: "https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806",
+            horarios: "Lunes a Viernes de 07:00 a 13:00 hs.",
+            lugares: [
+                { nombre: "Palacio Municipal (Sede Central)", link: "https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806", detalle: "Despacho, Mesa de Entradas, Rentas y Obras Públicas" },
+                { nombre: "C.I.C. Centro Integrador Comunitario", link: "https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905", detalle: "Atención social, talleres y programas comunitarios" },
+                { nombre: "Oficina de Turismo y Cultura", link: "https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368", detalle: "Información turística, paseos y patrimonio histórico" }
+            ],
+            sitioWeb: "https://munisanroque.ar/"
+        },
+        iglesias: {
+            titulo: "⛪ Iglesias y Templos",
+            descripcion: "Patrimonio histórico religioso, templos y horarios de misas y cultos en San Roque.",
+            icono: "church",
+            lugares: [
+                { nombre: "Parroquia San Roque de Montpellier", link: "https://www.google.com/maps/search/?api=1&query=-28.571590353744543,-58.711252302690546", detalle: "Templo Parroquial principal frente a la Plaza Libertad." },
+                { nombre: "Capilla Histórica (Templo Viejo - 1783)", link: "https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368", detalle: "Monumento Histórico Nacional y Museo de Arte Sacro." },
+                { nombre: "Iglesia Monte de Sion", link: "https://www.google.com/maps/search/?api=1&query=-28.575815684105844,-58.707426283145196", detalle: "Comunidad Cristiana Evangélica." },
+                { nombre: "Templo Filadelfia de San Roque", link: "https://www.google.com/maps/search/?api=1&query=-28.57730954160022,-58.70606541439768", detalle: "Reuniones y cultos comunitarios." },
+                { nombre: "Salón del Reino de los Testigos de Jehová", link: "https://www.google.com/maps/search/?api=1&query=-28.577110361826733,-58.70697266022936", detalle: "Reuniones bíblicas semanales." },
+                { nombre: "Iglesia Evangélica Asamblea de Dios", link: "https://www.google.com/maps/search/?api=1&query=-28.580856838882077,-58.718072982275054", detalle: "Cultos y reuniones dominicales." }
+            ]
+        },
+        emergencias: {
+            titulo: "🚨 Emergencias y Seguridad",
+            descripcion: "Teléfonos de auxilio rápido, comisarías, bomberos y guardias de urgencia disponibles las 24 horas.",
+            icono: "emergency",
+            contactos: [
+                { nombre: "Comisaría San Roque (Policía de Corrientes)", tel: "03772-123456", emergencia: "101", ubicacion: "https://www.google.com/maps/search/?api=1&query=-28.569921140360318,-58.71262131369322", badge: "Guardia 24 hs" },
+                { nombre: "Bomberos Voluntarios San Roque", tel: "100", emergencia: "100", ubicacion: "https://www.google.com/maps/search/?api=1&query=-28.577904318277724,-58.713826053599384", badge: "Emergencias 24 hs" },
+                { nombre: "Hospital San Roque (Guardia Médica)", tel: "(03783) 123-456", emergencia: "107", ubicacion: "https://www.google.com/maps/search/?api=1&query=-28.577215169382498,-58.711315397535905", badge: "Atención Médica 24 hs" },
+                { nombre: "Policía Rural y Ecológica (PRIAR)", tel: "101", ubicacion: "https://www.google.com/maps/search/?api=1&query=-28.567397145178468,-58.70263241554249", badge: "Seguridad Rural" },
+                { nombre: "Defensa Civil San Roque", tel: "103", badge: "Auxilio y Prevención" }
+            ]
+        },
+        salud: {
+            titulo: "🏥 Salud y Farmacias",
+            descripcion: "Atención médica pública, hospital local y farmacias de turno en San Roque.",
+            icono: "medical_services",
+            lugares: [
+                { nombre: "Hospital de San Roque (Guardia 24 hs)", link: "https://www.google.com/maps/search/?api=1&query=-28.577215169382498,-58.711315397535905", tel: "(03783) 123-456", detalle: "Guardia médica de emergencias, internación y ambulancias las 24 hs." },
+                { nombre: "Farmar IV", link: "https://www.google.com/maps/search/?api=1&query=-28.5756072573878,-58.711467977492596", detalle: "Medicamentos, perfumería y turnos." },
+                { nombre: "Farmacia Itatí S.C.S", link: "https://www.google.com/maps/search/?api=1&query=-28.57490350407002,-58.70936387230284", detalle: "Atención farmacéutica y recetas oficiales." },
+                { nombre: "Farmacia Tressens II", link: "https://www.google.com/maps/search/?api=1&query=-28.575223851034433,-58.70882743052239", detalle: "Farmacia y despacho de medicamentos." },
+                { nombre: "Farmacia San Roque", link: "https://www.google.com/maps/search/?api=1&query=-28.57708938162111,-58.711638385451934", detalle: "Atención al público y turnos rotativos." },
+                { nombre: "Centro de Salud Comunitario CIC", link: "https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905", detalle: "Atención primaria, enfermería y vacunatorio." }
+            ]
+        },
+        "talleres-repuesteras": {
+            titulo: "🔧 Talleres Mecánicos y Repuesteras",
+            descripcion: "Talleres de mecánica automotriz, auxilio en ruta, gomerías 24 hs y comercios de repuestos.",
+            icono: "build",
+            lugares: [
+                { nombre: "Taller Mecánico y Auxilio en Ruta", link: "https://www.google.com/maps/search/?api=1&query=-28.5750,-58.7120", detalle: "Mecánica general de motores, frenos, suspensión y auxilio." },
+                { nombre: "Gomería y Vulcanización 24 hs", link: "https://www.google.com/maps/search/?api=1&query=-28.5740,-58.7100", detalle: "Reparación de neumáticos, parches y auxilio de cubiertas." },
+                { nombre: "Repuestera San Roque (Autos y Camionetas)", link: "https://www.google.com/maps/search/?api=1&query=-28.5760,-58.7090", detalle: "Baterías, filtros, lubricantes y repuestos multimarca." },
+                { nombre: "Taller de Motos y Repuestos", link: "https://www.google.com/maps/search/?api=1&query=-28.5730,-58.7080", detalle: "Service, cubiertas, cámaras y repuestos de motocicletas." },
+                { nombre: "Electricidad del Automotor y Baterías", link: "https://www.google.com/maps/search/?api=1&query=-28.5770,-58.7110", detalle: "Alternadores, arranques y diagnóstico de batería." }
+            ]
+        },
+        "estacion-servicios": {
+            titulo: "⛽ Estación de Servicios",
+            descripcion: "Carga de combustibles, lubricentro, servicompras 24 hs y asistencia al viajero.",
+            icono: "local_gas_station",
+            ubicacion: "https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552",
+            horarios: "Atención las 24 hs todos los días.",
+            lugares: [
+                { nombre: "Estación de Servicio YPF San Roque", link: "https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552", detalle: "Nafta Súper, Infinia, Infinia Diesel y Ultra Diesel." },
+                { nombre: "Tienda Servicompras & Cafetería 24 hs", link: "https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552", detalle: "Cafetería, snacks, bebidas, agua caliente para mate y sanitarios." },
+                { nombre: "Servicio de Aire, Agua y Lubricentro", link: "https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552", detalle: "Calibración de neumáticos y control de fluidos." }
+            ]
+        },
+        "registro-civil": {
+            titulo: "🪪 Registro Civil",
+            descripcion: "Delegación San Roque del Registro Provincial de las Personas. DNI, pasaportes y actas.",
+            icono: "badge",
+            ubicacion: "https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172",
+            horarios: "Lunes a Viernes de 07:00 a 13:00 hs.",
+            lugares: [
+                { nombre: "Registro Provincial de las Personas - San Roque", link: "https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172", detalle: "Oficina oficial de trámites de identidad y documentación civil." }
+            ],
+            tramites: [
+                "Tramitación y renovación de Documento Nacional de Identidad (DNI)",
+                "Emisión y renovación de Pasaporte argentino",
+                "Inscripción de nacimientos y defunciones",
+                "Celebración de matrimonios y uniones convivenciales",
+                "Solicitud y legalización de partidas y actas oficiales"
+            ]
+        },
+        remises: {
+            titulo: "🚖 Remises",
+            descripcion: "Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.",
+            icono: "local_taxi",
+            contactos: [
+                { nombre: "Remis choro", tel: "3777721215" },
+                { nombre: "Romero ale", tel: "3777476810" },
+                { nombre: "BALDOVINO", tel: "3777-711144" },
+                { nombre: "PAULO", tel: "1130251880" },
+                { nombre: "TELLO REMIS", tel: "3777446545" },
+                { nombre: "TU REMIS", tel: "3777697065" },
+                { nombre: "FONTANA", tel: "37775202117" },
+                { nombre: "REMIS", tel: "37778207866" }
+            ]
         }
+    };
+
+    function normalizeCategoryKey(key) {
+        if (!key) return 'servicios';
+        const k = String(key).toLowerCase().trim()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[\s_/]+/g, '-');
+        if (k.includes('taller') || k.includes('repuest')) return 'talleres-repuesteras';
+        if (k.includes('estacion') || k.includes('combust')) return 'estacion-servicios';
+        if (k.includes('registro') || k.includes('civil')) return 'registro-civil';
+        if (k.includes('remis') || k.includes('taxi')) return 'remises';
+        if (k.includes('servici')) return 'servicios';
+        if (k.includes('termin')) return 'terminal';
+        if (k.includes('muni') || k.includes('intend')) return 'municipio';
+        if (k.includes('iglesi') || k.includes('templ') || k.includes('parroq')) return 'iglesias';
+        if (k.includes('emerg') || k.includes('polic') || k.includes('bomb')) return 'emergencias';
+        if (k.includes('salud') || k.includes('farm') || k.includes('hosp')) return 'salud';
+        return k;
+    }
+
+    // Obtiene el contenido combinado (API + catálogo local) de cualquier
+    // categoría, sin tocar el título/ícono del panel principal. Se usa para
+    // las categorías que ahora viven "adentro" del botón de Servicios
+    // (terminal, talleres/repuesteras, estación de servicios, remises).
+    function getCatalogContent(rawKey) {
+        const catKey = normalizeCategoryKey(rawKey);
+        const apiItem = datosUtilesGlobal ? (datosUtilesGlobal[catKey] || datosUtilesGlobal[rawKey]) : null;
+        const defaultItem = defaultDirectoryCatalog[catKey] || defaultDirectoryCatalog[rawKey] || {};
+        const item = apiItem ? { ...defaultItem, ...apiItem } : defaultItem;
+        return item.contenido || item;
+    }
+
+    function showLocalDirectory(rawKey) {
+        const catKey = normalizeCategoryKey(rawKey);
+        const section = document.getElementById("directory-section");
+        
+        // Obtener datos de la API si están disponibles o usar catálogo local completo
+        const apiItem = datosUtilesGlobal ? (datosUtilesGlobal[catKey] || datosUtilesGlobal[rawKey]) : null;
+        const defaultItem = defaultDirectoryCatalog[catKey] || defaultDirectoryCatalog[rawKey] || {};
+        const item = apiItem ? { ...defaultItem, ...apiItem } : defaultItem;
+        const content = item.contenido || item;
 
         const titleEl = document.getElementById("directory-title");
         const descEl = document.getElementById("directory-desc");
         const iconEl = document.getElementById("directory-icon");
         const contentEl = document.getElementById("directory-content");
         
-        titleEl.textContent = item.titulo || catKey;
-        descEl.textContent = item.descripcion || "";
+        titleEl.textContent = item.titulo || defaultItem.titulo || catKey;
+        descEl.textContent = item.descripcion || defaultItem.descripcion || "";
         
-        // Usar ícono de los datos, con fallback para categorías conocidas
+        // Ícono
         const fallbackIcons = {
             remises: 'local_taxi', terminal: 'directions_bus', municipio: 'domain',
             iglesias: 'church', emergencias: 'emergency', salud: 'medical_services',
             servicios: 'design_services', 'talleres-repuesteras': 'build',
             'estacion-servicios': 'local_gas_station', 'registro-civil': 'badge'
         };
-        const iconVal = item.icono || fallbackIcons[catKey] || 'info';
+        const iconVal = item.icono || defaultItem.icono || fallbackIcons[catKey] || 'info';
         const isImage = iconVal.includes('/') || iconVal.includes('.');
         if (isImage) {
             iconEl.outerHTML = `<img id="directory-icon" src="${escapeAttr(iconVal)}" alt="" class="w-8 h-8 object-contain" />`;
@@ -491,73 +647,500 @@
         }
         
         let html = '';
-        const content = item.contenido || {};
-        
-        if (catKey === 'remises') {
-            const contactos = content.contactos || [];
-            if (contactos.length) {
-                html = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        ${contactos.map(c => `
-                            <div class="guia-contact-row">
-                                <div>
-                                    <div class="font-bold text-neutral-800 text-sm">${c.nombre}</div>
-                                    <div class="text-xs text-neutral-500 mt-0.5">${c.tel}</div>
-                                </div>
-                                <a href="tel:${c.tel}" class="guia-icon-btn" aria-label="Llamar a ${c.nombre}">
-                                    <span class="material-symbols-outlined text-[18px]">phone</span>
+
+        // 1. SERVICIOS (incluye remises, terminal, talleres/repuesteras y
+        // estación de servicios como listas desplegables dentro del mismo panel)
+        if (catKey === 'servicios') {
+            const contactos = (content.contactos && content.contactos.length) ? content.contactos : defaultDirectoryCatalog.servicios.contactos;
+            const lugares = (content.lugares && content.lugares.length) ? content.lugares : defaultDirectoryCatalog.servicios.lugares;
+
+            // Datos de las categorías embebidas (propia data de cada una,
+            // vía API si existe o catálogo local por defecto).
+            const remisesContent = getCatalogContent('remises');
+            const remisesContactos = (remisesContent.contactos && remisesContent.contactos.length) ? remisesContent.contactos : defaultDirectoryCatalog.remises.contactos;
+
+            const terminalContent = getCatalogContent('terminal');
+            const terminalUbicacion = terminalContent.ubicacion || defaultDirectoryCatalog.terminal.ubicacion;
+            const terminalHorarios = terminalContent.horarios || defaultDirectoryCatalog.terminal.horarios;
+            const terminalEmpresas = (terminalContent.empresas && terminalContent.empresas.length) ? terminalContent.empresas : defaultDirectoryCatalog.terminal.empresas;
+            const terminalServicios = defaultDirectoryCatalog.terminal.servicios;
+
+            const talleresContent = getCatalogContent('talleres-repuesteras');
+            const talleresLugares = (talleresContent.lugares && talleresContent.lugares.length) ? talleresContent.lugares : defaultDirectoryCatalog['talleres-repuesteras'].lugares;
+
+            const estacionContent = getCatalogContent('estacion-servicios');
+            const estacionUbicacion = estacionContent.ubicacion || defaultDirectoryCatalog['estacion-servicios'].ubicacion;
+            const estacionHorarios = estacionContent.horarios || defaultDirectoryCatalog['estacion-servicios'].horarios;
+            const estacionLugares = (estacionContent.lugares && estacionContent.lugares.length) ? estacionContent.lugares : defaultDirectoryCatalog['estacion-servicios'].lugares;
+
+            // Cada "apartado" embebido en Servicios (atención y trámites,
+            // remises, terminal, talleres/repuesteras, estación de servicios)
+            // se arma como un objeto {id, icon, label, count, bodyHtml} y se
+            // muestra como un ícono seleccionable (en vez de una lista apilada).
+            // Helper para armar una fila "lugar" (nombre + detalle + link a mapa)
+            const renderLugaresRows = (lugaresArr) => lugaresArr.map(l => `
+                <div class="guia-contact-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                    <div>
+                        <div class="font-bold text-neutral-800 text-sm">${l.nombre}</div>
+                        ${l.detalle ? `<div class="text-xs text-neutral-500 mt-0.5">${l.detalle}</div>` : ''}
+                    </div>
+                    ${l.link ? `
+                        <a href="${l.link}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline text-xs self-start sm:self-auto shrink-0">
+                            <span class="material-symbols-outlined text-[16px]">location_on</span> VER MAPA
+                        </a>
+                    ` : ''}
+                </div>
+            `).join('');
+
+            const subsections = [
+                {
+                    id: 'atencion', icon: 'account_balance', label: 'Atención y trámites', count: lugares.length,
+                    bodyHtml: `
+                        <div class="space-y-3">
+                            ${renderLugaresRows(lugares)}
+                        </div>
+                    `
+                },
+                {
+                    id: 'remises', icon: 'local_taxi', label: 'Remises', count: remisesContactos.length,
+                    bodyHtml: `
+                        <div class="p-3 bg-neutral-50 rounded-xl mb-3 text-xs text-neutral-600 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-river-teal text-base">info</span>
+                            Contactos directos de choferes y agencias de remises en San Roque:
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${remisesContactos.map(c => {
+                                const rawTel = String(c.tel || '');
+                                const telDigits = rawTel.replace(/\D/g, '');
+                                return `
+                                <div class="guia-contact-row">
+                                    <div>
+                                        <div class="font-bold text-neutral-800 text-sm">${c.nombre}</div>
+                                        <div class="text-xs text-neutral-500 mt-0.5">${rawTel}</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <a href="https://wa.me/${telDigits}?text=${encodeURIComponent('Hola! Quiero consultar por un remis.')}" target="_blank" rel="noopener noreferrer" class="guia-icon-btn text-emerald-600 hover:bg-emerald-50" title="WhatsApp a ${c.nombre}">
+                                            <i class="fa-brands fa-whatsapp text-[18px]"></i>
+                                        </a>
+                                        <a href="tel:${telDigits}" class="guia-icon-btn" aria-label="Llamar a ${c.nombre}" title="Llamar">
+                                            <span class="material-symbols-outlined text-[18px]">phone</span>
+                                        </a>
+                                    </div>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    `
+                },
+                {
+                    id: 'terminal', icon: 'directions_bus', label: 'Terminal', count: terminalEmpresas.length,
+                    bodyHtml: `
+                        <div class="space-y-3">
+                            ${terminalUbicacion ? `
+                                <a href="${terminalUbicacion}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-primary w-full py-3 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">location_on</span> VER TERMINAL EN GOOGLE MAPS
                                 </a>
+                            ` : ''}
+                            <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-2xl space-y-2">
+                                <div class="text-xs font-bold uppercase text-river-teal tracking-wider flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-[16px]">schedule</span> Horarios de Boletería y Servicios
+                                </div>
+                                <div class="text-sm text-neutral-800 font-medium">${terminalHorarios}</div>
+                            </div>
+                            <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-2xl space-y-3">
+                                <div class="text-xs font-bold uppercase text-river-teal tracking-wider flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-[16px]">directions_bus</span> Empresas de Transporte
+                                </div>
+                                <div class="space-y-2">
+                                    ${terminalEmpresas.map(e => `
+                                        <div class="flex items-center gap-2 text-sm text-neutral-800 bg-white p-2.5 rounded-lg border border-neutral-100">
+                                            <span class="material-symbols-outlined text-river-teal text-[18px]">check_circle</span>
+                                            <span>${e}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            ${terminalServicios ? `
+                            <div class="p-4 bg-teal-50/50 border border-teal-100 rounded-2xl">
+                                <div class="text-xs font-bold uppercase text-river-teal tracking-wider mb-2">Servicios en la terminal</div>
+                                <div class="flex flex-wrap gap-2">
+                                    ${terminalServicios.map(s => `<span class="bg-white border border-teal-200 text-primary text-xs font-medium px-3 py-1 rounded-full">${s}</span>`).join('')}
+                                </div>
+                            </div>` : ''}
+                        </div>
+                    `
+                },
+                {
+                    id: 'talleres', icon: 'build', label: 'Talleres / Repuesteras', count: talleresLugares.length,
+                    bodyHtml: `
+                        <div class="space-y-3">
+                            <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-2xl text-sm text-neutral-700">
+                                Talleres mecánicos del automotor, servicios de auxilio de gomería 24 hs y comercios de repuestos para autos y motos en San Roque.
+                            </div>
+                            ${renderLugaresRows(talleresLugares)}
+                        </div>
+                    `
+                },
+                {
+                    id: 'estacion', icon: 'local_gas_station', label: 'Estación de servicios', count: estacionLugares.length,
+                    bodyHtml: `
+                        <div class="space-y-3">
+                            <div class="p-4 bg-amber-50/80 border border-amber-200 rounded-2xl space-y-2">
+                                <div class="flex items-center gap-2 text-amber-800 font-bold text-xs uppercase tracking-wider">
+                                    <span class="material-symbols-outlined text-[18px]">local_gas_station</span> Estación de Servicio YPF San Roque
+                                </div>
+                                <p class="text-sm text-neutral-700">Carga de combustibles, lubricantes, cafetería y asistencia las 24 horas para turistas y conductores.</p>
+                                <div class="text-xs text-neutral-600 font-semibold">🕒 ${estacionHorarios}</div>
+                            </div>
+                            ${estacionUbicacion ? `
+                                <a href="${estacionUbicacion}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-primary w-full py-3 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">location_on</span> VER ESTACIÓN YPF EN GOOGLE MAPS
+                                </a>
+                            ` : ''}
+                            ${renderLugaresRows(estacionLugares)}
+                        </div>
+                    `
+                }
+            ];
+
+            html = `
+                <div class="space-y-6">
+                    <div class="grid grid-cols-3 sm:grid-cols-5 gap-3" id="servicios-subnav">
+                        ${subsections.map((s, i) => `
+                            <button type="button" id="subnav-${s.id}" onclick="showServiciosSub('${s.id}')"
+                                class="guia-subnav-btn flex flex-col items-center gap-1.5 p-3 bg-white border border-outline-variant/30 rounded-2xl transition-all duration-200${i === 0 ? ' is-active' : ''}">
+                                <span class="material-symbols-outlined text-2xl text-river-teal">${s.icon}</span>
+                                <span class="text-[11px] font-bold text-primary text-center leading-tight">${s.label}</span>
+                                <span class="subnav-count">${s.count}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="servicios-subcontent">
+                        ${subsections.map((s, i) => `
+                            <div id="subcontent-${s.id}" class="servicios-subsection space-y-3" style="display:${i === 0 ? 'block' : 'none'}">
+                                ${s.bodyHtml}
                             </div>
                         `).join('')}
                     </div>
-                `;
-            } else {
-                html = '<p class="text-neutral-500 text-sm">No hay contactos registrados.</p>';
-            }
-        } else if (catKey === 'terminal') {
-            const empresas = content.empresas || [];
+                </div>
+            `;
+        // 2. EMERGENCIAS
+        } else if (catKey === 'emergencias') {
+            const contactos = (content.contactos && content.contactos.length) ? content.contactos : defaultDirectoryCatalog.emergencias.contactos;
             html = `
                 <div class="space-y-4">
-                    ${content.ubicacion ? `
-                        <a href="${content.ubicacion}" target="_blank" class="guia-btn guia-btn-outline">
-                            <span class="material-symbols-outlined text-[16px] text-river-teal">location_on</span> VER UBICACIÓN EN MAPA
-                        </a>
-                    ` : ''}
-                    <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
-                        <div class="text-xs font-bold uppercase text-neutral-400 tracking-wider">Horarios de boletería</div>
-                        <div class="text-sm text-neutral-800 mt-1 font-medium">${content.horarios || 'Consultar en terminal'}</div>
-                    </div>
-                    ${empresas.length ? `
-                        <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
-                            <div class="text-xs font-bold uppercase text-neutral-400 tracking-wider mb-2">Empresas que operan</div>
-                            <ul class="guia-list">
-                                ${empresas.map(e => `<li>${e}</li>`).join('')}
-                            </ul>
+                    <div class="p-4 bg-red-50/80 border border-red-200 rounded-2xl flex items-center gap-3">
+                        <span class="material-symbols-outlined text-red-600 text-3xl">emergency</span>
+                        <div>
+                            <div class="font-bold text-red-900 text-sm">Guardia y Urgencias las 24 Horas</div>
+                            <div class="text-xs text-red-700 mt-0.5">Tocá el número o botón de llamada para comunicarte directamente.</div>
                         </div>
-                    ` : ''}
+                    </div>
+                    <div class="space-y-3">
+                        ${contactos.map(c => {
+                            const rawTel = String(c.tel || c.emergencia || '');
+                            const telDigits = rawTel.replace(/\D/g, '');
+                            return `
+                            <div class="guia-contact-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-bold text-neutral-800 text-sm">${c.nombre}</span>
+                                        ${c.badge ? `<span class="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">${c.badge}</span>` : ''}
+                                    </div>
+                                    <div class="text-xs text-neutral-500 mt-1 font-mono font-semibold">📞 ${rawTel}</div>
+                                </div>
+                                <div class="flex items-center gap-2 self-start sm:self-auto">
+                                    ${c.ubicacion ? `
+                                        <a href="${c.ubicacion}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline text-xs">
+                                            <span class="material-symbols-outlined text-[16px]">location_on</span> MAPA
+                                        </a>
+                                    ` : ''}
+                                    <a href="tel:${telDigits}" class="guia-btn guia-btn-primary text-xs" style="background:#dc2626;">
+                                        <span class="material-symbols-outlined text-[16px]">call</span> LLAMAR
+                                    </a>
+                                </div>
+                            </div>`;
+                        }).join('')}
+                    </div>
                 </div>
             `;
-        } else if (catKey === 'municipio') {
+        // 3. SALUD
+        } else if (catKey === 'salud') {
+            const lugares = (content.lugares && content.lugares.length) ? content.lugares : defaultDirectoryCatalog.salud.lugares;
             html = `
-                <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-xl space-y-3">
-                    <p class="text-sm text-neutral-700">Edificio de la Municipalidad de San Roque. Atención al público para consultas generales y trámites oficiales.</p>
-                    ${content.ubicacion ? `
-                        <a href="${content.ubicacion}" target="_blank" class="guia-btn guia-btn-primary">
-                            <span class="material-symbols-outlined text-[16px]">location_on</span> VER UBICACIÓN EN MAPA
+                <div class="space-y-5">
+                    <div class="p-4 bg-teal-50 border border-teal-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-river-teal text-3xl">local_hospital</span>
+                            <div>
+                                <div class="font-bold text-primary text-sm">Hospital San Roque · Guardia 24 hs</div>
+                                <div class="text-xs text-neutral-600 mt-0.5">Atención médica pública, emergencias y ambulancias.</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <a href="https://www.google.com/maps/search/?api=1&query=-28.577215169382498,-58.711315397535905" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline text-xs">
+                                <span class="material-symbols-outlined text-[16px]">location_on</span> MAPA
+                            </a>
+                            <a href="tel:107" class="guia-btn guia-btn-primary text-xs">
+                                <span class="material-symbols-outlined text-[16px]">call</span> 107
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-river-teal mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">prescriptions</span> Farmacias y Centros de Salud
+                        </h4>
+                        <div class="space-y-3">
+                            ${lugares.map(l => `
+                                <div class="guia-contact-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                                    <div>
+                                        <div class="font-bold text-neutral-800 text-sm">${l.nombre}</div>
+                                        ${l.detalle ? `<div class="text-xs text-neutral-500 mt-0.5">${l.detalle}</div>` : ''}
+                                    </div>
+                                    <div class="flex items-center gap-2 self-start sm:self-auto">
+                                        ${l.tel ? `<a href="tel:${String(l.tel).replace(/\D/g,'')}" class="guia-btn guia-btn-outline text-xs"><span class="material-symbols-outlined text-[16px]">phone</span> LLAMAR</a>` : ''}
+                                        ${l.link ? `
+                                            <a href="${l.link}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline text-xs">
+                                                <span class="material-symbols-outlined text-[16px]">location_on</span> MAPA
+                                            </a>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        // 4. TERMINAL
+        } else if (catKey === 'terminal') {
+            const ubicacion = content.ubicacion || defaultDirectoryCatalog.terminal.ubicacion;
+            const horarios = content.horarios || defaultDirectoryCatalog.terminal.horarios;
+            const empresas = (content.empresas && content.empresas.length) ? content.empresas : defaultDirectoryCatalog.terminal.empresas;
+            const servicios = defaultDirectoryCatalog.terminal.servicios;
+            html = `
+                <div class="space-y-5">
+                    ${ubicacion ? `
+                        <a href="${ubicacion}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-primary w-full py-3 flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span> VER TERMINAL EN GOOGLE MAPS
                         </a>
                     ` : ''}
+                    <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-2xl space-y-2">
+                        <div class="text-xs font-bold uppercase text-river-teal tracking-wider flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">schedule</span> Horarios de Boletería y Servicios
+                        </div>
+                        <div class="text-sm text-neutral-800 font-medium">${horarios}</div>
+                    </div>
+
+                    <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-2xl space-y-3">
+                        <div class="text-xs font-bold uppercase text-river-teal tracking-wider flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">directions_bus</span> Empresas de Transporte
+                        </div>
+                        <div class="space-y-2">
+                            ${empresas.map(e => `
+                                <div class="flex items-center gap-2 text-sm text-neutral-800 bg-white p-2.5 rounded-lg border border-neutral-100">
+                                    <span class="material-symbols-outlined text-river-teal text-[18px]">check_circle</span>
+                                    <span>${e}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    ${servicios ? `
+                    <div class="p-4 bg-teal-50/50 border border-teal-100 rounded-2xl">
+                        <div class="text-xs font-bold uppercase text-river-teal tracking-wider mb-2">Servicios en la terminal</div>
+                        <div class="flex flex-wrap gap-2">
+                            ${servicios.map(s => `<span class="bg-white border border-teal-200 text-primary text-xs font-medium px-3 py-1 rounded-full">${s}</span>`).join('')}
+                        </div>
+                    </div>` : ''}
                 </div>
             `;
+        // 5. MUNICIPIO
+        } else if (catKey === 'municipio') {
+            const ubicacion = content.ubicacion || defaultDirectoryCatalog.municipio.ubicacion;
+            const horarios = content.horarios || defaultDirectoryCatalog.municipio.horarios;
+            const lugares = (content.lugares && content.lugares.length) ? content.lugares : defaultDirectoryCatalog.municipio.lugares;
+            html = `
+                <div class="space-y-5">
+                    <div class="p-4 bg-teal-50 border border-teal-200 rounded-2xl space-y-2">
+                        <div class="flex items-center gap-2 text-river-teal font-bold text-xs uppercase tracking-wider">
+                            <span class="material-symbols-outlined text-[18px]">domain</span> Atención al Ciudadano
+                        </div>
+                        <p class="text-sm text-neutral-700">Edificio de la Municipalidad de San Roque. Gestión de trámites oficiales, rentas, obras públicas, desarrollo social y turismo.</p>
+                        <div class="text-xs text-neutral-600 font-semibold pt-1">🕒 Horarios de atención: ${horarios}</div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        ${ubicacion ? `
+                            <a href="${ubicacion}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-primary flex items-center justify-center gap-2 py-3 text-xs font-bold">
+                                <span class="material-symbols-outlined text-[18px]">location_on</span> VER UBICACIÓN EN MAPA
+                            </a>
+                        ` : ''}
+                        <a href="https://munisanroque.ar/" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline flex items-center justify-center gap-2 py-3 text-xs font-bold">
+                            <span class="material-symbols-outlined text-[18px]">public</span> SITIO WEB MUNICIPAL
+                        </a>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-river-teal mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">apartment</span> Dependencias Oficiales
+                        </h4>
+                        <div class="space-y-3">
+                            ${lugares.map(l => `
+                                <div class="guia-contact-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                                    <div>
+                                        <div class="font-bold text-neutral-800 text-sm">${l.nombre}</div>
+                                        ${l.detalle ? `<div class="text-xs text-neutral-500 mt-0.5">${l.detalle}</div>` : ''}
+                                    </div>
+                                    ${l.link ? `
+                                        <a href="${l.link}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline text-xs self-start sm:self-auto shrink-0">
+                                            <span class="material-symbols-outlined text-[16px]">location_on</span> MAPA
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        // 6. ESTACIÓN DE SERVICIOS
+        } else if (catKey === 'estacion-servicios') {
+            const ubicacion = content.ubicacion || defaultDirectoryCatalog['estacion-servicios'].ubicacion;
+            const horarios = content.horarios || defaultDirectoryCatalog['estacion-servicios'].horarios;
+            const lugares = (content.lugares && content.lugares.length) ? content.lugares : defaultDirectoryCatalog['estacion-servicios'].lugares;
+            html = `
+                <div class="space-y-5">
+                    <div class="p-4 bg-amber-50/80 border border-amber-200 rounded-2xl space-y-2">
+                        <div class="flex items-center gap-2 text-amber-800 font-bold text-xs uppercase tracking-wider">
+                            <span class="material-symbols-outlined text-[18px]">local_gas_station</span> Estación de Servicio YPF San Roque
+                        </div>
+                        <p class="text-sm text-neutral-700">Carga de combustibles, lubricantes, cafetería y asistencia las 24 horas para turistas y conductores.</p>
+                        <div class="text-xs text-neutral-600 font-semibold">🕒 ${horarios}</div>
+                    </div>
+
+                    ${ubicacion ? `
+                        <a href="${ubicacion}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-primary w-full py-3 flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span> VER ESTACIÓN YPF EN GOOGLE MAPS
+                        </a>
+                    ` : ''}
+
+                    <div class="space-y-3">
+                        ${lugares.map(l => `
+                            <div class="guia-contact-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                                <div>
+                                    <div class="font-bold text-neutral-800 text-sm">${l.nombre}</div>
+                                    ${l.detalle ? `<div class="text-xs text-neutral-500 mt-0.5">${l.detalle}</div>` : ''}
+                                </div>
+                                ${l.link ? `
+                                    <a href="${l.link}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline text-xs self-start sm:self-auto shrink-0">
+                                        <span class="material-symbols-outlined text-[16px]">location_on</span> MAPA
+                                    </a>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        // 7. REGISTRO CIVIL
+        } else if (catKey === 'registro-civil') {
+            const ubicacion = content.ubicacion || defaultDirectoryCatalog['registro-civil'].ubicacion;
+            const horarios = content.horarios || defaultDirectoryCatalog['registro-civil'].horarios;
+            const tramites = defaultDirectoryCatalog['registro-civil'].tramites;
+            html = `
+                <div class="space-y-5">
+                    <div class="p-4 bg-teal-50 border border-teal-200 rounded-2xl space-y-2">
+                        <div class="flex items-center gap-2 text-river-teal font-bold text-xs uppercase tracking-wider">
+                            <span class="material-symbols-outlined text-[18px]">badge</span> Registro Provincial de las Personas
+                        </div>
+                        <p class="text-sm text-neutral-700">Delegación oficial San Roque para gestión de documentos de identidad, pasaportes y partidas legalizadas.</p>
+                        <div class="text-xs text-neutral-600 font-semibold">🕒 Horario de atención: ${horarios}</div>
+                    </div>
+
+                    ${ubicacion ? `
+                        <a href="${ubicacion}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-primary w-full py-3 flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span> VER UBICACIÓN EN GOOGLE MAPS
+                        </a>
+                    ` : ''}
+
+                    <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-2xl space-y-3">
+                        <div class="text-xs font-bold uppercase text-river-teal tracking-wider flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">assignment</span> Trámites Disponibles
+                        </div>
+                        <div class="space-y-2">
+                            ${tramites.map(t => `
+                                <div class="flex items-center gap-2 text-sm text-neutral-800 bg-white p-2.5 rounded-lg border border-neutral-100">
+                                    <span class="material-symbols-outlined text-river-teal text-[18px]">check_circle</span>
+                                    <span>${t}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        // 8. TALLERES Y REPUESTERAS
+        } else if (catKey === 'talleres-repuesteras') {
+            const lugares = (content.lugares && content.lugares.length) ? content.lugares : defaultDirectoryCatalog['talleres-repuesteras'].lugares;
+            html = `
+                <div class="space-y-4">
+                    <div class="p-4 bg-neutral-50 border border-neutral-100 rounded-2xl text-sm text-neutral-700">
+                        Talleres mecánicos del automotor, servicios de auxilio de gomería 24 hs y comercios de repuestos para autos y motos en San Roque.
+                    </div>
+                    <div class="space-y-3">
+                        ${lugares.map(l => `
+                            <div class="guia-contact-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                                <div>
+                                    <div class="font-bold text-neutral-800 text-sm">${l.nombre}</div>
+                                    ${l.detalle ? `<div class="text-xs text-neutral-500 mt-0.5">${l.detalle}</div>` : ''}
+                                </div>
+                                ${l.link ? `
+                                    <a href="${l.link}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline text-xs self-start sm:self-auto shrink-0">
+                                        <span class="material-symbols-outlined text-[16px]">location_on</span> VER MAPA
+                                    </a>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        // 9. REMISES
+        } else if (catKey === 'remises') {
+            const contactos = (content.contactos && content.contactos.length) ? content.contactos : defaultDirectoryCatalog.remises.contactos;
+            html = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${contactos.map(c => {
+                        const rawTel = String(c.tel || '');
+                        const telDigits = rawTel.replace(/\D/g, '');
+                        return `
+                        <div class="guia-contact-row">
+                            <div>
+                                <div class="font-bold text-neutral-800 text-sm">${c.nombre}</div>
+                                <div class="text-xs text-neutral-500 mt-0.5">${rawTel}</div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <a href="https://wa.me/${telDigits}?text=${encodeURIComponent('Hola! Quiero consultar por un remis.')}" target="_blank" rel="noopener noreferrer" class="guia-icon-btn text-emerald-600 hover:bg-emerald-50" title="WhatsApp a ${c.nombre}">
+                                    <i class="fa-brands fa-whatsapp text-[18px]"></i>
+                                </a>
+                                <a href="tel:${telDigits}" class="guia-icon-btn" aria-label="Llamar a ${c.nombre}" title="Llamar">
+                                    <span class="material-symbols-outlined text-[18px]">phone</span>
+                                </a>
+                            </div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            `;
+        // 10. GENÉRICO (Lugares o templos)
         } else {
-            const lugares = content.lugares || [];
+            const lugares = (content.lugares && content.lugares.length) ? content.lugares : (defaultItem.lugares || []);
             if (lugares.length) {
                 html = `
                     <div class="space-y-3">
                         ${lugares.map(l => `
-                            <div class="guia-contact-row">
-                                <span class="font-bold text-neutral-800 text-sm">${l.nombre}</span>
+                            <div class="guia-contact-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
+                                <div>
+                                    <div class="font-bold text-neutral-800 text-sm">${l.nombre}</div>
+                                    ${l.detalle ? `<div class="text-xs text-neutral-500 mt-0.5">${l.detalle}</div>` : ''}
+                                </div>
                                 ${l.link ? `
-                                    <a href="${l.link}" target="_blank" class="guia-btn guia-btn-outline">
+                                    <a href="${l.link}" target="_blank" rel="noopener noreferrer" class="guia-btn guia-btn-outline text-xs self-start sm:self-auto shrink-0">
                                         <span class="material-symbols-outlined text-[16px]">location_on</span> VER MAPA
                                     </a>
                                 ` : ''}
@@ -573,6 +1156,18 @@
         contentEl.innerHTML = html;
         section.style.display = "block";
         section.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Cambia qué "apartado" se muestra dentro del panel de Servicios
+    // (atención y trámites, remises, terminal, talleres/repuesteras,
+    // estación de servicios), resaltando el ícono elegido.
+    function showServiciosSub(id) {
+        document.querySelectorAll('#servicios-subcontent .servicios-subsection').forEach((el) => {
+            el.style.display = (el.id === 'subcontent-' + id) ? 'block' : 'none';
+        });
+        document.querySelectorAll('#servicios-subnav .guia-subnav-btn').forEach((el) => {
+            el.classList.toggle('is-active', el.id === 'subnav-' + id);
+        });
     }
 
     // Initial greeting

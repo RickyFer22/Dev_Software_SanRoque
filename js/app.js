@@ -310,17 +310,17 @@ function createAccommodationCard(id, data) {
         <img src="${image}" alt="${data.titulo}" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 hidden lg:block lg:group-hover:opacity-0"></div>
       </div>
-      <div class="absolute inset-x-0 bottom-0 top-[42%] sm:top-[46%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-5 sm:p-6 md:p-8 flex flex-col justify-center lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
+      <div class="absolute inset-x-0 bottom-0 top-[42%] sm:top-[46%] lg:top-0 lg:left-[45%] lg:right-0 bg-canvas-white p-5 sm:p-6 md:p-8 flex min-w-0 flex-col justify-start overflow-y-auto lg:opacity-0 lg:translate-x-8 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-10 border-t lg:border-t-0 border-neutral-100">
         <div class="flex items-center justify-between gap-3 mb-4">
           <span class="text-[11px] uppercase tracking-[0.2em] text-river-teal font-bold">${categoryLabel}</span>
           ${ratingBadge}
         </div>
-        <h3 class="text-xl font-bold text-primary leading-tight">${data.titulo}</h3>
-        <p class="text-sm text-neutral-600 leading-relaxed">${description}</p>
-        <div class="text-sm text-neutral-500 mt-3">${services}</div>
-        <div class="flex items-center justify-between mt-6">
-          <div class="text-sm text-neutral-500">📍 ${data.ubicacion || 'San Roque'}</div>
-          <div class="flex items-center gap-2">
+        <h3 class="text-xl font-bold text-primary leading-tight break-words">${data.titulo}</h3>
+        <p class="text-sm text-neutral-600 leading-relaxed break-words">${description}</p>
+        <div class="text-sm text-neutral-500 mt-3 break-words">${services}</div>
+        <div class="flex flex-wrap items-start justify-between gap-4 mt-6">
+          <div class="min-w-0 flex-1 text-sm text-neutral-500 break-words">📍 ${data.ubicacion || 'San Roque'}</div>
+          <div class="flex flex-wrap items-center justify-end gap-2">
             ${window.VsrVisita ? VsrVisita.buttonHtml('h', id, data.titulo || 'Alojamiento', data.categoria || '') : ''}
             <button onclick="event.stopPropagation(); navigateToDetails('${id}')" class="px-4 py-2 rounded-full bg-river-teal text-white text-xs font-bold uppercase tracking-wider hover:bg-primary transition-all">Ver detalle</button>
           </div>
@@ -645,151 +645,224 @@ const datosUtilesInfo = {
         ]
     },
 
-
     terminal:{
         titulo:"🚌 Terminal de Ómnibus",
-        descripcion:"Terminal de colectivos de San Roque.",
-        ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.5767789,-58.7135694"
+        descripcion:"Terminal de colectivos de San Roque con conexiones a Corrientes Capital, Goya, Buenos Aires y toda la región.",
+        ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.5767789,-58.7135694",
+        horarios:"Boleterías de 06:00 a 23:00 hs",
+        empresas:[
+            "Rápido Tata",
+            "Río Uruguay",
+            "El Pulqui",
+            "Silvia",
+            "Empresa Itatí / Ersa"
+        ]
     },
-
 
     municipio:{
         titulo:"🏛️ Municipalidad",
-        descripcion:"Atención al ciudadano y trámites municipales.",
-        ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806"
+        descripcion:"Atención al ciudadano, trámites oficiales y dependencias municipales.",
+        ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806",
+        horarios:"Lunes a Viernes de 07:00 a 13:00 hs",
+        lugares:[
+            { nombre:"Palacio Municipal (Sede Central)", link:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806" },
+            { nombre:"C.I.C Centro Integrador Comunitario", link:"https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905" },
+            { nombre:"Oficina de Turismo y Cultura", link:"https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368" }
+        ]
     },
-
 
     iglesias:{
         titulo:"⛪ Iglesias",
-        descripcion:"Templos religiosos de San Roque.",
+        descripcion:"Templos religiosos y patrimonio histórico de San Roque.",
         lugares:[
-
             {
                 nombre:"Parroquia San Roque de Montpellier",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.571590353744543,-58.711252302690546"
             },
-
+            {
+                nombre:"Capilla Histórica (Templo Viejo - 1783)",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368"
+            },
             {
                 nombre:"Iglesia Monte de Sion",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.575815684105844,-58.707426283145196"
             },
-
             {
                 nombre:"Templo Filadelfia de San Roque",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.57730954160022,-58.70606541439768"
             },
-
             {
                 nombre:"Salón del Reino de los Testigos de Jehová",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.577110361826733,-58.70697266022936"
             },
-
             {
                 nombre:"Iglesia Evangélica Asamblea de Dios",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.580856838882077,-58.718072982275054"
             }
-
         ]
     },
 
-
     emergencias:{
         titulo:"🚨 Emergencias",
-        descripcion:"Servicios de urgencia disponibles en San Roque.",
+        descripcion:"Servicios de urgencia y seguridad disponibles 24 hs en San Roque.",
+        contactos:[
+            { nombre:"Comisaría San Roque", tel:"03772-123456", emergencia:"101", ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.569921140360318,-58.71262131369322" },
+            { nombre:"Bomberos Voluntarios San Roque", tel:"100", emergencia:"100", ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.577904318277724,-58.713826053599384" },
+            { nombre:"Hospital San Roque (Guardia Médica)", tel:"(03783) 123-456", emergencia:"107", ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.577215169382498,-58.711315397535905" },
+            { nombre:"Policía Rural (PRIAR)", tel:"101", ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.567397145178468,-58.70263241554249" },
+            { nombre:"Defensa Civil", tel:"103" }
+        ],
         lugares:[
-
             {
                 nombre:"Policía de San Roque",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.570089924920314,-58.712608217644515"
             },
-
             {
                 nombre:"Hospital de San Roque",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.577551339214832,-58.711226434897526"
             },
-
             {
                 nombre:"Bomberos San Roque",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.577904318277724,-58.713826053599384"
             }
-
         ]
     },
 
-
     salud:{
         titulo:"🏥 Salud",
-        descripcion:"Farmacias y atención médica.",
+        descripcion:"Hospital público, guardias y farmacias de turno en San Roque.",
         lugares:[
-
+            {
+                nombre:"Hospital de San Roque (Guardia Médica 24 hs)",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.577215169382498,-58.711315397535905"
+            },
             {
                 nombre:"Farmar IV",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.57564523967805,-58.7115423787572"
             },
-
             {
                 nombre:"Farmacia Itatí S.C.S",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.57490350407002,-58.70936387230284"
             },
-
             {
                 nombre:"Farmacia Tressens II",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.575223851034433,-58.70882743052239"
             },
-
             {
                 nombre:"Farmacia San Roque",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.57708938162111,-58.711638385451934"
+            },
+            {
+                nombre:"Centro de Salud Comunitario CIC",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905"
             }
-
         ]
     },
 
-
     servicios:{
-        titulo:"🏧 Servicios rápidos",
-        descripcion:"Servicios útiles para visitantes.",
+        titulo:"🏧 Servicios",
+        descripcion:"Bancos, cajeros, trámites y servicios útiles para visitantes.",
+        contactos:[
+            {nombre:"Remis choro", tel:"3777721215"},
+            {nombre:"Romero ale", tel:"3777476810"},
+            {nombre:"BALDOVINO", tel:"3777-711144"},
+            {nombre:"PAULO", tel:"1130251880"},
+            {nombre:"TELLO REMIS", tel:"3777446545"},
+            {nombre:"TU REMIS", tel:"3777697065"},
+            {nombre:"FONTANA", tel:"37775202117"},
+            {nombre:"REMIS", tel:"37778207866"}
+        ],
         lugares:[
-
+            {
+                nombre:"Banco de Corrientes (Sucursal y Cajeros 24 hs)",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.57573154360633,-58.708639876601616"
+            },
             {
                 nombre:"Municipalidad de San Roque",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806"
             },
-
             {
                 nombre:"C.I.C extensión del municipio",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905"
             },
-
             {
                 nombre:"Registro Civil",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172"
             }
-
         ]
     },
 
+    "talleres-repuesteras":{
+        titulo:"🔧 Talleres / Repuesteras",
+        descripcion:"Talleres mecánicos, auxilio de gomería 24 hs y comercios de repuestos.",
+        lugares:[
+            {
+                nombre:"Taller Mecánico y Auxilio en Ruta",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.5750,-58.7120"
+            },
+            {
+                nombre:"Gomería y Vulcanización 24 hs",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.5740,-58.7100"
+            },
+            {
+                nombre:"Repuestera San Roque (Autos y Camionetas)",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.5760,-58.7090"
+            },
+            {
+                nombre:"Taller de Motos y Repuestos",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.5730,-58.7080"
+            }
+        ]
+    },
+
+    "estacion-servicios":{
+        titulo:"⛽ Estación de servicios",
+        descripcion:"Estaciones de combustible, lubricentro, servicompras 24 hs y asistencia al viajero.",
+        ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552",
+        horarios:"Atención las 24 hs todos los días",
+        lugares:[
+            {
+                nombre:"Estación de Servicio YPF San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552"
+            },
+            {
+                nombre:"Tienda Servicompras & Cafetería 24 hs",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552"
+            },
+            {
+                nombre:"Servicio de Aire, Agua y Lubricentro",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552"
+            }
+        ]
+    },
+
+    "registro-civil":{
+        titulo:"🪪 Registro Civil",
+        descripcion:"Delegación San Roque del Registro Provincial de las Personas. DNI, actas y trámites.",
+        ubicacion:"https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172",
+        horarios:"Lunes a Viernes de 07:00 a 13:00 hs",
+        lugares:[
+            {
+                nombre:"Registro Provincial de las Personas - San Roque",
+                link:"https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172"
+            }
+        ]
+    },
 
     turismo:{
         titulo:"📍 Lugares turísticos",
         descripcion:"Puntos importantes de San Roque.",
-
         lugares:[
-
             {
                 nombre:"Plaza Principal Libertad",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368"
             },
-
             {
                 nombre:"Museo de San Roque",
                 link:"https://www.google.com/maps/search/?api=1&query=-28.57098181276159,-58.71209180928368"
             }
-
         ]
     }
-
 };
 window.datosUtilesInfo = datosUtilesInfo;
 
@@ -846,7 +919,7 @@ function detectDatosUtilesCategoryFromText(text){
   const t = String(text).toLowerCase();
   if(/polic|comisar|comisaria|policia/.test(t)) return 'emergencias';
   if(/hospital|salud|clinica/.test(t)) return 'emergencias';
-  if(/remis|taxi|traslado/.test(t)) return 'remises';
+  if(/remis|taxi|traslado|chofer|auto/.test(t)) return 'remises';
   if(/municipio|intendencia|municipalidad/.test(t)) return 'municipio';
   if(/banco|cajero|corrientes/.test(t)) return 'servicios';
   if(/terminal|colectivo|ómnibus|omnibus/.test(t)) return 'terminal';
@@ -888,8 +961,21 @@ function answerLocally(message) {
             category: 'general'
         };
     }
-    if (/\b(remis|taxi|traslado|transporte)\b/.test(text)) {
-        return { reply: 'Te comparto los remises oficiales de San Roque.', category: 'remises' };
+    if (/\b(remis|remises|taxi|taxis|traslado|traslados|transporte|chofer|choferes)\b/.test(text)) {
+        const fromRem = datosUtilesInfo.remises?.contactos || datosUtilesInfo.remises?.contenido?.contactos || [];
+        const fromServ = datosUtilesInfo.servicios?.contactos || datosUtilesInfo.servicios?.contenido?.contactos || [];
+        const combined = [...fromRem, ...fromServ];
+        const seen = new Set();
+        const contacts = [];
+        combined.forEach(c => {
+          const key = `${(c.nombre || '').trim().toLowerCase()}|${String(c.tel || '').replace(/\D/g, '')}`;
+          if (!seen.has(key) && (c.nombre || c.tel)) {
+            seen.add(key);
+            contacts.push(c);
+          }
+        });
+        const lines = contacts.map(c => `• ${c.nombre}: ${c.tel}`);
+        return { reply: `Estos son los remises oficiales de San Roque:\n${lines.join('\n')}`, category: 'remises' };
     }
     if (/\b(comer|gastronom|restaurant|comedor|comida|sabores|restaurante)\b/.test(text)) {
         return { reply: 'Acá están las opciones gastronómicas disponibles en San Roque.', category: 'gastronomia' };
@@ -963,18 +1049,18 @@ function hideTyping(){
 }
 
 function responderDatosUtiles(tipo) {
-    const item = datosUtilesInfo[tipo];
-    if(!item) return;
+  const item = datosUtilesInfo[tipo] || (tipo === 'remises' ? datosUtilesInfo.servicios : null);
+  if(!item) return;
   const content = item.contenido || item;
 
-  let html = `<b>${item.titulo || content.titulo || ''}</b><br>`;
-  html += `<p style="margin-top:4px; font-size:13px; color:#475569;">${item.descripcion || content.descripcion || ''}</p>`;
+  let html = `<b>${item.titulo || content.titulo || (tipo === 'remises' ? '🚖 Remises disponibles' : '')}</b><br>`;
+  html += `<p style="margin-top:4px; font-size:13px; color:#475569;">${item.descripcion || content.descripcion || (tipo === 'remises' ? 'Servicio de remises disponibles en toda la ciudad. Te buscan donde estés.' : '')}</p>`;
 
   if (content.ubicacion) {
     html += `<p style="margin-top:8px;"><a target="_blank" href="${content.ubicacion}" style="color:#134E4A; font-weight:bold; text-decoration:underline;">📍 Ver ubicación en mapa</a></p>`;
   }
 
-  const lugares = content.lugares || content.lugares || content.lugares;
+  const lugares = (tipo !== 'remises') ? (content.lugares || []) : [];
   if (Array.isArray(lugares) && lugares.length) {
     html += `<ul style="margin-top:8px; padding-left:14px; list-style-type:disc; font-size:13px;">`;
     lugares.forEach(l => {
@@ -986,17 +1072,43 @@ function responderDatosUtiles(tipo) {
     html += `</ul>`;
   }
 
-  const contactos = content.contactos || content.contactos || [];
+  let contactos = [];
+  if (tipo === 'remises') {
+    const fromRem = datosUtilesInfo.remises?.contactos || datosUtilesInfo.remises?.contenido?.contactos || [];
+    const fromServ = datosUtilesInfo.servicios?.contactos || datosUtilesInfo.servicios?.contenido?.contactos || [];
+    const combined = [...fromRem, ...fromServ];
+    const seen = new Set();
+    combined.forEach(c => {
+      const key = `${(c.nombre || '').trim().toLowerCase()}|${String(c.tel || '').replace(/\D/g, '')}`;
+      if (!seen.has(key) && (c.nombre || c.tel)) {
+        seen.add(key);
+        contactos.push(c);
+      }
+    });
+  } else if (tipo !== 'servicios') {
+    contactos = content.contactos || [];
+  }
+
+  if (tipo === 'servicios') {
+    html += `<div style="margin-top:12px; padding-top:10px; border-top:1px solid #e2e8f0;">
+      <button type="button" onclick="responderDatosUtiles('remises')" class="chat-card-button" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; background:#003633; color:white; padding:8px 14px; border-radius:8px; font-weight:bold; border:none; font-size:12px; text-decoration:none;">
+        🚖 Ver remises con toda la lista
+      </button>
+    </div>`;
+  }
+
   if (Array.isArray(contactos) && contactos.length) {
-    html += `<div style="margin-top:8px; font-size:13px;"><b>Contactos directos:</b><ul style="padding-left:0; list-style-type:none; margin-top:4px;">`;
+    html += `<div style="margin-top:8px; font-size:13px;"><b>Contactos de remises cargados:</b><ul style="padding-left:0; list-style-type:none; margin-top:4px;">`;
     contactos.forEach(c => {
-      const tel = String(c.tel || c.telefono || c.phone || '').replace(/\D/g,'');
-      const wa = c.whatsapp || c.wa || c.waNumber || '';
+      const rawTel = String(c.tel || c.telefono || c.phone || '');
+      const tel = rawTel.replace(/\D/g,'');
+      const wa = c.whatsapp || c.wa || c.waNumber || (tel ? buildWaLink(tel, `Hola! Quiero coordinar un viaje con ${c.nombre} desde el portal de San Roque.`) : '');
+      const waUrl = (wa && String(wa).startsWith('http')) ? wa : (wa ? `https://wa.me/${String(wa).replace(/^\+/, '')}?text=${encodeURIComponent('Hola!')}` : '');
       html += `<li style="margin-top:6px; background:white; border:1px solid #e2e8f0; padding:6px 10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-          <div><strong>${c.nombre || c.label || ''}</strong></div>
+          <div><strong>${escapeHtml(c.nombre || c.label || '')}</strong></div>
           <div style="display:flex; gap:6px; align-items:center;">
-            ${wa ? `<a class="chat-card-button" href="https://wa.me/${String(wa).replace(/^\+/, '')}?text=${encodeURIComponent('Hola') }" target="_blank" rel="noopener">WhatsApp</a>` : ''}
-            ${tel ? `<a href="tel:${tel}" style="background:#003633; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">📞 ${c.tel || c.telefono || tel}</a>` : ''}
+            ${waUrl ? `<a class="chat-card-button" href="${waUrl}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+            ${tel ? `<a href="tel:${tel}" style="background:#003633; color:white; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:11px; text-decoration:none;">📞 ${rawTel || tel}</a>` : ''}
           </div>
         </li>`;
     });
@@ -1044,8 +1156,23 @@ function renderChatCards(category) {
     </div>`;
     }
 
+    let remisesList = [];
+    if (category === 'remises') {
+      const fromRem = datosUtilesInfo.remises?.contactos || datosUtilesInfo.remises?.contenido?.contactos || [];
+      const fromServ = datosUtilesInfo.servicios?.contactos || datosUtilesInfo.servicios?.contenido?.contactos || [];
+      const combined = [...fromRem, ...fromServ];
+      const seen = new Set();
+      combined.forEach(c => {
+        const key = `${(c.nombre || '').trim().toLowerCase()}|${String(c.tel || '').replace(/\D/g, '')}`;
+        if (!seen.has(key) && (c.nombre || c.tel)) {
+          seen.add(key);
+          remisesList.push(c);
+        }
+      });
+    }
+
     const items = category === 'remises'
-        ? (Array.isArray(datosUtilesInfo.remises?.contactos) ? datosUtilesInfo.remises.contactos : [])
+        ? remisesList
         : category === 'alojamientos'
             ? Object.entries(alojamientosData || {}).filter(([, item]) => isLodging(item)).slice(0, 6).map(([id, item]) => ({ id, ...item }))
             : Array.isArray(window.gastronomiaData) ? window.gastronomiaData.slice(0, 6) : [];
@@ -1054,9 +1181,10 @@ function renderChatCards(category) {
 
     const rows = items.map((item) => {
         if (category === 'remises') {
-            const name = escapeHtml(item.nombre || '');
-            const tel = escapeHtml(item.tel || '');
-            const wa = buildWaLink(item.tel, `Hola! Quiero coordinar un remis con ${item.nombre} desde el portal de San Roque.`);
+            const name = escapeHtml(item.nombre || item.name || '');
+            const tel = escapeHtml(item.tel || item.telefono || '');
+            const wa = buildWaLink(item.tel || item.telefono, `Hola! Quiero coordinar un remis con ${item.nombre} desde el portal de San Roque.`);
+            const telDigits = String(item.tel || item.telefono || '').replace(/\D/g, '');
             return `<div class="chat-card-item">
                 <div class="chat-card-item-info">
                     <div class="chat-card-item-title">${name}</div>
@@ -1064,6 +1192,7 @@ function renderChatCards(category) {
                 </div>
                 <div class="chat-card-actions">
                     ${wa ? `<a class="chat-card-button" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+                    ${telDigits ? `<a class="chat-card-button" href="tel:${telDigits}" style="background:#003633; color:white;">Llamar</a>` : ''}
                 </div>
             </div>`;
         }

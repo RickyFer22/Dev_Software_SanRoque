@@ -106,8 +106,22 @@ function findUsefulData(store, category) {
 }
 
 function formatRemises(store) {
-  const entry = findUsefulData(store, 'remises');
-  const contacts = parseContent(entry && entry.contenido).contactos || [];
+  const remEntry = findUsefulData(store, 'remises');
+  const servEntry = findUsefulData(store, 'servicios');
+  const remContacts = parseContent(remEntry && remEntry.contenido).contactos || [];
+  const servContacts = parseContent(servEntry && servEntry.contenido).contactos || [];
+  const allContacts = (remContacts.length && servContacts.length)
+    ? [...remContacts, ...servContacts]
+    : (remContacts.length ? remContacts : servContacts);
+  const seen = new Set();
+  const contacts = [];
+  for (const c of allContacts) {
+    const key = `${(c.nombre || '').trim().toLowerCase()}|${String(c.tel || '').replace(/\D/g, '')}`;
+    if (!seen.has(key) && (c.nombre || c.tel)) {
+      seen.add(key);
+      contacts.push(c);
+    }
+  }
   if (!contacts.length) return null;
   const lines = contacts.map((contact) => `• ${safeInline(contact.nombre, 80)}: ${safeInline(contact.tel, 40)}`);
   return `Estos son los remises publicados en el portal de San Roque:\n${lines.join('\n')}\nPodés tocar el número desde el portal para comunicarte.`;

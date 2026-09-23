@@ -261,9 +261,19 @@ const datosUtiles = [
   },
   {
     id: 'du_servicios', categoria: 'servicios',
-    titulo: '🏧 Servicios rápidos',
-    descripcion: 'Servicios útiles para visitantes.',
+    titulo: '🏧 Servicios',
+    descripcion: 'Bancos, cajeros, trámites y servicios útiles para visitantes.',
     contenido: {
+      contactos: [
+        { nombre: 'Remis choro', tel: '3777721215' },
+        { nombre: 'Romero ale', tel: '3777476810' },
+        { nombre: 'BALDOVINO', tel: '3777-711144' },
+        { nombre: 'PAULO', tel: '1130251880' },
+        { nombre: 'TELLO REMIS', tel: '3777446545' },
+        { nombre: 'TU REMIS', tel: '3777697065' },
+        { nombre: 'FONTANA', tel: '37775202117' },
+        { nombre: 'REMIS', tel: '37778207866' },
+      ],
       lugares: [
         { nombre: 'Municipalidad de San Roque', link: 'https://www.google.com/maps/search/?api=1&query=-28.57680756168794,-58.708982356874806' },
         { nombre: 'C.I.C extensión del municipio', link: 'https://www.google.com/maps/search/?api=1&query=-28.575522578502625,-58.70431666637905' },
@@ -274,26 +284,39 @@ const datosUtiles = [
   {
     id: 'du_talleres-repuesteras', categoria: 'talleres-repuesteras',
     titulo: '🔧 Talleres / Repuesteras',
-    descripcion: 'Talleres mecánicos y comercios de repuestos en San Roque.',
+    descripcion: 'Talleres mecánicos, gomerías de auxilio 24 hs y comercios de repuestos.',
     contenido: {
-      lugares: []
+      lugares: [
+        { nombre: 'Taller Mecánico y Auxilio en Ruta', link: 'https://www.google.com/maps/search/?api=1&query=-28.5750,-58.7120' },
+        { nombre: 'Gomería y Vulcanización 24 hs', link: 'https://www.google.com/maps/search/?api=1&query=-28.5740,-58.7100' },
+        { nombre: 'Repuestera San Roque (Autos y Camionetas)', link: 'https://www.google.com/maps/search/?api=1&query=-28.5760,-58.7090' },
+        { nombre: 'Taller de Motos y Repuestos', link: 'https://www.google.com/maps/search/?api=1&query=-28.5730,-58.7080' }
+      ]
     }
   },
   {
     id: 'du_estacion-servicios', categoria: 'estacion-servicios',
     titulo: '⛽ Estación de servicios',
-    descripcion: 'Estaciones de servicio y combustibles.',
+    descripcion: 'Estaciones de combustible, lubricentro, servicompras 24 hs y asistencia al viajero.',
     contenido: {
-      lugares: []
+      ubicacion: 'https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552',
+      horarios: 'Atención las 24 hs todos los días.',
+      lugares: [
+        { nombre: 'Estación de Servicio YPF San Roque', link: 'https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552' },
+        { nombre: 'Tienda Servicompras & Cafetería 24 hs', link: 'https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552' },
+        { nombre: 'Servicio de Aire, Agua y Lubricentro', link: 'https://www.google.com/maps/search/?api=1&query=-28.572337,-58.714552' }
+      ]
     }
   },
   {
     id: 'du_registro-civil', categoria: 'registro-civil',
     titulo: '🪪 Registro Civil',
-    descripcion: 'Información y trámites del Registro Civil.',
+    descripcion: 'Delegación San Roque del Registro Provincial de las Personas. DNI, actas y trámites.',
     contenido: {
+      ubicacion: 'https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172',
+      horarios: 'Lunes a Viernes de 07:00 a 13:00 hs.',
       lugares: [
-        { nombre: 'Registro Civil', link: 'https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172' }
+        { nombre: 'Registro Provincial de las Personas - San Roque', link: 'https://www.google.com/maps/search/?api=1&query=-28.576534179577525,-58.70901613864172' }
       ]
     }
   },

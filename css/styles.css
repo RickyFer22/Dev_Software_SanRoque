@@ -1164,18 +1164,8 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 
 .gastronomy-story-cta {
   position:relative;margin:clamp(60px,10vw,120px) calc(50% - 50vw) 0;padding:clamp(90px,12vw,160px) 24px;overflow:hidden;isolation:isolate;color:#fff;text-align:center;
-  /* Verde vivo con amaneceres dorados que respiran (adiós al verde apagado) */
-  background:
-    radial-gradient(58rem 32rem at 12% 6%, rgba(245,217,138,.38), transparent 58%),
-    radial-gradient(48rem 32rem at 90% 94%, rgba(238,154,27,.42), transparent 62%),
-    radial-gradient(40rem 26rem at 55% 45%, rgba(76,181,68,.55), transparent 70%),
-    linear-gradient(120deg,#2E9433 0%,#4CB544 40%,#3DA33A 62%,#1E7A2F 100%);
-  background-size:160% 160%,160% 160%,140% 140%,100% 100%;
-  animation:ctaBreath 16s ease-in-out infinite;
-}
-@keyframes ctaBreath {
-  0%,100% { background-position:0% 20%,100% 80%,50% 50%,0% 0%; }
-  50% { background-position:40% 0%,60% 100%,45% 60%,0% 0%; }
+  background:linear-gradient(135deg,#355E4A 0%,#2C4F3D 100%);
+  box-shadow:0 22px 48px rgba(53,94,74,.16);
 }
 .gastronomy-story-cta::before,.gastronomy-story-cta::after { content:"";position:absolute;left:-5%;width:110%;height:70px;background:#f0f4f3;z-index:1; }
 .gastronomy-story-cta::before { top:-46px;border-radius:0 0 50% 50%; }
@@ -1183,15 +1173,11 @@ footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
 .gastronomy-story-inner { position:relative;z-index:2;max-width:980px;margin:auto; }
 .gastronomy-story-kicker { display:block;margin-bottom:25px;color:#F5D98A;font:600 11px/1.2 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase; }
 .gastronomy-story-cta h2 { min-height:2.1em;margin:0;color:#fff;font:700 clamp(40px,7vw,76px)/1.03 "Syne",sans-serif;letter-spacing:-.04em; }
-.gastronomy-story-cta p { max-width:680px;margin:28px auto 0;color:rgba(255,255,255,.92);font-size:clamp(17px,2vw,21px);line-height:1.65;text-shadow:0 1px 8px rgba(10,30,8,.35); }
-.gastronomy-story-orbit { position:absolute;left:50%;top:50%;width:min(82vw,850px);aspect-ratio:1;border:1.5px solid rgba(245,217,138,.38);border-radius:50%;transform:translate(-50%,-50%);animation:ctaOrbit 46s linear infinite; }
-.gastronomy-story-orbit::before { content:"";position:absolute;inset:12%;border:1px solid rgba(245,217,138,.18);border-radius:50%; }
-/* Lucero dorado que recorre la órbita */
-.gastronomy-story-orbit::after { content:"";position:absolute;top:-7px;left:calc(50% - 7px);width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff6da,#F5D98A 55%,#EE9A1B);box-shadow:0 0 22px rgba(245,217,138,.95),0 0 44px rgba(238,154,27,.5); }
-@keyframes ctaOrbit { to { transform:translate(-50%,-50%) rotate(360deg); } }
-@media (prefers-reduced-motion:reduce) { .gastronomy-story-cta,.gastronomy-story-orbit { animation:none; } }
-.gastronomy-story-orbit::after { inset:28%; }
-.gastronomy-story-mark { position:absolute;right:4%;bottom:2%;color:rgba(245,217,138,.14);font:800 min(26vw,340px)/1 "Syne",sans-serif;letter-spacing:-.12em;text-shadow:0 0 60px rgba(245,217,138,.25); }
+.gastronomy-story-cta p { max-width:680px;margin:28px auto 0;color:rgba(255,255,255,.86);font-size:clamp(17px,2vw,21px);line-height:1.65; }
+.gastronomy-story-orbit { position:absolute;left:50%;top:50%;width:min(82vw,850px);aspect-ratio:1;border:1px solid rgba(245,217,138,.2);border-radius:50%;transform:translate(-50%,-50%); }
+.gastronomy-story-orbit::before { content:"";position:absolute;inset:12%;border:1px solid rgba(245,217,138,.1);border-radius:50%; }
+.gastronomy-story-orbit::after { content:"";position:absolute;inset:28%;border:1px solid rgba(245,217,138,.08);border-radius:50%; }
+.gastronomy-story-mark { position:absolute;right:4%;bottom:2%;color:rgba(245,217,138,.08);font:800 min(26vw,340px)/1 "Syne",sans-serif;letter-spacing:-.12em; }
 .gastronomy-story-detail { display:flex;align-items:center;justify-content:center;gap:18px;margin-top:42px;color:#F5D98A;font:500 10px/1.4 "JetBrains Mono",monospace;letter-spacing:.15em;text-transform:uppercase; }
 .gastronomy-story-detail span { width:54px;height:1px;background:#D4A83C; }
 
@@ -1729,12 +1715,7 @@ body:has(.detail-hero) main > aside { border-radius:var(--radius-card); }
 .gastronomy-page #gastronomia-grid { gap:clamp(20px,3vw,34px); }
 .gastronomy-page .gastronomy-story-cta {
   margin-top:0;
-  background:
-    radial-gradient(58rem 32rem at 12% 6%, rgba(245,217,138,.38), transparent 58%),
-    radial-gradient(48rem 32rem at 90% 94%, rgba(238,154,27,.42), transparent 62%),
-    radial-gradient(40rem 26rem at 55% 45%, rgba(76,181,68,.55), transparent 70%),
-    linear-gradient(120deg,#2E9433 0%,#4CB544 40%,#3DA33A 62%,#1E7A2F 100%);
-  background-size:160% 160%,160% 160%,140% 140%,100% 100%;
+  background:linear-gradient(135deg,#355E4A 0%,#2C4F3D 100%);
 }
 
 .gastronomy-premium-page { --green:#355E4A !important;--green-dark:#2C4F3D !important;--cream:#F6F3EE !important;--gold:#D8A441 !important; }
@@ -2213,6 +2194,16 @@ body {
 .guia-cat-card:hover { transform:translateY(-4px);box-shadow:0 16px 34px rgba(35,45,40,.12); }
 .guia-cat-card.is-active { border-color:#D4A83C;box-shadow:0 0 0 2px #F5D98A,0 14px 30px rgba(184,134,42,.16); }
 .guia-cat-card.is-active .material-symbols-outlined { color:#B8862A; }
+
+.guia-subnav-btn { position:relative;cursor:pointer; }
+.guia-subnav-btn:hover { transform:translateY(-3px);box-shadow:0 12px 26px rgba(35,45,40,.10); }
+.guia-subnav-btn.is-active { border-color:#D4A83C;background:#FFFBEF;box-shadow:0 0 0 2px #F5D98A,0 10px 22px rgba(184,134,42,.14); }
+.guia-subnav-btn.is-active .material-symbols-outlined { color:#B8862A; }
+.guia-subnav-btn .subnav-count {
+  position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;
+  border-radius:9999px;background:#2E93C7;color:#fff;font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+}
 
 .guia-contact-row {
   display:flex;align-items:center;justify-content:space-between;gap:12px;
