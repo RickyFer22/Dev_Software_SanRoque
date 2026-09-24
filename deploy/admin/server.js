@@ -147,6 +147,7 @@ function buildInitialStore() {
     bot_logs: [],
     system_logs: [],
     media: [],
+    announcement: { enabled: false, imageUrl: '', alt: 'Anuncio de San Roque' },
     migrations: [],
     bot_settings: defaultBotSettings(process.env),
     createdAt: now,
@@ -172,11 +173,23 @@ function normalizeStore(store) {
     bot_logs: Array.isArray(store.bot_logs) ? store.bot_logs.slice(0, BOT_LOG_LIMIT) : [],
     system_logs: Array.isArray(store.system_logs) ? store.system_logs.slice(0, SYSTEM_LOG_LIMIT) : [],
     media: Array.isArray(store.media) ? store.media : [],
+    announcement: normalizeAnnouncement(store.announcement),
     migrations: Array.isArray(store.migrations) ? store.migrations : [],
     bot_settings: (store.bot_settings && Array.isArray(store.bot_settings.apis))
       ? normalizeBotSettings(store.bot_settings, store.bot_settings)
       : defaultBotSettings(process.env),
     createdAt: store.createdAt || new Date().toISOString(),
+  };
+}
+
+function normalizeAnnouncement(value) {
+  const announcement = value && typeof value === 'object' ? value : {};
+  return {
+    enabled: announcement.enabled === true,
+    imageUrl: typeof announcement.imageUrl === 'string' ? announcement.imageUrl.trim().slice(0, 2000) : '',
+    alt: typeof announcement.alt === 'string' && announcement.alt.trim()
+      ? announcement.alt.trim().slice(0, 180)
+      : 'Anuncio de San Roque',
   };
 }
 
@@ -519,6 +532,7 @@ app.get('/api/data', (req, res) => {
     eventos: (store.eventos || []).filter(isPublicItem).map((item) => hydratePublicItem(store, item)),
     datosUtiles: transformDatosUtilesForPublic(store.datos_utiles || []),
     actividades: (store.actividades || []).filter(isPublicItem).map((item) => hydratePublicItem(store, item)),
+    announcement: store.announcement.enabled && store.announcement.imageUrl ? store.announcement : null,
     ratings: computeRatings(store),
   });
 });
@@ -762,6 +776,24 @@ app.post('/admin/api/bot-config', (req, res) => {
   } catch (e) {
     res.status(400).json({ error: (e && e.message) || 'No se pudo guardar la configuración del bot' });
   }
+});
+
+app.get('/admin/api/announcement', (req, res) => {
+  if (!canRead('announcement', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  res.json(loadStore().announcement);
+});
+
+app.post('/admin/api/announcement', (req, res) => {
+  if (!canWrite('announcement', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const payload = normalizeAnnouncement(req.body || {});
+  if (payload.enabled && !payload.imageUrl) {
+    return res.status(400).json({ error: 'Elegí una imagen para activar el anuncio.' });
+  }
+  const store = loadStore();
+  store.announcement = payload;
+  saveStore(store);
+  recordAudit('update', 'announcement', 'announcement', req, payload);
+  return res.json(payload);
 });
 
 app.get('/admin/api/observability', (req, res) => {

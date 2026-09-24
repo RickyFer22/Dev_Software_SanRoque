@@ -44,6 +44,9 @@
           <button type="button" class="nav-item tab" data-section="datos-utiles">
             <span class="nav-icon" data-icon="info"></span><span class="nav-label">Servicios y datos útiles</span>
           </button>
+          <button type="button" class="nav-item tab" data-section="announcement">
+            <span class="nav-icon" data-icon="megaphone"></span><span class="nav-label">Anuncio de entrada</span>
+          </button>
           <button type="button" class="nav-item tab" data-section="uploads">
             <span class="nav-icon" data-icon="image"></span><span class="nav-label">Multimedia</span>
           </button>
@@ -695,6 +698,37 @@
           </div>
           <div id="uploads-list" class="uploads-grid"></div>
           <div id="uploads-pagination" class="small"></div>
+        </div>
+
+        <!-- ANUNCIO DE ENTRADA -->
+        <div id="announcement" class="section">
+          <div class="card announcement-settings-card">
+            <div class="panel-title"><div><span class="eyebrow">Visibilidad pública</span><h2>Anuncio de entrada</h2></div><span class="small">Aparece al abrir el portal</span></div>
+            <p class="small">Elegí una imagen de la biblioteca y activá el anuncio. La persona visitante podrá cerrarlo con la X.</p>
+            <label class="toggle-field"><input id="announcement-enabled" type="checkbox" /><span>Mostrar anuncio al ingresar</span></label>
+            <div class="announcement-editor-grid">
+              <div>
+                <label>Imagen del anuncio
+                  <input id="announcement-image-url" type="url" placeholder="/admin/uploads/imagen.webp" />
+                </label>
+                <div class="toolbar">
+                  <button type="button" class="cancel-button" data-media-target="announcement-image-url" data-preview-target="announcement-image-preview">Elegir de Multimedia</button>
+                  <button type="button" class="cancel-button" data-goto="uploads">Abrir biblioteca</button>
+                </div>
+                <label>Texto alternativo
+                  <input id="announcement-alt" type="text" maxlength="180" placeholder="Descripción breve de la imagen" />
+                </label>
+              </div>
+              <div class="announcement-preview-wrap">
+                <span class="small">Vista previa</span>
+                <img id="announcement-image-preview" class="announcement-preview" alt="" hidden />
+              </div>
+            </div>
+            <div class="bot-save-bar">
+              <span class="small" id="announcement-feedback" aria-live="polite"></span>
+              <button type="button" class="btn-gold" id="announcement-save">Guardar anuncio</button>
+            </div>
+          </div>
         </div>
 
         <!-- BACKUP -->

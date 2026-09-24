@@ -9,6 +9,7 @@ const ADMIN_SECTIONS = Object.freeze({
   tickets: { api: '/admin/api/tickets', title: 'Tickets', description: 'Solicitudes de atención y seguimiento.', icon: 'info', group: 'Atención' },
   audit: { api: '/admin/api/audit', title: 'Auditoría', description: 'Historial verificable de modificaciones.', icon: 'history', group: 'Sistema', isAudit: true },
   uploads: { api: '/admin/api/media', title: 'Multimedia', description: 'Biblioteca de fotografías optimizadas.', icon: 'image', group: 'Sistema' },
+  announcement: { title: 'Anuncio de entrada', description: 'Imagen que aparece al ingresar al portal.', icon: 'megaphone', group: 'Contenido' },
   backup: { title: 'Copias de seguridad', description: 'Respaldo y restauración del contenido.', icon: 'backup', group: 'Sistema' },
   'bot-config': { title: 'Bot y APIs', description: 'Asistente turístico e integraciones.', icon: 'bot', group: 'Sistema' },
   observability: { title: 'Observabilidad', description: 'Salud técnica y registros operativos.', icon: 'activity', group: 'Sistema' },
@@ -23,6 +24,7 @@ const resourceFilters = new Map();
 const resourceSort = new Map();
 const resourceCache = new Map();
 let mediaLibrary = [];
+let announcementConfig = { enabled: false, imageUrl: '', alt: 'Anuncio de San Roque' };
 
 // Ítems guardados antes del gestor multimedia: reconstruye la galería desde
 // los campos legados (imagen/mainImg + galeria) para que el editor las muestre.
@@ -1206,6 +1208,66 @@ function updateBotPromptCount() {
   if (prompt && counter) counter.textContent = `${prompt.value.length} caracteres`;
 }
 
+function applyAnnouncementConfig(data) {
+  announcementConfig = Object.assign({ enabled: false, imageUrl: '', alt: 'Anuncio de San Roque' }, data || {});
+  const enabled = document.getElementById('announcement-enabled');
+  const imageUrl = document.getElementById('announcement-image-url');
+  const alt = document.getElementById('announcement-alt');
+  const preview = document.getElementById('announcement-image-preview');
+  if (enabled) enabled.checked = announcementConfig.enabled === true;
+  if (imageUrl) imageUrl.value = announcementConfig.imageUrl || '';
+  if (alt) alt.value = announcementConfig.alt || '';
+  if (preview) {
+    preview.src = resolvePublicAssetUrl(announcementConfig.imageUrl) || IMG_PLACEHOLDER;
+    preview.hidden = !announcementConfig.imageUrl;
+  }
+}
+
+async function loadAnnouncementConfig() {
+  const data = await fetchJson('/admin/api/announcement');
+  if (data.error) {
+    showToast(`No se pudo cargar el anuncio: ${data.error}`, 'error');
+    return;
+  }
+  applyAnnouncementConfig(data);
+}
+
+async function saveAnnouncementConfig() {
+  const feedback = document.getElementById('announcement-feedback');
+  const button = document.getElementById('announcement-save');
+  const payload = {
+    enabled: Boolean(document.getElementById('announcement-enabled')?.checked),
+    imageUrl: document.getElementById('announcement-image-url')?.value.trim() || '',
+    alt: document.getElementById('announcement-alt')?.value.trim() || 'Anuncio de San Roque',
+  };
+  if (button) button.disabled = true;
+  if (feedback) feedback.textContent = 'Guardando...';
+  const data = await fetchJson('/admin/api/announcement', { method: 'POST', body: JSON.stringify(payload) });
+  if (data.error) {
+    if (feedback) feedback.textContent = `No se pudo guardar: ${data.error}`;
+  } else {
+    applyAnnouncementConfig(data);
+    if (feedback) feedback.textContent = 'Anuncio guardado.';
+    notifyPublicDataRefresh();
+  }
+  if (button) button.disabled = false;
+}
+
+function initAnnouncementControls() {
+  const save = document.getElementById('announcement-save');
+  if (save && !save.dataset.bound) {
+    save.dataset.bound = '1';
+    save.addEventListener('click', saveAnnouncementConfig);
+  }
+  const imageUrl = document.getElementById('announcement-image-url');
+  const preview = document.getElementById('announcement-image-preview');
+  imageUrl?.addEventListener('input', () => {
+    if (!preview) return;
+    preview.src = resolvePublicAssetUrl(imageUrl.value.trim()) || IMG_PLACEHOLDER;
+    preview.hidden = !imageUrl.value.trim();
+  });
+}
+
 function applyBotConfig(data) {
   setText('bot-endpoint', data.endpoint);
   setText('bot-fallback', data.fallback);
@@ -2059,6 +2121,7 @@ async function refreshAll() {
   const permitted = Object.keys(resources).filter((key) => resources[key].api && canReadResource(key, role));
   await Promise.all(permitted.map(loadResource));
   await loadHealth();
+  await loadAnnouncementConfig();
   if (['super-admin', 'editor'].includes(role)) await Promise.all([loadBotConfig(), loadObservability()]);
 }
 
@@ -2421,6 +2484,7 @@ document.addEventListener('DOMContentLoaded', () => {
   imageObserver.observe(document.body, { childList: true, subtree: true });
   setSidebarCollapsed(localStorage.getItem('admin_sidebar_collapsed') === '1');
   initPortalPreview();
+  initAnnouncementControls();
   document.querySelectorAll('.nav-item, .tab').forEach((tab) => {
     tab.addEventListener('click', () => toggleSection(tab.dataset.section));
   });
