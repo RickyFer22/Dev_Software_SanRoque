@@ -1002,6 +1002,30 @@ bottom:15px;
   }
 
 /* Gastronomía: ajustes mobile y paquete standalone */
+.site-back-link {
+  display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;min-height:40px;padding:7px 10px;
+  border:1px solid rgba(53,94,74,.18);border-radius:999px;color:var(--brand-primary);
+  background:rgba(255,255,255,.82);font:700 11px/1 "Manrope",sans-serif;text-decoration:none;
+  transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease;
+}
+.site-back-link:hover { background:var(--brand-primary);border-color:var(--brand-primary);color:#fff;transform:translateX(-2px); }
+.site-back-link:focus-visible { outline:3px solid #D8A441;outline-offset:3px; }
+.site-back-link .material-symbols-outlined { font-size:18px; }
+.site-back-link > span:not(.material-symbols-outlined) { display:none; }
+.site-back-link { width:40px;justify-content:center;padding:7px; }
+.nav .site-back-link { color:#355E4A; }
+.nav .site-back-link:hover { color:#fff; }
+#main-nav > div > .font-display-lg,
+.nav .brand {
+  display:inline-flex;align-items:center;gap:9px;
+}
+#main-nav > div > .font-display-lg::before,
+.nav .brand::before {
+  content:"";display:inline-block;flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:url("../img/logo-muni.jpg") center/cover no-repeat;
+  box-shadow:0 2px 8px rgba(0,0,0,.18);
+}
+.nav .brand::before { width:28px;height:28px; }
 html, body { max-width: 100%; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { min-height: 100vh; }
 #gastronomia-grid .card-item { width: 100%; }
@@ -1113,7 +1137,7 @@ a, button, input, select, textarea { min-height: 44px; }
   #directory { padding-top: 72px !important; padding-bottom: 72px !important; }
   #directory .mb-16 { margin-bottom: 32px !important; }
   #gastronomia-grid { gap: 24px !important; }
-  #gastronomia-grid .card-item { min-height: 640px; border-radius: 20px; }
+  #gastronomia-grid .card-item { min-height: 0; border-radius: 20px; }
   #gastronomia-grid .card-item p,
   #gastronomia-grid .card-item li,
   #gastronomia-grid .card-item a,
@@ -1620,7 +1644,7 @@ body.lightbox-open { overflow:hidden; }
 
 @media (max-width: 390px) {
   #hero-section h1 { font-size: 34px !important; }
-  #gastronomia-grid .card-item { min-height: 690px; }
+  #gastronomia-grid .card-item { min-height: 0; }
   .geo-btn { font-size: 10px; }
 }
 /* Fix seguro: temperatura y chatbot sin romper contenido */
@@ -2277,13 +2301,42 @@ body {
 #main-nav .main-nav-buttons > .nav-dropdown { padding:0;background:none;box-shadow:none; }
 .tourism-hero .hero-brand-badge { position:absolute;top:18px;right:18px;z-index:30; }
 
+/* Cabecera minimalista: marca y regreso; la navegación completa queda en
+  los accesos de sección y en la barra inferior móvil. */
+#main-nav .main-nav-buttons,
+#main-nav .weather-widget,
+#main-nav #mobile-menu-toggle,
+#main-nav #mobile-nav-panel,
+.nav .nav-links,
+.nav .menu-toggle,
+.nav > .btn,
+.nav .mobile-panel { display:none !important; }
+
+/* Composición única de cabecera: regreso a la izquierda y marca centrada. */
+#main-nav > div,
+.nav .nav-inner {
+  position:relative;
+  min-height:44px;
+}
+#main-nav > div > .font-display-lg,
+.nav .brand {
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+}
+#main-nav > div > .font-display-lg:hover,
+.nav .brand:hover { transform:translateX(-50%); }
+#main-nav > div > .site-back-link,
+.nav .site-back-link { position:relative;z-index:2; }
+
 @media (min-width:900px) {
   .tourism-hero#hero-section { height:560px;min-height:560px;align-items:flex-start;justify-content:center;padding-top:5rem;padding-bottom:0; }
   .tourism-hero#hero-section .hero-slide { object-position:center 30%; }
 }
 @media (max-width:767px) {
-  /* En móvil manda la barra inferior y el panel desplegable. */
-  #main-nav { display:none; }
+  /* La barra superior conserva la marca y el regreso también en móvil. */
+  #main-nav { display:block; }
   .hero-quick-links { display:none; }
   .hero-quick-links + div { margin-top:0; }
   .tourism-hero .hero-brand-badge { top:14px;right:14px; }
