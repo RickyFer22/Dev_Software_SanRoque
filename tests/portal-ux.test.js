@@ -42,9 +42,9 @@ test('public footer is Spanish, useful and does not expose admin', () => {
   assert.match(html, /Desarrollado por estudiantes de 3\.<sup>er<\/sup> año de la Tecnicatura Superior en Desarrollo de Software/);
   assert.match(html, /Daniel Almirón/);
   assert.match(html, /Lucas Sánchez/);
-  assert.match(html, /Milca Martínez/);
+  assert.match(html, /Milka Martínez/);
   assert.match(html, /Román Rossi/);
-  assert.match(html, /Tomás Rolet/);
+  assert.match(html, /Tomás Rollet/);
   assert.match(html, /Ayudante:<\/b>\s*Javier Legal/);
   assert.match(html, /Profesora:<\/b>\s*Yésica Ponce/);
   assert.doesNotMatch(html, /Privacy Policy|Terms of Service|Local Government|Tourist Office/);
@@ -115,6 +115,14 @@ test('splash uses the official municipal crest and mobile navigation exposes sta
   assert.match(css, /\.chatbot\s*\{[^}]*bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom\)\)/s);
 });
 
+test('mobile chatbot stays inside the dynamic viewport and scrolls its message list', () => {
+  const css = read('css/styles.css');
+
+  assert.match(css, /height:\s*min\(560px,\s*calc\(100dvh - 194px - env\(safe-area-inset-top\) - env\(safe-area-inset-bottom\)\)\)/);
+  assert.match(css, /\.chat-box\s*\{[^}]*min-height:\s*0/s);
+  assert.match(css, /\.chat-quick\s*\{[^}]*max-height:\s*min\(118px, 18dvh\)/s);
+});
+
 test('premium login exposes accessible interaction states without browser alerts', () => {
   const html = read('deploy/admin/static/login.html');
 
@@ -171,4 +179,14 @@ test('public navigation becomes a neutral glass surface after scrolling', () => 
   assert.match(css, /#main-nav\.bg-primary\\\/95\s*\{[^}]*background:\s*rgba\(255,255,255,\.94\)\s*!important/s);
   assert.match(css, /#main-nav\.bg-primary\\\/95[^}]*color:\s*var\(--text\)\s*!important/s);
   assert.match(css, /#mobile-nav-panel[^}]*background:\s*var\(--surface-elevated\)/s);
+});
+
+test('agenda and practical guide share the desktop pill menu and weather badge', () => {
+  for (const file of ['agenda.html', 'guia-practica.html']) {
+    const html = read(file);
+    assert.match(html, /class="hidden md:flex items-center main-nav-buttons gap-3"/, file);
+    assert.match(html, /id="nav-weather"[^>]*role="status"/, file);
+    assert.match(html, /js\/nav-weather\.js\?v=20260926/, file);
+    assert.match(html, /css\/styles\.css\?v=20260926-desktop-nav/, file);
+  }
 });

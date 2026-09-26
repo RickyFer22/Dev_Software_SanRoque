@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /></noscript>
   <!-- Critical CSS -->
-  <link rel="stylesheet" href="css/styles.css?v=20260718-footer" />
+    <link rel="stylesheet" href="css/styles.css?v=20260926-desktop-nav" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -53,14 +53,11 @@
 <body class="text-neutral-900 font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
 
   <!-- Navbar -->
-  <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-white/95 backdrop-blur-md shadow-md py-4">
+    <nav id="main-nav" class="site-nav-clear fixed top-0 w-full z-50 transition-all duration-300 ease-in-out py-4">
         <div class="flex justify-between items-center px-6 max-w-7xl mx-auto">
             <a class="site-back-link" href="index.html" aria-label="Volver al inicio"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span><span>Inicio</span></a>
-      <a href="index.html" class="font-display-lg text-[26px] leading-none text-primary tracking-tighter hover:scale-105 transition-transform cursor-pointer">
-        San Roque
-      </a>
-      <div class="hidden md:flex items-center gap-8">
-        <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="index.html">Inicio</a>
+            <a href="index.html" class="font-display-lg text-[26px] leading-none text-primary tracking-tighter hover:scale-105 transition-transform cursor-pointer" aria-label="San Roque"><span class="brand-mark-pill"><span class="brand-mark-name">San Roque</span></span></a>
+    <div class="hidden md:flex items-center main-nav-buttons gap-3">
         <div class="nav-dropdown">
           <a class="nav-dropdown-trigger text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="que-hacer.html" aria-haspopup="true">Qué hacer <span class="material-symbols-outlined" aria-hidden="true">expand_more</span></a>
           <div class="nav-dropdown-menu">
@@ -78,6 +75,12 @@
         <a class="text-neutral-600 hover:text-primary font-medium text-[13px] uppercase tracking-wide transition-all" href="agenda.html">Agenda</a>
         <a class="text-primary font-bold text-[13px] uppercase tracking-wide transition-all" href="guia-practica.html" aria-current="page">Guía práctica</a>
       </div>
+            <div id="nav-weather" class="hidden md:block weather-widget" role="status" aria-label="Consultando el clima de San Roque">
+                <div class="weather-pill backdrop-blur-md border border-white/20 shadow-lg rounded-full px-3 py-2 flex items-center gap-2">
+                    <span id="nav-weather-icon" class="material-symbols-outlined text-sun-haze text-[20px]" aria-hidden="true">partly_cloudy_day</span>
+                    <span id="nav-weather-temp" class="text-white font-bold text-sm font-headline-md leading-none">--°</span>
+                </div>
+            </div>
     </div>
   </nav>
 
@@ -1173,5 +1176,6 @@
         addMsg(`👋 <b>¡Bienvenido a MuniAyuda!</b><br><br>Soy el asistente virtual de Turismo de San Roque.<br><br>Puedo ayudarte con:<br>🏨 Hospedajes<br>🍕 Gastronomía<br>🎉 Eventos<br>🚓 Emergencias<br><br>¿Qué necesitás?`);
     }, 1000);
   </script>
+    <script src="js/nav-weather.js?v=20260926"></script>
 </body>
 </html>

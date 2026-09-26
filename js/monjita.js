@@ -7,11 +7,11 @@
   'use strict';
 
   const SOURCES = [
-    'img/monjita/monjita-4.jpg',
-    'img/monjita/monjita-5.jpg',
-    'img/monjita/monjita-1.jpg',
-    'img/monjita/monjita-2.jpg',
-    'img/monjita/monjita-3.jpg',
+    'img/monjita/monjita-4.webp',
+    'img/monjita/monjita-5.webp',
+    'img/monjita/monjita-1.webp',
+    'img/monjita/monjita-2.webp',
+    'img/monjita/monjita-3.webp',
   ];
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -38,11 +38,17 @@
         const b = document.createElement('button');
         b.type = 'button';
         b.className = 'monjita-thumb' + (i === 0 ? ' is-active' : '');
+        b.setAttribute('aria-label', `Ver fotografía de Monjita dominica ${i + 1}`);
+        b.setAttribute('aria-pressed', String(i === 0));
         b.innerHTML = `<img src="${src}" alt="Monjita dominica ${i + 1}" loading="lazy" />`;
         b.addEventListener('click', () => {
           main.src = src;
-          thumbs.querySelectorAll('.monjita-thumb').forEach((t) => t.classList.remove('is-active'));
+          thumbs.querySelectorAll('.monjita-thumb').forEach((thumb) => {
+            thumb.classList.remove('is-active');
+            thumb.setAttribute('aria-pressed', 'false');
+          });
           b.classList.add('is-active');
+          b.setAttribute('aria-pressed', 'true');
         });
         thumbs.appendChild(b);
       });

@@ -12,6 +12,7 @@ const SIN_ESTILO_PROPIO = new Set([
   'chat-card-placeholder', 'chat-logo', 'gastro-chips-filters', 'gastro-share-btn',
   'interactive-stars', 'star-btn', 'vote-label', 'visita-fab-label', 'vsr-interactive',
   'vsr-avg', 'vsr-avg-empty', 'vsr-avg-num', 'vsr-avg-stars', 'vsr-star-empty', 'vsr-star-fill',
+  'servicios-subsection',
   'next', 'prev', 'light', 'fas', 'fa-brands',
 ]);
 

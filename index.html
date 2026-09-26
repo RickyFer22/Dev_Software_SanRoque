@@ -14,7 +14,7 @@
   </script>
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Viví San Roque · Turismo y Cultura</title>
-  <link rel="preload" as="image" href="img/monjita/monjita-1.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="img/monjita/monjita-1.webp" fetchpriority="high" />
   <meta name="description" content="Alojamientos, gastronomía, eventos y servicios oficiales de San Roque, Corrientes. Portal municipal de turismo: dónde dormir, qué hacer y cómo llegar." />
   <link rel="canonical" href="https://vivisanroque.munisanroque.ar/" />
   <meta name="theme-color" content="#355E4A" />
@@ -58,7 +58,7 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" /></noscript>
   <!-- Critical CSS -->
-  <link rel="stylesheet" href="css/styles.css?v=20260804-navfix">
+  <link rel="stylesheet" href="css/styles.css?v=20260926-chatbot-mobile-2">
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
 <script type="application/ld+json">
 {
@@ -107,7 +107,7 @@
     class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out bg-gradient-to-b from-black/60 to-transparent pt-2 pb-2 md:pt-3 md:pb-3">
     <div class="flex items-center justify-between px-4 md:px-6 max-w-7xl mx-auto gap-3">
       <a class="font-display-lg text-[24px] md:text-[36px] leading-none text-white tracking-tighter drop-shadow-md hover:scale-105 transition-transform cursor-pointer"
-        href="/">San Roque</a>
+        href="/" aria-label="San Roque"><span class="brand-mark-pill"><span class="brand-mark-name">San Roque</span></span></a>
       <div
         class="hidden md:flex items-center main-nav-buttons gap-3">
         <div class="nav-dropdown">
@@ -221,17 +221,12 @@
 
     <section id="hero-section" class="tourism-hero">
       <div class="absolute inset-0 z-0 hero-rotor-monjita">
-        <img alt="Monjita dominica en su hábitat" class="hero-slide" src="img/monjita/monjita-1.jpg" loading="eager" fetchpriority="high" />
-        <img alt="Monjita dominica" class="hero-slide" src="img/monjita/monjita-2.jpg" loading="lazy" />
-        <img alt="Monjita dominica posada" class="hero-slide" src="img/monjita/monjita-5.jpg" loading="lazy" />
-        <img alt="Monjita dominica de cerca" class="hero-slide" src="img/monjita/monjita-4.jpg" loading="lazy" />
+        <img alt="Monjita dominica en su hábitat" class="hero-slide" src="img/monjita/monjita-1.webp" loading="eager" fetchpriority="high" />
+        <img alt="Monjita dominica" class="hero-slide" src="img/monjita/monjita-2.webp" loading="lazy" />
+        <img alt="Monjita dominica posada" class="hero-slide" src="img/monjita/monjita-5.webp" loading="lazy" />
+        <img alt="Monjita dominica de cerca" class="hero-slide" src="img/monjita/monjita-4.webp" loading="lazy" />
       </div>
       <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
-        <div
-          class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
-          <span class="material-symbols-outlined text-sun-haze text-[14px]">location_on</span>
-          <span class="text-white/90 text-xs font-label-caps tracking-widest uppercase">San Roque · Corrientes</span>
-        </div>
         <h1
           class="font-display-lg text-[46px] md:text-[68px] text-canvas-white mb-6 hero-text-shadow tracking-tight leading-tight min-h-[1.2em]">
           <span id="hero-typewriter-text" data-phrases="Bienvenido a
@@ -250,11 +245,11 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
       <!-- Colección interactiva: Monjita Dominica (Monumento Natural de San Roque) -->
       <button id="monjita-open" type="button" class="monjita-hero-card" aria-haspopup="dialog" aria-controls="monjita-modal">
         <span class="monjita-hero-imgs" aria-hidden="true">
-          <img src="img/monjita/monjita-1.jpg" alt="" class="monjita-hero-img is-active" loading="lazy" />
-          <img src="img/monjita/monjita-2.jpg" alt="" class="monjita-hero-img" loading="lazy" />
-          <img src="img/monjita/monjita-3.jpg" alt="" class="monjita-hero-img" loading="lazy" />
-          <img src="img/monjita/monjita-4.jpg" alt="" class="monjita-hero-img" loading="lazy" />
-          <img src="img/monjita/monjita-5.jpg" alt="" class="monjita-hero-img" loading="lazy" />
+          <img src="img/monjita/monjita-1.webp" alt="" class="monjita-hero-img is-active" loading="lazy" />
+          <img src="img/monjita/monjita-2.webp" alt="" class="monjita-hero-img" loading="lazy" />
+          <img src="img/monjita/monjita-3.webp" alt="" class="monjita-hero-img" loading="lazy" />
+          <img src="img/monjita/monjita-4.webp" alt="" class="monjita-hero-img" loading="lazy" />
+          <img src="img/monjita/monjita-5.webp" alt="" class="monjita-hero-img" loading="lazy" />
         </span>
         <span class="monjita-hero-body">
           <span class="monjita-hero-kicker"><span class="material-symbols-outlined">eco</span> Monumento Natural</span>
@@ -467,7 +462,7 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
         <span class="material-symbols-outlined">close</span>
       </button>
       <div class="monjita-gallery">
-        <img id="monjita-gallery-main" src="img/monjita/monjita-4.jpg" alt="Monjita dominica posada" />
+        <img id="monjita-gallery-main" src="img/monjita/monjita-4.webp" alt="Monjita dominica posada" />
         <div class="monjita-thumbs" id="monjita-thumbs"></div>
       </div>
       <div class="monjita-article">
@@ -518,7 +513,7 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
   <script src="js/gallery.js?v=20260718"></script>
   <script src="js/detail-pages.js?v=20260718"></script>
   <script src="js/app.js"></script>
-  <script src="js/monjita.js"></script>
+  <script src="js/monjita.js?v=20260926-webp-a11y"></script>
   <script src="js/announcement.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {

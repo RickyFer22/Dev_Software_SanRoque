@@ -25,6 +25,13 @@
   --color-bg-surface: #F6F3EE;
 }
 
+.brand-mark-pill { display:inline-flex;align-items:center;gap:0.28em;padding:0.12em 0.48em 0.12em 0.14em;border-radius:9999px;background:#355E4A;color:#fff;white-space:nowrap;animation:brand-mark-color-cycle 9s ease-in-out infinite; }
+.brand-mark-pill::before { content:"";display:inline-block;flex:0 0 auto;width:1.12em;height:1.12em;border:1px solid rgba(255,255,255,.8);border-radius:50%;background:url("../img/logo-muni.jpg") center/cover no-repeat;box-shadow:0 2px 8px rgba(0,0,0,.18); }
+.brand-mark-name { display:inline-block;animation:brand-mark-name-cycle 9s cubic-bezier(.22,1,.36,1) infinite; }
+@keyframes brand-mark-color-cycle { 0%,27%{background:#355E4A} 33%,60%{background:#8A6212} 66%,93%{background:#98452E} 100%{background:#355E4A} }
+@keyframes brand-mark-name-cycle { 0%{opacity:0;transform:translateY(45%)} 8%{opacity:1;transform:translateY(-6%)} 14%,94%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-45%)} }
+@media (prefers-reduced-motion:reduce) { .brand-mark-pill,.brand-mark-name { animation:none; } .brand-mark-pill { background:#355E4A; } }
+
 .announcement-open { overflow:hidden; }
 .portal-announcement { position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:clamp(16px,4vw,56px);opacity:0;visibility:hidden;transition:opacity .22s ease,visibility .22s ease; }
 .portal-announcement.is-visible { opacity:1;visibility:visible; }
@@ -460,6 +467,8 @@
 .chat-box{
 
     flex:1;
+
+  min-height:0;
 
     padding:12px;
 
@@ -1031,13 +1040,6 @@ bottom:15px;
 .nav .brand {
   display:inline-flex;align-items:center;gap:9px;
 }
-#main-nav > div > .font-display-lg::before,
-.nav .brand::before {
-  content:"";display:inline-block;flex:0 0 auto;width:30px;height:30px;border-radius:50%;
-  background:url("../img/logo-muni.jpg") center/cover no-repeat;
-  box-shadow:0 2px 8px rgba(0,0,0,.18);
-}
-.nav .brand::before { width:28px;height:28px; }
 html, body { max-width: 100%; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { min-height: 100vh; }
 #gastronomia-grid .card-item { width: 100%; }
@@ -1162,8 +1164,8 @@ body { padding-bottom: 96px; }
   .chatbot { right: 12px; bottom: calc(88px + env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); }
   .chat-button { width: 64px; height: 64px; font-size: 10px; flex-shrink: 0; }
   .chat-button img { width: 100%; height: 100%; }
-  .chat-window { width: min(calc(100vw - 24px), 420px); height: min(78vh, 560px); right: 0; bottom: 74px; border-radius: 18px; }
-  .chat-quick { max-height: 118px; overflow-y: auto; }
+  .chat-window { width: min(calc(100vw - 24px), 420px); height: min(560px, calc(100dvh - 194px - env(safe-area-inset-top) - env(safe-area-inset-bottom))); right: 0; bottom: 74px; border-radius: 18px; }
+  .chat-quick { max-height: min(118px, 18dvh); overflow-y: auto; }
   .quick-btn { padding: 8px 10px; font-size: 11px; }
   .chat-input-area input { min-width: 0; }
 footer .flex.gap-6 { flex-wrap: wrap; justify-content: center; gap: 16px; }
@@ -2507,3 +2509,11 @@ body {
   #mobile-bottom-nav { display:none; }
   body { padding-bottom:0; }
 }
+
+#main-nav.site-nav-clear { background:transparent !important;backdrop-filter:none !important;box-shadow:none !important;border-bottom-color:transparent; }
+#main-nav.site-nav-clear.site-nav-over-photo { background:linear-gradient(180deg,rgba(0,0,0,.56),transparent) !important; }
+#main-nav.site-nav-clear.site-nav-over-photo > div > a,
+#main-nav.site-nav-clear.site-nav-over-photo .site-back-link { color:var(--brand-primary) !important;text-shadow:none; }
+#main-nav.site-nav-clear.site-nav-over-photo > div > a:not(.brand-mark-pill) { color:#fff !important;text-shadow:0 1px 6px rgba(0,0,0,.36); }
+#main-nav.site-nav-clear.site-nav-over-photo .main-nav-buttons > a,
+#main-nav.site-nav-clear.site-nav-over-photo .nav-dropdown-trigger { color:var(--brand-primary) !important;text-shadow:none; }

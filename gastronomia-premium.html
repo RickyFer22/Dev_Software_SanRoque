@@ -66,6 +66,11 @@
   .nav.solid{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(47,47,47,.06);padding:12px 0}
   .nav-inner{display:flex;align-items:center;justify-content:space-between}
   .brand{font-weight:800;font-size:1.35rem;color:var(--blanco);letter-spacing:-.03em;transition:var(--transicion)}
+  .gastronomy-premium-page .brand-mark-pill{display:inline-flex;align-items:center;gap:.28em;padding:.12em .48em .12em .14em;border-radius:9999px;background:var(--primario);color:#fff;white-space:nowrap;animation:brand-mark-color-cycle 9s ease-in-out infinite}
+  .gastronomy-premium-page .brand-mark-name{display:inline-block;animation:brand-mark-name-cycle 9s ease-in-out infinite}
+  @keyframes brand-mark-color-cycle{0%,27%{background:#355E4A}33%,60%{background:#8A6212}66%,93%{background:#98452E}100%{background:#355E4A}}
+  @keyframes brand-mark-name-cycle{0%{opacity:0;transform:translateY(45%)}8%{opacity:1;transform:translateY(-6%)}14%,94%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-45%)}}
+  @media(prefers-reduced-motion:reduce){.gastronomy-premium-page .brand-mark-pill,.gastronomy-premium-page .brand-mark-name{animation:none}.gastronomy-premium-page .brand-mark-pill{background:var(--primario)}}
   .nav.solid .brand,.nav.solid .nav-link{color:var(--primario)}
   .nav-links{display:none;gap:30px;align-items:center}
   .nav-link{font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--blanco);opacity:.92;transition:var(--transicion)}
@@ -200,7 +205,7 @@
   }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-<link rel="stylesheet" href="css/styles.css?v=20260718-footer" />
+<link rel="stylesheet" href="css/styles.css?v=20260926-nav-logo" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -224,7 +229,7 @@
 <nav class="nav" id="nav">
   <div class="wrap nav-inner">
     <a class="site-back-link" href="index.html" aria-label="Volver al inicio"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span><span>Inicio</span></a>
-    <a href="#top" class="brand">San&nbsp;Roque</a>
+    <a href="#top" class="brand brand-mark-pill" aria-label="San Roque"><span class="brand-mark-name">San&nbsp;Roque</span></a>
     <div class="nav-links">
       <a class="nav-link" href="que-hacer.html">Qué hacer</a>
       <a class="nav-link" href="index.html">Dónde alojarme</a>

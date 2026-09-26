@@ -27,7 +27,7 @@ test('public footers remove obsolete legal copy while preserving institutional c
     const html = read(file);
     assert.doesNotMatch(html, /Política de privacidad|Términos y condiciones/i, file);
     assert.match(html, /Proyecto educativo · tecnología local/i, file);
-    assert.match(html, /Daniel Almirón · Lucas Sánchez · Milca Martínez · Román Rossi · Tomás Rolet/, file);
+    assert.match(html, /Daniel Almirón · Lucas Sánchez · Milka Martínez · Román Rossi · Tomás Rollet/, file);
     assert.match(html, /<b>Ayudante:<\/b> Javier Legal[\s\S]*<b>Profesora:<\/b> Yésica Ponce/, file);
   }
 });
