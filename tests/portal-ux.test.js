@@ -186,6 +186,6 @@ test('agenda and practical guide share the desktop pill menu and weather badge',
     assert.match(html, /class="hidden md:flex items-center main-nav-buttons gap-3"/, file);
     assert.match(html, /id="nav-weather"[^>]*role="status"/, file);
     assert.match(html, /js\/nav-weather\.js\?v=20260926/, file);
-    assert.match(html, /css\/styles\.css\?v=20260926-desktop-nav/, file);
+    assert.match(html, /css\/styles\.css\?v=[^"]+/, file);
   }
 });

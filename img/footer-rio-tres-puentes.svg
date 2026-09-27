@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 180" fill="none">
+  <defs>
+    <linearGradient id="agua" x1="52" y1="108" x2="893" y2="156" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#68C3B3"/>
+      <stop offset=".5" stop-color="#32999A"/>
+      <stop offset="1" stop-color="#18747D"/>
+    </linearGradient>
+    <linearGradient id="piedra" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#D38B58"/>
+      <stop offset="1" stop-color="#A9563E"/>
+    </linearGradient>
+  </defs>
+  <circle cx="480" cy="51" r="27" fill="#E9AA4D"/>
+  <path d="M0 97C101 74 186 82 281 96s182 16 288-3 222-20 391 7v30H0V97Z" fill="#D9DFAE"/>
+  <path d="M0 107c110-19 204 18 321 5 118-13 193-26 306-10 105 15 207 21 333-1v58H0v-52Z" fill="url(#agua)"/>
+  <path d="M0 126c102-14 193 17 296 7m111-8c113-14 187-14 289 2m111 5c57 7 102 7 153-2" stroke="#B4E5D4" stroke-linecap="round" stroke-width="3" opacity=".78"/>
+  <path d="M0 150c93-8 149 12 226 9m391-8c109-10 211 8 343-2" stroke="#D1F0D9" stroke-linecap="round" stroke-width="2" opacity=".62"/>
+  <path d="M0 105c93-12 182-7 269 8m420 3c95-16 183-14 271-2" stroke="#78905E" stroke-linecap="round" stroke-width="5" opacity=".8"/>
+  <g stroke="url(#piedra)" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(92 0)" stroke-width="8">
+      <path d="M7 99V82h126v17M18 82V68m24 14V68m24 14V68m24 14V68m24 14V68"/>
+      <path d="M18 100c7 27 30 43 52 43s45-16 52-43"/>
+    </g>
+    <g transform="translate(409 0)" stroke-width="8">
+      <path d="M7 99V82h126v17M18 82V68m24 14V68m24 14V68m24 14V68m24 14V68"/>
+      <path d="M18 100c7 27 30 43 52 43s45-16 52-43"/>
+    </g>
+    <g transform="translate(726 0)" stroke-width="8">
+      <path d="M7 99V82h126v17M18 82V68m24 14V68m24 14V68m24 14V68m24 14V68"/>
+      <path d="M18 100c7 27 30 43 52 43s45-16 52-43"/>
+    </g>
+  </g>
+  <path d="M40 112c-7-8-10-14-12-22m-1 22-11-12m19 13 2-15M917 114c7-9 10-15 12-24m1 24 11-12m-19 13-2-15" stroke="#477451" stroke-linecap="round" stroke-width="3"/>
+</svg>

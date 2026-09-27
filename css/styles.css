@@ -2612,61 +2612,61 @@ body {
 #main-nav.site-nav-clear.site-nav-over-photo .main-nav-buttons > a,
 #main-nav.site-nav-clear.site-nav-over-photo .nav-dropdown-trigger { color:var(--brand-primary) !important;text-shadow:none; }
 
-/* Firma turística del footer: paisaje de sol y río, con escala segura en móvil. */
+/* Firma turística del footer: río, luz de tarde y los tres puentes. */
 .footer-cream-crown {
-  height:88px;
-  background:linear-gradient(112deg,#e6f1df 0%,#fff2d4 52%,#dcefeb 100%);
+  height:218px;
+  background:linear-gradient(180deg,#D59B63 0%,#F1C980 27%,#FBE9C8 68%,#F7E7CA 100%);
 }
+.footer-cream-crown::after { display:none; }
 .footer-wordmark-wrap {
-  inset:8px 0 auto !important;
+  inset:14px 0 auto !important;
   width:100%;max-width:100%;box-sizing:border-box;
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  padding:0 14px;text-align:center;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  padding:0 20px;text-align:center;pointer-events:none;
 }
 .footer-wordmark-wrap::before {
-  color:#52785a;font:800 9px/1.2 "Manrope",sans-serif;
-  letter-spacing:.25em;
+  margin-bottom:10px;color:#A45439;font:800 9px/1.2 "Manrope",sans-serif;
+  letter-spacing:.27em;
 }
 .footer-wordmark-wrap::after {
-  width:82px;height:15px;margin-top:2px;opacity:1;
-  background:
-    radial-gradient(circle at 50% 32%,#D8A441 0 5px,transparent 5.6px),
-    linear-gradient(176deg,transparent 46%,#25877C 47% 54%,transparent 55%),
-    linear-gradient(183deg,transparent 66%,#65A78C 67% 74%,transparent 75%);
+  display:block;width:min(100%,960px);height:clamp(78px,11vw,132px);
+  margin:0 auto;background:url('../img/footer-rio-tres-puentes.svg') center / contain no-repeat;
 }
 .site-footer .sr-wordmark-hero {
-  max-width:100%;font-size:clamp(38px,5.2vw,66px) !important;
-  line-height:.94;letter-spacing:-.07em;color:#287456;
-  -webkit-text-stroke:0;filter:none;text-shadow:none;
+  position:relative;z-index:1;max-width:100%;
+  font-size:clamp(38px,6.2vw,82px) !important;
+  line-height:.92;letter-spacing:-.065em;color:#246653;
+  -webkit-text-stroke:0;filter:drop-shadow(0 3px 0 rgba(251,232,196,.9));
 }
 .site-footer .sr-wordmark-hero span {
-  color:#287456;animation:none;filter:none;transition:none;
-  text-shadow:0 1px 0 rgba(255,255,255,.85),0 3px 0 rgba(39,116,86,.12),0 7px 14px rgba(34,87,65,.12);
+  color:#246653;transform:none !important;animation:none;filter:none;transition:none;
+  text-shadow:0 2px 0 rgba(255,255,255,.58),0 5px 12px rgba(100,64,39,.12);
 }
-.site-footer .sr-wordmark-hero .sr-l4,
-.site-footer .sr-wordmark-hero .sr-l5,
-.site-footer .sr-wordmark-hero .sr-l6,
-.site-footer .sr-wordmark-hero .sr-l7,
-.site-footer .sr-wordmark-hero .sr-l8 { color:#25877C; }
-.footer-social-band { background:linear-gradient(145deg,#fff 0%,#f7f3e8 100%); }
-.footer-social-band .footer-tagline { color:#547360; }
+.site-footer { background:#FBF2DE !important; }
+.site-footer::after { background:#327E70; }
+.footer-social-band { border-top:0;background:#FBF2DE !important;padding:4px 0 22px; }
+.footer-social-band .footer-tagline { color:#81583E;font-size:14px; }
+.footer-social-band .social-link { box-shadow:0 8px 20px rgba(133,82,48,.12); }
+.footer-social-band .social-link:hover { background:#E6AA55;color:#483B29;border-color:#E6AA55; }
+.site-footer .footer-bottombar { background:#F1DFC1;padding-top:18px; }
+.site-footer .footer-photo-credit,.site-footer .compact-footer-legal { color:#79634C; }
 @media (max-width:640px) {
-  .footer-cream-crown { height:78px; }
-  .footer-wordmark-wrap { inset:8px 0 auto !important;padding-inline:10px;gap:2px; }
-  .footer-wordmark-wrap::before { font-size:8px;letter-spacing:.2em; }
-  .footer-wordmark-wrap::after { width:68px;height:13px;margin-top:1px; }
+  .footer-cream-crown { height:158px; }
+  .footer-wordmark-wrap { inset:12px 0 auto !important;padding-inline:12px; }
+  .footer-wordmark-wrap::before { margin-bottom:8px;font-size:8px;letter-spacing:.2em; }
+  .footer-wordmark-wrap::after { width:100%;height:58px;margin-top:0; }
   .site-footer .sr-wordmark-hero {
-    width:100%;font-size:clamp(29px,8.6vw,38px) !important;
-    justify-content:center;letter-spacing:-.065em;line-height:.96;
+    width:100%;font-size:clamp(34px,9.5vw,60px) !important;
+    justify-content:center;letter-spacing:-.07em;line-height:.94;
   }
-  .footer-social-band { padding-top:28px; }
+  .footer-social-band { padding-top:6px; }
   .footer-social-band .footer-tagline { max-width:340px;font-size:13px;line-height:1.45; }
   .site-footer .footer-bottombar { padding-bottom:calc(112px + env(safe-area-inset-bottom)); }
   .site-footer .academic-credits { padding-inline:18px;line-height:1.45; }
   .site-footer .compact-footer-legal { padding-inline:18px;line-height:1.45; }
 }
 @media (max-width:390px) {
-  .site-footer .sr-wordmark-hero { font-size:clamp(28px,8.3vw,33px) !important; }
+  .site-footer .sr-wordmark-hero { font-size:clamp(30px,9vw,36px) !important; }
   .footer-wordmark-wrap::before { font-size:7px;letter-spacing:.18em; }
   .footer-social-actions { padding-inline:12px; }
 }
