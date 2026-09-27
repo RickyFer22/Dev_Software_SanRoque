@@ -50,7 +50,9 @@ test('public footer is Spanish, useful and does not expose admin', () => {
   assert.doesNotMatch(html, /Privacy Policy|Terms of Service|Local Government|Tourist Office/);
   assert.doesNotMatch(html, /href="\/admin(?:\/login)?"/);
   assert.match(css, /\.footer-wordmark-wrap::before\s*\{[^}]*SAN ROQUE · CORRIENTES/s);
-  assert.match(css, /\.site-footer \.sr-wordmark-hero span\s*\{[^}]*color:#293b31[^}]*animation:none/s);
+  assert.match(css, /\.footer-wordmark-wrap::after\s*\{\s*display:none/s);
+  assert.match(css, /\.site-footer \.sr-wordmark-hero\s*\{[^}]*font-size:clamp\(36px,4\.2vw,54px\)/s);
+  assert.match(css, /\.site-footer \.sr-wordmark-hero span\s*\{[^}]*color:#28634F[^}]*animation:none/s);
   assert.match(css, /@media \(max-width:640px\)/);
 });
 
