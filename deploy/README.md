@@ -4,6 +4,7 @@ Infraestructura de despliegue del sitio en el VPS, **aislada del código del sit
 El sitio estático (raíz del repo: `index.html`, `JSS/`, `css/`, `img/`) no se toca.
 
 - **Dominio destino:** `https://vivisanroque.munisanroque.ar`
+- **Redirección solicitada:** `vivisanroque.munisanroque.ar` y `www.vivisanroque.munisanroque.ar` redirigen permanentemente a `https://turismo.munisanroque.ar`, conservando ruta y query.
 - **VPS:** `69.6.243.65` (SSH puerto `22022`, usuario `root`) · Docker + Traefik (red externa `web`)
 - **Dominio dado de baja:** `https://devsoftware.munisanroque.ar` (ver §4)
 
@@ -45,7 +46,7 @@ Internet ──HTTPS──▶ Traefik (red 'web', Let's Encrypt)
 ### 3.1 Puesta en marcha (recomendado: CI/CD)
 
 1. Cargá los secretos del repo, incluido `OWM_API_KEY` (ver §5).
-2. Asegurá que la **DNS** de `vivisanroque.munisanroque.ar` apunte a `69.6.243.65`.
+2. Asegurá que los registros **A** de `vivisanroque.munisanroque.ar` y `www.vivisanroque.munisanroque.ar` apunten a `69.6.243.65`. `turismo.munisanroque.ar` debe apuntar también a esa IP.
 3. Dispará el workflow: hacé un `git push` a `main` o corré **Run workflow** (`workflow_dispatch`)
    desde la pestaña Actions.
 

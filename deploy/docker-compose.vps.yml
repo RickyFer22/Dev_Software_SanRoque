@@ -30,6 +30,18 @@ services:
       - "traefik.http.middlewares.${PROJECT_NAME:-vivisanroque}-sec.headers.contentTypeNosniff=true"
       - "traefik.http.middlewares.${PROJECT_NAME:-vivisanroque}-sec.headers.referrerPolicy=strict-origin-when-cross-origin"
       - "traefik.http.services.${PROJECT_NAME:-vivisanroque}.loadbalancer.server.port=80"
+      # Dominios anteriores: conservar ruta y query al derivar a Turismo.
+      - "traefik.http.middlewares.${PROJECT_NAME:-vivisanroque}-turismo.redirectregex.regex=^https?://(?:www\\.)?vivisanroque\\.munisanroque\\.ar(/.*)?$$"
+      - "traefik.http.middlewares.${PROJECT_NAME:-vivisanroque}-turismo.redirectregex.replacement=https://turismo.munisanroque.ar$${1}"
+      - "traefik.http.middlewares.${PROJECT_NAME:-vivisanroque}-turismo.redirectregex.permanent=true"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.rule=Host(`vivisanroque.munisanroque.ar`,`www.vivisanroque.munisanroque.ar`)"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.entrypoints=websecure"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.tls=true"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.middlewares=${PROJECT_NAME:-vivisanroque}-turismo"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy-http.rule=Host(`vivisanroque.munisanroque.ar`,`www.vivisanroque.munisanroque.ar`)"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy-http.entrypoints=web"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy-http.middlewares=${PROJECT_NAME:-vivisanroque}-turismo"
 
   weather:
     # El backend de clima nunca se expone a internet; solo lo consume 'web'.
