@@ -3,7 +3,7 @@
 Infraestructura de despliegue del sitio en el VPS, **aislada del código del sitio**.
 El sitio estático (raíz del repo: `index.html`, `JSS/`, `css/`, `img/`) no se toca.
 
-- **Dominio destino:** `https://vivisanroque.munisanroque.ar`
+- **Dominio destino:** `https://turismo.munisanroque.ar` (también disponible en `https://www.turismo.munisanroque.ar`).
 - **Redirección solicitada:** `vivisanroque.munisanroque.ar` y `www.vivisanroque.munisanroque.ar` redirigen permanentemente a `https://turismo.munisanroque.ar`, conservando ruta y query.
 - **VPS:** `69.6.243.65` (SSH puerto `22022`, usuario `root`) · Docker + Traefik (red externa `web`)
 - **Dominio dado de baja:** `https://devsoftware.munisanroque.ar` (ver §4)
@@ -46,14 +46,14 @@ Internet ──HTTPS──▶ Traefik (red 'web', Let's Encrypt)
 ### 3.1 Puesta en marcha (recomendado: CI/CD)
 
 1. Cargá los secretos del repo, incluido `OWM_API_KEY` (ver §5).
-2. Asegurá que los registros **A** de `vivisanroque.munisanroque.ar` y `www.vivisanroque.munisanroque.ar` apunten a `69.6.243.65`. `turismo.munisanroque.ar` debe apuntar también a esa IP.
+2. Asegurá que los registros **A** de `vivisanroque.munisanroque.ar`, `www.vivisanroque.munisanroque.ar`, `turismo.munisanroque.ar` y `www.turismo.munisanroque.ar` apunten a `69.6.243.65`.
 3. Dispará el workflow: hacé un `git push` a `main` o corré **Run workflow** (`workflow_dispatch`)
    desde la pestaña Actions.
 
 El Action clona/actualiza el repo en el VPS, **genera `deploy/.env` desde el secreto**, asegura
 la red `web` de Traefik y levanta los contenedores. No hace falta tocar el VPS a mano.
 
-Verificá: `https://vivisanroque.munisanroque.ar`.
+Verificá: `https://turismo.munisanroque.ar` y `https://www.turismo.munisanroque.ar`.
 
 ### 3.2 Despliegues siguientes
 
