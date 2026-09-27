@@ -2625,7 +2625,7 @@ body {
   padding:0 20px;text-align:center;pointer-events:none;
 }
 .footer-wordmark-wrap::before {
-  margin-bottom:10px;color:#A45439;font:800 9px/1.2 "Manrope",sans-serif;
+  margin-bottom:10px;color:#A45439;font:700 9px/1.2 "Quicksand",sans-serif;
   letter-spacing:.27em;
 }
 .footer-wordmark-wrap::after {
@@ -2634,7 +2634,7 @@ body {
 }
 .site-footer .sr-wordmark-hero {
   position:relative;z-index:1;max-width:100%;
-  font-size:clamp(38px,6.2vw,82px) !important;
+  font-family:"Quicksand",sans-serif;font-size:clamp(38px,6.2vw,82px) !important;font-weight:700;
   line-height:.92;letter-spacing:-.065em;color:#246653;
   -webkit-text-stroke:0;filter:drop-shadow(0 3px 0 rgba(251,232,196,.9));
 }
@@ -2645,7 +2645,7 @@ body {
 .site-footer { background:#FBF2DE !important; }
 .site-footer::after { background:#327E70; }
 .footer-social-band { border-top:0;background:#FBF2DE !important;padding:4px 0 22px; }
-.footer-social-band .footer-tagline { color:#81583E;font-size:14px; }
+.footer-social-band .footer-tagline { color:#81583E;font-family:"Quicksand",sans-serif;font-size:14px;font-weight:500; }
 .footer-social-band .social-link { box-shadow:0 8px 20px rgba(133,82,48,.12); }
 .footer-social-band .social-link:hover { background:#E6AA55;color:#483B29;border-color:#E6AA55; }
 .site-footer .footer-bottombar { background:#F1DFC1;padding-top:18px; }
