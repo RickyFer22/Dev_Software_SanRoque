@@ -35,6 +35,7 @@ services:
       - "traefik.http.middlewares.${PROJECT_NAME:-vivisanroque}-turismo.redirectregex.replacement=https://turismo.munisanroque.ar$${1}"
       - "traefik.http.middlewares.${PROJECT_NAME:-vivisanroque}-turismo.redirectregex.permanent=true"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.rule=Host(`vivisanroque.munisanroque.ar`)"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.priority=1000"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.entrypoints=websecure"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.tls=true"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-legacy.tls.certresolver=letsencrypt"
