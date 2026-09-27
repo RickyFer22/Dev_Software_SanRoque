@@ -104,53 +104,53 @@
   <main id="guia-main" class="flex-1 w-full max-w-5xl mx-auto px-6 py-16">
     <div class="text-center mb-12">
       <h2 class="text-2xl font-bold text-primary font-headline-md">¿Qué servicio estás buscando?</h2>
-      <p class="text-neutral-500 text-sm mt-2">Hacé click en cualquier categoría para iniciar el asistente y ver la información de contacto.</p>
+      <p class="text-neutral-500 text-sm mt-2">Elegí una categoría para consultar teléfonos, ubicaciones y servicios disponibles.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" id="guia-cat-grid">
-    <a href="#" data-cat="servicios" onclick="event.preventDefault(); openGuideCategory('Servicios', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+    <button type="button" data-cat="servicios" onclick="openGuideCategory('Servicios', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">design_services</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Servicios</h3>
-        <p class="text-xs text-neutral-500">Bancos, cajeros, remises, terminal, talleres y estación de servicio.</p>
-      </a>
-    <a href="#" data-cat="municipio" onclick="event.preventDefault(); openGuideCategory('Municipio', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+        <span class="text-lg font-bold text-primary mb-2">Servicios</span>
+        <span class="text-xs text-neutral-500">Bancos, cajeros, remises, terminal, talleres y estación de servicio.</span>
+      </button>
+    <button type="button" data-cat="municipio" onclick="openGuideCategory('Municipio', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">domain</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Municipio</h3>
-        <p class="text-xs text-neutral-500">Horarios de atención y trámites oficiales.</p>
-      </a>
-    <a href="#" data-cat="iglesias" onclick="event.preventDefault(); openGuideCategory('Iglesias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+        <span class="text-lg font-bold text-primary mb-2">Municipio</span>
+        <span class="text-xs text-neutral-500">Horarios de atención y trámites oficiales.</span>
+      </button>
+    <button type="button" data-cat="iglesias" onclick="openGuideCategory('Iglesias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">church</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Iglesias</h3>
-        <p class="text-xs text-neutral-500">Horarios de misas y templos de la ciudad.</p>
-      </a>
-    <a href="#" data-cat="emergencias" onclick="event.preventDefault(); openGuideCategory('Emergencias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+        <span class="text-lg font-bold text-primary mb-2">Iglesias</span>
+        <span class="text-xs text-neutral-500">Horarios de misas y templos de la ciudad.</span>
+      </button>
+    <button type="button" data-cat="emergencias" onclick="openGuideCategory('Emergencias', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">emergency</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Emergencias</h3>
-        <p class="text-xs text-neutral-500">Bomberos, policía y defensa civil.</p>
-      </a>
-    <a href="#" data-cat="salud" onclick="event.preventDefault(); openGuideCategory('Salud', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+        <span class="text-lg font-bold text-primary mb-2">Emergencias</span>
+        <span class="text-xs text-neutral-500">Bomberos, policía y defensa civil.</span>
+      </button>
+    <button type="button" data-cat="salud" onclick="openGuideCategory('Salud', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">medical_services</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Salud</h3>
-        <p class="text-xs text-neutral-500">Hospitales, clínicas y farmacias de turno.</p>
-      </a>
-    <a href="#" data-cat="registro-civil" onclick="event.preventDefault(); openGuideCategory('Registro Civil', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
+        <span class="text-lg font-bold text-primary mb-2">Salud</span>
+        <span class="text-xs text-neutral-500">Hospitales, clínicas y farmacias de turno.</span>
+      </button>
+    <button type="button" data-cat="registro-civil" onclick="openGuideCategory('Registro Civil', this);" aria-pressed="false" class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
         <span class="material-symbols-outlined text-4xl text-river-teal mb-4">badge</span>
-        <h3 class="text-lg font-bold text-primary mb-2">Registro Civil</h3>
-        <p class="text-xs text-neutral-500">Información y trámites del Registro Civil.</p>
-      </a>
+        <span class="text-lg font-bold text-primary mb-2">Registro Civil</span>
+        <span class="text-xs text-neutral-500">Información y trámites del Registro Civil.</span>
+      </button>
     </div>
 
     <!-- Dynamic Directory Details Container -->
-    <div id="directory-section" class="mt-12 bg-white border border-outline-variant/30 rounded-3xl p-8 shadow-sm max-w-3xl mx-auto" style="display: none;">
+    <div id="directory-section" class="mt-12 bg-white border border-outline-variant/30 rounded-3xl p-8 shadow-sm max-w-3xl mx-auto" style="display: none;" aria-live="polite" aria-labelledby="directory-title">
       <div class="flex items-center justify-between border-b pb-4 mb-6">
         <div class="flex items-center gap-3">
           <span id="directory-icon" class="material-symbols-outlined text-3xl text-river-teal">local_taxi</span>
           <div>
-            <h3 id="directory-title" class="text-xl font-bold text-primary">Remises</h3>
+            <h3 id="directory-title" class="text-xl font-bold text-primary" tabindex="-1">Remises</h3>
             <p id="directory-desc" class="text-xs text-neutral-500">Contactos de agencias y choferes locales.</p>
           </div>
         </div>
-        <button onclick="document.getElementById('directory-section').style.display='none'; document.querySelectorAll('#guia-cat-grid .guia-cat-card').forEach((el) => { el.classList.remove('is-active'); el.setAttribute('aria-pressed', 'false'); });" class="text-neutral-400 hover:text-primary flex items-center justify-center">
+        <button type="button" aria-label="Cerrar información de la categoría" onclick="closeGuideCategory()" class="text-neutral-400 hover:text-primary flex items-center justify-center">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
@@ -281,14 +281,14 @@
                 `<img src="${escapeAttr(iconVal)}" alt="" class="w-10 h-10 object-contain mb-4" />` : 
                 `<span class="material-symbols-outlined text-4xl text-river-teal mb-4">${escapeAttr(iconVal)}</span>`;
             const desc = escapeAttr(cat.categoria === 'servicios' ? (cat.descripcion || 'Bancos, cajeros, remises, terminal, talleres y estación de servicio.') : (cat.descripcion || ''));
-            return `<a href="#" data-cat="${key}" data-titulo="${title}"
-                onclick="event.preventDefault(); openGuideCategory(this.dataset.titulo, this);"
+            return `<button type="button" data-cat="${key}" data-titulo="${title}"
+                onclick="openGuideCategory(this.dataset.titulo, this);"
                 aria-pressed="false"
                 class="guia-cat-card p-6 bg-white border border-outline-variant/30 rounded-2xl flex flex-col items-center text-center shadow-sm transition-all duration-300">
                 ${iconHtml}
-                <h3 class="text-lg font-bold text-primary mb-2">${title}</h3>
-                <p class="text-xs text-neutral-500">${desc}</p>
-            </a>`;
+                <span class="text-lg font-bold text-primary mb-2">${title}</span>
+                <span class="text-xs text-neutral-500">${desc}</span>
+            </button>`;
         }).join('');
     }
 
@@ -426,6 +426,17 @@
         // no llegaron, en vez de fallar en silencio).
         await datosUtilesReady;
         showLocalDirectory(cardEl?.dataset.cat || category.toLowerCase());
+        document.getElementById('directory-title')?.focus({ preventScroll: true });
+    }
+
+    function closeGuideCategory(){
+        const activeCard = document.querySelector('#guia-cat-grid .guia-cat-card.is-active');
+        document.getElementById('directory-section').style.display = 'none';
+        document.querySelectorAll('#guia-cat-grid .guia-cat-card').forEach((card) => {
+            card.classList.remove('is-active');
+            card.setAttribute('aria-pressed', 'false');
+        });
+        activeCard?.focus();
     }
 
     async function quickAsk(category, cardEl){

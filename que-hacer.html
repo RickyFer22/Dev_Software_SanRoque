@@ -96,6 +96,11 @@
 
   <!-- Main Content -->
   <main id="que-hacer-main" class="flex-1 w-full max-w-6xl mx-auto px-6 pb-16">
+    <div class="gastro-search">
+      <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      <input id="atractivo-search" type="search" aria-label="Buscar atractivos" aria-controls="atractivo-grid" placeholder="Buscar por lugar, categoría o descripción…" autocomplete="off" />
+    </div>
+    <p id="atractivo-results-info" class="atractivo-results-info" role="status" aria-live="polite"></p>
     <div id="atractivo-filters" class="atractivo-filters" role="group" aria-label="Filtrar por categoría"></div>
     <div id="atractivo-grid" class="atractivo-grid" aria-live="polite">
       <div class="agenda-skeleton" aria-hidden="true"></div>
@@ -202,6 +207,10 @@
 
     let allItems = [];
     let activeFilter = 'todos';
+    let searchQuery = '';
+    const normalize = (value) => String(value || '').toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const searchInput = document.getElementById('atractivo-search');
+    const resultsInfo = document.getElementById('atractivo-results-info');
 
     function renderFilters() {
       const host = document.getElementById('atractivo-filters');
@@ -209,7 +218,7 @@
       allItems.forEach((i) => { counts[i.categoria] = (counts[i.categoria] || 0) + 1; });
       const chips = [['todos', 'Todos', 'apps'], ...Object.keys(CATEGORIAS).filter((k) => counts[k]).map((k) => [k, CATEGORIAS[k].label, CATEGORIAS[k].icon])];
       host.innerHTML = chips.map(([key, label, icon]) => `
-        <button type="button" class="atractivo-filter${key === activeFilter ? ' is-active' : ''}" data-filter="${key}">
+        <button type="button" class="atractivo-filter${key === activeFilter ? ' is-active' : ''}" data-filter="${key}" aria-pressed="${key === activeFilter}">
           <span class="material-symbols-outlined text-[16px]" aria-hidden="true">${icon}</span>${label}${counts[key] ? ` (${counts[key]})` : ''}
         </button>`).join('');
       host.querySelectorAll('[data-filter]').forEach((btn) => btn.addEventListener('click', () => {
@@ -223,11 +232,28 @@
 
     function renderGrid() {
       const grid = document.getElementById('atractivo-grid');
-      const items = activeFilter === 'todos' ? allItems : allItems.filter((i) => i.categoria === activeFilter);
+      const byCategory = activeFilter === 'todos' ? allItems : allItems.filter((i) => i.categoria === activeFilter);
+      const items = searchQuery
+        ? byCategory.filter((item) => normalize([item.titulo, item.descripcion, CATEGORIAS[item.categoria]?.label].join(' ')).includes(normalize(searchQuery)))
+        : byCategory;
+      if (resultsInfo) resultsInfo.textContent = `${items.length} de ${allItems.length} atractivos`;
       if (!items.length) {
-        grid.innerHTML = `<div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-12 text-neutral-600">
-          <p class="font-bold text-primary text-lg mb-1">No hay atractivos en esta categoría todavía.</p>
+        const hasCriteria = Boolean(searchQuery) || activeFilter !== 'todos';
+        grid.innerHTML = `<div class="col-span-full atractivo-empty">
+          <span class="material-symbols-outlined" aria-hidden="true">${hasCriteria ? 'search_off' : 'explore_off'}</span>
+          <p class="font-bold text-primary text-lg mb-1">${hasCriteria ? 'No encontramos atractivos con esa búsqueda.' : 'Todavía no hay atractivos publicados.'}</p>
+          <p>${hasCriteria ? 'Probá con otras palabras o mostrá todas las opciones.' : 'Volvé a consultar pronto para descubrir nuevos lugares.'}</p>
+          ${hasCriteria ? '<button type="button" id="clear-atractivo-search">Ver todos los atractivos</button>' : '<a href="/">Volver a la portada</a>'}
         </div>`;
+        document.getElementById('clear-atractivo-search')?.addEventListener('click', () => {
+          searchQuery = '';
+          activeFilter = 'todos';
+          if (searchInput) searchInput.value = '';
+          history.replaceState(null, '', location.pathname);
+          renderFilters();
+          renderGrid();
+          searchInput?.focus();
+        });
         return;
       }
       grid.innerHTML = items.map(atractivoCard).join('');
@@ -243,8 +269,12 @@
         const payload = await res.json();
         allItems = (payload.actividades || []).filter(Boolean);
         if (!allItems.length) {
-          grid.innerHTML = `<div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-12 text-neutral-600">
+          if (resultsInfo) resultsInfo.textContent = '0 atractivos';
+          grid.innerHTML = `<div class="col-span-full atractivo-empty">
+            <span class="material-symbols-outlined" aria-hidden="true">explore_off</span>
             <p class="font-bold text-primary text-lg mb-1">Todavía no hay atractivos publicados.</p>
+            <p>Volvé a consultar pronto para descubrir nuevos lugares.</p>
+            <a href="/">Volver a la portada</a>
           </div>`;
           return;
         }
@@ -257,6 +287,10 @@
           const h = location.hash.replace('#', '');
           activeFilter = CATEGORIAS[h] ? h : 'todos';
           renderFilters();
+          renderGrid();
+        });
+        searchInput?.addEventListener('input', () => {
+          searchQuery = searchInput.value.trim();
           renderGrid();
         });
       } catch (err) {

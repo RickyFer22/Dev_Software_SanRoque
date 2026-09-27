@@ -341,7 +341,10 @@ function renderAccommodationCards() {
 
   if (!items.length) {
     carousel.innerHTML = '<div class="col-span-full text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-10 text-neutral-600">No hay hospedajes disponibles por el momento.</div>';
-    if (toggleBtn) toggleBtn.classList.add('hidden');
+    if (toggleBtn) {
+      toggleBtn.classList.add('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    }
     return;
   }
 
@@ -364,16 +367,21 @@ function renderAccommodationCards() {
     renderCards(items.slice(0, 3));
     if (toggleBtn) {
       toggleBtn.classList.remove('hidden');
-      toggleBtn.textContent = expanded ? 'Ocultar' : 'Ver más';
+      toggleBtn.setAttribute('aria-expanded', String(expanded));
+      toggleBtn.textContent = expanded ? 'Ver menos hospedajes' : 'Ver más hospedajes';
       toggleBtn.onclick = () => {
         expanded = !expanded;
         renderCards(expanded ? items : items.slice(0, 3));
-        toggleBtn.textContent = expanded ? 'Ocultar' : 'Ver más';
+        toggleBtn.setAttribute('aria-expanded', String(expanded));
+        toggleBtn.textContent = expanded ? 'Ver menos hospedajes' : 'Ver más hospedajes';
       };
     }
   } else {
     renderCards(items);
-    if (toggleBtn) toggleBtn.classList.add('hidden');
+    if (toggleBtn) {
+      toggleBtn.classList.add('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    }
   }
 }
 

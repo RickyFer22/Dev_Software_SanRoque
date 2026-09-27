@@ -291,6 +291,22 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
           <span class="portal-shortcut-desc">Patrimonio, naturaleza, plazas y costanera.</span>
         </span>
       </a>
+      <a class="portal-shortcut" href="agenda.html">
+        <img src="img/Peatonal San Roque.jpeg" alt="" loading="lazy" />
+        <span class="portal-shortcut-body">
+          <span class="portal-shortcut-kicker"><span class="material-symbols-outlined" aria-hidden="true">event</span>Fechas locales</span>
+          <strong>Agenda</strong>
+          <span class="portal-shortcut-desc">Celebraciones, actividades y próximos encuentros.</span>
+        </span>
+      </a>
+      <a class="portal-shortcut" href="guia-practica.html">
+        <img src="img/PLAZA E HIGLESIA.jpeg" alt="" loading="lazy" />
+        <span class="portal-shortcut-body">
+          <span class="portal-shortcut-kicker"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Datos útiles</span>
+          <strong>Guía práctica</strong>
+          <span class="portal-shortcut-desc">Transporte, emergencias, teléfonos y servicios.</span>
+        </span>
+      </a>
     </section>
 
     <section id="deportes" class="max-w-7xl mx-auto px-6 mb-12 fade-in-up" aria-labelledby="deportes-title">
@@ -317,19 +333,24 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
 
     <section id="agenda" class="max-w-7xl mx-auto px-6 mb-24 fade-in-up">
 
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
         <div>
           <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Próximos eventos</h2>
           <p class="text-neutral-500 text-sm mt-1">Actividades deportivas, culturales y festivas de San Roque</p>
         </div>
-        <span id="events-period-label"
-          class="hidden md:flex items-center gap-1.5 text-river-teal font-bold text-xs uppercase tracking-wider border border-river-teal/30 px-4 py-2 rounded-full bg-teal-50">
-          <span class="material-symbols-outlined text-[15px]">calendar_month</span>
-          <span id="events-period-text">Próximamente</span>
-        </span>
+        <div class="flex flex-wrap items-center gap-3">
+          <span id="events-period-label"
+            class="hidden md:flex items-center gap-1.5 text-river-teal font-bold text-xs uppercase tracking-wider border border-river-teal/30 px-4 py-2 rounded-full bg-teal-50">
+            <span class="material-symbols-outlined text-[15px]" aria-hidden="true">calendar_month</span>
+            <span id="events-period-text">Próximamente</span>
+          </span>
+          <a class="home-agenda-link" href="agenda.html">Ver agenda completa <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+        </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="events-grid">
-         <!-- Eventos se cargan dinámicamente aquí -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="events-grid" aria-live="polite" aria-busy="true">
+        <div class="agenda-skeleton" aria-hidden="true"></div>
+        <div class="agenda-skeleton" aria-hidden="true"></div>
+        <div class="agenda-skeleton" aria-hidden="true"></div>
       </div>
 
     </section>
@@ -520,6 +541,10 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
       const grid = document.getElementById('events-grid');
       if (!grid) return;
 
+      const escapeHtml = (value) => String(value ?? '').replace(/[&<>\"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
       const formatDate = (value) => {
         if (!value) return 'Próximamente';
         const date = new Date(`${value}T12:00:00`);
@@ -533,13 +558,28 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
         if (!res.ok) throw new Error('No se pudo cargar la agenda');
         const data = await res.json();
         const eventos = (data.eventos || []).filter(Boolean);
+        const proximos = [...eventos]
+          .filter((evento) => {
+            if (!evento.fecha) return true;
+            const date = new Date(`${evento.fecha}T00:00:00`);
+            return Number.isNaN(date.getTime()) || date >= today;
+          })
+          .sort((a, b) => String(a.fecha || '9999').localeCompare(String(b.fecha || '9999')))
+          .slice(0, 3);
 
         if (!eventos.length) {
-          grid.innerHTML = '<div class="md:col-span-2 lg:col-span-3 text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-10 text-neutral-600">Próximamente habrá eventos publicados desde el panel de administración.</div>';
+          grid.innerHTML = '<div class="home-events-empty"><strong>Próximamente</strong><p>Cuando se publique una actividad, vas a encontrarla acá.</p><a href="agenda.html">Explorar la agenda</a></div>';
+          grid.setAttribute('aria-busy', 'false');
           return;
         }
 
-        const periodText = eventos.reduce((range, evento) => {
+        if (!proximos.length) {
+          grid.innerHTML = '<div class="home-events-empty"><strong>No hay eventos próximos por ahora.</strong><p>Podés consultar las actividades anteriores y volver a revisar la agenda.</p><a href="agenda.html">Ver agenda y eventos anteriores</a></div>';
+          grid.setAttribute('aria-busy', 'false');
+          return;
+        }
+
+        const periodText = proximos.reduce((range, evento) => {
           const date = new Date(`${evento.fecha}T00:00:00`);
           if (Number.isNaN(date.getTime())) return range;
           const month = date.toLocaleDateString('es-AR', { month: 'long' });
@@ -553,7 +593,7 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
           periodLabel.textContent = Array.from(periodText).join(' / ') || 'Próximamente';
         }
 
-        grid.innerHTML = eventos.map((evento) => {
+        grid.innerHTML = proximos.map((evento) => {
           const detailUrl = `/agenda/${encodeURIComponent(evento.id || evento.titulo)}`;
           return `
           <article class="bg-white rounded-3xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-xl transition-all duration-300">
@@ -565,11 +605,11 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
                 <span class="material-symbols-outlined text-[16px]">calendar_month</span>
                 ${formatDate(evento.fecha)}
               </div>
-              <h3 class="text-xl font-bold text-primary mb-2">${evento.titulo}</h3>
-              <p class="evento-card-resumen text-neutral-600 text-sm leading-relaxed mb-4">${window.VsrText ? VsrText.esc(VsrText.resumen(evento.descripcion)) || 'Consulta la agenda local.' : 'Consulta la agenda local.'}</p>
+              <h3 class="text-xl font-bold text-primary mb-2">${escapeHtml(evento.titulo)}</h3>
+              <p class="evento-card-resumen text-neutral-600 text-sm leading-relaxed mb-4">${escapeHtml(window.VsrText ? VsrText.resumen(evento.descripcion) || 'Consultá la agenda local.' : 'Consultá la agenda local.')}</p>
               <div class="text-sm text-neutral-500 space-y-1">
-                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">schedule</span> ${evento.hora || 'Horario a confirmar'}</div>
-                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">location_on</span> ${evento.lugar || 'San Roque'}</div>
+                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">schedule</span> ${escapeHtml(evento.hora || 'Horario a confirmar')}</div>
+                <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">location_on</span> ${escapeHtml(evento.lugar || 'San Roque')}</div>
               </div>
               <div class="mt-4 flex flex-wrap items-center gap-3">
                 ${window.VsrVisita ? VsrVisita.buttonHtml('e', evento.id || evento.titulo, evento.titulo, formatDate(evento.fecha)) : ''}
@@ -579,10 +619,13 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
           </article>
         `;
         }).join('');
+        grid.setAttribute('aria-busy', 'false');
         window.VsrVisita?.refresh();
       } catch (error) {
         console.info('No se pudieron cargar los eventos desde la API', error.message);
-        grid.innerHTML = '<div class="md:col-span-2 lg:col-span-3 text-center rounded-3xl border border-dashed border-neutral-300 bg-white/70 px-6 py-10 text-neutral-600">No hay eventos disponibles por el momento.</div>';
+        grid.innerHTML = '<div class="home-events-empty"><strong>No pudimos cargar los eventos.</strong><p>Revisá tu conexión y volvé a intentarlo.</p><button type="button" id="retry-home-events">Reintentar</button></div>';
+        grid.setAttribute('aria-busy', 'false');
+        document.getElementById('retry-home-events')?.addEventListener('click', () => location.reload());
       }
     });
   </script>

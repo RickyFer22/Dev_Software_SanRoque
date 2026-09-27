@@ -49,9 +49,8 @@ test('public footer is Spanish, useful and does not expose admin', () => {
   assert.match(html, /Profesora:<\/b>\s*Yésica Ponce/);
   assert.doesNotMatch(html, /Privacy Policy|Terms of Service|Local Government|Tourist Office/);
   assert.doesNotMatch(html, /href="\/admin(?:\/login)?"/);
-  assert.match(css, /\.sr-l1\s*\{\s*color:#ef2024/);
-  assert.match(css, /\.sr-l4\s*\{\s*color:#45ad2f/);
-  assert.match(css, /\.sr-l6\s*\{\s*color:#68409b/);
+  assert.match(css, /\.footer-wordmark-wrap::before\s*\{[^}]*SAN ROQUE · CORRIENTES/s);
+  assert.match(css, /\.site-footer \.sr-wordmark-hero span\s*\{[^}]*color:#293b31[^}]*animation:none/s);
   assert.match(css, /@media \(max-width:640px\)/);
 });
 

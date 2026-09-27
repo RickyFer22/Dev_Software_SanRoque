@@ -2082,6 +2082,60 @@ body {
   .site-footer .sr-wordmark-hero span { animation: none; transform: rotate(var(--sr-tilt, 0deg)); }
 }
 
+/* Firma editorial monocromática del footer turístico. */
+.footer-wordmark-wrap {
+  top:5px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+}
+.footer-wordmark-wrap::before {
+  content:"SAN ROQUE · CORRIENTES";
+  color:#33463a;
+  font:700 8px/1 "Manrope",sans-serif;
+  letter-spacing:.3em;
+}
+.footer-wordmark-wrap::after {
+  content:"";
+  width:38px;
+  height:1px;
+  margin-top:1px;
+  background:#33463a;
+  opacity:.45;
+}
+.site-footer .sr-wordmark-hero {
+  color:#293b31;
+  font-size:clamp(44px,5.2vw,68px) !important;
+  letter-spacing:-.055em;
+  line-height:.82;
+  filter:none;
+  -webkit-text-stroke:1px rgba(41,59,49,.12);
+}
+.site-footer .sr-wordmark-hero span {
+  color:#293b31;
+  animation:none;
+  filter:none;
+  text-shadow:0 1px 0 rgba(255,255,255,.65),0 2px 0 rgba(41,59,49,.12),0 5px 10px rgba(41,59,49,.09);
+  transition:none;
+}
+.site-footer .sr-wordmark-hero .sr-l1 { transform:rotate(-2deg) translateY(1px); }
+.site-footer .sr-wordmark-hero .sr-l2 { transform:rotate(1deg) translateY(-1px); }
+.site-footer .sr-wordmark-hero .sr-l3 { transform:rotate(-.7deg); }
+.site-footer .sr-wordmark-hero .sr-l4 { transform:rotate(1.4deg) translateY(-1px); }
+.site-footer .sr-wordmark-hero .sr-l5 { transform:rotate(-1deg) translateY(1px); }
+.site-footer .sr-wordmark-hero .sr-l6 { transform:rotate(.6deg) translateY(-1px); }
+.site-footer .sr-wordmark-hero .sr-l7 { transform:rotate(-1.2deg); }
+.site-footer .sr-wordmark-hero .sr-l8 { transform:rotate(1.6deg) translateY(1px); }
+@media (max-width:640px) {
+  .footer-wordmark-wrap { top:5px;gap:4px; }
+  .footer-wordmark-wrap::before { font-size:7px;letter-spacing:.23em; }
+  .site-footer .sr-wordmark-hero { font-size:clamp(40px,12vw,54px) !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .site-footer .sr-wordmark-hero span { animation:none;transition:none; }
+}
+
 /* Botón minimizar del asistente MuniAyuda */
 .chat-header { position:relative; }
 .chat-close {
@@ -2397,6 +2451,46 @@ body {
 .portal-shortcut-kicker .material-symbols-outlined { font-size:16px; }
 .portal-shortcut strong { font-family:'Syne',sans-serif;font-size:1.5rem;line-height:1.15; }
 .portal-shortcut-desc { color:rgba(255,255,255,.86);font-size:.9rem;line-height:1.45; }
+
+/* Portada: accesos equilibrados y utilizables con teclado. */
+@media (min-width:900px) {
+  .portal-shortcuts { grid-template-columns:repeat(6,minmax(0,1fr)); }
+  .portal-shortcut { grid-column:span 2; }
+  .portal-shortcut:nth-child(4) { grid-column:2 / span 2; }
+  .portal-shortcut:nth-child(5) { grid-column:4 / span 2; }
+}
+@media (max-width:899px) {
+  .portal-shortcuts { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .portal-shortcut:last-child { grid-column:1 / -1; }
+}
+@media (max-width:560px) {
+  .portal-shortcuts { grid-template-columns:1fr;gap:14px; }
+  .portal-shortcut,.portal-shortcut-body { min-height:220px; }
+  .portal-shortcut:last-child { grid-column:auto; }
+}
+.portal-shortcut:focus-visible,.home-agenda-link:focus-visible,
+.atractivo-filter:focus-visible,.guia-cat-card:focus-visible {
+  outline:3px solid #c29135;outline-offset:4px;
+}
+.home-agenda-link { display:inline-flex;align-items:center;gap:7px;padding:10px 15px;border:1px solid rgba(53,94,74,.22);border-radius:999px;color:var(--brand-primary);font-size:.78rem;font-weight:800;text-decoration:none;transition:background .18s ease,color .18s ease; }
+.home-agenda-link:hover { background:var(--brand-primary);color:#fff; }
+.home-agenda-link .material-symbols-outlined { font-size:17px; }
+.home-events-empty { grid-column:1 / -1;padding:28px;border:1px solid rgba(53,94,74,.14);border-radius:20px;background:#fff;color:#59635c; }
+.home-events-empty strong { display:block;color:var(--brand-primary);font:800 1.1rem/1.3 "Syne",sans-serif; }
+.home-events-empty p { margin:7px 0 14px;font-size:.9rem; }
+.home-events-empty a,.home-events-empty button { color:var(--brand-primary);font-weight:800;text-decoration:underline;text-underline-offset:3px; }
+.home-events-empty button { border:0;background:transparent;cursor:pointer; }
+.atractivo-results-info { min-height:1.5em;margin:-18px 0 18px;color:#626b64;font-size:.84rem; }
+.atractivo-empty { grid-column:1 / -1;padding:36px 24px;border:1px dashed rgba(53,94,74,.28);border-radius:22px;background:rgba(255,255,255,.8);text-align:center;color:#626b64; }
+.atractivo-empty p { margin:7px auto 16px;max-width:55ch;font-size:.9rem; }
+.atractivo-empty p.font-bold { margin:7px auto 4px;color:var(--brand-primary);font:800 1.15rem/1.3 "Syne",sans-serif; }
+.atractivo-empty > .material-symbols-outlined { display:block;margin:0 auto 10px;color:#8b9d8e;font-size:30px; }
+.atractivo-empty a,.atractivo-empty button { color:var(--brand-primary);font-weight:800;text-underline-offset:3px; }
+.guia-cat-card { width:100%;cursor:pointer;font-family:inherit; }
+@media (min-width:1024px) {
+  #accommodations-carousel .card-item:focus-within > .absolute.inset-x-0 { opacity:1;transform:translateX(0); }
+  #accommodations-carousel .card-item:focus-within > .absolute.inset-0 { width:45%; }
+}
 
 /* ══ LONG READ · fichas editoriales de atractivos (Puente Carretero, etc.) ══ */
 /* La foto de portada define su propia altura: sin este tope, un original
