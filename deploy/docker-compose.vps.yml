@@ -12,12 +12,12 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
       # Ruteo por dominio (vivisanroque.munisanroque.ar)
-      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}.rule=Host(`${DOMAIN:-vivisanroque.munisanroque.ar}`)"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}.rule=Host(`${DOMAIN:-vivisanroque.munisanroque.ar}`) || Host(`turismo.munisanroque.ar`)"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}.entrypoints=websecure"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}.tls=true"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}.tls.certresolver=letsencrypt"
       # Redirección HTTP -> HTTPS
-      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-http.rule=Host(`${DOMAIN:-vivisanroque.munisanroque.ar}`)"
+      - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-http.rule=Host(`${DOMAIN:-vivisanroque.munisanroque.ar}`) || Host(`turismo.munisanroque.ar`)"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-http.entrypoints=web"
       - "traefik.http.routers.${PROJECT_NAME:-vivisanroque}-http.middlewares=${PROJECT_NAME:-vivisanroque}-redirect"
       - "traefik.http.middlewares.${PROJECT_NAME:-vivisanroque}-redirect.redirectscheme.scheme=https"
