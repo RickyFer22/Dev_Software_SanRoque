@@ -408,3 +408,6 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .folleto-how p { margin: 0; color: #56665a; line-height: 1.65; font-size: .95rem; }
 .folleto-how .how-to-list { gap: 10px; }
 @media (max-width: 760px) { .folleto-pages { grid-template-columns: 1fr; } .folleto-how { grid-template-columns: 1fr; padding: 22px; } }
+
+/* Logo oficial en el pie (versión blanca, vertical) */
+.footer-logo { width: clamp(96px, 11vw, 128px); height: auto; }
