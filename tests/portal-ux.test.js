@@ -170,9 +170,8 @@ test('public pages share the editorial tourism composition without losing dynami
   assert.match(premium, /id="carousel"/);
   // agenda conserva el hero clásico; qué-hacer y guía usan el de tarjeta.
   assert.match(read('agenda.html'), /<header[^>]*class="[^"]*internal-hero/);
-  assert.match(read('que-hacer.html'), /class="section-hero-wrap/, 'que-hacer.html');
-  // La Guía práctica usa una cabecera de accesos rápidos, sin foto.
-  assert.match(read('guia-practica.html'), /class="guide-hero"/, 'guia-practica.html');
+  // Qué hacer y la Guía práctica usan una cabecera de accesos rápidos, sin foto.
+  ['que-hacer.html', 'guia-practica.html'].forEach((f) => assert.match(read(f), /class="guide-hero"/, f));
   assert.match(read('comercio.html'), /<header[^>]*class="[^"]*detail-hero/);
 });
 
