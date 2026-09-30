@@ -35,13 +35,14 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <!-- Google Fonts: non-blocking -->
-  <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="css/fonts.css" />
 <!-- Material Symbols: non-blocking -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
 <noscript><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></noscript>
 <!-- Critical CSS -->
-<link rel="stylesheet" href="css/styles.css?v=20260929-octubre-turismo"/>
+<link rel="stylesheet" href="css/styles.css?v=20260930-premium" />
+  <link rel="stylesheet" href="css/premium.css?v=20260930-premium" />
 <!-- Scripts: deferred -->
 <script src="js/gastronomiaData.js" defer></script>
 <script src="js/ratings.js" defer></script>
@@ -197,9 +198,7 @@
 <!-- Hero Section -->
 <section id="hero-section" class="tourism-hero relative flex items-center justify-center text-center px-gutter overflow-hidden">
   <div class="absolute inset-0 z-0 hero-rotor-monjita">
-    <!-- Única foto del portal con resolución suficiente para el hero (1600 px):
-         la anterior medía 735 px y se ampliaba al doble, de ahí el pixelado. -->
-    <img class="w-full h-full object-cover hero-slide" src="img/san-roque-turismo-1.jpg" alt="Atardecer sobre el río Santa Lucía en San Roque" loading="eager" fetchpriority="high" />
+    <img class="w-full h-full object-cover hero-slide" src="img/hero/puente-atardecer-1920.webp" srcset="img/hero/puente-atardecer-960.webp 960w, img/hero/puente-atardecer-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="Atardecer sobre el río Santa Lucía en San Roque" loading="eager" fetchpriority="high" />
   </div>
   <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
     <h1 class="font-display-lg text-[46px] md:text-[68px] text-canvas-white mb-6 hero-text-shadow tracking-tight leading-tight min-h-[1.2em]">

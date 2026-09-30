@@ -1,8 +1,8 @@
 /* Service worker del portal: permite abrir la portada, la agenda y la guía
    sin señal (zonas con cobertura débil). Sube VERSION para invalidar cachés. */
-const VERSION = 'vsr-v1';
+const VERSION = 'vsr-v2';
 const SHELL = ['/', '/agenda.html', '/que-hacer.html', '/guia-practica.html', '/alojamientos.html', '/gastronomia.html',
-  '/css/tw-base.css', '/css/styles.css', '/css/fonts.css', '/fonts/manrope-latin.woff2', '/fonts/quicksand-latin.woff2'];
+  '/css/tw-base.css', '/css/styles.css', '/css/fonts.css', '/fonts/rubik-latin.woff2', '/fonts/rubik-latin.woff2'];
 const NO_CACHE = /^\/(admin|api\/(vote|ratings|track|bot|weather))/;
 
 self.addEventListener('install', (e) => {

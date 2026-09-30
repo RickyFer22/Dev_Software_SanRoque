@@ -3,7 +3,7 @@
  *
  * Antes había dos bundles compilados a mano (css/tw-base.css y
  * css/tw-gastronomia.css) que se fueron separando: gastronomía se quedó sin
- * text-canvas-white ni max-w-xl y con DM Sans en vez de Manrope, así que el
+ * text-canvas-white ni max-w-xl y con DM Sans en vez de Rubik, así que el
  * hero salía gris e ilegible. Ahora todas las páginas cargan el mismo
  * css/tw-base.css, generado desde este archivo con `npm run build:css`.
  *
@@ -31,11 +31,11 @@ module.exports = {
         'moss-dark': '#16340A',
       },
       fontFamily: {
-        'display-lg': ['Manrope', 'sans-serif'],
-        'headline-md': ['Manrope', 'sans-serif'],
-        'body-md': ['Manrope', 'DM Sans', 'sans-serif'],
-        'body-lg': ['Manrope', 'DM Sans', 'sans-serif'],
-        'label-caps': ['Manrope', 'sans-serif'],
+        'display-lg': ['Rubik', 'sans-serif'],
+        'headline-md': ['Rubik', 'sans-serif'],
+        'body-md': ['Rubik', 'DM Sans', 'sans-serif'],
+        'body-lg': ['Rubik', 'DM Sans', 'sans-serif'],
+        'label-caps': ['Rubik', 'sans-serif'],
       },
       // Escala tipográfica y medidas que traía el bundle de gastronomía.
       fontSize: {

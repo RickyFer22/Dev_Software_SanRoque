@@ -1,0 +1,94 @@
+/* Capa "premium regional": se carga después de styles.css.
+   Referencias de tono: corrientes.tur.ar (Rubik), parqueibera.gob.ar (portadas a pantalla completa,
+   mucho aire, tarjetas de imagen). Paleta del folleto: verde bosque, crema y terracota. */
+:root {
+  --sr-forest: #1f4a37;
+  --sr-forest-deep: #123024;
+  --sr-cream: #f7f1e3;
+  --sr-terra: #c3773c;
+  --sr-ink: #1d2b24;
+  --sr-radius: 22px;
+  --sr-shadow: 0 18px 46px rgba(18, 48, 36, .14);
+}
+
+/* ── Tipografía ── */
+body { font-family: Rubik, system-ui, sans-serif; font-weight: 400; letter-spacing: 0; }
+h1, h2, h3, h4 { font-family: Rubik, system-ui, sans-serif; letter-spacing: -.01em; }
+h1 { font-weight: 600; }
+h2, h3 { font-weight: 500; }
+.hero-eyebrow, .home-flyer-kicker, .tg-kicker { letter-spacing: .18em; font-weight: 500; }
+
+/* ── Portada: hero a pantalla completa con la foto del puente ── */
+.tourism-hero#hero-section {
+  position: relative; display: flex; align-items: flex-end; justify-content: flex-start; text-align: left;
+  height: min(100svh, 900px); min-height: 620px; padding: 0 clamp(20px, 6vw, 96px) clamp(64px, 10vh, 120px);
+  border-radius: 0; box-shadow: none; overflow: hidden; background: var(--sr-forest-deep);
+}
+.tourism-hero#hero-section::after {
+  background: linear-gradient(180deg, rgba(10, 24, 18, .5) 0%, rgba(10, 24, 18, .05) 34%, rgba(10, 24, 18, .72) 100%);
+}
+.hero-photo, .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-photo img { object-fit: cover; object-position: center 40%; animation: heroDrift 26s ease-out both; }
+@keyframes heroDrift { from { transform: scale(1.08); } to { transform: scale(1); } }
+.hero-copy { position: relative; z-index: 3; max-width: 760px; color: #fff; }
+.hero-eyebrow { margin: 0 0 14px; font-size: .78rem; text-transform: uppercase; color: rgba(255, 255, 255, .88); }
+.hero-copy h1 { margin: 0; color: #fff; font-size: clamp(3.6rem, 12vw, 8.5rem); line-height: .92; font-weight: 700; text-shadow: 0 6px 40px rgba(0, 0, 0, .35); }
+.hero-tagline { margin: 18px 0 0; font-size: clamp(1.05rem, 2.2vw, 1.5rem); font-weight: 300; font-style: italic; color: rgba(255, 255, 255, .92); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.hero-btn {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 26px; border: 1.5px solid rgba(255, 255, 255, .75);
+  border-radius: 999px; color: #fff; font-size: .9rem; font-weight: 500; text-decoration: none; backdrop-filter: blur(6px);
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.hero-btn:hover { background: #fff; color: var(--sr-forest); transform: translateY(-2px); }
+.hero-btn-primary { background: var(--sr-terra); border-color: var(--sr-terra); }
+.hero-btn-primary:hover { background: #fff; border-color: #fff; }
+.hero-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .hero-photo img { animation: none; } }
+@media (max-width: 767px) {
+  .tourism-hero#hero-section { height: 92svh; min-height: 600px; padding-bottom: 176px; }
+  .hero-actions { gap: 10px; }
+  .hero-btn { padding: 0 20px; min-height: 46px; }
+}
+
+/* ── Cabeceras interiores (agenda, gastronomía): foto + velo editorial ── */
+.hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 24, 18, .35) 0%, rgba(10, 24, 18, .1) 40%, rgba(10, 24, 18, .78) 100%); }
+.internal-hero, .detail-hero { min-height: 340px; }
+.internal-hero h1, .detail-hero h1 { font-weight: 600; letter-spacing: -.02em; text-shadow: 0 4px 28px rgba(0, 0, 0, .35); }
+
+/* ── Portada: secciones con más aire y jerarquía ── */
+#agenda h2, #deportes h2, #como-llegar h2 { font-weight: 500; letter-spacing: -.02em; }
+.home-flyer { border-radius: 32px; box-shadow: var(--sr-shadow); background: var(--sr-cream); }
+.home-flyer-heading h2 { font-weight: 600; text-transform: none; }
+.home-flyer-visual img { border-radius: 0; }
+.portal-shortcut { border-radius: var(--sr-radius); box-shadow: var(--sr-shadow); }
+.portal-shortcut strong { font-weight: 500; letter-spacing: -.01em; }
+
+#events-grid article { border-radius: var(--sr-radius); transition: transform .3s ease, box-shadow .3s ease; }
+#events-grid article:hover { transform: translateY(-4px); }
+
+/* Estado sin eventos próximos: aviso claro arriba de los últimos eventos */
+.home-events-notice { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 24px; padding: 22px 26px; border-radius: var(--sr-radius); background: var(--sr-cream); border: 1px solid rgba(195, 119, 60, .35); }
+.home-events-notice strong { flex: 1 1 100%; color: var(--sr-forest); font-weight: 500; font-size: 1.1rem; }
+.home-events-notice p { flex: 1 1 320px; margin: 0; color: #56665a; }
+.home-events-notice a { color: var(--sr-forest); font-weight: 500; text-decoration: underline; text-underline-offset: 4px; }
+
+/* Agenda anual: línea de tiempo con acento terracota */
+.home-year h3, .home-year h2 { font-weight: 500; font-size: 1.4rem; }
+.home-year-list li { transition: transform .25s ease; }
+.home-year-list li:hover { transform: translateY(-3px); }
+.home-year-list strong { font-weight: 500; }
+
+/* ── Galería editorial (fichas de gastronomía y eventos): mosaico ── */
+.editorial-gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 180px; gap: 12px; }
+.editorial-gallery > :first-child { grid-column: span 2; grid-row: span 2; }
+.editorial-gallery img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; transition: transform .5s ease; }
+.editorial-gallery button { padding: 0; border: 0; border-radius: 16px; overflow: hidden; background: #e9ebe7; cursor: zoom-in; }
+.editorial-gallery button:hover img { transform: scale(1.05); }
+@media (max-width: 700px) { .editorial-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; } }
+
+/* Tarjeta de la Monjita: a la derecha en escritorio para no pisar el título. */
+@media (min-width: 641px) {
+  #hero-section .monjita-hero-card { left: auto; right: clamp(20px, 5vw, 80px); bottom: clamp(64px, 10vh, 120px); }
+}
+@media (max-width: 640px) { #hero-section .monjita-hero-card { bottom: 92px; } }

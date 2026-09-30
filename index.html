@@ -14,7 +14,8 @@
   </script>
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Viví San Roque · Turismo y Cultura</title>
-  <link rel="preload" as="image" href="img/monjita/monjita-1.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="img/hero/puente-atardecer-1920.webp" media="(min-width: 701px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="img/hero/puente-atardecer-vertical.webp" media="(max-width: 700px)" fetchpriority="high" />
   <meta name="description" content="Alojamientos, gastronomía, eventos y servicios oficiales de San Roque, Corrientes. Portal municipal de turismo: dónde dormir, qué hacer y cómo llegar." />
   <link rel="canonical" href="https://vivisanroque.munisanroque.ar/" />
   <link rel="alternate" hreflang="es-AR" href="https://vivisanroque.munisanroque.ar/" />
@@ -44,7 +45,7 @@
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
   <!-- Google Fonts: non-blocking -->
-  <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="css/fonts.css" />
   <!-- Material Symbols: non-blocking -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
@@ -55,7 +56,8 @@
   <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" /></noscript>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
   <!-- Critical CSS -->
-  <link rel="stylesheet" href="css/styles.css?v=20260929-guia-web">
+  <link rel="stylesheet" href="css/styles.css?v=20260930-premium" />
+  <link rel="stylesheet" href="css/premium.css?v=20260930-premium" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -229,26 +231,18 @@
   <div id="main-explorer-view" class="block animate-view-in" tabindex="-1">
 
     <section id="hero-section" class="tourism-hero">
-      <div class="absolute inset-0 z-0 hero-rotor-monjita">
-        <img alt="Monjita dominica en su hábitat" class="hero-slide" src="img/monjita/monjita-1.webp" loading="eager" fetchpriority="high" />
-        <img alt="Monjita dominica" class="hero-slide" src="img/monjita/monjita-2.webp" loading="lazy" />
-        <img alt="Monjita dominica posada" class="hero-slide" src="img/monjita/monjita-5.webp" loading="lazy" />
-        <img alt="Monjita dominica de cerca" class="hero-slide" src="img/monjita/monjita-4.webp" loading="lazy" />
-      </div>
-      <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
-        <h1
-          class="font-display-lg text-[46px] md:text-[68px] text-canvas-white mb-6 hero-text-shadow tracking-tight leading-tight min-h-[1.2em]">
-          <span id="hero-typewriter-text" data-phrases="Bienvenido a
-San Roque|Naturaleza, cultura
-e historia|Descubrí
-lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
-        </h1>
-        <p class="text-canvas-white/85 text-lg md:text-xl max-w-xl mx-auto hero-text-shadow">
-          Hospedajes, sabores, agenda cultural y servicios de la ciudad, en un solo lugar.
-        </p>
-        <div class="mt-8 flex flex-col items-center gap-1 opacity-50 animate-bounce">
-          <span class="text-white/60 text-[10px] font-label-caps tracking-widest uppercase">Descubrí San Roque</span>
-          <span class="material-symbols-outlined text-white/60 text-[18px]">expand_more</span>
+      <picture class="hero-photo">
+        <source media="(max-width: 700px)" srcset="img/hero/puente-atardecer-vertical.webp" />
+        <img src="img/hero/puente-atardecer-1920.webp" srcset="img/hero/puente-atardecer-960.webp 960w, img/hero/puente-atardecer-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="Atardecer sobre el río Santa Lucía y el puente ferroviario de San Roque" fetchpriority="high" />
+      </picture>
+      <div class="hero-copy">
+        <p class="hero-eyebrow">Corrientes · Argentina</p>
+        <h1>San Roque</h1>
+        <p class="hero-tagline">Pueblo de fe, caminos y puentes</p>
+        <div class="hero-actions">
+          <a class="hero-btn hero-btn-primary" href="/donde-alojarme">Dónde alojarme</a>
+          <a class="hero-btn" href="que-hacer.html">Qué hacer</a>
+          <a class="hero-btn" href="#agenda">Agenda</a>
         </div>
       </div>
       <!-- Colección interactiva: Monjita Dominica (Monumento Natural de San Roque) -->
@@ -267,11 +261,6 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
         </span>
       </button>
 
-      <div class="hero-wave">
-        <svg viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <path d="M0,45 C360,95 1080,5 1440,55 L1440,90 L0,90 Z" fill="#f0f4f3" />
-        </svg>
-      </div>
     </section>
 
     <!-- Accesos principales del portal (la portada ya no lista hospedajes) -->
@@ -617,13 +606,13 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
           return;
         }
 
-        if (!proximos.length) {
-          grid.innerHTML = '<div class="home-events-empty"><strong>No hay eventos próximos por ahora.</strong><p>Podés consultar las actividades anteriores y volver a revisar la agenda.</p><a href="agenda.html">Ver agenda y eventos anteriores</a></div>';
-          grid.setAttribute('aria-busy', 'false');
-          return;
-        }
+        // Sin próximos: se muestran los últimos eventos realizados en vez de una tarjeta vacía.
+        const anteriores = [...eventos].filter((e) => !proximos.includes(e))
+          .sort((a, b) => String(b.fecha || '').localeCompare(String(a.fecha || ''))).slice(0, 3);
+        const lista = proximos.length ? proximos : anteriores;
+        const aviso = proximos.length ? '' : '<div class="home-events-empty home-events-notice"><strong>No hay eventos próximos por ahora.</strong><p>Mientras tanto, mirá los últimos eventos realizados y la agenda anual de fiestas tradicionales.</p><a href="agenda.html">Ver agenda y eventos anteriores</a></div>';
 
-        const periodText = proximos.reduce((range, evento) => {
+        const periodText = lista.reduce((range, evento) => {
           const date = new Date(`${evento.fecha}T00:00:00`);
           if (Number.isNaN(date.getTime())) return range;
           const month = date.toLocaleDateString('es-AR', { month: 'long' });
@@ -637,7 +626,7 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
           periodLabel.textContent = Array.from(periodText).join(' / ') || 'Próximamente';
         }
 
-        grid.innerHTML = proximos.map((evento) => {
+        grid.innerHTML = aviso + lista.map((evento) => {
           const detailUrl = `/agenda/${encodeURIComponent(evento.id || evento.titulo)}`;
           return `
           <article class="bg-white rounded-3xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-xl transition-all duration-300">
