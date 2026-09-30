@@ -235,7 +235,7 @@
       document.querySelectorAll('.home-flyer-link, [data-folleto]').forEach((a) => { a.href = sitio.folletoUrl; });
     }
     buildRotor(document.querySelector('.hero-rotor-comidas'), (sitio.fotosGastronomia || []).map((f) => ({ url: f.url, alt: f.alt })));
-    const lodging = document.querySelector('.section-hero-media.hero-rotor');
+    const lodging = document.querySelector('[data-rotor="alojamientos"]');
     if (lodging) buildRotor(lodging, lodgingPhotos(data.alojamientos));
   }
 

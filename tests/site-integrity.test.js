@@ -90,3 +90,10 @@ test('toda página con rotor de fotos carga hero-rotor.js (si no, las fotos qued
     .filter((f) => !fs.readFileSync(path.join(root, f), 'utf8').includes('js/hero-rotor.js'));
   assert.deepEqual(sinScript, []);
 });
+
+test('el rotor de alojamientos solo se aplica a la cabecera de alojamientos (no a Ecoturismo)', () => {
+  const sitio = fs.readFileSync(path.join(root, 'js/sitio.js'), 'utf8');
+  assert.match(sitio, /\[data-rotor="alojamientos"\]/);
+  assert.doesNotMatch(sitio, /querySelector\('\.section-hero-media\.hero-rotor'\)/);
+  assert.match(fs.readFileSync(path.join(root, 'alojamientos.html'), 'utf8'), /data-rotor="alojamientos"/);
+});
