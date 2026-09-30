@@ -97,3 +97,21 @@ test('el rotor de alojamientos solo se aplica a la cabecera de alojamientos (no 
   assert.doesNotMatch(sitio, /querySelector\('\.section-hero-media\.hero-rotor'\)/);
   assert.match(fs.readFileSync(path.join(root, 'alojamientos.html'), 'utf8'), /data-rotor="alojamientos"/);
 });
+
+test('el bot recibe datos oficiales, responde en texto plano y no promete lo que no existe', () => {
+  const bot = require('../deploy/admin/bot-service.js');
+  const store = {
+    alojamientos: [{ titulo: 'Hospedaje JR', ubicacion: 'Centro', telefono: '3777508296' }],
+    gastronomia: [{ nombre: 'Comidas Estela', tipo: 'comedor', direccion: 'S. Baibiene 525' }],
+    eventos: [], actividades: [], datos_utiles: [],
+  };
+  const ctx = bot.buildBotContext(store);
+  assert.match(ctx, /DATOS OFICIALES/);
+  assert.match(ctx, /Hospedaje JR/);
+  assert.match(ctx, /3777508296/);
+  assert.doesNotMatch(bot.DEFAULT_SYSTEM_PROMPT, /\*\*/);
+  assert.ok(bot.DEFAULT_SYSTEM_PROMPT.length < 2000, 'el prompt debe ser breve');
+  assert.equal(bot.cleanBotText('Hola **mundo**\n- uno\n- dos'), 'Hola mundo\n• uno\n• dos');
+  assert.match(bot.answerLocally('hola', store).reply, /Alojamientos/);
+  assert.equal(bot.answerLocally('hola', store).category, 'general');
+});

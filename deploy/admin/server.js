@@ -16,6 +16,8 @@ const path = require('path');
 const crypto = require('crypto');
 const {
   SYSTEM_PROMPT,
+  buildBotContext,
+  cleanBotText,
   DEFAULT_SYSTEM_PROMPT,
   answerLocally,
   publicBotConfig,
@@ -404,6 +406,29 @@ function ensureDefaultActividades(store) {
 
 // Migraciones de contenido: se ejecutan una sola vez por sitio (quedan registradas en store.migrations).
 const CONTENT_MIGRATIONS = [
+  {
+    id: '2026-09-30-telefonos-folleto',
+    run(store) {
+      // Teléfonos del folleto turístico oficial (Hotel Esquivel tenía cargado el de Don Pedro).
+      const OFICIAL = { casablanca: '3777542986', sanmartin: '3794928526', jr: '3777508296', leguiza: '3777206700', fortune: '3777221872', esquivel: '3777302498' };
+      (store.alojamientos || []).forEach((a) => {
+        const tel = OFICIAL[a.id];
+        if (!tel) return;
+        if (!a.telefono || (a.id === 'esquivel' && a.telefono === '3777534039')) {
+          a.telefono = tel;
+          a.waNumber = '549' + tel;
+        }
+      });
+    },
+  },
+  {
+    id: '2026-09-30-bot-prompt-conciso',
+    run(store) {
+      const cfg = store.bot_settings;
+      // Solo se reemplaza el texto por defecto anterior (empezaba con este título); un prompt personalizado se respeta.
+      if (cfg && typeof cfg.systemPrompt === 'string' && cfg.systemPrompt.startsWith('# IDENTIDAD Y MISIÓN')) cfg.systemPrompt = SYSTEM_PROMPT;
+    },
+  },
   {
     id: '2026-09-30-fotos-alojamientos',
     run(store) {
@@ -869,7 +894,7 @@ app.post('/api/bot/chat', async (req, res) => {
       category = local.category;
     } else {
       const settings = mergeBotSettingsWithEnv(store.bot_settings || defaultBotSettings(process.env), process.env);
-      const systemPrompt = settings.systemPrompt || SYSTEM_PROMPT;
+      const systemPrompt = `${settings.systemPrompt || SYSTEM_PROMPT}\n\n${buildBotContext(store)}`;
       const apis = rotatedEnabledApis(settings);
       if (apis.length) {
         source = 'external';
@@ -887,7 +912,7 @@ app.post('/api/bot/chat', async (req, res) => {
           }
         }
         if (got) {
-          reply = got;
+          reply = cleanBotText(got);
         } else {
           throw lastError || new Error('upstream_empty');
         }

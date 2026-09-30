@@ -309,12 +309,16 @@ function escapeHtml(text) {
 }
 
 function sanitizeBotHtml(text) {
+    // Texto plano con un mínimo de formato: **negrita**, viñetas y saltos de línea.
     return String(text || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;')
+        .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+        .replace(/(^|\n)\s*[*-]\s+/g, '$1• ')
+        .replace(/(^|\n)#+\s*/g, '$1')
         .replace(/&lt;b&gt;/g, '<b>')
         .replace(/&lt;\/b&gt;/g, '</b>')
         .replace(/&lt;br&gt;/g, '<br>');
@@ -795,5 +799,5 @@ async function sendChat(){
 
 // Mensaje inicial del bot
 setTimeout(() => {
-    addMsg(`👋 <b>¡Bienvenido a MuniAyuda!</b><br><br>Soy el asistente virtual de Turismo de San Roque.<br><br>Puedo ayudarte con:<br>🏨 Hospedajes<br>🍕 Gastronomía<br>🎉 Eventos<br>🚓 Emergencias<br><br>¿Qué necesitás?`);
+    addMsg(`👋 <b>¡Hola! Soy MuniAyuda.</b><br>Consultame por alojamientos, dónde comer, eventos, lugares para visitar, servicios o emergencias.`);
 }, 1000);
