@@ -197,8 +197,11 @@
 <main id="main-content" tabindex="-1">
 <!-- Hero Section -->
 <section id="hero-section" class="tourism-hero relative flex items-center justify-center text-center px-gutter overflow-hidden">
-  <div class="absolute inset-0 z-0 hero-rotor-monjita">
-    <img class="w-full h-full object-cover hero-slide" src="img/hero/puente-atardecer-1920.webp" srcset="img/hero/puente-atardecer-960.webp 960w, img/hero/puente-atardecer-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="Atardecer sobre el río Santa Lucía en San Roque" loading="eager" fetchpriority="high" />
+  <div class="absolute inset-0 z-0 hero-rotor hero-rotor-comidas" data-interval="4500">
+    <img src="img/gastronomia/chipa-asado.webp" alt="Chipá asado en palo sobre brasas" width="1280" height="550" loading="eager" fetchpriority="high" />
+    <img src="img/gastronomia/pescado-al-horno.webp" alt="Pescado con papas en salsa criolla" width="1280" height="550" loading="lazy" />
+    <img src="img/gastronomia/mbaipy-en-plato.webp" alt="Plato de cocina correntina" width="1280" height="550" loading="lazy" />
+    <img src="img/gastronomia/asado-a-la-estaca.webp" alt="Asado a la estaca sobre el fuego" width="1280" height="550" loading="lazy" />
   </div>
   <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
     <h1 class="font-display-lg text-[46px] md:text-[68px] text-canvas-white mb-6 hero-text-shadow tracking-tight leading-tight min-h-[1.2em]">
@@ -880,4 +883,5 @@
 })();
 </script>
   <script src="js/pwa.js" defer></script>
+<script src="js/hero-rotor.js" defer></script>
 </body></html>

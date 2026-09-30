@@ -144,3 +144,20 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .footer-logo { width: min(520px, 84vw); }
 .footer-social-band { padding-top: 14px !important; }
 @media (max-width: 640px) { .footer-wordmark-wrap { padding: 28px 16px 6px !important; } }
+
+/* ── Rotor de fotos en cabeceras ── */
+.hero-rotor { position: relative; overflow: hidden; }
+.hero-rotor > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s ease; }
+.hero-rotor > img.is-active { opacity: 1; }
+.hero-rotor-comidas { background: #2a1a10; }
+.hero-rotor-comidas > img { image-rendering: auto; }
+
+/* ── Huellas de San Roque (video + texto) ── */
+.huellas { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(20px, 4vw, 56px); align-items: center; padding: clamp(18px, 3vw, 34px); border-radius: 32px; background: var(--sr-forest); color: #fff; box-shadow: var(--sr-shadow); }
+.huellas-video video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 20px; background: #000; object-fit: cover; }
+.huellas-copy .circuits-kicker { color: #f5d98a; }
+.huellas-copy h2 { margin: 8px 0 14px; color: #fff; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.12; font-weight: 600; }
+.huellas-copy p { margin: 0 0 12px; color: rgba(255, 255, 255, .86); line-height: 1.65; font-size: .95rem; }
+.huellas-copy em { color: #fff; }
+.huellas-lema { padding-left: 14px; border-left: 3px solid var(--sr-terra); color: #fff !important; font-weight: 500; }
+@media (max-width: 860px) { .huellas { grid-template-columns: 1fr; border-radius: 24px; } }
