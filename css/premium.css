@@ -320,8 +320,8 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .city-map-legend { position: absolute; left: 66.5%; top: 47%; width: 32%; color: #16402c; }
 .city-map-legend h3 { margin: 0 0 1.4cqw; font-size: 2.1cqw; font-weight: 600; color: #0f3d22; }
 .city-map-legend ol { counter-reset: ref; margin: 0; padding: 0; list-style: none; }
-.city-map-legend li { counter-increment: ref; position: relative; display: block; padding: .55cqw 0 .55cqw 3.6cqw; font-size: 1.55cqw; line-height: 1.25; border-radius: .8cqw; transition: background .2s ease; }
-.city-map-legend li a { display: block; color: inherit; text-decoration: none; }
+.city-map-legend li { counter-increment: ref; position: relative; display: block; padding: .4cqw 0 .4cqw 3.6cqw; font-size: 1.5cqw; line-height: 1.25; border-radius: .8cqw; transition: background .2s ease; }
+.city-map-legend li a { display: block; min-height: 0; color: inherit; text-decoration: none; }
 .city-map-legend li strong { font-weight: 500; display: block; }
 .city-map-legend li span { display: block; font-size: 1.25cqw; color: #4d6a58; }
 .city-map-legend li::before { content: counter(ref); position: absolute; left: 0; top: .35cqw; display: grid; place-items: center; width: 2.5cqw; height: 2.5cqw; border-radius: 50%; background: #05512b; color: #fff; font-size: 1.3cqw; font-weight: 500; }
@@ -340,3 +340,12 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
   .city-map-info { font-size: .9rem; gap: 8px; margin-top: 12px; }
   .city-map-info span { width: 22px; height: 22px; border-width: 2px; }
 }
+
+/* En la página de Recorrido el mapa es la pieza principal */
+.city-map-head { max-width: 720px; margin: 0 auto 26px; text-align: center; }
+.city-map-head h2 { margin: 0 0 8px; }
+.city-map-head p { margin: 0; color: #56665a; }
+#mapa-ciudad.city-map { margin-top: 10px; padding-top: 0; border-top: 0; }
+
+/* El mapa sale de la columna de lectura para verse grande */
+#mapa-ciudad.city-map { width: min(1100px, calc(100vw - 32px)); margin-left: 50%; transform: translateX(-50%); }

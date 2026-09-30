@@ -91,28 +91,44 @@
   </div>
 
   <main class="long-read flex-1 w-full mx-auto px-6 pb-20">
-    <section class="recorrido-layout">
-      <figure class="recorrido-mapa">
-        <img data-recorrido="mapa" src="img/folleto/recorrido-historico.svg" alt="Mapa del recorrido histórico de San Roque con el río Santa Lucía, las rutas de acceso y diez puntos numerados" width="585" height="528" loading="eager" />
-        <figcaption>Mapa del folleto turístico oficial. Tocá o hacé clic con dos dedos para acercar.</figcaption>
-      </figure>
-      <div class="recorrido-paradas">
-        <h2>Las diez paradas</h2>
-        <ol data-recorrido="paradas">
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Paso%20de%20Blas,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Paso de Blas</strong></a></li>
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Plaza%20Libertad,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Plaza Libertad</strong></a></li>
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Antigua%20Parroquia,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Antigua Parroquia</strong><span>Museo Histórico Nacional</span></a></li>
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Antigua%20Sede%20de%20Gobierno%20Provincial,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Antigua Sede de Gobierno Provincial</strong><span>Museo Histórico Provincial</span></a></li>
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Parroquia%20San%20Roque%20de%20Montpellier,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Parroquia San Roque de Montpellier</strong></a></li>
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Estación%20Ferroviaria%20%28FCGU%29,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Estación Ferroviaria (FCGU)</strong></a></li>
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Puente%20Ferroviario,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Puente Ferroviario</strong></a></li>
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Estancia%20El%20Carayá,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Estancia El Carayá</strong></a></li>
-        <li><a href="puente-de-la-via.html"><strong>Puente Carretero</strong><span>Conocé su historia</span></a></li>
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Parque%20Municipal%20y%20Puente%20Ruta%2012,%20San%20Roque,%20Corrientes" target="_blank" rel="noopener"><strong>Parque Municipal y Puente Ruta 12</strong></a></li>
-        </ol>
-        <p class="recorrido-nota"><span class="material-symbols-outlined" aria-hidden="true">info</span> Punto de informes en el acceso a San Roque, Berón de Astrada y Ruta Nacional 12.</p>
-        <a class="monjita-more" href="que-hacer.html">Ver más lugares para conocer <span aria-hidden="true">→</span></a>
+    <section id="mapa-ciudad" class="city-map" aria-labelledby="mapa-ciudad-title">
+      <div class="city-map-head">
+        <h2 id="mapa-ciudad-title">Mapa de San Roque y recorrido histórico</h2>
+        <p>Tocá un número del mapa o una referencia para ubicar cada parada. El punto de informes está en el acceso a la ciudad, sobre la Ruta Nacional 12.</p>
       </div>
+      <div class="city-map-stage">
+        <img data-recorrido="mapa" src="img/folleto/mapa-ciudad.svg" width="585" height="528" loading="lazy" alt="Mapa de San Roque con el río Santa Lucía, la Ruta Nacional 12, el trazado urbano y diez paradas numeradas del recorrido histórico" />
+        <button type="button" class="city-pin" data-stop="1" style="left:29.54%;top:36.88%" aria-label="Parada 1"></button>
+        <button type="button" class="city-pin" data-stop="2" style="left:32.67%;top:47.08%" aria-label="Parada 2"></button>
+        <button type="button" class="city-pin" data-stop="3" style="left:31.97%;top:51.06%" aria-label="Parada 3"></button>
+        <button type="button" class="city-pin" data-stop="4" style="left:29.21%;top:48.67%" aria-label="Parada 4"></button>
+        <button type="button" class="city-pin" data-stop="5" style="left:34.05%;top:49.68%" aria-label="Parada 5"></button>
+        <button type="button" class="city-pin" data-stop="6" style="left:46.70%;top:62.90%" aria-label="Parada 6"></button>
+        <button type="button" class="city-pin" data-stop="7" style="left:35.20%;top:33.28%" aria-label="Parada 7"></button>
+        <button type="button" class="city-pin" data-stop="10" style="left:15.68%;top:48.75%" aria-label="Parada 10"></button>
+        <button type="button" class="city-pin" data-stop="9" style="left:85.85%;top:23.71%" aria-label="Parada 9"></button>
+        <button type="button" class="city-pin" data-stop="8" style="left:89.54%;top:29.26%" aria-label="Parada 8"></button>
+        <button type="button" class="city-pin" data-stop="7" style="left:78.15%;top:36.31%" aria-label="Parada 7"></button>
+        <button type="button" class="city-pin" data-stop="10" style="left:72.87%;top:39.47%" aria-label="Parada 10"></button>
+        <span class="city-info" style="left:14.41%;top:71.12%" title="Punto de informes"></span>
+        <div class="city-map-legend">
+          <h3>Referencias</h3>
+          <ol data-recorrido="paradas">
+          <li data-stop="1"><strong>Paso de Blas</strong></li>
+          <li data-stop="2"><strong>Plaza Libertad</strong></li>
+          <li data-stop="3"><strong>Antigua Parroquia</strong><span>Museo Histórico Nacional</span></li>
+          <li data-stop="4"><strong>Antigua Sede de Gobierno Provincial</strong><span>Museo Histórico Provincial</span></li>
+          <li data-stop="5"><strong>Parroquia San Roque de Montpellier</strong></li>
+          <li data-stop="6"><strong>Estación Ferroviaria (FCGU)</strong></li>
+          <li data-stop="7"><strong>Puente Ferroviario</strong></li>
+          <li data-stop="8"><strong>Estancia El Carayá</strong></li>
+          <li data-stop="9"><strong>Puente Carretero</strong><span>Conocé su historia</span></li>
+          <li data-stop="10"><strong>Parque Municipal y Puente Ruta 12</strong></li>
+          </ol>
+          <p class="city-map-info"><span aria-hidden="true"></span> Punto de informes</p>
+        </div>
+      </div>
+      <p class="city-map-foot"><a href="que-hacer.html">Ver más lugares para conocer</a> · <a href="img/folleto/folleto-turismo-san-roque-octubre-2026.pdf" target="_blank" rel="noopener">Folleto turístico (PDF)</a></p>
     </section>
   </main>
 
@@ -184,6 +200,7 @@
 
   <script src="js/sitio.js"></script>
   <script src="js/share.js"></script>
+  <script src="js/mapa-ciudad.js" defer></script>
   <script src="js/pwa.js" defer></script>
 </body>
 </html>

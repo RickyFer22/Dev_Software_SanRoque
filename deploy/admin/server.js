@@ -211,7 +211,7 @@ const SITIO_DEFAULTS = {
   },
   recorrido: {
     intro: 'Diez paradas para seguir el río Santa Lucía, cruzar los puentes y conocer el patrimonio de San Roque. El punto de informes está en el acceso a la ciudad.',
-    mapaUrl: '/img/folleto/recorrido-historico.svg',
+    mapaUrl: '/img/folleto/mapa-ciudad.svg',
     paradas: [
       { nombre: 'Paso de Blas', detalle: '', enlace: '' },
       { nombre: 'Plaza Libertad', detalle: '', enlace: '' },
@@ -276,7 +276,8 @@ function normalizeSitio(value) {
     },
     recorrido: {
       intro: cleanText(rec.intro, 700),
-      mapaUrl: cleanText(rec.mapaUrl, 2000),
+      // El mapa anterior (con título y leyenda incluidos) se reemplazó por el mapa con marcadores.
+      mapaUrl: cleanText(rec.mapaUrl, 2000).replace('/img/folleto/recorrido-historico.svg', '/img/folleto/mapa-ciudad.svg'),
       paradas: (Array.isArray(rec.paradas) ? rec.paradas : [])
         .map((p) => ({ nombre: cleanText(p && p.nombre, 120), detalle: cleanText(p && p.detalle, 200), enlace: cleanText(p && p.enlace, 2000) }))
         .filter((p) => p.nombre)

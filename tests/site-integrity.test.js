@@ -80,7 +80,7 @@ test('Ecoturismo y Recorrido histórico son páginas propias, con datos editable
   assert.match(server, /recorrido: \{/);
   assert.match(server, /ecoturismo: \{/);
   for (const id of ['sitio-rec-paradas', 'sitio-rec-mapa', 'sitio-eco-bloques', 'sitio-eco-fotos']) assert.match(panel, new RegExp(`id="${id}"`));
-  assert.ok(fs.statSync(path.join(root, 'img/folleto/recorrido-historico.svg')).size < 600 * 1024);
+  assert.ok(fs.statSync(path.join(root, 'img/folleto/mapa-ciudad.svg')).size < 600 * 1024);
 });
 
 test('toda página con rotor de fotos carga hero-rotor.js (si no, las fotos quedan invisibles)', () => {

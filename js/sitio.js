@@ -164,7 +164,12 @@
     const intro = document.querySelector('[data-recorrido="intro"]');
     if (intro && rec.intro) intro.textContent = rec.intro;
     const map = document.querySelector('[data-recorrido="mapa"]');
-    if (map && rec.mapaUrl) map.src = rec.mapaUrl;
+    const norm = (u) => String(u || '').replace(/^\//, '');
+    if (map && rec.mapaUrl && norm(rec.mapaUrl) !== norm(map.getAttribute('src'))) {
+      map.src = rec.mapaUrl;
+      // Los marcadores están calibrados para el mapa oficial: con otra imagen se ocultan.
+      document.querySelectorAll('.city-pin, .city-info').forEach((p) => { p.hidden = true; });
+    }
     if (rec.paradas && rec.paradas.length) {
       list.replaceChildren(...rec.paradas.map((p) => {
         const li = el('li');
