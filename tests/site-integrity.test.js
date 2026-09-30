@@ -82,3 +82,11 @@ test('Ecoturismo y Recorrido histórico son páginas propias, con datos editable
   for (const id of ['sitio-rec-paradas', 'sitio-rec-mapa', 'sitio-eco-bloques', 'sitio-eco-fotos']) assert.match(panel, new RegExp(`id="${id}"`));
   assert.ok(fs.statSync(path.join(root, 'img/folleto/recorrido-historico.svg')).size < 600 * 1024);
 });
+
+test('toda página con rotor de fotos carga hero-rotor.js (si no, las fotos quedan invisibles)', () => {
+  const sinScript = fs.readdirSync(root)
+    .filter((f) => f.endsWith('.html'))
+    .filter((f) => /class="[^"]*hero-rotor/.test(fs.readFileSync(path.join(root, f), 'utf8')))
+    .filter((f) => !fs.readFileSync(path.join(root, f), 'utf8').includes('js/hero-rotor.js'));
+  assert.deepEqual(sinScript, []);
+});
