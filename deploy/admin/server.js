@@ -402,6 +402,47 @@ function ensureDefaultActividades(store) {
   return true;
 }
 
+// Migraciones de contenido: se ejecutan una sola vez por sitio (quedan registradas en store.migrations).
+const CONTENT_MIGRATIONS = [
+  {
+    id: '2026-09-30-fotos-alojamientos',
+    run(store) {
+      const asList = (v) => {
+        if (Array.isArray(v)) return v.slice();
+        if (typeof v === 'string' && v.trim().startsWith('[')) { try { return JSON.parse(v); } catch (e) { return []; } }
+        return [];
+      };
+      const keepFormat = (original, list) => (typeof original === 'string' ? JSON.stringify(list) : list);
+      const broken = (src) => !src || /hero\.jpg\.jpg$/.test(src) || /placeholder/.test(src) || /^https?:\/\/images\.unsplash\.com/.test(src);
+      const SAN_MARTIN = ['img/alojamientos/sanmartin-01-fachada.webp', 'img/alojamientos/sanmartin-02-comedor.webp', 'img/alojamientos/sanmartin-03-habitacion-triple.webp', 'img/alojamientos/sanmartin-04-habitacion-matrimonial.webp', 'img/alojamientos/sanmartin-05-estar.webp', 'img/alojamientos/sanmartin-06-bano.webp'];
+      const FORTUNE_EXTRA = ['img/alojamientos/fortune-06-frente-esquina.webp', 'img/alojamientos/fortune-07-cartel.webp', 'img/alojamientos/fortune-08-sala-estar.webp', 'img/alojamientos/fortune-09-habitacion-matrimonial.webp', 'img/alojamientos/fortune-10-kitchenette.webp', 'img/alojamientos/fortune-11-desayuno.webp', 'img/alojamientos/fortune-12-habitacion-amarilla.webp', 'img/alojamientos/fortune-13-habitacion-doble-altillo.webp', 'img/alojamientos/fortune-14-cocina-comedor.webp'];
+      (store.alojamientos || []).forEach((a) => {
+        if (a.id === 'sanmartin' && (broken(a.mainImg) || !asList(a.galeria).length)) {
+          a.mainImg = SAN_MARTIN[0];
+          a.galeria = keepFormat(a.galeria, SAN_MARTIN.slice(1));
+        }
+        if (a.id === 'fortune') {
+          const current = asList(a.galeria);
+          const merged = current.concat(FORTUNE_EXTRA.filter((u) => !current.includes(u)));
+          a.galeria = keepFormat(a.galeria, merged);
+        }
+        // Foto de stock (no es del alojamiento): mejor el marcador de posición hasta tener fotos reales.
+        if (broken(a.mainImg) && /^https?:\/\/images\.unsplash\.com/.test(a.mainImg || '')) a.mainImg = 'img/placeholder-alojamiento.svg';
+      });
+    },
+  },
+];
+
+function applyContentMigrations(store) {
+  if (!Array.isArray(store.migrations)) store.migrations = [];
+  let changed = false;
+  CONTENT_MIGRATIONS.forEach((m) => {
+    if (store.migrations.some((x) => (x && x.id) === m.id)) return;
+    try { m.run(store); store.migrations.push({ id: m.id, at: new Date().toISOString() }); changed = true; } catch (e) { console.error('[admin] migración fallida', m.id, e); }
+  });
+  return changed;
+}
+
 function loadStore() {
   try {
     if (!fs.existsSync(DATA_FILE)) {
@@ -413,7 +454,7 @@ function loadStore() {
     }
     const raw = fs.readFileSync(DATA_FILE, 'utf8');
     const store = applyBundledSeedIfEmpty(normalizeStore(JSON.parse(raw || '{}')));
-    const dirty = [ensureDefaultDatosUtiles(store), ensureDefaultActividades(store)].some(Boolean);
+    const dirty = [ensureDefaultDatosUtiles(store), ensureDefaultActividades(store), applyContentMigrations(store)].some(Boolean);
     if (dirty) {
       try { fs.writeFileSync(DATA_FILE, JSON.stringify(store, null, 2)); } catch (er) {}
     }

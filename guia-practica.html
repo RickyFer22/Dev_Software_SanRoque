@@ -85,21 +85,22 @@
     </div>
   </nav>
 
-  <!-- Hero: tarjeta clara flotando sobre la foto (mismo patrón que Qué hacer).
-       El texto blanco sobre esta foto —paredes encaladas del museo— quedaba
-       ilegible aun con el degradado oscuro encima. -->
-  <div class="section-hero-wrap" style="margin-top:110px">
-    <header class="section-hero">
-      <div class="section-hero-media">
-        <img src="img/Museo San roque.jpeg" alt="Museo de San Roque" loading="eager" fetchpriority="high" />
-      </div>
-      <div class="section-hero-card">
-        <span><span class="material-symbols-outlined" aria-hidden="true" style="font-size:15px;vertical-align:-2px">info</span>Información y Servicios</span>
-        <h1>Guía Práctica</h1>
-        <p>Accedé a los contactos de remises, terminal, iglesias, emergencias y servicios municipales de manera rápida y asistida.</p>
-      </div>
-    </header>
-  </div>
+  <!-- Hero: guía de acceso rápido (sin foto) -->
+  <header class="guide-hero" style="margin-top:96px">
+    <div class="guide-hero-inner">
+      <span class="guide-kicker"><span class="material-symbols-outlined" aria-hidden="true">explore</span>Información y servicios</span>
+      <h1>Guía práctica</h1>
+      <p>Todo lo que necesitás para moverte por San Roque: teléfonos, urgencias, trámites y cómo llegar. Elegí un acceso rápido o una categoría más abajo.</p>
+      <nav class="guide-quick" aria-label="Accesos rápidos">
+        <a href="tel:+5493777742487"><span class="material-symbols-outlined" aria-hidden="true">call</span><strong>Punto de informes</strong><small>+54 9 3777 74-2487</small></a>
+        <a href="#emergencias" data-guide-cat="emergencias"><span class="material-symbols-outlined" aria-hidden="true">emergency</span><strong>Emergencias</strong><small>Bomberos, policía y defensa civil</small></a>
+        <a href="#salud" data-guide-cat="salud"><span class="material-symbols-outlined" aria-hidden="true">medical_services</span><strong>Salud</strong><small>Hospital y farmacias</small></a>
+        <a href="#servicios" data-guide-cat="servicios"><span class="material-symbols-outlined" aria-hidden="true">design_services</span><strong>Servicios</strong><small>Bancos, remises y terminal</small></a>
+        <a href="recorrido.html#mapa-ciudad"><span class="material-symbols-outlined" aria-hidden="true">map</span><strong>Mapa de la ciudad</strong><small>Recorrido en 10 paradas</small></a>
+        <a href="index.html#como-llegar"><span class="material-symbols-outlined" aria-hidden="true">near_me</span><strong>Cómo llegar</strong><small>Ruta Nacional 12</small></a>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Content -->
   <main id="guia-main" class="flex-1 w-full max-w-5xl mx-auto px-6 py-16">
@@ -319,10 +320,14 @@
                 if (apiCategories.length) {
                     renderCategoryGrid(apiCategories);
                 }
-                // Enlace directo desde la portada: guia-practica.html#salud abre esa categoría.
-                const wanted = decodeURIComponent(location.hash.replace('#', ''));
-                const card = wanted && document.querySelector('#guia-cat-grid [data-cat="' + wanted.replace(/"/g, '') + '"]');
-                if (card) setTimeout(() => card.click(), 0);
+                // Enlace directo (portada o accesos rápidos): guia-practica.html#salud abre esa categoría.
+                const openFromHash = () => {
+                    const wanted = decodeURIComponent(location.hash.replace('#', ''));
+                    const card = wanted && document.querySelector('#guia-cat-grid [data-cat="' + wanted.replace(/"/g, '') + '"]');
+                    if (card) setTimeout(() => { card.click(); document.getElementById('directory-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 0);
+                };
+                openFromHash();
+                window.addEventListener('hashchange', openFromHash);
             }
         } catch (err) {
             console.error("Error loading directory data", err);
