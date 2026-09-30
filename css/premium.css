@@ -379,3 +379,5 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .gastro-closing h2 { margin: 6px 0 8px; color: var(--sr-forest); font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.15; font-weight: 600; }
 .gastro-closing p { margin: 0; max-width: 560px; color: #56665a; line-height: 1.6; }
 .gastro-closing-actions { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+
+.guide-hero .guide-quick:has(> a:nth-child(3):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
