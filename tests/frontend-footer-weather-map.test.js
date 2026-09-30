@@ -109,7 +109,7 @@ test('the lodging section lives in its own page, not in the home', () => {
   const home = read('index.html');
   assert.doesNotMatch(home, /id="accommodations-carousel"/);
   assert.doesNotMatch(home, /id="detailed-accommodation-view"/);
-  assert.match(home, /class="portal-shortcut"/);
+  assert.match(home, /class="circuit-card"/);
 
   for (const file of ['index.html', 'agenda.html', 'gastronomia.html', 'guia-practica.html', 'que-hacer.html']) {
     assert.match(read(file), /href="\/donde-alojarme"/, file);

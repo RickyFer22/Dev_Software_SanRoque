@@ -158,7 +158,7 @@ test('public pages share the editorial tourism composition without losing dynami
 
   assert.match(home, /id="hero-section"[^>]*class="[^"]*tourism-hero/);
   assert.match(home, /id="events-grid"/);
-  assert.match(home, /class="portal-shortcut"/);
+  assert.match(home, /class="circuit-card"/);
   // El listado, el mapa y la ficha viven en su propia página desde el split.
   assert.match(aloj, /id="accommodations-carousel"/);
   assert.match(aloj, /id="main-map"/);

@@ -174,3 +174,11 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 #hero-section .monjita-hero-link { position: absolute; z-index: 26; right: clamp(20px, 5vw, 80px); bottom: clamp(30px, 6vh, 76px); color: #fff; font-size: .82rem; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; text-shadow: 0 2px 12px rgba(0, 0, 0, .55); }
 #hero-section .monjita-hero-link:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 @media (max-width: 640px) { #hero-section .monjita-hero-link { left: 16px; right: auto; bottom: 60px; } }
+
+/* "Mi visita" respeta el atributo hidden (antes se veía vacío con 0 elementos). */
+.visita-fab[hidden] { display: none; }
+/* Cómo llegar dentro del bloque del folleto */
+.home-flyer-how { margin-top: 26px; padding-top: 20px; border-top: 1px solid rgba(31, 74, 55, .18); max-width: 470px; }
+.home-flyer-how h3 { margin: 0 0 6px; color: var(--sr-forest); font-size: 1.05rem; font-weight: 500; }
+.home-flyer-how p { margin: 0 0 12px; font-size: .9rem; }
+.home-flyer-how .how-to-list { gap: 8px; font-size: .9rem; }

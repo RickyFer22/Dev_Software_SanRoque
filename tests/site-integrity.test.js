@@ -56,3 +56,16 @@ test('el service worker y el manifiesto existen y las páginas los enlazan', () 
     assert.match(fs.readFileSync(path.join(root, page), 'utf8'), /rel="manifest"/, page);
   }
 });
+
+test('el contenido fijo del sitio se administra desde el panel y llega a la API pública', () => {
+  const server = fs.readFileSync(path.join(root, 'deploy/admin/server.js'), 'utf8');
+  const panel = fs.readFileSync(path.join(root, 'deploy/admin/static/index.html'), 'utf8');
+  const app = fs.readFileSync(path.join(root, 'deploy/admin/static/app.js'), 'utf8');
+  assert.match(server, /app\.get\('\/admin\/api\/sitio'/);
+  assert.match(server, /app\.post\('\/admin\/api\/sitio'/);
+  assert.match(server, /sitio: store\.sitio/);
+  assert.match(panel, /data-section="sitio"/);
+  assert.match(panel, /id="sitio-agenda"/);
+  assert.match(app, /\/admin\/api\/sitio/);
+  assert.match(fs.readFileSync(path.join(root, 'js/sitio.js'), 'utf8'), /data\.sitio|sitio\./);
+});

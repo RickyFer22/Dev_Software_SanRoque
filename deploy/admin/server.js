@@ -148,6 +148,7 @@ function buildInitialStore() {
     system_logs: [],
     media: [],
     announcement: { enabled: false, imageUrl: '', alt: 'Anuncio de San Roque' },
+    sitio: normalizeSitio(null),
     migrations: [],
     bot_settings: defaultBotSettings(process.env),
     createdAt: now,
@@ -174,11 +175,76 @@ function normalizeStore(store) {
     system_logs: Array.isArray(store.system_logs) ? store.system_logs.slice(0, SYSTEM_LOG_LIMIT) : [],
     media: Array.isArray(store.media) ? store.media : [],
     announcement: normalizeAnnouncement(store.announcement),
+    sitio: normalizeSitio(store.sitio),
     migrations: Array.isArray(store.migrations) ? store.migrations : [],
     bot_settings: (store.bot_settings && Array.isArray(store.bot_settings.apis))
       ? normalizeBotSettings(store.bot_settings, store.bot_settings)
       : defaultBotSettings(process.env),
     createdAt: store.createdAt || new Date().toISOString(),
+  };
+}
+
+
+// Contenido editable de la portada y las cabeceras (sección "Portada y cabeceras" del panel).
+const SITIO_DEFAULTS = {
+  agendaAnual: [
+    { mes: 'Enero / febrero', titulo: 'Carnavales' },
+    { mes: 'Abril', titulo: 'Encuentro Regional de Emprendedores, Artesanos y Expositores' },
+    { mes: 'Junio', titulo: 'Fiesta de la Gastronomía Tradicional y Regional' },
+    { mes: 'Agosto', titulo: 'Fiestas Patronales' },
+    { mes: 'Septiembre', titulo: 'Estudiantina' },
+    { mes: 'Octubre', titulo: 'Recordatorio de la fundación de la localidad' },
+    { mes: 'Noviembre', titulo: 'Fiesta de la Tradición y el Folclore' },
+    { mes: 'Diciembre', titulo: 'Bingo de Carnaval' },
+  ],
+  agendaNota: 'Expomotos, stunts, audio car, velo terra, BMX, MTB, remates de ganado y exposiciones. Consultá las fechas y la programación antes de tu visita.',
+  huellas: {
+    enabled: true,
+    titulo: 'Huellas de San Roque: conocer nuestro territorio',
+    textos: [
+      'En el marco del proyecto «Huellas de San Roque: ciencia y comunidad para la gestión de paisajes rurales y urbanos sostenibles», comenzó el monitoreo de la biodiversidad de nuestra zona.',
+      'La primera jornada se hizo en el campo de la familia Rojas Busellato, con estudiantes y docentes de la Escuela Normal «Juan García de Cossio», voluntarios e investigadores de la UNNE: observación de aves e instalación de cámaras trampa para registrar mamíferos terrestres.',
+    ],
+    lema: 'Conocer nuestro territorio para comprenderlo, valorarlo y aportar a su conservación.',
+    videoUrl: '/img/video/huellas-de-san-roque.mp4',
+    posterUrl: '/img/video/huellas-poster.jpg',
+  },
+  fotosGastronomia: [
+    { url: '/img/gastronomia/chipa-asado.webp', alt: 'Chipá asado en palo sobre brasas' },
+    { url: '/img/gastronomia/pescado-al-horno.webp', alt: 'Pescado con papas en salsa criolla' },
+    { url: '/img/gastronomia/mbaipy-en-plato.webp', alt: 'Plato de cocina correntina' },
+    { url: '/img/gastronomia/asado-a-la-estaca.webp', alt: 'Asado a la estaca sobre el fuego' },
+  ],
+  folletoUrl: '/img/folleto/folleto-turismo-san-roque-octubre-2026.pdf',
+};
+
+function cleanText(value, max) {
+  return typeof value === 'string' ? value.trim().slice(0, max) : '';
+}
+
+function normalizeSitio(value) {
+  const v = value && typeof value === 'object' ? value : {};
+  const agenda = Array.isArray(v.agendaAnual) ? v.agendaAnual : SITIO_DEFAULTS.agendaAnual;
+  const h = v.huellas && typeof v.huellas === 'object' ? v.huellas : SITIO_DEFAULTS.huellas;
+  return {
+    agendaAnual: agenda
+      .map((a) => ({ mes: cleanText(a && a.mes, 40), titulo: cleanText(a && a.titulo, 160) }))
+      .filter((a) => a.mes && a.titulo)
+      .slice(0, 24),
+    agendaNota: typeof v.agendaNota === 'string' ? cleanText(v.agendaNota, 500) : SITIO_DEFAULTS.agendaNota,
+    huellas: {
+      enabled: h.enabled !== false,
+      titulo: cleanText(h.titulo, 160),
+      textos: (Array.isArray(h.textos) ? h.textos : []).map((t) => cleanText(t, 900)).filter(Boolean).slice(0, 8),
+      lema: cleanText(h.lema, 200),
+      videoUrl: cleanText(h.videoUrl, 2000),
+      posterUrl: cleanText(h.posterUrl, 2000),
+    },
+    fotosGastronomia: (Array.isArray(v.fotosGastronomia) ? v.fotosGastronomia : SITIO_DEFAULTS.fotosGastronomia)
+      .map((f) => ({ url: cleanText(f && f.url, 2000), alt: cleanText(f && f.alt, 180) }))
+      .filter((f) => f.url)
+      .slice(0, 12),
+    folletoUrl: typeof v.folletoUrl === 'string' ? cleanText(v.folletoUrl, 2000) : SITIO_DEFAULTS.folletoUrl,
   };
 }
 
@@ -533,6 +599,7 @@ app.get('/api/data', (req, res) => {
     datosUtiles: transformDatosUtilesForPublic(store.datos_utiles || []),
     actividades: (store.actividades || []).filter(isPublicItem).map((item) => hydratePublicItem(store, item)),
     announcement: store.announcement.enabled && store.announcement.imageUrl ? store.announcement : null,
+    sitio: store.sitio || normalizeSitio(null),
     ratings: computeRatings(store),
   });
 });
@@ -799,6 +866,21 @@ app.post('/admin/api/announcement', (req, res) => {
   store.announcement = payload;
   saveStore(store);
   recordAudit('update', 'announcement', 'announcement', req, payload);
+  return res.json(payload);
+});
+
+app.get('/admin/api/sitio', (req, res) => {
+  if (!canRead('sitio', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  res.json(loadStore().sitio || normalizeSitio(null));
+});
+
+app.post('/admin/api/sitio', (req, res) => {
+  if (!canWrite('sitio', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
+  const payload = normalizeSitio(req.body || {});
+  const store = loadStore();
+  store.sitio = payload;
+  saveStore(store);
+  recordAudit('update', 'sitio', 'sitio', req, payload);
   return res.json(payload);
 });
 

@@ -10,6 +10,7 @@ const ADMIN_SECTIONS = Object.freeze({
   audit: { api: '/admin/api/audit', title: 'Auditoría', description: 'Historial verificable de modificaciones.', icon: 'history', group: 'Sistema', isAudit: true },
   uploads: { api: '/admin/api/media', title: 'Multimedia', description: 'Biblioteca de fotografías optimizadas.', icon: 'image', group: 'Sistema' },
   announcement: { title: 'Anuncio de entrada', description: 'Imagen que aparece al ingresar al portal.', icon: 'megaphone', group: 'Contenido' },
+  sitio: { title: 'Portada y cabeceras', description: 'Agenda anual, video Huellas, fotos de cabecera y folleto.', icon: 'image', group: 'Contenido' },
   backup: { title: 'Copias de seguridad', description: 'Respaldo y restauración del contenido.', icon: 'backup', group: 'Sistema' },
   'bot-config': { title: 'Bot y APIs', description: 'Asistente turístico e integraciones.', icon: 'bot', group: 'Sistema' },
   observability: { title: 'Observabilidad', description: 'Salud técnica y registros operativos.', icon: 'activity', group: 'Sistema' },
@@ -1253,6 +1254,85 @@ async function saveAnnouncementConfig() {
   if (button) button.disabled = false;
 }
 
+// ── Portada y cabeceras (contenido fijo del sitio) ──
+function applySitioConfig(data) {
+  const d = data || {};
+  const h = d.huellas || {};
+  const set = (id, value) => { const el = document.getElementById(id); if (el) el.value = value == null ? '' : value; };
+  set('sitio-agenda', (d.agendaAnual || []).map((a) => `${a.mes} | ${a.titulo}`).join('\n'));
+  set('sitio-agenda-nota', d.agendaNota);
+  const enabled = document.getElementById('sitio-huellas-enabled');
+  if (enabled) enabled.checked = h.enabled !== false;
+  set('sitio-huellas-titulo', h.titulo);
+  set('sitio-huellas-textos', (h.textos || []).join('\n\n'));
+  set('sitio-huellas-lema', h.lema);
+  set('sitio-huellas-video', h.videoUrl);
+  set('sitio-huellas-poster', h.posterUrl);
+  set('sitio-fotos-gastro', (d.fotosGastronomia || []).map((f) => (f.alt ? `${f.url} | ${f.alt}` : f.url)).join('\n'));
+  set('sitio-folleto', d.folletoUrl);
+}
+
+function collectSitioConfig() {
+  const val = (id) => document.getElementById(id)?.value || '';
+  const lines = (text) => text.split('\n').map((l) => l.trim()).filter(Boolean);
+  const pair = (line) => { const i = line.indexOf('|'); return i < 0 ? [line, ''] : [line.slice(0, i).trim(), line.slice(i + 1).trim()]; };
+  return {
+    agendaAnual: lines(val('sitio-agenda')).map((l) => { const [mes, titulo] = pair(l); return { mes, titulo }; }),
+    agendaNota: val('sitio-agenda-nota').trim(),
+    huellas: {
+      enabled: Boolean(document.getElementById('sitio-huellas-enabled')?.checked),
+      titulo: val('sitio-huellas-titulo').trim(),
+      textos: val('sitio-huellas-textos').split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean),
+      lema: val('sitio-huellas-lema').trim(),
+      videoUrl: val('sitio-huellas-video').trim(),
+      posterUrl: val('sitio-huellas-poster').trim(),
+    },
+    fotosGastronomia: lines(val('sitio-fotos-gastro')).map((l) => { const [url, alt] = pair(l); return { url, alt }; }),
+    folletoUrl: val('sitio-folleto').trim(),
+  };
+}
+
+async function loadSitioConfig() {
+  const data = await fetchJson('/admin/api/sitio');
+  if (data.error) { showToast(`No se pudo cargar la portada: ${data.error}`, 'error'); return; }
+  applySitioConfig(data);
+}
+
+async function saveSitioConfig() {
+  const feedback = document.getElementById('sitio-feedback');
+  const button = document.getElementById('sitio-save');
+  if (button) button.disabled = true;
+  if (feedback) feedback.textContent = 'Guardando...';
+  const data = await fetchJson('/admin/api/sitio', { method: 'POST', body: JSON.stringify(collectSitioConfig()) });
+  if (data.error) {
+    if (feedback) feedback.textContent = `No se pudo guardar: ${data.error}`;
+  } else {
+    applySitioConfig(data);
+    if (feedback) feedback.textContent = 'Portada y cabeceras guardadas.';
+    notifyPublicDataRefresh();
+  }
+  if (button) button.disabled = false;
+}
+
+function initSitioControls() {
+  const save = document.getElementById('sitio-save');
+  if (save && !save.dataset.bound) {
+    save.dataset.bound = '1';
+    save.addEventListener('click', saveSitioConfig);
+  }
+  const add = document.getElementById('sitio-foto-agregar');
+  if (add && !add.dataset.bound) {
+    add.dataset.bound = '1';
+    add.addEventListener('click', () => {
+      const input = document.getElementById('sitio-foto-nueva');
+      const list = document.getElementById('sitio-fotos-gastro');
+      if (!input || !list || !input.value.trim()) return;
+      list.value = `${list.value.trim()}${list.value.trim() ? '\n' : ''}${input.value.trim()}`;
+      input.value = '';
+    });
+  }
+}
+
 function initAnnouncementControls() {
   const save = document.getElementById('announcement-save');
   if (save && !save.dataset.bound) {
@@ -2122,6 +2202,7 @@ async function refreshAll() {
   await Promise.all(permitted.map(loadResource));
   await loadHealth();
   await loadAnnouncementConfig();
+  await loadSitioConfig();
   if (['super-admin', 'editor'].includes(role)) await Promise.all([loadBotConfig(), loadObservability()]);
 }
 
@@ -2485,6 +2566,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setSidebarCollapsed(localStorage.getItem('admin_sidebar_collapsed') === '1');
   initPortalPreview();
   initAnnouncementControls();
+  initSitioControls();
   document.querySelectorAll('.nav-item, .tab').forEach((tab) => {
     tab.addEventListener('click', () => toggleSection(tab.dataset.section));
   });

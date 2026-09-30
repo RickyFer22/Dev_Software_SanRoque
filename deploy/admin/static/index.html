@@ -47,6 +47,9 @@
           <button type="button" class="nav-item tab" data-section="announcement">
             <span class="nav-icon" data-icon="megaphone"></span><span class="nav-label">Anuncio de entrada</span>
           </button>
+          <button type="button" class="nav-item tab" data-section="sitio">
+            <span class="nav-icon" data-icon="image"></span><span class="nav-label">Portada y cabeceras</span>
+          </button>
           <button type="button" class="nav-item tab" data-section="uploads">
             <span class="nav-icon" data-icon="image"></span><span class="nav-label">Multimedia</span>
           </button>
@@ -727,6 +730,57 @@
             <div class="bot-save-bar">
               <span class="small" id="announcement-feedback" aria-live="polite"></span>
               <button type="button" class="btn-gold" id="announcement-save">Guardar anuncio</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PORTADA Y CABECERAS -->
+        <div id="sitio" class="section">
+          <div class="card">
+            <div class="panel-title"><div><span class="eyebrow">Contenido del portal</span><h2>Portada y cabeceras</h2></div><span class="small">Se publica al guardar</span></div>
+            <p class="small">Editá aquí los textos y fotos fijos del sitio. Las fotos de <strong>Dónde alojarme</strong> rotan solas con las imágenes de los alojamientos publicados (se gestionan en «Alojamientos»).</p>
+
+            <h3>Agenda anual de fiestas</h3>
+            <label>Una fiesta por línea, con el formato <code>Mes | Actividad</code>
+              <textarea id="sitio-agenda" rows="9" placeholder="Enero / febrero | Carnavales"></textarea>
+            </label>
+            <label>Nota bajo la agenda
+              <textarea id="sitio-agenda-nota" rows="2" maxlength="500"></textarea>
+            </label>
+
+            <h3>Huellas de San Roque (video y texto de la portada)</h3>
+            <label class="toggle-field"><input id="sitio-huellas-enabled" type="checkbox" /><span>Mostrar este bloque en la portada</span></label>
+            <label>Título <input id="sitio-huellas-titulo" type="text" maxlength="160" /></label>
+            <label>Texto (separá los párrafos con una línea en blanco)
+              <textarea id="sitio-huellas-textos" rows="7"></textarea>
+            </label>
+            <label>Frase destacada <input id="sitio-huellas-lema" type="text" maxlength="200" /></label>
+            <label>Video (archivo .mp4 subido al sitio o enlace directo)
+              <input id="sitio-huellas-video" type="text" placeholder="/img/video/huellas-de-san-roque.mp4" />
+            </label>
+            <label>Imagen de portada del video
+              <input id="sitio-huellas-poster" type="text" placeholder="/img/video/huellas-poster.jpg" />
+            </label>
+            <div class="toolbar">
+              <button type="button" class="cancel-button" data-media-target="sitio-huellas-poster">Elegir imagen de Multimedia</button>
+            </div>
+
+            <h3>Fotos de la cabecera de Gastronomía</h3>
+            <label>Una foto por línea: <code>/ruta/imagen.webp | descripción</code> (rotan cada pocos segundos)
+              <textarea id="sitio-fotos-gastro" rows="6"></textarea>
+            </label>
+            <div class="toolbar">
+              <input id="sitio-foto-nueva" type="text" placeholder="Elegí una foto para agregarla a la lista" aria-label="Foto a agregar" />
+              <button type="button" class="cancel-button" data-media-target="sitio-foto-nueva">Elegir de Multimedia</button>
+              <button type="button" class="cancel-button" id="sitio-foto-agregar">Agregar a la lista</button>
+            </div>
+
+            <h3>Folleto turístico (PDF)</h3>
+            <label>Enlace al PDF <input id="sitio-folleto" type="text" placeholder="/img/folleto/folleto.pdf" /></label>
+
+            <div class="bot-save-bar">
+              <span class="small" id="sitio-feedback" aria-live="polite"></span>
+              <button type="button" class="btn-gold" id="sitio-save">Guardar portada y cabeceras</button>
             </div>
           </div>
         </div>
