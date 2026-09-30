@@ -12,6 +12,7 @@
     'img/monjita/monjita-1.webp',
     'img/monjita/monjita-2.webp',
     'img/monjita/monjita-3.webp',
+    'img/monjita/monjita-6.webp',
   ];
 
   document.addEventListener('DOMContentLoaded', () => {
