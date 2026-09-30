@@ -1,6 +1,6 @@
 /* Service worker del portal: permite abrir la portada, la agenda y la guía
    sin señal (zonas con cobertura débil). Sube VERSION para invalidar cachés. */
-const VERSION = 'vsr-v2';
+const VERSION = 'vsr-v3';
 const SHELL = ['/', '/agenda.html', '/que-hacer.html', '/guia-practica.html', '/alojamientos.html', '/gastronomia.html',
   '/css/tw-base.css', '/css/styles.css', '/css/fonts.css', '/fonts/rubik-latin.woff2', '/fonts/rubik-latin.woff2'];
 const NO_CACHE = /^\/(admin|api\/(vote|ratings|track|bot|weather))/;
@@ -37,6 +37,7 @@ self.addEventListener('fetch', (e) => {
   const req = e.request;
   const url = new URL(req.url);
   if (req.method !== 'GET' || url.origin !== location.origin || NO_CACHE.test(url.pathname)) return;
-  if (req.mode === 'navigate' || url.pathname === '/api/data') e.respondWith(networkFirst(req));
-  else if (/\.(?:css|js|woff2|webp|jpe?g|png|svg)$/.test(url.pathname)) e.respondWith(staleWhileRevalidate(req));
+  // HTML, CSS y JS: red primero (siempre lo último publicado); imágenes y fuentes: caché con revalidación.
+  if (req.mode === 'navigate' || url.pathname === '/api/data' || /\.(?:css|js)$/.test(url.pathname)) e.respondWith(networkFirst(req));
+  else if (/\.(?:woff2|webp|jpe?g|png|svg)$/.test(url.pathname)) e.respondWith(staleWhileRevalidate(req));
 });
