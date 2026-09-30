@@ -102,11 +102,11 @@ test('public footer uses the official municipality social links', () => {
   assert.match(html, /aria-label="Seguir a la Municipalidad de San Roque en Facebook"/);
 });
 
-test('splash uses the official municipal crest and mobile navigation exposes state', () => {
+test('splash uses the official municipal logo and mobile navigation exposes state', () => {
   const html = read('index.html');
   const css = read('css/styles.css');
 
-  assert.match(html, /class="splash-crest"[^>]+src="img\/logo-muni\.jpg"/);
+  assert.match(html, /class="splash-official"[^>]+src="img\/brand\/logo-oficial-negro\.svg"/);
   // El estado activo se marca en la página de la sección, no en la portada.
   assert.match(read('alojamientos.html'), /class="bottom-nav-item active"[^>]+aria-current="page"/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);

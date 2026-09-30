@@ -95,22 +95,22 @@ h2, h3 { font-weight: 500; }
 
 /* ── Marca: logotipo propio (palabra + puente + monjita) ── */
 .brand-logo {
-  display: block; width: clamp(150px, 17vw, 230px); aspect-ratio: 1322 / 372; background: currentColor;
-  -webkit-mask: url("../img/brand/logo-san-roque.svg") center / contain no-repeat;
-  mask: url("../img/brand/logo-san-roque.svg") center / contain no-repeat;
+  display: block; height: clamp(46px, 5vw, 60px); aspect-ratio: 128.23 / 144.28; background: currentColor;
+  -webkit-mask: url("../img/brand/logo-oficial-negro.svg") center / contain no-repeat;
+  mask: url("../img/brand/logo-oficial-negro.svg") center / contain no-repeat;
   transition: opacity .3s ease, transform .3s ease;
 }
 a:hover > .brand-logo { transform: scale(1.03); }
 /* En la portada el logo grande vive en el hero: la barra lo muestra recién al bajar. */
 body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; pointer-events: none; }
 .hero-logo { margin: 0; line-height: 0; }
-.hero-logo img { display: block; width: min(600px, 88vw); height: auto; filter: drop-shadow(0 8px 34px rgba(0, 0, 0, .35)); }
+.hero-logo img { display: block; width: auto; height: clamp(150px, 26vw, 230px); filter: drop-shadow(0 8px 34px rgba(0, 0, 0, .35)); }
 .hero-copy h1.hero-logo { font-size: 0; }
 .footer-wordmark-wrap { text-align: center; }
 .footer-logo { display: inline-block; width: min(760px, 88vw); height: auto; }
 
 /* ── Splash con el logo ── */
-.splash-wordmark { display: block; width: min(320px, 76vw); height: auto; margin-top: 18px; }
+.splash-official { display: block; width: clamp(120px, 22vw, 170px); height: auto; }
 
 /* ── Circuitos: tarjetas de imagen grandes, estilo portal regional ── */
 .circuits-head { display: flex; flex-direction: column; gap: 6px; margin-bottom: 26px; }
