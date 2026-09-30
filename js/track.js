@@ -9,7 +9,7 @@
 (function (global) {
   'use strict';
 
-  const VALID = new Set(['whatsapp', 'telefono', 'mapa', 'compartir', 'ficha']);
+  const VALID = new Set(['whatsapp', 'telefono', 'mapa', 'compartir', 'ficha', 'folleto', 'chatbot']);
 
   function send(event, id) {
     if (!VALID.has(event) || !id) return;

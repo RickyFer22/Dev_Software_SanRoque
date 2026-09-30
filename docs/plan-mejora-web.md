@@ -1,6 +1,6 @@
 # Plan de mejora · Portal turístico San Roque
 
-Fecha: 2026-09-29. Ordenado por impacto / esfuerzo. Cada fase se puede publicar sola.
+Fecha: 2026-09-29. Estado: ejecutado el mismo día (ver "Resultado" al final).
 
 ## Fase 1 · Limpieza y peso (1–2 días)
 Objetivo: carga rápida en celular con datos móviles, que es el uso real del turista.
@@ -51,3 +51,11 @@ Objetivo: carga rápida en celular con datos móviles, que es el uso real del tu
 
 ## Fuera de alcance por ahora
 Reservas en línea, pagos, cuentas de usuario y app nativa: no se justifican hasta que la analítica muestre demanda.
+
+## Resultado (2026-09-29)
+- **Fase 1:** eliminados el `.zip`, el `.code-workspace` y `san-roque.mp4` (2,4 MB, sin uso); logo del bot y hero pasados a WebP; imágenes >300 KB recomprimidas. Los `.jpeg` con espacios en el nombre **no se renombraron**: el panel admin guarda esas rutas en su base de datos.
+- **Fase 2:** fuentes autoalojadas (Manrope y Quicksand, 2 familias); fuera Syne, JetBrains Mono, Font Awesome (solo 3 íconos, ahora SVG) y AOS. Leaflet ya cargaba solo en portada y alojamientos. La CSP ya existía; se quitó `cdnjs` de la lista.
+- **Fase 3:** agenda anual en un solo archivo (`js/agenda-anual.js`) usada por portada y agenda; bloque "Cómo llegar"; recorrido de 10 paradas en Qué hacer; páginas `/en/` y `/pt/`; teléfonos del folleto cargados en los datos base (había 9 alojamientos sin teléfono y Don Pedro / Esquivel estaban cruzados en el seed). *No se movió la agenda anual al panel admin.*
+- **Fase 4:** `sitemap.xml` y `robots.txt` ya existían (los genera el admin); se sumaron las páginas estáticas y `/en/`, `/pt/`. JSON-LD `TouristDestination`, `lang="es-AR"`, hreflang e imagen OG propia por sección.
+- **Fase 5:** manifiesto + service worker (portada, agenda y guías abren sin conexión); "Mi visita" compacto en móvil; foco visible y objetivos táctiles de 44 px. La auditoría con lector de pantalla queda pendiente (requiere prueba manual).
+- **Fase 6:** tests de enlaces rotos, peso de imágenes y PWA; workflow semanal de Lighthouse; `app.js` dividido (1.431 → 633 líneas + `chatbot.js`); métricas nuevas (folleto, chatbot) en la analítica; protocolo en `docs/protocolo-actualizacion.md`.

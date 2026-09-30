@@ -1,0 +1,22 @@
+name: Lighthouse
+
+# Mide el sitio publicado: no bloquea el despliegue, avisa si baja la calidad.
+on:
+  schedule:
+    - cron: "0 12 * * 1"   # lunes 09:00 (Argentina)
+  workflow_dispatch: {}
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://vivisanroque.munisanroque.ar/
+            https://vivisanroque.munisanroque.ar/agenda.html
+            https://vivisanroque.munisanroque.ar/que-hacer.html
+            https://vivisanroque.munisanroque.ar/guia-practica.html
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true

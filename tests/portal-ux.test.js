@@ -78,13 +78,13 @@ test('gastronomy CTA and editorial components keep their redesign hooks', () => 
 });
 
 test('weather fallbacks request complete current conditions without rendering NaN', () => {
-  const sources = [read('js/app.js'), read('gastronomia.html')].join('\n');
+  const sources = [read('js/app.js') + read('js/chatbot.js'), read('gastronomia.html')].join('\n');
   assert.match(sources, /current=temperature_2m%2Crelative_humidity_2m%2Capparent_temperature%2Csurface_pressure%2Cweather_code%2Cwind_speed_10m/);
   assert.match(sources, /Number\.isFinite\(Number\(pressure\)\)/);
 });
 
 test('chat messages from visitors and APIs are rendered as text, not executable HTML', () => {
-  const app = read('js/app.js');
+  const app = read('js/app.js') + read('js/chatbot.js');
   const gastro = read('gastronomia.html');
   // El mensaje del visitante nunca se interpreta como HTML…
   assert.match(app, /if\(user\)\{[\s\S]*?div\.textContent = text;/);

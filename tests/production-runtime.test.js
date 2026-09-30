@@ -11,6 +11,7 @@ test('public pages use same-origin production endpoints', () => {
     'index.html',
     'gastronomia.html',
     'js/app.js',
+    'js/chatbot.js',
     'js/data.js',
     'js/gastronomia.js',
   ].map(read).join('\n');
@@ -19,7 +20,7 @@ test('public pages use same-origin production endpoints', () => {
   // en desarrollo; en cualquier otro protocolo las llamadas son same-origin.
   const localhostHits = publicSources.match(/127\.0\.0\.1:4000/g) || [];
   assert.equal(localhostHits.length, 1, 'solo el respaldo file:// puede apuntar a localhost');
-  assert.match(read('js/app.js'), /window\.location\.protocol === 'file:'\)\s*\n?\s*\? 'http:\/\/127\.0\.0\.1:4000/);
+  assert.match(read('js/chatbot.js'), /window\.location\.protocol === 'file:'\)\s*\n?\s*\? 'http:\/\/127\.0\.0\.1:4000/);
   assert.doesNotMatch(read('index.html'), /href="\/admin(?:\/login)?"/);
   assert.match(read('js/data.js'), /fetch\(`\$\{BACKEND_BASE\}\/api\/data`/);
 });

@@ -21,7 +21,7 @@ const remises = [
 ];
 
 test('all supplied remises are present in the managed seed without placeholders', () => {
-  const sources = [read('deploy/admin/seed.js'), read('js/app.js'), read('gastronomia.html')].join('\n');
+  const sources = [read('deploy/admin/seed.js'), read('js/app.js') + read('js/chatbot.js'), read('gastronomia.html')].join('\n');
   for (const [name, phone] of remises) {
     assert.match(sources, new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
     assert.match(sources, new RegExp(phone.replace(/-/g, '[- ]?')));
@@ -31,7 +31,7 @@ test('all supplied remises are present in the managed seed without placeholders'
 
 test('same-origin bot, immutable prompt and bounded observability are declared', () => {
   const server = read('deploy/admin/server.js');
-  const publicSources = [read('index.html'), read('gastronomia.html'), read('js/app.js')].join('\n');
+  const publicSources = [read('index.html'), read('gastronomia.html'), read('js/app.js') + read('js/chatbot.js')].join('\n');
 
   assert.match(server, /app\.post\('\/api\/bot\/chat'/);
   assert.match(server, /app\.get\('\/admin\/api\/bot-config'/);

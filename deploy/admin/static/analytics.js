@@ -6,8 +6,12 @@ const EVENT_LABELS = {
   mapa: 'Cómo llegar',
   compartir: 'Compartir',
   ficha: 'Vistas de ficha',
+  folleto: 'Folleto (PDF)',
+  chatbot: 'Chatbot abierto',
 };
-const EVENT_ORDER = ['whatsapp', 'telefono', 'mapa', 'compartir', 'ficha'];
+const EVENT_ORDER = ['whatsapp', 'telefono', 'mapa', 'compartir', 'ficha', 'folleto', 'chatbot'];
+// Eventos de portada (no pertenecen a un establecimiento): fuera del ranking.
+const SITE_EVENTS = new Set(['ficha', 'folleto', 'chatbot']);
 
 const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
 
@@ -31,9 +35,10 @@ function renderClicksPanel(analytics, gastronomiaNames) {
     const id = idParts.join(':');
     const count = Number(clicks[key]) || 0;
     if (totals[event] !== undefined) totals[event] += count;
+    if (event === 'folleto' || event === 'chatbot') return;
     byItem[id] = byItem[id] || { whatsapp: 0, telefono: 0, mapa: 0, compartir: 0, ficha: 0, total: 0 };
     if (byItem[id][event] !== undefined) byItem[id][event] = count;
-    if (event !== 'ficha') byItem[id].total += count;
+    if (!SITE_EVENTS.has(event)) byItem[id].total += count;
   });
 
   const ranking = Object.entries(byItem)

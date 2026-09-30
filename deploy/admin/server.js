@@ -898,7 +898,7 @@ function computeRatings(store) {
 
 // Ratings agregados (público).
 // ── Analítica de clics del portal (WhatsApp / teléfono / mapa / compartir / ficha) ──
-const TRACK_EVENTS = new Set(['whatsapp', 'telefono', 'mapa', 'compartir', 'ficha']);
+const TRACK_EVENTS = new Set(['whatsapp', 'telefono', 'mapa', 'compartir', 'ficha', 'folleto', 'chatbot']);
 app.post('/api/track', (req, res) => {
   const body = req.body || {};
   const event = String(body.event || '').toLowerCase();
