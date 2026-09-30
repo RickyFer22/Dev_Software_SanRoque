@@ -146,7 +146,8 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 @media (max-width: 640px) { .footer-wordmark-wrap { padding: 28px 16px 6px !important; } }
 
 /* ── Rotor de fotos en cabeceras ── */
-.hero-rotor { position: relative; overflow: hidden; }
+.hero-rotor { overflow: hidden; }
+.hero-rotor:not(.absolute) { position: relative; }
 .hero-rotor > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s ease; }
 .hero-rotor > img.is-active { opacity: 1; }
 .hero-rotor-comidas { background: #2a1a10; }
