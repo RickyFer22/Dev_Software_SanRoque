@@ -219,6 +219,43 @@
     }));
   }
 
+  // Folleto turístico: páginas como imagen; al tocarlas se abren en el visor de la galería.
+  let folletoItems = [];
+
+  function bindFolleto() {
+    const host = document.querySelector('.folleto-pages');
+    if (!host || host.dataset.bound) return;
+    host.dataset.bound = '1';
+    host.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-folleto-page]');
+      if (!btn || !window.TourismGallery) return;
+      const items = folletoItems.length ? folletoItems : Array.from(host.querySelectorAll('img')).map((i) => ({ url: i.getAttribute('src'), caption: i.alt }));
+      if (window.VsrTrack) window.VsrTrack.click('folleto', 'pagina-' + (Number(btn.dataset.folletoPage) + 1));
+      window.TourismGallery.open(items, Number(btn.dataset.folletoPage), btn);
+    });
+  }
+
+  function applyFolleto(paginas) {
+    const host = document.querySelector('.folleto-pages');
+    if (!host) return;
+    if (Array.isArray(paginas) && paginas.length) {
+      folletoItems = paginas.map((p) => ({ url: p.url, caption: p.alt }));
+      host.replaceChildren(...paginas.map((p, i) => {
+        const b = el('button', 'folleto-page');
+        b.type = 'button';
+        b.dataset.folletoPage = String(i);
+        b.setAttribute('aria-label', 'Ver en grande la página ' + (i + 1) + ' del folleto');
+        const img = el('img');
+        img.src = p.url;
+        img.alt = p.alt || 'Página ' + (i + 1) + ' del folleto turístico';
+        img.loading = 'lazy';
+        b.append(img);
+        return b;
+      }));
+    }
+    bindFolleto();
+  }
+
   function apply(data) {
     applyServicios(data);
     applyRecorrido((data && data.sitio) || {});
@@ -236,17 +273,16 @@
       });
     }
     applyHuellas(sitio.huellas);
-    if (sitio.folletoUrl) {
-      document.querySelectorAll('.home-flyer-link, [data-folleto]').forEach((a) => { a.href = sitio.folletoUrl; });
-    }
+    applyFolleto(sitio.folletoPaginas);
     buildRotor(document.querySelector('.hero-rotor-comidas'), (sitio.fotosGastronomia || []).map((f) => ({ url: f.url, alt: f.alt })));
     const lodging = document.querySelector('[data-rotor="alojamientos"]');
     if (lodging) buildRotor(lodging, lodgingPhotos(data.alojamientos));
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    bindFolleto();
     renderAgenda(FIESTAS);
-    if (!document.querySelector('[data-agenda-anual], #huellas, .hero-rotor, .home-flyer-link, [data-eco], [data-recorrido], [data-servicios]')) return;
+    if (!document.querySelector('[data-agenda-anual], #huellas, .hero-rotor, .folleto-pages, [data-eco], [data-recorrido], [data-servicios]')) return;
     fetch('/api/data').then((r) => (r.ok ? r.json() : null)).then((d) => { if (d) apply(d); }).catch(() => {});
   });
 })();

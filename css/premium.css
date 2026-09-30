@@ -393,3 +393,18 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .credits-chips li { padding: 2px 9px; font-size: .68rem; line-height: 1.5; }
 .credits-chips li small { margin-right: 4px; font-size: .56rem; }
 @media (max-width: 520px) { .site-footer .credits-card { padding: 10px 12px; } }
+
+/* ── Folleto turístico en la portada (páginas como imagen, sin PDF) ── */
+.folleto-head { max-width: 720px; margin-bottom: 26px; }
+.folleto-head h2 { margin: 6px 0 10px; color: var(--sr-forest); font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.05; font-weight: 600; }
+.folleto-head p { margin: 0; color: #56665a; line-height: 1.6; }
+.folleto-pages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.folleto-page { display: block; padding: 0; border: 0; border-radius: 22px; overflow: hidden; background: #ebe4d0; box-shadow: var(--sr-shadow); cursor: zoom-in; transition: transform .3s ease, box-shadow .3s ease; }
+.folleto-page:hover { transform: translateY(-4px); }
+.folleto-page:focus-visible { outline: 3px solid var(--sr-terra); outline-offset: 4px; }
+.folleto-page img { display: block; width: 100%; height: auto; }
+.folleto-how { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px 40px; align-items: center; margin-top: 22px; padding: 26px 30px; border-radius: 24px; background: #f9eed8; }
+.folleto-how h3 { margin: 0 0 6px; color: var(--sr-forest); font-size: 1.2rem; font-weight: 500; }
+.folleto-how p { margin: 0; color: #56665a; line-height: 1.65; font-size: .95rem; }
+.folleto-how .how-to-list { gap: 10px; }
+@media (max-width: 760px) { .folleto-pages { grid-template-columns: 1fr; } .folleto-how { grid-template-columns: 1fr; padding: 22px; } }

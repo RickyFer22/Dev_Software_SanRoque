@@ -249,7 +249,10 @@ const SITIO_DEFAULTS = {
     { url: '/img/gastronomia/mbaipy-en-plato.webp', alt: 'Plato de cocina correntina' },
     { url: '/img/gastronomia/asado-a-la-estaca.webp', alt: 'Asado a la estaca sobre el fuego' },
   ],
-  folletoUrl: '/img/folleto/folleto-turismo-san-roque-octubre-2026.pdf',
+  folletoPaginas: [
+    { url: '/img/folleto/folleto-pagina-1.webp', alt: 'Página 1 del folleto turístico de San Roque' },
+    { url: '/img/folleto/folleto-pagina-2.webp', alt: 'Página 2 del folleto turístico de San Roque' },
+  ],
 };
 
 function cleanText(value, max) {
@@ -305,7 +308,10 @@ function normalizeSitio(value) {
       .map((f) => ({ url: cleanText(f && f.url, 2000), alt: cleanText(f && f.alt, 180) }))
       .filter((f) => f.url)
       .slice(0, 12),
-    folletoUrl: typeof v.folletoUrl === 'string' ? cleanText(v.folletoUrl, 2000) : SITIO_DEFAULTS.folletoUrl,
+    folletoPaginas: (Array.isArray(v.folletoPaginas) && v.folletoPaginas.length ? v.folletoPaginas : SITIO_DEFAULTS.folletoPaginas)
+      .map((f) => ({ url: cleanText(f && f.url, 2000), alt: cleanText(f && f.alt, 180) }))
+      .filter((f) => f.url)
+      .slice(0, 8),
   };
 }
 

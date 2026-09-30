@@ -36,7 +36,7 @@ test('los enlaces y recursos locales de cada página existen', () => {
   assert.deepEqual(rotos, []);
 });
 
-test('ninguna imagen del sitio supera 300 KB y el folleto PDF pesa menos de 3 MB', () => {
+test('ninguna imagen del sitio supera 300 KB y el folleto no se publica como PDF', () => {
   const pesadas = [];
   const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).forEach((e) => {
     const p = path.join(dir, e.name);
@@ -45,8 +45,8 @@ test('ninguna imagen del sitio supera 300 KB y el folleto PDF pesa menos de 3 MB
   });
   walk(path.join(root, 'img'));
   assert.deepEqual(pesadas, []);
-  const pdf = path.join(root, 'img/folleto/folleto-turismo-san-roque-octubre-2026.pdf');
-  assert.ok(fs.statSync(pdf).size < 3 * 1024 * 1024, 'el folleto debe mantenerse liviano');
+  // El folleto se muestra como páginas en HTML: no debe quedar ningún PDF enlazado ni publicado.
+  assert.ok(!fs.existsSync(path.join(root, 'img/folleto/folleto-turismo-san-roque-octubre-2026.pdf')));
 });
 
 test('el service worker y el manifiesto existen y las páginas los enlazan', () => {

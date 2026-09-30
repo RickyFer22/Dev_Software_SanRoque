@@ -1269,7 +1269,7 @@ function applySitioConfig(data) {
   set('sitio-huellas-video', h.videoUrl);
   set('sitio-huellas-poster', h.posterUrl);
   set('sitio-fotos-gastro', (d.fotosGastronomia || []).map((f) => (f.alt ? `${f.url} | ${f.alt}` : f.url)).join('\n'));
-  set('sitio-folleto', d.folletoUrl);
+  set('sitio-folleto', (d.folletoPaginas || []).map((f) => (f.alt ? `${f.url} | ${f.alt}` : f.url)).join('\n'));
   const rec = d.recorrido || {};
   set('sitio-rec-intro', rec.intro);
   set('sitio-rec-mapa', rec.mapaUrl);
@@ -1297,7 +1297,7 @@ function collectSitioConfig() {
       posterUrl: val('sitio-huellas-poster').trim(),
     },
     fotosGastronomia: lines(val('sitio-fotos-gastro')).map((l) => { const [url, alt] = pair(l); return { url, alt }; }),
-    folletoUrl: val('sitio-folleto').trim(),
+    folletoPaginas: lines(val('sitio-folleto')).map((l) => { const [url, alt] = pair(l); return { url, alt }; }),
     recorrido: {
       intro: val('sitio-rec-intro').trim(),
       mapaUrl: val('sitio-rec-mapa').trim(),
