@@ -411,3 +411,19 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 
 /* Logo oficial en el pie (versión blanca, vertical) */
 .footer-logo { width: clamp(96px, 11vw, 128px); height: auto; }
+
+/* ── Agenda anual: 4 columnas × 2 filas (8 fiestas), sin celdas sueltas ── */
+.home-year-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px 28px; }
+.home-year-list li { padding-top: 16px; border-top: 4px solid #c3773c; }
+.home-year-list span { margin-bottom: 10px; font-size: .74rem; }
+.home-year-list strong { font-size: 1.02rem; line-height: 1.4; }
+@media (max-width: 1000px) { .home-year-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .home-year-list { grid-template-columns: 1fr; gap: 18px; } .home-year-list li { padding-top: 12px; } }
+
+/* ── Logo de la portada: velo oscuro suave detrás para que se lea sobre el puente ── */
+.hero-copy { isolation: isolate; }
+.hero-copy::before { content: ""; position: absolute; z-index: -1; inset: -70px -140px -50px -90px; pointer-events: none;
+  background: radial-gradient(ellipse closest-side at 30% 45%, rgba(8, 22, 16, .62), rgba(8, 22, 16, .32) 55%, transparent 100%); }
+.hero-logo img { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .55)) drop-shadow(0 10px 36px rgba(0, 0, 0, .45)); }
+.hero-tagline { text-shadow: 0 2px 14px rgba(0, 0, 0, .7); }
+.tourism-hero#hero-section::after { background: linear-gradient(180deg, rgba(10, 24, 18, .5) 0%, rgba(10, 24, 18, .08) 28%, rgba(10, 24, 18, .35) 55%, rgba(10, 24, 18, .8) 100%); }
