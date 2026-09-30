@@ -46,7 +46,7 @@ h2, h3 { font-weight: 500; }
 .hero-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .hero-photo img { animation: none; } }
 @media (max-width: 767px) {
-  .tourism-hero#hero-section { height: 92svh; min-height: 600px; padding-bottom: 176px; }
+  .tourism-hero#hero-section { height: 92svh; min-height: 600px; padding-bottom: 204px; }
   .hero-actions { gap: 10px; }
   .hero-btn { padding: 0 20px; min-height: 46px; }
 }
@@ -92,3 +92,26 @@ h2, h3 { font-weight: 500; }
   #hero-section .monjita-hero-card { left: auto; right: clamp(20px, 5vw, 80px); bottom: clamp(64px, 10vh, 120px); }
 }
 @media (max-width: 640px) { #hero-section .monjita-hero-card { bottom: 92px; } }
+
+/* ── Marca: logotipo propio (palabra + puente + monjita) ── */
+.brand-logo {
+  display: block; width: clamp(150px, 17vw, 230px); aspect-ratio: 1322 / 372; background: currentColor;
+  -webkit-mask: url("../img/brand/logo-san-roque.svg") center / contain no-repeat;
+  mask: url("../img/brand/logo-san-roque.svg") center / contain no-repeat;
+  transition: opacity .3s ease, transform .3s ease;
+}
+a:hover > .brand-logo { transform: scale(1.03); }
+/* En la portada el logo grande vive en el hero: la barra lo muestra recién al bajar. */
+body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; pointer-events: none; }
+.hero-logo { margin: 0; line-height: 0; }
+.hero-logo img { display: block; width: min(720px, 88vw); height: auto; filter: drop-shadow(0 8px 34px rgba(0, 0, 0, .35)); }
+.hero-copy h1.hero-logo { font-size: 0; }
+.footer-wordmark-wrap { text-align: center; }
+.footer-logo { display: inline-block; width: min(760px, 88vw); height: auto; }
+/* Marca de agua gigante en el pie, como los sitios de turismo regionales. */
+.site-footer::after {
+  content: ""; position: absolute; left: 50%; bottom: -6%; z-index: 0; width: min(1500px, 125%); aspect-ratio: 1322 / 372; transform: translateX(-50%);
+  background: #1f4a37; opacity: .055; pointer-events: none;
+  -webkit-mask: url("../img/brand/palabra-san-roque.svg") center / contain no-repeat;
+  mask: url("../img/brand/palabra-san-roque.svg") center / contain no-repeat;
+}
