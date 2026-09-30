@@ -1,0 +1,15 @@
+{
+  "name": "Viví San Roque · Turismo y Cultura",
+  "short_name": "Viví San Roque",
+  "description": "Portal turístico oficial de San Roque, Corrientes.",
+  "lang": "es-AR",
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffdf7",
+  "theme_color": "#285542",
+  "icons": [
+    { "src": "/img/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/img/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

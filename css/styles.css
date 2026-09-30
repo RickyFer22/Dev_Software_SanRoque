@@ -2724,3 +2724,13 @@ body {
 .route-list li a::before { content:counter(stop);position:absolute;left:0;top:8px;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#285542;color:#fff;font-size:.75rem;font-weight:800; }
 .route-list li a:hover strong { text-decoration:underline; }
 .route-list li span { color:#6b786f;font-size:.8rem; }
+
+/* Móvil: "Mi visita" compacto (solo ícono y contador) para no tapar contenido. */
+@media (max-width:480px) {
+  .visita-fab-label { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap; }
+  .visita-fab { min-width:48px;min-height:48px;justify-content:center; }
+}
+/* Objetivo táctil mínimo de 44px en los enlaces del pie legal. */
+.compact-footer-legal a { display:inline-flex;align-items:center;min-height:44px; }
+:where(a,button,[role="button"],input,select,textarea):focus-visible { outline:3px solid #dc8a2e;outline-offset:3px; }
+.social-link .brand-icon { width:18px;height:18px; }
