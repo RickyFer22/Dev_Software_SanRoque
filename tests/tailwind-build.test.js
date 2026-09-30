@@ -29,7 +29,7 @@ test('el bundle compilado cubre las utilidades que usan las páginas', () => {
   const pages = fs.readdirSync(root).filter((f) => f.endsWith('.html') && f !== 'gastronomia-premium.html');
   const scripts = fs.readdirSync(path.join(root, 'js')).filter((f) => f.endsWith('.js')).map((f) => 'js/' + f);
 
-  const css = read('css/tw-base.css') + read('css/styles.css') + read('css/guia-turistica.css');
+  const css = read('css/tw-base.css') + read('css/styles.css');
   const definidas = new Set();
   for (const m of css.matchAll(/\.((?:\\.|[^\s,{:>~+.[\]"'])+)/g)) definidas.add(m[1].replace(/\\/g, ''));
   // Las utilidades arbitrarias salen escapadas (las comas, por ejemplo, como

@@ -13,7 +13,6 @@ const publicPages = [
   'gastronomia.html',
   'gastronomia-premium.html',
   'guia-practica.html',
-  'guia-turistica.html',
   'que-hacer.html',
 ];
 
