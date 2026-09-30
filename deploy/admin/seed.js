@@ -34,7 +34,7 @@ const alojamientos = [
     capacidad: [{ icono: 'hotel', titulo: 'Habitaciones disponibles' }],
     servicios: [{ icono: 'wifi', texto: 'WiFi' }, { icono: 'bed', texto: 'Habitaciones cómodas' }],
     checkin: '14:00', checkout: '10:00', cancelacion: 'Flexible',
-    waNumber: '', telefono: '',
+    waNumber: '5493777472472', telefono: '3777472472',
   },
   {
     id: 'casablanca',
@@ -49,7 +49,7 @@ const alojamientos = [
     capacidad: [],
     servicios: [],
     checkin: '14:00', checkout: '10:00', cancelacion: 'Flexible',
-    waNumber: '', telefono: '',
+    waNumber: '5493777542986', telefono: '3777542986',
   },
   {
     id: 'sanmartin',
@@ -64,7 +64,7 @@ const alojamientos = [
     capacidad: [{ icono: 'bed', titulo: 'Habitaciones disponibles' }],
     servicios: [{ icono: 'ac_unit', texto: 'Aire acondicionado' }, { icono: 'family_restroom', texto: 'Apto familias' }],
     checkin: '14:00', checkout: '10:00', cancelacion: 'Flexible',
-    waNumber: '', telefono: '',
+    waNumber: '5493794928526', telefono: '3794928526',
   },
   {
     id: 'jr',
@@ -79,7 +79,7 @@ const alojamientos = [
     capacidad: [],
     servicios: [],
     checkin: '13:00', checkout: '10:00', cancelacion: 'Flexible',
-    waNumber: '', telefono: '',
+    waNumber: '5493777508296', telefono: '3777508296',
   },
   {
     id: 'leguiza',
@@ -94,7 +94,7 @@ const alojamientos = [
     capacidad: [{ icono: 'hotel', titulo: 'Habitaciones' }],
     servicios: [{ icono: 'wifi', texto: 'Internet' }, { icono: 'directions_car', texto: 'Cochera' }],
     checkin: '12:00', checkout: '11:00', cancelacion: 'Flexible',
-    waNumber: '', telefono: '',
+    waNumber: '5493777206700', telefono: '3777206700',
   },
   {
     id: 'fortune',
@@ -109,7 +109,7 @@ const alojamientos = [
     capacidad: [{ icono: 'apartment', titulo: 'Departamentos' }],
     servicios: [{ icono: 'tv', texto: 'Televisión' }, { icono: 'coffee', texto: 'Desayuno' }],
     checkin: '15:00', checkout: '11:00', cancelacion: 'Moderada',
-    waNumber: '', telefono: '',
+    waNumber: '5493777221872', telefono: '3777221872',
   },
 ];
 
@@ -122,8 +122,8 @@ const gastronomia = [
     descripcion: 'Comida casera y abundante en el corazón de San Roque. Menús del día y platos a la carta.',
     direccion: 'San Roque, Corrientes',
     horario: 'Lun-Sáb 11:30–14:30 / 20:00–23:00',
-    telefono: '',
-    whatsapp: '',
+    telefono: '3777472472',
+    whatsapp: '5493777472472',
     mapsLink: '',
     imagen: 'img/Comedor Ariana.jpeg',
     galeria: ['img/Comedor Ariana.jpeg'],
@@ -136,8 +136,8 @@ const gastronomia = [
     descripcion: 'Especialidades caseras con sazón correntina. Ideal para el mediodía.',
     direccion: 'San Roque, Corrientes',
     horario: 'Lun-Sáb 11:00–15:00',
-    telefono: '',
-    whatsapp: '',
+    telefono: '3777674962',
+    whatsapp: '5493777674962',
     mapsLink: '',
     imagen: 'img/Comidas Estela.jpeg',
     galeria: ['img/Comidas Estela.jpeg'],

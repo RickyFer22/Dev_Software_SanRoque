@@ -569,6 +569,12 @@ app.get('/sitemap.xml', (req, res) => {
     { loc: `${base}/`, priority: '1.0', changefreq: 'daily' },
     { loc: `${base}/gastronomia.html`, priority: '0.8', changefreq: 'weekly' },
     { loc: `${base}/agenda.html`, priority: '0.7', changefreq: 'weekly' },
+    { loc: `${base}/que-hacer.html`, priority: '0.7', changefreq: 'monthly' },
+    { loc: `${base}/alojamientos.html`, priority: '0.7', changefreq: 'monthly' },
+    { loc: `${base}/guia-practica.html`, priority: '0.6', changefreq: 'monthly' },
+    { loc: `${base}/puente-de-la-via.html`, priority: '0.5', changefreq: 'monthly' },
+    { loc: `${base}/en/`, priority: '0.5', changefreq: 'monthly' },
+    { loc: `${base}/pt/`, priority: '0.5', changefreq: 'monthly' },
   ];
   (store.alojamientos || []).filter(isPublicItem).forEach((a) => {
     if (a.id) urls.push({ loc: `${base}/hospedajes/${encodeURIComponent(a.id)}`, priority: '0.6', changefreq: 'weekly' });

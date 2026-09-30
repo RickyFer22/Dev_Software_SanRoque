@@ -23,7 +23,7 @@ const _fallbackAlojamientos = {
     capacidad:[{icono:'hotel',titulo:'Habitaciones disponibles'}],
     servicios:[{icono:'wifi',texto:'WiFi'},{icono:'bed',texto:'Habitaciones cómodas'}],
     checkin:'14:00', checkout:'10:00', cancelacion:'Flexible',
-    waNumber:'', telefono:''
+    waNumber:'5493777472472', telefono:'3777472472'
   },
 
   'casablanca':{
@@ -38,7 +38,7 @@ const _fallbackAlojamientos = {
     descripcionLarga:'Hotel Casa Blanca brinda alojamiento confortable en San Roque.',
     capacidad:[], servicios:[],
     checkin:'14:00', checkout:'10:00', cancelacion:'Flexible',
-    waNumber:'', telefono:''
+    waNumber:'5493777542986', telefono:'3777542986'
   },
 
   'sanmartin':{
@@ -54,7 +54,7 @@ const _fallbackAlojamientos = {
     capacidad:[{icono:'bed',titulo:'Habitaciones disponibles'}],
     servicios:[{icono:'ac_unit',texto:'Aire acondicionado'},{icono:'family_restroom',texto:'Apto familias'}],
     checkin:'14:00', checkout:'10:00', cancelacion:'Flexible',
-    waNumber:'', telefono:''
+    waNumber:'5493794928526', telefono:'3794928526'
   },
 
   'jr':{
@@ -69,7 +69,7 @@ const _fallbackAlojamientos = {
     descripcionLarga:'Hospedaje JR ofrece tranquilidad y comodidad en una zona accesible.',
     capacidad:[], servicios:[],
     checkin:'13:00', checkout:'10:00', cancelacion:'Flexible',
-    waNumber:'', telefono:''
+    waNumber:'5493777508296', telefono:'3777508296'
   },
 
   'leguiza':{
@@ -85,7 +85,7 @@ const _fallbackAlojamientos = {
     capacidad:[{icono:'hotel',titulo:'Habitaciones'}],
     servicios:[{icono:'wifi',texto:'Internet'},{icono:'directions_car',texto:'Cochera'}],
     checkin:'12:00', checkout:'11:00', cancelacion:'Flexible',
-    waNumber:'', telefono:''
+    waNumber:'5493777206700', telefono:'3777206700'
   },
 
   'fortune':{
@@ -101,7 +101,7 @@ const _fallbackAlojamientos = {
     capacidad:[{icono:'apartment',titulo:'Departamentos'}],
     servicios:[{icono:'tv',texto:'Televisión'},{icono:'coffee',texto:'Desayuno'}],
     checkin:'15:00', checkout:'11:00', cancelacion:'Moderada',
-    waNumber:'', telefono:''
+    waNumber:'5493777221872', telefono:'3777221872'
   },
 
   'esquivel':{
@@ -117,7 +117,7 @@ const _fallbackAlojamientos = {
     capacidad:[{icono:'bed',titulo:'3 habitaciones (9 pax)'}],
     servicios:[{icono:'ac_unit',texto:'Aire acondicionado'},{icono:'wifi',texto:'WiFi'},{icono:'directions_car',texto:'Cochera'},{icono:'bathroom',texto:'Baño privado'}],
     checkin:'14:00', checkout:'10:00', cancelacion:'Flexible',
-    waNumber:'5493777534039', telefono:'3777534039',
+    waNumber:'5493777302498', telefono:'3777302498',
     mapUrl:'https://maps.app.goo.gl/AF4hg6RbQJHYcEDC6'
   },
 
@@ -134,7 +134,7 @@ const _fallbackAlojamientos = {
     capacidad:[{icono:'bed',titulo:'4 habitaciones'}],
     servicios:[{icono:'restaurant',texto:'Almuerzo y Desayuno'},{icono:'wifi',texto:'WiFi'},{icono:'ac_unit',texto:'Aire Acond.'},{icono:'local_parking',texto:'Estacionamiento'}],
     checkin:'14:00', checkout:'10:00', cancelacion:'Flexible',
-    waNumber:'5493777302498', telefono:'3777302498'
+    waNumber:'5493777534039', telefono:'3777534039'
   },
 
   'paraiso':{

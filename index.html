@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 
 <head>
   <meta charset="utf-8" />
@@ -17,6 +17,10 @@
   <link rel="preload" as="image" href="img/monjita/monjita-1.webp" fetchpriority="high" />
   <meta name="description" content="Alojamientos, gastronomía, eventos y servicios oficiales de San Roque, Corrientes. Portal municipal de turismo: dónde dormir, qué hacer y cómo llegar." />
   <link rel="canonical" href="https://vivisanroque.munisanroque.ar/" />
+  <link rel="alternate" hreflang="es-AR" href="https://vivisanroque.munisanroque.ar/" />
+  <link rel="alternate" hreflang="en" href="https://vivisanroque.munisanroque.ar/en/" />
+  <link rel="alternate" hreflang="pt" href="https://vivisanroque.munisanroque.ar/pt/" />
+  <link rel="alternate" hreflang="x-default" href="https://vivisanroque.munisanroque.ar/" />
   <meta name="theme-color" content="#355E4A" />
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website" />
@@ -65,6 +69,19 @@
     "url": "https://munisanroque.ar",
     "logo": "https://vivisanroque.munisanroque.ar/img/apple-touch-icon.png"
   }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristDestination",
+  "name": "San Roque, Corrientes",
+  "description": "Pueblo de fe, caminos y puentes sobre el río Santa Lucía: recorrido histórico, alojamientos, gastronomía y fiestas tradicionales.",
+  "url": "https://vivisanroque.munisanroque.ar/",
+  "image": "https://vivisanroque.munisanroque.ar/img/folleto/portada.jpg",
+  "geo": { "@type": "GeoCoordinates", "latitude": -28.571, "longitude": -58.712 },
+  "touristType": ["Turismo cultural", "Turismo de naturaleza"],
+  "address": { "@type": "PostalAddress", "addressLocality": "San Roque", "addressRegion": "Corrientes", "addressCountry": "AR" }
 }
 </script>
 </head>
@@ -360,19 +377,22 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
 
       <div class="home-year" aria-labelledby="home-year-title">
         <h3 id="home-year-title">Agenda anual</h3>
-        <ol class="home-year-list">
-          <li><span>Enero / febrero</span><strong>Carnavales</strong></li>
-          <li><span>Abril</span><strong>Encuentro Regional de Emprendedores, Artesanos y Expositores</strong></li>
-          <li><span>Junio</span><strong>Fiesta de la Gastronomía Tradicional y Regional</strong></li>
-          <li><span>Agosto</span><strong>Fiestas Patronales</strong></li>
-          <li><span>Septiembre</span><strong>Estudiantina</strong></li>
-          <li><span>Octubre</span><strong>Recordatorio de la fundación de la localidad</strong></li>
-          <li><span>Noviembre</span><strong>Fiesta de la Tradición y el Folclore</strong></li>
-          <li><span>Diciembre</span><strong>Bingo de Carnaval</strong></li>
-        </ol>
+        <ol class="home-year-list" data-agenda-anual></ol>
         <p class="home-year-note"><strong>Y durante el año:</strong> Expomotos, stunts, audio car, velo terra, BMX, MTB, remates de ganado y exposiciones. Consultá las fechas y la programación antes de tu visita.</p>
       </div>
 
+    </section>
+
+    <section id="como-llegar" class="how-to max-w-7xl mx-auto px-6 mb-24" aria-labelledby="como-llegar-title">
+      <h2 id="como-llegar-title" class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Cómo llegar</h2>
+      <div class="how-to-grid">
+        <p>San Roque se encuentra sobre la <strong>Ruta Nacional 12</strong>. Al ingresar, el <strong>punto de informes</strong> está en el acceso, en Berón de Astrada y Ruta Nacional 12.</p>
+        <ul class="how-to-list">
+          <li><span class="material-symbols-outlined" aria-hidden="true">near_me</span><a href="https://www.google.com/maps/search/?api=1&amp;query=-28.5710,-58.7120" target="_blank" rel="noopener">Abrir San Roque en Google Maps</a></li>
+          <li><span class="material-symbols-outlined" aria-hidden="true">call</span><a href="tel:+5493777742487">+54 9 3777 74-2487</a></li>
+          <li><span class="material-symbols-outlined" aria-hidden="true">mail</span><a href="mailto:sanroque.municipalidad@gmail.com">sanroque.municipalidad@gmail.com</a></li>
+        </ul>
+      </div>
     </section>
 
   </div>
@@ -492,7 +512,7 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
         <span><b>Ayudante:</b> Javier Legal &nbsp;·&nbsp; <b>Profesora:</b> Yésica Ponce</span>
       </div>
       <div class="footer-photo-credit max-w-7xl mx-auto px-6 md:px-8">Fotografía por <a href="https://www.instagram.com/claritysanroque" target="_blank" rel="noopener noreferrer">@claritysanroque</a></div>
-      <div class="compact-footer-legal max-w-7xl mx-auto px-6 md:px-8">© 2026 Municipalidad de San Roque · Portal oficial de turismo y cultura · Todos los derechos reservados.</div>
+      <div class="compact-footer-legal max-w-7xl mx-auto px-6 md:px-8">© 2026 Municipalidad de San Roque · Portal oficial de turismo y cultura · Todos los derechos reservados. · <a href="/en/" hreflang="en">English</a> · <a href="/pt/" hreflang="pt">Português</a></div>
     </div>
   </footer>
   <!-- Modal: historia de la Monjita Dominica -->
@@ -556,6 +576,7 @@ lo mejor de Corrientes"></span><span class="typewriter-cursor"></span>
   <script src="js/app.js"></script>
   <script src="js/monjita.js?v=20260926-webp-a11y"></script>
   <script src="js/announcement.js"></script>
+  <script src="js/agenda-anual.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const grid = document.getElementById('events-grid');

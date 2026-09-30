@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 <head>
   <meta charset="utf-8" />
   <!-- La URL amigable /agenda/<id> (ficha de evento) hace que el navegador
@@ -25,13 +25,13 @@
   <meta property="og:title" content="Agenda de Eventos - San Roque, Corrientes" />
   <meta property="og:description" content="Fiestas patronales, festivales, ferias y celebraciones tradicionales de San Roque, Corrientes. Cultura, fechas y lugares." />
   <meta property="og:url" content="https://vivisanroque.munisanroque.ar/agenda.html" />
-  <meta property="og:image" content="https://vivisanroque.munisanroque.ar/img/og-image.jpg" />
+  <meta property="og:image" content="https://vivisanroque.munisanroque.ar/img/og/agenda.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Agenda de Eventos - San Roque, Corrientes" />
   <meta name="twitter:description" content="Fiestas patronales, festivales, ferias y celebraciones tradicionales de San Roque, Corrientes." />
-  <meta name="twitter:image" content="https://vivisanroque.munisanroque.ar/img/og-image.jpg" />
+  <meta name="twitter:image" content="https://vivisanroque.munisanroque.ar/img/og/agenda.jpg" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link rel="stylesheet" href="css/tw-base.css" />
   <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -128,6 +128,11 @@
       </button>
       <div id="eventos-grid-past" class="grid grid-cols-1 md:grid-cols-2 gap-8" hidden></div>
     </div>
+    <section class="home-year" aria-labelledby="agenda-anual-title">
+      <h2 id="agenda-anual-title">Agenda anual de San Roque</h2>
+      <ol class="home-year-list" data-agenda-anual></ol>
+      <p class="home-year-note"><strong>Y durante el año:</strong> Expomotos, stunts, audio car, velo terra, BMX, MTB, remates de ganado y exposiciones. Consultá las fechas y la programación antes de tu visita.</p>
+    </section>
   </main>
   <section id="evento-detail" class="gastronomy-detail" hidden aria-live="polite"></section>
 
@@ -225,6 +230,7 @@
   <script src="js/share.js"></script>
   <script src="js/visita.js"></script>
   <script src="js/track.js"></script>
+  <script src="js/agenda-anual.js"></script>
   <script src="js/gallery.js?v=20260718"></script>
   <script src="js/detail-pages.js?v=20260718"></script>
   <script src="js/nav-weather.js?v=20260926"></script>
