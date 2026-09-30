@@ -247,14 +247,15 @@
 <section id="gastronomy-detail" class="gastronomy-detail" hidden aria-live="polite"></section>
 
 <!-- Artisanal CTA Section -->
-<section class="gastronomy-story-cta" aria-labelledby="gastronomy-story-title">
-  <div class="gastronomy-story-orbit" aria-hidden="true"></div>
-  <div class="gastronomy-story-mark" aria-hidden="true">SR</div>
-  <div class="gastronomy-story-inner">
-    <span class="gastronomy-story-kicker">Sabores locales · memoria correntina</span>
-    <h2 id="gastronomy-story-title"><span id="cta-typewriter-text"></span><span class="typewriter-cursor"></span></h2>
-    <p>San Roque te espera con los brazos abiertos y la mesa servida. Descubrí por qué nuestra gastronomía es el orgullo de la región.</p>
-    <div class="gastronomy-story-detail"><span></span>Recetas, productores y mesas con identidad<span></span></div>
+<section class="gastro-closing" aria-labelledby="gastro-closing-title">
+  <div class="gastro-closing-copy">
+    <span class="circuits-kicker">Mesa correntina</span>
+    <h2 id="gastro-closing-title">Sabores para probar en San Roque</h2>
+    <p>Chipá, pescado de río, asado a la estaca y cocina casera en los comedores de la ciudad. Llamá directo y consultá horarios antes de ir.</p>
+  </div>
+  <div class="gastro-closing-actions">
+    <a class="monjita-more" href="#gastro-search" data-gastro-top>Buscar dónde comer <span aria-hidden="true">↑</span></a>
+    <a class="monjita-more monjita-more-alt" href="agenda.html#agenda-anual-title">Fiesta de la Gastronomía Tradicional y Regional · Junio</a>
   </div>
 </section>
 </main>
@@ -579,26 +580,6 @@
             }
           }
           setTimeout(type,500);
-        })();
-        (function(){
-          const phrases=['Viví la tradición\nen cada bocado','Sabores locales\ncon historia','Una mesa\npara volver','San Roque\nte espera'];
-          const el=document.getElementById('cta-typewriter-text');
-          if(!el) return;
-          let phraseIdx=0,charIdx=0,deleting=false,pauseTimer=null;
-          function type(){
-            if(!deleting){
-              charIdx++;
-              el.innerHTML=phrases[phraseIdx].slice(0,charIdx).replace('\n','<br>');
-              if(charIdx===phrases[phraseIdx].length){deleting=true;clearTimeout(pauseTimer);pauseTimer=setTimeout(type,2400);return;}
-              setTimeout(type,55+Math.random()*35);
-            } else {
-              charIdx--;
-              el.innerHTML=phrases[phraseIdx].slice(0,charIdx).replace('\n','<br>');
-              if(charIdx===0){deleting=false;phraseIdx=(phraseIdx+1)%phrases.length;setTimeout(type,360);return;}
-              setTimeout(type,28+Math.random()*18);
-            }
-          }
-          setTimeout(type,700);
         })();
     </script>
 <script id="safe-chat-weather-fix">

@@ -69,11 +69,9 @@ test('gastronomy CTA and editorial components keep their redesign hooks', () => 
   const gastro = read('gastronomia.html');
   const css = read('css/styles.css');
 
-  assert.match(gastro, /class="gastronomy-story-cta/);
-  assert.match(gastro, /gastronomy-story-orbit/);
+  assert.match(gastro, /class="gastro-closing"/);
   assert.match(css, /\.events-banner-watermark/);
   assert.match(css, /\.events-editorial-banner/);
-  assert.match(css, /\.gastronomy-story-cta/);
   assert.match(css, /\.academic-credits/);
 });
 

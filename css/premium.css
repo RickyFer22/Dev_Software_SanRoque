@@ -372,3 +372,10 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 
 /* Rotor de fotos en cabeceras "tourism-hero": styles.css fuerza position:relative a sus hijos; el rotor debe cubrir toda la cabecera. */
 .tourism-hero > .hero-rotor { position: absolute; inset: 0; z-index: 0; }
+
+/* Gastronomía: cierre útil en lugar del banner con escritura animada */
+.gastro-closing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px 36px; margin: 56px auto 0; max-width: 1100px; padding: clamp(24px, 4vw, 40px); border-radius: 28px; background: #f9eed8; border: 1px solid rgba(195, 119, 60, .3); }
+.gastro-closing-copy { flex: 1 1 380px; }
+.gastro-closing h2 { margin: 6px 0 8px; color: var(--sr-forest); font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.15; font-weight: 600; }
+.gastro-closing p { margin: 0; max-width: 560px; color: #56665a; line-height: 1.6; }
+.gastro-closing-actions { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
