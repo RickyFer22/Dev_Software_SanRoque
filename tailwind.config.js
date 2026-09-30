@@ -31,11 +31,11 @@ module.exports = {
         'moss-dark': '#16340A',
       },
       fontFamily: {
-        'display-lg': ['Manrope', 'Syne', 'sans-serif'],
-        'headline-md': ['Manrope', 'Syne', 'sans-serif'],
+        'display-lg': ['Manrope', 'sans-serif'],
+        'headline-md': ['Manrope', 'sans-serif'],
         'body-md': ['Manrope', 'DM Sans', 'sans-serif'],
         'body-lg': ['Manrope', 'DM Sans', 'sans-serif'],
-        'label-caps': ['JetBrains Mono', 'monospace'],
+        'label-caps': ['Manrope', 'sans-serif'],
       },
       // Escala tipográfica y medidas que traía el bundle de gastronomía.
       fontSize: {

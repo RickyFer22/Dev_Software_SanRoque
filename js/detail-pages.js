@@ -351,7 +351,7 @@
       host.innerHTML = `
         <div style="max-width:640px;margin:140px auto 80px;padding:0 24px;text-align:center">
           <span class="material-symbols-outlined" style="font-size:52px;color:#D4A83C">event_busy</span>
-          <h1 style="font:800 28px/1.2 'Syne',sans-serif;color:var(--brand-primary);margin:16px 0 10px">No encontramos ese evento</h1>
+          <h1 style="font:800 28px/1.2 Quicksand,sans-serif;color:var(--brand-primary);margin:16px 0 10px">No encontramos ese evento</h1>
           <p style="color:#6b6b66;margin-bottom:24px">Puede que ya haya pasado, se haya dado de baja o el enlace esté desactualizado.</p>
           <a href="agenda.html" class="tourism-action primary">Ver toda la agenda</a>
         </div>`;
