@@ -765,6 +765,35 @@
               <button type="button" class="cancel-button" data-media-target="sitio-huellas-poster">Elegir imagen de Multimedia</button>
             </div>
 
+            <h3>Página «Recorrido histórico»</h3>
+            <label>Introducción <textarea id="sitio-rec-intro" rows="3" maxlength="700"></textarea></label>
+            <label>Paradas, una por línea, en el orden del mapa: <code>Nombre | Detalle | Enlace</code> (detalle y enlace son opcionales; sin enlace se usa Google Maps)
+              <textarea id="sitio-rec-paradas" rows="10"></textarea>
+            </label>
+            <label>Imagen del mapa (SVG, WebP o JPG) <input id="sitio-rec-mapa" type="text" placeholder="/img/folleto/recorrido-historico.svg" /></label>
+            <div class="toolbar">
+              <button type="button" class="cancel-button" data-media-target="sitio-rec-mapa">Elegir imagen de Multimedia</button>
+            </div>
+
+            <h3>Página «Ecoturismo y ciencia»</h3>
+            <label>Introducción (bajo el título de la página)
+              <textarea id="sitio-eco-intro" rows="3" maxlength="600"></textarea>
+            </label>
+            <label>Datos destacados, uno por línea: <code>Valor | Descripción</code>
+              <textarea id="sitio-eco-datos" rows="4" placeholder="2022 | Monjita dominica, Monumento Natural"></textarea>
+            </label>
+            <label>Secciones extra, separadas por una línea con <code>---</code>. Cada una: título, texto y (opcional) imagen. Formato:
+              <textarea id="sitio-eco-bloques" rows="9" placeholder="Título de la sección&#10;Texto del párrafo...&#10;/img/foto.webp&#10;---&#10;Otra sección&#10;Otro texto"></textarea>
+            </label>
+            <label>Galería de fotos, una por línea: <code>/ruta/imagen.webp | descripción</code>
+              <textarea id="sitio-eco-fotos" rows="5"></textarea>
+            </label>
+            <div class="toolbar">
+              <input id="sitio-eco-foto-nueva" type="text" placeholder="Elegí una foto para agregarla a la galería" aria-label="Foto a agregar a Ecoturismo" />
+              <button type="button" class="cancel-button" data-media-target="sitio-eco-foto-nueva">Elegir de Multimedia</button>
+              <button type="button" class="cancel-button" id="sitio-eco-foto-agregar">Agregar a la galería</button>
+            </div>
+
             <h3>Fotos de la cabecera de Gastronomía</h3>
             <label>Una foto por línea: <code>/ruta/imagen.webp | descripción</code> (rotan cada pocos segundos)
               <textarea id="sitio-fotos-gastro" rows="6"></textarea>

@@ -100,7 +100,91 @@
     return photos.slice(0, 10);
   }
 
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function applyEcoturismo(sitio) {
+    const eco = sitio.ecoturismo;
+    if (!eco || !document.querySelector('[data-eco]')) return;
+    const intro = document.querySelector('[data-eco="intro"]');
+    if (intro && eco.intro) intro.textContent = eco.intro;
+    const datos = document.querySelector('[data-eco="datos"]');
+    if (datos && eco.datos && eco.datos.length) {
+      datos.replaceChildren(...eco.datos.map((d) => {
+        const li = el('li');
+        li.append(el('strong', '', d.valor), el('span', '', d.etiqueta));
+        return li;
+      }));
+    }
+    const bloques = document.querySelector('[data-eco="bloques"]');
+    if (bloques) {
+      bloques.replaceChildren(...(eco.bloques || []).map((b) => {
+        const section = el('section', b.imagen ? 'eco-bloque has-img' : 'eco-bloque');
+        const body = el('div');
+        body.append(el('h2', '', b.titulo));
+        String(b.texto).split(/\n\s*\n|\n/).filter(Boolean).forEach((t) => body.append(el('p', '', t)));
+        section.append(body);
+        if (b.imagen) {
+          const img = el('img');
+          img.src = b.imagen;
+          img.alt = b.titulo;
+          img.loading = 'lazy';
+          section.append(img);
+        }
+        return section;
+      }));
+    }
+    const galeria = document.querySelector('[data-eco="galeria"]');
+    const grid = document.getElementById('eco-galeria-grid');
+    if (galeria && grid) {
+      const fotos = eco.fotos || [];
+      galeria.hidden = fotos.length === 0;
+      grid.replaceChildren(...fotos.map((f) => {
+        const img = el('img');
+        img.src = f.url;
+        img.alt = f.alt || '';
+        img.loading = 'lazy';
+        return img;
+      }));
+    }
+    const rotor = document.querySelector('[data-eco-fotos]');
+    if (rotor && eco.fotos && eco.fotos.length >= 2) buildRotor(rotor, eco.fotos.slice(0, 8));
+  }
+
+  function mapsUrl(nombre) {
+    return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(nombre + ', San Roque, Corrientes');
+  }
+
+  function applyRecorrido(sitio) {
+    const rec = sitio.recorrido;
+    const list = document.querySelector('[data-recorrido="paradas"]');
+    if (!rec || !list) return;
+    const intro = document.querySelector('[data-recorrido="intro"]');
+    if (intro && rec.intro) intro.textContent = rec.intro;
+    const map = document.querySelector('[data-recorrido="mapa"]');
+    if (map && rec.mapaUrl) map.src = rec.mapaUrl;
+    if (rec.paradas && rec.paradas.length) {
+      list.replaceChildren(...rec.paradas.map((p) => {
+        const li = el('li');
+        const a = el('a');
+        const internal = p.enlace && !/^https?:/.test(p.enlace);
+        a.href = p.enlace || mapsUrl(p.nombre);
+        if (!internal) { a.target = '_blank'; a.rel = 'noopener'; }
+        a.append(el('strong', '', p.nombre));
+        if (p.detalle) a.append(el('span', '', p.detalle));
+        li.append(a);
+        return li;
+      }));
+    }
+  }
+
   function apply(data) {
+    applyRecorrido((data && data.sitio) || {});
+    applyEcoturismo((data && data.sitio) || {});
     const sitio = (data && data.sitio) || {};
     if (Array.isArray(sitio.agendaAnual) && sitio.agendaAnual.length) {
       renderAgenda(sitio.agendaAnual.map((a) => [a.mes, a.titulo]));
@@ -124,7 +208,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     renderAgenda(FIESTAS);
-    if (!document.querySelector('[data-agenda-anual], #huellas, .hero-rotor, .home-flyer-link')) return;
+    if (!document.querySelector('[data-agenda-anual], #huellas, .hero-rotor, .home-flyer-link, [data-eco], [data-recorrido]')) return;
     fetch('/api/data').then((r) => (r.ok ? r.json() : null)).then((d) => { if (d) apply(d); }).catch(() => {});
   });
 })();

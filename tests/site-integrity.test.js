@@ -69,3 +69,16 @@ test('el contenido fijo del sitio se administra desde el panel y llega a la API 
   assert.match(app, /\/admin\/api\/sitio/);
   assert.match(fs.readFileSync(path.join(root, 'js/sitio.js'), 'utf8'), /data\.sitio|sitio\./);
 });
+
+test('Ecoturismo y Recorrido histórico son páginas propias, con datos editables y en el sitemap', () => {
+  const server = fs.readFileSync(path.join(root, 'deploy/admin/server.js'), 'utf8');
+  const panel = fs.readFileSync(path.join(root, 'deploy/admin/static/index.html'), 'utf8');
+  for (const page of ['ecoturismo.html', 'recorrido.html']) {
+    assert.ok(fs.existsSync(path.join(root, page)), page);
+    assert.match(server, new RegExp(page.replace('.', '\.')), `${page} en el servidor (sitemap)`);
+  }
+  assert.match(server, /recorrido: \{/);
+  assert.match(server, /ecoturismo: \{/);
+  for (const id of ['sitio-rec-paradas', 'sitio-rec-mapa', 'sitio-eco-bloques', 'sitio-eco-fotos']) assert.match(panel, new RegExp(`id="${id}"`));
+  assert.ok(fs.statSync(path.join(root, 'img/folleto/recorrido-historico.svg')).size < 600 * 1024);
+});

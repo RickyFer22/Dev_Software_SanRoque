@@ -70,6 +70,7 @@
     };
 
     openBtn.addEventListener('click', open);
+    if (location.hash === '#monjita') open();
     modal.querySelectorAll('[data-monjita-close]').forEach((el) => el.addEventListener('click', close));
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !modal.hidden) close();

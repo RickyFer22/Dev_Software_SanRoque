@@ -218,3 +218,65 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 @keyframes fireflies { from { opacity: .25; transform: translateY(0); } to { opacity: 1; transform: translateY(-8px); } }
 @media (prefers-reduced-motion: reduce) { .site-footer .footer-wordmark-wrap::after { animation: none; opacity: .7; } }
 @media (max-width: 640px) { .site-footer { margin-top: 90px !important; } .site-footer::before { top: -89px; height: 90px; background-size: 800px 90px; } .site-footer::after { height: 110px; background-size: 800px 110px; } }
+
+/* Agenda anual primero, luego los eventos */
+.home-year-first { margin: 0 0 44px; padding: 0 0 32px; border-top: 0; border-bottom: 1px solid rgba(53, 94, 74, .18); }
+
+/* Página Ecoturismo y ciencia */
+.eco-huellas { padding: 0; border: 0; }
+.eco-bloque { display: grid; gap: 22px; }
+.eco-bloque.has-img { grid-template-columns: 1fr 1fr; align-items: center; }
+.eco-bloque img { width: 100%; border-radius: 20px; aspect-ratio: 4 / 3; object-fit: cover; }
+@media (max-width: 760px) { .eco-bloque.has-img { grid-template-columns: 1fr; } }
+.monjita-more-alt { background: transparent; color: var(--sr-forest); border: 1.5px solid var(--sr-forest); margin-left: 8px; }
+.monjita-more-alt:hover { background: var(--sr-forest); color: #fff; }
+
+/* Créditos del pie: tarjeta legible con chips */
+.site-footer .credits-card {
+  display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 880px; margin: 0 auto 22px;
+  padding: 26px clamp(18px, 4vw, 40px); border: 1px solid rgba(245, 217, 138, .28); border-radius: 22px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .03)); text-align: center;
+}
+.site-footer .credits-card .academic-label { color: #f5d98a; font-size: .72rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; }
+.site-footer .credits-card strong { color: #fff; font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 500; line-height: 1.4; }
+.site-footer .credits-card .academic-institute { color: #cfe0cc; font-size: .9rem; }
+.credits-people { display: grid; justify-items: center; gap: 8px; margin-top: 8px; width: 100%; }
+.site-footer .credits-role { color: #f5d98a; font-size: .68rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; }
+.credits-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 0 6px; padding: 0; list-style: none; }
+.credits-chips li { padding: 7px 14px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 999px; background: rgba(255, 255, 255, .08); color: #fff; font-size: .85rem; }
+.credits-chips-staff li { border-color: rgba(245, 217, 138, .5); }
+.credits-chips li small { margin-right: 6px; color: #f5d98a; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+
+/* ── Clima: paleta serena (verde agua del río) en lugar del marrón rojizo ── */
+:root, html, body {
+  --weather-900: #0f3d45;
+  --weather-800: #15545c;
+  --weather-650: #1d6f76;
+  --weather-500: #2b8a8a;
+  --weather-sun: #f4e7b8;
+}
+.weather-sky { box-shadow: 0 18px 44px -18px rgba(10, 45, 52, .6); }
+.weather-pill { border-color: rgba(244, 231, 184, .4) !important; }
+.weather-pill span { text-shadow: 0 1px 3px rgba(6, 30, 36, .5); }
+
+/* Página Recorrido histórico */
+.recorrido-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); gap: clamp(20px, 4vw, 56px); align-items: start; padding-top: 10px; }
+.recorrido-mapa { margin: 0; padding: 12px; border-radius: 26px; background: #ebe4d0; box-shadow: var(--sr-shadow); }
+.recorrido-mapa img { display: block; width: 100%; height: auto; border-radius: 16px; }
+.recorrido-mapa figcaption { margin: 10px 4px 2px; color: #6b786f; font-size: .78rem; }
+.recorrido-paradas h2 { margin: 0 0 14px; }
+.recorrido-paradas ol { counter-reset: parada; margin: 0 0 18px; padding: 0; list-style: none; }
+.recorrido-paradas li { counter-increment: parada; }
+.recorrido-paradas li a { position: relative; display: flex; flex-direction: column; min-height: 48px; padding: 11px 0 11px 46px; border-bottom: 1px solid #e2e7d9; color: var(--sr-ink); text-decoration: none; }
+.recorrido-paradas li a::before { content: counter(parada); position: absolute; left: 0; top: 10px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--sr-forest); color: #fff; font-size: .8rem; font-weight: 500; }
+.recorrido-paradas li a:hover strong { text-decoration: underline; }
+.recorrido-paradas li strong { font-weight: 500; }
+.recorrido-paradas li span { color: #6b786f; font-size: .82rem; }
+.recorrido-nota { display: flex; gap: 8px; align-items: flex-start; margin: 0 0 18px; padding: 12px 14px; border-left: 3px solid var(--sr-terra); background: #faf3e6; color: #5c6c60; font-size: .85rem; }
+.recorrido-nota .material-symbols-outlined { font-size: 18px; }
+@media (max-width: 860px) { .recorrido-layout { grid-template-columns: 1fr; } }
+/* Acceso al recorrido desde Qué hacer */
+.route-teaser { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; padding: 16px 20px; border-radius: 20px; background: #f9eed8; color: var(--sr-forest); text-decoration: none; }
+.route-teaser > span:nth-child(2) { display: flex; flex-direction: column; flex: 1; }
+.route-teaser small { color: #6b786f; }
+.route-teaser:hover { box-shadow: var(--sr-shadow); }

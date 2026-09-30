@@ -209,6 +209,33 @@ const SITIO_DEFAULTS = {
     videoUrl: '/img/video/huellas-de-san-roque.mp4',
     posterUrl: '/img/video/huellas-poster.jpg',
   },
+  recorrido: {
+    intro: 'Diez paradas para seguir el río Santa Lucía, cruzar los puentes y conocer el patrimonio de San Roque. El punto de informes está en el acceso a la ciudad.',
+    mapaUrl: '/img/folleto/recorrido-historico.svg',
+    paradas: [
+      { nombre: 'Paso de Blas', detalle: '', enlace: '' },
+      { nombre: 'Plaza Libertad', detalle: '', enlace: '' },
+      { nombre: 'Antigua Parroquia', detalle: 'Museo Histórico Nacional', enlace: '' },
+      { nombre: 'Antigua Sede de Gobierno Provincial', detalle: 'Museo Histórico Provincial', enlace: '' },
+      { nombre: 'Parroquia San Roque de Montpellier', detalle: '', enlace: '' },
+      { nombre: 'Estación Ferroviaria (FCGU)', detalle: '', enlace: '' },
+      { nombre: 'Puente Ferroviario', detalle: '', enlace: '' },
+      { nombre: 'Estancia El Carayá', detalle: '', enlace: '' },
+      { nombre: 'Puente Carretero', detalle: 'Conocé su historia', enlace: 'puente-de-la-via.html' },
+      { nombre: 'Parque Municipal y Puente Ruta 12', detalle: '', enlace: '' },
+    ],
+  },
+  ecoturismo: {
+    intro: 'Ciencia, escuela y comunidad trabajan juntas en San Roque: monitoreo de biodiversidad, observación de aves y una especie que se volvió símbolo de la ciudad.',
+    datos: [
+      { valor: '2022', etiqueta: 'Monjita dominica, Monumento Natural' },
+      { valor: '8 km', etiqueta: 'Del área urbana, donde se la observó' },
+      { valor: 'UNNE', etiqueta: 'Universidad aliada en el monitoreo' },
+      { valor: 'Cámaras trampa', etiqueta: 'Registro de mamíferos' },
+    ],
+    bloques: [],
+    fotos: [],
+  },
   fotosGastronomia: [
     { url: '/img/gastronomia/chipa-asado.webp', alt: 'Chipá asado en palo sobre brasas' },
     { url: '/img/gastronomia/pescado-al-horno.webp', alt: 'Pescado con papas en salsa criolla' },
@@ -226,6 +253,8 @@ function normalizeSitio(value) {
   const v = value && typeof value === 'object' ? value : {};
   const agenda = Array.isArray(v.agendaAnual) ? v.agendaAnual : SITIO_DEFAULTS.agendaAnual;
   const h = v.huellas && typeof v.huellas === 'object' ? v.huellas : SITIO_DEFAULTS.huellas;
+  const eco = v.ecoturismo && typeof v.ecoturismo === 'object' ? v.ecoturismo : SITIO_DEFAULTS.ecoturismo;
+  const rec = v.recorrido && typeof v.recorrido === 'object' ? v.recorrido : SITIO_DEFAULTS.recorrido;
   return {
     agendaAnual: agenda
       .map((a) => ({ mes: cleanText(a && a.mes, 40), titulo: cleanText(a && a.titulo, 160) }))
@@ -239,6 +268,29 @@ function normalizeSitio(value) {
       lema: cleanText(h.lema, 200),
       videoUrl: cleanText(h.videoUrl, 2000),
       posterUrl: cleanText(h.posterUrl, 2000),
+    },
+    recorrido: {
+      intro: cleanText(rec.intro, 700),
+      mapaUrl: cleanText(rec.mapaUrl, 2000),
+      paradas: (Array.isArray(rec.paradas) ? rec.paradas : [])
+        .map((p) => ({ nombre: cleanText(p && p.nombre, 120), detalle: cleanText(p && p.detalle, 200), enlace: cleanText(p && p.enlace, 2000) }))
+        .filter((p) => p.nombre)
+        .slice(0, 30),
+    },
+    ecoturismo: {
+      intro: cleanText(eco.intro, 600),
+      datos: (Array.isArray(eco.datos) ? eco.datos : [])
+        .map((d) => ({ valor: cleanText(d && d.valor, 30), etiqueta: cleanText(d && d.etiqueta, 80) }))
+        .filter((d) => d.valor && d.etiqueta)
+        .slice(0, 6),
+      bloques: (Array.isArray(eco.bloques) ? eco.bloques : [])
+        .map((b) => ({ titulo: cleanText(b && b.titulo, 140), texto: cleanText(b && b.texto, 2500), imagen: cleanText(b && b.imagen, 2000) }))
+        .filter((b) => b.titulo && b.texto)
+        .slice(0, 12),
+      fotos: (Array.isArray(eco.fotos) ? eco.fotos : [])
+        .map((f) => ({ url: cleanText(f && f.url, 2000), alt: cleanText(f && f.alt, 180) }))
+        .filter((f) => f.url)
+        .slice(0, 24),
     },
     fotosGastronomia: (Array.isArray(v.fotosGastronomia) ? v.fotosGastronomia : SITIO_DEFAULTS.fotosGastronomia)
       .map((f) => ({ url: cleanText(f && f.url, 2000), alt: cleanText(f && f.alt, 180) }))
@@ -416,7 +468,7 @@ if (!IS_PROD) {
   ['img', 'css', 'js'].forEach((dir) => {
     app.use(`/${dir}`, express.static(path.join(PORTAL_DIR, dir), { fallthrough: true }));
   });
-  app.get(['/', '/index.html', '/gastronomia.html', '/guia-practica.html', '/agenda.html', '/que-hacer.html', '/comercio.html'], (req, res, next) => {
+  app.get(['/', '/index.html', '/gastronomia.html', '/guia-practica.html', '/agenda.html', '/que-hacer.html', '/comercio.html', '/ecoturismo.html', '/recorrido.html', '/alojamientos.html', '/puente-de-la-via.html'], (req, res, next) => {
     const file = path.join(PORTAL_DIR, req.path === '/' ? 'index.html' : req.path.replace(/^\//, ''));
     if (fs.existsSync(file)) return res.sendFile(file);
     return next();
@@ -641,6 +693,8 @@ app.get('/sitemap.xml', (req, res) => {
     { loc: `${base}/guia-practica.html`, priority: '0.6', changefreq: 'monthly' },
     { loc: `${base}/puente-de-la-via.html`, priority: '0.5', changefreq: 'monthly' },
     { loc: `${base}/en/`, priority: '0.5', changefreq: 'monthly' },
+    { loc: `${base}/recorrido.html`, priority: '0.7', changefreq: 'monthly' },
+    { loc: `${base}/ecoturismo.html`, priority: '0.6', changefreq: 'monthly' },
     { loc: `${base}/pt/`, priority: '0.5', changefreq: 'monthly' },
   ];
   (store.alojamientos || []).filter(isPublicItem).forEach((a) => {

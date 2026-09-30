@@ -45,8 +45,8 @@ test('public footer is Spanish, useful and does not expose admin', () => {
   assert.match(html, /Milka Martínez/);
   assert.match(html, /Román Rossi/);
   assert.match(html, /Tomás Rollet/);
-  assert.match(html, /Ayudante:<\/b>\s*Javier Legal/);
-  assert.match(html, /Profesora:<\/b>\s*Yésica Ponce/);
+  assert.match(html, /Ayudante<\/small>\s*Javier Legal/);
+  assert.match(html, /Profesora<\/small>\s*Yésica Ponce/);
   assert.doesNotMatch(html, /Privacy Policy|Terms of Service|Local Government|Tourist Office/);
   assert.doesNotMatch(html, /href="\/admin(?:\/login)?"/);
   assert.match(css, /\.footer-wordmark-wrap::before\s*\{[^}]*SAN ROQUE · CORRIENTES/s);

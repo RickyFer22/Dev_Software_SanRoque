@@ -127,6 +127,8 @@
               <a href="que-hacer.html#patrimonio"><span class="material-symbols-outlined" aria-hidden="true">account_balance</span>Patrimonio Histórico</a>
               <a href="que-hacer.html#naturaleza"><span class="material-symbols-outlined" aria-hidden="true">water</span>Naturaleza y Costanera</a>
               <a href="que-hacer.html#plazas"><span class="material-symbols-outlined" aria-hidden="true">park</span>Plazas y Paseos</a>
+              <a href="recorrido.html"><span class="material-symbols-outlined" aria-hidden="true">route</span>Recorrido histórico</a>
+              <a href="ecoturismo.html"><span class="material-symbols-outlined" aria-hidden="true">eco</span>Ecoturismo y ciencia</a>
               <hr />
               <a href="que-hacer.html" class="nav-dropdown-all">Ver todos <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
             </div>
@@ -237,10 +239,6 @@
       <div class="hero-copy">
         <h1 class="hero-logo"><img src="img/brand/logo-san-roque-palabra-blanco.svg" alt="San Roque, Corrientes" width="1322" height="228" /></h1>
         <p class="hero-tagline">Pueblo de fe, caminos y puentes</p>
-        <div class="hero-actions">
-          <a class="hero-btn hero-btn-primary" href="/donde-alojarme">Dónde alojarme</a>
-          <a class="hero-btn" href="que-hacer.html">Qué hacer</a>
-        </div>
       </div>
       <!-- Colección interactiva: Monjita Dominica (Monumento Natural de San Roque) -->
       <button id="monjita-open" type="button" class="monjita-hero-card" aria-haspopup="dialog" aria-controls="monjita-modal">
@@ -276,7 +274,7 @@
         <h2 id="circuits-title">Cuatro maneras de conocer San Roque</h2>
       </div>
       <div class="circuits-grid">
-        <a class="circuit-card" href="que-hacer.html#recorrido">
+        <a class="circuit-card" href="recorrido.html">
           <img src="img/hero/puente-banner.webp" alt="Puente ferroviario de San Roque al atardecer" loading="lazy" />
           <span class="circuit-num" aria-hidden="true">01</span>
           <span class="circuit-body"><strong>Recorrido histórico</strong><span>Diez paradas para seguir el río y cruzar los puentes.</span><span class="circuit-more">Explorar <span aria-hidden="true">→</span></span></span>
@@ -300,7 +298,11 @@
     </section>
 
     <section id="agenda" class="max-w-7xl mx-auto px-6 mb-24 fade-in-up">
-
+      <div class="home-year home-year-first" aria-labelledby="home-year-title">
+        <h3 id="home-year-title">Agenda anual</h3>
+        <ol class="home-year-list" data-agenda-anual></ol>
+        <p class="home-year-note"><strong>Y durante el año:</strong> Expomotos, stunts, audio car, velo terra, BMX, MTB, remates de ganado y exposiciones. Consultá las fechas y la programación antes de tu visita.</p>
+      </div>
       <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
         <div>
           <h2 class="font-display-lg text-2xl md:text-3xl font-bold text-primary tracking-tight">Próximos eventos</h2>
@@ -321,11 +323,6 @@
         <div class="agenda-skeleton" aria-hidden="true"></div>
       </div>
 
-      <div class="home-year" aria-labelledby="home-year-title">
-        <h3 id="home-year-title">Agenda anual</h3>
-        <ol class="home-year-list" data-agenda-anual></ol>
-        <p class="home-year-note"><strong>Y durante el año:</strong> Expomotos, stunts, audio car, velo terra, BMX, MTB, remates de ganado y exposiciones. Consultá las fechas y la programación antes de tu visita.</p>
-      </div>
 
     </section>
 
@@ -342,6 +339,7 @@
           <h2 id="huellas-title">Huellas de San Roque: conocer nuestro territorio</h2>
           <p>En el marco del proyecto <em>“Huellas de San Roque: ciencia y comunidad para la gestión de paisajes rurales y urbanos sostenibles”</em>, comenzó el monitoreo de la biodiversidad de nuestra zona.</p>
           <p>La primera jornada se hizo en el campo de la familia Rojas Busellato, con estudiantes y docentes de la Escuela Normal «Juan García de Cossio», voluntarios e investigadores de la UNNE: observación de aves e instalación de cámaras trampa para registrar mamíferos terrestres.</p>
+          <p><a class="monjita-more" href="ecoturismo.html">Conocer Ecoturismo y ciencia <span aria-hidden="true">→</span></a></p>
           <p class="huellas-lema">Conocer nuestro territorio para comprenderlo, valorarlo y aportar a su conservación.</p>
         </div>
       </div>
@@ -479,12 +477,20 @@
 
 
     <div class="footer-bottombar">
-      <div class="academic-credits max-w-7xl mx-auto px-6 md:px-8">
+      <div class="academic-credits credits-card max-w-7xl mx-auto px-6 md:px-8">
         <span class="academic-label">Proyecto educativo · tecnología local</span>
         <strong>Desarrollado por estudiantes de 3.<sup>er</sup> año de la Tecnicatura Superior en Desarrollo de Software</strong>
         <span class="academic-institute">Instituto Superior de Formación Docente «Juan García de Cossio»</span>
-        <span class="academic-authors"><b>Autores:</b> Daniel Almirón · Lucas Sánchez · Milka Martínez · Román Rossi · Tomás Rollet</span>
-        <span><b>Ayudante:</b> Javier Legal &nbsp;·&nbsp; <b>Profesora:</b> Yésica Ponce</span>
+        <div class="credits-people" aria-label="Equipo">
+          <span class="credits-role">Autores</span>
+          <ul class="credits-chips">
+            <li>Daniel Almirón</li><li>Lucas Sánchez</li><li>Milka Martínez</li><li>Román Rossi</li><li>Tomás Rollet</li>
+          </ul>
+          <span class="credits-role">Docentes</span>
+          <ul class="credits-chips credits-chips-staff">
+            <li><small>Ayudante</small> Javier Legal</li><li><small>Profesora</small> Yésica Ponce</li>
+          </ul>
+        </div>
       </div>
       <div class="footer-photo-credit max-w-7xl mx-auto px-6 md:px-8">Fotografía por <a href="https://www.instagram.com/claritysanroque" target="_blank" rel="noopener noreferrer">@claritysanroque</a></div>
       <div class="compact-footer-legal max-w-7xl mx-auto px-6 md:px-8">© 2026 Municipalidad de San Roque · Portal oficial de turismo y cultura · Todos los derechos reservados. · <a href="/en/" hreflang="en">English</a> · <a href="/pt/" hreflang="pt">Português</a></div>

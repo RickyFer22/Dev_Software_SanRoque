@@ -1270,6 +1270,15 @@ function applySitioConfig(data) {
   set('sitio-huellas-poster', h.posterUrl);
   set('sitio-fotos-gastro', (d.fotosGastronomia || []).map((f) => (f.alt ? `${f.url} | ${f.alt}` : f.url)).join('\n'));
   set('sitio-folleto', d.folletoUrl);
+  const rec = d.recorrido || {};
+  set('sitio-rec-intro', rec.intro);
+  set('sitio-rec-mapa', rec.mapaUrl);
+  set('sitio-rec-paradas', (rec.paradas || []).map((p) => [p.nombre, p.detalle, p.enlace].join(' | ').replace(/( \| )+$/, '')).join('\n'));
+  const eco = d.ecoturismo || {};
+  set('sitio-eco-intro', eco.intro);
+  set('sitio-eco-datos', (eco.datos || []).map((x) => `${x.valor} | ${x.etiqueta}`).join('\n'));
+  set('sitio-eco-bloques', (eco.bloques || []).map((b) => [b.titulo, b.texto, b.imagen].filter(Boolean).join('\n')).join('\n---\n'));
+  set('sitio-eco-fotos', (eco.fotos || []).map((f) => (f.alt ? `${f.url} | ${f.alt}` : f.url)).join('\n'));
 }
 
 function collectSitioConfig() {
@@ -1289,6 +1298,25 @@ function collectSitioConfig() {
     },
     fotosGastronomia: lines(val('sitio-fotos-gastro')).map((l) => { const [url, alt] = pair(l); return { url, alt }; }),
     folletoUrl: val('sitio-folleto').trim(),
+    recorrido: {
+      intro: val('sitio-rec-intro').trim(),
+      mapaUrl: val('sitio-rec-mapa').trim(),
+      paradas: lines(val('sitio-rec-paradas')).map((l) => {
+        const [nombre = '', detalle = '', enlace = ''] = l.split('|').map((x) => x.trim());
+        return { nombre, detalle, enlace };
+      }),
+    },
+    ecoturismo: {
+      intro: val('sitio-eco-intro').trim(),
+      datos: lines(val('sitio-eco-datos')).map((l) => { const [valor, etiqueta] = pair(l); return { valor, etiqueta }; }),
+      bloques: val('sitio-eco-bloques').split(/\n\s*---\s*\n/).map((chunk) => {
+        const parts = chunk.split('\n').map((l) => l.trim()).filter(Boolean);
+        const last = parts[parts.length - 1] || '';
+        const hasImg = parts.length >= 3 && /^(\/|https?:)/.test(last);
+        return { titulo: parts[0] || '', texto: parts.slice(1, hasImg ? -1 : undefined).join('\n\n'), imagen: hasImg ? last : '' };
+      }).filter((b) => b.titulo && b.texto),
+      fotos: lines(val('sitio-eco-fotos')).map((l) => { const [url, alt] = pair(l); return { url, alt }; }),
+    },
   };
 }
 
@@ -1319,6 +1347,17 @@ function initSitioControls() {
   if (save && !save.dataset.bound) {
     save.dataset.bound = '1';
     save.addEventListener('click', saveSitioConfig);
+  }
+  const addEco = document.getElementById('sitio-eco-foto-agregar');
+  if (addEco && !addEco.dataset.bound) {
+    addEco.dataset.bound = '1';
+    addEco.addEventListener('click', () => {
+      const input = document.getElementById('sitio-eco-foto-nueva');
+      const list = document.getElementById('sitio-eco-fotos');
+      if (!input || !list || !input.value.trim()) return;
+      list.value = `${list.value.trim()}${list.value.trim() ? '\n' : ''}${input.value.trim()}`;
+      input.value = '';
+    });
   }
   const add = document.getElementById('sitio-foto-agregar');
   if (add && !add.dataset.bound) {
