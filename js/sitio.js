@@ -121,21 +121,19 @@
       }));
     }
     const bloques = document.querySelector('[data-eco="bloques"]');
-    if (bloques) {
-      bloques.replaceChildren(...(eco.bloques || []).map((b) => {
-        const section = el('section', b.imagen ? 'eco-bloque has-img' : 'eco-bloque');
-        const body = el('div');
-        body.append(el('h2', '', b.titulo));
-        String(b.texto).split(/\n\s*\n|\n/).filter(Boolean).forEach((t) => body.append(el('p', '', t)));
-        section.append(body);
+    if (bloques && eco.bloques) {
+      bloques.replaceChildren(...eco.bloques.map((b) => {
+        const card = el('article', b.imagen ? 'eco-card has-img' : 'eco-card');
         if (b.imagen) {
           const img = el('img');
           img.src = b.imagen;
           img.alt = b.titulo;
           img.loading = 'lazy';
-          section.append(img);
+          card.append(img);
         }
-        return section;
+        card.append(el('h3', '', b.titulo));
+        String(b.texto).split(/\n\s*\n|\n/).filter(Boolean).forEach((t) => card.append(el('p', '', t)));
+        return card;
       }));
     }
     const galeria = document.querySelector('[data-eco="galeria"]');
@@ -182,7 +180,42 @@
     }
   }
 
+  const SERVICE_ICONS = {
+    remises: 'local_taxi', terminal: 'directions_bus', municipio: 'domain', iglesias: 'church', emergencias: 'emergency',
+    salud: 'medical_services', servicios: 'design_services', 'registro-civil': 'badge', deporte: 'sports_soccer',
+  };
+  const EMBEDDED_IN_SERVICIOS = ['remises', 'terminal', 'talleres-repuestos', 'talleres-repuesteras', 'estacion-servicios'];
+
+  // Mismas categorías que la Guía práctica (se administran en «Servicios y datos útiles»).
+  function applyServicios(data) {
+    const grid = document.querySelector('[data-servicios]');
+    const du = data && data.datosUtiles;
+    if (!grid || !du) return;
+    const cats = Object.values(du).filter((c) => c && c.categoria && c.activo !== 0 && !EMBEDDED_IN_SERVICIOS.includes(c.categoria));
+    if (!cats.length) return;
+    grid.replaceChildren(...cats.map((c) => {
+      const a = el('a', 'service-card');
+      a.href = 'guia-practica.html#' + encodeURIComponent(c.categoria);
+      const icon = c.icono || SERVICE_ICONS[c.categoria] || 'info';
+      if (/[\/.]/.test(icon)) {
+        const img = el('img');
+        img.src = icon;
+        img.alt = '';
+        a.append(img);
+      } else {
+        const s = el('span', 'material-symbols-outlined', icon);
+        s.setAttribute('aria-hidden', 'true');
+        a.append(s);
+      }
+      a.append(el('strong', '', c.titulo || c.categoria));
+      const desc = c.categoria === 'servicios' ? (c.descripcion || 'Bancos, cajeros, remises, terminal, talleres y estación de servicio.') : c.descripcion;
+      if (desc) a.append(el('span', '', desc));
+      return a;
+    }));
+  }
+
   function apply(data) {
+    applyServicios(data);
     applyRecorrido((data && data.sitio) || {});
     applyEcoturismo((data && data.sitio) || {});
     const sitio = (data && data.sitio) || {};
@@ -208,7 +241,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     renderAgenda(FIESTAS);
-    if (!document.querySelector('[data-agenda-anual], #huellas, .hero-rotor, .home-flyer-link, [data-eco], [data-recorrido]')) return;
+    if (!document.querySelector('[data-agenda-anual], #huellas, .hero-rotor, .home-flyer-link, [data-eco], [data-recorrido], [data-servicios]')) return;
     fetch('/api/data').then((r) => (r.ok ? r.json() : null)).then((d) => { if (d) apply(d); }).catch(() => {});
   });
 })();

@@ -317,6 +317,10 @@
                 if (apiCategories.length) {
                     renderCategoryGrid(apiCategories);
                 }
+                // Enlace directo desde la portada: guia-practica.html#salud abre esa categoría.
+                const wanted = decodeURIComponent(location.hash.replace('#', ''));
+                const card = wanted && document.querySelector('#guia-cat-grid [data-cat="' + wanted.replace(/"/g, '') + '"]');
+                if (card) setTimeout(() => card.click(), 0);
             }
         } catch (err) {
             console.error("Error loading directory data", err);

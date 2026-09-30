@@ -233,7 +233,12 @@ const SITIO_DEFAULTS = {
       { valor: 'UNNE', etiqueta: 'Universidad aliada en el monitoreo' },
       { valor: 'Cámaras trampa', etiqueta: 'Registro de mamíferos' },
     ],
-    bloques: [],
+    bloques: [
+      { titulo: 'Cómo reconocer a la monjita', texto: 'Es inconfundible por su plumaje: el macho tiene gran parte del cuerpo blanco, con alas y cola negras; la hembra muestra tonos más grisáceos. Mide unos 21 cm y mantiene una postura erguida al posarse sobre postes, alambrados o arbustos bajos, desde donde vigila y caza insectos con vuelos ágiles y breves.', imagen: '' },
+      { titulo: 'Dónde vive', texto: 'Habita pastizales naturales, pajonales, bañados, esteros y zonas abiertas con vegetación nativa. Necesita áreas bien conservadas para alimentarse, reproducirse y refugiarse. Su presencia cerca de San Roque es una señal positiva del valor ecológico de la zona.', imagen: '' },
+      { titulo: 'Observación de aves responsable', texto: 'Mantené una distancia prudente, usá binoculares o cámaras con zoom y evitá ruidos fuertes. No persigas al ave ni modifiques la vegetación. Si encontrás un nido, no lo toques ni te acerques de forma reiterada, y no difundas públicamente sus coordenadas exactas. Registrar fecha, horario y lugar aproximado ayuda a investigadores y organizaciones de conservación.', imagen: '' },
+      { titulo: 'Una especie que necesita protección', texto: 'Enfrenta amenazas: transformación de pastizales, incendios descontrolados, drenaje de humedales, eliminación de vegetación nativa y uso excesivo de agroquímicos. La pérdida del hábitat es su principal problema. Su conservación requiere áreas naturales amplias y la participación de instituciones, productores, vecinos y autoridades.', imagen: '' },
+    ],
     fotos: [],
   },
   fotosGastronomia: [
@@ -283,7 +288,8 @@ function normalizeSitio(value) {
         .map((d) => ({ valor: cleanText(d && d.valor, 30), etiqueta: cleanText(d && d.etiqueta, 80) }))
         .filter((d) => d.valor && d.etiqueta)
         .slice(0, 6),
-      bloques: (Array.isArray(eco.bloques) ? eco.bloques : [])
+      // Lista vacía = tarjetas iniciales de aviturismo (así llegan a sitios que ya guardaron la portada).
+      bloques: (Array.isArray(eco.bloques) && eco.bloques.length ? eco.bloques : SITIO_DEFAULTS.ecoturismo.bloques)
         .map((b) => ({ titulo: cleanText(b && b.titulo, 140), texto: cleanText(b && b.texto, 2500), imagen: cleanText(b && b.imagen, 2000) }))
         .filter((b) => b.titulo && b.texto)
         .slice(0, 12),
