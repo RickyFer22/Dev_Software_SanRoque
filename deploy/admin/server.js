@@ -394,6 +394,7 @@ function ensureDefaultDatosUtiles(store) {
 // igual que ensureDefaultDatosUtiles, sin pisar ediciones ya hechas desde el admin.
 const DEFAULT_ACTIVIDADES = [
   { id: 'capilla-historica', categoria: 'patrimonio', titulo: 'Capilla Histórica (Templo Viejo)', descripcion: 'Monumento Histórico Nacional construido en 1783. Alberga el Museo de Arte Sacro con piezas de la época fundacional y testimonios históricos de la Guerra de la Triple Alianza.', imagen: 'img/san-roque-turismo-1.jpg' },
+  { id: 'casa-historica', categoria: 'patrimonio', titulo: 'Casa Histórica (Casa Lagraña)', descripcion: 'Sede provisoria del Gobierno de Corrientes en 1865, cuando San Roque fue capital de la provincia durante la ocupación paraguaya. Monumento Histórico Provincial de adobe, techos de tejas y corredores, junto al museo nuevo. Foto histórica: gentileza Museo San Roque.', imagen: 'img/casa-historica.webp' },
   { id: 'balneario-municipal', categoria: 'naturaleza', titulo: 'Balneario Municipal y Costanera', descripcion: 'Disfrutá del sol, las playas de arena limpia sobre el río Santa Lucía y unos atardeceres mágicos. Cuenta con parador, áreas de camping y servicios completos en temporada.', imagen: 'img/costanera 2.jpeg' },
   { id: 'puente-carretero', categoria: 'patrimonio', titulo: 'Puente de la Vía', descripcion: 'Proyectado en 1874 y en servicio desde 1896: una inundación obligó a dividir la obra en dos puentes unidos por un terraplén. Hoy es un mirador panorámico de 360° sobre el río Santa Lucía, ideal para paseos y fotografía.', imagen: 'img/PUENTE HISTORICO 1.jpeg' },
   { id: 'plaza-libertad', categoria: 'plazas', titulo: 'Plaza Principal Libertad', descripcion: 'Punto de encuentro central rodeado de frondosa arboleda y monumentos. Un espacio para relajarse, caminar y disfrutar de la tranquilidad local.', imagen: 'img/Plaza San Roque.jpeg' },
@@ -426,6 +427,16 @@ const CONTENT_MIGRATIONS = [
           a.waNumber = '549' + tel;
         }
       });
+    },
+  },
+  {
+    id: '2026-10-02-casa-historica',
+    run(store) {
+      // Sede provisoria del Gobierno en 1865: se suma a Patrimonio sin tocar lo ya cargado.
+      if (!Array.isArray(store.actividades) || store.actividades.some((a) => a.id === 'casa-historica')) return;
+      const def = DEFAULT_ACTIVIDADES.find((a) => a.id === 'casa-historica');
+      const now = new Date().toISOString();
+      store.actividades.push(Object.assign({}, def, { activo: 1, status: 'published', createdAt: now, updatedAt: now }));
     },
   },
   {

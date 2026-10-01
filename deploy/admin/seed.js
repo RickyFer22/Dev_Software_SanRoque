@@ -341,6 +341,12 @@ const actividades = [
     imagen: 'img/san-roque-turismo-1.jpg'
   },
   {
+    id: 'casa-historica',
+    titulo: 'Casa Histórica (Casa Lagraña)',
+    descripcion: 'Sede provisoria del Gobierno de Corrientes en 1865, cuando San Roque fue capital de la provincia durante la ocupación paraguaya. Monumento Histórico Provincial de adobe, techos de tejas y corredores, junto al museo nuevo. Foto histórica: gentileza Museo San Roque.',
+    imagen: 'img/casa-historica.webp'
+  },
+  {
     id: 'balneario-municipal',
     titulo: 'Balneario Municipal y Costanera',
     descripcion: 'Disfrutá del sol, las playas de arena limpia sobre el río Santa Lucía y unos atardeceres mágicos. Cuenta con parador, áreas de camping y servicios completos en temporada.',
