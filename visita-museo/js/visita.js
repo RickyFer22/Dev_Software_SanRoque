@@ -197,6 +197,12 @@
   }
   const sectorOf = (id) => D.sectores.find((s) => s.escenas.includes(id)) || { id: '', museo: '', nombre: '' };
   const sectorName = (id) => { const s = sectorOf(id); return s.museo === s.nombre || !s.museo ? s.nombre : s.museo + ' · ' + s.nombre; };
+  /* Dos museos = dos edificios: mapa, visita guiada y contadores se limitan al museo en el que se está. */
+  const museos = D.museos || [];
+  const museoOf = (id) => museos.find((m) => m.nombre === sectorOf(id).museo) || museos[0];
+  const escenasDe = (m) => D.sectores.filter((s) => s.museo === m.nombre).reduce((a, s) => a.concat(s.escenas), []);
+  const guiadaDe = (m) => (m ? D.guiada.filter((s) => museoOf(s.escena) === m) : D.guiada);
+  let guideList = D.guiada;
   const F = window.VisitaFicha;
   const pieceRef = {}; // id de pieza -> { escena, punto } (primer punto que la muestra)
   function rebuildPieceRef() {
@@ -488,8 +494,10 @@
   function renderMap() {
     el.mapBody.textContent = '';
     const reach = new Set(scene ? scene.puntos.filter((p) => p.to).map((p) => p.to) : []);
-    (D.accesos || []).forEach((id) => reach.add(id));
-    D.sectores.forEach((s) => {
+    const m = museos.length ? museoOf(sceneId || D.inicio) : null;
+    if (m) reach.add(m.inicio);
+    el.map.querySelector('h2').textContent = m ? m.nombre : 'Recorrido orientativo';
+    D.sectores.filter((s) => !m || s.museo === m.nombre).forEach((s) => {
       const box = document.createElement('div');
       box.className = 'vm-sector';
       box.innerHTML = '<h3></h3><div></div>';
@@ -507,7 +515,24 @@
       });
       el.mapBody.appendChild(box);
     });
-    $('vm-mapcount').textContent = seen.size + ' de ' + Object.keys(D.escenas).length + ' salas visitadas · ' + seenPieces.size + ' de ' + Object.keys(pieceRef).length + ' piezas examinadas';
+    const mine = m ? escenasDe(m) : Object.keys(D.escenas);
+    const myPieces = Object.keys(pieceRef).filter((k) => mine.includes(pieceRef[k].escena));
+    $('vm-mapcount').textContent = mine.filter((id) => seen.has(id)).length + ' de ' + mine.length + ' salas visitadas · ' + myPieces.filter((k) => seenPieces.has(k)).length + ' de ' + myPieces.length + ' piezas examinadas';
+    museos.filter((o) => o !== m).forEach((o) => {
+      const sw = document.createElement('div');
+      sw.className = 'vm-map-switch';
+      sw.innerHTML = '<p></p><button type="button" class="vm-btn"></button>';
+      sw.firstChild.textContent = 'Es otro edificio, con su propio recorrido.';
+      sw.lastChild.textContent = 'Ir al ' + o.nombre;
+      sw.lastChild.addEventListener('click', () => switchMuseo(o));
+      el.mapBody.appendChild(sw);
+    });
+  }
+  function switchMuseo(o) {
+    if (busy) return;
+    toggleMap(false); exitGuide(); closePanel(true);
+    trail.length = 0; renderBack();
+    goTo(o.inicio, null);
   }
   function toggleMap(open) {
     el.map.hidden = !open;
@@ -517,23 +542,23 @@
 
   /* ---------- Visita guiada ---------- */
   function showGuideStep() {
-    const s = D.guiada[guideI];
-    $('vm-gstep').textContent = 'Parada ' + (guideI + 1) + ' de ' + D.guiada.length + ' · ' + D.escenas[s.escena].nombre;
+    const s = guideList[guideI];
+    $('vm-gstep').textContent = 'Parada ' + (guideI + 1) + ' de ' + guideList.length + ' · ' + D.escenas[s.escena].nombre;
     $('vm-gtext').textContent = s.texto;
     $('vm-gprev').disabled = guideI === 0;
-    $('vm-gnext').textContent = guideI === D.guiada.length - 1 ? 'Terminar' : 'Siguiente parada ›';
+    $('vm-gnext').textContent = guideI === guideList.length - 1 ? 'Terminar' : 'Siguiente parada ›';
   }
   function markGuidePoint() {
     el.points.querySelectorAll('.is-pulse').forEach((n) => n.classList.remove('is-pulse'));
-    const s = D.guiada[guideI];
+    const s = guideList[guideI];
     if (s && s.escena === sceneId && s.punto && hs(s.punto)) hs(s.punto).classList.add('is-pulse');
   }
   async function guideStep(i) {
     if (busy) return;
-    if (i >= D.guiada.length) { exitGuide(); return; }
-    guideI = clamp(i, 0, D.guiada.length - 1);
+    if (i >= guideList.length) { exitGuide(); return; }
+    guideI = clamp(i, 0, guideList.length - 1);
     showGuideStep();
-    const s = D.guiada[guideI];
+    const s = guideList[guideI];
     el.guide.hidden = false;
     el.map.hidden = true;
     attr($('vm-bguide'), 'aria-expanded', true);
@@ -574,10 +599,11 @@
     activity();
     el.hint.classList.remove('is-gone');
     if (opts.guided) {
+      guideList = guiadaDe(opts.museo || museos[0]);
       guideI = 0; showGuideStep();
       el.guide.hidden = false; attr($('vm-bguide'), 'aria-expanded', true);
-      goTo(D.guiada[0].escena, null, { foco: D.guiada[0].foco }).then(markGuidePoint);
-    } else goTo(opts.scene || D.inicio, null, opts.openPoint ? { openPoint: opts.openPoint } : undefined);
+      goTo(guideList[0].escena, null, { foco: guideList[0].foco }).then(markGuidePoint);
+    } else goTo(opts.scene || (opts.museo && opts.museo.inicio) || D.inicio, null, opts.openPoint ? { openPoint: opts.openPoint } : undefined);
     setTimeout(() => el.hint.classList.add('is-gone'), 9000);
   }
   function home() {
@@ -593,7 +619,8 @@
     el.welcome.hidden = false;
     requestAnimationFrame(() => el.welcome.classList.remove('is-out'));
     el.viewer.hidden = true;
-    $('vm-enter').focus({ preventScroll: true });
+    const first = $('vm-choose').querySelector('button');
+    if (first) first.focus({ preventScroll: true });
   }
 
   /* ---------- Eventos de la escena ---------- */
@@ -684,7 +711,10 @@
   $('vm-bmap').addEventListener('click', () => toggleMap(el.map.hidden));
   $('vm-bguide').addEventListener('click', () => {
     if (guideI >= 0 && !el.guide.hidden) { el.guide.hidden = true; attr($('vm-bguide'), 'aria-expanded', false); }
-    else guideStep(guideI < 0 ? Math.max(0, D.guiada.findIndex((s) => s.escena === sceneId)) : guideI);
+    else {
+      if (guideI < 0) guideList = guiadaDe(museoOf(sceneId));
+      guideStep(guideI < 0 ? Math.max(0, guideList.findIndex((s) => s.escena === sceneId)) : guideI);
+    }
   });
   const bdots = $('vm-bdots');
   const setLabels = (on) => { el.stage.classList.toggle('vm-labels', on); attr(bdots, 'aria-pressed', on); };
@@ -743,9 +773,31 @@
     wi.addEventListener('load', () => setTimeout(() => { if (!scene && IMG.escenas[D.inicio]) { layout(); fetchImg(sceneUrl(D.inicio)).catch(() => {}); } }, 300));
   }
   wi.addEventListener('error', () => { wi.hidden = true; });
-  $('vm-enter').addEventListener('click', () => start({}));
-  $('vm-guided').addEventListener('click', () => start({ guided: true }));
-  $('vm-old').addEventListener('click', () => start({ scene: 'antiguo-fachada' }));
+  museos.forEach((m) => {
+    const card = document.createElement('article');
+    card.className = 'vm-card';
+    const mi = IMG.escenas[m.portada];
+    if (mi && !deepLink) {
+      const im = document.createElement('img');
+      im.alt = ''; im.decoding = 'async'; im.loading = 'lazy';
+      im.src = fileOf('escenas', m.portada, mi.v[0]);
+      im.width = mi.w; im.height = mi.h;
+      card.appendChild(im);
+    }
+    const body = document.createElement('div');
+    body.className = 'vm-card-body';
+    body.innerHTML = '<p class="vm-kicker"></p><h2></h2><p></p><div class="vm-welcome-actions"><button type="button" class="vm-btn vm-btn-main">Entrar</button><button type="button" class="vm-btn">Visita guiada</button></div>';
+    body.children[0].textContent = m.rotulo;
+    body.children[1].textContent = m.nombre;
+    body.children[2].textContent = m.descripcion;
+    const bs = body.querySelectorAll('button');
+    bs[0].setAttribute('aria-label', 'Entrar al ' + m.nombre);
+    bs[1].setAttribute('aria-label', 'Visita guiada del ' + m.nombre);
+    bs[0].addEventListener('click', () => start({ museo: m }));
+    bs[1].addEventListener('click', () => start({ guided: true, museo: m }));
+    card.appendChild(body);
+    $('vm-choose').appendChild(card);
+  });
 
   // API mínima para integraciones y pruebas
   window.VisitaMuseo = {
@@ -761,7 +813,8 @@
     const pv = F.info.preview;
     if (pv && pv.error) { $('vm-wintro').textContent = 'La vista previa requiere haber iniciado sesión en el administrador.'; return; }
     if (pv) { root.classList.add('vm-preview'); layout(); start({ scene: pv.escena, openPoint: pv.punto }); }
-    else if (QS.get('modo') === 'guiada') { layout(); start({ guided: true }); }
+    else if (QS.get('modo') === 'guiada') { layout(); start({ guided: true, museo: museos.find((m) => m.id === QS.get('museo')) || museos[0] }); }
+    else if (museos.some((m) => m.id === QS.get('museo'))) { layout(); start({ museo: museos.find((m) => m.id === QS.get('museo')) }); }
     else if (deepLink) { layout(); start({ scene: q }); }
   });
 })();

@@ -36,7 +36,20 @@ html, body { margin: 0; height: 100%; background: #14110d; overflow: hidden; }
 .vm-kicker { margin: 0 0 8px; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--brass); font-weight: 700; }
 .vm-welcome h1 { margin: 0 0 14px; font: 400 clamp(40px, 7vw, 72px)/1 var(--serif); letter-spacing: -.012em; }
 .vm-welcome-intro { margin: 0 0 24px; color: var(--muted); font-size: 16px; line-height: 1.55; max-width: 44ch; }
+.vm-welcome { overflow-y: auto; }
+.vm-welcome-card { margin: auto 0 0; }
+.vm-welcome:has(.vm-choose) .vm-welcome-card { max-width: 1020px; width: 100%; }
+.vm-choose { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.vm-card { display: grid; grid-template-rows: auto 1fr; overflow: hidden; border: 1px solid rgba(244, 239, 228, .25); border-radius: 20px; background: rgba(20, 17, 13, .72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.vm-card img { display: block; width: 100%; aspect-ratio: 16 / 8; object-fit: cover; }
+.vm-card-body { padding: 16px 18px 18px; }
+.vm-card-body .vm-kicker { margin-bottom: 4px; }
+.vm-card-body h2 { margin: 0 0 6px; font: 400 clamp(24px, 3.2vw, 32px)/1.1 var(--serif); }
+.vm-card-body p:not(.vm-kicker) { margin: 0 0 14px; color: var(--muted); font-size: 14px; line-height: 1.5; }
 .vm-welcome-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+@media (max-width: 720px) { .vm-choose { grid-template-columns: 1fr; gap: 10px; } .vm-card { grid-template-columns: 112px 1fr; grid-template-rows: none; } .vm-card img { height: 100%; aspect-ratio: auto; } .vm-card-body { padding: 12px 14px; } .vm-card-body p:not(.vm-kicker) { display: none; } .vm-card-body h2 { font-size: 22px; } .vm-welcome h1 { font-size: 38px; margin-bottom: 8px; } .vm-welcome-intro { margin-bottom: 14px; font-size: 14px; } .vm-card-body .vm-btn { padding: 0 12px; min-height: 40px; font-size: 14px; } }
+.vm-map-switch { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(244, 239, 228, .18); }
+.vm-map-switch p { margin: 0 0 8px; color: var(--muted); font-size: 13px; }
 .vm-welcome-sub { margin: 18px 0 0; font-size: 13px; color: var(--muted); }
 
 /* --- Escena --- */

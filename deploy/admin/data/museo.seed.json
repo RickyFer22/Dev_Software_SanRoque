@@ -1,5 +1,5 @@
 {
- "generado": "2026-10-01T11:48:30.311Z",
+ "generado": "2026-10-01T12:18:38.684Z",
  "sectores": [
   {
    "id": "aer",
@@ -748,15 +748,6 @@
      "x": 53,
      "y": 36,
      "piece": "campana-torre"
-    },
-    {
-     "id": "af-nuevo",
-     "type": "go",
-     "label": "Visitar el museo nuevo",
-     "x": 88,
-     "y": 84,
-     "to": "parque",
-     "back": true
     }
    ]
   },

@@ -21,11 +21,19 @@
 window.VISITA_MUSEO = {
   titulo: 'Museo de San Roque',
   subtitulo: 'Visita virtual',
-  intro: 'Recorré el museo sala por sala: acercate a las vitrinas, mirá cada pieza de cerca y descubrí su historia.',
+  intro: 'Son dos edificios distintos, cada uno con su propio recorrido. Elegí cuál querés visitar.',
   ambient: null, // ej. 'audio/ambiente.mp3'. Si es null no se muestra el control de sonido.
   inicio: 'parque',
-  accesos: ['parque', 'antiguo-fachada'], // puerta de entrada de cada museo: el mapa siempre permite ir a ellas
   portada: 'virgen', // id de la escena usada como imagen de bienvenida
+
+  // Los dos museos son edificios distintos: cada uno tiene su mapa, su visita guiada y sus contadores.
+  // `nombre` debe coincidir con el campo `museo` de sus sectores.
+  museos: [
+    { id: 'nuevo', nombre: 'Museo nuevo', rotulo: 'Edificio nuevo', inicio: 'parque', portada: 'virgen',
+      descripcion: 'Vista aérea con dron, galería, sala de exposición, auditorio y sala de arte.' },
+    { id: 'sacro', nombre: 'Museo de Arte Sacro', rotulo: 'Edificio histórico', inicio: 'antiguo-fachada', portada: 'antiguo-sala',
+      descripcion: 'La iglesia, el frente, el pórtico, la galería y las salas con imágenes, campanas y retablos.' }
+  ],
 
   // Sectores del mapa orientativo (no representan la planta real).
   sectores: [
@@ -209,8 +217,7 @@ window.VISITA_MUSEO = {
       nombre: 'La iglesia nueva', foco: { x: 50, y: 50, z: 1 },
       puntos: [
         { id: 'af-entrar', type: 'go', to: 'sacro-frente', x: 50, y: 76, label: 'Ir al Museo de Arte Sacro' },
-        { id: 'af-campana', type: 'piece', piece: 'campana-torre', x: 53, y: 36, label: 'Examinar la campana' },
-        { id: 'af-nuevo', type: 'go', to: 'parque', back: true, x: 88, y: 84, label: 'Visitar el museo nuevo' }
+        { id: 'af-campana', type: 'piece', piece: 'campana-torre', x: 53, y: 36, label: 'Examinar la campana' }
       ]
     },
     'sacro-frente': {
@@ -386,8 +393,8 @@ window.VISITA_MUSEO = {
     { escena: 'santos', foco: { x: 50, y: 40, z: 1.2 }, punto: 'st-roque', texto: 'San Roque con su perro sobre una peana pintada, junto a otras imágenes en vitrinas.' },
     { escena: 'nicho', foco: { x: 70, y: 55, z: 1.3 }, punto: 'n-acta', texto: 'En el panel de la derecha se reproduce el Acta de Fundación de San Roque, de 1773.' },
     { escena: 'pila', foco: { x: 50, y: 55, z: 1.2 }, punto: 'pi-pila', texto: 'Una pila de piedra veteada, junto al muro de la sala.' },
-    { escena: 'arte', foco: { x: 40, y: 55, z: 1.1 }, punto: 'ar-cuadro', texto: 'La sala de arte: pinturas y esculturas sobre pedestales y muebles.' },
-    { escena: 'antiguo-fachada', foco: { x: 50, y: 55, z: 1 }, punto: 'af-entrar', texto: 'Terminamos en la iglesia nueva. Entremos al Museo de Arte Sacro por la puerta principal.' },
+    { escena: 'arte', foco: { x: 40, y: 55, z: 1.1 }, punto: 'ar-cuadro', texto: 'La sala de arte: pinturas y esculturas sobre pedestales y muebles. Fin de la visita guiada del museo nuevo.' },
+    { escena: 'antiguo-fachada', foco: { x: 50, y: 55, z: 1 }, punto: 'af-entrar', texto: 'Empezamos frente a la iglesia nueva. Desde acá cruzamos al Museo de Arte Sacro.' },
     { escena: 'sacro-frente', foco: { x: 48, y: 50, z: 1 }, punto: 'sf-entrar', texto: 'Este es el frente del Museo de Arte Sacro: una capilla blanca con pórtico de columnas y una galería de madera.' },
     { escena: 'sacro-galeria', foco: { x: 40, y: 55, z: 1 }, punto: 'sg-seguir', texto: 'La galería de pilares de madera rodea el edificio y da a la plaza.' },
     { escena: 'sacro-portico', foco: { x: 50, y: 52, z: 1 }, punto: 'sp-galeria', texto: 'Dos columnas enmarcan la plaza desde el pórtico, antes de cruzar la puerta.' },
