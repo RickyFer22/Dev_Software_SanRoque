@@ -471,6 +471,7 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .ma-close { position: absolute; top: 10px; right: 10px; z-index: 2; }
 .ma-nav:focus-visible, .ma-close:focus-visible { outline: 3px solid #d8b673; outline-offset: 2px; }
 .museo-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; max-width: 1100px; margin: 40px auto 0; padding: clamp(22px, 4vw, 36px); border-radius: 24px; background: #14110d; color: #f4efe4; box-shadow: var(--sr-shadow); }
+.museo-cta-text { flex: 1 1 320px; min-width: 0; }
 .museo-cta-kicker { display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; font-weight: 700; color: #d8b673; }
 .long-read .museo-cta h2 { padding: 0; }
 .long-read .museo-cta h2::before { display: none; }
