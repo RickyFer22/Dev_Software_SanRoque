@@ -486,3 +486,27 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .museo-cta-btn:focus-visible { outline: 3px solid #d8b673; outline-offset: 3px; }
 @media (max-width: 720px) { .ma-grid { grid-template-columns: 1fr 1fr; } .ma-item.ma-wide { grid-column: span 2; } .ma-dialog[open] { grid-template-columns: 1fr; } .ma-dialog figure, .ma-prev, .ma-next { grid-column: 1; } .ma-nav { position: absolute; top: 40%; } .ma-prev { left: 8px; } .ma-next { right: 8px; } .museo-cta-actions { width: 100%; } .museo-cta-btn { flex: 1 1 auto; justify-content: center; } }
 @media (prefers-reduced-motion: reduce) { .ma-btn img { transition: none; } }
+
+/* Visita virtual del museo en la portada */
+.vv { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(20px, 4vw, 48px); align-items: center; padding: clamp(16px, 2.6vw, 28px); border-radius: 32px; background: #14110d; color: #f4efe4; box-shadow: var(--sr-shadow); }
+.vv-media { position: relative; display: block; overflow: hidden; border-radius: 22px; aspect-ratio: 4 / 3; background: #0b0a08; }
+.vv-media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; transition: transform .6s; }
+.vv-media:hover img { transform: scale(1.05); }
+.vv-media:focus-visible, .vv-btn:focus-visible { outline: 3px solid #ffc83d; outline-offset: 3px; }
+.vv-badge { position: absolute; top: 14px; left: 14px; padding: 5px 14px; border-radius: 999px; background: #ffc83d; color: #1b1408; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.vv-play { position: absolute; left: 14px; right: 14px; bottom: 14px; display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 999px; background: rgba(255, 255, 255, .95); color: #1b1408; font-weight: 800; font-size: 14px; }
+.vv-play .material-symbols-outlined { color: #c3773c; font-size: 26px; }
+.vv-body .circuits-kicker { color: #d8b673; }
+.vv-body h2 { margin: 6px 0 12px; color: #f4efe4; font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif; font-weight: 400; font-size: clamp(1.9rem, 3.6vw, 2.8rem); line-height: 1.05; }
+.vv-lede { margin: 0 0 18px; color: #cfc6b4; line-height: 1.6; }
+.vv-list { display: grid; gap: 12px; margin: 0 0 24px; padding: 0; list-style: none; }
+.vv-list li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.45; color: #e6dfcf; }
+.vv-list .material-symbols-outlined { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: rgba(216, 182, 115, .16); color: #d8b673; font-size: 22px; }
+.vv-list strong { color: #fff; }
+.vv-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.vv-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 28px; border: 1px solid rgba(244, 239, 228, .3); border-radius: 999px; background: rgba(244, 239, 228, .1); color: #f4efe4; font-weight: 800; text-decoration: none; transition: background .2s, transform .2s; }
+.vv-btn:hover { background: rgba(244, 239, 228, .2); transform: translateY(-2px); }
+.vv-btn.is-main { background: #ffc83d; border-color: #ffc83d; color: #1b1408; }
+.vv-btn.is-main:hover { background: #ffd666; }
+@media (max-width: 900px) { .vv { grid-template-columns: 1fr; border-radius: 24px; } .vv-btn { flex: 1 1 auto; justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .vv-media img, .vv-btn { transition: none; } }
