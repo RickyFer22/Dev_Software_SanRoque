@@ -32,7 +32,7 @@ window.VISITA_MUSEO = {
     { id: 'ext', museo: 'Museo nuevo', nombre: 'Exterior', escenas: ['aerea', 'parque', 'entrada', 'galeria'] },
     { id: 'sala', museo: 'Museo nuevo', nombre: 'Sala de exposición', escenas: ['sala', 'virgen', 'altar', 'caldero', 'sables', 'santos', 'nicho', 'pila'] },
     { id: 'aud', museo: 'Museo nuevo', nombre: 'Auditorio y sala de arte', escenas: ['auditorio', 'arte'] },
-    { id: 'ant', museo: 'Museo antiguo', nombre: 'Interior y fachada', escenas: ['antiguo-fachada', 'antiguo-sala'] }
+    { id: 'ant', museo: 'Museo de Arte Sacro', nombre: 'Iglesia y museo', escenas: ['antiguo-fachada', 'antiguo-sala'] }
   ],
 
   escenas: {
@@ -153,21 +153,21 @@ window.VISITA_MUSEO = {
       ]
     },
     'antiguo-fachada': {
-      nombre: 'Fachada del museo antiguo', foco: { x: 50, y: 50, z: 1 },
+      nombre: 'La iglesia nueva', foco: { x: 50, y: 50, z: 1 },
       puntos: [
-        { id: 'af-entrar', type: 'go', to: 'antiguo-sala', x: 50, y: 76, label: 'Entrar al museo antiguo' },
+        { id: 'af-entrar', type: 'go', to: 'antiguo-sala', x: 50, y: 76, label: 'Entrar al Museo de Arte Sacro' },
         { id: 'af-campana', type: 'piece', piece: 'campana-torre', x: 53, y: 36, label: 'Examinar la campana' },
         { id: 'af-nuevo', type: 'go', to: 'parque', back: true, x: 88, y: 84, label: 'Visitar el museo nuevo' }
       ]
     },
     'antiguo-sala': {
-      nombre: 'Sala del museo antiguo', foco: { x: 50, y: 55, z: 1 },
+      nombre: 'Museo de Arte Sacro', foco: { x: 50, y: 55, z: 1 },
       puntos: [
         { id: 'as-campana', type: 'piece', piece: 'antiguo-campana', x: 55, y: 77, label: 'Examinar la campana' },
         { id: 'as-imagen', type: 'piece', piece: 'antiguo-imagen', x: 58, y: 42, label: 'Examinar la imagen del altar' },
         { id: 'as-manto', type: 'piece', piece: 'antiguo-manto', x: 19, y: 47, label: 'Examinar la imagen con manto' },
         { id: 'as-farol', type: 'piece', piece: 'antiguo-farol', x: 8, y: 60, label: 'Examinar la vitrina' },
-        { id: 'as-volver', type: 'go', to: 'antiguo-fachada', back: true, x: 50, y: 84, label: 'Salir a la fachada' }
+        { id: 'as-volver', type: 'go', to: 'antiguo-fachada', back: true, x: 50, y: 84, label: 'Salir a la iglesia' }
       ]
     }
   },
@@ -217,7 +217,7 @@ window.VISITA_MUSEO = {
     pinturas: { titulo: 'Pinturas y escultura', vermas: ['cuadro-paisaje'], foto: 'pinturas', epoca: null, procedencia: null, autor: null, pendiente: true,
       descripcion: 'Pinturas de colores intensos y una escultura de metal, expuestas sobre un mueble de madera clara.' },
     'campana-torre': { titulo: 'Campana del campanario', foto: 'campana-torre', epoca: null, procedencia: null, autor: null, pendiente: true,
-      descripcion: 'La campana en la torre del antiguo edificio, iluminada de noche.' },
+      descripcion: 'La campana en la torre de la iglesia nueva, iluminada de noche.' },
     'antiguo-campana': { titulo: 'Campana en la sala', vermas: ['antiguo-imagen', 'antiguo-manto'], foto: 'antiguo-campana', epoca: null, procedencia: null, autor: null, pendiente: true,
       descripcion: 'Gran campana apoyada sobre una base de madera en el piso de la sala.' },
     'antiguo-imagen': { titulo: 'Imagen frente al retablo', vermas: ['antiguo-campana', 'antiguo-manto'], foto: 'antiguo-imagen', epoca: null, procedencia: null, autor: null, pendiente: true,
@@ -243,7 +243,7 @@ window.VISITA_MUSEO = {
     { escena: 'nicho', foco: { x: 70, y: 55, z: 1.3 }, punto: 'n-acta', texto: 'En el panel de la derecha se reproduce el Acta de Fundación de San Roque, de 1773.' },
     { escena: 'pila', foco: { x: 50, y: 55, z: 1.2 }, punto: 'pi-pila', texto: 'Una pila de piedra veteada, junto al muro de la sala.' },
     { escena: 'arte', foco: { x: 40, y: 55, z: 1.1 }, punto: 'ar-cuadro', texto: 'La sala de arte: pinturas y esculturas sobre pedestales y muebles.' },
-    { escena: 'antiguo-fachada', foco: { x: 50, y: 55, z: 1 }, punto: 'af-entrar', texto: 'Terminamos en el museo antiguo. Entremos por la puerta principal.' },
-    { escena: 'antiguo-sala', foco: { x: 55, y: 60, z: 1 }, punto: 'as-campana', texto: 'Imágenes, vitrinas y una gran campana bajo el techo de vigas de madera. Fin de la visita guiada.' }
+    { escena: 'antiguo-fachada', foco: { x: 50, y: 55, z: 1 }, punto: 'af-entrar', texto: 'Terminamos en la iglesia nueva. Entremos al Museo de Arte Sacro por la puerta principal.' },
+    { escena: 'antiguo-sala', foco: { x: 55, y: 60, z: 1 }, punto: 'as-campana', texto: 'El Museo de Arte Sacro: imágenes, vitrinas y una gran campana bajo el techo de vigas de madera. Fin de la visita guiada.' }
   ]
 };

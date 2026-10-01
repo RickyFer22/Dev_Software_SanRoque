@@ -86,7 +86,7 @@ En modo `?embed=1`: la rueda sigue desplazando la página (Ctrl/⌘ + rueda acer
 
 - **Sala de exposición:** una toma amplia desde cada extremo para unir sectores con continuidad espacial real (hoy las salas se conectan con un fundido, sin simular un desplazamiento físico).
 - **Pasos entre sectores:** una foto de cada puerta entre auditorio, sala de arte, galería y sala de exposición.
-- **Museo antiguo:** una sola toma interior; faltan vitrinas, retablo y laterales con detalle de piezas.
+- **Museo de Arte Sacro:** una sola toma interior; faltan vitrinas, retablo y laterales con detalle de piezas.
 - **Piezas sin foto propia:** estandarte, celosía de madera y paneles informativos.
 - **Fotos horizontales de salas verticales:** las verticales en pantallas apaisadas dejan franjas laterales; tomas horizontales de los mismos sectores las llenarían.
 - **Audio:** narraciones de 20–40 s por pieza, si el museo las quiere.

@@ -1,5 +1,5 @@
 {
- "generado": "2026-10-01T01:56:50.360Z",
+ "generado": "2026-10-01T02:28:06.668Z",
  "sectores": [
   {
    "id": "ext",
@@ -38,8 +38,8 @@
   },
   {
    "id": "ant",
-   "museo": "Museo antiguo",
-   "nombre": "Interior y fachada",
+   "museo": "Museo de Arte Sacro",
+   "nombre": "Iglesia y museo",
    "escenas": [
     "antiguo-fachada",
     "antiguo-sala"
@@ -498,12 +498,12 @@
    ]
   },
   "antiguo-fachada": {
-   "nombre": "Fachada del museo antiguo",
+   "nombre": "La iglesia nueva",
    "puntos": [
     {
      "id": "af-entrar",
      "type": "go",
-     "label": "Entrar al museo antiguo",
+     "label": "Entrar al Museo de Arte Sacro",
      "x": 50,
      "y": 76,
      "to": "antiguo-sala"
@@ -528,7 +528,7 @@
    ]
   },
   "antiguo-sala": {
-   "nombre": "Sala del museo antiguo",
+   "nombre": "Museo de Arte Sacro",
    "puntos": [
     {
      "id": "as-campana",
@@ -565,7 +565,7 @@
     {
      "id": "as-volver",
      "type": "go",
-     "label": "Salir a la fachada",
+     "label": "Salir a la iglesia",
      "x": 50,
      "y": 84,
      "to": "antiguo-fachada",
@@ -786,7 +786,7 @@
   },
   "campana-torre": {
    "titulo": "Campana del campanario",
-   "descripcion": "La campana en la torre del antiguo edificio, iluminada de noche.",
+   "descripcion": "La campana en la torre de la iglesia nueva, iluminada de noche.",
    "detalle": "",
    "epoca": "",
    "procedencia": "",
