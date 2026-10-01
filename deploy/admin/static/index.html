@@ -8,6 +8,7 @@
   <link rel="icon" href="/img/favicon.ico" />
   <link rel="stylesheet" href="/admin/static/admin.css" />
   <link rel="stylesheet" href="/admin/static/museo-admin.css?v=3" />
+  <link rel="stylesheet" href="/admin/static/admin-ux.css?v=2" />
 </head>
 <body>
   <a class="skip-link" href="#admin-main">Saltar al contenido principal</a>
@@ -589,6 +590,7 @@
                 <h2>Usuarios</h2>
                 <button type="button" data-action="create" data-resource="users">+ Usuario</button>
               </div>
+              <label class="ux-search">Buscar<input data-search-resource="users" type="search" placeholder="Usuario o nombre" /></label>
               <div class="segmented" role="group" aria-label="Filtrar por estado">
                 <button type="button" class="active" data-status-filter="all" data-filter-resource="users">Todos</button>
                 <button type="button" data-status-filter="active" data-filter-resource="users">Activos</button>
@@ -1024,5 +1026,6 @@
   <script src="/admin/static/museo-admin.js?v=2"></script>
   <script src="/admin/static/museo-admin-sections.js?v=2"></script>
   <script src="/admin/static/museo-admin-media.js?v=2"></script>
+  <script src="/admin/static/admin-ux.js?v=2"></script>
 </body>
 </html>

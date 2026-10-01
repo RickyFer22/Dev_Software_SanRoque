@@ -1,0 +1,83 @@
+/* Capa de experiencia de uso del panel. Se carga DESPUÉS de admin.css y define, sobre los componentes
+   existentes, una jerarquía de botones, estados (foco, deshabilitado, cargando, error), áreas táctiles
+   cómodas y barras de acción visibles. Los valores salen de variables para que sean fáciles de ajustar. */
+:root {
+  --ux-touch: 40px;              /* alto mínimo de botones y controles */
+  --ux-touch-coarse: 44px;       /* en pantallas táctiles */
+  --ux-gap: 10px;
+  --ux-focus: 0 0 0 3px rgba(216, 164, 65, .55);
+  --ux-danger: var(--danger, #a83232);
+  --ux-danger-soft: #fdecea;
+  --ux-danger-line: #e2aaa4;
+  --ux-surface: var(--surface, #fff);
+  --ux-line: var(--line, #e4e3de);
+  --ux-primary: var(--admin-primary, #355e4a);
+}
+
+/* ---------- Jerarquía de acciones ---------- */
+/* Primaria: verde (ya definida). Secundaria: contorno. Destructiva: contorno rojo, nunca igual a "Editar". */
+.list-actions button, .crm-side button, .toolbar button, .panel-title button, .segmented button { min-height: var(--ux-touch); }
+.list-actions button:not([data-action="edit"]):not([data-action="delete"]):not([data-action="submit"]),
+.crm-side .more-actions button {
+  background: var(--ux-surface); color: var(--ux-primary); border: 1px solid var(--ux-line); box-shadow: none;
+}
+.list-actions button:not([data-action="edit"]):not([data-action="delete"]):hover { background: var(--surface-2, #f8f7f4); }
+button[data-action="delete"], button.btn-danger {
+  background: var(--ux-surface); color: var(--ux-danger); border: 1px solid var(--ux-danger-line); box-shadow: none;
+}
+button[data-action="delete"]:hover, button.btn-danger:hover { background: var(--ux-danger-soft); border-color: var(--ux-danger); }
+#refreshAll { background: var(--ux-surface); color: var(--ux-primary); border: 1px solid var(--ux-line); box-shadow: none; }
+
+/* ---------- Estados ---------- */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid var(--sun, #f5d98a); outline-offset: 2px; }
+button:disabled, button[aria-disabled="true"] { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+button[aria-busy="true"] { position: relative; cursor: progress; pointer-events: none; }
+button[aria-busy="true"]::before {
+  content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 8px; vertical-align: -2px;
+  border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: ux-spin .7s linear infinite;
+}
+@keyframes ux-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Validación junto al campo ---------- */
+.ux-field-error { display: flex; gap: 6px; align-items: flex-start; margin-top: 4px; color: var(--ux-danger); font-size: .8rem; font-weight: 600; line-height: 1.35; }
+.ux-field-error::before { content: "⚠"; flex: none; }
+/* admin.css fija el borde de los campos con !important; este es el único contrapeso necesario para marcar el error */
+input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--ux-danger) !important; background: #fffafa; }
+.ux-required::after { content: " *"; color: var(--ux-danger); font-weight: 800; }
+
+/* ---------- Acciones del editor siempre al alcance ---------- */
+.editor-drawer .toolbar:has(> [data-action="submit"]) {
+  position: sticky; bottom: 0; z-index: 3; margin: 16px 0 0; padding: 12px 0;
+  background: var(--ux-surface); border-top: 1px solid var(--ux-line);
+}
+
+/* ---------- Carga y paginación ---------- */
+.ux-skel { display: grid; gap: 10px; }
+.ux-skel i { display: block; height: 76px; border-radius: 14px; background: linear-gradient(90deg, #efede7 25%, #f7f6f2 50%, #efede7 75%); background-size: 200% 100%; animation: ux-shimmer 1.4s ease-in-out infinite; }
+@keyframes ux-shimmer { to { background-position: -200% 0; } }
+.ux-more { display: flex; justify-content: center; margin: 12px 0 4px; }
+.ux-more button { background: var(--ux-surface); color: var(--ux-primary); border: 1px solid var(--ux-line); box-shadow: none; }
+.ux-search { display: grid; gap: 6px; margin: 0 0 12px; max-width: 420px; font-weight: 700; font-size: 13px; }
+
+/* ---------- Auditoría legible ---------- */
+.ux-audit { display: block; }
+.ux-audit-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 2px; }
+.ux-audit-head strong { font-size: 1rem; }
+.ux-act { display: inline-flex; padding: 2px 9px; border-radius: 999px; background: #eef6f1; color: var(--ux-primary); font-size: .76rem; font-weight: 800; }
+.ux-act.is-delete { background: var(--ux-danger-soft); color: var(--ux-danger); }
+.ux-audit code { font-size: .78rem; color: var(--muted, #6f716f); word-break: break-all; }
+.ux-audit details { margin-top: 6px; }
+.ux-audit pre { max-height: 240px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+
+/* ---------- Táctil y movimiento ---------- */
+@media (pointer: coarse) {
+  .list-actions button, .crm-side button, .toolbar button, .panel-title button, .segmented button, .nav-item { min-height: var(--ux-touch-coarse); }
+  input, select, textarea { min-height: var(--ux-touch-coarse); }
+}
+@media (max-width: 640px) {
+  .list-actions { width: 100%; }
+  .list-actions button { flex: 1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  button[aria-busy="true"]::before, .ux-skel i { animation: none; }
+}

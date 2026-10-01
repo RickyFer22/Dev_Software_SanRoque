@@ -17,6 +17,16 @@ else
   exit 1
 fi
 
+# Fichas históricas del museo (museo.json) y sus fotografías/documentos (museo-archivos/, incluye los originales)
+if [ -f "$DATA_DIR/museo.json" ]; then
+  cp "$DATA_DIR/museo.json" "$BACKUP_DIR/museo-backup-$TS.json"
+fi
+if [ -d "$DATA_DIR/museo-archivos" ]; then
+  tar -czf "$BACKUP_DIR/museo-archivos-$TS.tar.gz" -C "$DATA_DIR" museo-archivos
+fi
+
 echo "Rotating backups, keeping $KEEP copies"
 ls -1t "$BACKUP_DIR"/admin-backup-*.json 2>/dev/null | tail -n +$((KEEP+1)) | xargs -r rm -f --
+ls -1t "$BACKUP_DIR"/museo-backup-*.json 2>/dev/null | tail -n +$((KEEP+1)) | xargs -r rm -f --
+ls -1t "$BACKUP_DIR"/museo-archivos-*.tar.gz 2>/dev/null | tail -n +$((KEEP+1)) | xargs -r rm -f --
 echo "Backup complete"
