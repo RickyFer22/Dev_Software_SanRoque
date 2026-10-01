@@ -196,9 +196,15 @@
       'capilla-historica': { href: 'visita-museo/?museo=sacro', cta: 'Recorrer el museo virtual', imagen: 'img/capilla-historica-1200.webp', imagenChica: 'img/capilla-historica-640.webp', alt: 'Frente de la Capilla Histórica, hoy Museo de Arte Sacro' }
     };
 
+    // Destino exacto del mapa cuando el nombre solo no alcanza (hay otros "San Roque" en el país): coordenadas o dirección completa.
+    const MAPAS = {
+      'capilla-historica': '-28.57098181276159,-58.71209180928368',
+      'casa-historica': 'Casa Histórica, Benjamín Virasoro y San Martín, San Roque, Corrientes, Argentina'
+    };
+
     function atractivoCard(item) {
       const cat = CATEGORIAS[item.categoria] || { label: 'San Roque', icon: 'place' };
-      const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((item.titulo || '') + ', San Roque, Corrientes')}`;
+      const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAPAS[item.id] || (item.titulo || '') + ', San Roque, Corrientes, Argentina')}`;
       const propia = VISITAS[item.id];
       const pagina = PAGINAS[item.id] || (propia && propia.href);
       const imagen = (propia && propia.imagen) || item.imagen || 'img/hero.jpg';
