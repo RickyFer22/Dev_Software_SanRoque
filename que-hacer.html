@@ -192,17 +192,17 @@
     };
 
     // Atractivos con ficha editorial propia; el resto solo enlaza a Maps.
-    // Una página propia puede ser un texto (solo el enlace) o un objeto con enlace, texto del botón e imagen que la representa.
-    const PAGINAS = {
-      'puente-carretero': 'puente-de-la-via.html',
+    const PAGINAS = { 'puente-carretero': 'puente-de-la-via.html' };
+    // Atractivos que llevan a la visita virtual: enlace, texto del botón e imagen que los representa.
+    const VISITAS = {
       'capilla-historica': { href: 'visita-museo/?museo=sacro', cta: 'Recorrer el museo virtual', imagen: 'img/capilla-historica-1200.webp', imagenChica: 'img/capilla-historica-640.webp', alt: 'Frente de la Capilla Histórica, hoy Museo de Arte Sacro' }
     };
 
     function atractivoCard(item) {
       const cat = CATEGORIAS[item.categoria] || { label: 'San Roque', icon: 'place' };
       const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((item.titulo || '') + ', San Roque, Corrientes')}`;
-      const propia = PAGINAS[item.id];
-      const pagina = propia && (propia.href || propia);
+      const propia = VISITAS[item.id];
+      const pagina = PAGINAS[item.id] || (propia && propia.href);
       const imagen = (propia && propia.imagen) || item.imagen || 'img/hero.jpg';
       const srcset = propia && propia.imagenChica ? ` srcset="${propia.imagenChica} 640w, ${propia.imagen} 1200w" sizes="(max-width: 768px) 100vw, 400px"` : '';
       const cta = (propia && propia.cta) || 'Conocer su historia';
