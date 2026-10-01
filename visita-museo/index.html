@@ -11,7 +11,8 @@
   <meta property="og:image" content="https://turismo.munisanroque.ar/visita-museo/img/escenas/virgen-1600.webp" />
   <meta name="theme-color" content="#14110d" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2314110d%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%275%27 fill=%27%23d8b673%27/%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="css/visita.css?v=28" />
+  <link rel="stylesheet" href="css/cronologia.css?v=1" />
+  <link rel="stylesheet" href="css/visita.css?v=29" />
 </head>
 <body>
 <div class="vm" id="vm">
@@ -51,6 +52,7 @@
     <nav class="vm-tools vm-ui" aria-label="Controles de la visita">
       <button type="button" class="vm-tool" id="vm-bmap" aria-label="Mapa del recorrido" aria-expanded="false" aria-controls="vm-map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zm0 2.2 6 2v9.600l-6-2z"/></svg><span>Mapa</span></button>
       <button type="button" class="vm-tool" id="vm-bguide" aria-label="Visita guiada" aria-expanded="false" aria-controls="vm-guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 9.500 9.500 2 12l7.500 2.500L12 22l2.500-7.500L22 12l-7.500-2.500z"/></svg><span>Guiada</span></button>
+      <button type="button" class="vm-tool" id="vm-btime" aria-label="Línea de tiempo del museo" aria-expanded="false" aria-controls="vm-time" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16m.5-13H11v6l5.200 3.200.8-1.300-4.500-2.700z"/></svg><span>Historia</span></button>
       <button type="button" class="vm-tool" id="vm-bdots" aria-label="Mostrar los nombres de los puntos" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v3H3zm0 5.500h18v3H3zM3 16h12v3H3z"/></svg><span>Nombres</span></button>
       <span class="vm-sep" aria-hidden="true"></span>
       <button type="button" class="vm-tool vm-tool-icon" id="vm-zout" aria-label="Alejar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11h14v2H5z"/></svg></button>
@@ -68,6 +70,11 @@
       <div id="vm-map-body"></div>
       <p class="vm-legend"><i class="is-now"></i> Estás acá <i class="is-seen"></i> Visitada <i class="is-next"></i> Se puede ir desde acá</p>
       <p class="vm-note" id="vm-mapcount"></p>
+    </aside>
+
+    <aside class="vm-drawer vm-time" id="vm-time" hidden aria-label="Línea de tiempo del Museo de Arte Sacro">
+      <div class="vm-drawer-head"><h2>Línea de tiempo</h2><button type="button" class="vm-x" data-close="time" aria-label="Cerrar la línea de tiempo">×</button></div>
+      <div id="vm-time-body"></div>
     </aside>
 
     <aside class="vm-drawer vm-guide" id="vm-guide" hidden aria-label="Visita guiada">
@@ -114,9 +121,10 @@
 
   <div class="vm-live" id="vm-live" aria-live="polite" role="status"></div>
 </div>
-<script src="js/escenas.js?v=28"></script>
-<script src="js/imagenes.js?v=28"></script>
-<script src="js/visita-ficha.js?v=28"></script>
-<script src="js/visita.js?v=28"></script>
+<script src="js/escenas.js?v=29"></script>
+<script src="js/imagenes.js?v=29"></script>
+<script src="js/cronologia.js?v=1"></script>
+<script src="js/visita-ficha.js?v=29"></script>
+<script src="js/visita.js?v=29"></script>
 </body>
 </html>

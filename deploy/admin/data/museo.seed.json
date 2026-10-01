@@ -1,5 +1,5 @@
 {
- "generado": "2026-10-01T12:18:38.684Z",
+ "generado": "2026-10-01T13:03:41.782Z",
  "sectores": [
   {
    "id": "aer",
@@ -50,11 +50,18 @@
    ]
   },
   {
+   "id": "par",
+   "museo": "Museo de Arte Sacro",
+   "nombre": "Parroquia San Roque de Montpellier",
+   "escenas": [
+    "antiguo-fachada"
+   ]
+  },
+  {
    "id": "ant",
    "museo": "Museo de Arte Sacro",
-   "nombre": "Iglesia y exterior",
+   "nombre": "Exterior del museo",
    "escenas": [
-    "antiguo-fachada",
     "sacro-frente",
     "sacro-portico",
     "sacro-galeria",
@@ -731,7 +738,7 @@
    ]
   },
   "antiguo-fachada": {
-   "nombre": "La iglesia nueva",
+   "nombre": "Parroquia San Roque de Montpellier",
    "puntos": [
     {
      "id": "af-entrar",
@@ -789,7 +796,7 @@
     {
      "id": "sf-volver",
      "type": "go",
-     "label": "Volver a la iglesia nueva",
+     "label": "Volver a la parroquia",
      "x": 56,
      "y": 90,
      "to": "antiguo-fachada",
@@ -1289,7 +1296,7 @@
   },
   "campana-torre": {
    "titulo": "Campana del campanario",
-   "descripcion": "La campana en la torre de la iglesia nueva, iluminada de noche.",
+   "descripcion": "La campana en la torre de la Parroquia San Roque de Montpellier, iluminada de noche.",
    "detalle": "",
    "epoca": "",
    "procedencia": "",

@@ -448,6 +448,9 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .hero-tagline { text-shadow: 0 2px 14px rgba(0, 0, 0, .7); }
 .tourism-hero#hero-section::after { background: linear-gradient(180deg, rgba(10, 24, 18, .5) 0%, rgba(10, 24, 18, .08) 28%, rgba(10, 24, 18, .35) 55%, rgba(10, 24, 18, .8) 100%); }
 
+/* Línea de tiempo del Museo de Arte Sacro (recorrido.html): versión clara de visita-museo/css/cronologia.css */
+.museo-cronologia { max-width: 900px; margin: 56px auto 0; }
+.museo-cronologia .ct { --ct-ink: #24332a; --ct-muted: #566459; --ct-gold: #8a5a0c; --ct-line: rgba(36, 51, 42, .22); --ct-card: #fff; --ct-on-gold: #fff; }
 /* Museo antiguo (galería) y acceso a la visita virtual (recorrido.html) */
 .museo-antiguo { max-width: 1100px; margin: 56px auto 0; }
 .ma-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }

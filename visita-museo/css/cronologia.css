@@ -1,0 +1,44 @@
+/* Línea de tiempo del Museo de Arte Sacro (visita-museo/js/cronologia.js). Se adapta a quien la contiene
+   con variables: la visita virtual la usa en oscuro y recorrido.html en claro. */
+.ct {
+  --ct-ink: var(--ink, #f4efe4); --ct-muted: var(--muted, #c2b9a7); --ct-gold: var(--brass, #d8b673);
+  --ct-line: var(--line, rgba(244, 239, 228, .22)); --ct-card: var(--glass-2, rgba(244, 239, 228, .08));
+  --ct-on-gold: #1b1408; --ct-serif: var(--serif, "Iowan Old Style", "Palatino Linotype", Georgia, serif);
+  color: var(--ct-ink); font-size: 15px; line-height: 1.5;
+}
+.ct [hidden] { display: none !important; }
+.ct-hero { margin: 0 0 14px; }
+.ct-big { margin: 0; font-family: var(--ct-serif); font-size: 22px; line-height: 1.1; color: var(--ct-muted); }
+.ct-big strong { font-size: clamp(54px, 9vw, 84px); font-weight: 400; color: var(--ct-gold); letter-spacing: -.02em; }
+.ct-lead { margin: 6px 0 0; color: var(--ct-muted); max-width: 60ch; }
+.ct-filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.ct-chip { min-height: 40px; padding: 0 16px; border: 1px solid var(--ct-line); border-radius: 999px; background: none; color: var(--ct-ink); font: inherit; font-weight: 600; cursor: pointer; }
+.ct-chip[aria-pressed="true"] { background: var(--ct-gold); border-color: var(--ct-gold); color: var(--ct-on-gold); }
+.ct-chip:focus-visible { outline: 3px solid var(--ct-gold); outline-offset: 2px; }
+.ct-list { position: relative; margin: 0; padding: 0; list-style: none; }
+.ct-list::before { content: ""; position: absolute; left: 62px; top: 4px; bottom: 4px; width: 2px; background: var(--ct-line); }
+.ct-era { margin: 18px 0 8px 78px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ct-gold); }
+.ct-item { position: relative; display: grid; grid-template-columns: 54px 1fr; gap: 0 24px; padding: 6px 0; }
+.ct-year { padding-top: 10px; text-align: right; font-family: var(--ct-serif); font-size: 17px; color: var(--ct-muted); white-space: nowrap; }
+.ct-item::before { content: ""; position: absolute; left: 57px; top: 17px; width: 12px; height: 12px; border-radius: 50%; background: var(--ct-line); border: 2px solid transparent; }
+.ct-item.is-local::before { background: var(--ct-gold); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ct-gold) 28%, transparent); }
+.ct-item.is-local .ct-year { color: var(--ct-gold); font-weight: 700; font-size: 19px; }
+.ct-card { padding: 10px 14px 12px; border: 1px solid var(--ct-line); border-radius: 14px; background: var(--ct-card); }
+.ct-item.is-local .ct-card { border-color: color-mix(in srgb, var(--ct-gold) 60%, transparent); }
+.ct-item.is-hoy .ct-card { background: var(--ct-gold); border-color: var(--ct-gold); color: var(--ct-on-gold); }
+.ct-item.is-hoy .ct-tag, .ct-item.is-hoy .ct-date, .ct-item.is-hoy .ct-desc { color: var(--ct-on-gold); }
+.ct-tag { display: inline-block; margin: 0 0 4px; padding: 1px 8px; border: 1px solid currentColor; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ct-muted); }
+.ct-item.is-local .ct-tag { color: var(--ct-gold); }
+.ct-card h3 { margin: 0; font-family: var(--ct-serif); font-weight: 400; font-size: 19px; line-height: 1.2; }
+.ct-card p { margin: 4px 0 0; }
+.ct-date { font-size: 13px; color: var(--ct-muted); }
+.ct-desc { color: var(--ct-muted); font-size: 14px; }
+.ct-src { font-size: 12px; font-style: italic; color: var(--ct-muted); }
+.ct-note { margin: 14px 0 0; font-size: 12px; color: var(--ct-muted); }
+@media (max-width: 560px) {
+  .ct-list::before { left: 8px; }
+  .ct-era { margin-left: 28px; }
+  .ct-item { grid-template-columns: 1fr; padding-left: 28px; }
+  .ct-item::before { left: 3px; top: 12px; }
+  .ct-year { text-align: left; padding: 0 0 2px; font-size: 16px; }
+}

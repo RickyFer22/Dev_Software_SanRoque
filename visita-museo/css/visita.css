@@ -130,6 +130,7 @@ html, body { margin: 0; height: 100%; background: #14110d; overflow: hidden; }
 /* --- Paneles --- */
 .vm-drawer { position: absolute; z-index: 12; width: min(360px, calc(100% - 24px)); max-height: calc(100% - 150px); overflow: auto; padding: 18px 20px 20px; border: 1px solid var(--line); border-radius: 18px; background: rgba(18, 15, 11, .92); backdrop-filter: blur(14px); box-shadow: 0 18px 50px rgba(0, 0, 0, .55); }
 .vm-map { left: var(--pad); bottom: calc(max(var(--pad), env(safe-area-inset-bottom)) + 66px); }
+.vm-time { left: var(--pad); bottom: calc(max(var(--pad), env(safe-area-inset-bottom)) + 66px); width: min(480px, calc(100% - 24px)); max-height: calc(100% - 100px); }
 .vm-guide { right: var(--pad); bottom: calc(max(var(--pad), env(safe-area-inset-bottom)) + 66px); }
 .vm-drawer-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
 .vm-drawer h2 { margin: 0; font: 400 21px/1.2 var(--serif); }
@@ -224,6 +225,7 @@ html, body { margin: 0; height: 100%; background: #14110d; overflow: hidden; }
   .vm-panel-body { padding: 14px 20px 28px; }
   .vm-panel h2 { font-size: 24px; }
   .vm-drawer { left: var(--pad); right: var(--pad); width: auto; max-height: 55%; }
+  .vm-time { max-height: 78%; }
   .vm-hint { font-size: 12px; }
   .vm-panel-open .vm-tools { left: 50%; opacity: 0; pointer-events: none; } /* la hoja inferior ocupa ese lugar */
 }

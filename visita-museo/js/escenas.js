@@ -30,9 +30,9 @@ window.VISITA_MUSEO = {
   // `nombre` debe coincidir con el campo `museo` de sus sectores.
   museos: [
     { id: 'nuevo', nombre: 'Museo nuevo', rotulo: 'Edificio nuevo', inicio: 'parque', portada: 'virgen',
-      descripcion: 'Vista aérea con dron, galería, sala de exposición, auditorio y sala de arte.' },
-    { id: 'sacro', nombre: 'Museo de Arte Sacro', rotulo: 'Edificio histórico', inicio: 'antiguo-fachada', portada: 'antiguo-sala',
-      descripcion: 'La iglesia, el frente, el pórtico, la galería y las salas con imágenes, campanas y retablos.' }
+      descripcion: 'Museo de la Ciudad de San Roque, inaugurado el 10 de octubre de 2023: vista aérea con dron, galería, sala de exposición, auditorio y sala de arte.' },
+    { id: 'sacro', nombre: 'Museo de Arte Sacro', rotulo: 'Edificio histórico', inicio: 'antiguo-fachada', portada: 'antiguo-sala', cronologia: true,
+      descripcion: 'El antiguo templo de fines del siglo XVIII, hoy Monumento Histórico Nacional: frente, pórtico, galería, retablos, campanas e imágenes. Incluye una línea de tiempo.' }
   ],
 
   // Sectores del mapa orientativo (no representan la planta real).
@@ -41,7 +41,8 @@ window.VISITA_MUSEO = {
     { id: 'ext', museo: 'Museo nuevo', nombre: 'Exterior', escenas: ['parque', 'entrada', 'galeria'] },
     { id: 'sala', museo: 'Museo nuevo', nombre: 'Sala de exposición', escenas: ['sala', 'virgen', 'altar', 'caldero', 'sables', 'santos', 'nicho', 'pila'] },
     { id: 'aud', museo: 'Museo nuevo', nombre: 'Auditorio y sala de arte', escenas: ['auditorio', 'arte'] },
-    { id: 'ant', museo: 'Museo de Arte Sacro', nombre: 'Iglesia y exterior', escenas: ['antiguo-fachada', 'sacro-frente', 'sacro-portico', 'sacro-galeria', 'sacro-galeria2'] },
+    { id: 'par', museo: 'Museo de Arte Sacro', nombre: 'Parroquia San Roque de Montpellier', escenas: ['antiguo-fachada'] },
+    { id: 'ant', museo: 'Museo de Arte Sacro', nombre: 'Exterior del museo', escenas: ['sacro-frente', 'sacro-portico', 'sacro-galeria', 'sacro-galeria2'] },
     { id: 'sac', museo: 'Museo de Arte Sacro', nombre: 'Salas del museo', escenas: ['sacro-puerta', 'antiguo-sala', 'sacro-retablos', 'sacro-nave', 'sacro-campana', 'sacro-confesionario'] }
   ],
 
@@ -214,7 +215,7 @@ window.VISITA_MUSEO = {
       ]
     },
     'antiguo-fachada': {
-      nombre: 'La iglesia nueva', foco: { x: 50, y: 50, z: 1 },
+      nombre: 'Parroquia San Roque de Montpellier', foco: { x: 50, y: 50, z: 1 },
       puntos: [
         { id: 'af-entrar', type: 'go', to: 'sacro-frente', x: 50, y: 76, label: 'Ir al Museo de Arte Sacro' },
         { id: 'af-campana', type: 'piece', piece: 'campana-torre', x: 53, y: 36, label: 'Examinar la campana' }
@@ -227,7 +228,7 @@ window.VISITA_MUSEO = {
         { id: 'sf-portico', type: 'go', to: 'sacro-portico', x: 19, y: 62, label: 'Pasar al pórtico' },
         { id: 'sf-galeria', type: 'go', to: 'sacro-galeria', x: 80, y: 77, label: 'Recorrer la galería' },
         { id: 'sf-cruz', type: 'piece', piece: 'sacro-cruz', x: 88, y: 46, label: 'Mirar la cruz' },
-        { id: 'sf-volver', type: 'go', to: 'antiguo-fachada', back: true, x: 56, y: 90, label: 'Volver a la iglesia nueva' }
+        { id: 'sf-volver', type: 'go', to: 'antiguo-fachada', back: true, x: 56, y: 90, label: 'Volver a la parroquia' }
       ]
     },
     'sacro-portico': {
@@ -350,7 +351,7 @@ window.VISITA_MUSEO = {
     pinturas: { titulo: 'Pinturas y escultura', vermas: ['cuadro-paisaje'], foto: 'pinturas', epoca: null, procedencia: null, autor: null, pendiente: true,
       descripcion: 'Pinturas de colores intensos y una escultura de metal, expuestas sobre un mueble de madera clara.' },
     'campana-torre': { titulo: 'Campana del campanario', foto: 'campana-torre', epoca: null, procedencia: null, autor: null, pendiente: true,
-      descripcion: 'La campana en la torre de la iglesia nueva, iluminada de noche.' },
+      descripcion: 'La campana en la torre de la Parroquia San Roque de Montpellier, iluminada de noche.' },
     'antiguo-campana': { titulo: 'Campana en la sala', vermas: ['antiguo-imagen', 'antiguo-manto'], foto: 'antiguo-campana', epoca: null, procedencia: null, autor: null, pendiente: true,
       descripcion: 'Gran campana apoyada sobre una base de madera en el piso de la sala.' },
     'antiguo-imagen': { titulo: 'Imagen frente al retablo', vermas: ['antiguo-campana', 'antiguo-manto'], foto: 'antiguo-imagen', epoca: null, procedencia: null, autor: null, pendiente: true,
@@ -394,8 +395,8 @@ window.VISITA_MUSEO = {
     { escena: 'nicho', foco: { x: 70, y: 55, z: 1.3 }, punto: 'n-acta', texto: 'En el panel de la derecha se reproduce el Acta de Fundación de San Roque, de 1773.' },
     { escena: 'pila', foco: { x: 50, y: 55, z: 1.2 }, punto: 'pi-pila', texto: 'Una pila de piedra veteada, junto al muro de la sala.' },
     { escena: 'arte', foco: { x: 40, y: 55, z: 1.1 }, punto: 'ar-cuadro', texto: 'La sala de arte: pinturas y esculturas sobre pedestales y muebles. Fin de la visita guiada del museo nuevo.' },
-    { escena: 'antiguo-fachada', foco: { x: 50, y: 55, z: 1 }, punto: 'af-entrar', texto: 'Empezamos frente a la iglesia nueva. Desde acá cruzamos al Museo de Arte Sacro.' },
-    { escena: 'sacro-frente', foco: { x: 48, y: 50, z: 1 }, punto: 'sf-entrar', texto: 'Este es el frente del Museo de Arte Sacro: una capilla blanca con pórtico de columnas y una galería de madera.' },
+    { escena: 'antiguo-fachada', foco: { x: 50, y: 55, z: 1 }, punto: 'af-entrar', texto: 'Empezamos frente a la Parroquia San Roque de Montpellier, el templo actual, de 1973. El antiguo templo, de fines del siglo XVIII, es hoy el Museo de Arte Sacro.' },
+    { escena: 'sacro-frente', foco: { x: 48, y: 50, z: 1 }, punto: 'sf-entrar', texto: 'Este es el frente del Museo de Arte Sacro, declarado Monumento Histórico Nacional en 1968: una capilla blanca con pórtico de columnas y una galería de madera.' },
     { escena: 'sacro-galeria', foco: { x: 40, y: 55, z: 1 }, punto: 'sg-seguir', texto: 'La galería de pilares de madera rodea el edificio y da a la plaza.' },
     { escena: 'sacro-portico', foco: { x: 50, y: 52, z: 1 }, punto: 'sp-galeria', texto: 'Dos columnas enmarcan la plaza desde el pórtico, antes de cruzar la puerta.' },
     { escena: 'antiguo-sala', foco: { x: 55, y: 60, z: 1 }, punto: 'as-campana', texto: 'Adentro, imágenes, vitrinas y una gran campana bajo el techo de vigas de madera.' },

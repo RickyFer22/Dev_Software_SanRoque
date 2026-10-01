@@ -11,7 +11,7 @@
     fill: $('vm-fill'), points: $('vm-points'), sector: $('vm-sector'), scene: $('vm-scene'), hint: $('vm-hint'),
     map: $('vm-map'), mapBody: $('vm-map-body'), guide: $('vm-guide'), panel: $('vm-panel'), curtain: $('vm-curtain'),
     pending: $('vm-pending'), error: $('vm-error'), live: $('vm-live'), lightbox: $('vm-lightbox'), back: $('vm-back'),
-    zoomback: $('vm-zoomback'), lscroll: $('vm-lscroll'), limg: $('vm-limg')
+    zoomback: $('vm-zoomback'), lscroll: $('vm-lscroll'), limg: $('vm-limg'), time: $('vm-time')
   };
   const QS = new URLSearchParams(location.search);
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches || QS.get('movimiento') === '0';
@@ -363,6 +363,10 @@
     attr(el.photo, 'alt', scene.nombre);
     el.fill.style.backgroundImage = 'url("' + scene.m.lqip + '")'; // fondo borroso sin descarga extra
     const sc = sectorOf(id);
+    const mu = museoOf(id);
+    const hasTime = !!(mu && mu.cronologia);
+    $('vm-btime').hidden = !hasTime;
+    if (!hasTime && !el.time.hidden) toggleTime(false);
     el.sector.innerHTML = '<span class="vm-museo"></span><span></span>';
     el.sector.firstChild.textContent = sc.museo && sc.museo !== sc.nombre ? sc.museo + ' · ' : '';
     el.sector.lastChild.textContent = sc.nombre;
@@ -534,10 +538,21 @@
     trail.length = 0; renderBack();
     goTo(o.inicio, null);
   }
+  /* Línea de tiempo (solo en los museos que la tienen, p. ej. el de Arte Sacro) */
+  let timeBuilt = false;
+  function toggleTime(open) {
+    if (open && !window.CronologiaSacro) return;
+    el.time.hidden = !open;
+    attr($('vm-btime'), 'aria-expanded', open);
+    if (!open) return;
+    if (!timeBuilt) { window.CronologiaSacro.render($('vm-time-body')); timeBuilt = true; }
+    toggleMap(false); el.guide.hidden = true; attr($('vm-bguide'), 'aria-expanded', false);
+    el.time.querySelector('.vm-x').focus({ preventScroll: true });
+  }
   function toggleMap(open) {
     el.map.hidden = !open;
     attr($('vm-bmap'), 'aria-expanded', open);
-    if (open) { renderMap(); el.guide.hidden = true; attr($('vm-bguide'), 'aria-expanded', false); el.map.querySelector('.vm-x').focus({ preventScroll: true }); }
+    if (open) { renderMap(); toggleTime(false); el.guide.hidden = true; attr($('vm-bguide'), 'aria-expanded', false); el.map.querySelector('.vm-x').focus({ preventScroll: true }); }
   }
 
   /* ---------- Visita guiada ---------- */
@@ -561,6 +576,7 @@
     const s = guideList[guideI];
     el.guide.hidden = false;
     el.map.hidden = true;
+    toggleTime(false);
     attr($('vm-bguide'), 'aria-expanded', true);
     if (s.escena !== sceneId) await goTo(s.escena, null, { foco: s.foco });
     else { closePanel(true); resetZoomUi(); await flyTo(camFor(s.foco.x, s.foco.y, s.foco.z), 900); }
@@ -584,7 +600,7 @@
   function checkIdle() {
     idleT = 0;
     if (el.viewer.hidden) return;
-    const open = !el.panel.hidden || !el.map.hidden || !el.guide.hidden || !el.lightbox.hidden || root.querySelector('.vm-tools:focus-within, .vm-top:focus-within');
+    const open = !el.panel.hidden || !el.map.hidden || !el.guide.hidden || !el.time.hidden || !el.lightbox.hidden || root.querySelector('.vm-tools:focus-within, .vm-top:focus-within');
     if (!open && Date.now() - lastAct > 4500) root.classList.add('vm-idle');
     else idleT = setTimeout(checkIdle, 1000);
   }
@@ -603,13 +619,16 @@
       guideI = 0; showGuideStep();
       el.guide.hidden = false; attr($('vm-bguide'), 'aria-expanded', true);
       goTo(guideList[0].escena, null, { foco: guideList[0].foco }).then(markGuidePoint);
-    } else goTo(opts.scene || (opts.museo && opts.museo.inicio) || D.inicio, null, opts.openPoint ? { openPoint: opts.openPoint } : undefined);
+    } else {
+      const p = goTo(opts.scene || (opts.museo && opts.museo.inicio) || D.inicio, null, opts.openPoint ? { openPoint: opts.openPoint } : undefined);
+      if (opts.timeline) p.then(() => toggleTime(true));
+    }
     setTimeout(() => el.hint.classList.add('is-gone'), 9000);
   }
   function home() {
     epoch++; busy = false; pfGen++;
     stopAnim();
-    closePanel(true); exitGuide(); toggleMap(false);
+    closePanel(true); exitGuide(); toggleMap(false); toggleTime(false);
     if (!el.lightbox.hidden) closeLightbox();
     hideCurtain();
     hidePending();
@@ -709,6 +728,7 @@
   el.back.addEventListener('click', () => { const top = trail[trail.length - 1]; if (top) goTo(top, null, { back: true }); });
   el.zoomback.addEventListener('click', () => { if (busy) return; flyTo(bound(zoomFrom || centerView()), 550); resetZoomUi(); });
   $('vm-bmap').addEventListener('click', () => toggleMap(el.map.hidden));
+  $('vm-btime').addEventListener('click', () => toggleTime(el.time.hidden));
   $('vm-bguide').addEventListener('click', () => {
     if (guideI >= 0 && !el.guide.hidden) { el.guide.hidden = true; attr($('vm-bguide'), 'aria-expanded', false); }
     else {
@@ -725,6 +745,7 @@
   $('vm-gfree').addEventListener('click', () => { exitGuide(); $('vm-bguide').focus({ preventScroll: true }); });
   root.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => {
     if (b.dataset.close === 'map') { toggleMap(false); $('vm-bmap').focus({ preventScroll: true }); }
+    else if (b.dataset.close === 'time') { toggleTime(false); $('vm-btime').focus({ preventScroll: true }); }
     else { exitGuide(); $('vm-bguide').focus({ preventScroll: true }); }
   }));
   $('vm-pclose').addEventListener('click', () => closePanel());
@@ -737,6 +758,7 @@
     if (!el.lightbox.hidden) closeLightbox();
     else if (!el.panel.hidden) closePanel();
     else if (!el.map.hidden) { toggleMap(false); $('vm-bmap').focus({ preventScroll: true }); }
+    else if (!el.time.hidden) { toggleTime(false); $('vm-btime').focus({ preventScroll: true }); }
     else if (!el.zoomback.hidden) el.zoomback.click();
   });
 
@@ -795,6 +817,13 @@
     bs[1].setAttribute('aria-label', 'Visita guiada del ' + m.nombre);
     bs[0].addEventListener('click', () => start({ museo: m }));
     bs[1].addEventListener('click', () => start({ guided: true, museo: m }));
+    if (m.cronologia) {
+      const bt = document.createElement('button');
+      bt.type = 'button'; bt.className = 'vm-btn'; bt.textContent = 'Línea de tiempo';
+      bt.setAttribute('aria-label', 'Línea de tiempo del ' + m.nombre);
+      bt.addEventListener('click', () => start({ museo: m, timeline: true }));
+      bs[1].parentNode.appendChild(bt);
+    }
     card.appendChild(body);
     $('vm-choose').appendChild(card);
   });
@@ -814,7 +843,7 @@
     if (pv && pv.error) { $('vm-wintro').textContent = 'La vista previa requiere haber iniciado sesión en el administrador.'; return; }
     if (pv) { root.classList.add('vm-preview'); layout(); start({ scene: pv.escena, openPoint: pv.punto }); }
     else if (QS.get('modo') === 'guiada') { layout(); start({ guided: true, museo: museos.find((m) => m.id === QS.get('museo')) || museos[0] }); }
-    else if (museos.some((m) => m.id === QS.get('museo'))) { layout(); start({ museo: museos.find((m) => m.id === QS.get('museo')) }); }
+    else if (museos.some((m) => m.id === QS.get('museo'))) { layout(); start({ museo: museos.find((m) => m.id === QS.get('museo')), timeline: QS.get('linea') === '1' }); }
     else if (deepLink) { layout(); start({ scene: q }); }
   });
 })();
