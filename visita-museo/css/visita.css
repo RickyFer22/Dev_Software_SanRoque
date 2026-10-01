@@ -262,3 +262,36 @@ html, body { margin: 0; height: 100%; background: #14110d; overflow: hidden; }
 .vm-previewtag { display: none; padding: 5px 12px; border-radius: 999px; background: var(--brass); color: #1b1408; font-size: 12px; font-weight: 800; letter-spacing: .04em; }
 .vm-preview .vm-previewtag { display: inline-block; }
 @media (max-width: 720px) { .vm-gal { grid-template-columns: repeat(2, 1fr); } .vm-panel-x { margin-bottom: -50px; } }
+
+/* --- Navegación entre salas: botones grandes, de acento y con nombre siempre visible (no deben perderse sobre la foto) --- */
+.k-go .vm-hs-dot { left: -30px; top: -30px; width: 60px; height: 60px; background: #ffc83d; color: #1b1408; border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(0, 0, 0, .55), 0 8px 24px rgba(0, 0, 0, .65); }
+.k-go .vm-hs-dot svg { width: 34px; height: 34px; }
+.k-go .vm-hs-dot::after { inset: -10px; border: 3px solid var(--brass); opacity: 0; animation: vm-ping 2s ease-out infinite; }
+.k-go:hover .vm-hs-dot, .k-go:focus-visible .vm-hs-dot { background: #ffe08a; transform: scale(1.12); }
+.k-go .vm-hs-label { left: 42px; top: -22px; padding: 10px 20px; opacity: 1; transform: none; background: #fff; color: #1b1408; border: 3px solid #ffc83d; font-size: 16px; font-weight: 800; letter-spacing: 0; box-shadow: 0 6px 20px rgba(0, 0, 0, .55); }
+.k-go.is-left .vm-hs-label { left: auto; right: 42px; }
+.k-go.is-hide:not(:hover):not(:focus-visible) .vm-hs-label, .vm-reveal .k-go.is-hide:not(:hover):not(:focus-visible) .vm-hs-label { opacity: 0; }
+.vm-idle .k-go .vm-hs-label { opacity: 1; }
+/* Volver: también visible, en blanco para distinguirlo de "avanzar" */
+.k-back .vm-hs-dot { left: -23px; top: -23px; width: 46px; height: 46px; background: #fff; color: #1b1408; border: 3px solid var(--brass); border-style: solid; box-shadow: 0 0 0 2px rgba(0, 0, 0, .5), 0 6px 18px rgba(0, 0, 0, .6); }
+.k-back .vm-hs-dot svg { width: 26px; height: 26px; }
+.k-back .vm-hs-label { left: 34px; top: -19px; opacity: 1; transform: none; background: rgba(18, 15, 11, .92); font-size: 14px; font-weight: 700; border-color: #fff; }
+.k-back.is-left .vm-hs-label { left: auto; right: 34px; }
+.k-back.is-hide:not(:hover):not(:focus-visible) .vm-hs-label { opacity: 0; }
+.vm-idle .k-back .vm-hs-label { opacity: 1; }
+/* Examinar / leer: más grandes también */
+.k-piece .vm-hs-dot, .k-story .vm-hs-dot, .k-zoom .vm-hs-dot, .k-audio .vm-hs-dot { left: -20px; top: -20px; width: 40px; height: 40px; }
+.k-piece .vm-hs-dot svg, .k-story .vm-hs-dot svg, .k-zoom .vm-hs-dot svg { width: 22px; height: 22px; }
+@media (max-width: 720px) {
+  .k-go .vm-hs-dot { left: -26px; top: -26px; width: 52px; height: 52px; }
+  .k-go .vm-hs-dot svg { width: 30px; height: 30px; }
+  .k-go .vm-hs-label { left: 36px; top: -20px; padding: 8px 14px; font-size: 14px; }
+  .k-go.is-left .vm-hs-label { right: 36px; }
+}
+@media (max-width: 720px) {
+  .k-go.lab-up .vm-hs-label, .k-go.lab-down .vm-hs-label { left: 0; right: auto; transform: translateX(-50%); }
+  .k-go.is-left.lab-up .vm-hs-label, .k-go.is-left.lab-down .vm-hs-label { left: auto; right: -26px; transform: none; }
+  .k-go.lab-up .vm-hs-label { top: -76px; }
+  .k-go.lab-down .vm-hs-label { top: 40px; }
+}
+@media (prefers-reduced-motion: reduce) { .k-go .vm-hs-dot::after { animation: none; opacity: .9; } }

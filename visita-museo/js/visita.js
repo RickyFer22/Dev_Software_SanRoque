@@ -191,6 +191,9 @@
       b.addEventListener('focus', () => ensureVisible(p));
       el.points.appendChild(b);
     });
+    // En pantallas chicas, los botones de avanzar cercanos alternan su nombre arriba y abajo para no taparse
+    const goNodes = Array.from(el.points.children).filter((n) => n.classList.contains('k-go')).sort((m, n) => parseFloat(m.style.left) - parseFloat(n.style.left));
+    goNodes.forEach((n, i) => n.classList.add(i % 2 ? 'lab-down' : 'lab-up'));
   }
   const sectorOf = (id) => D.sectores.find((s) => s.escenas.includes(id)) || { id: '', museo: '', nombre: '' };
   const sectorName = (id) => { const s = sectorOf(id); return s.museo === s.nombre || !s.museo ? s.nombre : s.museo + ' · ' + s.nombre; };

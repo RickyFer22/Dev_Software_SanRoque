@@ -69,6 +69,11 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
 .ux-audit details { margin-top: 6px; }
 .ux-audit pre { max-height: 240px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
 
+/* Controles chicos del editor del museo y del Resumen: todos alcanzan 40 px */
+.content button:not(.icon-button):not(.nav-item) { min-height: var(--ux-touch); }
+.ux-off { display: none; }
+.ux-filter { display: grid; gap: 6px; font-weight: 700; font-size: 13px; min-width: 200px; }
+
 /* ---------- Táctil y movimiento ---------- */
 @media (pointer: coarse) {
   .list-actions button, .crm-side button, .toolbar button, .panel-title button, .segmented button, .nav-item { min-height: var(--ux-touch-coarse); }

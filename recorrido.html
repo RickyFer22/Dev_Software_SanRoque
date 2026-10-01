@@ -32,7 +32,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" /></noscript>
   <!-- Critical CSS -->
   <link rel="stylesheet" href="css/styles.css?v=20260930-premium" />
-  <link rel="stylesheet" href="css/premium.css?v=20260930-museo2" />
+  <link rel="stylesheet" href="css/premium.css?v=20260930-museo4" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -131,16 +131,54 @@
       <p class="city-map-foot"><a href="que-hacer.html">Ver más lugares para conocer</a> · <a href="index.html#como-llegar">Folleto turístico</a></p>
     </section>
 
-    <section id="visita-museo" class="museo-cover" aria-labelledby="visita-museo-title">
-      <img src="visita-museo/img/escenas/virgen-900.webp" srcset="visita-museo/img/escenas/virgen-900.webp 900w, visita-museo/img/escenas/virgen-1600.webp 1600w" sizes="(max-width: 1100px) 100vw, 1100px" width="1600" height="1068" alt="" loading="lazy" decoding="async" />
-      <div class="museo-cover-body">
-        <span class="museo-cover-kicker">Visita virtual</span>
-        <h2 id="visita-museo-title">Recorré el Museo de San Roque</h2>
-        <p>Entrá sala por sala, acercate a las vitrinas y descubrí cada pieza. El museo nuevo y el museo antiguo, en un visor a pantalla completa.</p>
-        <div class="museo-cover-actions">
-          <a class="museo-cover-btn is-main" href="visita-museo/">Entrar al museo</a>
-          <a class="museo-cover-btn" href="visita-museo/?modo=guiada">Visita guiada</a>
-        </div>
+    <section id="museo-antiguo" class="museo-antiguo" aria-labelledby="museo-antiguo-title">
+      <div class="city-map-head">
+        <h2 id="museo-antiguo-title">El museo antiguo</h2>
+        <p>Funciona en la antigua parroquia (parada 3 del recorrido). Estas son su fachada, su campanario y su interior.</p>
+      </div>
+      <div class="ma-grid">
+        <figure class="ma-item">
+          <button type="button" class="ma-btn" data-ma="0" aria-label="Ampliar: Fachada de la antigua parroquia, iluminada de noche">
+            <img src="img/museo-antiguo/fachada-900.webp" width="643" height="900" alt="Fachada de la antigua parroquia, iluminada de noche" loading="lazy" decoding="async" data-full="img/museo-antiguo/fachada-1800.webp" />
+          </button>
+          <figcaption>Fachada de la antigua parroquia, iluminada de noche</figcaption>
+        </figure>
+        <figure class="ma-item">
+          <button type="button" class="ma-btn" data-ma="1" aria-label="Ampliar: El campanario y su campana">
+            <img src="img/museo-antiguo/campanario-900.webp" width="601" height="900" alt="El campanario y su campana" loading="lazy" decoding="async" data-full="img/museo-antiguo/campanario-1800.webp" />
+          </button>
+          <figcaption>El campanario y su campana</figcaption>
+        </figure>
+        <figure class="ma-item">
+          <button type="button" class="ma-btn" data-ma="2" aria-label="Ampliar: El edificio visto desde la calle, con la galería y el campanario">
+            <img src="img/museo-antiguo/lateral-900.webp" width="601" height="900" alt="El edificio visto desde la calle, con la galería y el campanario" loading="lazy" decoding="async" data-full="img/museo-antiguo/lateral-1800.webp" />
+          </button>
+          <figcaption>El edificio visto desde la calle, con la galería y el campanario</figcaption>
+        </figure>
+        <figure class="ma-item ma-wide">
+          <button type="button" class="ma-btn" data-ma="3" aria-label="Ampliar: La sala del museo bajo el techo de vigas de madera: imágenes religiosas, campanas y vitrinas">
+            <img src="img/museo-antiguo/interior-900.webp" width="900" height="601" alt="La sala del museo bajo el techo de vigas de madera: imágenes religiosas, campanas y vitrinas" loading="lazy" decoding="async" data-full="img/museo-antiguo/interior-1800.webp" />
+          </button>
+          <figcaption>La sala del museo bajo el techo de vigas de madera: imágenes religiosas, campanas y vitrinas</figcaption>
+        </figure>
+      </div>
+      <dialog class="ma-dialog" id="ma-dialog" aria-label="Foto ampliada del museo antiguo">
+        <button type="button" class="ma-close" aria-label="Cerrar">×</button>
+        <button type="button" class="ma-nav ma-prev" aria-label="Foto anterior">‹</button>
+        <figure><img alt="" /><figcaption></figcaption></figure>
+        <button type="button" class="ma-nav ma-next" aria-label="Foto siguiente">›</button>
+      </dialog>
+    </section>
+
+    <section id="visita-museo" class="museo-cta" aria-labelledby="visita-museo-title">
+      <div class="museo-cta-text">
+        <span class="museo-cta-kicker">Visita virtual</span>
+        <h2 id="visita-museo-title">Recorré el museo nuevo desde tu pantalla</h2>
+        <p>Entrá sala por sala, acercate a las vitrinas y descubrí la historia de cada pieza.</p>
+      </div>
+      <div class="museo-cta-actions">
+        <a class="museo-cta-btn is-main" href="visita-museo/">Entrar a la visita virtual <span aria-hidden="true">→</span></a>
+        <a class="museo-cta-btn" href="visita-museo/?modo=guiada">Visita guiada</a>
       </div>
     </section>
   </main>
@@ -214,6 +252,7 @@
   <script src="js/sitio.js"></script>
   <script src="js/share.js"></script>
   <script src="js/mapa-ciudad.js" defer></script>
+  <script src="js/galeria-museo.js" defer></script>
   <script src="js/pwa.js" defer></script>
 </body>
 </html>

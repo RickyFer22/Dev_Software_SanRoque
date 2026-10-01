@@ -152,7 +152,9 @@
   /* ---------- 7. Paginación de listados largos ---------- */
   function paginate(listHost, size) {
     listHost.querySelector('.ux-more')?.remove();
-    const rows = [...listHost.children].filter((n) => n.matches('.list-row'));
+    const all = [...listHost.children].filter((n) => n.matches('.list-row'));
+    const rows = all.filter((n) => !n.classList.contains('ux-off'));
+    all.forEach((r) => { r.hidden = false; });
     if (rows.length <= size) return;
     let shown = size;
     const more = el('div', 'ux-more');
@@ -168,6 +170,19 @@
   }
   const auditList = document.getElementById('audit-list');
   if (auditList) {
+    // Filtro por tipo de acción (se combina con la búsqueda y la paginación)
+    const bar = document.querySelector('#audit .toolbar');
+    if (bar && !bar.querySelector('.ux-filter')) {
+      const label = el('label', 'ux-filter', 'Tipo de acción');
+      const sel = el('select');
+      sel.append(Object.assign(el('option', '', 'Todas'), { value: '' }));
+      Object.entries(ACTIONS).forEach(([k, v]) => sel.append(Object.assign(el('option', '', v), { value: v })));
+      label.append(sel); bar.append(label);
+      sel.addEventListener('change', () => {
+        auditList.querySelectorAll('.list-row').forEach((r) => { const t = r.querySelector('.ux-act'); r.classList.toggle('ux-off', !!sel.value && (!t || t.textContent !== sel.value)); });
+        paginate(auditList, 25);
+      });
+    }
     const own = (n) => n.nodeType === 1 && n.classList.contains('ux-more');
     const obs = new MutationObserver((records) => {
       // los cambios que hace la propia paginación (agregar/quitar el botón) no deben volver a paginar
