@@ -31,8 +31,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" /></noscript>
   <!-- Critical CSS -->
-  <link rel="stylesheet" href="css/styles.css?v=20260930-premium" />
-  <link rel="stylesheet" href="css/premium.css?v=20260930-premium" />
+  <link rel="stylesheet" href="css/styles.css?v=20260930-huellas2" />
+  <link rel="stylesheet" href="css/premium.css?v=20260930-huellas2" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -102,21 +102,36 @@
     </ul>
 
     <section id="huellas" class="eco-huellas" aria-labelledby="huellas-title">
-      <div class="huellas">
-        <div class="huellas-video">
-          <video controls preload="none" playsinline poster="img/video/huellas-poster.jpg" aria-label="Video: Huellas de San Roque, primera jornada de monitoreo de biodiversidad">
+      <article class="hs">
+        <div class="hs-stage" data-huellas>
+          <video controls preload="metadata" playsinline poster="img/video/huellas-poster.jpg" aria-label="Video: Huellas de San Roque, primera jornada de monitoreo de biodiversidad">
             <source src="img/video/huellas-de-san-roque.mp4" type="video/mp4" />
             Tu navegador no puede reproducir este video.
           </video>
+          <button type="button" class="hs-play" aria-label="Reproducir el video de la primera jornada">
+            <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
+            <span class="hs-play-text">Ver la primera jornada <small>1 min</small></span>
+          </button>
         </div>
-        <div class="huellas-copy">
-          <span class="circuits-kicker">Proyecto</span>
-          <h2 id="huellas-title">Huellas de San Roque: conocer nuestro territorio</h2>
-          <p>En el marco del proyecto «Huellas de San Roque: ciencia y comunidad para la gestión de paisajes rurales y urbanos sostenibles», comenzó el monitoreo de la biodiversidad de nuestra zona.</p>
-          <p>La primera jornada se hizo en el campo de la familia Rojas Busellato, con estudiantes y docentes de la Escuela Normal «Juan García de Cossio», voluntarios e investigadores de la UNNE: observación de aves e instalación de cámaras trampa para registrar mamíferos terrestres.</p>
-          <p class="huellas-lema">Conocer nuestro territorio para comprenderlo, valorarlo y aportar a su conservación.</p>
+        <div class="hs-body">
+          <div class="hs-intro">
+            <span class="circuits-kicker">Proyecto</span>
+            <h2 id="huellas-title">Huellas de San Roque: conocer nuestro territorio</h2>
+            <p class="hs-lede">En el marco del proyecto «Huellas de San Roque: ciencia y comunidad para la gestión de paisajes rurales y urbanos sostenibles», comenzó el monitoreo de la biodiversidad de nuestra zona.</p>
+            <p class="huellas-lema">Conocer nuestro territorio para comprenderlo, valorarlo y aportar a su conservación.</p>
+          </div>
+          <aside class="hs-journey" aria-labelledby="hs-journey-title">
+            <h3 id="hs-journey-title">La primera jornada</h3>
+            <dl>
+              <div><dt><span class="material-symbols-outlined" aria-hidden="true">place</span>Dónde</dt><dd>En el campo de la familia Rojas Busellato</dd></div>
+              <div><dt><span class="material-symbols-outlined" aria-hidden="true">school</span>Escuela</dt><dd>Estudiantes y docentes de la Escuela Normal «Juan García de Cossio»</dd></div>
+              <div><dt><span class="material-symbols-outlined" aria-hidden="true">science</span>Ciencia</dt><dd>Voluntarios e investigadores de la UNNE</dd></div>
+              <div><dt><span class="material-symbols-outlined" aria-hidden="true">flutter_dash</span>Aves</dt><dd>Observación de aves</dd></div>
+              <div><dt><span class="material-symbols-outlined" aria-hidden="true">photo_camera</span>Mamíferos</dt><dd>Instalación de cámaras trampa para registrar mamíferos terrestres</dd></div>
+            </dl>
+          </aside>
         </div>
-      </div>
+      </article>
     </section>
 
     <section id="monjita" data-eco="monjita">
@@ -231,5 +246,6 @@
   <script src="js/share.js"></script>
   <script src="js/hero-rotor.js" defer></script>
   <script src="js/pwa.js" defer></script>
+  <script src="js/huellas.js" defer></script>
 </body>
 </html>

@@ -147,14 +147,34 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .hero-rotor-comidas > img { image-rendering: auto; }
 
 /* ── Huellas de San Roque (video + texto) ── */
-.huellas { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(20px, 4vw, 56px); align-items: center; padding: clamp(18px, 3vw, 34px); border-radius: 32px; background: var(--sr-forest); color: #fff; box-shadow: var(--sr-shadow); }
-.huellas-video video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 20px; background: #000; object-fit: cover; }
-.huellas-copy .circuits-kicker { color: #f5d98a; }
-.huellas-copy h2 { margin: 8px 0 14px; color: #fff; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.12; font-weight: 600; }
-.huellas-copy p { margin: 0 0 12px; color: rgba(255, 255, 255, .86); line-height: 1.65; font-size: .95rem; }
-.huellas-copy em { color: #fff; }
-.huellas-lema { padding-left: 14px; border-left: 3px solid var(--sr-terra); color: #fff !important; font-weight: 500; }
-@media (max-width: 860px) { .huellas { grid-template-columns: 1fr; border-radius: 24px; } }
+/* Huellas de San Roque: el video es el protagonista y la sección sale de la columna angosta de lectura */
+.eco-huellas { width: min(1120px, calc(100vw - 32px)); margin-left: calc(50% - min(560px, 50vw - 16px)); }
+.hs { overflow: hidden; border-radius: 28px; background: var(--sr-forest); color: #fff; box-shadow: var(--sr-shadow); }
+.hs-stage { position: relative; background: #0b1510; }
+.hs-stage video { display: block; width: 100%; aspect-ratio: 16 / 9; max-height: 72vh; background: #000; object-fit: cover; }
+.hs-play { position: absolute; left: clamp(14px, 3vw, 32px); bottom: calc(clamp(14px, 3vw, 28px) + 52px); display: inline-flex; align-items: center; gap: 12px; padding: 8px 22px 8px 8px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .95); color: var(--sr-forest-deep); font: 700 15px/1.2 inherit; cursor: pointer; box-shadow: 0 10px 28px rgba(0, 0, 0, .35); transition: transform .2s, background .2s; }
+.hs-play:hover { transform: translateY(-2px); background: #fff; }
+.hs-play:focus-visible { outline: 3px solid #f5d98a; outline-offset: 3px; }
+.hs-play .material-symbols-outlined { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--sr-terra); color: #fff; font-size: 30px; font-variation-settings: 'FILL' 1; }
+.hs-play small { display: block; font-weight: 600; color: #56665a; }
+.hs-stage.is-playing .hs-play { display: none; }
+.hs-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); padding: clamp(22px, 4vw, 44px); }
+.hs-intro { align-self: start; }
+.hs-intro .circuits-kicker { color: #f5d98a; }
+.hs-intro h2 { margin: 8px 0 16px; padding: 0; color: #fff; font-size: clamp(1.7rem, 3.4vw, 2.6rem); line-height: 1.1; font-weight: 600; letter-spacing: -.01em; }
+.hs-intro h2::before { display: none; }
+.long-read .hs-lede { margin: 0 0 18px; color: rgba(255, 255, 255, .88); font-size: 1.05rem; line-height: 1.7; text-align: left; hyphens: none; }
+.long-read .huellas-lema { margin: 0; padding: 4px 0 4px 16px; border-left: 3px solid var(--sr-terra); color: #fff; font-weight: 600; font-size: 1.05rem; line-height: 1.5; text-align: left; hyphens: none; }
+.hs-journey { padding: clamp(18px, 2.4vw, 26px); border: 1px solid rgba(255, 255, 255, .16); border-radius: 20px; background: rgba(255, 255, 255, .06); }
+.hs-journey h3 { margin: 0 0 14px; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: #f5d98a; }
+.hs-journey dl { display: grid; gap: 14px; margin: 0; }
+.hs-journey dl > div { display: grid; gap: 2px; padding-left: 0; }
+.hs-journey dt { display: flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .62); }
+.hs-journey dt .material-symbols-outlined { font-size: 20px; color: #f5d98a; }
+.hs-journey dd { margin: 0 0 0 28px; color: #fff; line-height: 1.5; font-size: .98rem; }
+@media (max-width: 860px) { .hs-body { grid-template-columns: 1fr; } .hs { border-radius: 22px; } .hs-stage video { max-height: none; } }
+@media (max-width: 520px) { .hs-play-text small { display: none; } .hs-play { padding-right: 18px; } .hs-play .material-symbols-outlined { width: 42px; height: 42px; } }
+@media (prefers-reduced-motion: reduce) { .hs-play { transition: none; } }
 
 /* Enlace "saber más" de la Monjita Dominica (Museo Escolar José Béchara) */
 .monjita-more { display: inline-flex; align-items: center; gap: 8px; margin: 10px 0 4px; padding: 10px 18px; border-radius: 999px; background: #274F10; color: #fff; font-size: .85rem; font-weight: 500; text-decoration: none; transition: background .2s ease, transform .2s ease; }
@@ -223,7 +243,7 @@ body:has(.hero-logo) #main-nav:not(.bg-primary\/95) .brand-logo { opacity: 0; po
 .home-year-first { margin: 0 0 44px; padding: 0 0 32px; border-top: 0; border-bottom: 1px solid rgba(53, 94, 74, .18); }
 
 /* Página Ecoturismo y ciencia */
-.eco-huellas { padding: 0; border: 0; }
+.eco-huellas { padding-top: 0; padding-bottom: 0; border: 0; }
 .monjita-more-alt { background: transparent; color: var(--sr-forest); border: 1.5px solid var(--sr-forest); margin-left: 8px; }
 .monjita-more-alt:hover { background: var(--sr-forest); color: #fff; }
 
