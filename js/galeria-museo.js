@@ -1,8 +1,6 @@
 /* Galería del museo antiguo: ampliación en un cuadro de diálogo con teclado (←, →, Esc) y foco devuelto al cerrar. */
 (function () {
   'use strict';
-  const tl = document.getElementById('cronologia-host');
-  if (tl && window.CronologiaSacro) window.CronologiaSacro.render(tl);
   const dlg = document.getElementById('ma-dialog');
   const btns = Array.from(document.querySelectorAll('.ma-btn'));
   if (!dlg || !btns.length || typeof dlg.showModal !== 'function') return;

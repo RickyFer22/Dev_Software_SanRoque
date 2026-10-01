@@ -32,8 +32,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" /></noscript>
   <!-- Critical CSS -->
   <link rel="stylesheet" href="css/styles.css?v=20260930-premium" />
-  <link rel="stylesheet" href="css/premium.css?v=20260930-linea" />
-  <link rel="stylesheet" href="visita-museo/css/cronologia.css?v=2" />
+  <link rel="stylesheet" href="css/premium.css?v=20260930-ia" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -59,7 +58,6 @@
           <a class="nav-dropdown-trigger text-primary font-bold text-[13px] uppercase tracking-wide transition-all" href="que-hacer.html" aria-haspopup="true">Qué hacer <span class="material-symbols-outlined" aria-hidden="true">expand_more</span></a>
           <div class="nav-dropdown-menu">
             <div>
-              <a href="que-hacer.html#patrimonio"><span class="material-symbols-outlined" aria-hidden="true">account_balance</span>Patrimonio Histórico</a>
               <a href="que-hacer.html#naturaleza"><span class="material-symbols-outlined" aria-hidden="true">water</span>Naturaleza y Costanera</a>
               <a href="que-hacer.html#plazas"><span class="material-symbols-outlined" aria-hidden="true">park</span>Plazas y Paseos</a>
               <a href="recorrido.html"><span class="material-symbols-outlined" aria-hidden="true">route</span>Recorrido histórico</a>
@@ -172,23 +170,16 @@
       </dialog>
     </section>
 
-    <section id="linea-de-tiempo" class="museo-cronologia" aria-labelledby="linea-title">
-      <div class="city-map-head">
-        <h2 id="linea-title">Más de dos siglos de historia</h2>
-        <p>La historia del antiguo templo, hoy Museo de Arte Sacro, junto a lo que pasaba en el país y en el mundo.</p>
-      </div>
-      <div id="cronologia-host"></div>
-    </section>
-
     <section id="visita-museo" class="museo-cta" aria-labelledby="visita-museo-title">
       <div class="museo-cta-text">
         <span class="museo-cta-kicker">Visita virtual</span>
         <h2 id="visita-museo-title">Recorré los dos museos desde tu pantalla</h2>
-        <p>Son dos edificios, cada uno con su propio recorrido: el museo nuevo y el Museo de Arte Sacro.</p>
+        <p>Son dos edificios, cada uno con su propio recorrido. El Museo de Arte Sacro incluye una línea de tiempo desde 1773 hasta hoy.</p>
       </div>
       <div class="museo-cta-actions">
         <a class="museo-cta-btn is-main" href="visita-museo/?museo=nuevo">Museo nuevo <span aria-hidden="true">→</span></a>
         <a class="museo-cta-btn is-main" href="visita-museo/?museo=sacro">Museo de Arte Sacro <span aria-hidden="true">→</span></a>
+        <a class="museo-cta-btn" href="visita-museo/?museo=sacro&amp;linea=1">Línea de tiempo</a>
       </div>
     </section>
   </main>
@@ -262,7 +253,6 @@
   <script src="js/sitio.js"></script>
   <script src="js/share.js"></script>
   <script src="js/mapa-ciudad.js" defer></script>
-  <script src="visita-museo/js/cronologia.js?v=2" defer></script>
   <script src="js/galeria-museo.js" defer></script>
   <script src="js/pwa.js" defer></script>
 </body>
