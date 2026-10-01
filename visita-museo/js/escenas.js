@@ -30,7 +30,7 @@ window.VISITA_MUSEO = {
   // `nombre` debe coincidir con el campo `museo` de sus sectores.
   museos: [
     { id: 'nuevo', nombre: 'Museo nuevo', rotulo: 'Edificio nuevo', inicio: 'parque', portada: 'virgen',
-      descripcion: 'Museo de la Ciudad de San Roque, inaugurado el 10 de octubre de 2023: vista aérea con dron, galería, sala de exposición, auditorio y sala de arte.' },
+      descripcion: 'Museo de la Ciudad de San Roque, inaugurado el 10 de octubre de 2023, junto a la Casa Histórica (Casa Lagraña): vista aérea con dron, galería, sala de exposición, auditorio y sala de arte.' },
     { id: 'sacro', nombre: 'Museo de Arte Sacro', rotulo: 'Edificio histórico', inicio: 'antiguo-fachada', portada: 'antiguo-sala', cronologia: true,
       descripcion: 'El antiguo templo de fines del siglo XVIII, hoy Monumento Histórico Nacional: frente, pórtico, galería, retablos, campanas e imágenes. Incluye una línea de tiempo.' }
   ],
