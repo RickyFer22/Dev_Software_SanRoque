@@ -23,12 +23,20 @@ from PIL import Image, ImageOps
 SRC = sys.argv[1] if len(sys.argv) > 1 else r'C:\Users\Ricardo\Desktop\PROYECTOS MSR\16 Pasantia Dev_Software_SanRoque\MUSEO'
 BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'visita-museo')
 NEW = 'Museo nuevo fotografias flyers'
+DRON = NEW + '/Drone'
+HIST = '../Museo HISTORICO'   # carpeta hermana de MUSEO
 
 SCENE_SIZES = [(900, 74), (1600, 76), (2400, 78)]   # (lado mayor, calidad)
 PIECE_SIZES = [(640, 76), (1200, 78), (1800, 80)]
 
 SCENES = {
-    'aerea': f'{NEW}/Drone/DJI_0635.jpg',
+    'aerea': f'{DRON}/DJI_0636.jpg',
+    'aerea-patio': f'{DRON}/DJI_0638.jpg',
+    'aerea-frente': f'{DRON}/DJI_0639.jpg',
+    'aerea-camino': f'{DRON}/DJI_0640.jpg',
+    'aerea-jardin': f'{DRON}/DJI_0648.jpg',
+    'aerea-galeria': f'{DRON}/DJI_0644.jpg',
+    'aerea-esquina': f'{DRON}/DJI_0635.jpg',
     'parque': f'{NEW}/CLA_4670.JPG',
     'entrada': f'{NEW}/CLA_4691.JPG',
     'galeria': f'{NEW}/CLA_4737.JPG',
@@ -44,6 +52,15 @@ SCENES = {
     'arte': f'{NEW}/CLA_4136.JPG',
     'antiguo-fachada': 'CLA_8056.JPG.jpeg',
     'antiguo-sala': 'Museo Antiguo.jpeg',
+    'sacro-frente': f'{HIST}/CLA_1624.JPG',
+    'sacro-portico': f'{HIST}/CLA_1663.JPG',
+    'sacro-galeria': f'{HIST}/CLA_1637.JPG',
+    'sacro-galeria2': f'{HIST}/CLA_1654.JPG',
+    'sacro-puerta': f'{HIST}/CLA_1683.JPG',
+    'sacro-retablos': f'{HIST}/CLA_1261.JPG',
+    'sacro-nave': f'{HIST}/CLA_1911.JPG',
+    'sacro-campana': f'{HIST}/CLA_1914.JPG',
+    'sacro-confesionario': f'{HIST}/CLA_1908.JPG',
 }
 
 PIECES = {
@@ -67,6 +84,12 @@ PIECES = {
     'antiguo-imagen': ('Museo Antiguo.jpeg', (0.45, 0.32, 0.70, 0.68)),
     'antiguo-manto': ('Museo Antiguo.jpeg', (0.10, 0.30, 0.30, 0.65)),
     'antiguo-farol': ('Museo Antiguo.jpeg', (0.0, 0.45, 0.18, 0.72)),
+    'sacro-asuncion': (f'{HIST}/CLA_1261.JPG', (0.50, 0.28, 0.82, 0.95)),
+    'sacro-san-roque': (f'{HIST}/CLA_1261.JPG', (0.24, 0.42, 0.50, 0.95)),
+    'sacro-campanas': (f'{HIST}/CLA_1914.JPG', (0.0, 0.30, 1.0, 1.0)),
+    'sacro-confesionario': (f'{HIST}/CLA_1908.JPG', (0.12, 0.12, 0.56, 0.92)),
+    'sacro-teclado': (f'{HIST}/CLA_1908.JPG', (0.48, 0.40, 0.82, 0.84)),
+    'sacro-cruz': (f'{HIST}/CLA_1624.JPG', (0.78, 0.28, 0.98, 0.97)),
 }
 
 

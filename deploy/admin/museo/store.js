@@ -65,33 +65,38 @@ function createStore({ dataDir, seedPath }) {
   }
 
   // ---- Migraciones (se ejecutan una sola vez; conservan todo lo existente) ----
+  // Convierte piezas de la visita en fichas PUBLICADAS idénticas a lo que se muestra (solo las que faltan).
+  // `only` limita la migración a ids concretos: así una pieza que el administrador ya retiró no vuelve a aparecer.
+  function seedPiezas(data, only) {
+    const now = new Date().toISOString();
+    Object.entries(seed.piezas || {}).forEach(([id, p]) => {
+      if (only && !only.includes(id)) return;
+      if (data.objetos.some((o) => o.id === id)) return;
+      const sala = Object.keys(seed.escenas || {}).find((sid) => (seed.escenas[sid].puntos || []).some((pt) => pt.piece === id)) || '';
+      const datos = N.normalizeDatos({
+        nombre: p.titulo, sala, resumen: p.descripcion, observar: p.detalle || '',
+        periodo: { texto: p.epoca || '', certeza: p.epoca ? 'documentado' : '' },
+        procedencia: { texto: p.procedencia || '', certeza: p.procedencia ? 'documentado' : '' },
+        autor: { texto: p.autor || '', certeza: '' },
+        imagen: { tipo: 'estatica', ref: p.foto || id, alt: p.titulo },
+        vermas: p.vermas || [],
+        necesitaRevision: !!p.pendiente,
+      });
+      const obj = {
+        id, createdAt: now, createdBy: 'migración', updatedAt: now, updatedBy: 'migración', rev: 1,
+        borrador: datos, publicado: null, retirado: false,
+        revisiones: [{ rev: 1, at: now, by: 'migración', accion: 'crear', nota: 'Importada desde la visita virtual', campos: [], datos }],
+      };
+      obj.publicado = snapshotPublic(data, obj, 'migración', now);
+      data.objetos.push(obj);
+    });
+  }
+
   const MIGRATIONS = [
+    { id: '2026-10-01-semilla-piezas-visita', run: (data) => seedPiezas(data) },
     {
-      id: '2026-10-01-semilla-piezas-visita',
-      run(data) {
-        // Cada pieza ya visible en la visita se convierte en una ficha PUBLICADA idéntica a lo que hoy se muestra.
-        const now = new Date().toISOString();
-        Object.entries(seed.piezas || {}).forEach(([id, p]) => {
-          if (data.objetos.some((o) => o.id === id)) return;
-          const sala = Object.keys(seed.escenas || {}).find((sid) => (seed.escenas[sid].puntos || []).some((pt) => pt.piece === id)) || '';
-          const datos = N.normalizeDatos({
-            nombre: p.titulo, sala, resumen: p.descripcion, observar: p.detalle || '',
-            periodo: { texto: p.epoca || '', certeza: p.epoca ? 'documentado' : '' },
-            procedencia: { texto: p.procedencia || '', certeza: p.procedencia ? 'documentado' : '' },
-            autor: { texto: p.autor || '', certeza: '' },
-            imagen: { tipo: 'estatica', ref: p.foto || id, alt: p.titulo },
-            vermas: p.vermas || [],
-            necesitaRevision: !!p.pendiente,
-          });
-          const obj = {
-            id, createdAt: now, createdBy: 'migración', updatedAt: now, updatedBy: 'migración', rev: 1,
-            borrador: datos, publicado: null, retirado: false,
-            revisiones: [{ rev: 1, at: now, by: 'migración', accion: 'crear', nota: 'Importada desde la visita virtual', campos: [], datos }],
-          };
-          obj.publicado = snapshotPublic(data, obj, 'migración', now);
-          data.objetos.push(obj);
-        });
-      },
+      id: '2026-10-02-piezas-vista-aerea-y-arte-sacro',
+      run: (data) => seedPiezas(data, ['sacro-asuncion', 'sacro-san-roque', 'sacro-campanas', 'sacro-confesionario', 'sacro-teclado', 'sacro-cruz']),
     },
   ];
 

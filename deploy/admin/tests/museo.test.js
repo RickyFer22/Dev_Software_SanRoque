@@ -94,14 +94,14 @@ async function test(name, fn) {
     assert.strictEqual((await req('GET', '/api/museo/visita')).status, 200);
   });
 
-  await test('migración: las 21 piezas actuales quedan publicadas, sin duplicarse al reiniciar', async () => {
+  await test('migración: las 27 piezas actuales quedan publicadas, sin duplicarse al reiniciar', async () => {
     const pub = (await req('GET', '/api/museo/visita')).body;
-    assert.strictEqual(Object.keys(pub.objetos).length, 21);
+    assert.strictEqual(Object.keys(pub.objetos).length, 27);
     assert.ok(pub.objetos.acta && /1773/.test(pub.objetos.acta.periodo.texto));
     assert.ok(pub.objetos.caldero.foto.imgs.length >= 2);
     const cat = (await req('GET', A + '/catalogo', { cookie: admin })).body;
-    assert.strictEqual(cat.objetos.length, 21);
-    assert.strictEqual(cat.escenas.length, 16);
+    assert.strictEqual(cat.objetos.length, 27);
+    assert.strictEqual(cat.escenas.length, 31);
     assert.ok(cat.objetos.every((o) => o.estado === 'publicado'));
   });
 
@@ -373,7 +373,7 @@ async function test(name, fn) {
     await stop(); await start();
     const c = await login('gestion.turistica.sr', SETUP_PW);
     const cat = (await req('GET', A + '/catalogo', { cookie: c })).body;
-    assert.strictEqual(cat.objetos.length, 23, '21 sembradas + las 2 creadas en la prueba (una se borra)');
+    assert.strictEqual(cat.objetos.length, 29, '27 sembradas + las 2 creadas en la prueba (una se borra)');
     const det = (await req('GET', `${A}/objetos/${id}`, { cookie: c })).body;
     assert.ok(det.revisiones.length >= 4);
     assert.strictEqual((await req('GET', `${A}/img/${imgId}/1800`, { cookie: c })).status, 200);

@@ -29,17 +29,69 @@ window.VISITA_MUSEO = {
 
   // Sectores del mapa orientativo (no representan la planta real).
   sectores: [
-    { id: 'ext', museo: 'Museo nuevo', nombre: 'Exterior', escenas: ['aerea', 'parque', 'entrada', 'galeria'] },
+    { id: 'aer', museo: 'Museo nuevo', nombre: 'Vista aérea', escenas: ['aerea', 'aerea-patio', 'aerea-frente', 'aerea-camino', 'aerea-jardin', 'aerea-galeria', 'aerea-esquina'] },
+    { id: 'ext', museo: 'Museo nuevo', nombre: 'Exterior', escenas: ['parque', 'entrada', 'galeria'] },
     { id: 'sala', museo: 'Museo nuevo', nombre: 'Sala de exposición', escenas: ['sala', 'virgen', 'altar', 'caldero', 'sables', 'santos', 'nicho', 'pila'] },
     { id: 'aud', museo: 'Museo nuevo', nombre: 'Auditorio y sala de arte', escenas: ['auditorio', 'arte'] },
-    { id: 'ant', museo: 'Museo de Arte Sacro', nombre: 'Iglesia y museo', escenas: ['antiguo-fachada', 'antiguo-sala'] }
+    { id: 'ant', museo: 'Museo de Arte Sacro', nombre: 'Iglesia y exterior', escenas: ['antiguo-fachada', 'sacro-frente', 'sacro-portico', 'sacro-galeria', 'sacro-galeria2'] },
+    { id: 'sac', museo: 'Museo de Arte Sacro', nombre: 'Salas del museo', escenas: ['sacro-puerta', 'antiguo-sala', 'sacro-retablos', 'sacro-nave', 'sacro-campana', 'sacro-confesionario'] }
   ],
 
   escenas: {
     aerea: {
       nombre: 'Vista aérea', foco: { x: 55, y: 55, z: 1 },
       puntos: [
-        { id: 'a-museo', type: 'go', to: 'parque', x: 47, y: 66, label: 'Acercarse al museo' }
+        { id: 'a-museo', type: 'go', to: 'parque', x: 47, y: 38, label: 'Bajar al museo' },
+        { id: 'a-patio', type: 'go', to: 'aerea-patio', x: 66, y: 74, label: 'Seguir el sendero de entrada' },
+        { id: 'a-galeria', type: 'go', to: 'aerea-galeria', x: 14, y: 38, label: 'Ver la galería y la palmera' }
+      ]
+    },
+    'aerea-patio': {
+      nombre: 'El patio y sus senderos', foco: { x: 45, y: 55, z: 1 },
+      puntos: [
+        { id: 'ap-frente', type: 'go', to: 'aerea-frente', x: 34, y: 42, label: 'Ver la entrada de frente' },
+        { id: 'ap-esquina', type: 'go', to: 'aerea-esquina', x: 52, y: 33, label: 'Acercarse a la esquina' },
+        { id: 'ap-volver', type: 'go', to: 'aerea', back: true, x: 22, y: 86, label: 'Volver a la vista general' }
+      ]
+    },
+    'aerea-frente': {
+      nombre: 'La entrada vista desde arriba', foco: { x: 52, y: 52, z: 1 },
+      puntos: [
+        { id: 'af2-entrada', type: 'go', to: 'entrada', x: 50, y: 40, label: 'Ir a la entrada del museo' },
+        { id: 'af2-logo', type: 'piece', piece: 'logo-fachada', x: 64, y: 13, label: 'Mirar el logo' },
+        { id: 'af2-camino', type: 'go', to: 'aerea-camino', x: 50, y: 74, label: 'Avanzar por el sendero' },
+        { id: 'af2-volver', type: 'go', to: 'aerea-patio', back: true, x: 20, y: 86, label: 'Volver al patio' }
+      ]
+    },
+    'aerea-camino': {
+      nombre: 'El sendero hacia la puerta', foco: { x: 50, y: 52, z: 1 },
+      puntos: [
+        { id: 'ac-entrada', type: 'go', to: 'entrada', x: 50, y: 27, label: 'Entrar al museo' },
+        { id: 'ac-jardin', type: 'go', to: 'aerea-jardin', x: 24, y: 58, label: 'Pasar al jardín' },
+        { id: 'ac-volver', type: 'go', to: 'aerea-frente', back: true, x: 50, y: 72, label: 'Volver a la vista frontal' }
+      ]
+    },
+    'aerea-jardin': {
+      nombre: 'El jardín de la galería', foco: { x: 50, y: 50, z: 1 },
+      puntos: [
+        { id: 'aj-galeria', type: 'go', to: 'aerea-galeria', x: 42, y: 24, label: 'Seguir por la galería' },
+        { id: 'aj-volver', type: 'go', to: 'aerea-camino', back: true, x: 50, y: 72, label: 'Volver al sendero' }
+      ]
+    },
+    'aerea-galeria': {
+      nombre: 'La galería y la palmera', foco: { x: 45, y: 50, z: 1 },
+      puntos: [
+        { id: 'ag-galeria', type: 'go', to: 'galeria', x: 28, y: 38, label: 'Entrar a la galería' },
+        { id: 'ag-esquina', type: 'go', to: 'aerea-esquina', x: 62, y: 22, label: 'Seguir por el costado' },
+        { id: 'ag-volver', type: 'go', to: 'aerea-jardin', back: true, x: 50, y: 90, label: 'Volver al jardín' }
+      ]
+    },
+    'aerea-esquina': {
+      nombre: 'La esquina del edificio', foco: { x: 50, y: 52, z: 1 },
+      puntos: [
+        { id: 'ae-galeria', type: 'go', to: 'galeria', x: 42, y: 62, label: 'Recorrer la galería' },
+        { id: 'ae-logo', type: 'piece', piece: 'logo-fachada', x: 72, y: 19, label: 'Mirar el logo' },
+        { id: 'ae-volver', type: 'go', to: 'aerea', back: true, x: 50, y: 90, label: 'Volver a la vista general' }
       ]
     },
     parque: {
@@ -57,6 +109,7 @@ window.VISITA_MUSEO = {
         { id: 'e-logo', type: 'piece', piece: 'logo-fachada', x: 61, y: 21, label: 'Mirar el logo' },
         { id: 'e-galeria', type: 'go', to: 'galeria', x: 86, y: 58, label: 'Recorrer la galería' },
         { id: 'e-aud', type: 'go', to: 'auditorio', x: 27, y: 57, label: 'Ir al auditorio' },
+        { id: 'e-aire', type: 'go', to: 'aerea-frente', x: 62, y: 12, label: 'Ver la entrada desde el aire' },
         { id: 'e-volver', type: 'go', to: 'parque', back: true, x: 50, y: 84, label: 'Volver al parque' }
       ]
     },
@@ -155,9 +208,47 @@ window.VISITA_MUSEO = {
     'antiguo-fachada': {
       nombre: 'La iglesia nueva', foco: { x: 50, y: 50, z: 1 },
       puntos: [
-        { id: 'af-entrar', type: 'go', to: 'antiguo-sala', x: 50, y: 76, label: 'Entrar al Museo de Arte Sacro' },
+        { id: 'af-entrar', type: 'go', to: 'sacro-frente', x: 50, y: 76, label: 'Ir al Museo de Arte Sacro' },
         { id: 'af-campana', type: 'piece', piece: 'campana-torre', x: 53, y: 36, label: 'Examinar la campana' },
         { id: 'af-nuevo', type: 'go', to: 'parque', back: true, x: 88, y: 84, label: 'Visitar el museo nuevo' }
+      ]
+    },
+    'sacro-frente': {
+      nombre: 'Frente del Museo de Arte Sacro', foco: { x: 48, y: 50, z: 1 },
+      puntos: [
+        { id: 'sf-entrar', type: 'go', to: 'antiguo-sala', x: 46, y: 66, label: 'Entrar al museo' },
+        { id: 'sf-portico', type: 'go', to: 'sacro-portico', x: 19, y: 62, label: 'Pasar al pórtico' },
+        { id: 'sf-galeria', type: 'go', to: 'sacro-galeria', x: 80, y: 77, label: 'Recorrer la galería' },
+        { id: 'sf-cruz', type: 'piece', piece: 'sacro-cruz', x: 88, y: 46, label: 'Mirar la cruz' },
+        { id: 'sf-volver', type: 'go', to: 'antiguo-fachada', back: true, x: 56, y: 90, label: 'Volver a la iglesia nueva' }
+      ]
+    },
+    'sacro-portico': {
+      nombre: 'Pórtico de columnas', foco: { x: 50, y: 52, z: 1 },
+      puntos: [
+        { id: 'sp-galeria', type: 'go', to: 'sacro-galeria', x: 90, y: 50, label: 'Seguir por la galería' },
+        { id: 'sp-volver', type: 'go', to: 'sacro-frente', back: true, x: 50, y: 72, label: 'Volver al frente del museo' }
+      ]
+    },
+    'sacro-galeria': {
+      nombre: 'Galería de madera', foco: { x: 40, y: 50, z: 1 },
+      puntos: [
+        { id: 'sg-seguir', type: 'go', to: 'sacro-galeria2', x: 30, y: 57, label: 'Seguir por la galería' },
+        { id: 'sg-volver', type: 'go', to: 'sacro-frente', back: true, x: 50, y: 72, label: 'Volver al frente del museo' }
+      ]
+    },
+    'sacro-galeria2': {
+      nombre: 'Galería y plaza', foco: { x: 40, y: 50, z: 1 },
+      puntos: [
+        { id: 'sg2-frente', type: 'go', to: 'sacro-frente', x: 24, y: 58, label: 'Salir al frente del museo' },
+        { id: 'sg2-volver', type: 'go', to: 'sacro-galeria', back: true, x: 50, y: 72, label: 'Volver atrás' }
+      ]
+    },
+    'sacro-puerta': {
+      nombre: 'La puerta principal', foco: { x: 50, y: 52, z: 1 },
+      puntos: [
+        { id: 'spu-salir', type: 'go', to: 'sacro-portico', x: 50, y: 58, label: 'Salir al pórtico' },
+        { id: 'spu-volver', type: 'go', to: 'sacro-nave', back: true, x: 50, y: 72, label: 'Volver a la sala' }
       ]
     },
     'antiguo-sala': {
@@ -167,7 +258,42 @@ window.VISITA_MUSEO = {
         { id: 'as-imagen', type: 'piece', piece: 'antiguo-imagen', x: 58, y: 42, label: 'Examinar la imagen del altar' },
         { id: 'as-manto', type: 'piece', piece: 'antiguo-manto', x: 19, y: 47, label: 'Examinar la imagen con manto' },
         { id: 'as-farol', type: 'piece', piece: 'antiguo-farol', x: 8, y: 60, label: 'Examinar la vitrina' },
-        { id: 'as-volver', type: 'go', to: 'antiguo-fachada', back: true, x: 50, y: 84, label: 'Salir a la iglesia' }
+        { id: 'as-retablo', type: 'go', to: 'sacro-retablos', x: 50, y: 27, label: 'Acercarse al retablo' },
+        { id: 'as-nave', type: 'go', to: 'sacro-nave', x: 92, y: 52, label: 'Recorrer la sala' },
+        { id: 'as-volver', type: 'go', to: 'sacro-frente', back: true, x: 50, y: 88, label: 'Salir al frente del museo' }
+      ]
+    },
+    'sacro-retablos': {
+      nombre: 'Retablos dorados', foco: { x: 50, y: 52, z: 1 },
+      puntos: [
+        { id: 'sr-roque', type: 'piece', piece: 'sacro-san-roque', x: 38, y: 58, label: 'Examinar la imagen de San Roque' },
+        { id: 'sr-asuncion', type: 'piece', piece: 'sacro-asuncion', x: 57, y: 52, label: 'Examinar la Asunción de la Virgen' },
+        { id: 'sr-volver', type: 'go', to: 'antiguo-sala', back: true, x: 18, y: 86, label: 'Volver a la sala' }
+      ]
+    },
+    'sacro-nave': {
+      nombre: 'La sala bajo las vigas', foco: { x: 52, y: 52, z: 1 },
+      puntos: [
+        { id: 'sn-campana', type: 'go', to: 'sacro-campana', x: 80, y: 66, label: 'Acercarse a las campanas' },
+        { id: 'sn-confe', type: 'go', to: 'sacro-confesionario', x: 12, y: 62, label: 'Ver el confesionario y el piano' },
+        { id: 'sn-retablo', type: 'go', to: 'sacro-retablos', x: 55, y: 50, label: 'Ir al retablo' },
+        { id: 'sn-sala', type: 'go', to: 'antiguo-sala', back: true, x: 30, y: 78, label: 'Volver a la sala' },
+        { id: 'sn-puerta', type: 'go', to: 'sacro-puerta', back: true, x: 70, y: 78, label: 'Mirar hacia la puerta' }
+      ]
+    },
+    'sacro-campana': {
+      nombre: 'Campanas en el piso de la sala', foco: { x: 55, y: 60, z: 1 },
+      puntos: [
+        { id: 'sc-campanas', type: 'piece', piece: 'sacro-campanas', x: 55, y: 70, label: 'Examinar las campanas' },
+        { id: 'sc-volver', type: 'go', to: 'sacro-nave', back: true, x: 50, y: 72, label: 'Volver a la sala' }
+      ]
+    },
+    'sacro-confesionario': {
+      nombre: 'Confesionario y piano', foco: { x: 40, y: 52, z: 1 },
+      puntos: [
+        { id: 'scf-confe', type: 'piece', piece: 'sacro-confesionario', x: 34, y: 50, label: 'Examinar el confesionario' },
+        { id: 'scf-teclado', type: 'piece', piece: 'sacro-teclado', x: 62, y: 62, label: 'Examinar el instrumento de teclado' },
+        { id: 'scf-volver', type: 'go', to: 'sacro-nave', back: true, x: 78, y: 72, label: 'Volver a la sala' }
       ]
     }
   },
@@ -225,12 +351,30 @@ window.VISITA_MUSEO = {
     'antiguo-manto': { titulo: 'Imagen con manto negro', vermas: ['antiguo-imagen', 'antiguo-campana'], foto: 'antiguo-manto', epoca: null, procedencia: null, autor: null, pendiente: true,
       descripcion: 'Imagen vestida con un largo manto negro, junto a la columna del retablo lateral.' },
     'antiguo-farol': { titulo: 'Vitrina con forma de farol', foto: 'antiguo-farol', epoca: null, procedencia: null, autor: null, pendiente: true,
-      descripcion: 'Pequeña vitrina de vidrio con techo a dos aguas y una cruz en lo alto, sobre un pedestal.' }
+      descripcion: 'Pequeña vitrina de vidrio con techo a dos aguas y una cruz en lo alto, sobre un pedestal.' },
+    'sacro-asuncion': { titulo: 'Asunción de la Virgen', vermas: ['sacro-san-roque', 'antiguo-imagen'], foto: 'sacro-asuncion', epoca: 'Siglo XVIII (según el cartel del museo)', procedencia: 'Misiones Jesuíticas (según el cartel del museo)', autor: null,
+      descripcion: 'Talla policromada de la Virgen con vestiduras doradas y un manto rojo, que se eleva sobre nubes y cabezas de ángeles. Está flanqueada por dos candeleros de madera oscura.',
+      detalle: 'Los rostros de los ángeles entre las nubes, en la base de la imagen.' },
+    'sacro-san-roque': { titulo: 'San Roque sobre peana verde', vermas: ['sacro-asuncion', 'san-roque-peana'], foto: 'sacro-san-roque', epoca: 'Siglo XVIII (según el cartel del museo)', procedencia: null, autor: null,
+      descripcion: 'San Roque con su perro sobre una peana pintada de verde con motivos dorados en forma de estrella. El cartel del museo lo ubica en el siglo XVIII.',
+      detalle: 'El perro a sus pies y las estrellas doradas que decoran la peana.' },
+    'sacro-campanas': { titulo: 'Campanas en el piso de la sala', vermas: ['antiguo-campana'], foto: 'sacro-campanas', epoca: null, procedencia: null, autor: null, pendiente: true,
+      descripcion: 'Dos campanas apoyadas sobre bases de madera en el piso de ladrillo, con cordones que delimitan el paso. Una tiene un cartel explicativo.',
+      detalle: 'Las asas en forma de volutas, en la parte superior de la campana mayor.' },
+    'sacro-confesionario': { titulo: 'Confesionario de madera', vermas: ['sacro-teclado'], foto: 'sacro-confesionario', epoca: null, procedencia: null, autor: null, pendiente: true,
+      descripcion: 'Confesionario de madera pintado en gris, con puerta central y una rejilla calada.' },
+    'sacro-teclado': { titulo: 'Instrumento de teclado', vermas: ['sacro-confesionario'], foto: 'sacro-teclado', epoca: null, procedencia: null, autor: null, pendiente: true,
+      descripcion: 'Instrumento de teclado de madera oscura apoyado contra la pared, junto al confesionario.' },
+    'sacro-cruz': { titulo: 'Cruz de madera', foto: 'sacro-cruz', epoca: null, procedencia: null, autor: null, pendiente: true,
+      descripcion: 'Cruz de madera sobre una base escalonada blanca, junto a la galería del museo.' }
   },
 
   // Visita guiada: una parada por escena. foco = {x, y, z} de la cámara; punto = hotspot a resaltar.
   guiada: [
-    { escena: 'aerea', foco: { x: 55, y: 55, z: 1 }, texto: 'Empezamos desde el aire: el museo nuevo rodeado de jardines, con su galería de techo rojo.' },
+    { escena: 'aerea', foco: { x: 55, y: 55, z: 1 }, punto: 'a-patio', texto: 'Empezamos desde el aire: el museo nuevo rodeado de jardines, con su galería de techo rojo y sus senderos.' },
+    { escena: 'aerea-patio', foco: { x: 45, y: 55, z: 1 }, punto: 'ap-frente', texto: 'Desde otro ángulo se ve cómo los senderos cruzan el patio hasta la entrada.' },
+    { escena: 'aerea-frente', foco: { x: 52, y: 50, z: 1 }, punto: 'af2-entrada', texto: 'Vista de frente: el logo del museo sobre la entrada, con el sendero que llega hasta la puerta.' },
+    { escena: 'aerea-galeria', foco: { x: 40, y: 45, z: 1 }, punto: 'ag-galeria', texto: 'El otro extremo del edificio: la galería de techo rojo y una palmera junto al jardín.' },
     { escena: 'parque', foco: { x: 55, y: 55, z: 1.4 }, punto: 'p-busto', texto: 'Llegamos por el parque. Al costado del edificio nos recibe una escultura de metal.' },
     { escena: 'entrada', foco: { x: 55, y: 45, z: 1 }, punto: 'e-sala', texto: 'El logo del museo marca el ingreso. Entremos a la sala de exposición.' },
     { escena: 'galeria', foco: { x: 55, y: 60, z: 1.3 }, punto: 'g-morteros', texto: 'La galería también exhibe piezas. Fijate en los morteros de madera: uno tiene grabado el año 1915.' },
@@ -244,6 +388,12 @@ window.VISITA_MUSEO = {
     { escena: 'pila', foco: { x: 50, y: 55, z: 1.2 }, punto: 'pi-pila', texto: 'Una pila de piedra veteada, junto al muro de la sala.' },
     { escena: 'arte', foco: { x: 40, y: 55, z: 1.1 }, punto: 'ar-cuadro', texto: 'La sala de arte: pinturas y esculturas sobre pedestales y muebles.' },
     { escena: 'antiguo-fachada', foco: { x: 50, y: 55, z: 1 }, punto: 'af-entrar', texto: 'Terminamos en la iglesia nueva. Entremos al Museo de Arte Sacro por la puerta principal.' },
-    { escena: 'antiguo-sala', foco: { x: 55, y: 60, z: 1 }, punto: 'as-campana', texto: 'El Museo de Arte Sacro: imágenes, vitrinas y una gran campana bajo el techo de vigas de madera. Fin de la visita guiada.' }
+    { escena: 'sacro-frente', foco: { x: 48, y: 50, z: 1 }, punto: 'sf-entrar', texto: 'Este es el frente del Museo de Arte Sacro: una capilla blanca con pórtico de columnas y una galería de madera.' },
+    { escena: 'sacro-galeria', foco: { x: 40, y: 55, z: 1 }, punto: 'sg-seguir', texto: 'La galería de pilares de madera rodea el edificio y da a la plaza.' },
+    { escena: 'sacro-portico', foco: { x: 50, y: 52, z: 1 }, punto: 'sp-galeria', texto: 'Dos columnas enmarcan la plaza desde el pórtico, antes de cruzar la puerta.' },
+    { escena: 'antiguo-sala', foco: { x: 55, y: 60, z: 1 }, punto: 'as-campana', texto: 'Adentro, imágenes, vitrinas y una gran campana bajo el techo de vigas de madera.' },
+    { escena: 'sacro-retablos', foco: { x: 50, y: 52, z: 1.1 }, punto: 'sr-asuncion', texto: 'Entre los retablos dorados están San Roque y la Asunción de la Virgen. Los carteles del museo los ubican en el siglo XVIII.' },
+    { escena: 'sacro-nave', foco: { x: 52, y: 52, z: 1 }, punto: 'sn-campana', texto: 'La sala vista desde un costado: campanas en el piso de ladrillo, vitrinas y el retablo al fondo.' },
+    { escena: 'sacro-campana', foco: { x: 55, y: 62, z: 1.1 }, punto: 'sc-campanas', texto: 'Dos campanas apoyadas sobre bases de madera. Fin de la visita guiada.' }
   ]
 };

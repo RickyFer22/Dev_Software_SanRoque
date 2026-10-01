@@ -1,12 +1,25 @@
 {
- "generado": "2026-10-01T02:28:06.668Z",
+ "generado": "2026-10-01T11:48:30.311Z",
  "sectores": [
+  {
+   "id": "aer",
+   "museo": "Museo nuevo",
+   "nombre": "Vista aérea",
+   "escenas": [
+    "aerea",
+    "aerea-patio",
+    "aerea-frente",
+    "aerea-camino",
+    "aerea-jardin",
+    "aerea-galeria",
+    "aerea-esquina"
+   ]
+  },
   {
    "id": "ext",
    "museo": "Museo nuevo",
    "nombre": "Exterior",
    "escenas": [
-    "aerea",
     "parque",
     "entrada",
     "galeria"
@@ -39,10 +52,26 @@
   {
    "id": "ant",
    "museo": "Museo de Arte Sacro",
-   "nombre": "Iglesia y museo",
+   "nombre": "Iglesia y exterior",
    "escenas": [
     "antiguo-fachada",
-    "antiguo-sala"
+    "sacro-frente",
+    "sacro-portico",
+    "sacro-galeria",
+    "sacro-galeria2"
+   ]
+  },
+  {
+   "id": "sac",
+   "museo": "Museo de Arte Sacro",
+   "nombre": "Salas del museo",
+   "escenas": [
+    "sacro-puerta",
+    "antiguo-sala",
+    "sacro-retablos",
+    "sacro-nave",
+    "sacro-campana",
+    "sacro-confesionario"
    ]
   }
  ],
@@ -53,10 +82,206 @@
     {
      "id": "a-museo",
      "type": "go",
-     "label": "Acercarse al museo",
+     "label": "Bajar al museo",
      "x": 47,
-     "y": 66,
+     "y": 38,
      "to": "parque"
+    },
+    {
+     "id": "a-patio",
+     "type": "go",
+     "label": "Seguir el sendero de entrada",
+     "x": 66,
+     "y": 74,
+     "to": "aerea-patio"
+    },
+    {
+     "id": "a-galeria",
+     "type": "go",
+     "label": "Ver la galería y la palmera",
+     "x": 14,
+     "y": 38,
+     "to": "aerea-galeria"
+    }
+   ]
+  },
+  "aerea-patio": {
+   "nombre": "El patio y sus senderos",
+   "puntos": [
+    {
+     "id": "ap-frente",
+     "type": "go",
+     "label": "Ver la entrada de frente",
+     "x": 34,
+     "y": 42,
+     "to": "aerea-frente"
+    },
+    {
+     "id": "ap-esquina",
+     "type": "go",
+     "label": "Acercarse a la esquina",
+     "x": 52,
+     "y": 33,
+     "to": "aerea-esquina"
+    },
+    {
+     "id": "ap-volver",
+     "type": "go",
+     "label": "Volver a la vista general",
+     "x": 22,
+     "y": 86,
+     "to": "aerea",
+     "back": true
+    }
+   ]
+  },
+  "aerea-frente": {
+   "nombre": "La entrada vista desde arriba",
+   "puntos": [
+    {
+     "id": "af2-entrada",
+     "type": "go",
+     "label": "Ir a la entrada del museo",
+     "x": 50,
+     "y": 40,
+     "to": "entrada"
+    },
+    {
+     "id": "af2-logo",
+     "type": "piece",
+     "label": "Mirar el logo",
+     "x": 64,
+     "y": 13,
+     "piece": "logo-fachada"
+    },
+    {
+     "id": "af2-camino",
+     "type": "go",
+     "label": "Avanzar por el sendero",
+     "x": 50,
+     "y": 74,
+     "to": "aerea-camino"
+    },
+    {
+     "id": "af2-volver",
+     "type": "go",
+     "label": "Volver al patio",
+     "x": 20,
+     "y": 86,
+     "to": "aerea-patio",
+     "back": true
+    }
+   ]
+  },
+  "aerea-camino": {
+   "nombre": "El sendero hacia la puerta",
+   "puntos": [
+    {
+     "id": "ac-entrada",
+     "type": "go",
+     "label": "Entrar al museo",
+     "x": 50,
+     "y": 27,
+     "to": "entrada"
+    },
+    {
+     "id": "ac-jardin",
+     "type": "go",
+     "label": "Pasar al jardín",
+     "x": 24,
+     "y": 58,
+     "to": "aerea-jardin"
+    },
+    {
+     "id": "ac-volver",
+     "type": "go",
+     "label": "Volver a la vista frontal",
+     "x": 50,
+     "y": 72,
+     "to": "aerea-frente",
+     "back": true
+    }
+   ]
+  },
+  "aerea-jardin": {
+   "nombre": "El jardín de la galería",
+   "puntos": [
+    {
+     "id": "aj-galeria",
+     "type": "go",
+     "label": "Seguir por la galería",
+     "x": 42,
+     "y": 24,
+     "to": "aerea-galeria"
+    },
+    {
+     "id": "aj-volver",
+     "type": "go",
+     "label": "Volver al sendero",
+     "x": 50,
+     "y": 72,
+     "to": "aerea-camino",
+     "back": true
+    }
+   ]
+  },
+  "aerea-galeria": {
+   "nombre": "La galería y la palmera",
+   "puntos": [
+    {
+     "id": "ag-galeria",
+     "type": "go",
+     "label": "Entrar a la galería",
+     "x": 28,
+     "y": 38,
+     "to": "galeria"
+    },
+    {
+     "id": "ag-esquina",
+     "type": "go",
+     "label": "Seguir por el costado",
+     "x": 62,
+     "y": 22,
+     "to": "aerea-esquina"
+    },
+    {
+     "id": "ag-volver",
+     "type": "go",
+     "label": "Volver al jardín",
+     "x": 50,
+     "y": 90,
+     "to": "aerea-jardin",
+     "back": true
+    }
+   ]
+  },
+  "aerea-esquina": {
+   "nombre": "La esquina del edificio",
+   "puntos": [
+    {
+     "id": "ae-galeria",
+     "type": "go",
+     "label": "Recorrer la galería",
+     "x": 42,
+     "y": 62,
+     "to": "galeria"
+    },
+    {
+     "id": "ae-logo",
+     "type": "piece",
+     "label": "Mirar el logo",
+     "x": 72,
+     "y": 19,
+     "piece": "logo-fachada"
+    },
+    {
+     "id": "ae-volver",
+     "type": "go",
+     "label": "Volver a la vista general",
+     "x": 50,
+     "y": 90,
+     "to": "aerea",
+     "back": true
     }
    ]
   },
@@ -123,6 +348,14 @@
      "x": 27,
      "y": 57,
      "to": "auditorio"
+    },
+    {
+     "id": "e-aire",
+     "type": "go",
+     "label": "Ver la entrada desde el aire",
+     "x": 62,
+     "y": 12,
+     "to": "aerea-frente"
     },
     {
      "id": "e-volver",
@@ -503,10 +736,10 @@
     {
      "id": "af-entrar",
      "type": "go",
-     "label": "Entrar al Museo de Arte Sacro",
+     "label": "Ir al Museo de Arte Sacro",
      "x": 50,
      "y": 76,
-     "to": "antiguo-sala"
+     "to": "sacro-frente"
     },
     {
      "id": "af-campana",
@@ -523,6 +756,140 @@
      "x": 88,
      "y": 84,
      "to": "parque",
+     "back": true
+    }
+   ]
+  },
+  "sacro-frente": {
+   "nombre": "Frente del Museo de Arte Sacro",
+   "puntos": [
+    {
+     "id": "sf-entrar",
+     "type": "go",
+     "label": "Entrar al museo",
+     "x": 46,
+     "y": 66,
+     "to": "antiguo-sala"
+    },
+    {
+     "id": "sf-portico",
+     "type": "go",
+     "label": "Pasar al pórtico",
+     "x": 19,
+     "y": 62,
+     "to": "sacro-portico"
+    },
+    {
+     "id": "sf-galeria",
+     "type": "go",
+     "label": "Recorrer la galería",
+     "x": 80,
+     "y": 77,
+     "to": "sacro-galeria"
+    },
+    {
+     "id": "sf-cruz",
+     "type": "piece",
+     "label": "Mirar la cruz",
+     "x": 88,
+     "y": 46,
+     "piece": "sacro-cruz"
+    },
+    {
+     "id": "sf-volver",
+     "type": "go",
+     "label": "Volver a la iglesia nueva",
+     "x": 56,
+     "y": 90,
+     "to": "antiguo-fachada",
+     "back": true
+    }
+   ]
+  },
+  "sacro-portico": {
+   "nombre": "Pórtico de columnas",
+   "puntos": [
+    {
+     "id": "sp-galeria",
+     "type": "go",
+     "label": "Seguir por la galería",
+     "x": 90,
+     "y": 50,
+     "to": "sacro-galeria"
+    },
+    {
+     "id": "sp-volver",
+     "type": "go",
+     "label": "Volver al frente del museo",
+     "x": 50,
+     "y": 72,
+     "to": "sacro-frente",
+     "back": true
+    }
+   ]
+  },
+  "sacro-galeria": {
+   "nombre": "Galería de madera",
+   "puntos": [
+    {
+     "id": "sg-seguir",
+     "type": "go",
+     "label": "Seguir por la galería",
+     "x": 30,
+     "y": 57,
+     "to": "sacro-galeria2"
+    },
+    {
+     "id": "sg-volver",
+     "type": "go",
+     "label": "Volver al frente del museo",
+     "x": 50,
+     "y": 72,
+     "to": "sacro-frente",
+     "back": true
+    }
+   ]
+  },
+  "sacro-galeria2": {
+   "nombre": "Galería y plaza",
+   "puntos": [
+    {
+     "id": "sg2-frente",
+     "type": "go",
+     "label": "Salir al frente del museo",
+     "x": 24,
+     "y": 58,
+     "to": "sacro-frente"
+    },
+    {
+     "id": "sg2-volver",
+     "type": "go",
+     "label": "Volver atrás",
+     "x": 50,
+     "y": 72,
+     "to": "sacro-galeria",
+     "back": true
+    }
+   ]
+  },
+  "sacro-puerta": {
+   "nombre": "La puerta principal",
+   "puntos": [
+    {
+     "id": "spu-salir",
+     "type": "go",
+     "label": "Salir al pórtico",
+     "x": 50,
+     "y": 58,
+     "to": "sacro-portico"
+    },
+    {
+     "id": "spu-volver",
+     "type": "go",
+     "label": "Volver a la sala",
+     "x": 50,
+     "y": 72,
+     "to": "sacro-nave",
      "back": true
     }
    ]
@@ -563,12 +930,157 @@
      "piece": "antiguo-farol"
     },
     {
+     "id": "as-retablo",
+     "type": "go",
+     "label": "Acercarse al retablo",
+     "x": 50,
+     "y": 27,
+     "to": "sacro-retablos"
+    },
+    {
+     "id": "as-nave",
+     "type": "go",
+     "label": "Recorrer la sala",
+     "x": 92,
+     "y": 52,
+     "to": "sacro-nave"
+    },
+    {
      "id": "as-volver",
      "type": "go",
-     "label": "Salir a la iglesia",
+     "label": "Salir al frente del museo",
      "x": 50,
-     "y": 84,
-     "to": "antiguo-fachada",
+     "y": 88,
+     "to": "sacro-frente",
+     "back": true
+    }
+   ]
+  },
+  "sacro-retablos": {
+   "nombre": "Retablos dorados",
+   "puntos": [
+    {
+     "id": "sr-roque",
+     "type": "piece",
+     "label": "Examinar la imagen de San Roque",
+     "x": 38,
+     "y": 58,
+     "piece": "sacro-san-roque"
+    },
+    {
+     "id": "sr-asuncion",
+     "type": "piece",
+     "label": "Examinar la Asunción de la Virgen",
+     "x": 57,
+     "y": 52,
+     "piece": "sacro-asuncion"
+    },
+    {
+     "id": "sr-volver",
+     "type": "go",
+     "label": "Volver a la sala",
+     "x": 18,
+     "y": 86,
+     "to": "antiguo-sala",
+     "back": true
+    }
+   ]
+  },
+  "sacro-nave": {
+   "nombre": "La sala bajo las vigas",
+   "puntos": [
+    {
+     "id": "sn-campana",
+     "type": "go",
+     "label": "Acercarse a las campanas",
+     "x": 80,
+     "y": 66,
+     "to": "sacro-campana"
+    },
+    {
+     "id": "sn-confe",
+     "type": "go",
+     "label": "Ver el confesionario y el piano",
+     "x": 12,
+     "y": 62,
+     "to": "sacro-confesionario"
+    },
+    {
+     "id": "sn-retablo",
+     "type": "go",
+     "label": "Ir al retablo",
+     "x": 55,
+     "y": 50,
+     "to": "sacro-retablos"
+    },
+    {
+     "id": "sn-sala",
+     "type": "go",
+     "label": "Volver a la sala",
+     "x": 30,
+     "y": 78,
+     "to": "antiguo-sala",
+     "back": true
+    },
+    {
+     "id": "sn-puerta",
+     "type": "go",
+     "label": "Mirar hacia la puerta",
+     "x": 70,
+     "y": 78,
+     "to": "sacro-puerta",
+     "back": true
+    }
+   ]
+  },
+  "sacro-campana": {
+   "nombre": "Campanas en el piso de la sala",
+   "puntos": [
+    {
+     "id": "sc-campanas",
+     "type": "piece",
+     "label": "Examinar las campanas",
+     "x": 55,
+     "y": 70,
+     "piece": "sacro-campanas"
+    },
+    {
+     "id": "sc-volver",
+     "type": "go",
+     "label": "Volver a la sala",
+     "x": 50,
+     "y": 72,
+     "to": "sacro-nave",
+     "back": true
+    }
+   ]
+  },
+  "sacro-confesionario": {
+   "nombre": "Confesionario y piano",
+   "puntos": [
+    {
+     "id": "scf-confe",
+     "type": "piece",
+     "label": "Examinar el confesionario",
+     "x": 34,
+     "y": 50,
+     "piece": "sacro-confesionario"
+    },
+    {
+     "id": "scf-teclado",
+     "type": "piece",
+     "label": "Examinar el instrumento de teclado",
+     "x": 62,
+     "y": 62,
+     "piece": "sacro-teclado"
+    },
+    {
+     "id": "scf-volver",
+     "type": "go",
+     "label": "Volver a la sala",
+     "x": 78,
+     "y": 72,
+     "to": "sacro-nave",
      "back": true
     }
    ]
@@ -845,6 +1357,84 @@
    "procedencia": "",
    "autor": "",
    "foto": "antiguo-farol",
+   "vermas": [],
+   "pendiente": true
+  },
+  "sacro-asuncion": {
+   "titulo": "Asunción de la Virgen",
+   "descripcion": "Talla policromada de la Virgen con vestiduras doradas y un manto rojo, que se eleva sobre nubes y cabezas de ángeles. Está flanqueada por dos candeleros de madera oscura.",
+   "detalle": "Los rostros de los ángeles entre las nubes, en la base de la imagen.",
+   "epoca": "Siglo XVIII (según el cartel del museo)",
+   "procedencia": "Misiones Jesuíticas (según el cartel del museo)",
+   "autor": "",
+   "foto": "sacro-asuncion",
+   "vermas": [
+    "sacro-san-roque",
+    "antiguo-imagen"
+   ],
+   "pendiente": false
+  },
+  "sacro-san-roque": {
+   "titulo": "San Roque sobre peana verde",
+   "descripcion": "San Roque con su perro sobre una peana pintada de verde con motivos dorados en forma de estrella. El cartel del museo lo ubica en el siglo XVIII.",
+   "detalle": "El perro a sus pies y las estrellas doradas que decoran la peana.",
+   "epoca": "Siglo XVIII (según el cartel del museo)",
+   "procedencia": "",
+   "autor": "",
+   "foto": "sacro-san-roque",
+   "vermas": [
+    "sacro-asuncion",
+    "san-roque-peana"
+   ],
+   "pendiente": false
+  },
+  "sacro-campanas": {
+   "titulo": "Campanas en el piso de la sala",
+   "descripcion": "Dos campanas apoyadas sobre bases de madera en el piso de ladrillo, con cordones que delimitan el paso. Una tiene un cartel explicativo.",
+   "detalle": "Las asas en forma de volutas, en la parte superior de la campana mayor.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "sacro-campanas",
+   "vermas": [
+    "antiguo-campana"
+   ],
+   "pendiente": true
+  },
+  "sacro-confesionario": {
+   "titulo": "Confesionario de madera",
+   "descripcion": "Confesionario de madera pintado en gris, con puerta central y una rejilla calada.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "sacro-confesionario",
+   "vermas": [
+    "sacro-teclado"
+   ],
+   "pendiente": true
+  },
+  "sacro-teclado": {
+   "titulo": "Instrumento de teclado",
+   "descripcion": "Instrumento de teclado de madera oscura apoyado contra la pared, junto al confesionario.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "sacro-teclado",
+   "vermas": [
+    "sacro-confesionario"
+   ],
+   "pendiente": true
+  },
+  "sacro-cruz": {
+   "titulo": "Cruz de madera",
+   "descripcion": "Cruz de madera sobre una base escalonada blanca, junto a la galería del museo.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "sacro-cruz",
    "vermas": [],
    "pendiente": true
   }
@@ -1189,10 +1779,226 @@
      640
     ]
    ]
+  },
+  "sacro-asuncion": {
+   "w": 1895,
+   "h": 2649,
+   "v": [
+    [
+     458,
+     640
+    ],
+    [
+     858,
+     1200
+    ],
+    [
+     1288,
+     1800
+    ]
+   ]
+  },
+  "sacro-san-roque": {
+   "w": 1540,
+   "h": 2096,
+   "v": [
+    [
+     470,
+     640
+    ],
+    [
+     882,
+     1200
+    ],
+    [
+     1323,
+     1800
+    ]
+   ]
+  },
+  "sacro-campanas": {
+   "w": 3422,
+   "h": 2995,
+   "v": [
+    [
+     640,
+     560
+    ],
+    [
+     1200,
+     1050
+    ],
+    [
+     1800,
+     1575
+    ]
+   ]
+  },
+  "sacro-confesionario": {
+   "w": 1586,
+   "h": 3605,
+   "v": [
+    [
+     282,
+     640
+    ],
+    [
+     528,
+     1200
+    ],
+    [
+     792,
+     1800
+    ]
+   ]
+  },
+  "sacro-teclado": {
+   "w": 1226,
+   "h": 1983,
+   "v": [
+    [
+     396,
+     640
+    ],
+    [
+     742,
+     1200
+    ],
+    [
+     1113,
+     1800
+    ]
+   ]
+  },
+  "sacro-cruz": {
+   "w": 1176,
+   "h": 2708,
+   "v": [
+    [
+     278,
+     640
+    ],
+    [
+     521,
+     1200
+    ],
+    [
+     782,
+     1800
+    ]
+   ]
   }
  },
  "fotosEscenas": {
   "aerea": {
+   "w": 4000,
+   "h": 2250,
+   "v": [
+    [
+     900,
+     506
+    ],
+    [
+     1600,
+     900
+    ],
+    [
+     2400,
+     1350
+    ]
+   ]
+  },
+  "aerea-patio": {
+   "w": 4000,
+   "h": 2250,
+   "v": [
+    [
+     900,
+     506
+    ],
+    [
+     1600,
+     900
+    ],
+    [
+     2400,
+     1350
+    ]
+   ]
+  },
+  "aerea-frente": {
+   "w": 3868,
+   "h": 2176,
+   "v": [
+    [
+     900,
+     506
+    ],
+    [
+     1600,
+     900
+    ],
+    [
+     2400,
+     1350
+    ]
+   ]
+  },
+  "aerea-camino": {
+   "w": 2190,
+   "h": 3893,
+   "v": [
+    [
+     506,
+     900
+    ],
+    [
+     900,
+     1600
+    ],
+    [
+     1350,
+     2400
+    ]
+   ]
+  },
+  "aerea-jardin": {
+   "w": 2250,
+   "h": 4000,
+   "v": [
+    [
+     506,
+     900
+    ],
+    [
+     900,
+     1600
+    ],
+    [
+     1350,
+     2400
+    ]
+   ]
+  },
+  "aerea-galeria": {
+   "w": 4000,
+   "h": 2250,
+   "v": [
+    [
+     900,
+     506
+    ],
+    [
+     1600,
+     900
+    ],
+    [
+     2400,
+     1350
+    ]
+   ]
+  },
+  "aerea-esquina": {
    "w": 4000,
    "h": 2250,
    "v": [
@@ -1477,6 +2283,168 @@
     [
      2400,
      1602
+    ]
+   ]
+  },
+  "sacro-frente": {
+   "w": 5878,
+   "h": 3924,
+   "v": [
+    [
+     900,
+     601
+    ],
+    [
+     1600,
+     1068
+    ],
+    [
+     2400,
+     1602
+    ]
+   ]
+  },
+  "sacro-portico": {
+   "w": 3620,
+   "h": 5068,
+   "v": [
+    [
+     643,
+     900
+    ],
+    [
+     1143,
+     1600
+    ],
+    [
+     1714,
+     2400
+    ]
+   ]
+  },
+  "sacro-galeria": {
+   "w": 3954,
+   "h": 5923,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "sacro-galeria2": {
+   "w": 4016,
+   "h": 6016,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "sacro-puerta": {
+   "w": 3934,
+   "h": 5507,
+   "v": [
+    [
+     643,
+     900
+    ],
+    [
+     1143,
+     1600
+    ],
+    [
+     1714,
+     2400
+    ]
+   ]
+  },
+  "sacro-retablos": {
+   "w": 5923,
+   "h": 3954,
+   "v": [
+    [
+     900,
+     601
+    ],
+    [
+     1600,
+     1068
+    ],
+    [
+     2400,
+     1602
+    ]
+   ]
+  },
+  "sacro-nave": {
+   "w": 3929,
+   "h": 4911,
+   "v": [
+    [
+     720,
+     900
+    ],
+    [
+     1280,
+     1600
+    ],
+    [
+     1920,
+     2400
+    ]
+   ]
+  },
+  "sacro-campana": {
+   "w": 3422,
+   "h": 4278,
+   "v": [
+    [
+     720,
+     900
+    ],
+    [
+     1280,
+     1600
+    ],
+    [
+     1920,
+     2400
+    ]
+   ]
+  },
+  "sacro-confesionario": {
+   "w": 3605,
+   "h": 4506,
+   "v": [
+    [
+     720,
+     900
+    ],
+    [
+     1280,
+     1600
+    ],
+    [
+     1920,
+     2400
     ]
    ]
   }
