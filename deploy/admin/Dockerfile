@@ -15,10 +15,13 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY package.json package-lock.json server.js security.js seed.js bot-service.js ./
 COPY static ./static
+COPY museo ./museo
 COPY scripts ./scripts
 # Plantilla de datos SIN cuentas por defecto. El admin real se crea en el primer
 # arranque con ADMIN_SETUP_PASSWORD / ADMIN_PASSWORD_HASH (ver server.js).
 COPY data/admin.seed.json ./data/admin.seed.json
+# Catálogo de salas y piezas de la visita virtual (siembra las fichas del museo)
+COPY data/museo.seed.json ./data/museo.seed.json
 
 ENV NODE_ENV=production \
     PORT=4000 \

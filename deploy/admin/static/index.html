@@ -7,6 +7,7 @@
   <title>Vivi San Roque · Admin</title>
   <link rel="icon" href="/img/favicon.ico" />
   <link rel="stylesheet" href="/admin/static/admin.css" />
+  <link rel="stylesheet" href="/admin/static/museo-admin.css?v=3" />
 </head>
 <body>
   <a class="skip-link" href="#admin-main">Saltar al contenido principal</a>
@@ -40,6 +41,9 @@
           </button>
           <button type="button" class="nav-item tab" data-section="actividades">
             <span class="nav-icon" data-icon="compass"></span><span class="nav-label">Lugares y experiencias</span>
+          </button>
+          <button type="button" class="nav-item tab" data-section="museo">
+            <span class="nav-icon" data-icon="history"></span><span class="nav-label">Museo</span><span class="nav-badge" data-count="0"></span>
           </button>
           <button type="button" class="nav-item tab" data-section="datos-utiles">
             <span class="nav-icon" data-icon="info"></span><span class="nav-label">Servicios y datos útiles</span>
@@ -574,6 +578,9 @@
           </div>
         </div>
 
+        <!-- MUSEO: fichas históricas de los objetos -->
+        <div id="museo" class="section"></div>
+
         <!-- USUARIOS -->
         <div id="users" class="section">
           <div class="crud-layout">
@@ -1014,5 +1021,8 @@
   <script src="/admin/static/media-manager.js"></script>
   <script src="/admin/static/editor-workflow.js"></script>
   <script src="/admin/static/app.js"></script>
+  <script src="/admin/static/museo-admin.js?v=2"></script>
+  <script src="/admin/static/museo-admin-sections.js?v=2"></script>
+  <script src="/admin/static/museo-admin-media.js?v=2"></script>
 </body>
 </html>

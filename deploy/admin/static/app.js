@@ -4,6 +4,7 @@ const ADMIN_SECTIONS = Object.freeze({
   gastronomia: { api: '/admin/api/gastronomia', title: 'Gastronomía', description: 'Restaurantes, comedores y experiencias culinarias.', icon: 'utensils', group: 'Contenido' },
   eventos: { api: '/admin/api/eventos', title: 'Eventos', description: 'Agenda cultural y turística municipal.', icon: 'calendar', group: 'Contenido' },
   actividades: { api: '/admin/api/actividades', title: 'Lugares y experiencias', description: 'Atractivos, recorridos y propuestas para visitar.', icon: 'compass', group: 'Contenido' },
+  museo: { title: 'Museo: fichas históricas', description: 'Historia, fuentes y fotografías de cada objeto, publicadas en la visita virtual.', icon: 'history', group: 'Contenido' },
   'datos-utiles': { api: '/admin/api/datos-utiles', title: 'Servicios y datos útiles', description: 'Remises, contactos y asistencia al visitante.', icon: 'info', group: 'Contenido', isDataUtil: true },
   users: { api: '/admin/api/users', title: 'Usuarios', description: 'Accesos y roles del equipo municipal.', icon: 'users', group: 'Sistema' },
   tickets: { api: '/admin/api/tickets', title: 'Tickets', description: 'Solicitudes de atención y seguimiento.', icon: 'info', group: 'Atención' },
@@ -1116,6 +1117,7 @@ function toggleSection(sectionId) {
   const breadcrumb = document.getElementById('admin-breadcrumb');
   if (breadcrumb) breadcrumb.innerHTML = `<span>Panel</span><span aria-hidden="true">/</span><strong>${section.title}</strong>`;
   closeSidebar();
+  if (sectionId === 'museo' && window.MuseoAdmin) window.MuseoAdmin.open();
   if (sectionId === 'bot-config') { initBotConfigControls(); loadBotConfig(); }
   if (sectionId === 'observability') loadObservability();
   if (sectionId === 'seguridad') loadSecurity();

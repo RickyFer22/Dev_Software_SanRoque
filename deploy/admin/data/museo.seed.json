@@ -1,0 +1,1484 @@
+{
+ "generado": "2026-10-01T01:56:50.360Z",
+ "sectores": [
+  {
+   "id": "ext",
+   "museo": "Museo nuevo",
+   "nombre": "Exterior",
+   "escenas": [
+    "aerea",
+    "parque",
+    "entrada",
+    "galeria"
+   ]
+  },
+  {
+   "id": "sala",
+   "museo": "Museo nuevo",
+   "nombre": "Sala de exposición",
+   "escenas": [
+    "sala",
+    "virgen",
+    "altar",
+    "caldero",
+    "sables",
+    "santos",
+    "nicho",
+    "pila"
+   ]
+  },
+  {
+   "id": "aud",
+   "museo": "Museo nuevo",
+   "nombre": "Auditorio y sala de arte",
+   "escenas": [
+    "auditorio",
+    "arte"
+   ]
+  },
+  {
+   "id": "ant",
+   "museo": "Museo antiguo",
+   "nombre": "Interior y fachada",
+   "escenas": [
+    "antiguo-fachada",
+    "antiguo-sala"
+   ]
+  }
+ ],
+ "escenas": {
+  "aerea": {
+   "nombre": "Vista aérea",
+   "puntos": [
+    {
+     "id": "a-museo",
+     "type": "go",
+     "label": "Acercarse al museo",
+     "x": 47,
+     "y": 66,
+     "to": "parque"
+    }
+   ]
+  },
+  "parque": {
+   "nombre": "El museo desde el parque",
+   "puntos": [
+    {
+     "id": "p-entrada",
+     "type": "go",
+     "label": "Ir a la entrada",
+     "x": 49,
+     "y": 51,
+     "to": "entrada"
+    },
+    {
+     "id": "p-busto",
+     "type": "piece",
+     "label": "Examinar la escultura",
+     "x": 93,
+     "y": 56,
+     "piece": "busto"
+    },
+    {
+     "id": "p-aire",
+     "type": "go",
+     "label": "Ver el museo desde el aire",
+     "x": 62,
+     "y": 14,
+     "to": "aerea"
+    }
+   ]
+  },
+  "entrada": {
+   "nombre": "Entrada del museo",
+   "puntos": [
+    {
+     "id": "e-sala",
+     "type": "go",
+     "label": "Entrar a la sala de exposición",
+     "x": 68,
+     "y": 58,
+     "to": "sala"
+    },
+    {
+     "id": "e-logo",
+     "type": "piece",
+     "label": "Mirar el logo",
+     "x": 61,
+     "y": 21,
+     "piece": "logo-fachada"
+    },
+    {
+     "id": "e-galeria",
+     "type": "go",
+     "label": "Recorrer la galería",
+     "x": 86,
+     "y": 58,
+     "to": "galeria"
+    },
+    {
+     "id": "e-aud",
+     "type": "go",
+     "label": "Ir al auditorio",
+     "x": 27,
+     "y": 57,
+     "to": "auditorio"
+    },
+    {
+     "id": "e-volver",
+     "type": "go",
+     "label": "Volver al parque",
+     "x": 50,
+     "y": 84,
+     "to": "parque",
+     "back": true
+    }
+   ]
+  },
+  "galeria": {
+   "nombre": "Galería",
+   "puntos": [
+    {
+     "id": "g-morteros",
+     "type": "piece",
+     "label": "Examinar los morteros",
+     "x": 62,
+     "y": 62,
+     "piece": "morteros"
+    },
+    {
+     "id": "g-sala",
+     "type": "go",
+     "label": "Entrar a la sala de exposición",
+     "x": 62,
+     "y": 22,
+     "to": "sala"
+    },
+    {
+     "id": "g-volver",
+     "type": "go",
+     "label": "Volver a la entrada",
+     "x": 30,
+     "y": 84,
+     "to": "entrada",
+     "back": true
+    }
+   ]
+  },
+  "sala": {
+   "nombre": "Sala de exposición",
+   "puntos": [
+    {
+     "id": "s-altar",
+     "type": "go",
+     "label": "Acercarse al crucifijo",
+     "x": 34,
+     "y": 36,
+     "to": "altar"
+    },
+    {
+     "id": "s-virgen",
+     "type": "go",
+     "label": "Acercarse a la imagen",
+     "x": 64,
+     "y": 50,
+     "to": "virgen"
+    },
+    {
+     "id": "s-pila",
+     "type": "go",
+     "label": "Ir a la pila de piedra",
+     "x": 27,
+     "y": 72,
+     "to": "pila"
+    },
+    {
+     "id": "s-caldero",
+     "type": "go",
+     "label": "Seguir por la sala",
+     "x": 50,
+     "y": 82,
+     "to": "caldero"
+    },
+    {
+     "id": "s-salir",
+     "type": "go",
+     "label": "Salir al acceso",
+     "x": 13,
+     "y": 47,
+     "to": "entrada",
+     "back": true
+    }
+   ]
+  },
+  "virgen": {
+   "nombre": "Imagen sobre peana",
+   "puntos": [
+    {
+     "id": "v-virgen",
+     "type": "piece",
+     "label": "Examinar la imagen",
+     "x": 50,
+     "y": 46,
+     "piece": "virgen"
+    },
+    {
+     "id": "v-volver",
+     "type": "go",
+     "label": "Volver a la vista general",
+     "x": 50,
+     "y": 84,
+     "to": "sala",
+     "back": true
+    }
+   ]
+  },
+  "altar": {
+   "nombre": "Crucifijo y altar",
+   "puntos": [
+    {
+     "id": "al-cruz",
+     "type": "piece",
+     "label": "Examinar el crucifijo",
+     "x": 43,
+     "y": 38,
+     "piece": "crucifijo"
+    },
+    {
+     "id": "al-volver",
+     "type": "go",
+     "label": "Volver a la vista general",
+     "x": 50,
+     "y": 84,
+     "to": "sala",
+     "back": true
+    }
+   ]
+  },
+  "caldero": {
+   "nombre": "Caldero y vitrinas",
+   "puntos": [
+    {
+     "id": "c-caldero",
+     "type": "piece",
+     "label": "Examinar el caldero",
+     "x": 50,
+     "y": 57,
+     "piece": "caldero"
+    },
+    {
+     "id": "c-vitrinas",
+     "type": "go",
+     "label": "Acercarse a las vitrinas",
+     "x": 48,
+     "y": 45,
+     "to": "sables"
+    },
+    {
+     "id": "c-santos",
+     "type": "go",
+     "label": "Ir a las imágenes",
+     "x": 92,
+     "y": 40,
+     "to": "santos"
+    },
+    {
+     "id": "c-volver",
+     "type": "go",
+     "label": "Volver a la vista general",
+     "x": 50,
+     "y": 84,
+     "to": "sala",
+     "back": true
+    }
+   ]
+  },
+  "sables": {
+   "nombre": "Vitrina de sables",
+   "puntos": [
+    {
+     "id": "sb-vitrina",
+     "type": "zoom",
+     "label": "Acercarse a la vitrina",
+     "x": 45,
+     "y": 70
+    },
+    {
+     "id": "sb-sables",
+     "type": "piece",
+     "label": "Examinar los sables",
+     "x": 45,
+     "y": 72,
+     "piece": "sables",
+     "showAfter": "sb-vitrina"
+    },
+    {
+     "id": "sb-volver",
+     "type": "go",
+     "label": "Volver al caldero",
+     "x": 78,
+     "y": 84,
+     "to": "caldero",
+     "back": true
+    }
+   ]
+  },
+  "santos": {
+   "nombre": "Imágenes en vitrina",
+   "puntos": [
+    {
+     "id": "st-roque",
+     "type": "piece",
+     "label": "Examinar la imagen de San Roque",
+     "x": 50,
+     "y": 33,
+     "piece": "san-roque-peana"
+    },
+    {
+     "id": "st-vitrina",
+     "type": "zoom",
+     "label": "Explorar la vitrina",
+     "x": 20,
+     "y": 36
+    },
+    {
+     "id": "st-dolorosa",
+     "type": "piece",
+     "label": "Examinar la imagen",
+     "x": 20,
+     "y": 36,
+     "piece": "dolorosa",
+     "showAfter": "st-vitrina"
+    },
+    {
+     "id": "st-cristo",
+     "type": "piece",
+     "label": "Examinar la imagen",
+     "x": 87,
+     "y": 40,
+     "piece": "cristo-cruz"
+    },
+    {
+     "id": "st-nicho",
+     "type": "go",
+     "label": "Ver el nicho de San Roque",
+     "x": 82,
+     "y": 12,
+     "to": "nicho"
+    },
+    {
+     "id": "st-volver",
+     "type": "go",
+     "label": "Volver al caldero",
+     "x": 22,
+     "y": 84,
+     "to": "caldero",
+     "back": true
+    }
+   ]
+  },
+  "nicho": {
+   "nombre": "Nicho de San Roque",
+   "puntos": [
+    {
+     "id": "n-roque",
+     "type": "piece",
+     "label": "Examinar la imagen",
+     "x": 50,
+     "y": 62,
+     "piece": "san-roque-nicho"
+    },
+    {
+     "id": "n-acta",
+     "type": "story",
+     "label": "Leer el Acta de Fundación",
+     "x": 86,
+     "y": 55,
+     "piece": "acta"
+    },
+    {
+     "id": "n-volver",
+     "type": "go",
+     "label": "Volver a las imágenes",
+     "x": 50,
+     "y": 84,
+     "to": "santos",
+     "back": true
+    }
+   ]
+  },
+  "pila": {
+   "nombre": "Pila de piedra",
+   "puntos": [
+    {
+     "id": "pi-pila",
+     "type": "piece",
+     "label": "Examinar la pila",
+     "x": 49,
+     "y": 58,
+     "piece": "pila"
+    },
+    {
+     "id": "pi-volver",
+     "type": "go",
+     "label": "Volver a la vista general",
+     "x": 62,
+     "y": 84,
+     "to": "sala",
+     "back": true
+    }
+   ]
+  },
+  "auditorio": {
+   "nombre": "Auditorio",
+   "puntos": [
+    {
+     "id": "au-logo",
+     "type": "piece",
+     "label": "Mirar el logo del museo",
+     "x": 50,
+     "y": 40,
+     "piece": "logo"
+    },
+    {
+     "id": "au-arte",
+     "type": "go",
+     "label": "Pasar a la sala de arte",
+     "x": 90,
+     "y": 70,
+     "to": "arte"
+    },
+    {
+     "id": "au-volver",
+     "type": "go",
+     "label": "Volver a la entrada",
+     "x": 50,
+     "y": 84,
+     "to": "entrada",
+     "back": true
+    }
+   ]
+  },
+  "arte": {
+   "nombre": "Sala de arte",
+   "puntos": [
+    {
+     "id": "ar-cuadro",
+     "type": "piece",
+     "label": "Examinar el cuadro",
+     "x": 30,
+     "y": 64,
+     "piece": "cuadro-paisaje"
+    },
+    {
+     "id": "ar-pinturas",
+     "type": "piece",
+     "label": "Ver las pinturas del fondo",
+     "x": 36,
+     "y": 44,
+     "piece": "pinturas"
+    },
+    {
+     "id": "ar-salir",
+     "type": "go",
+     "label": "Salir a la entrada",
+     "x": 9,
+     "y": 36,
+     "to": "entrada"
+    },
+    {
+     "id": "ar-volver",
+     "type": "go",
+     "label": "Volver al auditorio",
+     "x": 60,
+     "y": 84,
+     "to": "auditorio",
+     "back": true
+    }
+   ]
+  },
+  "antiguo-fachada": {
+   "nombre": "Fachada del museo antiguo",
+   "puntos": [
+    {
+     "id": "af-entrar",
+     "type": "go",
+     "label": "Entrar al museo antiguo",
+     "x": 50,
+     "y": 76,
+     "to": "antiguo-sala"
+    },
+    {
+     "id": "af-campana",
+     "type": "piece",
+     "label": "Examinar la campana",
+     "x": 53,
+     "y": 36,
+     "piece": "campana-torre"
+    },
+    {
+     "id": "af-nuevo",
+     "type": "go",
+     "label": "Visitar el museo nuevo",
+     "x": 88,
+     "y": 84,
+     "to": "parque",
+     "back": true
+    }
+   ]
+  },
+  "antiguo-sala": {
+   "nombre": "Sala del museo antiguo",
+   "puntos": [
+    {
+     "id": "as-campana",
+     "type": "piece",
+     "label": "Examinar la campana",
+     "x": 55,
+     "y": 77,
+     "piece": "antiguo-campana"
+    },
+    {
+     "id": "as-imagen",
+     "type": "piece",
+     "label": "Examinar la imagen del altar",
+     "x": 58,
+     "y": 42,
+     "piece": "antiguo-imagen"
+    },
+    {
+     "id": "as-manto",
+     "type": "piece",
+     "label": "Examinar la imagen con manto",
+     "x": 19,
+     "y": 47,
+     "piece": "antiguo-manto"
+    },
+    {
+     "id": "as-farol",
+     "type": "piece",
+     "label": "Examinar la vitrina",
+     "x": 8,
+     "y": 60,
+     "piece": "antiguo-farol"
+    },
+    {
+     "id": "as-volver",
+     "type": "go",
+     "label": "Salir a la fachada",
+     "x": 50,
+     "y": 84,
+     "to": "antiguo-fachada",
+     "back": true
+    }
+   ]
+  }
+ },
+ "piezas": {
+  "busto": {
+   "titulo": "Escultura en metal",
+   "descripcion": "Busto con sombrero armado con piezas de metal, ubicado en el parque frente al museo.",
+   "detalle": "El sombrero y el rostro están formados por placas metálicas superpuestas.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "busto",
+   "vermas": [],
+   "pendiente": true
+  },
+  "logo-fachada": {
+   "titulo": "Logo del museo",
+   "descripcion": "San Roque con su perro frente a un sol, rodeado por el texto «Museo de San Roque». Se repite en la fachada, el auditorio y la sala.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "logo",
+   "vermas": [
+    "san-roque-nicho"
+   ],
+   "pendiente": true
+  },
+  "morteros": {
+   "titulo": "Morteros de madera",
+   "descripcion": "Dos recipientes de madera apoyados junto a una puerta de la galería. El más claro tiene un diseño grabado.",
+   "detalle": "En la parte baja del recipiente claro se lee grabado el año 1915.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "morteros",
+   "vermas": [],
+   "pendiente": true
+  },
+  "crucifijo": {
+   "titulo": "Crucifijo y altar",
+   "descripcion": "Cristo en la cruz sobre un altar con candeleros y un libro abierto.",
+   "detalle": "Sobre la cruz, el cartel con las letras INRI.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "crucifijo",
+   "vermas": [
+    "virgen"
+   ],
+   "pendiente": true
+  },
+  "virgen": {
+   "titulo": "Imagen policromada sobre peana",
+   "descripcion": "Talla policromada de una figura femenina con vestiduras doradas y rojas, exhibida sobre nubes y cabezas de ángeles.",
+   "detalle": "En la base, los rostros de los ángeles entre las nubes.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "virgen",
+   "vermas": [
+    "crucifijo",
+    "caldero"
+   ],
+   "pendiente": true
+  },
+  "caldero": {
+   "titulo": "Caldero de hierro",
+   "descripcion": "Caldero de gran tamaño con dos asas, exhibido sobre una base blanca en medio de la sala.",
+   "detalle": "Las dos asas laterales y la superficie oscura del hierro.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "caldero",
+   "vermas": [
+    "sables",
+    "virgen"
+   ],
+   "pendiente": true
+  },
+  "sables": {
+   "titulo": "Sables y espadas",
+   "descripcion": "Sables y espadas con vainas y empuñaduras, dispuestos sobre un fondo negro dentro de una vitrina.",
+   "detalle": "La empuñadura con guarda calada, a la derecha de la vitrina.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "sables",
+   "vermas": [
+    "caldero"
+   ],
+   "pendiente": true
+  },
+  "san-roque-peana": {
+   "titulo": "San Roque sobre peana decorada",
+   "descripcion": "Imagen de San Roque con su perro, protegida por una urna de vidrio, sobre una peana pintada con flores y volutas.",
+   "detalle": "El perro a sus pies y la decoración vegetal de la base.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "san-roque-peana",
+   "vermas": [
+    "san-roque-nicho",
+    "dolorosa",
+    "cristo-cruz"
+   ],
+   "pendiente": true
+  },
+  "dolorosa": {
+   "titulo": "Imagen con manto y encaje",
+   "descripcion": "Imagen vestida con un manto oscuro bordeado de encaje, dentro de una vitrina.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "dolorosa",
+   "vermas": [
+    "san-roque-peana",
+    "cristo-cruz"
+   ],
+   "pendiente": true
+  },
+  "cristo-cruz": {
+   "titulo": "Jesús con la cruz a cuestas",
+   "descripcion": "Imagen de Jesús cargando la cruz, dentro de una urna de vidrio.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "cristo-cruz",
+   "vermas": [
+    "san-roque-peana",
+    "dolorosa"
+   ],
+   "pendiente": true
+  },
+  "san-roque-nicho": {
+   "titulo": "San Roque",
+   "descripcion": "Imagen de San Roque con su perro, colocada en un nicho de la sala.",
+   "detalle": "El perro a sus pies, mirando hacia el santo.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "san-roque-nicho",
+   "vermas": [
+    "acta",
+    "san-roque-peana"
+   ],
+   "pendiente": true
+  },
+  "acta": {
+   "titulo": "Acta de Fundación de San Roque",
+   "descripcion": "El panel de la sala reproduce el acta con la que se resolvió construir la capilla en el paraje Paso de Blas del río Santa Lucía. Tocá la imagen para ampliarla y leer el texto completo.",
+   "detalle": "",
+   "epoca": "11 de octubre de 1773",
+   "procedencia": "Paraje Paso de Blas, río Santa Lucía",
+   "autor": "",
+   "foto": "acta",
+   "vermas": [
+    "san-roque-nicho"
+   ],
+   "pendiente": false
+  },
+  "pila": {
+   "titulo": "Pila de piedra",
+   "descripcion": "Pila de pie con taza de piedra veteada en tonos rojizos, junto a un muro de la sala.",
+   "detalle": "Las vetas rojizas que recorren todo el pie y la taza.",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "pila",
+   "vermas": [],
+   "pendiente": true
+  },
+  "logo": {
+   "titulo": "Logo del museo",
+   "descripcion": "San Roque con su perro frente a un sol, rodeado por el texto «Museo de San Roque».",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "logo",
+   "vermas": [
+    "san-roque-nicho"
+   ],
+   "pendiente": true
+  },
+  "cuadro-paisaje": {
+   "titulo": "Paisaje enmarcado",
+   "descripcion": "Cuadro con un paisaje de campo y una casa, con marco de madera, sobre un pedestal blanco.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "cuadro-paisaje",
+   "vermas": [
+    "pinturas"
+   ],
+   "pendiente": true
+  },
+  "pinturas": {
+   "titulo": "Pinturas y escultura",
+   "descripcion": "Pinturas de colores intensos y una escultura de metal, expuestas sobre un mueble de madera clara.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "pinturas",
+   "vermas": [
+    "cuadro-paisaje"
+   ],
+   "pendiente": true
+  },
+  "campana-torre": {
+   "titulo": "Campana del campanario",
+   "descripcion": "La campana en la torre del antiguo edificio, iluminada de noche.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "campana-torre",
+   "vermas": [],
+   "pendiente": true
+  },
+  "antiguo-campana": {
+   "titulo": "Campana en la sala",
+   "descripcion": "Gran campana apoyada sobre una base de madera en el piso de la sala.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "antiguo-campana",
+   "vermas": [
+    "antiguo-imagen",
+    "antiguo-manto"
+   ],
+   "pendiente": true
+  },
+  "antiguo-imagen": {
+   "titulo": "Imagen frente al retablo",
+   "descripcion": "Imagen religiosa frente al retablo dorado que preside la sala.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "antiguo-imagen",
+   "vermas": [
+    "antiguo-campana",
+    "antiguo-manto"
+   ],
+   "pendiente": true
+  },
+  "antiguo-manto": {
+   "titulo": "Imagen con manto negro",
+   "descripcion": "Imagen vestida con un largo manto negro, junto a la columna del retablo lateral.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "antiguo-manto",
+   "vermas": [
+    "antiguo-imagen",
+    "antiguo-campana"
+   ],
+   "pendiente": true
+  },
+  "antiguo-farol": {
+   "titulo": "Vitrina con forma de farol",
+   "descripcion": "Pequeña vitrina de vidrio con techo a dos aguas y una cruz en lo alto, sobre un pedestal.",
+   "detalle": "",
+   "epoca": "",
+   "procedencia": "",
+   "autor": "",
+   "foto": "antiguo-farol",
+   "vermas": [],
+   "pendiente": true
+  }
+ },
+ "fotos": {
+  "busto": {
+   "w": 5206,
+   "h": 3719,
+   "v": [
+    [
+     640,
+     457
+    ],
+    [
+     1200,
+     857
+    ],
+    [
+     1800,
+     1286
+    ]
+   ]
+  },
+  "morteros": {
+   "w": 2101,
+   "h": 3146,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1202,
+     1800
+    ]
+   ]
+  },
+  "crucifijo": {
+   "w": 4006,
+   "h": 6000,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1202,
+     1800
+    ]
+   ]
+  },
+  "virgen": {
+   "w": 3800,
+   "h": 5693,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1201,
+     1800
+    ]
+   ]
+  },
+  "caldero": {
+   "w": 3885,
+   "h": 5820,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1202,
+     1800
+    ]
+   ]
+  },
+  "sables": {
+   "w": 2291,
+   "h": 2288,
+   "v": [
+    [
+     640,
+     639
+    ],
+    [
+     1200,
+     1198
+    ],
+    [
+     1800,
+     1798
+    ]
+   ]
+  },
+  "san-roque-peana": {
+   "w": 3033,
+   "h": 4827,
+   "v": [
+    [
+     402,
+     640
+    ],
+    [
+     754,
+     1200
+    ],
+    [
+     1131,
+     1800
+    ]
+   ]
+  },
+  "dolorosa": {
+   "w": 986,
+   "h": 1931,
+   "v": [
+    [
+     327,
+     640
+    ],
+    [
+     613,
+     1200
+    ],
+    [
+     919,
+     1800
+    ]
+   ]
+  },
+  "cristo-cruz": {
+   "w": 3856,
+   "h": 5777,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1201,
+     1800
+    ]
+   ]
+  },
+  "san-roque-nicho": {
+   "w": 3791,
+   "h": 5679,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1202,
+     1800
+    ]
+   ]
+  },
+  "acta": {
+   "w": 1731,
+   "h": 2431,
+   "v": [
+    [
+     456,
+     640
+    ],
+    [
+     854,
+     1200
+    ],
+    [
+     1282,
+     1800
+    ]
+   ]
+  },
+  "pila": {
+   "w": 2610,
+   "h": 3376,
+   "v": [
+    [
+     495,
+     640
+    ],
+    [
+     928,
+     1200
+    ],
+    [
+     1392,
+     1800
+    ]
+   ]
+  },
+  "logo": {
+   "w": 5791,
+   "h": 3866,
+   "v": [
+    [
+     640,
+     427
+    ],
+    [
+     1200,
+     801
+    ],
+    [
+     1800,
+     1202
+    ]
+   ]
+  },
+  "cuadro-paisaje": {
+   "w": 3866,
+   "h": 5791,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1202,
+     1800
+    ]
+   ]
+  },
+  "pinturas": {
+   "w": 3904,
+   "h": 5849,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1201,
+     1800
+    ]
+   ]
+  },
+  "campana-torre": {
+   "w": 3985,
+   "h": 5969,
+   "v": [
+    [
+     427,
+     640
+    ],
+    [
+     801,
+     1200
+    ],
+    [
+     1202,
+     1800
+    ]
+   ]
+  },
+  "antiguo-campana": {
+   "w": 1356,
+   "h": 1022,
+   "v": [
+    [
+     640,
+     482
+    ],
+    [
+     1200,
+     904
+    ]
+   ]
+  },
+  "antiguo-imagen": {
+   "w": 1474,
+   "h": 1417,
+   "v": [
+    [
+     640,
+     615
+    ],
+    [
+     1200,
+     1154
+    ]
+   ]
+  },
+  "antiguo-manto": {
+   "w": 1178,
+   "h": 1377,
+   "v": [
+    [
+     548,
+     640
+    ],
+    [
+     1027,
+     1200
+    ]
+   ]
+  },
+  "antiguo-farol": {
+   "w": 1060,
+   "h": 1062,
+   "v": [
+    [
+     639,
+     640
+    ]
+   ]
+  }
+ },
+ "fotosEscenas": {
+  "aerea": {
+   "w": 4000,
+   "h": 2250,
+   "v": [
+    [
+     900,
+     506
+    ],
+    [
+     1600,
+     900
+    ],
+    [
+     2400,
+     1350
+    ]
+   ]
+  },
+  "parque": {
+   "w": 6016,
+   "h": 4016,
+   "v": [
+    [
+     900,
+     601
+    ],
+    [
+     1600,
+     1068
+    ],
+    [
+     2400,
+     1602
+    ]
+   ]
+  },
+  "entrada": {
+   "w": 4016,
+   "h": 6016,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "galeria": {
+   "w": 3819,
+   "h": 5720,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "sala": {
+   "w": 5679,
+   "h": 3791,
+   "v": [
+    [
+     900,
+     601
+    ],
+    [
+     1600,
+     1068
+    ],
+    [
+     2400,
+     1602
+    ]
+   ]
+  },
+  "virgen": {
+   "w": 5969,
+   "h": 3985,
+   "v": [
+    [
+     900,
+     601
+    ],
+    [
+     1600,
+     1068
+    ],
+    [
+     2400,
+     1602
+    ]
+   ]
+  },
+  "altar": {
+   "w": 3995,
+   "h": 5985,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "caldero": {
+   "w": 3914,
+   "h": 5864,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "sables": {
+   "w": 3819,
+   "h": 5720,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "santos": {
+   "w": 3791,
+   "h": 5679,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "nicho": {
+   "w": 5969,
+   "h": 3985,
+   "v": [
+    [
+     900,
+     601
+    ],
+    [
+     1600,
+     1068
+    ],
+    [
+     2400,
+     1602
+    ]
+   ]
+  },
+  "pila": {
+   "w": 3954,
+   "h": 5923,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "auditorio": {
+   "w": 5985,
+   "h": 3995,
+   "v": [
+    [
+     900,
+     601
+    ],
+    [
+     1600,
+     1068
+    ],
+    [
+     2400,
+     1602
+    ]
+   ]
+  },
+  "arte": {
+   "w": 3904,
+   "h": 5849,
+   "v": [
+    [
+     601,
+     900
+    ],
+    [
+     1068,
+     1600
+    ],
+    [
+     1602,
+     2400
+    ]
+   ]
+  },
+  "antiguo-fachada": {
+   "w": 3877,
+   "h": 5427,
+   "v": [
+    [
+     643,
+     900
+    ],
+    [
+     1143,
+     1600
+    ],
+    [
+     1715,
+     2400
+    ]
+   ]
+  },
+  "antiguo-sala": {
+   "w": 5893,
+   "h": 3934,
+   "v": [
+    [
+     900,
+     601
+    ],
+    [
+     1600,
+     1068
+    ],
+    [
+     2400,
+     1602
+    ]
+   ]
+  }
+ }
+}

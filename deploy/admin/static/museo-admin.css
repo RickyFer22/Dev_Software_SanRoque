@@ -1,0 +1,95 @@
+/* Sección «Museo» del administrador. Reutiliza las variables y componentes de admin.css. */
+#museo .museo-wrap { display: grid; gap: 14px; }
+.museo-filters { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 10px; }
+.museo-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.museo-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--text); box-shadow: none; font-weight: 600; font-size: 13px; }
+.museo-chip b { min-width: 22px; padding: 1px 7px; border-radius: 999px; background: var(--surface-2); font-size: 12px; }
+.museo-chip.is-on { background: var(--admin-primary); color: #fff; border-color: var(--admin-primary); }
+.museo-chip.is-on b { background: rgba(255, 255, 255, .22); color: #fff; }
+.museo-list { display: grid; gap: 10px; }
+.museo-row { margin: 0; }
+.museo-row-main { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.museo-flags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.museo-flag { display: inline-flex; padding: 2px 9px; border-radius: 999px; background: #fef3c7; color: var(--warn); font-size: 12px; font-weight: 700; }
+.status-pill.museo-st-publicado { background: #dcfce7; color: var(--ok); }
+.status-pill.museo-st-cambios { background: #fef3c7; color: var(--warn); }
+.status-pill.museo-st-borrador { background: #e0f2fe; color: #0369a1; }
+.status-pill.museo-st-retirado { background: #edf0ee; color: #53605a; }
+
+.museo-editor { display: grid; gap: 14px; min-width: 0; }
+.museo-editor > *, .museo-panel, .museo-wrap > * { min-width: 0; }
+.museo-ehead { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: flex-start; }
+.museo-ehead h2 { margin: 8px 0 6px; }
+.museo-meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.museo-meta .unsaved-indicator { margin: 0; }
+.museo-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.museo-field { display: grid; gap: 6px; margin: 0 0 14px; font-weight: 700; font-size: 13px; }
+.museo-label { color: var(--text); }
+.museo-field .field-help { margin: 0; font-weight: 400; }
+.museo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.museo-fieldset { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 4px; margin: 0 0 16px; min-width: 0; }
+.museo-fieldset legend { padding: 0 8px; font-weight: 800; font-size: 13px; color: var(--admin-primary); }
+.museo-intfs { border-color: #d9a45f; background: #fffaf2; }
+.museo-intfs legend { color: #8a5a12; }
+.museo-intfs legend::before { content: "🔒 "; }
+.museo-note { display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; margin: 0 0 16px; font-size: 13px; }
+.museo-note.is-public { background: #eef6f1; border: 1px solid #cfe3d6; }
+.museo-note.is-internal { background: #fff3e0; border: 1px solid #e3b977; color: #6b430a; }
+.museo-h3 { margin: 22px 0 8px; font-size: 15px; }
+.museo-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 14px; }
+.museo-rtbar { display: flex; flex-wrap: wrap; gap: 6px; }
+.museo-rtbar button { padding: 6px 10px; font-size: 12px; }
+.museo-rich { font-family: inherit; font-size: 14px; line-height: 1.55; }
+.museo-rtprev { padding: 12px 14px; border: 1px dashed var(--line); border-radius: 12px; background: var(--surface); font-weight: 400; }
+.museo-rtprev p, .museo-rtprev ul, .museo-rtprev blockquote { margin: 0 0 10px; }
+.museo-rtprev blockquote { padding-left: 12px; border-left: 3px solid var(--gold); color: var(--muted); }
+.museo-card { padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); margin: 0 0 4px; }
+.museo-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; }
+.museo-spacer { flex: 1; }
+.museo-move { display: inline-flex; gap: 4px; }
+.museo-card-head button { padding: 6px 10px; font-size: 12px; }
+.museo-checks { display: grid; gap: 4px; margin: 0 0 12px; }
+.museo-check { font-weight: 600; font-size: 13px; }
+.museo-date .museo-field { margin-bottom: 10px; }
+.museo-datefs > div { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.museo-tablewrap { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.museo-table { min-width: 560px; }
+.museo-table td, .museo-table th { padding: 8px 10px; text-align: left; vertical-align: top; }
+
+.museo-drop { display: grid; justify-items: center; gap: 8px; padding: 20px; margin: 0 0 16px; border: 2px dashed var(--line); border-radius: 16px; background: var(--surface-2); text-align: center; }
+.museo-drop.is-over { border-color: var(--admin-primary); background: #eef6f1; }
+.museo-imgrow { display: flex; flex-wrap: wrap; gap: 16px; }
+.museo-thumb { width: 180px; height: 135px; object-fit: contain; background: #0b0a08; border-radius: 12px; flex: none; }
+.museo-thumb.is-empty { display: grid; place-items: center; color: var(--muted); background: var(--surface-2); border: 1px dashed var(--line); font-size: 13px; }
+.museo-imgfields { flex: 1; min-width: 240px; }
+.museo-libgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.museo-libitem { display: grid; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.museo-libitem img, .museo-doc { width: 100%; height: 130px; object-fit: contain; background: #0b0a08; border-radius: 8px; }
+.museo-doc { display: grid; place-items: center; color: #fff; font-weight: 800; }
+.museo-libmeta { display: grid; gap: 2px; word-break: break-word; }
+
+.museo-picker { display: grid; gap: 12px; }
+.museo-stage { position: relative; max-width: 760px; cursor: crosshair; border-radius: 12px; overflow: hidden; background: #0b0a08; }
+.museo-stage img { display: block; width: 100%; height: auto; }
+.museo-pin { position: absolute; width: 24px; height: 24px; padding: 0; margin: -12px 0 0 -12px; border-radius: 50%; border: 2px solid #fff; background: rgba(23, 33, 29, .82); box-shadow: 0 2px 8px rgba(0, 0, 0, .5); }
+.museo-pin.is-mine { background: var(--gold); border-color: #fff; }
+.museo-ptlist { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 6px; }
+.museo-ptrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.museo-ptrow.is-flash { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(216, 164, 65, .3); }
+
+dialog.museo-conflict { width: min(720px, calc(100vw - 24px)); max-height: 86vh; overflow: auto; border: 0; border-radius: 18px; padding: 22px; }
+dialog.museo-conflict::backdrop, dialog.museo-preview::backdrop { background: rgba(23, 33, 29, .6); }
+.museo-conf-list { display: grid; gap: 4px; margin: 12px 0; }
+.museo-conf-opt { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 10px; font-weight: 400; }
+.museo-conf-opt input { width: 18px; height: 18px; margin-top: 3px; }
+.museo-conf-opt span { display: grid; }
+.museo-conf-opt em { color: var(--muted); font-style: normal; font-size: 12.5px; word-break: break-word; }
+dialog.museo-preview { width: min(1180px, 96vw); height: 92vh; padding: 0; border: 0; border-radius: 18px; overflow: hidden; }
+dialog.museo-preview[open] { display: flex; flex-direction: column; }
+.museo-preview-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.museo-preview-devs { display: inline-flex; gap: 6px; }
+.museo-preview-stage { flex: 1; min-height: 0; display: grid; place-items: center; background: #14110d; padding: 12px; }
+.museo-preview-stage iframe { width: 100%; height: 100%; border: 0; border-radius: 12px; background: #14110d; }
+.museo-preview-stage[data-device="mobile"] iframe { width: 390px; max-width: 100%; }
+
+@media (max-width: 760px) { .museo-filters { grid-template-columns: 1fr; } .museo-thumb { width: 100%; } }

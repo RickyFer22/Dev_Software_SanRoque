@@ -28,6 +28,7 @@ const {
   mergeBotSettingsWithEnv,
 } = require('./bot-service');
 const bruteforce = require('./security');
+const { registerMuseo } = require('./museo/routes');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 
@@ -1932,6 +1933,9 @@ resourceRoutes('/admin/api/gastronomia', 'gastronomia');
 resourceRoutes('/admin/api/eventos', 'eventos');
 resourceRoutes('/admin/api/actividades', 'actividades');
 resourceRoutes('/admin/api/tickets', 'tickets');
+
+// Fichas históricas del museo (API de administración + API pública de solo lectura). Ver museo/routes.js.
+registerMuseo(app, { DATA_DIR, multer, sharp, recordAudit, sendForbiddenOrUnauthenticated });
 
 app.get('/admin/api/datos-utiles', (req, res) => {
   if (!canRead('datos_utiles', req.admin.role)) return sendForbiddenOrUnauthenticated(req, res);
