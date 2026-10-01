@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Visita virtual · Museo de San Roque</title>
+  <meta name="description" content="Recorré el Museo de San Roque (Corrientes) sala por sala: acercate a las vitrinas, examiná cada pieza y descubrí su historia." />
+  <link rel="canonical" href="https://turismo.munisanroque.ar/visita-museo/" />
+  <meta property="og:title" content="Visita virtual · Museo de San Roque" />
+  <meta property="og:description" content="Un recorrido fotográfico interactivo por el museo nuevo y el museo antiguo de San Roque." />
+  <meta property="og:image" content="https://turismo.munisanroque.ar/visita-museo/img/escenas/virgen-1600.webp" />
+  <meta name="theme-color" content="#14110d" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2314110d%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%275%27 fill=%27%23d8b673%27/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/visita.css?v=17" />
+</head>
+<body>
+<div class="vm" id="vm">
+
+  <!-- Bienvenida -->
+  <section class="vm-welcome" id="vm-welcome" aria-labelledby="vm-wtitle">
+    <img class="vm-welcome-img" id="vm-wimg" alt="" fetchpriority="high" decoding="async" />
+    <div class="vm-welcome-card">
+      <p class="vm-kicker" id="vm-wkicker"></p>
+      <h1 id="vm-wtitle"></h1>
+      <p class="vm-welcome-intro" id="vm-wintro"></p>
+      <div class="vm-welcome-actions">
+        <button type="button" class="vm-btn vm-btn-main" id="vm-enter">Entrar al museo</button>
+        <button type="button" class="vm-btn" id="vm-guided">Visita guiada</button>
+      </div>
+      <p class="vm-welcome-sub">Exploración libre o guiada · <button type="button" class="vm-link" id="vm-old">Ir directo al museo antiguo</button></p>
+    </div>
+  </section>
+
+  <!-- Visor -->
+  <main class="vm-viewer" id="vm-viewer" hidden>
+    <div class="vm-stage" id="vm-stage" tabindex="0" role="application" aria-label="Escena del museo. Usá las flechas para desplazarte, más y menos para acercar, y Tab para recorrer los puntos.">
+      <div class="vm-fill" id="vm-fill" aria-hidden="true"></div>
+      <div class="vm-world" id="vm-world">
+        <img class="vm-photo" id="vm-photo" alt="" draggable="false" decoding="async" />
+        <div class="vm-points" id="vm-points"></div>
+      </div>
+    </div>
+
+    <header class="vm-top vm-ui">
+      <span class="vm-previewtag" id="vm-ptag">Vista previa del borrador</span>
+      <button type="button" class="vm-chip" id="vm-home" aria-label="Volver al inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg><span>Inicio</span></button>
+      <button type="button" class="vm-chip" id="vm-back" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.600 6.600 16 8l-4 4 4 4-1.400 1.400L9.200 12z"/></svg><span id="vm-back-name"></span></button>
+      <button type="button" class="vm-chip vm-release" id="vm-release" aria-label="Seguir con la página: soltar la visita"><span>Seguir con la página</span></button>
+      <div class="vm-where"><small id="vm-sector"></small><strong id="vm-scene"></strong></div>
+    </header>
+
+    <button type="button" class="vm-zoomback vm-ui" id="vm-zoomback" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.600 6.600 16 8l-4 4 4 4-1.400 1.400L9.200 12z"/></svg>Volver a la vista general</button>
+
+    <nav class="vm-tools vm-ui" aria-label="Controles de la visita">
+      <button type="button" class="vm-tool" id="vm-bmap" aria-label="Mapa del recorrido" aria-expanded="false" aria-controls="vm-map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zm0 2.2 6 2v9.600l-6-2z"/></svg><span>Mapa</span></button>
+      <button type="button" class="vm-tool" id="vm-bguide" aria-label="Visita guiada" aria-expanded="false" aria-controls="vm-guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 9.500 9.500 2 12l7.500 2.500L12 22l2.500-7.500L22 12l-7.500-2.500z"/></svg><span>Guiada</span></button>
+      <button type="button" class="vm-tool" id="vm-bdots" aria-label="Mostrar los nombres de los puntos" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v3H3zm0 5.500h18v3H3zM3 16h12v3H3z"/></svg><span>Nombres</span></button>
+      <span class="vm-sep" aria-hidden="true"></span>
+      <button type="button" class="vm-tool vm-tool-icon" id="vm-zout" aria-label="Alejar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11h14v2H5z"/></svg></button>
+      <button type="button" class="vm-tool vm-tool-icon" id="vm-zin" aria-label="Acercar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></button>
+      <button type="button" class="vm-tool vm-tool-icon" id="vm-bsound" aria-pressed="false" aria-label="Sonido ambiente" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12.500 3a4.500 4.500 0 0 0-2.500-4v8a4.500 4.500 0 0 0 2.500-4z"/></svg></button>
+      <button type="button" class="vm-tool vm-tool-icon" id="vm-bfull" aria-label="Pantalla completa" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg></button>
+      <a class="vm-tool vm-tool-icon" id="vm-bopen" target="_blank" rel="noopener" aria-label="Abrir la visita en una pestaña nueva (pantalla completa)" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6h-2V7.400l-7.300 7.300-1.400-1.400L16.600 6H14zM5 6h5v2H7v9h9v-3h2v5H5z"/></svg></a>
+    </nav>
+
+    <p class="vm-hint vm-ui" id="vm-hint"><span class="vm-hint-std">Tocá un punto para avanzar · arrastrá para mirar · pellizcá o usá + / − para acercar</span><span class="vm-hint-embed">Arrastrá para mirar · Ctrl + rueda para acercar · «Abrir» para verla en pantalla completa</span></p>
+
+    <aside class="vm-drawer vm-map" id="vm-map" hidden aria-label="Mapa del recorrido">
+      <div class="vm-drawer-head"><h2>Recorrido orientativo</h2><button type="button" class="vm-x" data-close="map" aria-label="Cerrar el mapa">×</button></div>
+      <p class="vm-note">Esquema de salas y sectores. No representa la planta real del edificio.</p>
+      <div id="vm-map-body"></div>
+      <p class="vm-legend"><i class="is-now"></i> Estás acá <i class="is-seen"></i> Visitada <i class="is-next"></i> Se puede ir desde acá</p>
+      <p class="vm-note" id="vm-mapcount"></p>
+    </aside>
+
+    <aside class="vm-drawer vm-guide" id="vm-guide" hidden aria-label="Visita guiada">
+      <div class="vm-drawer-head"><h2>Visita guiada</h2><button type="button" class="vm-x" data-close="guide" aria-label="Cerrar la visita guiada">×</button></div>
+      <p class="vm-step" id="vm-gstep"></p>
+      <p class="vm-gtext" id="vm-gtext"></p>
+      <div class="vm-gnav">
+        <button type="button" class="vm-btn" id="vm-gprev">‹ Anterior</button>
+        <button type="button" class="vm-btn vm-btn-main" id="vm-gnext">Siguiente parada ›</button>
+      </div>
+      <button type="button" class="vm-link" id="vm-gfree">Seguir en exploración libre</button>
+    </aside>
+
+    <aside class="vm-panel" id="vm-panel" hidden role="dialog" aria-modal="false" aria-labelledby="vm-ptitle">
+      <button type="button" class="vm-x vm-panel-x" id="vm-pclose" aria-label="Cerrar la ficha">×</button>
+      <button type="button" class="vm-panel-img" id="vm-pimgbtn" aria-label="Ampliar la imagen"><img id="vm-pimg" alt="" /><span class="vm-zoomtag" aria-hidden="true">Ampliar</span></button>
+      <p class="vm-pcap" id="vm-pcap" hidden></p>
+      <div class="vm-panel-body">
+        <p class="vm-pkicker" id="vm-pkicker"></p>
+        <h2 id="vm-ptitle"></h2>
+        <dl class="vm-meta" id="vm-pmeta"></dl>
+        <div class="vm-pdesc" id="vm-pdesc"></div>
+        <div class="vm-rel" id="vm-prel" hidden><p>Seguí con</p><div id="vm-prelist"></div></div>
+        <details class="vm-more" id="vm-pmore"><summary>Mirá este detalle</summary><div id="vm-pdetail"></div></details>
+        <button type="button" class="vm-btn vm-pconoc" id="vm-pconoc" hidden aria-expanded="false" aria-controls="vm-pextra">Conocer más de su historia</button>
+        <div class="vm-pextra" id="vm-pextra" hidden></div>
+        <audio id="vm-paudio" controls preload="none" hidden></audio>
+      </div>
+    </aside>
+
+    <div class="vm-curtain" id="vm-curtain" aria-hidden="true"><small id="vm-csector"></small><strong id="vm-cname"></strong></div>
+    <div class="vm-pending" id="vm-pending" hidden role="status"><i aria-hidden="true"></i><span id="vm-pendtxt"></span><button type="button" id="vm-pendx">Cancelar</button></div>
+    <div class="vm-error" id="vm-error" hidden role="alert">
+      <p>No se pudo cargar esta imagen. Revisá tu conexión e intentá de nuevo.</p>
+      <div><button type="button" class="vm-btn vm-btn-main" id="vm-retry">Reintentar</button> <button type="button" class="vm-btn" id="vm-errhome">Volver al inicio</button></div>
+    </div>
+
+    <div class="vm-lightbox" id="vm-lightbox" hidden role="dialog" aria-modal="true" aria-labelledby="vm-lcap">
+      <button type="button" class="vm-x" id="vm-lclose" aria-label="Cerrar la imagen ampliada">×</button>
+      <div class="vm-lb-scroll" id="vm-lscroll"><img id="vm-limg" alt="" /></div>
+      <p class="vm-lb-tip"><span id="vm-lcap"></span> · tocá la imagen para ver más detalle</p>
+    </div>
+  </main>
+
+  <div class="vm-live" id="vm-live" aria-live="polite" role="status"></div>
+</div>
+<script src="js/escenas.js?v=17"></script>
+<script src="js/imagenes.js?v=17"></script>
+<script src="js/visita-ficha.js?v=17"></script>
+<script src="js/visita.js?v=17"></script>
+</body>
+</html>
