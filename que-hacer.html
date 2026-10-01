@@ -192,17 +192,25 @@
     };
 
     // Atractivos con ficha editorial propia; el resto solo enlaza a Maps.
-    const PAGINAS = { 'puente-carretero': 'puente-de-la-via.html' };
+    // Una página propia puede ser un texto (solo el enlace) o un objeto con enlace, texto del botón e imagen que la representa.
+    const PAGINAS = {
+      'puente-carretero': 'puente-de-la-via.html',
+      'capilla-historica': { href: 'visita-museo/?museo=sacro', cta: 'Recorrer el museo virtual', imagen: 'img/capilla-historica-1200.webp', imagenChica: 'img/capilla-historica-640.webp', alt: 'Frente de la Capilla Histórica, hoy Museo de Arte Sacro' }
+    };
 
     function atractivoCard(item) {
       const cat = CATEGORIAS[item.categoria] || { label: 'San Roque', icon: 'place' };
       const mapHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((item.titulo || '') + ', San Roque, Corrientes')}`;
-      const pagina = PAGINAS[item.id];
+      const propia = PAGINAS[item.id];
+      const pagina = propia && (propia.href || propia);
+      const imagen = (propia && propia.imagen) || item.imagen || 'img/hero.jpg';
+      const srcset = propia && propia.imagenChica ? ` srcset="${propia.imagenChica} 640w, ${propia.imagen} 1200w" sizes="(max-width: 768px) 100vw, 400px"` : '';
+      const cta = (propia && propia.cta) || 'Conocer su historia';
       const mediaHref = pagina ? `href="${pagina}"` : `href="${mapHref}" target="_blank" rel="noopener"`;
       return `
         <article class="atractivo-card" data-categoria="${item.categoria || ''}">
           <a class="atractivo-card-media" ${mediaHref}>
-            <img src="${item.imagen || 'img/hero.jpg'}" alt="${item.titulo}" loading="lazy" />
+            <img src="${imagen}"${srcset} alt="${(propia && propia.alt) || item.titulo}" loading="lazy" />
             <span class="atractivo-card-pill cat-${item.categoria || ''}">${cat.label}</span>
           </a>
           <div class="atractivo-card-body">
@@ -210,7 +218,7 @@
             <p>${item.descripcion || ''}</p>
             <div class="atractivo-card-actions">
               ${pagina ? `<a class="atractivo-card-cta" href="${pagina}">
-                Conocer su historia <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
+                ${cta} <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
               </a>` : ''}
               <a class="atractivo-card-cta${pagina ? ' is-secondary' : ''}" href="${mapHref}" target="_blank" rel="noopener">
                 Cómo llegar <span class="material-symbols-outlined text-[16px]" aria-hidden="true">near_me</span>

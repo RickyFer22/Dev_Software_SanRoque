@@ -8,6 +8,7 @@
  */
 (function () {
   'use strict';
+  const FUND = 1773; // fundación del pueblo
   const BUILT = 1783; // año en que se terminó el antiguo templo (hoy Museo de Arte Sacro)
 
   const HECHOS = [
@@ -89,17 +90,17 @@
     opts = opts || {};
     const now = new Date().getFullYear();
     const hechos = HECHOS.concat([{ y: now, k: 'local', hoy: true, t: 'Hoy',
-      d: 'El antiguo templo sigue en pie y se recorre como museo: ' + (now - BUILT) + ' años después de terminarse.' }])
+      d: 'San Roque cumple ' + (now - FUND) + ' años. El antiguo templo sigue en pie y se recorre como museo, ' + (now - BUILT) + ' años después de terminarse.' }])
       .sort((a, b) => a.y - b.y);
     host.textContent = '';
     host.classList.add('ct');
 
     const hero = el('div', 'ct-hero');
     const big = el('p', 'ct-big');
-    big.appendChild(el('strong', '', String(now - BUILT)));
-    big.appendChild(document.createTextNode(' años en pie'));
+    big.appendChild(el('strong', '', String(now - FUND)));
+    big.appendChild(document.createTextNode(' años de historia'));
     hero.appendChild(big);
-    hero.appendChild(el('p', 'ct-lead', 'El antiguo templo se terminó en ' + BUILT + ' y hoy es el Museo de Arte Sacro. Desde entonces pasaron la Revolución de Mayo, la Independencia, la Guerra de la Triple Alianza y las dos guerras mundiales.'));
+    hero.appendChild(el('p', 'ct-lead', 'San Roque se fundó en ' + FUND + ' y su antiguo templo se terminó en ' + BUILT + ': hoy es el Museo de Arte Sacro. Desde entonces pasaron la Revolución de Mayo, la Independencia, la Guerra de la Triple Alianza y las dos guerras mundiales.'));
     host.appendChild(hero);
 
     const bar = el('div', 'ct-filters');
@@ -153,5 +154,5 @@
     apply('todo');
   }
 
-  window.CronologiaSacro = { render, hechos: HECHOS, anioTemplo: BUILT };
+  window.CronologiaSacro = { render, hechos: HECHOS, anioTemplo: BUILT, anioFundacion: FUND };
 })();
